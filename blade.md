@@ -39,9 +39,8 @@ Blade两个主要的优点就是_模板继承_和_模块化_.在这之前，先�
         </body>
     </html>
 
-这个文件是非常经典的HTTML标记。需要注意的是，这里面有'@section'和'@yield'命令。'@section'和字面上的意思一样，它定义了内容的一部分，而`@yield`命令用来表示给出的section的内容。
+这个文件是非常经典的HTTML标记。需要注意的是，这里面有`@section`和`@yield`命令。`@section`和字面上的意思一样，它定义了内容的一部分，而`@yield`命令用来表示给出的section的内容。
 
-Now that we have defined a layout for our application, let's define a child page that inherits the layout.
 现在我们已经定义了应用的布局，接下来我们对这个布局继承一个子页面。
 
 <a name="extending-a-layout"></a>
@@ -67,7 +66,7 @@ Now that we have defined a layout for our application, let's define a child page
 
 在这个例子中，'sidebar'部分就是利用`@@parent`命令来将内容追加到布局中的sidebar中。这个视图被渲染时，`@@parent`命令就会被布局中的内容所替换。
 
-当然，这些简单的php视图，路由会调用`view`帮助方法将这些Blade视图返回。
+当然，这些简单的PHP视图，路由会调用`view`帮助方法将这些Blade视图返回。
 
     Route::get('blade', function () {
         return view('child');
@@ -76,7 +75,7 @@ Now that we have defined a layout for our application, let's define a child page
 <a name="displaying-data"></a>
 ## 展示数据
 
-在Blade视图中展示数据时，需要将变量放在大括号中括起来。请看下下面的路由的例子：
+在Blade视图中展示数据时，需要将变量放在大括号中括起来。请看下面的路由的例子：
 
     Route::get('greeting', function () {
         return view('welcome', ['name' => 'Samantha']);
@@ -86,11 +85,11 @@ Now that we have defined a layout for our application, let's define a child page
 
     Hello, {{ $name }}.
 
-当然，你不会被局限于使用视图中的变量，你也可以用PHP方法输出结果。事实上，你可以在Blade中任意使用PHP代码来输出语句：
+当然，你不会被局限于使用视图中的变量，你也可以用PHP方法输出结果。事实上，你在Blade中可以任意使用PHP代码来输出语句：
 
     The current UNIX timestamp is {{ time() }}.
 
-> **Note:** Blade 中的`{{}}`语句 可以自动调用PHP的`htmlentities`方法来抵御XSS攻击。
+> **Note:** Blade 中的`{{}}`语句会自动调用PHP的`htmlentities`方法来抵御XSS攻击。
 
 #### Blade & JavaScript 框架
 
@@ -104,11 +103,11 @@ Now that we have defined a layout for our application, let's define a child page
 
 #### 三元运算
 
-有的时候你想输入一个变量时，你可能不确定这个变量是否被定义了。在PHP代码中，我们就需要这么写，但是这样太啰嗦：
+有的时候你想输入一个变量时，但是你可能不确定这个变量是否被定义了。在PHP代码中，我们就需要这么写，但是这样有点啰嗦：
 
     {{ isset($name) ? $name : 'Default' }}
 
-然而，Blade提供了一个简单快捷的三元运算表示方法。
+高兴的是，Blade提供了一个简单快捷的三元运算表示方法。
 
     {{ $name or 'Default' }}
 
