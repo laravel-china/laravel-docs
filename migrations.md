@@ -1,50 +1,51 @@
 # Database: Migrations
 
-- [Introduction](#introduction)
-- [Generating Migrations](#generating-migrations)
-- [Migration Structure](#migration-structure)
-- [Running Migrations](#running-migrations)
-    - [Rolling Back Migrations](#rolling-back-migrations)
-- [Writing Migrations](#writing-migrations)
-    - [Creating Tables](#creating-tables)
-    - [Renaming / Dropping Tables](#renaming-and-dropping-tables)
-    - [Creating Columns](#creating-columns)
-    - [Modifying Columns](#modifying-columns)
-    - [Dropping Columns](#dropping-columns)
-    - [Creating Indexes](#creating-indexes)
-    - [Dropping Indexes](#dropping-indexes)
-    - [Foreign Key Constraints](#foreign-key-constraints)
+- [介绍](#introduction)
+- [创建迁移](#generating-migrations)
+- [迁移结构](#migration-structure)
+- [运行迁移](#running-migrations)
+    - [回滚迁移](#rolling-back-migrations)
+- [编写迁移](#writing-migrations)
+    - [创建表](#creating-tables)
+    - [重命名/删除表](#renaming-and-dropping-tables)
+    - [创建列](#creating-columns)
+    - [修改列](#modifying-columns)
+    - [移除列](#dropping-columns)
+    - [创建索引](#creating-indexes)
+    - [移除索引](#dropping-indexes)
+    - [外键约束](#foreign-key-constraints)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Migrations are like version control for your database, allowing a team to easily modify and share the application's database schema. Migrations are typically paired with Laravel's schema builder to easily build your application's database schema.
+迁移就像是数据库的版本控制,可以方便团队的修改和共享数据库结构.迁移通常会和[结构生成器](/docs/{{version}}/schema)一起使用，可以很简单的为你的应用创建数据库结构.
 
-The Laravel `Schema` [facade](/docs/{{version}}/facades) provides database agnostic support for creating and manipulating tables. It shares the same expressive, fluent API across all of Laravel's supported database systems.
+Laravel `Schema` [facade](/docs/{{version}}/facades)提供一个与数据库无关的数据表创建和操作方法,它可以很好的处理 Laravel 支持的各种数据库类型，并且在不同系统间提供一致性的 API 操作。
 
 <a name="generating-migrations"></a>
-## Generating Migrations
+## 创建迁移
 
-To create a migration, use the `make:migration` [Artisan command](/docs/{{version}}/artisan):
+使用 [Artisan CLI](/docs/{{version}}/artisan) 的 `make:migrate` 命令建立迁移文件：
 
     php artisan make:migration create_users_table
 
-The new migration will be placed in your `database/migrations` directory. Each migration file name contains a timestamp which allows Laravel to determine the order of the migrations.
+迁移文件会建立在 database/migrations 目录下，文件名会包含时间戳记，在执行迁移时用来确定顺序。
 
-The `--table` and `--create` options may also be used to indicate the name of the table and whether the migration will be creating a new table. These options simply pre-fill the generated migration stub file with the specified table:
+`--table` 和 `--create` 参数可以用来指定数据表名称，以及迁移文件是否要建立新的数据表。这些选项可以简单预填充到为指定的表生成的迁移存根文件:
 
     php artisan make:migration add_votes_to_users_table --table=users
 
     php artisan make:migration create_users_table --create=users
 
-If you would like to specify a custom output path for the generated migration, you may use the `--path` option when executing the `make:migration` command. The provided path should be relative to your application's base path.
+如果你想指定生成迁移文件的自定义导出路径,可以在执行`make:migration`命令使用`--path`参数,提供的路径应该是相对于应用程序的基本路径.
 
 <a name="migration-structure"></a>
-## Migration Structure
+## 迁移结构
 
-A migration class contains two methods: `up` and `down`. The `up` method is used to add new tables, columns, or indexes to your database, while the `down` method should simply reverse the operations performed by the `up` method.
-
-Within both of these methods you may use the Laravel schema builder to expressively create and modify tables. To learn about all of the methods available on the `Schema` builder, [check out its documentation](#creating-tables). For example, let's look at a sample migration that creates a `flights` table:
+一个迁移类应包含两个方法:`up`和`down`,`up`方法用于为数据库添加新的表,列或索引,而`down`方法应简单的反转有`up`方法执行的操作.
+在这两种方法内,你可以使用Laravel的结构生成器意味深长的创建和修改数据表.要了解结构生成器所有的可用方法,[点击这里](#creating-tables).
+For example, let's look at a sample migration that creates a `flights` table:
+下面我们举一个简单的例子,创建`flights`表迁移:
 
     <?php
 
@@ -81,56 +82,56 @@ Within both of these methods you may use the Laravel schema builder to expressiv
 
 
 <a name="running-migrations"></a>
-## Running Migrations
+## 运行迁移
 
-To run all outstanding migrations for your application, use the `migrate` Artisan command. If you are using the [Homestead virtual machine](/docs/{{version}}/homestead), you should run this command from within your VM:
+通过Artisan命令`migrate`来运行所有未执行的迁移,如果你用的是[Homestead](/docs/{{version}}/homestead)虚拟机开发环境,你应该在你的VM里运行下面的命令:
 
     php artisan migrate
 
-If you receive a "class not found" error when running migrations, try running the `composer dump-autoload` command and re-issuing the migrate command.
+果运行命令报错`class not found`,可以试试这条命令`composer dump-autoload`,然后再重新执行上面的迁移命令.
 
-#### Forcing Migrations To Run In Production
+#### 在生产环境中强制迁移
 
-Some migration operations are destructive, meaning they may cause you to lose data. In order to protect you from running these commands against your production database, you will be prompted for confirmation before these commands are executed. To force the commands to run without a prompt, use the `--force` flag:
+有些迁移操作是破坏性的,可能导致你丢失数据,为了保护你的生产数据,当你对生产数据库执行这些命令之前,系统会提示您进行确认,如果不想系统提示确认,可以用参数`--force`:
 
     php artisan migrate --force
 
 <a name="rolling-back-migrations"></a>
-### Rolling Back Migrations
+### 回滚迁移
 
-To rollback the latest migration "operation", you may use the `rollback` command. Note that this rolls back the last "batch" of migrations that ran, which may include multiple migration files:
+用`rollback`命令可以回滚最近的一次迁移操作,注意，执行过的最后一“批”迁移可以包括多个迁移文件:
 
     php artisan migrate:rollback
 
-The `migrate:reset` command will roll back all of your application's migrations:
+`migrate:reset`命令可以回滚应用的所有迁移:
 
     php artisan migrate:reset
 
-#### Rollback / Migrate In Single Command
+#### 回滚/迁移单个命令
 
-The `migrate:refresh` command will first roll back all of your database migrations, and then run the `migrate` command. This command effectively re-creates your entire database:
+`migrate:refresh`命令会先回滚所有数据库迁移,然后再执行`migrate`命令,该命令会重建你的整个数据库:
 
     php artisan migrate:refresh
 
     php artisan migrate:refresh --seed
 
 <a name="writing-migrations"></a>
-## Writing Migrations
+## 编写迁移
 
 <a name="creating-tables"></a>
-### Creating Tables
+### 创建表
 
-To create a new database table, use the `create` method on the `Schema` facade. The `create` method accepts two arguments. The first is the name of the table, while the second is a `Closure` which receives a `Blueprint` object used to define the new table:
+用结构生成器(`Schema` facade)的`create`方法可以创建新的数据表.`create`方法有两个参数,第一个参数是表名,第二个参数是`Closure`(闭包函数),它接收一个`Blueprint`(蓝图)对象,用于创建新表:
 
     Schema::create('users', function ($table) {
         $table->increments('id');
     });
 
-Of course, when creating the table, you may use any of the schema builder's [column methods](#creating-columns) to define the table's columns.
+当然，在创建表时，你可以使用结构生成器的任何的[列方法](http://laravel-china.org/docs/5.1/migrations#creating-columns)来定义表的列。
 
-#### Checking For Table / Column Existence
+#### 检查表/列是否存在
 
-You may easily check for the existence of a table or column using the `hasTable` and `hasColumn` methods:
+通过`hasTable`和`hasColumn`方法,你可以很容易的检查表或列是否存在:
 
     if (Schema::hasTable('users')) {
         //
@@ -140,15 +141,15 @@ You may easily check for the existence of a table or column using the `hasTable`
         //
     }
 
-#### Connection & Storage Engine
+#### 连接和存储引擎
 
-If you want to perform a schema operation on a database connection that is not your default connection, use the `connection` method:
+如果你要进行模式操作的数据库连接不是你的默认连接,可以使用`connection`方法:
 
     Schema::connection('foo')->create('users', function ($table) {
         $table->increments('id');
     });
 
-To set the storage engine for a table, set the `engine` property on the schema builder:
+通过设置结构生成器的`engine`参数,为一张表设置数据存储引擎:
 
     Schema::create('users', function ($table) {
         $table->engine = 'InnoDB';
@@ -157,171 +158,191 @@ To set the storage engine for a table, set the `engine` property on the schema b
     });
 
 <a name="renaming-and-dropping-tables"></a>
-### Renaming / Dropping Tables
+### 重命名/删除表
 
-To rename an existing database table, use the `rename` method:
+用`rename`方法可以重命名一个存在的数据表:
 
     Schema::rename($from, $to);
 
-To drop an existing table, you may use the `drop` or `dropIfExists` methods:
+用`drop`或`dropIfExists`方法可以删除一个存在的数据表:
 
     Schema::drop('users');
 
     Schema::dropIfExists('users');
 
 <a name="creating-columns"></a>
-### Creating Columns
+### 创建列
 
-To update an existing table, we will use the `table` method on the `Schema` facade. Like the `create` method, the `table` method accepts two arguments: the name of the table and a `Closure` that receives a `Blueprint` instance we can use to add columns to the table:
+我们用结构生成器的`table`方法更新现有的表,和`create`方法类似,`table`方法接受两个参数:表名和一个`Closure`(闭包,它接收一个`Blueprint`(蓝图)实例,用于添加列到数据表):
 
     Schema::table('users', function ($table) {
         $table->string('email');
     });
 
-#### Available Column Types
+#### 可用列类型
 
-Of course, the schema builder contains a variety of column types that you may use when building your tables:
+数据表产生器提供多种字段类型可使用，在您建立数据表时也许会用到:
 
-Command  | Description
+命令  | 功能描述
 ------------- | -------------
-`$table->bigIncrements('id');`  |  Incrementing ID using a "big integer" equivalent.
-`$table->bigInteger('votes');`  |  BIGINT equivalent for the database.
-`$table->binary('data');`  |  BLOB equivalent for the database.
-`$table->boolean('confirmed');`  |  BOOLEAN equivalent for the database.
-`$table->char('name', 4);`  |  CHAR equivalent with a length.
-`$table->date('created_at');`  |  DATE equivalent for the database.
-`$table->dateTime('created_at');`  |  DATETIME equivalent for the database.
-`$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale.
-`$table->double('column', 15, 8);`  |  DOUBLE equivalent with precision, 15 digits in total and 8 after the decimal point.
-`$table->enum('choices', ['foo', 'bar']);` | ENUM equivalent for the database.
-`$table->float('amount');`  |  FLOAT equivalent for the database.
-`$table->increments('id');`  |  Incrementing ID for the database (primary key).
-`$table->integer('votes');`  |  INTEGER equivalent for the database.
-`$table->json('options');`  |  JSON equivalent for the database.
-`$table->jsonb('options');`  |  JSONB equivalent for the database.
-`$table->longText('description');`  |  LONGTEXT equivalent for the database.
-`$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent for the database.
-`$table->mediumText('description');`  |  MEDIUMTEXT equivalent for the database.
-`$table->morphs('taggable');`  |  Adds INTEGER `taggable_id` and STRING `taggable_type`.
-`$table->nullableTimestamps();`  |  Same as `timestamps()`, except allows NULLs.
-`$table->rememberToken();`  |  Adds `remember_token` as VARCHAR(100) NULL.
-`$table->smallInteger('votes');`  |  SMALLINT equivalent for the database.
-`$table->softDeletes();`  |  Adds `deleted_at` column for soft deletes.
-`$table->string('email');`  |  VARCHAR equivalent column.
-`$table->string('name', 100);`  |  VARCHAR equivalent with a length.
-`$table->text('description');`  |  TEXT equivalent for the database.
-`$table->time('sunrise');`  |  TIME equivalent for the database.
-`$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
-`$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
-`$table->timestamps();`  |  Adds `created_at` and `updated_at` columns.
+`$table->bigIncrements('id');`  |  ID 自动增量，使用相当于「big integer」类型
+`$table->bigInteger('votes');`  |  相当于 BIGINT 类型
+`$table->binary('data');`  |  相当于 BLOB 类型
+`$table->boolean('confirmed');`  |  相当于 BOOLEAN 类型
+`$table->char('name', 4);`  |  相当于 CHAR 类型，并带有长度
+`$table->date('created_at');`  |  相当于 DATE 类型
+`$table->dateTime('created_at');`  |  相当于 DATETIME 类型
+`$table->decimal('amount', 5, 2);`  |  相当于 DECIMAL 类型，并带有精度与基数
+`$table->double('column', 15, 8);`  |  相当于 DOUBLE 类型，总共有 15 位数，在小数点后面有 8 位数
+`$table->enum('choices', array('foo', 'bar'));` | 相当于 ENUM 类型
+`$table->float('amount');`  |  相当于 FLOAT 类型
+`$table->increments('id');`  |  相当于 Incrementing 类型 (数据表主键)
+`$table->integer('votes');`  |  相当于 INTEGER 类型
+`$table->json('options');`  |  相当于 JSON 类型
+`$table->jsonb('options');`  |  JSONB equivalent to the table
+`$table->longText('description');`  |  相当于 LONGTEXT 类型
+`$table->mediumInteger('numbers');`  |  相当于 MEDIUMINT 类型
+`$table->mediumText('description');`  |  相当于 MEDIUMTEXT 类型
+`$table->morphs('taggable');`  |  加入整数 `taggable_id` 与字串 `taggable_type`
+`$table->nullableTimestamps();`  |  与 `timestamps()` 相同，但允许 NULL
+`$table->smallInteger('votes');`  |  相当于 SMALLINT 类型
+`$table->tinyInteger('numbers');`  |  相当于 TINYINT 类型
+`$table->softDeletes();`  |  加入 **deleted\_at** 字段于软删除使用
+`$table->string('email');`  |  相当于 VARCHAR 类型
+`$table->string('name', 100);`  |  相当于 VARCHAR 类型，并指定长度
+`$table->text('description');`  |  相当于 TEXT 类型
+`$table->time('sunrise');`  |  相当于 TIME 类型
+`$table->timestamp('added_on');`  |  相当于 TIMESTAMP 类型
+`$table->timestamps();`  |  加入 **created\_at** 和 **updated\_at** 字段
+`$table->rememberToken();`  |  加入 `remember_token` 使用 VARCHAR(100) NULL
 
-#### Column Modifiers
+#### 列修饰符
 
-In addition to the column types listed above, there are several other column "modifiers" which you may use while adding the column. For example, to make the column "nullable", you may use the `nullable` method:
+除了以上列出的列类型,还有几个列修饰符,可以在加入列的同时使用,例如,让某列"可以为空",你可能会用到`nullable`方法:
 
     Schema::table('users', function ($table) {
         $table->string('email')->nullable();
     });
 
-Below is a list of all the available column modifiers. This list does not include the [index modifiers](#creating-indexes):
+下面是所有可用列修饰符列表,这个列表并不被包含在[索引修饰符](#creating-indexes)里:
 
-Modifier  | Description
+修饰符  | 描述
 ------------- | -------------
-`->first()`  |  Place the column "first" in the table (MySQL Only)
-`->after('column')`  |  Place the column "after" another column (MySQL Only)
-`->nullable()`  |  Allow NULL values to be inserted into the column
-`->default($value)`  |  Specify a "default" value for the column
-`->unsigned()`  |  Set `integer` columns to `UNSIGNED`
+->first() |	将列调整为表的第一列 (MySQL Only)
+->after('column') |	将列调整到'column'列的后面 (MySQL Only)
+->nullable() |	该列允许列插入空值
+->default($value) |	指定该列的默认值为$value
+->unsigned() |	指定 `integer(整型)` 列为 `UNSIGNED(无符号)`列
 
 <a name="changing-columns"></a>
 <a name="modifying-columns"></a>
-### Modifying Columns
+### 修改列
 
-#### Prerequisites
+#### 先决条件(Prerequisites)
 
-Before modifying a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file. The Doctrine DBAL library is used to determine the current state of the column and create the SQL queries needed to make the specified adjustments to the column.
+修改列之前,请务必确定你的`composer.json`文件已添加依赖项`doctrine/dbal`,Doctrine DBAL库用于确定列的当前状态，并创建指定调整到列的SQL查询。
 
-#### Updating Column Attributes
+#### 修改列属性
 
-The `change` method allows you to modify an existing column to a new type, or modify the column's attributes. For example, you may wish to increase the size of a string column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
+`change`能让你修改一个已经存在的列的类型或属性.例如:你像增加一个string类型列的字段长度,让我们看看`change`方法的行动力,假设我们想要将字段 `name` 的长度从 25 增加到 50:
 
     Schema::table('users', function ($table) {
         $table->string('name', 50)->change();
     });
 
-We could also modify a column to be nullable:
+我们还可以设定,让这个字段可以为空:
 
     Schema::table('users', function ($table) {
         $table->string('name', 50)->nullable()->change();
     });
 
 <a name="renaming-columns"></a>
-#### Renaming Columns
+#### 修改列名称
 
-To rename a column, you may use the `renameColumn` method on the Schema builder. Before renaming a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file:
+要修改列名称,你可能会在结构生成器中用到`renameColumn`方法,请确认在修改前 `composer.json` 文件内已经加入 `doctrine/dbal`.:
 
     Schema::table('users', function ($table) {
         $table->renameColumn('from', 'to');
     });
 
-> **Note:** Renaming columns in a table with a `enum` column is not currently supported.
+> **注意:** `enum`字段类型不支持字段名称修改
 
 <a name="dropping-columns"></a>
-### Dropping Columns
+### 移除列
 
-To drop a column, use the `dropColumn` method on the Schema builder:
+要移除列，可在结构生成器内使用 `dropColumn` 方法.:
 
     Schema::table('users', function ($table) {
         $table->dropColumn('votes');
     });
 
-You may drop multiple columns from a table by passing an array of column names to the `dropColumn` method:
+如果你给`dropcolumn`方法传递包含多个列名的数组,则可以移除多个列:
 
     Schema::table('users', function ($table) {
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
-> **Note:** Before dropping columns from a SQLite database, you will need to add the `doctrine/dbal` dependency to your `composer.json` file and run the `composer update` command in your terminal to install the library.
+> **注意:** 从SQLite数据库删除列前,你需要将`composer.json` 文件内已经加入 `doctrine/dbal`,并在终端运行`composer update`来安装库.
 
 <a name="creating-indexes"></a>
-### Creating Indexes
+### 创建索引
 
-The schema builder supports several types of indexes. First, let's look at an example that specifies a column's values should be unique. To create the index, we can simply chain the `unique` method onto the column definition:
+结构生成器支持多种索引类型.首先，让我们来看一个例子，它指定列的值应该是唯一的。要创建索引,我们可以在定义列的时候,用`unique`方法链上去:
 
     $table->string('email')->unique();
 
-Alternatively, you may create the index after defining the column. For example:
+或者，您可以先定义列,之后再创建索引,例如:
 
     $table->unique('email');
 
-You may even pass an array of columns to an index method to create a compound index:
+你甚至可以将一个数组传递给一个索引方法来创建一个复合索引:
 
     $table->index(['account_id', 'created_at']);
 
-#### Available Index Types
+#### 可用的索引类型
 
-Command  | Description
+命令  | 功能描述
 ------------- | -------------
-`$table->primary('id');`  |  Add a primary key.
-`$table->primary(['first', 'last']);`  |  Add composite keys.
-`$table->unique('email');`  |  Add a unique index.
-`$table->index('state');`  |  Add a basic index.
+$table->primary('id'); |	添加主键 (primary key)
+$table->primary(['first', 'last']); |	添加组合键(composite keys)
+$table->unique('email'); |	添加唯一索引 (unique index)
+$table->index('state'); |	添加基本索引 (index)
 
 <a name="dropping-indexes"></a>
-### Dropping Indexes
+### 移除索引
 
-To drop an index, you must specify the index's name. By default, Laravel automatically assigns a reasonable name to the indexes. Simply concatenate the table name, the names of the column in the index, and the index type. Here are some examples:
+要移除索引就必须指定索引名称,默认情况下,Laravel默认有脉络可循的索引名称.简单地链接这些数据表与索引的字段名称和类型.举例如下:
 
-Command  | Description
+命令  | 功能描述
 ------------- | -------------
-`$table->dropPrimary('users_id_primary');`  |  Drop a primary key from the "users" table.
-`$table->dropUnique('users_email_unique');`  |  Drop a unique index from the "users" table.
-`$table->dropIndex('geo_state_index');`  |  Drop a basic index from the "geo" table.
+`$table->dropPrimary('users_id_primary');`  |  从「users」数据表移除主键
+`$table->dropUnique('users_email_unique');`  |  从「users」数据表移除唯一索引
+`$table->dropIndex('geo_state_index');`  |  从「geo」数据表移除基本索引
+
+### 移除时间戳记和软删除
+
+要移除 `timestamps`、`nullableTimestamps` 或 `softDeletes` 字段类型，您可以使用以下方法：
+
+命令  | 功能描述
+------------- | -------------
+`$table->dropTimestamps();`  |  移除 **created\_at** 和 **updated\_at** 字段
+`$table->dropSoftDeletes();`  |  移除 **deleted\_at** 字段
+
+### 保存引擎
+
+要配置数据表的保存引擎，可在结构生成器配置 `engine` 属性：
+
+  	Schema::create('users', function($table)
+  	{
+  		$table->engine = 'InnoDB';
+
+  		$table->string('email');
+  	});
 
 <a name="foreign-key-constraints"></a>
-### Foreign Key Constraints
+### 外键约束
 
-Laravel also provides support for creating foreign key constraints, which are used to force referential integrity at the database level. For example, let's define a `user_id` column on the `posts` table that references the `id` column on a `users` table:
+Laravel 也支持数据表的外键约束,这是用来在数据库级别强制引用完整性,例如:我们在`posts`表定义的`user_id`列是引用了`user`表的`id`列:
 
     Schema::table('posts', function ($table) {
         $table->integer('user_id')->unsigned();
@@ -329,12 +350,14 @@ Laravel also provides support for creating foreign key constraints, which are us
         $table->foreign('user_id')->references('id')->on('users');
     });
 
-You may also specify the desired action for the "on delete" and "on update" properties of the constraint:
+您也可以指定在「on delete」和「on update」进行约束动作:
 
     $table->foreign('user_id')
           ->references('id')->on('users')
           ->onDelete('cascade');
 
-To drop a foreign key, you may use the `dropForeign` method. Foreign key constraints use the same naming convention as indexes. So, we will concatenate the table name and the columns in the constraint then suffix the name with "_foreign":
+要移除外键，可使用 `dropForeign` 方法。外键的命名约定雷同其他索引,因此,我们可以连接约束中的表名和列,后缀为`_foreign`:
 
     $table->dropForeign('posts_user_id_foreign');
+
+
