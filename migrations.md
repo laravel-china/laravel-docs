@@ -319,26 +319,6 @@ $table->index('state'); |	添加基本索引 (index)
 `$table->dropUnique('users_email_unique');`  |  从「users」数据表移除唯一索引
 `$table->dropIndex('geo_state_index');`  |  从「geo」数据表移除基本索引
 
-### 移除时间戳记和软删除
-
-要移除 `timestamps`、`nullableTimestamps` 或 `softDeletes` 字段类型，您可以使用以下方法：
-
-命令  | 功能描述
-------------- | -------------
-`$table->dropTimestamps();`  |  移除 **created\_at** 和 **updated\_at** 字段
-`$table->dropSoftDeletes();`  |  移除 **deleted\_at** 字段
-
-### 保存引擎
-
-要配置数据表的保存引擎，可在结构生成器配置 `engine` 属性：
-
-  	Schema::create('users', function($table)
-  	{
-  		$table->engine = 'InnoDB';
-
-  		$table->string('email');
-  	});
-
 <a name="foreign-key-constraints"></a>
 ### 外键约束
 
