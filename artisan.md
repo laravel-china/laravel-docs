@@ -42,7 +42,7 @@ Artisan是包含在Laravel中命令行界面的名字。 它提供了很多有�
 
 当你的命令被执行的时候，`handle`方法会被调用。你可以在这个方法中编写任意命令逻辑。让我们来看一个例子命令。
 
-Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor. For greater code reusability, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks.
+记住这个：我们可以在命令的构造器中注入任何我们需要的依赖。Laravel [service container](/docs/{{version}}/container)会自动注入所有类型提示的依赖在构造器中。为了更好的代码复用性，保持你的命令轻量和让他们顺从程序服务去完成他们的任务是一个好习惯。
 
     <?php
 
@@ -101,14 +101,14 @@ Note that we are able to inject any dependencies we need into the command's cons
     }
 
 <a name="command-io"></a>
-## Command I/O
+## 命令 I/O
 
 <a name="defining-input-expectations"></a>
-### Defining Input Expectations
+### 定义输入期望值
 
-When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the `signature` property on your commands. The `signature` property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.
+编写命令的时候，一般是通过参数或者选项获取用户的输入。Laravel通过使用你的命令的`signature`属性让定义你期望的用户输入变得很方便。这个`signature`属性允许你通过一种简单的，有表现力的，易读的语法定义命令的名字，参数和选项。
 
-All user supplied arguments and options are wrapped in curly braces, for example:
+所有用户输入的参数和选项会被包入大括号中，例如：
 
     /**
      * The name and signature of the console command.
@@ -117,15 +117,15 @@ All user supplied arguments and options are wrapped in curly braces, for example
      */
     protected $signature = 'email:send {user}';
 
-In this example, the command defines one **required** argument: `user`. You may also make arguments optional and define default values for optional arguments:
+在这个例子中，这个命令定义了一个必填参数：`user`。你也可以把参数设为可选和给可选参数定义默认值：
 
-    // Optional argument...
+    // 可选参数...
     email:send {user?}
 
-    // Optional argument with default value...
+    // 可选参数和默认值...
     email:send {user=foo}
 
-Options, like arguments, also are a form of user input. However, they are prefixed by two hyphens (`--`) when they are specified on the command line. We can define options in the signature like so:
+选项，像参数一样，也是一种用户输入形式。虽然如此，他们在命令行中输入的时候需要加两个短横线(`--`)作为前缀。我们可以这样定义选项在signature中：
 
     /**
      * The name and signature of the console command.
@@ -134,11 +134,11 @@ Options, like arguments, also are a form of user input. However, they are prefix
      */
     protected $signature = 'email:send {user} {--queue}';
 
-In this example, the `--queue` switch may be specified when calling the Artisan command. If the `--queue` switch is passed, the value of the option will be `true`. Otherwise, the value will be `false`:
+在这个例子中，这个`--queue`选项在调用这个Artisan命令的时候可以被指定。如果传递了`--queue`选项，它的值为`true`。否则，它的值为`false`： 
 
     php artisan email:send 1 --queue
 
-You may also specify that the option should be assigned a value by the user by suffixing the option name with a `=` sign, indicating that a value should be provided:
+你也可以让用户给这个选项赋值通过在选项后加等于号`=`，来指示这个值将会由用户来指定：
 
     /**
      * The name and signature of the console command.
@@ -147,17 +147,17 @@ You may also specify that the option should be assigned a value by the user by s
      */
     protected $signature = 'email:send {user} {--queue=}';
 
-In this example, the user may pass a value for the option like so:
+这个例子中，用户可以像这样给这个选项赋值：
 
     php artisan email:send 1 --queue=default
 
-You may also assign default values to options:
+你也可以给这个选项指定默认值：
 
     email:send {user} {--queue=default}
 
-#### Input Descriptions
+#### 输入描述
 
-You may assign descriptions to input arguments and options by separating the parameter from the description using a colon:
+你可以为参数和选项定义描述如下通过冒号分割参数与描述：
 
     /**
      * The name and signature of the console command.
@@ -169,11 +169,11 @@ You may assign descriptions to input arguments and options by separating the par
                             {--queue= : Whether the job should be queued}';
 
 <a name="retrieving-input"></a>
-### Retrieving Input
+### 获取输入
 
-While your command is executing, you will obviously need to access the values for the arguments and options accepted by your command. To do so, you may use the `argument` and `option` methods:
+当你的命令执行的时候，很明显你需要获取你的命令接收的参数及选项的值。想要获取这些值，你可以使用`argument` 和 `option`方法：
 
-To retrieve the value of an argument, use the `argument` method:
+获取某个参数的值，使用`argument`方法：
 
     /**
      * Execute the console command.
@@ -187,11 +187,11 @@ To retrieve the value of an argument, use the `argument` method:
         //
     }
 
-If you need to retrieve all of the arguments as an `array`, call the `argument` with no parameters:
+如果你需要获取所有参数的值来作为一个数组，调用无参方法`argument`：
 
     $arguments = $this->argument();
 
-Options may be retrieved just as easily as arguments using the `option` method. Like the `argument` method, you may call `option` without any arguments in order to retrieve all of the options as an `array`:
+通过`option`方法可以获取选项的值，就像获取参数的值一样简单。和`argument`方法一样，通过调用无参方法`option`可以获取到所有的选项值来作为一个数组：
 
     // Retrieve a specific option...
     $queueName = $this->option('queue');
@@ -199,12 +199,12 @@ Options may be retrieved just as easily as arguments using the `option` method. 
     // Retrieve all options...
     $options = $this->option();
 
-If the argument or option does not exist, `null` will be returned.
+如果参数和选项不存在，将返回空值`null`。
 
 <a name="prompting-for-input"></a>
-### Prompting For Input
+### 输入提示
 
-In addition to displaying output, you may also ask the user to provide input during the execution of your command. The `ask` method will prompt the user with the given question, accept their input, and then return the user's input back to your command:
+为了显示输出，在你的命令执行过程中你可能需要向用户请求输入一些信息。这个`ask`方法就可以通过既定的问题提示用户，然后获取用户输入的信息并返回给你的命令：
 
     /**
      * Execute the console command.
@@ -216,13 +216,13 @@ In addition to displaying output, you may also ask the user to provide input dur
         $name = $this->ask('What is your name?');
     }
 
-The `secret` method is similar to `ask`, but the user's input will not be visible to them as they type in the console. This method is useful for asking for sensitive information such as a password:
+这个`secret`方法和`ask`方法类似，但在用户输入时输入信息用户不可见。这个方法会很有用当要求用户输入一些敏感信息的时候，例如密码：
 
     $password = $this->secret('What is the password?');
 
-#### Asking For Confirmation
+#### 请求确认
 
-If you need to ask the user for a simple confirmation, you may use the `confirm` method. By default, this method will return `false`. However, if the user enters `y` in response to the prompt, the method will return `true`.
+如果你需要请求用户做一个简单确认，你可以使用`confirm`方法。默认这个方法会返回`false`。虽然如此，如果用户输入了`y`作为回应，这个方法会返回`true`。
 
     if ($this->confirm('Do you wish to continue? [y|N]')) {
         //
