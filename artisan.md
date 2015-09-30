@@ -228,22 +228,22 @@ Artisan是包含在Laravel中命令行界面的名字。 它提供了很多有�
         //
     }
 
-#### Giving The User A Choice
+#### 给用户一个选择
 
-The `anticipate` method can be used to provided autocompletion for possible choices. The user can still choose any answer, regardless of the choices.
+`anticipate`方法用来为可能的选择做自动填充。用户仍然可以填任何答案而无视这些选项。
 
     $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
 
-If you need to give the user a predefined set of choices, you may use the `choice` method. The user chooses the index of the answer, but the value of the answer will be returned to you. You may set the default value to be returned if nothing is chosen:
+如果你需要让用户必须从给定的选项中选，你可以使用`choice`方法。用户选择答案的索引，但答案的值返回给你。你可以设定返回默认值如果什么都没有选的话：
 
     $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], false);
 
 <a name="writing-output"></a>
-### Writing Output
+### 编写输出
 
-To send output to the console, use the `info`, `comment`, `question` and `error` methods. Each of these methods will use the appropriate ANSI colors for their purpose.
+使用`info`,`comment`,`question`和`error`方法，可以发送输出到命令行。这些方法中的每一个都会根据他们的目的使用合适的ANSI颜色来显示。
 
-To display an information message to the user, use the `info` method. Typically, this will display in the console as green text:
+使用`info`方法来显示信息。一般情况下，在命令行中会显示为绿色文本：
 
     /**
      * Execute the console command.
@@ -255,11 +255,11 @@ To display an information message to the user, use the `info` method. Typically,
         $this->info('Display this on the screen');
     }
 
-To display an error message, use the `error` method. Error message text is typically displayed in red:
+使用`error`方法来显示错误信息。一般情况下，在命令行中会显示为红色文本：
 
     $this->error('Something went wrong!');
 
-#### Table Layouts
+#### 表格布局
 
 The `table` method makes it easy to correctly format multiple rows / columns of data. Just pass in the headers and rows to the method. The width and height will be dynamically calculated based on the given data:
 
