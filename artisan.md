@@ -1,46 +1,46 @@
-# Artisan Console
+# Artisan 控制台
 
-- [Introduction](#introduction)
-- [Writing Commands](#writing-commands)
-    - [Command Structure](#command-structure)
-- [Command I/O](#command-io)
-    - [Defining Input Expectations](#defining-input-expectations)
-    - [Retrieving Input](#retrieving-input)
-    - [Prompting For Input](#prompting-for-input)
-    - [Writing Output](#writing-output)
-- [Registering Commands](#registering-commands)
-- [Calling Commands Via Code](#calling-commands-via-code)
+- [介绍](#introduction)
+- [编写命令](#writing-commands)
+    - [命令结构](#command-structure)
+- [命令 I/O](#command-io)
+    - [定义输入期望值](#defining-input-expectations)
+    - [获取输入值](#retrieving-input)
+    - [输入提示](#prompting-for-input)
+    - [编写输出](#writing-output)
+- [注册命令](#registering-commands)
+- [通过代码调用命令](#calling-commands-via-code)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Artisan is the name of the command-line interface included with Laravel. It provides a number of helpful commands for your use while developing your application. It is driven by the powerful Symfony Console component. To view a list of all available Artisan commands, you may use the `list` command:
+Artisan是包含在Laravel中命令行界面的名字。 它提供了很多有用的命令用于开发你的程序。它是基于强大的Symfony控制台组件开发。想要查看所有可用的Artisan命令，你可以使用‘list’命令：
 
     php artisan list
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, simply precede the name of the command with `help`:
+每个命令也包含了一个帮助界面去显示和描述该命令可用的参数和选项。要查看帮助界面，可以使用‘help’命令：
 
     php artisan help migrate
 
 <a name="writing-commands"></a>
-## Writing Commands
+## 编写命令
 
-In addition to the commands provided with Artisan, you may also build your own custom commands for working with your application. You may store your custom commands in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be autoloaded based on your `composer.json` settings.
+除了Artisan提供的命令，你也可以创建自定义命令在你的程序中使用。你可以把你的自定义命令保存到`app/Console/Commands`目录中；尽管如此，你也可以选择保存到任意地方只要你的命令能被自动加载基于你的`composer.json`配置。
 
-To create a new command, you may use the `make:console` Artisan command, which will generate a command stub to help you get started:
+要编写一个新命令，你可以用这个Artisan命令`make:console`生成一个命令存根来帮助你开始：
 
     php artisan make:console SendEmails
 
-The command above would generate a class at `app/Console/Commands/SendEmails.php`. When creating the command, the `--command` option may be used to assign the terminal command name:
+上面这个命令会在`app/Console/Commands/SendEmails.php`上生成一个类。 创建命令的时候，这个`--command`选项可以用来定义终端命令名字：
 
     php artisan make:console SendEmails --command=emails:send
 
 <a name="command-structure"></a>
-### Command Structure
+### 命令结构
 
-Once your command is generated, you should fill out the `signature` and `description` properties of the class, which will be used when displaying your command on the `list` screen.
+你的命令生成之后，你应该填写这个类的`signature`和`description`属性，这两个属性用来显示你的命令在`list`界面。
 
-The `handle` method will be called when your command is executed. You may place any command logic in this method. Let's take a look at an example command.
+当你的命令被执行的时候，`handle`方法会被调用。你可以在这个方法中编写任意命令逻辑。让我们来看一个例子命令。
 
 Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor. For greater code reusability, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks.
 
