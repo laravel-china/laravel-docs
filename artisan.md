@@ -261,7 +261,7 @@ Artisan是包含在Laravel中命令行界面的名字。 它提供了很多有�
 
 #### 表格布局
 
-The `table` method makes it easy to correctly format multiple rows / columns of data. Just pass in the headers and rows to the method. The width and height will be dynamically calculated based on the given data:
+`table`方法让以正确格式显示多行多列数据变得很容易。只需要把表头和记录传给这个方法。宽和高都会被动态计算出来根据传入的数据：
 
     $headers = ['Name', 'Email'];
 
@@ -269,9 +269,9 @@ The `table` method makes it easy to correctly format multiple rows / columns of 
 
     $this->table($headers, $users);
 
-#### Progress Bars
+#### 进度条
 
-For long running tasks, it could be helpful to show a progress indicator. Using the output object, we can start, advance and stop the Progress Bar. You have to define the number of steps when you start the progress, then advance the Progress Bar after each step:
+对于耗时任务，显示一个进度条是很有帮助的。使用输出对象，我们可以开始，推进和停止进度。你必须定义总步数当开始进度的时候，然后在每一步完成之后推进进度：
 
     $users = App\User::all();
 
@@ -285,23 +285,23 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
 
     $this->output->progressFinish();
 
-For more advanced options, check out the [Symfony Progress Bar component documentation](http://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
+想了解更多高级选项，请查看 [Symfony Progress Bar component documentation](http://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
 
 <a name="registering-commands"></a>
-## Registering Commands
+## 注册命令
 
-Once your command is finished, you need to register it with Artisan so it will be available for use. This is done within the `app/Console/Kernel.php` file.
+当你的命令完成之后，你需要注册才可以使用。这个可以在`app/Console/Kernel.php`文件中完成。
 
-Within this file, you will find a list of commands in the `commands` property. To register your command, simply add the class name to the list. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
+在这个文件中，你会发现一个命令列表在`commands`属性中。要注册你的命令，只需要简单的把类名加到列表中。当Artisan启动时，所有在这个属性中的命令都会被[service container](/docs/{{version}}/container)解析和用Artisan注册:
 
     protected $commands = [
         'App\Console\Commands\SendEmails'
     ];
 
 <a name="calling-commands-via-code"></a>
-## Calling Commands Via Code
+## 通过代码调用命令
 
-Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts the name of the command as the first argument, and an array of command parameters as the second argument. The exit code will be returned:
+有时候你可能希望执行一个Artisan命令在命令行之外。例如，你希望触发一个Artisan命令在一个路由或者控制器里。你可以通过`Artisan` facade的`call`方法去完成它。`call`方法接收命令名作为第一个参数，命令参数数组作为第二个参数。退出代码（exit code）将被返回：
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
@@ -311,7 +311,7 @@ Sometimes you may wish to execute an Artisan command outside of the CLI. For exa
         //
     });
 
-Using the `queue` method on the `Artisan` facade, you may even queue Artisan commands so they are processed in the background by your [queue workers](/docs/{{version}}/queues):
+使用`Artisan` facade的`queue`方法，你甚至可以把命令放入队列，这样他们就可以在后台通过[queue workers](/docs/{{version}}/queues)被处理：
 
     Route::get('/foo', function () {
         Artisan::queue('email:send', [
@@ -321,15 +321,15 @@ Using the `queue` method on the `Artisan` facade, you may even queue Artisan com
         //
     });
 
-If you need to specify the value of an option that does not accept string values, such as the `--force` flag on the `migrate:refresh` command, you may pass a boolean `true` or `false`:
+如果你需要指定的选项不接收字符串，例如`migrate:refresh`命令的`--force`选项，你可以传递一个布尔值`true` 或者 `false`：
 
     $exitCode = Artisan::call('migrate:refresh', [
         '--force' => true,
     ]);
 
-### Calling Commands From Other Commands
+### 从其他命令中调用命令
 
-Sometimes you may wish to call other commands from an existing Artisan command. You may do so using the `call` method. This `call` method accepts the command name and an array of command parameters:
+有时你希望从已有Artisan命令中调用其它命令。你可以使用`call`方法。这个`call`方法接收命令名和命令参数数组作为参数：
 
     /**
      * Execute the console command.
@@ -345,7 +345,7 @@ Sometimes you may wish to call other commands from an existing Artisan command. 
         //
     }
 
-If you would like to call another console command and suppress all of its output, you may use the `callSilent` method. The `callSilent` method has the same signature as the `call` method:
+如果你想调用另一个命令并忽略它所有的输出，你可以使用`callSilent`方法。`callSilent`方法接收的参数和`call`方法一样：
 
     $this->callSilent('email:send', [
         'user' => 1, '--queue' => 'default'
