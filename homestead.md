@@ -114,7 +114,6 @@ Homestead 目前是构建且测试于 Vagrant 1.7 版本。
 
 #### 配置你的 Nginx 站点
 
-Not familiar with Nginx? No problem. The `sites` property allows you to easily map a 
 对 Nginx 不熟悉？没关系。`sites` 属性允许你简单的对应一个 `域名` 到一个 homestead 环境中的目录。一个例子的站点被配置在 `Homestead.yaml` 文件中。同样的，你可以加任何你需要的站点到你的 Homestead 环境中。Homestead 可以为你每个进行中的 Laravel 应用提供方便的虚拟化环境。
 
     sites:
