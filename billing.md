@@ -1,50 +1,50 @@
 # Laravel Cashier
 
-- [Introduction](#introduction)
-- [Subscriptions](#subscriptions)
-    - [Creating Subscriptions](#creating-subscriptions)
-    - [Checking Subscription Status](#checking-subscription-status)
-    - [Changing Plans](#changing-plans)
-    - [Subscription Quantity](#subscription-quantity)
-    - [Subscription Taxes](#subscription-taxes)
-    - [Cancelling Subscriptions](#cancelling-subscriptions)
-    - [Resuming Subscriptions](#resuming-subscriptions)
-- [Handling Stripe Webhooks](#handling-stripe-webhooks)
-    - [Failed Subscriptions](#handling-failed-subscriptions)
-    - [Other Webhooks](#handling-other-webhooks)
-- [Single Charges](#single-charges)
-- [Invoices](#invoices)
-    - [Generating Invoice PDFs](#generating-invoice-pdfs)
+- [简介](#introduction)
+- [订购](#subscriptions)
+    - [创建订购](#creating-subscriptions)
+    - [确认订购状态](#checking-subscription-status)
+    - [改变方案](#changing-plans)
+    - [订购数量](#subscription-quantity)
+    - [订购税金](#subscription-taxes)
+    - [取消订购](#cancelling-subscriptions)
+    - [恢复订购](#resuming-subscriptions)
+- [处理 Stripe Webhooks](#handling-stripe-webhooks)
+    - [订购失败](#handling-failed-subscriptions)
+    - [其他 Webhooks](#handling-other-webhooks)
+- [一次性收费](#single-charges)
+- [收据](#invoices)
+    - [产生收据的 PDFs](#generating-invoice-pdfs)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://stripe.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
+Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe.com)订购交易服务介接。它几乎处理了所有让人退步三舍的订购管理相关逻辑。除了基本的订购管理，Cashier 还可以处理折价券，订购转换，管理订购「数量」、取消宽限期，甚至产生收据的 PDF。
 
 <a name="configuration"></a>
-### Configuration
+### 设置
 
 #### Composer
 
-First, add the Cashier package to your `composer.json` file and run the `composer update` command:
+首先，将 Cashier 扩展包添加至 `composer.json` 文件并运行 `composer update` 命令：
 
     "laravel/cashier": "~5.0" (For Stripe SDK ~2.0, and Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~4.0" (For Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~3.0" (For Stripe APIs up to and including 2015-02-16 version)
 
-#### Service Provider
+#### 服务提供者
 
-Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `app` configuration file.
+接着，在 `app` 配置文件中注册 `Laravel\Cashier\CashierServiceProvider` [服务提供者](/docs/{{version}}/providers)。
 
-#### Migration
+#### 迁移
 
-Before using Cashier, we'll need to add several columns to your database. Don't worry, you can use the `cashier:table` Artisan command to create a migration to add the necessary column. For example, to add the column to the users table run the command: `php artisan cashier:table users`.
+使用 Cashier 前，我们需要增加几个字段到数据库。别担心，你可以使用 `cashier:table` Artisan 命令，创建迁移文件来添加必要字段。举个例子，若要增加字段到 users 数据表，使用命令：`php artisan cashier:table users`。
 
-Once the migration has been created, simply run the `migrate` command.
+创建完迁移文件后，只要运行 `migrate` 命令即可。
 
-#### Model Setup
+#### 模型设置
 
-Next, add the `Billable` trait and appropriate date mutators to your model definition:
+再来，将 `Billable` trait 和适当的日期访问器添加至你的模型定义中：
 
     use Laravel\Cashier\Billable;
     use Laravel\Cashier\Contracts\Billable as BillableContract;
@@ -56,11 +56,11 @@ Next, add the `Billable` trait and appropriate date mutators to your model defin
         protected $dates = ['trial_ends_at', 'subscription_ends_at'];
     }
 
-Adding the columns to your model's `$dates` property will instruct Eloquent to return the columns as Carbon / DateTime instances instead of raw strings.
+你的模型中 `$dates` 属性里添加的字段会指定 Eloquent 必须将该字段返回为 Carbon 或 DateTime 实例，而不是原始字符串。
 
-#### Stripe Key
+#### Stripe 密钥
 
-Finally, set your Stripe key in your `services.php` configuration file:
+最后，在你的 `services.php` 配置文件中设置 Stripe 密钥：
 
     'stripe' => [
         'model'  => 'User',
@@ -68,261 +68,261 @@ Finally, set your Stripe key in your `services.php` configuration file:
     ],
 
 <a name="subscriptions"></a>
-## Subscriptions
+## 订购
 
 <a name="creating-subscriptions"></a>
-### Creating Subscriptions
+### 创建订购
 
-To create a subscription, first retrieve an instance of your billable model, which typically will be an instance of `App\User`. Once you have retrieved the model instance, you may use the `subscription` method to manage the model's subscription:
+要创建一个订购，首先要取得可交易的模型实例，这通常会是 `App\User` 的实例。一旦你取得了模型实例，你可以使用 `subscription` 方法来管理模型的订购：
 
     $user = User::find(1);
 
     $user->subscription('monthly')->create($creditCardToken);
 
-The `create` method will automatically create the Stripe subscription, as well as update your database with Stripe customer ID and other relevant billing information. If your plan has a trial configured in Stripe, the trial end date will also automatically be set on the user record.
+`create` 方法会自动创建与 Stripe 的交易，以及将 Stripe 客户 ID 和其他相关帐款信息更新到数据库。如果你的方案有在 Stripe 设置试用期，试用到期日也会自动保存至用户的记录。
 
-In you want to implement trial periods, but are managing the trials entirely within your application instead of defining them within Stripe, you must manually set the trial end date:
+如果你想要实施试用期，但是你完全用应用程序来管理试用期，而不是在 Stripe 里设置，那么你必须手动设置试用到期日：
 
     $user->trial_ends_at = Carbon::now()->addDays(14);
 
     $user->save();
 
-#### Additional User Details
+#### 额外用户详细数据
 
-If you would like to specify additional customer details, you may do so by passing them as second argument to the `create` method:
+如果你想自定额外的顾客详细数据，你可以将数据数组作为 `create` 方法的第二个参数传入：
 
     $user->subscription('monthly')->create($creditCardToken, [
-        'email' => $email, 'description' => 'Our First Customer'
+        'email' => $email, 'description' => '我们的第一个客户'
     ]);
 
-To learn more about the additional fields supported by Stripe, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer).
+想知道更多 Stripe 支持的额外字段，请查看 Stripe 的[创建顾客的文档](https://stripe.com/docs/api#create_customer)。
 
-#### Coupons
+#### 折价券
 
-If you would like to apply a coupon when creating the subscription, you may use the `withCoupon` method:
+如果你想在创建订购的时候使用折价券，可以使用 `withCoupon` 方法：
 
     $user->subscription('monthly')
          ->withCoupon('code')
          ->create($creditCardToken);
 
 <a name="checking-subscription-status"></a>
-### Checking Subscription Status
+### 确认订购状态
 
-Once a user is subscribed to your application, you may easily check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has an active subscription, even if the subscription is currently within its trial period:s
+一旦用户在你的应用程序订购，你可以使用多种便捷的方法，很简单的检查他们的订购状态。首先，当用户拥有有效订购时，`subscribed` 方法会返回 `true`，即使该订购目前在试用期间：
 
     if ($user->subscribed()) {
         //
     }
 
-The `subscribed` method also makes a great candidate for a [route middleware](/docs/{{version}}/middleware), allowing you to filter access to routes and controllers based on the user's subscription status:
+`subscribed` 方法很适合用在[路由中间件](/docs/{{version}}/middleware)，让你可以透过用户的订购状态，过滤访问路由及控制器：
 
     public function handle($request, Closure $next)
     {
         if ($request->user() && ! $request->user()->subscribed()) {
-            // This user is not a paying customer...
+            // 此用户不是付费用户...
             return redirect('billing');
         }
 
         return $next($request);
     }
 
-If you would like to determine if a user is still within their trial period, you may use the `onTrial` method. This method can be useful for displaying a warning to the user that they are still on their trial period:
+如果你想确认用户是否还在他们的试用期内，你可以使用 `onTrial` 方法。此方法在向用户显示他们还在试用期内的警告是很有用的：
 
     if ($user->onTrial()) {
         //
     }
 
-The `onPlan` method may be used to determine if the user is subscribed to a given plan based on its Stripe ID:
+`onPlan` 方法可以用 Stripe ID 来确认用户是否订购某方案：
 
     if ($user->onPlan('monthly')) {
         //
     }
 
-#### Cancelled Subscription Status
+#### 取消订购状态
 
-To determine if the user was once an active subscriber, but has cancelled their subscription, you may use the `cancelled` method:
+若要确认用户是否曾经订购，但是已经取消他们的订购，你可以使用 `cancelled` 方法：
 
     if ($user->cancelled()) {
         //
     }
 
-You may also determine if a user has cancelled their subscription, but are still on their "grace period" until the subscription fully expires. For example, if a user cancels a subscription on March 5th that was originally scheduled to expire on March 10th, the user is on their "grace period" until March 10th. Note that the `subscribed` method still returns `true` during this time.
+你可能想确认用户是否已经取消订购，但是还在他们订购完全到期前的「宽限期」。例如，如果用户在三月五号取消了订购，但是服务会到三月十号才过期。那么用户到三月十号前都是「宽限期」。注意，`subscribed` 方法在这个期间仍然会返回 `true`。
 
     if ($user->onGracePeriod()) {
         //
     }
 
-The `everSubscribed` method may be used to determine if the user has ever subscribed to a plan in your application:
+`everSubscribed` 方法可以用来确认用户是否订购过应用程序里的方案：
 
     if ($user->everSubscribed()) {
         //
     }
 
 <a name="changing-plans"></a>
-### Changing Plans
+### 改变方案
 
-After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, use the `swap` method. For example, we may easily switch a user to the `premium` subscription:
+当用户在你的应用程序订购之后，他们有时可能想更改自己的订购方案。使用 `swap` 方法可以把用户转换到新的订购。举个例子，我们可以简单的将用户切换至 `premium` 订购：
 
     $user = App\User::find(1);
 
     $user->subscription('premium')->swap();
 
-If the user is on trial, the trial period will be maintained. Also, if a "quantity" exists for the subscription, that quantity will also be maintained. When swapping plans, you may also use the `prorate` method to indicate that the charges should be pro-rated. In addition, you may use the `swapAndInvoice` method to immediately invoice the user for the plan change:
+如果用户还在试用期间，试用服务会跟之前一样可用。如果订单有「数量」，也会和之前一样。当改变方案时，你也可以使用 `prorate` 方法以表示该费用是按照比例计算。此外，你可以使用 `swapAndInvoice` 方法马上开发票给改变方案的用户：
 
     $user->subscription('premium')
                 ->prorate()
                 ->swapAndInvoice();
 
 <a name="subscription-quantity"></a>
-### Subscription Quantity
+### 订购数量
 
-Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `increment` and `decrement` methods:
+有时候订购行为会跟「数量」有关。例如，你的应用程序可能会依照帐号的用户人数，**每人**每月收取 10 元。你可以使用 `increment` 和 `decrement` 方法简单的调整订购数量：
 
     $user = User::find(1);
 
     $user->subscription()->increment();
 
-    // Add five to the subscription's current quantity...
+    // 增加 5 个订购数量...
     $user->subscription()->increment(5);
 
     $user->subscription()->decrement();
 
-    // Subtract five to the subscription's current quantity...
+    // 减少 5 个订购数量...
     $user->subscription()->decrement(5);
 
-Alternatively, you may set a specific quantity using the `updateQuantity` method:
+另外，你也可以使用 `updateQuantity` 方法来设置指定的数量：
 
     $user->subscription()->updateQuantity(10);
 
-For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/guides/subscriptions#setting-quantities).
+有关订购数量的更多数据，请参阅 [Stripe 文档](https://stripe.com/docs/guides/subscriptions#setting-quantities)。
 
 <a name="subscription-taxes"></a>
-### Subscription Taxes
+### 订购税金
 
-With Cashier, it's easy to provide the `tax_percent` value sent to Stripe. To specify the tax percentage a user pays on a subscription, implement the `getTaxPercent` method on your billable model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
+在 Cashier 中，可以很容易的提供发送至 Stripe 的 `tax_percent` 值。要指定一个用户付费订购时的税金比例，请在你的交易模型中实现 `getTaxPercent` 方法，并返回一个介于 0 至 100 间，且不超过两位小数的数值。
 
     public function getTaxPercent() {
         return 20;
     }
 
-This enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries.
+这让你基于个别模型去运用税率，可能对横跨多个国家的用户群非常有帮助。
 
 <a name="cancelling-subscriptions"></a>
-### Cancelling Subscriptions
+### 取消订购
 
-To cancel a subscription, simply call the `cancel` method on the user's subscription:
+要取消一个订购，只需要在用户的订购调用 `cancel` 方法：
 
     $user->subscription()->cancel();
 
-When a subscription is cancelled, Cashier will automatically set the `subscription_ends_at` column in your database. This column is used to know when the `subscribed` method should begin returning `false`. For example, if a customer cancels a subscription on March 1st, but the subscription was not scheduled to end until March 5th, the `subscribed` method will continue to return `true` until March 5th.
+当订购被取消时，Cashier 会自动更新数据库的 `subscription_ends_at` 字段。这个字段会被用来判断 `subscribed` 方法什么时候该开始返回  `false`。例如，如果顾客在三月一号取消订购，但是服务可以使用到三月五号为止，那么 `subscribed` 方法在三月五号前都会传回 `true`。
 
-You may determine if a user has cancelled their subscription but are still on their "grace period" using the `onGracePeriod` method:
+你想确认用户是否已经取消他们的订购，但是还在他们的「宽限期」间，可以使用 `onGracePeriod` 方法：
 
     if ($user->onGracePeriod()) {
         //
     }
 
 <a name="resuming-subscriptions"></a>
-### Resuming Subscriptions
+### 恢复订购
 
-If a user has cancelled their subscription and you wish to resume it, use the `resume` method:
+如果用户已经取消了他们的订购，但你想恢复订购，可以使用 `resume` 方法：
 
     $user->subscription('monthly')->resume($creditCardToken);
 
-If the user cancels a subscription and then resumes that subscription before the subscription has fully expired, they will not be billed immediately. Instead, their subscription will simply be re-activated, and they will be billed on the original billing cycle.
+如果客户取消订购后，且接着在服务完全过期前恢复订购，他们将不会在当下被扣款。他们的订购会被重新启动，而付款则会依照平常的周期。
 
 <a name="handling-stripe-webhooks"></a>
-## Handling Stripe Webhooks
+## 处理 Stripe Webhooks
 
 <a name="handling-failed-subscriptions"></a>
-### Failed Subscriptions
+### 订购失败
 
-What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. Just point a route to the controller:
+如果顾客的信用卡过期了呢？无需担心，Cashier 包含了 Webhook 控制器，可以帮你简单的取消顾客的订单。只要在路由注册控制器：
 
-    Route::post('stripe/webhook', 'Laravel\Cashier\WebhookController@handleWebhook');
+    Route::post('stripe/webhook', '\Laravel\Cashier\WebhookController@handleWebhook');
 
-That's it! Failed payments will be captured and handled by the controller. The controller will cancel the customer's subscription when Stripe determines the subscription has failed (normally after three failed payment attempts). Don't forget: you will need to configure the webhook URI in your Stripe control panel settings.
+这样就完成了！失败的交易会经由控制器捕捉并进行处理。控制器在 Stripe 确认订购已经失败后 (通常在三次交易尝试失败后)，才会取消顾客的订单。别忘了：你必须设置 Stripe 控制皮肤设置里的 webhook URI。
 
-Since Stripe webhooks need to bypass Laravel's [CSRF verification](/docs/{{version}}/routing#csrf-protection), be sure to list the URI an exception in your `VerifyCsrfToken` middleware:
+由于 Stripe webhooks 必须绕过 Laravel 的 [CSRF 验证](/docs/{{version}}/routing#csrf-protection)，请确定在增加 URI 例外至你的 `VerifyCsrfToken` 中间件：
 
     protected $except = [
         'stripe/*',
     ];
 
 <a name="handling-other-webhooks"></a>
-### Other Webhooks
+### 其他 Webhooks
 
-If you have additional Stripe webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Stripe webhook you wish to handle. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller.
+如果你想要处理额外的 Stripe webhook 事件，只需要继承 Webhook 控制器。你的方法名称要对应到 Cashier 默认的名称，尤其是方法名称应该使用 `handle` 前缀，并使用「驼峰式」命名法，后面接着你想要处理的 Stripe webhook。例如，如果你想要处理 `invoice.payment_succeeded` webhook，你应该增加一个 `handleInvoicePaymentSucceeded` 方法到控制器。
 
     <?php
 
-    namespace App\Http\Controller;
+    namespace App\Http\Controllers;
 
     use Laravel\Cashier\WebhookController as BaseController;
 
     class WebhookController extends BaseController
     {
         /**
-         * Handle a stripe webhook.
+         * 处理一个 stripe webhook。
          *
          * @param  array  $payload
          * @return Response
          */
         public function handleInvoicePaymentSucceeded($payload)
         {
-            // Handle The Event
+            // 处理该事件
         }
     }
 
 <a name="single-charges"></a>
-## Single Charges
+## 一次性收费
 
-If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance. The `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. So, for example, the example below will charge 100 cents, or $1.00, against the user's credit card:
+如果你想对一个已订购客户的信用卡进行「一次性」收费，你可以对一个交易模型实例使用 `charge` 方法。`charge` 方法接受你想收取**应用程序使用货币的最低单位**的金额。所以，举例来说，下方的例子将会对用户的信用卡收取 100 美分，或是 1 美元：
 
     $user->charge(100);
 
-The `charge` method accepts an array as its second argument, allowing you to pass any options you wish to the underlying Stripe charge creation:
+`charge` 方法接受一个数组作为第二个参数，你可以传递任何你希望的选项至底层的 Stripe 付费创建器：
 
     $user->charge(100, [
         'source' => $token,
         'receipt_email' => $user->email,
     ]);
 
-The `charge` method will return `false` if the charge fails. This typically indicates the charge was denied:
+当收费失败时 `charge` 方法会返回 `false`。这通常表示收费被拒绝：
 
     if ( ! $user->charge(100)) {
-        // The charge was denied...
+        // 该收费被拒绝...
     }
 
-If the charge is successful, the full Stripe response will be returned from the method.
+如果收费成功，该方法会返回完整的 Stripe 回应。
 
 <a name="invoices"></a>
-## Invoices
+## 收据
 
-You may easily retrieve an array of a billable model's invoices using the `invoices` method:
+你可以很简单的透过 `invoices` 方法取得交易模型的收据数据数组：
 
     $invoices = $user->invoices();
 
-When listing the invoices for the customer, you may use the invoice's helper methods to display the relevant invoice information. For example, you may wish to list every invoice in a table, allowing the user to easily download any of them:
+当列出收据给客户时，你可以使用收据的辅助方法来显示收据的相关信息。举例来说，你可能希望列出每个收据至表格中，让用户可以简单的下载其中一个：
 
     <table>
         @foreach ($invoices as $invoice)
             <tr>
                 <td>{{ $invoice->dateString() }}</td>
                 <td>{{ $invoice->dollars() }}</td>
-                <td><a href="/user/invoice/{{ $invoice->id }}">Download</a></td>
+                <td><a href="/user/invoice/{{ $invoice->id }}">下载</a></td>
             </tr>
         @endforeach
     </table>
 
 <a name="generating-invoice-pdfs"></a>
-#### Generating Invoice PDFs
+#### 产生收据的 PDFs
 
-From within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
+在路由或是控制器中，使用 `downloadInvoice` 方法可以产生收据的 PDF 下载动作。此方法会自动产生正确的 HTTP 回应并发送下载动作至浏览器：
 
     Route::get('user/invoice/{invoice}', function ($invoiceId) {
         return Auth::user()->downloadInvoice($invoiceId, [
-            'vendor'  => 'Your Company',
-            'product' => 'Your Product',
+            'vendor'  => '你的公司',
+            'product' => '你的产品',
         ]);
     });

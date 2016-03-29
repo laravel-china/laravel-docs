@@ -1,16 +1,16 @@
 # 本地化
 
-- [介绍](#introduction)
+- [简介](#introduction)
 - [基本用法](#basic-usage)
-    - [复数形式](#pluralization)
-- [覆写扩展包的语言文件](#overriding-vendor-language-files)
+    - [复数](#pluralization)
+- [覆写扩展包的语言档](#overriding-vendor-language-files)
 
 <a name="introduction"></a>
-## 介绍
+## 简介
 
-Laravel的本地化功能提供了一种便利的获取多种语言字串的方法，让你轻松地在应用中支持多语言。
+Laravel 的本地化功能提供方便的方法来取得多语系的字符串，让你的网站可以简单的支持多语系。
 
-语言字串保存在目录 `resources/lang` 下的文件中。应用支持的每种语言都对应该目录下的一个子目录：
+语系档存放在 `resources/lang` 文件夹的文件里。在此文件夹内，应该要有网站支持的语系并对应到每一个子目录。：
 
     /resources
         /lang
@@ -19,7 +19,7 @@ Laravel的本地化功能提供了一种便利的获取多种语言字串的方�
             /es
                 messages.php
 
-所有语言文件都简单返回一个带有键值的数组。例如：
+语系档简单地返回键值和字符串数组，例如：
 
     <?php
 
@@ -27,9 +27,9 @@ Laravel的本地化功能提供了一种便利的获取多种语言字串的方�
         'welcome' => 'Welcome to our application'
     ];
 
-#### 配置语言环境
+#### 切换语系
 
-你的应用的默认语言保存在 `config/app.php` 配置文件中。当然，你可以根据需要修改该值。你也可以使用  `App` facade 的 `setLocale` 方法在运行时修改当前语言。
+网站的默认语系保存在 `config/app.php` 配置文件。您可以在任何时后使用 `App` facade 的 `setLocale` 方法动态地变换现行语系：
 
     Route::get('welcome/{locale}', function ($locale) {
         App::setLocale($locale);
@@ -37,51 +37,51 @@ Laravel的本地化功能提供了一种便利的获取多种语言字串的方�
         //
     });
 
-你也可以配置一个 "备用语言", 它会在当前语言不含有给定的语句时被使用。 和默认语言一样，备用语言也在 `config/app.php` 中设置:
+您也可以设置 "备用语系"，它将会在当现行语言没有给定的语句时被使用。就像默认语言，备用语言也可以在 `config/app.php` 配置文件设置：
 
     'fallback_locale' => 'en',
 
 <a name="basic-usage"></a>
 ## 基本用法
 
-你可以通过 `trans` 方法从语言文件中获取各行字串。`trans` 方法接受文件名和键值作为第一个参数。比如获取  `resources/lang/messages.php` 文件中键值为 `welcome` 的字串：
+您可以使用 `trans` 辅助函数来取得语系字符串，`trans` 函数的第一个参数接受文件名和键值名称，例如，从 `resources/lang/messages.php` 语言档取得名称为 `welcome` 的句子：
 
     echo trans('messages.welcome');
 
-如果你在使用 [Blade templating engine](/docs/{{version}}/blade) 模版引擎，你可以使用 `{{ }}` 语法输出行字串：
+当然，若您使用 [Blade 样版引擎](/docs/{{version}}/blade), 您可以使用 `{{ }}` 来输出句子：
 
     {{ trans('messages.welcome') }}
 
-如果该指定的行字串不存在，`trans` 函数只简单返回该行字串的键值。所以在上面的例子中，`trans` 将返回 `messages.welcome`如果不存在该行字串。
+如果句子不存在， `trans` 方法将会返回键值的名称，如上例子会返回 `messages.welcome` 。
 
-#### 在语言文件中替换参数
+#### 在句子中做替代
 
-你还可以给语言文件中的各行定义占位符。所有的占位符都以 `:` 为前缀。比如你可以定义一个带有占位符 name 的欢迎信息：
+如果需要，你也可以在语系档中定义占位符，占位符使用 `:` 开头，例如，您可以定义一则欢迎消息的占位符：
 
     'welcome' => 'Welcome, :name',
 
-要替换占位符，只需要将一个数组作为第二个参数传入 `trans` 函数：
+接着，传入替代用的第二个参数给 `trans` 方法：
 
     echo trans('messages.welcome', ['name' => 'Dayle']);
 
 <a name="pluralization"></a>
-### 复数形式
+### 复数
 
-复数是个复杂的问题，不同语言对复数有各自不同的规则。通过使用 “|” 标记，你可以区分一个字符串的单数和复数形式：
+复数是个复杂的问题，不同语言对于复数有不同的规则，使用 "管线" 字符，可以区分单复数字串格式：
 
     'apples' => 'There is one apple|There are many apples',
 
-接下来你可以使用 `trans_choice` 方法来根据给定的”个数“取得字串。在下面的例子中，因为个数大于1，所以返回该行的复数形式的字串：
+接着，可以使用 `trans_choice` 方法来设置总数，例如，当总数大于一将会取得复数句子：
 
     echo trans_choice('messages.apples', 10);
 
-因为 Laravel 的翻译器由 Symfony 翻译组件提供，你可以创建更加复杂的复数规则：
+由于 Laravel 的翻译器是来自于 Symfony 翻译扩展包，您甚至可以使用更复杂的复数规则：
 
     'apples' => '{0} There are none|[1,19] There are some|[20,Inf] There are many',
 
 <a name="overriding-vendor-language-files"></a>
-## 覆写扩展包的语言文件
+## 覆写扩展包的语言档
 
-有些扩展包自带语言文件。你可以将语言文件放置在 `resources/lang/vendor/{package}/{locale}` 目录来覆写它们，而不是去修改扩展包的核心文件。
+部分扩展包带有自己的语系档，您可以借由放置文件在 `resources/lang/vendor/{package}/{locale}` 来复写它们，而不是直接修改扩展包的核心文件。
 
-所以，如果你需要覆写 `skyrim/hearthfire` 扩展包的 `messages.php` 中的英文语句，你可以将一个语言文件放置在 `resources/lang/vendor/hearthfire/en/messages.php`。在该文件中只定义需要覆写的语句，没有被覆写的语句将依然从扩展包的语言文件中加载。
+例如，您需要复写 `skyrim/hearthfire` 扩展包的英文语系档 `messages.php`，您需要把文件放置在 `resources/lang/vendor/hearthfire/en/messages.php`。这个文件内，只要去定义需要覆写的语句，任何没有覆写的语句将会仍从扩展包的语言档加载。

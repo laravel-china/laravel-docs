@@ -1,3 +1,3 @@
-# Contribution Guidelines
+# 贡献导引
 
-If you are submitting documentation for the **current stable release**, submit it to the corresponding branch. For example, documentation for Laravel 5.0 would be submitted to the `5.0` branch. Documentation intended for the next release of Laravel should be submitted to the `master` branch.
+如果您正要提交的文档是**当前稳定版本**，请提交至对应的分支，例如，Laravel 5.1 的文档需要提交至 `5.1` 分支，若是要提交下一个 Laravel 版本，请提交至 `master` 分支。

@@ -1,22 +1,22 @@
 # Facades
 
-- [Introduction](#introduction)
-- [Using Facades](#using-facades)
-- [Facade Class Reference](#facade-class-reference)
+- [简介](#introduction)
+- [使用 Facades](#using-facades)
+- [Facade 类参考](#facade-class-reference)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Facades provide a "static" interface to classes that are available in the application's [service container](/docs/{{version}}/container). Laravel ships with many facades, and you have probably been using them without even knowing it! Laravel "facades" serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
+Facades 为应用程序的[服务容器](/docs/{{version}}/container)中可用的类提供一个「静态」接口。Laravel 附带许多 facades，甚至你可能在不知情的状况下已经使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，提供了一个简洁、易表达的语法优点，同时维持比传统的静态方法更高的可测试性和弹性。
 
 <a name="using-facades"></a>
-## Using Facades
+## 使用 Facades
 
-In the context of a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the `Facade` class. Laravel's facades, and any custom facades you create, will extend the base `Illuminate\Support\Facades\Facade` class.
+在 Laravel 应用程序环境（Context）中，facade 是个提供从容器访问对象的类。`Facade` 类是让这个机制可以运作的原因。Laravel 的 facades，以及任何你创建的自定义 facades，会继承基底 `Illuminate\Support\Facades\Facade` 类。
 
-A facade class only needs to implement a single method: `getFacadeAccessor`. It's the `getFacadeAccessor` method's job to define what to resolve from the container. The `Facade` base class makes use of the `__callStatic()` magic-method to defer calls from your facade to the resolved object.
+facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAccessor` 方法的工作定义是从容器中解析出什么。`Facade` 基类利用 `__callStatic()` 魔术方法从你的 facade 延迟调用来解析对象。
 
-In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method `get` is being called on the `Cache` class:
+在下面的例子，调用了 Laravel 的缓存系统。看了一下这个代码，或许有人认为静态方法 `get` 是被 `Cache` 类调用的：
 
     <?php
 
@@ -28,7 +28,7 @@ In the example below, a call is made to the Laravel cache system. By glancing at
     class UserController extends Controller
     {
         /**
-         * Show the profile for the given user.
+         * 显示给定用户的个人数据。
          *
          * @param  int  $id
          * @return Response
@@ -41,31 +41,31 @@ In the example below, a call is made to the Laravel cache system. By glancing at
         }
     }
 
-Notice that near the top of the file we are "importing" the `Cache` facade. This facade serves as a proxy to accessing the underlying implementation of the `Illuminate\Contracts\Cache\Factory` interface. Any calls we make using the facade will be passed to the underlying instance of Laravel's cache service.
+注意在文件的上方，我们「导入」`Cache` facade。这个 facade 做为访问底层实现 `Illuminate\Contracts\Cache\Factory` 接口的代理。我们使用 facade 的任何调用将会发送给 Laravel 缓存服务的底层实例。
 
-If we look at that `Illuminate\Support\Facades\Cache` class, you'll see that there is no static method `get`:
+如果我们查看 `Illuminate\Support\Facades\Cache` 类，你会发现没有静态方法 `get`：
 
     class Cache extends Facade
     {
         /**
-         * Get the registered name of the component.
+         * 取得组件的注册名称。
          *
          * @return string
          */
         protected static function getFacadeAccessor() { return 'cache'; }
     }
 
-Instead, the `Cache` facade extends the base `Facade` class and defines the method `getFacadeAccessor()`. Remember, this method's job is to return the name of a service container binding. When a user references any static method on the `Cache` facade, Laravel resolves the `cache` binding from the [service container](/docs/{{version}}/container) and runs the requested method (in this case, `get`) against that object.
+相反的，`Cache` facade 继承了基底 `Facade` 类以及定义了 `getFacadeAccessor()` 方法。记住，这个方法的工作是返回服务容器绑定的名称。当用户在 `Cache` facade 上参考任何的静态方法，Laravel 会从[服务容器](/docs/{{version}}/container)解析被绑定的 `cache` 以及针对对象运行请求的方法（在这个例子中是 `get`）。
 
 <a name="facade-class-reference"></a>
-## Facade Class Reference
+## Facade 类参考
 
-Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The [service container binding](/docs/{{version}}/container) key is also included where applicable.
+在下方你可以找到每个 facade 及其底层的类。这个工具对于透过给定 facade 的来源快速寻找 API 文档相当有用。可应用的[服务容器绑定](/docs/{{version}}/container)关键字也包含在里面。
 
 Facade  |  Class  |  Service Container Binding
 ------------- | ------------- | -------------
 App  |  [Illuminate\Foundation\Application](http://laravel.com/api/{{version}}/Illuminate/Foundation/Application.html)  | `app`
-Artisan  |  [Illuminate\Console\Application](http://laravel.com/api/{{version}}/Illuminate/Console/Application.html)  |  `artisan`
+Artisan  |  [Illuminate\Contracts\Console\Kernel](http://laravel.com/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`
 Auth  |  [Illuminate\Auth\AuthManager](http://laravel.com/api/{{version}}/Illuminate/Auth/AuthManager.html)  |  `auth`
 Auth (Instance)  |  [Illuminate\Auth\Guard](http://laravel.com/api/{{version}}/Illuminate/Auth/Guard.html)  |
 Blade  |  [Illuminate\View\Compilers\BladeCompiler](http://laravel.com/api/{{version}}/Illuminate/View/Compilers/BladeCompiler.html)  |  `blade.compiler`
@@ -78,6 +78,7 @@ DB  |  [Illuminate\Database\DatabaseManager](http://laravel.com/api/{{version}}/
 DB (Instance)  |  [Illuminate\Database\Connection](http://laravel.com/api/{{version}}/Illuminate/Database/Connection.html)  |
 Event  |  [Illuminate\Events\Dispatcher](http://laravel.com/api/{{version}}/Illuminate/Events/Dispatcher.html)  |  `events`
 File  |  [Illuminate\Filesystem\Filesystem](http://laravel.com/api/{{version}}/Illuminate/Filesystem/Filesystem.html)  |  `files`
+Gate  |  [Illuminate\Contracts\Auth\Access\Gate](http://laravel.com/api/5.1/Illuminate/Contracts/Auth/Access/Gate.html)  |
 Hash  |  [Illuminate\Contracts\Hashing\Hasher](http://laravel.com/api/{{version}}/Illuminate/Contracts/Hashing/Hasher.html)  |  `hash`
 Input  |  [Illuminate\Http\Request](http://laravel.com/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
 Lang  |  [Illuminate\Translation\Translator](http://laravel.com/api/{{version}}/Illuminate/Translation/Translator.html)  |  `translator`

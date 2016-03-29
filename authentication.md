@@ -1,64 +1,67 @@
-# Authentication
+# 用户认证
 
-- [Introduction](#introduction)
-- [Authentication Quickstart](#authentication-quickstart)
-    - [Routing](#included-routing)
-    - [Views](#included-views)
-    - [Authenticating](#included-authenticating)
-    - [Retrieving The Authenticated User](#retrieving-the-authenticated-user)
-    - [Protecting Routes](#protecting-routes)
-    - [Authentication Throttling](#authentication-throttling)
-- [Manually Authenticating Users](#authenticating-users)
-    - [Remembering Users](#remembering-users)
-    - [Other Authentication Methods](#other-authentication-methods)
-- [HTTP Basic Authentication](#http-basic-authentication)
-     - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
-- [Resetting Passwords](#resetting-passwords)
-    - [Database Considerations](#resetting-database)
-    - [Routing](#resetting-routing)
-    - [Views](#resetting-views)
-    - [After Resetting Passwords](#after-resetting-passwords)
-- [Social Authentication](#social-authentication)
-- [Adding Custom Authentication Drivers](#adding-custom-authentication-drivers)
+- [介绍](#introduction)
+    - [数据库注意事项](#introduction-database-considerations)
+- [认证快速入门](#authentication-quickstart)
+    - [路由](#included-routing)
+    - [视图](#included-views)
+    - [认证](#included-authenticating)
+    - [取得已认证之用户](#retrieving-the-authenticated-user)
+    - [限制路由访问](#protecting-routes)
+    - [错误尝试限制](#authentication-throttling)
+- [手动认证用户](#authenticating-users)
+    - [记住用户](#remembering-users)
+    - [其他认证方法](#other-authentication-methods)
+- [HTTP 基础认证](#http-basic-authentication)
+     - [无状态 HTTP 基础认证](#stateless-http-basic-authentication)
+- [重设密码](#resetting-passwords)
+    - [重设数据库](#resetting-database)
+    - [路由](#resetting-routing)
+    - [视图](#resetting-views)
+    - [重设密码后](#after-resetting-passwords)
+- [社会化认证](#social-authentication)
+- [添加自定义认证驱动](#adding-custom-authentication-drivers)
+- [事件](#events)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
+Laravel 让用户认证变得非常简单。几乎所有的认证行为都可以通过配置信息 `config/auth.php` 来控制。
 
-### Database Considerations
+<a name="introduction-database-considerations"></a>
+### 数据库注意事项
 
-By default, Laravel includes an `App\User` [Eloquent model](/docs/{{version}}/eloquent) in your `app` directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the `database` authentication driver which uses the Laravel query builder.
+默认的 Laravel 在你的 `app` 文件夹中含有 `App\User` [Eloquent 模型](/docs/{{version}}/eloquent)。这个模型使用默认的 Eloquent 认证来驱动。如果你的应用程序没有使用 Eloquent，你可以使用 Laravel 查找生成器的 `database` 认证驱动。
 
-When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length.
+为 `App\User` 模型创建数据库结构时，确认密码字段最少有 60 字符长。
 
-Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for "remember me" sessions being maintained by your application. This can be done by using `$table->rememberToken();` in a migration.
+同时，你需要确认你的 `users` (或是相同意义的) 数据表含有 nullable 、100 字符长的 `remember_token` 字段，这个字段将会被用来保存「记住我」 session 的标记。只要在创建迁移时，使用 `$table->rememberToken()`，即可轻松加入这个字段。
 
 <a name="authentication-quickstart"></a>
-## Authentication Quickstart
+## 认证快速入门
 
-Laravel ships with two authentication controllers out of the box, which are located in the `App\Http\Controllers\Auth` namespace. The `AuthController` handles new user registration and authentication, while the `PasswordController` contains the logic to help existing users reset their forgotten passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
+Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间，`AuthController` 处理用户注册及认证，而 `PasswordController` 负责处理重置用户的密码。这些控制器使用了 trait 来包含所需要的方法，对于大多数的应用程序而言，你并不需要修改这些控制器。
 
 <a name="included-routing"></a>
-### Routing
+### 路由
 
-By default, no [routes](/docs/{{version}}/routing) are included to point requests to the authentication controllers. You may manually add them to your `app/Http/routes.php` file:
+默认的，没有[路由](/docs/{{version}}/routing)指向这些认证控制器，你需要自己添加到 `app/Http/routes.php` 中。
 
-    // Authentication routes...
+    // 认证路由...
     Route::get('auth/login', 'Auth\AuthController@getLogin');
     Route::post('auth/login', 'Auth\AuthController@postLogin');
     Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-    // Registration routes...
+    // 注册路由...
     Route::get('auth/register', 'Auth\AuthController@getRegister');
     Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 <a name="included-views"></a>
-### Views
+### 视图
 
-Though the authentication controllers are included with the framework, you will need to provide [views](/docs/{{version}}/views) that these controllers can render. The views should be placed in the `resources/views/auth` directory. You are free to customize these views however you wish. The login view should be placed at `resources/views/auth/login.blade.php`, and the registration view should be placed at `resources/views/auth/register.blade.php`.
+虽然这些认证控制器被包含在框架中，你仍需提供[视图](/docs/{{version}}/views)给控制器来渲染，而视图需要被放置在 `resources/views/auth` 文件夹中，你可以任意的自定义此视图。登录视图应该被放在 `resources/views/auth/login.blade.php` 而注册视图则放在 `resources/views/auth/register.blade.php`。
 
-#### Sample Authentication Form
+#### 认证表单例子
 
     <!-- resources/views/auth/login.blade.php -->
 
@@ -84,7 +87,7 @@ Though the authentication controllers are included with the framework, you will 
         </div>
     </form>
 
-#### Sample Registration Form
+#### 注册表单例子
 
     <!-- resources/views/auth/register.blade.php -->
 
@@ -117,34 +120,36 @@ Though the authentication controllers are included with the framework, you will 
     </form>
 
 <a name="included-authenticating"></a>
-### Authenticating
+### 认证
 
-Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application. You may simply access your defined routes in a browser. The authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
+现在你已经为认证控制器设置好了路由及视图，你可以准备在你的应用程序注册新用户并认证他。你只要简单地在浏览器访问你定义的路由，认证控制器早已包含了处理认证现有用户，及保存新用户在数据库的逻辑了（透过他们各自的 traits）。
 
-When a user is successfully authenticated, they will be redirected to the `/home` URI, which you will need to register a route to handle. You can customize the post-authentication redirect location by defining a `redirectPath` property on the `AuthController`:
+当用户成功的认证后，他们将被导向 `/home` URI，而你需要向路由注册这个 URI 来处理这个请求，你可以自定义认证后，转向的 URI，只需要修改 `AuthController` 的 `redirectPath` 属性：
 
     protected $redirectPath = '/dashboard';
 
-When a user is not successfully authenticated, they will be redirected to the `/auth/login` URI. You can customize the failed post-authentication redirect location by defining a `loginPath` property on the `AuthController`:
+当用户认证失败，将会被重定向到 `/auth/login` URI。你可以设置 `AuthController` 的 `loginPath` 属性来自定义认证失败后的重定向位置：
 
     protected $loginPath = '/login';
 
-#### Customizations
+`loginPath` 并不会改变当用户访问受保护的路由时所重定向的路径。该路径是由 `App\Http\Middleware\Authenticate` 中间件的 `handle` 方法所控制。
 
-To modify the form fields that are required when a new user registers with your application, or to customize how new user records are inserted into your database, you may modify the `AuthController` class. This class is responsible for validating and creating new users of your application.
+#### 自定义表单字段
 
-The `validator` method of the `AuthController` contains the validation rules for new users of the application. You are free to modify this method as you wish.
+如果想要修改注册时的表单字段，或是自定义如何将新用户的记录写入数据库，你可以修改 `AuthController` 类，这个类负责验证和创造新的用户。
 
-The `create` method of the `AuthController` is responsible for creating new `App\User` records in your database using the [Eloquent ORM](/docs/{{version}}/eloquent). You are free to modify this method according to the needs of your database.
+`AuthController` 的 `validator` 方法包含了对于新用户的验证规则。你可以随意的修改这个方法。
+
+`AuthController` 的 `create` 方法负责使用 [Eloquent ORM](/docs/{{version}}/eloquent) 创造新的 `App\User` 纪录到你的数据库。你可以根据需求任意修改这个方法。
 
 <a name="retrieving-the-authenticated-user"></a>
-### Retrieving The Authenticated User
+### 取得已认证的用户信息
 
-You may access the authenticated user via the `Auth` facade:
+你可以透过 `Auth` facade 来访问认证的用户。
 
     $user = Auth::user();
 
-Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance:
+也有另外一种方法可以访问认证过的用户，就是透过 `Illuminate\Http\Request` 实例：
 
     <?php
 
@@ -156,7 +161,7 @@ Alternatively, once a user is authenticated, you may access the authenticated us
     class ProfileController extends Controller
     {
         /**
-         * Update the user's profile.
+         * 更新用户的数据
          *
          * @param  Request  $request
          * @return Response
@@ -164,50 +169,49 @@ Alternatively, once a user is authenticated, you may access the authenticated us
         public function updateProfile(Request $request)
         {
             if ($request->user()) {
-                // $request->user() returns an instance of the authenticated user...
+                // $request->user() 返回认证过的用户的实例...
             }
         }
     }
 
-#### Determining If The Current User Is Authenticated
+#### 检查用户是否登录
 
-To determine if the user is already logged into your application, you may use the `check` method on the `Auth` facade, which will return `true` if the user is authenticated:
+为了检查用户是否已经登录，你可以使用 `Auth` facade 的 `check` 方法，如果认证过，将会返回 `true`：
 
     if (Auth::check()) {
-        // The user is logged in...
+        // 这个用户已经登录...
     }
 
-However, you may use middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on [protecting routes](/docs/{{version}}/authentication#protecting-routes).
+不过，在允许该用户访问特定的路由或控制器之前，你可以使用中间件来确认这个用户是否认证过。想得到更多信息，请阅读[限制路由访问](/docs/{{version}}/authentication#protecting-routes)的文档。
 
 <a name="protecting-routes"></a>
-### Protecting Routes
+### 限制路由访问
 
-[Route middleware](/docs/{{version}}/middleware) can be used to allow only authenticated users to access a given route. Laravel ships with the `auth` middleware, which is defined in `app\Http\Middleware\Authenticate.php`. All you need to do is attach the middleware to a route definition:
+[路由中间件](/docs/{{version}}/middleware)用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中，你只需要将它应用到路由定义中：
 
-    // Using A Route Closure...
-
+    // 使用路由闭包...
     Route::get('profile', ['middleware' => 'auth', function() {
-        // Only authenticated users may enter...
+        // 只有认证过的用户能进来这里...
     }]);
 
-    // Using A Controller...
-
+    // 使用控制器...
     Route::get('profile', [
         'middleware' => 'auth',
         'uses' => 'ProfileController@show'
     ]);
 
-Of course, if you are using [controller classes](/docs/{{version}}/controllers), you may call the `middleware` method from the controller's constructor instead of attaching it in the route definition directly:
+当然，如果你正在使用[控制器类](/docs/{{version}}/controllers)，你可以在构造器中调用 `middleware` 方法，而不是在路由中直接定义它：
 
     public function __construct()
     {
+        // 执行 auth 认证
         $this->middleware('auth');
     }
 
 <a name="authentication-throttling"></a>
-### Authentication Throttling
+### 错误尝试限制
 
-If you are using Laravel's built-in `AuthController` class, the `Illuminate\Foundation\Auth\ThrottlesLogins` trait may be used to throttle login attempts to your application. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address:
+如果你使用 Laravel's 内置的 `AuthController` 类，可以透过 `Illuminate\Foundation\Auth\ThrottlesLogins` trait 在你的应用程序限制登录次数。默认情况下，如果用户在几次尝试后仍不能提供正确的凭证，将在一分钟内无法进行登录。这个限制会特别针对用户的用户名称 / 邮件地址和他们的 IP 地址：
 
     <?php
 
@@ -227,11 +231,11 @@ If you are using Laravel's built-in `AuthController` class, the `Illuminate\Foun
     }
 
 <a name="authenticating-users"></a>
-## Manually Authenticating Users
+## 手动认证用户
 
-Of course, you are not required to use the authentication controllers included with Laravel. If you choose to remove these controllers, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
+当然，你不一定要使用 Laravel 内置的认证控制器，你可以选择删除这些控制器，然后创建自定义的控制器。
 
-We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method:
+我们将透过 `Auth` [facade](/docs/{{version}}/facades) 访问 Laravel 的认证服务，所以我们需要确认是否在类的最上面引入 `Auth` facade，接下来让我们看一下 `attempt` 方法：
 
     <?php
 
@@ -243,97 +247,98 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
     class AuthController extends Controller
     {
         /**
-         * Handle an authentication attempt.
+         * 处理认证
          *
          * @return Response
          */
         public function authenticate()
         {
+            // 尝试登录
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
-                // Authentication passed...
+                // 认证通过...
                 return redirect()->intended('dashboard');
             }
         }
     }
 
-The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the hashed `password` value passed to the method via the array. If the two hashed passwords match an authenticated session will be started for the user.
+`attempt` 方法的第一个参数接受数组，在这个数组的值用来找寻数据库里的用户数据，所以在上面的例子中，用户会借由 `email` 字段抽取，如果用户被找到了，数据库里经过哈希的密码将会与数组中哈希的 `password` 值做比对，如果两个一样的话就会开启一个通过认证的 session 给用户。
 
-The `attempt` method will return `true` if authentication was successful. Otherwise, `false` will be returned.
+如果认证成功，`attempt` 方法将会返回 `true`，反之则为 `false`。
 
-The `intended` method on the redirector will redirect the user to the URL they were attempting to access before being caught by the authentication filter. A fallback URI may be given to this method in case the intended destination is not available.
+重定向器上的 `intended` 方法将会重定向用户回原本想要进入的页面，也可以传入一个回退 URI 至这个方法，以避免要转回的页面不可使用。
 
-If you wish, you also may add extra conditions to the authentication query in addition to the user's e-mail and password. For example, we may verify that user is marked as "active":
+如果你希望，你也可以加入除了用户的电子信箱及密码的额外条件至认证查找。例如，我们要确认用户是否被标记为 `active`：
 
     if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
-        // The user is active, not suspended, and exists.
+        //这个用户是启动的，没有被停权，而且存在
     }
 
-To log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
+为了让用户注销，你可以使用 `Auth` facade 的 `logout` 方法。这个方法会清除所有认证后加入到用户 session 的数据：
 
     Auth::logout();
 
-> **Note:** In these examples, `email` is not a required option, it is merely used as an example. You should use whatever column name corresponds to a "username" in your database.
+> **注意：**在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，如【手机号码】，只要它在数据库的意思等同于「用户名」。
 
 <a name="remembering-users"></a>
-## Remembering Users
+## 记住用户
 
-If you would like to provide "remember me" functionality in your application, you may pass a boolean value as the second argument to the `attempt` method, which will keep the user authenticated indefinitely, or until they manually logout. Of course, your `users` table must include the string `remember_token` column, which will be used to store the "remember me" token.
+如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，这会永久保持用户的 session 直到注销。你的 `users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」的标记。
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
-        // The user is being remembered...
+        // 这个用户被记住了...
     }
 
-If you are "remembering" users, you may use the `viaRemember` method to determine if the user was authenticated using the "remember me" cookie:
+如果你是被记住的用户，你可以使用 `viaRemember` 方法来检查这个用户是否使用「记住我」 cookie 来做认证的：
 
     if (Auth::viaRemember()) {
         //
     }
 
 <a name="other-authentication-methods"></a>
-### Other Authentication Methods
+### 其他认证方法
 
-#### Authenticate A User Instance
+#### 用用户实例做认证
 
-If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). Of course, the `App\User` model included with Laravel already implements this interface:
+如果你需要使用存在的用户实例来登录，你需要调用 `login` 方法，并传入使用实例，这个对象必须是由 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts) 所实现。当然，`App/User` 模型已经实现了这个接口：
 
     Auth::login($user);
 
-#### Authenticate A User By ID
+#### 用用户 ID 做认证
 
-To log a user into the application by their ID, you may use the `loginUsingId` method. This method simply accepts the primary key of the user you wish to authenticate:
+如果你需要使用用户的 ID 来登录，你需要使用 `loginUsingId` 方法，这个方法接受要登录的用户的主键：
 
     Auth::loginUsingId(1);
 
-#### Authenticate A User Once
+#### 只在这次认证用户
 
-You may use the `once` method to log a user into the application for a single request. No sessions or cookies will be utilized, which may be helpful when building a stateless API. The `once` method has the same signature as the `attempt` method:
+你可以使用 `once` 方法来只针对一次的请求来认证用户，没有任何的 session 或 cookie 会被使用，这个对于建议无状态的 API 非常的有用，`once` 方法跟 `attempt` 方法拥有同样的传入参数：
 
     if (Auth::once($credentials)) {
         //
     }
 
 <a name="http-basic-authentication"></a>
-## HTTP Basic Authentication
+## HTTP 基础认证
 
-[HTTP Basic Authentication](http://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
+[HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication)提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware)到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
 
     Route::get('profile', ['middleware' => 'auth.basic', function() {
-        // Only authenticated users may enter...
+        // 只有认证过的用户可进入...
     }]);
 
-Once the middleware has been attached to the route, you will automatically be prompted for credentials when accessing the route in your browser. By default, the `auth.basic` middleware will use the `email` column on the user record as the "username".
+一旦中间件被增加到路由上，当使用浏览器进入这个路由时，你将自动的被提示需要提供凭证。默认情况下，`auth.basic` 中间件将会使用用户的 `email` 字段当作「用户名」。
 
-#### A Note On FastCGI
+#### FastCGI 的注意事项
 
-If you are using PHP FastCGI, HTTP Basic authentication may not work correctly out of the box. The following lines should be added to your `.htaccess` file:
+如果是正在使用 FastCGI，HTTP 基础认证可能无法正常运作，你需要将下面这几行加入你 `.htaccess` 文件中：
 
     RewriteCond %{HTTP:Authorization} ^(.+)$
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 <a name="stateless-http-basic-authentication"></a>
-### Stateless HTTP Basic Authentication
+### 无状态 HTTP 基础认证
 
-You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, [define a middleware](/docs/{{version}}/middleware) that calls the `onceBasic` method. If no response is returned by the `onceBasic` method, the request may be passed further into the application:
+你可以使用 HTTP 基础认证而不用在 session 中设置用户认证用的 cookie，这个功能对 API 认证来说非常有用。为了达到这个目的，[定义一个中间件](/docs/{{version}}/middleware)并这个中间件会调用 `onceBasic` 方法。如果没有任何回应从 `onceBasic` 方法返回的话，这个请求会直接传进应用程序中：
 
     <?php
 
@@ -345,7 +350,7 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
     class AuthenticateOnceWithBasicAuth
     {
         /**
-         * Handle an incoming request.
+         * 处理请求
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -358,54 +363,62 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
     }
 
-Next, [register the route middleware](/docs/{{version}}/middleware#registering-middleware) and attach it to a route:
+接着，[注册这个路由中间件](/docs/{{version}}/middleware#registering-middleware)，然后将它增加在一个路由上：
 
     Route::get('api/user', ['middleware' => 'auth.basic.once', function() {
-        // Only authenticated users may enter...
+        // 只有认证过的用户可以进入...
     }]);
 
 <a name="resetting-passwords"></a>
-## Resetting Passwords
+## 重设密码
 
 <a name="resetting-database"></a>
-### Database Considerations
+### 重设数据库
 
-Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.
+很多 Web 应用程序都会提供用户重设密码功能，Laravel 提供便利的方法来发送密码提示和实现密码重设，而避免让你重造车轮。
 
-To get started, verify that your `App\User` model implements the `Illuminate\Contracts\Auth\CanResetPassword` contract. Of course, the `App\User` model included with the framework already implements this interface, and uses the `Illuminate\Auth\Passwords\CanResetPassword` trait to include the methods needed to implement the interface.
+开始之前，请先确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
 
-#### Generating The Reset Token Table Migration
+#### 产生重置标记的数据表迁移文件
 
-Next, a table must be created to store the password reset tokens. The migration for this table is included with Laravel out of the box, and resides in the `database/migrations` directory. So, all you need to do is migrate:
+接下来，必须要创建一个数据表来保存密码的重置标记，而这个数据表的迁移已经包含在 Laravel 中了，就被放在 `database/migrations` 文件夹里。所以，你要做的就是做一次迁移：
 
     php artisan migrate
 
 <a name="resetting-routing"></a>
-### Routing
+### 路由
 
-Laravel includes an `Auth\PasswordController` that contains the logic necessary to reset user passwords. However, you will need to define routes to point requests to this controller:
+Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户密码的逻辑，但是你仍需要指定路由到这个控制器上：
 
-    // Password reset link request routes...
+    // 密码重置链接的路由...
     Route::get('password/email', 'Auth\PasswordController@getEmail');
     Route::post('password/email', 'Auth\PasswordController@postEmail');
 
-    // Password reset routes...
+    // 密码重置的路由...
     Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
     Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 <a name="resetting-views"></a>
-### Views
+### 视图
 
-In addition to defining the routes for the `PasswordController`, you will need to provide views that can be returned by this controller. Don't worry, we will provide sample views to help you get started. Of course, you are free to style your forms however you wish.
+除了定义 `PasswordController` 的路由，你也需要提供视图给这个控制器。不过不用担心，我们已经提供了例子视图来帮助你开始，当然你可以随意的定义你的表单风格。
 
-#### Sample Password Reset Link Request Form
+#### 重置密码链接的请求表单例子
 
-You will need to provide an HTML view for the password reset request form. This view should be placed at `resources/views/auth/password.blade.php`. This form provides a single field for the user's e-mail address, allowing them to request a password reset link:
+你将会需要提供 HTML 视图给密码重置的请求表单。这些视图被放在 `resources/views/auth/password.blade.php`。这个表单提供了单一的字段来给用户输入电子邮件，让他们可以收到密码重置链接：
 
     <!-- resources/views/auth/password.blade.php -->
 
     <form method="POST" action="/password/email">
         {!! csrf_field() !!}
+
+        @if (count($errors) > 0)
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
 
         <div>
             Email
@@ -414,22 +427,22 @@ You will need to provide an HTML view for the password reset request form. This 
 
         <div>
             <button type="submit">
-                Send Password Reset Link
+                发送重置密码邮件
             </button>
         </div>
     </form>
 
-When a user submits a request to reset their password, they will receive an e-mail with a link that points to the `getReset` method (typically routed at `/password/reset`) of the `PasswordController`. You will need to create a view for this e-mail at `resources/views/emails/password.blade.php`. The view will receive the `$token` variable which contains the password reset token to match the user to the password reset request. Here is an example e-mail view to get you started:
+当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的电子邮件。你将需要为电子邮件创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置标记的 `$token` 变量，这个变量含有了密码重置标记来匹配用户的密码重置请求，以下是例子来让你开始：
 
-    <!-- resources/views/emails/password.blade.php -->
+    <!-- 文件 resources/views/emails/password.blade.php -->
 
-    Click here to reset your password: {{ url('password/reset/'.$token) }}
+    点击此处重置你的密码：{{ url('password/reset/'.$token) }}
 
-#### Sample Password Reset Form
+#### 密码重置表单的例子
 
-When the user clicks the e-mailed link to reset their password, they will be presented with a password reset form. This view should be placed at `resources/views/auth/reset.blade.php`.
+当用户点击了电子邮件的链接来重置密码，将会显示一个密码重置表单，这个视图被放在 `resources/views/auth/reset.blade.php`。
 
-Here is a sample password reset form to get you started:
+这里有个密码重置表单的例子：
 
     <!-- resources/views/auth/reset.blade.php -->
 
@@ -437,60 +450,71 @@ Here is a sample password reset form to get you started:
         {!! csrf_field() !!}
         <input type="hidden" name="token" value="{{ $token }}">
 
+        @if (count($errors) > 0)
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
         <div>
+            电子邮箱
             <input type="email" name="email" value="{{ old('email') }}">
         </div>
 
         <div>
+            密码
             <input type="password" name="password">
         </div>
 
         <div>
+            重新输入密码
             <input type="password" name="password_confirmation">
         </div>
 
         <div>
             <button type="submit">
-                Reset Password
+                重置密码
             </button>
         </div>
     </form>
 
 <a name="after-resetting-passwords"></a>
-### After Resetting Passwords
+### 重设密码后
 
-Once you have defined the routes and views to reset your user's passwords, you may simply access the routes in your browser. The `PasswordController` included with the framework already includes the logic to send the password reset link e-mails as well as update passwords in the database.
+你只需要定制路由跟视图，还有浏览器访问这个路由，Laravel 中的 `PasswordController` 已经包含了发送密码重置链接的电子邮件，及更新密码到数据库的逻辑。
 
-After the password is reset, the user will automatically be logged into the application and redirected to `/home`. You can customize the post password reset redirect location by defining a `redirectTo` property on the `PasswordController`:
+密码重置以后，这个用户会自动登录，并导向 `/home`。你可以自己自定义导向的目标，只要定义 `PasswordController` 的 `redirectTo` 属性：
 
     protected $redirectTo = '/dashboard';
 
-> **Note:** By default, password reset tokens expire after one hour. You may change this via the `reminder.expire` option in your `config/auth.php` file.
+> **注意：**默认情况下，密码重置标记会在一个小时后过期，你可以更改 `config/auth.php` 的 `reminder.expire` 选项，来修改这个设置。
 
 <a name="social-authentication"></a>
-## Social Authentication
+## 社会化认证
 
-In addition to typical, form based authentication, Laravel also provides a simple, convenient way to authenticate with OAuth providers using [Laravel Socialite](https://github.com/laravel/socialite). Socialite currently supports authentication with Facebook, Twitter, LinkedIn, Google, GitHub and Bitbucket.
+除了传统的表单认证，Laravel 同样提供了简单方便的方法来认证 OAuth 提供者，这个方法使用了 [Laravel Socialite](https://github.com/laravel/socialite)。Socialite 目前支持 Facebook、Twitter、LinkedIn、Google、GitHub 跟 Bitbucket。
 
-To get started with Socialite, add to your `composer.json` file as a dependency:
+开始使用 Socialite 前，添加依赖包至你的 `composer.json`：
 
     composer require laravel/socialite
 
-### Configuration
+### 设置
 
-After installing the Socialite library, register the `Laravel\Socialite\SocialiteServiceProvider` in your `config/app.php` configuration file:
+安装 Socialite 之后，到 `config/app.php` 配置文件中注册 `Laravel\Socialite\SocialiteServiceProvider`：
 
     'providers' => [
-        // Other service providers...
+        // 其他服务提供者...
 
         Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
-Also, add the `Socialite` facade to the `aliases` array in your `app` configuration file:
+同样的，添加 `Socialite` facade 到 `app` 配置文件的 `aliases` 数组中：
 
     'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
-You will also need to add credentials for the OAuth services your application utilizes. These credentials should be placed in your `config/services.php` configuration file, and should use the key `facebook`, `twitter`, `linkedin`, `google`, `github` or `bitbucket`, depending on the providers your application requires. For example:
+你将需要添加凭证来使用 OAuth 服务，这些凭证需要被放在 `config/services.php` 配置文件，并根据你应用程序的需求，增加 `facebook`、`twitter`、`linkedin`、`google`、`github` 或 `bitbucket` 的键，例如：
 
     'github' => [
         'client_id' => 'your-github-app-id',
@@ -498,20 +522,21 @@ You will also need to add credentials for the OAuth services your application ut
         'redirect' => 'http://your-callback-url',
     ],
 
-### Basic Usage
+### 基础应用
 
-Next, you are ready to authenticate users! You will need two routes: one for redirecting the user to the OAuth provider, and another for receiving the callback from the provider after authentication. We will access Socialite using the `Socialite` [facade](/docs/{{version}}/facades):
+接下来，你已经准备好开始认证用户了！你将需要两个路由: 一个用来重定向用户到 OAuth 提供者，另一个在认证后接收提供者的回调。我们将会借由 `Socialite` [facade](/docs/{{version}}/facades) 访问 Socialite：
 
     <?php
 
     namespace App\Http\Controllers;
 
+    use Socialite;
     use Illuminate\Routing\Controller;
 
     class AuthController extends Controller
     {
         /**
-         * Redirect the user to the GitHub authentication page.
+         * 重定向用户到 GitHub 认证页。
          *
          * @return Response
          */
@@ -521,7 +546,7 @@ Next, you are ready to authenticate users! You will need two routes: one for red
         }
 
         /**
-         * Obtain the user information from GitHub.
+         * 从 Github 得到用户信息
          *
          * @return Response
          */
@@ -533,33 +558,35 @@ Next, you are ready to authenticate users! You will need two routes: one for red
         }
     }
 
-The `redirect` method takes care of sending the user to the OAuth provider, while the `user` method will read the incoming request and retrieve the user's information from the provider. Before redirecting the user, you may also set "scopes" on the request using the `scope` method. This method will overwrite all existing scopes:
+`redirect` 方法会负责处理发送用户到 OAuth 提供者，而 `user` 方法会从提供者返回的请求来取得用户信息。在重定向用户之前，你也可以使用 `scopes` 方法来设置请求的 「作用域」。这个方法将覆写所有已经存在的作用域：
 
     return Socialite::driver('github')
                 ->scopes(['scope1', 'scope2'])->redirect();
 
-Of course, you will need to define routes to your controller methods:
+当然，你需要定义路由到你的控制器方法：
 
-    <?php
+    Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
 
-        Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
-        Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
+一些 OAuth 提供者支持在重定向的请求中自定义参数。若要在请求中加入任何自定义参数，只要调用 `with` 方法并带上一个关联数组：
 
+    return Socialite::driver('google')
+                ->with(['hd' => 'example.com'])->redirect();
 
-#### Retrieving User Details
+#### 取得用户细节
 
-Once you have a user instance, you can grab a few more details about the user:
+一旦你有了用户的实例，你可以获取用户更细节的信息:
 
     $user = Socialite::driver('github')->user();
 
-    // OAuth Two Providers
+    // OAuth Two 提供者
     $token = $user->token;
 
-    // OAuth One Providers
+    // OAuth One 提供者
     $token = $user->token;
     $tokenSecret = $user->tokenSecret;
 
-    // All Providers
+    // 所有提供者
     $user->getId();
     $user->getNickname();
     $user->getName();
@@ -567,9 +594,9 @@ Once you have a user instance, you can grab a few more details about the user:
     $user->getAvatar();
 
 <a name="adding-custom-authentication-drivers"></a>
-## Adding Custom Authentication Drivers
+## 添加自定义的认证驱动
 
-If you are not using a traditional relational database to store your users, you will need to extend Laravel with your own authentication driver. We will use the `extend` method on the `Auth` facade to define a custom driver. You should place this call to `extend` within a [service provider](/docs/{{version}}/providers):
+如果你不是使用传统的关系数据库来保存用户，你将需要扩充 Laravel 来添加你自己的认证驱动。我们将使用 `Auth` facade 的 `extend` 方法来定义自定义驱动。你应该将 `extend` 放置在[服务提供者](/docs/{{version}}/providers)中：
 
     <?php
 
@@ -589,7 +616,7 @@ If you are not using a traditional relational database to store your users, you 
         public function boot()
         {
             Auth::extend('riak', function($app) {
-                // Return an instance of Illuminate\Contracts\Auth\UserProvider...
+                // 返回 Illuminate\Contracts\Auth\UserProvider 的实例...
                 return new RiakUserProvider($app['riak.connection']);
             });
         }
@@ -605,13 +632,13 @@ If you are not using a traditional relational database to store your users, you 
         }
     }
 
-After you have registered the driver with the `extend` method, you may switch to the new driver in your `config/auth.php` configuration file.
+在你用 `extend` 方法注册这个驱动后，你可以在 `config/auth.php` 转换到新的驱动。
 
-### The User Provider Contract
+### 用户提供者 Contract
 
-The `Illuminate\Contracts\Auth\UserProvider` implementations are only responsible for fetching a `Illuminate\Contracts\Auth\Authenticatable` implementation out of a persistent storage system, such as MySQL, Riak, etc. These two interfaces allow the Laravel authentication mechanisms to continue functioning regardless of how the user data is stored or what type of class is used to represent it.
+`Illuminate\Contracts\Auth\UserProvider` 的实现只负责取得 `Illuminate\Contracts\Auth\Authenticatable` 的实现， 且不受限于永久保存系统，例如 MySQL, Riak 等等。这两个接口允许 Laravel 认证机制继续作用，而不用管用户如何保存或是什么类型的类代表它。
 
-Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
+让我们来看看 `Illuminate\Contracts\Auth\UserProvider` contract：
 
     <?php
 
@@ -627,19 +654,19 @@ Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
 
     }
 
-The `retrieveById` function typically receives a key representing the user, such as an auto-incrementing ID from a MySQL database. The `Authenticatable` implementation matching the ID should be retrieved and returned by the method.
+`retrieveById` 函数通常取得一个代表用户的值，例如 MySQL 中自动增加的 ID。`Authenticate` 的实现会匹配该 ID 能被取得并被这个方法返回。
 
-The `retrieveByToken` function retrieves a user by their unique `$identifier` and "remember me" `$token`, stored in a field `remember_token`. As with the previous method, the `Authenticatable` implementation should be returned.
+`retrieveByToken` 函数借由用户唯一的 `$identifier` 和「记住我」`$token` 取得用户。如同之前的方法，`Authenticatable` 的实现应该被返回。
 
-The `updateRememberToken` method updates the `$user` field `remember_token` with the new `$token`. The new token can be either a fresh token, assigned on successful "remember me" login attempt, or a null when user is logged out.
+`updateRememberToken` 方法使用新的 `$token` 更新了 `$user` 的 `remember_token` 字段。这个新的标记可以是全新的标记（当使用「记住我」尝试登录成功时），或是 null（当用户注销时）。
 
-The `retrieveByCredentials` method receives the array of credentials passed to the `Auth::attempt` method when attempting to sign into an application. The method should then "query" the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a "where" condition on `$credentials['username']`. The method should then return an implementation of `UserInterface`. **This method should not attempt to do any password validation or authentication.**
+`retrieveByCredentials` 方法取得了从 `Auth::attempt` 方法发送过来的凭证数组（当想要登录时）。这个方法应该要 「查找」所使用的永久式保存系统，来匹配这些凭证。通常，这个方法会运行一个带着「where」`$credentials['username']` 条件的查找。这个方法接着需要返回一个 `UserInterface` 的实现。**这个方法不应该企图做任何密码的验证或是认证。**
 
-The `validateCredentials` method should compare the given `$user` with the `$credentials` to authenticate the user. For example, this method might compare the `$user->getAuthPassword()` string to a `Hash::make` of `$credentials['password']`. This method should only validate the user's credentials and return boolean.
+`validateCredentials` 方法应该要比较 `$user` 和 `$credentials` 来认证这个用户。例如，这个方法可能会比较 `$user->getAuthPassword()` 字符串及 `Hash::make` 后的 `$credentials['password']`。这个方法应该只验证用户的凭证并返回一个布尔值。
 
-### The Authenticatable Contract
+### 可验证之 Contract
 
-Now that we have explored each of the methods on the `UserProvider`, let's take a look at the `Authenticatable`. Remember, the provider should return implementations of this interface from the `retrieveById` and `retrieveByCredentials` methods:
+现在我们已经介绍了 `UserProvider` 的每个方法，让我们看一下 `Authenticate` contract。这个提供者需要 `retrieveById` 和 `retrieveByCredentials` 方法来返回这个接口的实现：
 
     <?php
 
@@ -655,4 +682,35 @@ Now that we have explored each of the methods on the `UserProvider`, let's take 
 
     }
 
-This interface is simple. The `getAuthIdentifier` method should return the "primary key" of the user. In a MySQL back-end, again, this would be the auto-incrementing primary key. The `getAuthPassword` should return the user's hashed password. This interface allows the authentication system to work with any User class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes a `User` class in the `app` directory which implements this interface, so you may consult this class for an implementation example.
+这个接口很简单。`getAuthIdentifier` 方法需要返回用户的「主键」。在 MySQL，这个主键是指自动增加的主键。而 `getAuthPassword` 应该要返回用户哈希后的密码。这个接口允许认证系统和任何用户类运作，不用管你在使用何种 ORM 或是保存抽象层。默认情况下，Laravel 的 `app` 文件夹中包含了 `User` 类，它实现了这个接口，所以你可以观察这个类作为实现的例子。
+
+<a name="events"></a>
+## 事件
+
+Laravel 提供了在认证过程中的各种[事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 为这些事件连接监听器：
+
+    /**
+     * 为你的应用程序注册任何事件。
+     *
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public function boot(DispatcherContract $events)
+    {
+        parent::boot($events);
+
+        // 在每次尝试认证时触发...
+        $events->listen('auth.attempt', function ($credentials, $remember, $login) {
+            //
+        });
+
+        // 登录成功时触发...
+        $events->listen('auth.login', function ($user, $remember) {
+            //
+        });
+
+        // 注销时触发...
+        $events->listen('auth.logout', function ($user) {
+            //
+        });
+    }

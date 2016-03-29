@@ -1,17 +1,17 @@
-# HTTP Requests
+# HTTP 请求
 
-- [Accessing The Request](#accessing-the-request)
-    - [Basic Request Information](#basic-request-information)
-    - [PSR-7 Requests](#psr7-requests)
-- [Retrieving Input](#retrieving-input)
-    - [Old Input](#old-input)
+- [取得请求](#accessing-the-request)
+    - [基本请求信息](#basic-request-information)
+    - [PSR-7 请求](#psr7-requests)
+- [取得输入数据](#retrieving-input)
+    - [旧输入数据](#old-input)
     - [Cookies](#cookies)
-    - [Files](#files)
+    - [上传文件](#files)
 
 <a name="accessing-the-request"></a>
-## Accessing The Request
+## 取得请求
 
-To obtain an instance of the current HTTP request via dependency injection, you should type-hint the `Illuminate\Http\Request` class on your controller constructor or method. The current request instance will automatically be injected by the [service container](/docs/{{version}}/container):
+要透过依赖注入的方式取得 HTTP 请求的实例，你必须在控制器的建构函子或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例就会自动由[服务容器](/docs/{{version}}/container)注入：
 
     <?php
 
@@ -23,7 +23,7 @@ To obtain an instance of the current HTTP request via dependency injection, you 
     class UserController extends Controller
     {
         /**
-         * Store a new user.
+         * 保存新的用户。
          *
          * @param  Request  $request
          * @return Response
@@ -36,11 +36,11 @@ To obtain an instance of the current HTTP request via dependency injection, you 
         }
     }
 
-If your controller method is also expecting input from a route parameter, simply list your route arguments after your other dependencies. For example, if your route is defined like so:
+如果你的控制器方法也有从路由参数传入的输入数据，只需要将路由参数置于其他依赖之后。举例来说，如果你的路由定义像是：
 
     Route::put('user/{id}', 'UserController@update');
 
-You may still type-hint the `Illuminate\Http\Request` and access your route parameter `id` by defining your controller method like the following:
+只要像下方一样定义控制器方法，一样可以使用 `Illuminate\Http\Request` 类型提示，同时取得你的路由参数 `id`：
 
     <?php
 
@@ -52,7 +52,7 @@ You may still type-hint the `Illuminate\Http\Request` and access your route para
     class UserController extends Controller
     {
         /**
-         * Update the specified user.
+         * 更新指定的用户。
          *
          * @param  Request  $request
          * @param  int  $id
@@ -65,29 +65,29 @@ You may still type-hint the `Illuminate\Http\Request` and access your route para
     }
 
 <a name="basic-request-information"></a>
-### Basic Request Information
+### 基本请求信息
 
-The `Illuminate\Http\Request` instance provides a variety of methods for examining the HTTP request for your application. The Laravel `Illuminate\Http\Request` extends the `Symfony\Component\HttpFoundation\Request` class. Here are a few more of the useful methods available on this class:
+`Illuminate\Http\Request` 的实例提供了多种方法，用于检查应用程序的 HTTP 请求。Larevel 的 `Illuminate\Http\Request` 继承了 `Symfony\Component\HttpFoundation\Request` 类。下方是该类的几个有用的方法：
 
-#### Retrieving The Request URI
+#### 取得请求的 URI
 
-The `path` method returns the request's URI. So, if the incoming request is targeted at `http://domain.com/foo/bar`, the `path` method will return `foo/bar`:
+`path` 方法会返回请求的 URI。所以，如果接收到的请求目标是 `http://domain.com/foo/bar`，那么 `path` 方法就会返回 `foo/bar`：
 
     $uri = $request->path();
 
-The `is` method allows you to verify that the incoming request URI matches a given pattern. You may use the `*` character as a wildcard when utilizing this method:
+`is` 方法可以验证接收到的请求 URI 与给定的规则是否相匹配。使用此方法时你可以将 `*` 符号作为通配符：
 
     if ($request->is('admin/*')) {
         //
     }
 
-To get the full URL, not just the path info, you may use the `url` method on the request instance:
+若要取得完整的网址，而不只有路径信息，你可以对请求实例使用 `url` 方法：
 
     $url = $request->url();
 
-#### Retrieving The Request Method
+#### 取得请求的方法
 
-The `method` method will return the HTTP verb for the request. You may also use the `isMethod` method to verify that the HTTP verb matches a given string:
+`method` 方法会返回当次请求的 HTTP 动词。你也可以透过 `isMethod` 方法来验证 HTTP 动词和给定的字符串是否互相匹配：
 
     $method = $request->method();
 
@@ -96,15 +96,15 @@ The `method` method will return the HTTP verb for the request. You may also use 
     }
 
 <a name="psr7-requests"></a>
-### PSR-7 Requests
+### PSR-7 请求
 
-The PSR-7 standard specifies interfaces for HTTP messages, including requests and responses. If you would like to obtain an instance of a PSR-7 request, you will first need to install a few libraries. Laravel uses the Symfony HTTP Message Bridge component to convert typical Laravel requests and responses into PSR-7 compatible implementations:
+PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想获得一个 PSR-7 的请求实例，你必须先安装几个函数库。Laravel 使用 Symfony 的 HTTP 消息桥接组件，将原 Laravel 的请求及回应转换至 PSR-7 所支持的实现：
 
     composer require symfony/psr-http-message-bridge
 
     composer require zendframework/zend-diactoros
 
-Once you have installed these libraries, you may obtain a PSR-7 request by simply type-hinting the request type on your route or controller:
+只要你安装完这些函数库，你就可以在你的路由或控制器中，简单的对请求类型使用类型提示取得 PSR-7 的请求：
 
     use Psr\Http\Message\ServerRequestInterface;
 
@@ -112,94 +112,102 @@ Once you have installed these libraries, you may obtain a PSR-7 request by simpl
         //
     });
 
-If you return a PSR-7 response instance from a route or controller, it will automatically be converted back to a Laravel response instance and be displayed by the framework.
+如果你从路由或控制器返回一个 PSR-7 的回应实例，它会被框架自动转换回 Laravel 的回应实例并显示。
 
 <a name="retrieving-input"></a>
-## Retrieving Input
+## 取得输入数据
 
-#### Retrieving An Input Value
+#### 取得特定输入值
 
-Using a few simple methods, you may access all user input from your `Illuminate\Http\Request` instance. You do not need to worry about the HTTP verb used for the request, as input is accessed in the same way for all verbs.
+你可以透过 `Illuminate\Http\Request` 的实例，经由几个简洁的方法取得所有的用户输入数据。不需要担心发出请求时使用的 HTTP 动词，取得输入数据的方式都是相同的。
 
     $name = $request->input('name');
 
-You may pass a default value as the second argument to the `input` method. This value will be returned if the requested input value is not present on the request:
+此外，你可以使用 `Illuminate\Http\Request` 的属性访问用户输入。例如，如果你应用程序的表单含有一个 `name` 字段，你可以从传递的字段访问它的值，像这样：
+
+    $name = $request->name;
+
+你可以在 `input` 方法的第二个参数传入一个默认值。当请求的输入数据不存在于当次请求，就会返回默认值：
 
     $name = $request->input('name', 'Sally');
 
-When working on forms with array inputs, you may use "dot" notation to access the arrays:
+如果是「数组」形式的输入数据，可以使用「点」语法取得数组：
 
     $input = $request->input('products.0.name');
 
-#### Determining If An Input Value Is Present
+#### 确认是否有输入值
 
-To determine if a value is present on the request, you may use the `has` method. The `has` method returns `true` if the value is present **and** is not an empty string:
+要判断数据是否存在于当次请求，你可以使用 `has` 方法。当该数据存在**而且**不为空字符串时，`has` 方法就会传回 `true`：
 
     if ($request->has('name')) {
         //
     }
 
-#### Retrieving All Input Data
+#### 取得所有输入数据
 
-You may also retrieve all of the input data as an `array` using the `all` method:
+你也可以使用 `all` 方法以`数组`形式取得所有输入数据的：
 
     $input = $request->all();
 
-#### Retrieving A Portion Of The Input Data
+#### 取得部分输入数据
 
-If you need to retrieve a sub-set of the input data, you may use the `only` and `except` methods. Both of these methods accept a single `array` as their only argument:
+如果你想取得输入数据的子集，你可以使用 `only` 及 `except` 方法。这两个方法都接受单一`数组`或是动态列表作为参数：
+
+    $input = $request->only(['username', 'password']);
 
     $input = $request->only('username', 'password');
+
+    $input = $request->except(['credit_card']);
 
     $input = $request->except('credit_card');
 
 <a name="old-input"></a>
-### Old Input
+### 旧输入数据
 
-Laravel allows you to keep input from one request during the next request. This feature is particularly useful for re-populating forms after detecting validation errors. However, if you are using Laravel's included [validation services](/docs/{{version}}/validation), it is unlikely you will need to manually use these methods, as some of Laravel's built-in validation facilities will call them automatically.
+Laravel 可以让你保留这次的输入数据，直到下一次请求发送前。对于在表单验证失败后重新填入表单值相当有用。当然，如果你使用 Laravel 的[验证服务](/docs/{{version}}/validation)，你就不需要手动使用这些方法，因为一些 Laravel 内置的验证功能会自动调用它们。
 
-#### Flashing Input To The Session
+#### 将输入数据快闪至 Session
 
-The `flash` method on the `Illuminate\Http\Request` instance will flash the current input to the [session](/docs/{{version}}/session) so that it is available during the user's next request to the application:
+`Illuminate\Http\Request` 实例的 `flash` 方法会将当前的输入数据存进 [Session](/docs/{{version}}/session) 中，所以下次用户发出请求至应用程序时就可以使用它们：
 
     $request->flash();
 
-You may also use the `flashOnly` and `flashExcept` methods to flash a sub-set of the request data into the session:
+你也可以使用 `flashOnly` 及 `flashExcept` 方法将请求数据的子集保存至 Session：
 
     $request->flashOnly('username', 'email');
 
     $request->flashExcept('password');
 
-#### Flash Input Into Session Then Redirect
+#### 快闪输入数据至 Session 后重定向
 
-Since you often will want to flash input in association with a redirect to the previous page, you may easily chain input flashing onto a redirect using the `withInput` method:
+你可能常常想要将输入数据快闪并重定向至前一页，你只要在重定向方法后串接 `withInput` 就行了：
 
     return redirect('form')->withInput();
 
     return redirect('form')->withInput($request->except('password'));
 
-#### Retrieving Old Data
+#### 取得旧输入数据
 
-To retrieve flashed input from the previous request, use the `old` method on the `Request` instance. The `old` method provides a convenient helper for pulling the flashed input data out of the [session](/docs/{{version}}/session):
+若要取得前次请求所快闪的输入数据，你可以使用 `Request` 实例中的 `old` 方法。`old` 方法提供一个简便的方式从 [Session](/docs/{{version}}/session) 取出被快闪的输入数据：
 
     $username = $request->old('username');
 
-Laravel also provides a global `old` helper function. If you are displaying old input within a [Blade template](/docs/{{version}}/blade), it is more convenient to use the `old` helper:
+Laravel 也提供了全域辅助方法 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade)显示旧输入数据，可以使用更加方便的辅助方法 `old`：
 
     {{ old('username') }}
 
 <a name="cookies"></a>
 ### Cookies
 
-#### Retrieving Cookies From The Request
+#### 从请求取的 Cookie 值
 
-All cookies created by the Laravel framework are encrypted and signed with an authentication code, meaning they will be considered invalid if they have been changed by the client. To retrieve a cookie value from the request, you may use the `cookie` method on the `Illuminate\Http\Request` instance:
+Laravel 框架创建的每个 cookie 会加密并且加上认证记号，这代表着被用户擅自更改的 cookie 会失效。若要从当次请求取得 cookie 值，你可以使用 `Illuminate\Http\Request` 实例中的 `cookie` 方法：
 
     $value = $request->cookie('name');
 
-#### Attaching A New Cookie To A Response
+#### 加上新的 Cookie 至回应
 
-Laravel provides a global `cookie` helper function which serves as a simple factory for generating new `Symfony\Component\HttpFoundation\Cookie` instances. The cookies may be attached to a `Illuminate\Http\Response` instance using the `withCookie` method:
+Laravel 提供了全域辅助方法 `cookie`，透过简易的工厂来产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后连接 `withCookie` 方法带入 cookie 至回应：
 
     $response = new Illuminate\Http\Response('Hello World');
 
@@ -207,44 +215,43 @@ Laravel provides a global `cookie` helper function which serves as a simple fact
 
     return $response;
 
-To create a long-lived cookie, which lasts for five years, you may use the `forever` method on the cookie factory by first calling the `cookie` helper with no arguments, and then chaining the `forever` method onto the returned cookie factory:
+如果要创建一个长期存在，为期五年的 cookie，你可以先调用 `cookie` 辅助方法且不带入任何参数，再使用 cookie 工厂的 `forever` 方法，接着将 `forever` 方法串接在返回的 cookie 工厂：
 
     $response->withCookie(cookie()->forever('name', 'value'));
 
 <a name="files"></a>
-### Files
+### 上传文件
 
-#### Retrieving Uploaded Files
+#### 取得上传文件
 
-You may access uploaded files that are included with the `Illuminate\Http\Request` instance using the `file` method. The object returned by the `file` method is an instance of the `Symfony\Component\HttpFoundation\File\UploadedFile` class, which extends the PHP `SplFileInfo` class and provides a variety of methods for interacting with the file:
+你可以使用 `Illuminate\Http\Request` 实例中的 `file` 方法取得上传的文件。file 方法返回的对象是 `Symfony\Component\HttpFoundation\File\UploadedFile` 类的实例，该类继承了 PHP 的 `SplFileInfo` 类并提供了许多和文件交互的方法：
 
     $file = $request->file('photo');
 
-#### Verifying File Presence
+#### 确认文件是否有上传
 
-You may also determine if a file is present on the request using the `hasFile` method:
+你可以使用请求的 `hasFile` 方法确定上传的文件是否存在：
 
     if ($request->hasFile('photo')) {
         //
     }
 
-#### Validating Successful Uploads
+#### 确认上传的文件是否有效
 
-In addition to checking if the file is present, you may verify that there were no problems uploading the file via the `isValid` method:
+除了检查上传的文件是否存在外，你也可以透过 `isValid` 方法验证上传的文件是否有效：
 
-    if ($request->file('photo')->isValid())
-    {
+    if ($request->file('photo')->isValid()) {
         //
     }
 
-#### Moving Uploaded Files
+#### 移动上传的文件
 
-To move the uploaded file to a new location, you should use the `move` method. This method will move the file from its temporary upload location (as determined by your PHP configuration) to a more permanent destination of your choosing:
+若要移动上传的文件至新的位置，你必须使用 `move` 方法。该方法会将文件从暂存位置（由你的 PHP 配置决定）移动至你指定的永久保存位置：
 
     $request->file('photo')->move($destinationPath);
 
     $request->file('photo')->move($destinationPath, $fileName);
 
-#### Other File Methods
+#### 其他上传文件的方法
 
-There are a variety of other methods available on `UploadedFile` instances. Check out the [API documentation for the class](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html) for more information regarding these methods.
+`UploadedFile` 的实例还有许多可用的方法，可以至[该对象的 API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html)了解有关这些方法的详细信息。

@@ -1,21 +1,21 @@
-# Encryption
+# 加密
 
-- [Configuration](#configuration)
-- [Basic Usage](#basic-usage)
+- [设置](#configuration)
+- [基本用法](#basic-usage)
 
 <a name="configuration"></a>
-## Configuration
+## 设置
 
-Before using Laravel's encrypter, you should set the `key` option of your `config/app.php` configuration file to a 32 character, random string. If this value is not properly set, all values encrypted by Laravel will be insecure.
+在使用 Laravel 的加密器前，你应该先设置 `config/app.php` 配置文件中的 `key` 选项，设置值需要是 32 个字符的随机字符串。如果没有适当地设置这个值，所有被 Laravel 加密的值将是不安全的。
 
 <a name="basic-usage"></a>
-## Basic Usage
+## 基本用法
 
-#### Encrypting A Value
+#### 加密一个值
 
-You may encrypt a value using the `Crypt` [facade](/docs/{{version}}/facades). All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string.
+你可以借由 `Crypt` [facade](/docs/{{version}}/facades) 加密一个值。所有被加密的值都会使用 OpenSSL 与 `AES-256-CBC` 加密。此外，所有加密过后的值都会被签署文档消息鉴别码 (MAC)，以侦测加密字符串是否被窜改。
 
-For example, we may use the `encrypt` method to encrypt a secret and store it on an [Eloquent model](/docs/{{version}}/eloquent):
+例如，我们可以使用 `encrypt` 方法加密机密信息，并把它保存在 [Eloquent 模型](/docs/{{version}}/eloquent)中：
 
     <?php
 
@@ -29,7 +29,7 @@ For example, we may use the `encrypt` method to encrypt a secret and store it on
     class UserController extends Controller
     {
         /**
-         * Store a secret message for the user.
+         * 保存用户的机密消息。
          *
          * @param  Request  $request
          * @param  int  $id
@@ -45,9 +45,9 @@ For example, we may use the `encrypt` method to encrypt a secret and store it on
         }
     }
 
-#### Decrypting A Value
+#### 解密一个值
 
-Of course, you may decrypt values using the `decrypt` method on the `Crypt` facade. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
+当然，你可以使用 `Crypt` facade 上的 `decrypt` 方法来解密值。如果该值无法被适当地解密，像是文档消息鉴别码无效等因素，将会抛出一个 `Illuminate\Contracts\Encryption\DecryptException`：
 
     use Illuminate\Contracts\Encryption\DecryptException;
 

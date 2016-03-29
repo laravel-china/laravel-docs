@@ -1,47 +1,47 @@
-# Filesystem / Cloud Storage
+# 文件系统与云存储
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Basic Usage](#basic-usage)
-    - [Obtaining Disk Instances](#obtaining-disk-instances)
-    - [Retrieving Files](#retrieving-files)
-    - [Storing Files](#storing-files)
-    - [Deleting Files](#deleting-files)
-    - [Directories](#directories)
-- [Custom Filesystems](#custom-filesystems)
+- [简介](#introduction)
+- [设置](#configuration)
+- [基本用法](#basic-usage)
+    - [取得磁盘实体](#obtaining-disk-instances)
+    - [提取文件](#retrieving-files)
+    - [保存文件](#storing-files)
+    - [删除文件](#deleting-files)
+    - [目录](#directories)
+- [自定义文件系统](#custom-filesystems)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel provides a powerful filesystem abstraction thanks to the wonderful [Flysystem](https://github.com/thephpleague/flysystem) PHP package by Frank de Jonge. The Laravel Flysystem integration provides simple to use drivers for working with local filesystems, Amazon S3, and Rackspace Cloud Storage. Even better, it's amazingly simple to switch between these storage options as the API remains the same for each system.
+Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https://github.com/thephpleague/flysystem) 扩展包。Laravel 的 flysystem 集成以各种驱动（driver）提供本地端磁盘系统、Amazon S3、以及 Rackspace 云存储。并且能像使用 API 一般，轻易的切换这些保存方式来面对各式系统。
 
 <a name="configuration"></a>
-## Configuration
+## 设置
 
-The filesystem configuration file is located at `config/filesystems.php`. Within this file you may configure all of your "disks". Each disk represents a particular storage driver and storage location. Example configurations for each supported driver is included in the configuration file. So, simply modify the configuration to reflect your storage preferences and credentials.
+文件系统配置文件位于 `config/filesystems.php`。该文件能让你设置所有的「磁盘（disk）」。每个磁盘代表一种唯一的保存驱动以及保存位置。各种支持驱动例子已包含在其中，仅需要简单的根据你的偏好配置及凭证设置进行变更即可。
 
-Of course, you may configure as many disks as you like, and may even have multiple disks that use the same driver.
+当然，你可以设置多组磁盘，甚至使用相同驱动。
 
-#### The Local Driver
+#### 本地端驱动
 
-When using the `local` driver, note that all file operations are relative to the `root` directory defined in your configuration file. By default, this value is set to the `storage/app` directory. Therefore, the following method would store a file in `storage/app/file.txt`:
+当使用 `local` 驱动，所有的操作是相对于配置文件中的 `root` 目录设置进行。该目录默认是 `storage/app`。因此下列方法将把文件保存在 `storage/app/file.txt`：
 
     Storage::disk('local')->put('file.txt', 'Contents');
 
-#### Other Driver Prerequisites
+#### 其他驱动的预先需求
 
-Before using the S3 or Rackspace drivers, you will need to install the appropriate package via Composer:
+在使用 S3 或 Rackspace 驱动之前，你需要透过 Composer 安装适当扩展包：
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
 <a name="basic-usage"></a>
-## Basic Usage
+## 基本用法
 
 <a name="obtaining-disk-instances"></a>
-### Obtaining Disk Instances
+### 获得磁盘实体
 
-The `Storage` facade may be used to interact with any of your configured disks. For example, you may use the `put` method on the facade to store an avatar on the default disk. If you call methods on the `Storage` facade without first calling the `disk` method, the method call will automatically be passed to the default disk:
+`Storage` facade 用于对任何已设置的磁盘进行交互。举例来说，你可以使用 facade 的 `put` 方法将一张头像保存到默认磁盘。当使用 `Storage` facade 调用任一方法而未先调用 `disk` 方法，默认磁盘将自动传递给该方法。
 
     <?php
 
@@ -71,105 +71,105 @@ The `Storage` facade may be used to interact with any of your configured disks. 
         }
     }
 
-When using multiple disks, you may access a particular disk using the `disk` method on the `Storage` facade. Of course, you may continue to chain methods to execute methods on the disk:
+面对使用多个磁盘时，你可以透过 `Storage` facade 的 `disk` 方法访问特定磁盘。当然，你也可以使用方法链结（chain methods）对磁盘使用各种运行方法。
 
     $disk = Storage::disk('s3');
 
     $contents = Storage::disk('local')->get('file.jpg')
 
 <a name="retrieving-files"></a>
-### Retrieving Files
+### 提取文件
 
-The `get` method may be used to retrieve the contents of a given file. The raw string contents of the file will be returned by the method:
+`get` 方法提取给定文件的内容，该文件的原始字符串内容将透过该方法取得：
 
     $contents = Storage::get('file.jpg');
 
-The `exists` method may be used to determine if a given file exists on the disk:
+`has` 方法可以用于判定给定的文件是否存于磁盘上：
 
-    $exists = Storage::disk('s3')->exists('file.jpg');
+    $exists = Storage::disk('s3')->has('file.jpg');
 
-#### File Meta Information
+#### 文件信息
 
-The `size` method may be used to get the size of the file in bytes:
+`size` 方法取得文件的大小并以 bytes 显示：
 
     $size = Storage::size('file1.jpg');
 
-The `lastModified` method returns the UNIX timestamp of the last time the file was modified:
+`lastModified` 方法返回文件的最后修改时间并以 UNIX 时间戳记显示：
 
     $time = Storage::lastModified('file1.jpg');
 
 <a name="storing-files"></a>
-### Storing Files
+### 保存文件
 
-The `put` method may be used to store a file on disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Using streams is greatly recommended when dealing with large files:
+`put` 方法保存单一文件于磁盘上。你能同时传递 PHP 的 `resource` 给 `put` 方法，它将使用文件系统底层的 stream 支持。强烈建议使用 stream 处理大型文件。
 
     Storage::put('file.jpg', $contents);
 
     Storage::put('file.jpg', $resource);
 
-The `copy` method may be used to copy an existing file to a new location on the disk:
+`copy` 方法用于复制一个存在的文件到磁盘的新位置。
 
     Storage::copy('old/file1.jpg', 'new/file1.jpg');
 
-The `move` method may be used to move an existing file to a new location:
+`move` 方法被用于重命名或是移动一个存在的文件到新位置。
 
     Storage::move('old/file1.jpg', 'new/file1.jpg');
 
-#### Prepending / Appending To Files
+#### 插入到文件
 
-The `prepend` and `append` methods allow you to easily insert content at the beginning or end of a file:
+`prepend` 及 `append` 方法允许你轻易的插入内容到一个文件的开头或结尾：
 
     Storage::prepend('file.log', 'Prepended Text');
 
     Storage::append('file.log', 'Appended Text');
 
 <a name="deleting-files"></a>
-### Deleting Files
+### 删除文件
 
-The `delete` method accepts a single filename or an array of files to remove from the disk:
+`delete` 方法接受一个文件名称或文件名称数组，用以移除磁盘上的文件：
 
     Storage::delete('file.jpg');
 
     Storage::delete(['file1.jpg', 'file2.jpg']);
 
 <a name="directories"></a>
-### Directories
+### 目录
 
-#### Get All Files Within A Directory
+#### 取得单一目录内所有文件
 
-The `files` method returns an array of all of the files in a given directory. If you would like to retrieve a list of all files within a given directory including all sub-directories, you may use the `allFiles` method:
+`files` 方法返回给定目录下的文件数组。如果你希望返回包含给定目录下所有子目录的文件，你可以使用 `allFiles` 方法。
 
     $files = Storage::files($directory);
 
     $files = Storage::allFiles($directory);
 
-#### Get All Directories Within A Directory
+#### 取得单一目录内所有目录
 
-The `directories` method returns an array of all the directories within a given directory. Additionally, you may use the `allDirectories` method to get a list of all directories within a given directory and all of its sub-directories:
+`directories` 方法返回给定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法取得给定目录下子目录以及子目录所包含的目录。
 
     $directories = Storage::directories($directory);
 
     // Recursive...
     $directories = Storage::allDirectories($directory);
 
-#### Create A Directory
+#### 创建目录
 
-The `makeDirectory` method will create the given directory, including any needed sub-directories:
+`makeDirectory` 方法将创建给定的目录，包括任何所需的子目录。
 
     Storage::makeDirectory($directory);
 
-#### Delete A Directory
+#### 删除目录
 
-Finally, the `deleteDirectory` may be used to remove a directory, including all of its files, from the disk:
+最后，`deleteDirectory` 方法能移除磁盘上的单一目录以及所包含的全部文件。
 
     Storage::deleteDirectory($directory);
 
 <a name="custom-filesystems"></a>
-## Custom Filesystems
+## 自定义文件系统
 
-Laravel's Flysystem integration provides drivers for several "drivers" out of the box; however, Flysystem is not limited to these and has adapters for many other storage systems. You can create a custom driver if you want to use one of these additional adapters in your Laravel application.
+Laravel 集成的 Flysystem 提供许多默认的驱动；然而 Flysystem 本身提供了不仅仅这些，还包括其他保存系统的接口（adapter）。你能在 Laravel 的应用当中通过创建新的驱动使用这些额外的接口。
 
-In order to set up the custom filesystem you will need to create a [service provider](/docs/{{version}}/providers) such as `DropboxServiceProvider`. In the provider's `boot` method, you may use the `Storage` facade's `extend` method to define the custom driver:
+为了建构一个自定义的磁盘系统，你将需要创建一个像是 `DropboxServiceProvider` 的 [服务提供者](/docs/{{version}}/providers)。并在该提供者的 `boot` 方法使用 `Storage` facade 的 `extend` 方法自定义你的驱动。
 
     <?php
 
@@ -210,6 +210,6 @@ In order to set up the custom filesystem you will need to create a [service prov
         }
     }
 
-The first argument of the `extend` method is the name of the driver and the second is a Closure that receives the `$app` and `$config` variables. The resolver Closure must return an instance of `League\Flysystem\Filesystem`. The `$config` variable contains the values defined in `config/filesystems.php` for the specified disk.
+`extend` 方法的第一个参数是你的驱动名称，第二个参数则是一个接受 `$app` 及 `$config` 变量的闭包。该闭包必须返回 `League\Flysystem\Filesystem` 实例。`$config` 变量包含了定义在 `config/filesystems.php` 对指定磁盘的设置。
 
-Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystem.php` configuration file.
+当你透过创建服务提供者注册该扩展，你便能在 `config/filesystem.php` 配置文件中使用 `dropbox` 驱动。

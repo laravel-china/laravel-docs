@@ -1,21 +1,22 @@
-# Contribution Guide
+# 贡献导引
 
-- [Bug Reports](#bug-reports)
-- [Core Development Discussion](#core-development-discussion)
-- [Which Branch?](#which-branch)
-- [Security Vulnerabilities](#security-vulnerabilities)
-- [Coding Style](#coding-style)
+- [错误回报](#bug-reports)
+- [核心开发讨论](#core-development-discussion)
+- [选择分支](#which-branch)
+- [安全漏洞](#security-vulnerabilities)
+- [代码风格](#coding-style)
+    - [代码风格修复器](#code-style-fixer)
 
 <a name="bug-reports"></a>
-## Bug Reports
+## 错误回报
 
-To encourage active collaboration, Laravel strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
+为了鼓励积极协作，Laravel 强烈地鼓励 pull request，而不只是回报错误。「错误回报」也可以用包含一个失败测试的 pull request 形式发送。
 
-However, if you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible and a code sample that demonstrates the issue. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
+然而，如果你创建错误回报，你的问题应该包含标题和清楚的问题描述。你也应该尽可能地提供相关的信息和示范问题的代码例子。错误回报的目的是让自己和其他人可以简单地重现错误并开发修复程序。
 
-Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem.
+请记住，我们希望创建错误回报可以让其他也有相同问题的人可以与你协作解决问题。不要期望错误回报后会自动地看到任何动静或其他人会马上修复它。创建错误回报用于帮助自己和其他人开始修复问题。
 
-The Laravel source code is managed on Github, and there are repositories for each of the Laravel projects:
+Laravel 原代码托管在 Github 上面，并且每个 Laravel 的项目都有自己的保存库：
 
 - [Laravel Framework](https://github.com/laravel/framework)
 - [Laravel Application](https://github.com/laravel/laravel)
@@ -28,27 +29,57 @@ The Laravel source code is managed on Github, and there are repositories for eac
 - [Laravel Art](https://github.com/laravel/art)
 
 <a name="core-development-discussion"></a>
-## Core Development Discussion
+## 核心开发讨论
 
-Discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
+有关错误、新功能和现有功能的实现讨论会在 [LaraChat](http://larachat.co) Slack 团队的 `#internals` 频道中进行。Laravel 的维护者 Taylor Otwell 在工作日的 8am 到 5pm（ UTC-06:00 或 America/Chicago ）通常会出现在频道，其他时间则是零星地出现在频道。
 
 <a name="which-branch"></a>
-## Which Branch?
+## 选择分支
 
-**All** bug fixes should be sent to the latest stable branch. Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
+**所有的**错误修复应该发送到最新的稳定分支。除非它们修复的功能只存在下一版的发布中，不然错误修复**永远不**应该发送到 `master` 分支。
 
-**Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch.
+**次要的**且与现行的 Laravel 发布版本**完全向下兼容**的功能可以发送到最新的稳定分支。
 
-**Major** new features should always be sent to the `master` branch, which contains the upcoming Laravel release.
+**主要的**新功能应该都发送到 `master` 分支，它包含下一版的 Laravel 发布内容。
 
-If you are unsure if your feature qualifies as a major or minor, please ask Taylor Otwell in the `#laravel-dev` IRC channel (Freenode).
+如果不确定你的功能是主要的还是次要的，请在 [LaraChat](http://larachat.co) Slack 团队的 `#internals` 频道询问 Taylor Otwell。
 
 <a name="security-vulnerabilities"></a>
-## Security Vulnerabilities
+## 安全漏洞
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at <a href="mailto:taylor@laravel.com">taylor@laravel.com</a>. All security vulnerabilities will be promptly addressed.
+如果你发现 Laravel 的安全漏洞，请寄电子邮件到 <a href="mailto:taylor@laravel.com">taylor@laravel.com</a> 给 Taylor Otwell。所有的安全漏洞，将会及时予以处理。
 
 <a name="coding-style"></a>
-## Coding Style
+## 编码风格
 
-Laravel follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) autoloading standard.
+Laravel 遵守 [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 编码规范和 [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 自动加载规范。
+
+### DocBlocks
+
+`@param` tags should **not be aligned** and arguments should be separated by **2 spaces**.
+
+Here's an example block:
+
+    /**
+     * Register a binding with the container.
+     *
+     * @param  string|array  $abstract
+     * @param  \Closure|string|null  $concrete
+     * @param  bool  $shared
+     * @return void
+     */
+    public function bind($abstract, $concrete = null, $shared = false)
+    {
+        //
+    }
+
+<a name="code-style-fixer"></a>
+### Code Style Fixer
+
+You may use the [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) to fix your code style before committing.
+
+To get started, [install the tool globally](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual) and check the code style by issuing the following terminal command from your project's root directory:
+
+```sh
+php-cs-fixer fix
+```

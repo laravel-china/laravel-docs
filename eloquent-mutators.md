@@ -1,23 +1,23 @@
-# Eloquent: Mutators
+# Eloquent：修改器
 
-- [Introduction](#introduction)
-- [Accessors & Mutators](#accessors-and-mutators)
-- [Date Mutators](#date-mutators)
-- [Attribute Casting](#attribute-casting)
+- [简介](#introduction)
+- [访问器和修改器](#accessors-and-mutators)
+- [日期转换器](#date-mutators)
+- [属性类型转换](#attribute-casting)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Accessors and mutators allow you to format Eloquent attributes when retrieving them from a model or setting their value. For example, you may want to use the [Laravel encrypter](/docs/{{version}}/encryption) to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model.
+当你从模型取得 Eloquent 的属性或是设置它们的值，访问器和修改器可以让你格式化它们。例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption)来加密一个被保存在数据库中的值，而在你从 Eloquent 模型访问该属性时可以自动的解密它。
 
-In addition to custom accessors and mutators, Eloquent can also automatically cast date fields to [Carbon](https://github.com/briannesbitt/Carbon) instances or even [cast text fields to JSON](#attribute-casting).
+除了自定义的访问器和修改器外，Eloquent 也会自动将日期字段类型转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例或甚至将[文本字段类型转换成 JSON](#attribute-casting)。
 
 <a name="accessors-and-mutators"></a>
-## Accessors & Mutators
+## 访问器和修改器
 
-#### Defining An Accessor
+#### 定义一个访问器
 
-To define an accessor, create a `getFooAttribute` method on your model where `Foo` is the "camel" cased name of the column you wish to access. In this example, we'll defined an accessor for the `first_name` attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of `first_name`:
+若要定义一个访问器，必须在你的模型上创建一个 `getFooAttribute` 方法，而且你希望访问的 `Foo` 字段需使用「驼峰式」的方式命名。在这个例子中，我们将对 `first_name` 属性定义一个访问器。当 Eloquent 尝试取得 `first_name` 的值时，将会自动的调用访问器：
 
     <?php
 
@@ -28,7 +28,7 @@ To define an accessor, create a `getFooAttribute` method on your model where `Fo
     class User extends Model
     {
         /**
-         * Get the user's first name.
+         * 取得用户的名字。
          *
          * @param  string  $value
          * @return string
@@ -39,15 +39,15 @@ To define an accessor, create a `getFooAttribute` method on your model where `Fo
         }
     }
 
-As you can see, the original value of the column is passed to the accessor, allowing you to manipulate and return the value. To access the value of the mutator, you may simply access the `first_name` attribute:
+如你所见的，字段原始的值被传递到访问器，让你可以操作并返回结果。如果要访问被修改的值，你可以简单的访问 `first_name` 属性：
 
     $user = App\User::find(1);
 
     $firstName = $user->first_name;
 
-#### Defining A Mutator
+#### 定义一个修改器
 
-To define a mutator, define a `setFooAttribute` method on your model where `Foo` is the "camel" cased name of the column you wish to access. So, again, let's define a mutator for the `first_name` attribute. This mutator will be automatically called when we attempt to set the value of the `first_name` attribute on the model:
+若要定义一个修改器，必须在你的模型上定义一个 `setFooAttribute` 方法，而且你希望访问的 `Foo` 字段需使用「驼峰式」的方式命名。所以，让我们再一次定义 `first_name` 属性的修改器。当我们尝试在模型上设置 `first_name` 的值时，将会自动的调用修改器：
 
     <?php
 
@@ -58,7 +58,7 @@ To define a mutator, define a `setFooAttribute` method on your model where `Foo`
     class User extends Model
     {
         /**
-         * Set the user's first name.
+         * 设置用户的名字。
          *
          * @param  string  $value
          * @return string
@@ -69,20 +69,20 @@ To define a mutator, define a `setFooAttribute` method on your model where `Foo`
         }
     }
 
-The mutator will receive the value that is being set on the attribute, allowing you to manipulate the value and set the manipulated value on the Eloquent model's internal `$attributes` property. So, for example, if we attempt to set the `first_name` attribute to `Sally`:
+修改器会取得属性已经被设置的值，让你可以操作该值并设置到 Eloquent 模型内部的 `$attributes` 属性。所以，举个例子，如果我们尝试将 `first_name` 属性设置成 `Sally`：
 
     $user = App\User::find(1);
 
     $user->first_name = 'Sally';
 
-In this example, the `setFirstNameAttribute` function will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its value in the internal `$attributes` array.
+在这个例子中，`setFirstNameAttribute` 函数会使用 `Sally` 当参数调用。修改器会对该名字使用 `strtolower` 函数并将值设置于内部的 `$attributes` 数组。
 
 <a name="date-mutators"></a>
-## Date Mutators
+## 日期转换器
 
-By default, Eloquent will convert the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which provides an assortment of helpful methods, and extends the native PHP `DateTime` class.
+默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 的实例，它提供了各式各样有用的方法，并继承了 PHP 原生的 `DateTime` 类。
 
-You may customize which fields are automatically mutated, and even completely disable this mutation, by overriding the `$dates` property of your model:
+你可以在你的模型中自定义哪些字段要自动地被修改，或甚至完全禁止修改，只要借由覆写模型的 `$dates` 属性：
 
     <?php
 
@@ -93,28 +93,28 @@ You may customize which fields are automatically mutated, and even completely di
     class User extends Model
     {
         /**
-         * The attributes that should be mutated to dates.
+         *  应该应用日期转换的属性。
          *
          * @var array
          */
-        protected $dates = ['created_at', 'updated_at', 'disabled_at'];
+        protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     }
 
-When a column is considered a date, you may set its value to a UNIX timestamp, date string (`Y-m-d`), date-time string, and of course a `DateTime` / `Carbon` instance, and the date's value will automatically be correctly stored in your database:
+当某个字段被认为是日期，你可以将数值设置成一个 UNIX 时间戳记、日期字符串（`Y-m-d`）、日期时间（ date-time ）字符串、当然还有 `DateTime` 或 `Carbon` 实例，然后日期数值会自动正确的保存到你的数据库中：
 
     $user = App\User::find(1);
 
-    $user->disabled_at = Carbon::now();
+    $user->deleted_at = Carbon::now();
 
     $user->save();
 
-As noted above, when retrieving attributes that are listed in your `$dates` property, they will automatically be cast to [Carbon](https://github.com/briannesbitt/Carbon) instances, allowing you to use any of Carbon's methods on your attributes:
+如上面所述，在你的 `$dates` 属性中列出取得的属性，他们将自动转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，让你可以在你的属性上使用任何的 Carbon 方法：
 
     $user = App\User::find(1);
 
-    return $user->disabled_at->getTimestamp();
+    return $user->deleted_at->getTimestamp();
 
-If you need to customize the format of your timestamps, set the `$dateFormat` property on your model. This property determines how date attributes are stored in the database, as well as their format when the model is serialized to an array or JSON:
+默认情况下，时间戳记将会以 `'Y-m-d H:i:s'` 格式化。如果你想要自定义你自己的时间戳记格式，在你的模型中设置 `$dateFormat` 属性。这个属性定义了时间属性该如何被保存到数据库，以及模型被串行化成一个数组或 JSON 时的格式：
 
     <?php
 
@@ -125,7 +125,7 @@ If you need to customize the format of your timestamps, set the `$dateFormat` pr
     class Flight extends Model
     {
         /**
-         * The storage format of the model's date columns.
+         * 模型的数据字段的保存格式。
          *
          * @var string
          */
@@ -133,11 +133,11 @@ If you need to customize the format of your timestamps, set the `$dateFormat` pr
     }
 
 <a name="attribute-casting"></a>
-## Attribute Casting
+## 属性类型转换
 
-The `$casts` property on your model provides a convenient method of converting attributes to common data types. The `$casts` property should be an array where the key is the name of the attribute being cast, while the value is the type you wish to cast to the column to. The supported cast types are: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object` and `array`.
+`$casts` 属性在你的模型中提供了方便的方法将属性转换为常见的数据类型。`$casts` 属性应该是一个数组，而键是那些需要被转换的属性名称，而值则是代表你想要把字段转换成什么类型。支持的类型转换的类型有：`integer`、`real`、`float`、`double`、`string`、`boolean`、`object`、`array`、`collection`、`date` 及 `datetime`。
 
-For example, let's cast the `is_admin` attribute, which is stored in our database as an integer (`0` or `1`) to a boolean value:
+例如，`is_admin` 属性以整数（0 或 1）被保存在我们的数据库中，让我们把它转换为布尔值：
 
     <?php
 
@@ -148,7 +148,7 @@ For example, let's cast the `is_admin` attribute, which is stored in our databas
     class User extends Model
     {
         /**
-         * The attributes that should be casted to native types.
+         * 应该被转换成原生类型的属性。
          *
          * @var array
          */
@@ -157,7 +157,7 @@ For example, let's cast the `is_admin` attribute, which is stored in our databas
         ];
     }
 
-Now the `is_admin` attribute will always be cast to a boolean when you access it, even if the underlying value is stored in the database as an integer:
+现在当你访问 `is_admin` 属性时，它将会总是被转换成布尔值，即使保存在数据库里面的值是一个整数：
 
     $user = App\User::find(1);
 
@@ -165,9 +165,9 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
         //
     }
 
-#### Array Casting
+#### 数组类型转换
 
-The `array` cast type is particularly useful when working with columns that are stored as serialized JSON. For example, if your database has a `TEXT` field type that contains serialized JSON, adding the `array` cast to that attribute will automatically deserialize the attribute to a PHP array when you access it on your Eloquent model:
+如果原本字段保存的为被串行化的 JSON 时，那么 `array` 类型转换将会特别的有用。例如，如果你的数据库有一个 `TEXT` 字段类型包含了被串行化的 JSON，而且对该属性添加了 `array` 类型转换，当你在 Eloquent 模型上访问该属性时，它会自动被反串行化成一个 PHP 的数组：
 
     <?php
 
@@ -178,7 +178,7 @@ The `array` cast type is particularly useful when working with columns that are 
     class User extends Model
     {
         /**
-         * The attributes that should be casted to native types.
+         * 应该被转换成原生类型的属性。
          *
          * @var array
          */
@@ -187,7 +187,7 @@ The `array` cast type is particularly useful when working with columns that are 
         ];
     }
 
-Once the cast is defined, you may access the `options` attribute and it will automatically be deserialized from JSON into a PHP array. When you set the value of the `options` attribute, the given array will automatically be serialized back into JSON for storage:
+一旦类型转换被定义，你可以访问 `options` 属性而它会自动地从 JSON 反串行化成一个 PHP 数组。当你设置 `options` 属性的值，给定的数组将会自动的被串行化变回成 JSON 以进行保存：
 
     $user = App\User::find(1);
 

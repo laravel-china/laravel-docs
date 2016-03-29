@@ -1,10 +1,19 @@
-#Laravel 5.1 中文文档
+# Laravel 繁体中文文档
 
-##概述
-这是 Laravel 5.1 文档的中文仓库，由 `laravel-china` 发起并维护这个项目。
-您可在 [laravel-china.org](http://laravel-china.org) 查看在线文档。
+## 翻译须知
 
-如果您在阅读的过程中发现问题，欢迎提交 issue 或 pull request。
+各位 Artisan 大家好！
 
-##推广
-您可以在您的朋友圈中推广 [laravel-china.org](http://laravel-china.org) 和 [PHPHub](https://phphub.org)（一个积极向上的 PHP & Laravel 开发者社区） 来支持我们。
+Laravel 台湾 目前正在集成社区资源进行官方文档的翻译工作，若您愿意贡献心力协助翻译，请参考 [翻译分工指南](https://laraveltw.hackpad.com/Laravel-5.1-Translation-ZYNn4rULGlB)。
+
+若您想浏览翻译成果，请至 [Laravel 台湾官网](http://laravel.tw/docs/
+ )。
+
+若有任何问题请与我们联系，谢谢！
+
+
+目前翻译到原文的 Commit 进度： #dea65ed (Dec 17, 2015)
+
+翻译前请先详细阅读[中文文案排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines)。
+
+如果遇到不确定怎么翻译的名词，可以先看看 [名词翻译对照表](https://laraveltw.hackpad.com/Laravel--qi5SbNfO0q2)

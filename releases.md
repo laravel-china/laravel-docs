@@ -1,6 +1,7 @@
-# 发布说明
+# 发行说明
 
-- [关于版本支持的约定](#support-policy)
+- [支持政策](#support-policy)
+- [Laravel 5.1.11](#laravel-5.1.11)
 - [Laravel 5.1.4](#laravel-5.1.4)
 - [Laravel 5.1](#laravel-5.1)
 - [Laravel 5.0](#laravel-5.0)
@@ -8,51 +9,56 @@
 - [Laravel 4.1](#laravel-4.1)
 
 <a name="support-policy"></a>
-## 关于版本支持的约定
+## 发行说明
 
-LTS 的发行版本, 如 Laravel 5.1, 自发布起提供两年时间的 Bug 修复, 3 年时间的安全修复, LTS 版本是此项目能提供的最长时间维护版本. 
+对于像是 Laravel 5.1 的 LTS 版本，会提供两年的臭虫修复及三年的安全性修复。这些版本为支持及维护提供了长时间的窗口。
 
-一般的发行版本, 只提供 6 个月的 Bug 修复支持, 一年的安全修复支持. 
+对于一般的版本，会提供六个月的臭虫修复及一年的安全性修复。
+
+<a name="laravel-5.1.11"></a>
+## Laravel 5.1.11
+
+Laravel 5.1.11 推出了内置的[授权](/docs/{{version}}/authorization)支持！透过回调或授权策略类方便的组织你应用程序的授权逻辑，使用简单明了的方法对行为进行授权。
+
+更多的信息请参考[授权的文档](/docs/{{version}}/authorization)。
 
 <a name="laravel-5.1.4"></a>
 ## Laravel 5.1.4
 
-Laravel 5.1.4 增加了登陆节流功能, 详见: [登录认证文档](/docs/{{version}}/authentication#authentication-throttling)
+Laravel 5.1.4 为框架推出了简单的登录限制。查阅[认证的文档](/docs/{{version}}/authentication#authentication-throttling)以取得更多信息。
 
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
 
-Laravel 5.1 在 5.0 的基础做了许多改善, 选用了 PSR-2 代码风格, 新增了 事件广播, 中间件参数支持等功能, 还有 Artisan 命令行优化等. 
+Laravel 5.1 继续以 Laravel 5.0 改进而成，透过采用 PSR-2 及添加事件广播、中间件参数、Artisan 的改进及其他等等。
 
 ### PHP 5.5.9+
 
-因为 PHP 开发团队已经宣布在 12 月份起, 不再支持 PHP 5.4 的安全更新, 所以, Laravel 5.1 对 PHP 的依赖版本是 5.5.9 或者更高, 5.5.9 也是 Guzzle 和 AWS SDK 最低要求版本. 
+由于 PHP 5.4 将在九月「结束寿命」，不再接收来自 PHP 开发团队的安全性更新，Laravel 需要 PHP 5.5.9 或更高的版本。PHP 5.5.9 可以兼容最新版本的 PHP 函数库，像是 Guzzle 及 AWS SDK。
+
 
 ### LTS
 
-Laravel 5.1 是 Laravel 社区的第一个 LTS 发行版. 
-
-LTS 的发行版, 自发布起提供两年时间的 Bug 修复, 3 年时间的安全修复, LTS 版本的支持周期, 很适合大企业用户. 
-
+Laravel 5.1 是 Laravel 获得**长期支持**的第一个版本。Laravel 5.1 会获得两年的臭虫修复及三年的安全性修复。此支持窗口是 Laravel 有史以来最大的提供，为较大型的企业客户及消费者提供了稳定性及安心。
 ### PSR-2
 
-Laravel 选用 [PSR-2 代码标准指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 作为框架默认代码风格指南, 所有的代码产生器也已更新，以生成 PSR-2 风格的代码.
+[PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)已经被 Laravel 框架采用为默认的风格指南。此外，所以的产生器都已进行更新，以产生 PSR-2 兼容的语法。
 
-### 文档优化
+### 文档
 
-每一页的 Laravel 框架文档, 都被仔细的审查, 所有的代码示例都被仔细审阅, 并加入注释, 以便更好的说明上下文语境. 
+Laravel 文档的每一页已被精心审查，并得到显著的改善。所有的代码例子也进行了审查，并扩增以提供更多的关联性与情境。
 
 ### 事件广播
 
-在现代的 Web 应用程序中, Web Sockets 被用来实现实时更新, 当有数据发生变化的时候, 会把消息广播到所有连接的客户端. 
+在许多现代的 web 应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息透过客户端处理。
 
-为了支持此种类型的应用, Laravel 提供了一套更好的机制, 让对事件进行广播, 允许你在服务器和客户端 JS 框架同时使用同一个时间名称. 
+为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 websocket 连接来「广播」你的事件。广播你的 Laravel 事件让你能够在你的服务器端代码和你的客户端 JavaScript 框架间分享相同的事件名称。
 
-详情请见 [事件广播](/docs/{{version}}/events#broadcasting-events).
+欲了解更多关于事件广播，请查阅[事件的文档](/docs/{{version}}/events#broadcasting-events)。
 
-### 中间件参数支持
+### 中间件参数
 
-中间件现在能支持传参多余的参数, 打个比方, 你需要判断当前登录用户是否是某个角色 (Role) 后, 才能执行某个重要动作, 你可以创建 `RoleMiddleware`, 然后接受一个外加的参数 (只支持 string 类型的传参): 
+中间件也可以额外置受自定义参数，例如，如果应用程序要在运行特定操作之前，检查通过验证的用户是否具备该操作的「角色」，可以创建 `RoleMiddleware` 来接收角色名称作为额外的参数。
 
     <?php
 
@@ -63,7 +69,7 @@ Laravel 选用 [PSR-2 代码标准指南](https://github.com/php-fig/fig-standar
     class RoleMiddleware
     {
         /**
-         * Run the request filter.
+         * 运行请求过滤。
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -73,7 +79,7 @@ Laravel 选用 [PSR-2 代码标准指南](https://github.com/php-fig/fig-standar
         public function handle($request, Closure $next, $role)
         {
             if (! $request->user()->hasRole($role)) {
-                // Redirect...
+                // 重定向...
             }
 
             return $next($request);
@@ -81,17 +87,17 @@ Laravel 选用 [PSR-2 代码标准指南](https://github.com/php-fig/fig-standar
 
     }
 
-中间件参数的调用, 参数和中间件之间以符号 `:` 分隔开, 多个参数之间使用 `,` 区分:
+在路由中可使用冒号 `:` 来区隔中间件名称与指派参数，多笔参数可使用逗号作为分隔：
 
     Route::put('post/{id}', ['middleware' => 'role:editor', function ($id) {
         //
     }]);
 
-中间件的介绍详见 [中间件文档](/docs/{{version}}/middleware).
+关于中间件的更多消息，请查阅[中间件的文档](/docs/{{version}}/middleware)。
 
-### 测试功能优化
+### 测试翻修
 
-Laravel 自带的测试功能得到了很大的优化, 最新提供了好几个方法, 提供了表达更清晰的接口, 来让你检查返回的内容, 如以下: 
+Laravel 内置的测试功能已得到显著的改善。各种新的方法提供了流畅、简明的接口与应用程序进行交互，并检查回应。例如，查看下方的测试：
 
     public function testNewUserRegistration()
     {
@@ -102,13 +108,13 @@ Laravel 自带的测试功能得到了很大的优化, 最新提供了好几个�
              ->seePageIs('/dashboard');
     }
 
-详见 [测试文档](/docs/{{version}}/testing).
+关于测试的更多消息，请查阅[测试的文档](/docs/{{version}}/testing)。
 
 ### 模型工厂
 
-新加入了模型工厂帮助方法, [模型工厂](/docs/{{version}}/testing#model-factories) 可以让你快速创建模型对象, 并且利用了伟大的库 [Faker](https://github.com/fzaninotto/Faker) 来制造假数据: 
+Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用[模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充产生测试模型实例。模型工厂也使用高端的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来产生随机属性的数据：
 
-    $factory->define('App\User', function ($faker) {
+    $factory->define(App\User::class, function ($faker) {
         return [
             'name' => $faker->name,
             'email' => $faker->email,
@@ -117,65 +123,63 @@ Laravel 自带的测试功能得到了很大的优化, 最新提供了好几个�
         ];
     });
 
-详见 [模型工厂文档](/docs/{{version}}/testing#model-factories).
+更多关于模型工厂的消息，请查阅[它的文档](/docs/{{version}}/testing#model-factories)。
 
-### Artisan 命令行优化
+### Artisan 的改进
 
-Artisan 现支持类似于路由一样的 `签名式` 定义方式, 此方式让你使用非常直观的方法来定义命令行参数, 下面是个例子: 
+Artisan 命令现在可以使用简单的方式定义，相似于路由的「署名」，提供了一个非常简单的接口来定义命令行的参数及选项。举个例子，你可以定义一个简单的命令及它的选项，如下：
 
     /**
-     * The name and signature of the console command.
+     * 命令行的名字及署名。
      *
      * @var string
      */
     protected $signature = 'email:send {user} {--force}';
 
-详见 [Arsison 命令行稳定](/docs/{{version}}/artisan).
+更多关于定义 Artisan 命令的消息，请参考 [Artisan 的文档](/docs/{{version}}/artisan)。
 
-### 文件结构
+### 文件夹结构
 
-为了易读性, 把 `app/Commands` 重命名为  `app/Jobs`, 把 `app/Handlers` 改名为 `app/Listeners`. 
-
-这两个修改为非破坏性修改, 不要求强制升级到最新版本. 
+为了更好地表明目的，`app/Commands` 目录已经被更名为 `app/Jobs`。此外，`app/Handler` 目录已经被合并成一个只包含事件监听器的 `app/Listeners` 目录。但是，这不是一个重大的改变，你不必更新成新的文件夹结构也能使用 Laravel 5.1。
 
 ### 加密
 
-在之前的 Laravel 版本里面, 我们使用 `mcrypt` PHP 扩展来支持加密, 在 5.1 版本, 所有的加密都由 `openssl` PHP 扩展来处理. 
+在 Laravel 之前的版本，加密是透过 `mcrypt` PHP 扩充功能进行处理。不过，从 Laravel 5.1 起，加密透过更积极维护的 `openssl` 扩充功能进行处理。
 
 <a name="laravel-5.0"></a>
 ## Laravel 5.0
 
-Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架构提供了更好的功能来构建健壮的 Laravel 应用程序，以及在应用程序中全面采用新的自动加载标准（ PSR-4 ）。首先，来查看一些主要变更：
+Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架构提供了更好的基础在 Laravel 中创建强健的应用程序，以及在应用程序中全面采用新的自动加载标准（PSR-4）。首先，来查看一些主要更动：
 
 ### 新的目录结构
 
-旧的 `app/models` 目录已经完全被移除。相对的，你所有的代码都放在 `app` 目录下，以及默认使用 `App` 命名空间。这个默认的命名空间可以使用新的 `app:name` Artisan 命令来快速更改。
+旧的 `app/models` 目录已经完全被移除。相对的，你所有的代码都放在 `app` 目录下，以及默认情况下使用 `App` 命名空间。这个默认的命名空间可以快速的使用新的 `app:name` Artisan 命令来做更改。
 
-控制器（ controller ），中间件（ middleware ），以及请求（ requests，Laravel 5.0 中新型态的类别），现在都存放在 `app/Http` 的对应目录下，因为他们都与应用程序的 HTTP 传输层相关。除了一个路由设置的文件外，所有的中间件现在都拆分开成单独的类文件。
+控制器、中间件，以及请求（Laravel 5.0 中新型态的类），现在分门别类的放在 `app/Http` 目录下，因为他们都与应用程序的 HTTP 传输层相关。除了一个路由设置的文件外，所有的中间件现在都分开成为独自的类档。
 
-新的 `app/Providers` 目录取代了旧版 Laravel 4.x `app/start` 里的文件。这些服务提供者有很多启动应用程序相关的方法，像是错误处理，日志记录，路由加载，以及更多。当然，你可以自由的建立新的服务提供者到应用程序。
+新的 `app/Providers` 目录取代了旧版 Laravel 4.x `app/start` 里的文件。这些服务提供者为应用程序提供了各种的引导功能，像是错误处理，日志纪录，路由加载等等。当然，你可以任意的创建新的服务提供者到应用程序中。
 
-应用程序的语言文件和视图都移到 `resources` 目录下。
+应用程序的语系文件和视图都被移到 `resources` 目录下。
 
 ### Contracts
 
-所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 项目下。这个项目没有其他的外部依赖。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
+所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其他的外部相依。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
 
 更多关于 contracts 的信息，参考[完整文档](/docs/{{version}}/contracts)。
 
 ### 路由缓存
 
-如果你的应用程序全部都是使用控制器路由，你可以使用新的 `route:cache` Artisan 命令大幅度地加快路由注册。这对于有 100 个以上路由规则的应用程序很有用，可以**大幅度地**加快应用程序这部分的处理速度。
+如果你的应用程序全部都是使用控制器路由，你可以使用新的 `route:cache` Artisan 命令来大幅度地加快注册路由。这对于有 100 个以上路由规则的应用程序很有用，可以**大幅度地**加快应用程序这部分的处理速度。
 
-### 路由中间件（ Middleware ）
+### 路由中间件
 
-除了像 Laravel 4 风格的路由「过滤器（ filters ）」，Laravel 5 现在也支持 HTTP 中间件，而原本的认证和 CSRF 「过滤器」已经改写成中间件。中间件提供了单一、一致的接口取代了各种过滤器，让你在请求进到应用程序前，可以方便地检查甚至拒绝请求。
+除了像 Laravel 4 风格的路由「过滤器」，Laravel 5 现在有 HTTP 中间件，而原本的认证和 CSRF 「过滤器」已经改写成中间件。中间件提供了单一、一致的接口取代了各种过滤器，让你在请求进到应用程序前，可以简单地检查甚至拒绝请求。
 
 更多关于中间件的信息，参考[完整文档](/docs/{{version}}/middleware)。
 
-### 控制器方法依赖注入
+### 控制器方法注入
 
-除了之前有的控制器依赖注入，你现在可以在控制器方法使用类型提示（ type-hint ）进行依赖注入。[服务容器](/docs/{{version}}/container)会自动注入依赖，即使路由包含了其他参数也不成问题：
+除了之前有的建构函数注入外，你现在可以在控制器方法使用类型提示进行依赖注入。[服务容器](/docs/{{version}}/container)会自动注入依赖，即使路由包含了其他参数也不成问题：
 
     public function createPost(Request $request, PostRepository $posts)
     {
@@ -184,21 +188,21 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 ### 认证基本架构
 
-用户注册，认证，以及重设密码的控制器现在已经默认含括了，包含相对应的视图，放在 `resources/views/auth`。除此之外， 「users」 数据表迁移也已经默认存在框架中了。这些简单的资源，可以让你快速开发应用程序的业务逻辑，而不用陷在撰写认证模板的泥潭上。认证相关的视图可以经由 `auth/login` 以及 `auth/register` 路由访问。`App\Services\Auth\Registrar` 服务会负责处理用户认证和添加的相关逻辑。
+用户注册，认证，以及重设密码的控制器现在已经默认含括了，包含相对应的视图，放在 `resources/views/auth`。除此之外，「users」数据表迁移也已经默认存在框架中了。这些简单的资源，可以让你快速开发应用程序的点子，而不用陷在编写认证模板的泥淖上。认证相关的视图可以经由 `auth/login` 以及 `auth/register` 路由访问。`App\Services\Auth\Registrar` 服务会负责处理用户认证和添加的相关逻辑。
 
 ### 事件对象
 
-你现在可以将事件定义成对象，而不是仅使用字串。例如，查看以下的事件：
+你现在可以将事件定义成对象，而不是仅使用字符串。例如，瞧瞧以下的事件：
+    <?php
 
-    class PodcastWasPurchased {
-
+    class PodcastWasPurchased
+    {
         public $podcast;
 
         public function __construct(Podcast $podcast)
         {
             $this->podcast = $podcast;
         }
-
     }
 
 这个事件可以像一般使用那样被派发：
@@ -207,22 +211,26 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 当然，你的事件处理会收到事件的对象而不是数据的列表：
 
-    class ReportPodcastPurchase {
+    <?php
 
+    class ReportPodcastPurchase
+    {
         public function handle(PodcastWasPurchased $event)
         {
             //
         }
-
     }
 
 更多关于使用事件的信息，参考[完整文档](/docs/{{version}}/events)。
 
-### 命令（ Commands ）、队列（ Queueing ）
+### 命令及队列
 
-除了 Laravel 4 形式的队列任务，Laravel 5 以简单的命令对象作为队列任务。这些命令放在 `app/Commands` 目录下。下面是个简单的命令：
+除了 Laravel 4 形式的队列任务，Laravel 5 以简单的命令对象作为队列任务。这些命令放在 `app/Commands` 目录下。下面是个例子的命令：
 
-    class PurchasePodcast extends Command implements SelfHandling, ShouldBeQueued {
+    <?php
+
+    class PurchasePodcast extends Command implements SelfHandling, ShouldBeQueued
+    {
 
         use SerializesModels;
 
@@ -250,50 +258,47 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
             event(new PodcastWasPurchased($this->user, $this->podcast));
         }
-
     }
 
-Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可以简单的派发命令执行。
+Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可以简单的派发命令运行。
 
     $this->dispatch(new PurchasePodcastCommand($user, $podcast));
 
-当然，你也可以将命令视为同步执行（而不会被放到队列里）的任务。事实上，使用命令是个好方式，让你可以封装应用程序需要执行的复杂任务。更多相关的信息，参考 [command bus](/docs/{{version}}/bus) 文档。
+当然，你也可以将命令视为同步运行（而不会被放到队列里）的任务。事实上，使用命令是个好方式，让你可以封装应用程序需要运行的复杂任务。更多相关的信息，参考 [command bus](/docs/{{version}}/bus) 文档。
 
 ### 数据库队列
 
-`database` 队列驱动现在已经包含在 Laravel 中了，提供了简单的本地端队列驱动，让你除了数据库相关软件外不需安装其他套件。
+`database` 队列驱动现在已经包含在 Laravel 中了，提供了简单的本地端队列驱动，让你除了数据库相关软件外不需安装其他扩展包。
 
-### Laravel 调用（ Scheduler ）
+### Laravel 调度器
 
-过去，开发者可以产生 Cron 设置，用以调用所有他们想要执行的命令行指令。然而，这是件很头痛的事情，你的命令行调用不再属于版本控制的一部分，而你必须 SSH 到服务器里加入 Cron 设置。
-
-为了让生活变得简单点, 让你可以流畅而且具有表达性的在 Laravel 里面定义你的命令调用，而且服务器只需要单一个 Cron 设置。
+过去，开发者可以产生 Cron 设置，用以调度所有他们想要运行的命令行命令。然而，这是件很头痛的事情，因为你的命令行调度不在版本控制中，而你必须登录到服务器里加入 Cron 设置。让生活变得简单点。Laravel 命令行调度，让你可以流畅而且具有表达性的定义在 Laravel 里面，定义你的命令调度，而且只需要在服务器里设置一个 Cron 设置。
 
 它会看起来如下：
 
     $schedule->command('artisan:command')->dailyAt('15:00');
 
-当然，快参考[完整文档](/docs/{{version}}/artisan#scheduling-artisan-commands)学习所有调用相关知识。
+当然，快参考[完整文档](/docs/{{version}}/artisan#scheduling-artisan-commands)学习所有调度相关知识。
 
-### Tinker、Psysh
+### Tinker 与 Psysh
 
-`php artisan tinker` 命令现在使用 Justin Hileman 的 [Psysh](https://github.com/bobthecow/psysh)，一个 PHP 更强大的 REPL。如果你喜欢 Laravel 4 的 Boris，你也会喜欢上 Psysh。更好的是，它可以跑在 Windows！要开始使用，只要输入：
+`php artisan tinker` 命令现在使用 Justin Hileman 的 [Psysh](https://github.com/bobthecow/psysh)，一个 PHP 更强大的 REPL。如果你喜欢 Laravel 4 的 Boris，你也会喜欢上 Psysh。更好的是，它可以在 Windows 上运行！要开始使用，只要输入：
 
     php artisan tinker
 
 ### DotEnv
 
-比起一堆令人困惑的、嵌套的环境配置文件目录，Laravel 5 现在使用了 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv)。这个套件提供了超级简单的方式管理配置文件，并且让 Laravel 5 环境检测变得轻松。更多的细节，参考完整的[配置文件文档](/docs/{{version}}/configuration#environment-configuration)。
+比起一堆令人困惑的、嵌套的环境配置档目录，Laravel 5 现在使用了 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv)。这个扩展包提供了超级简单的方式管理配置文件，并且让 Laravel 5 环境侦测变得轻松。更多的细节，参考完整的[配置文件文档](/docs/{{version}}/configuration#environment-configuration)。
 
 ### Laravel Elixir
 
-Jeffrey Way 的 Laravel Elixir 提供了一个流畅、语义化的接口，可以编译以及合并 assets。如果你曾经在学习 Grunt 或 Gulp 被吓到，不必再害怕了。Elixir 让使用 Gulp 编译 Less、Sass 及 CoffeeScript 变得简单。它甚至可以帮你执行测试！
+Jeffrey Way 的 Laravel Elixir 提供了一个流畅、口语化的接口，可以编译以及合并 assets。如果你曾经因为学习 Grunt 或 Gulp 而被吓到，不必再害怕了。Elixir 让使用 Gulp 编译 Less、Sass 及 CoffeeScript 变得简单。它甚至可以帮你运行测试！
 
 更多关于 Elixir 的信息，参考[完整文档](/docs/{{version}}/elixir)。
 
 ### Laravel Socialite
 
-Laravel Socialite 是个可选的，Laravel 5.0 以上兼容的套件，提供了无痛的 OAuth 认证。目前 Socialite 支持 Facebook、Twitter、Google 以及 GitHub。它写起来可能像这样：
+Laravel Socialite 是个选用的，Laravel 5.0 以上兼容的扩展包，提供了无痛的 OAuth 认证。目前 Socialite 支持 Facebook、Twitter、Google 以及 GitHub。它写起来可能像这样：
 
     public function redirectForAuth()
     {
@@ -305,11 +310,11 @@ Laravel Socialite 是个可选的，Laravel 5.0 以上兼容的套件，提供�
         $user = Socialize::with('twitter')->user();
     }
 
-不用再花上数小时撰写 OAuth 的认证流程。数分钟就可开始！查看[完整文档](/docs/{{version}}/authentication#social-authentication) 里有所有的细节。
+不用再花上数小时编写 OAuth 的认证流程。只要几分钟！查看[完整文档](/docs/{{version}}/authentication#social-authentication) 里有所有的细节。
 
-### Flysystem 集成
+### 文件系统集成
 
-Laravel 现在包含了强大的 [Flysystem](https://github.com/thephpleague/flysystem)（一个文件系统的抽象类库），提供了无痛的集成，把本地端文件系统、Amazon S3 和 Rackspace 云存储集成在一起，
+Laravel 现在包含了强大的[文件系统](https://github.com/thephpleague/flysystem)（一个文件系统的抽象函数库），提供了无痛的集成，把本地端文件系统、Amazon S3 和 Rackspace 云存储集成在一起，
 有统一且优雅的 API！现在要将文件存到 Amazon S3 相当简单：
 
     Storage::put('file.txt', 'contents');
@@ -318,12 +323,14 @@ Laravel 现在包含了强大的 [Flysystem](https://github.com/thephpleague/fly
 
 ### Form Requests
 
-Laravel 5.0 使用了 **form requests**，是继承了 `Illuminate\Foundation\Http\FormRequest` 的类。这些 request 对象可以和控制器方法依赖注入结合，提供一个不需样板的方法，可以验证用户输入。让我们深入点，看一个 `FormRequest` 的示例：
+Laravel 5.0 引进了 **form requests**，是继承自 `Illuminate\Foundation\Http\FormRequest` 的类。这些 request 对象可以和控制器方法依赖注入结合，提供一个不需样板的方法，来验证用户输入。让我们深入点，看一个 `FormRequest` 的例子：
 
-    <?php namespace App\Http\Requests;
+    <?php
 
-    class RegisterRequest extends FormRequest {
+    namespace App\Http\Requests;
 
+    class RegisterRequest extends FormRequest
+    {
         public function rules()
         {
             return [
@@ -336,7 +343,6 @@ Laravel 5.0 使用了 **form requests**，是继承了 `Illuminate\Foundation\Ht
         {
             return true;
         }
-
     }
 
 定义好类后，我们可以在控制器动作里使用类型提示：
@@ -346,11 +352,11 @@ Laravel 5.0 使用了 **form requests**，是继承了 `Illuminate\Foundation\Ht
         var_dump($request->input());
     }
 
-当 Laravel 的服务容器辨别出要注入的类别是个 `FormRequest` 实例，请求会被**自动验证**。意味着，当你的控制器动作被调用了，你可以安全的假设 HTTP 的请求输入己经被验证过，根据你在 form request 类别里自定的规则。甚至，若这个请求验证不通过，一个 HTTP 重定向（可以自定），会自动发出，错误消息可以被闪存到 session 或是转换成 JSON 返回。**表单验证就是如此的简单。**更多关于 `FormRequest` 验证，参考[文档](/docs/{{version}}/validation#form-request-validation)。
+当 Laravel 的服务容器辨别出要注入的类是个 `FormRequest` 实例，该请求将会被**自动验证**。意味着，当你的控制器动作被调用了，你可以安全的假设 HTTP 的请求输入己经被验证过，根据你在 form request 类里自定的规则。甚至，若这个请求验证不通过，一个 HTTP 重定向（可以自定），会自动发出，错误消息可以被闪存到 session 中或是转换成 JSON 返回。**表单验证再简单不过如此。**更多关于 `FormRequest` 验证，参考[文档](/docs/{{version}}/validation#form-request-validation)。
 
 ### 简易控制器请求验证
 
-Laravel 5 基类控制器包含一个 `ValidatesRequests` trait。这个 trait 包含了一个简单的 `validate` 方法可以验证请求。如果对应用程序来说 `FormRequests` 太复杂了，参考这个：
+Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait 包含了一个简单的 `validate` 方法可以验证请求。如果对你的应用程序来说 `FormRequests` 太复杂了，参考这个：
 
     public function createPost(Request $request)
     {
@@ -360,30 +366,30 @@ Laravel 5 基类控制器包含一个 `ValidatesRequests` trait。这个 trait �
         ]);
     }
 
-如果验证失败，会抛出异常并且返回对应的 HTTP 回应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
+如果验证失败，会抛出例外以及返回适当的 HTTP 回应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
 
 更多关于这个新方法的信息，参考[这个文档](/docs/{{version}}/validation#controller-validation)。
 
-### 新的 Generators
+### 新的产生器
 
-因采用了新的应用程序默认架构，框架也添加了 Artisan generator 命令。使用 `php artisan list` 查看更多细节。
+因应新的应用程序默认架构，框架添加了 Artisan generator 命令。使用 `php artisan list` 瞧瞧更多细节。
 
 ### 配置文件缓存
 
-你现在可以在单一文件里缓存所有配置文件了，使用 `config:cache` 命令。
+你现在可以透过 `config:cache` 命令将所有的配置文件缓存在单一文件中了。
 
 ### Symfony VarDumper
 
-常用的 `dd` 辅助函数，其可以在除错时印出变量信息，已经升级成使用令人惊艳的 Symfony VarDumper。它提供了颜色标记的输出，甚至数组可以自动缩合。在项目中试试下列代码：
+出名的 `dd` 辅助函数，其可以在调试时印出变量信息，已经升级成使用令人惊艳的 Symfony VarDumper 扩展包。它提供了颜色标记的输出，甚至数组可以自动缩合。在项目中试试下列代码：
 
     dd([1, 2, 3]);
 
 <a name="laravel-4.2"></a>
 ## Laravel 4.2
 
-此发行版本的完整变更列表可以从一个 4.2 的完整安装下，执行 `php artisan changes` 命令，或者 [Github 上的变更纪录](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json)。此纪录仅含括主要的强化更新和此发行的变更部分。
+此发行版本的完整更动列表可以从一个 4.2 的完整安装下，运行 `php artisan changes` 命令，或者 [Github 上的更动纪录](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json)。此纪录仅含括主要的强化更新和此发行的更动部分。
 
-> **附注:** 在 4.2 发布周期间，许多小的 bug 修正与功能强化被整并至各个 4.1 的子发行版本中。所以最好确认 Laravel 4.1 版本的更新列表。
+> **附注:** 在 4.2 发布周期间，许多小的臭虫修正与功能强化被整并至各个 4.1 的子发行版本中。所以最好确认 Laravel 4.1 版本的更新列表。
 
 ### PHP 5.4 需求
 
@@ -391,7 +397,7 @@ Laravel 4.2 需要 PHP 5.4 以上的版本。此 PHP 更新版本让我们可以
 
 ### Laravel Forge
 
-Larvel Forge，一个网页应用程序，提供一个简单的接口去建立管理你云端上的 PHP 服务器，像是 Linode、DigitalOcean、Rackspace 和 Amazon EC2。支持自动化 nginx 设置、SSH 密钥管理、Cron job 自动化、透过 NewRelic & Papertrail 服务器监控、「推送部署」、Laravel queue worker 设置等等。Forge 提供最简单且更实惠的方式来部署所有你的 Laravel 应用程序。
+Larvel Forge，一个网页应用程序，提供一个简单的接口去创建管理你云端上的 PHP 服务器，像是 Linode、DigitalOcean、Rackspace 和 Amazon EC2。支持自动化 nginx 设置、SSH 密钥管理、Cron job 自动化、透过 NewRelic & Papertrail 服务器监控、「推送部署」、Laravel queue worker 设置等等。Forge 提供最简单且更实惠的方式来部署所有你的 Laravel 应用程序。
 
 默认 Laravel 4.2 的安装里，`app/config/database.php` 配置文件默认已为 Forge 设置完成，让在平台上的全新应用程序更方便部署。
 
@@ -417,12 +423,11 @@ Artisan `queue:work` 命令现在支持 `--daemon` 参数让 worker 可以以「
 
 ### Mail API Drivers
 
-Laravel 4.2 为 `Mail` 函式采用了新的 Mailgun 和 Mandrill API 驱动。对许多应用程序而言，他提供了比 SMTP 更快也更可靠的方法来递送邮件。新的驱动使用了 Guzzle 4 HTTP 资源库。
+Laravel 4.2 为 `Mail` 函数采用了新的 Mailgun 和 Mandrill API 驱动。对许多应用程序而言，他提供了比 SMTP 更快也更可靠的方法来递送邮件。新的驱动使用了 Guzzle 4 HTTP 资源库。
 
 ### 软删除 Traits
 
-对于软删除和全作用域更简洁的方案
-PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作用域，这些新架构为框架提供了更有扩展性的功能，并且让框架更加简洁。
+对于软删除和全作用域更简洁的方案，PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作用域，这些新架构为框架提供了更有扩展性的功能，并且让框架更加简洁。
 
 更多关于软删除的文档请见: [Eloquent documentation](/docs/eloquent#soft-deleting).
 
@@ -441,19 +446,19 @@ PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作�
 <a name="laravel-4.1"></a>
 ## Laravel 4.1
 
-### 完整变更列表
+### 完整更动列表
 
-此发行版本的完整变更列表，可以在版本 4.1 的安装中命令行执行 `php artisan changes` 取得，或者浏览 [Github 变更档](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json) 中了解。其中只记录了该版本比较主要的强化功能和变更。
+此发行版本的完整更动列表，可以在版本 4.1 的安装中命令行运行 `php artisan changes` 取得，或者浏览 [Github 更动档](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json) 中了解。其中只记录了该版本比较主要的强化功能和更动。
 
 ### 新的 SSH 组件
 
-一个全新的 `SSH` 组件在此发行版本中登场。此功能让你可以轻易的 SSH 至远程服务器并执行命令。更多信息，可以参阅 [SSH 组件文档](/docs/ssh)。
+一个全新的 `SSH` 组件在此发行版本中登场。此功能让你可以轻易的 SSH 至远程服务器并运行命令。更多信息，可以参阅 [SSH 组件文档](/docs/ssh)。
 
-新的 `php artisan tail` 指令就是使用这个新的 SSH 组件。更多的信息，请参阅 `tail` [指令集文档](http://laravel.com/docs/ssh#tailing-remote-logs)。
+新的 `php artisan tail` 命令就是使用这个新的 SSH 组件。更多的信息，请参阅 `tail` [命令集文档](http://laravel.com/docs/ssh#tailing-remote-logs)。
 
 ### Boris In Tinker
 
-如果您的系统支持 [Boris REPL](https://github.com/d11wtq/boris)，`php artisan thinker` 指令将会使用到它。系统中也必须先行安装好 `readline` 和 `pcntl` 两个 PHP 套件。如果你没这些套件，从 4.0 之后将会使用到它。
+如果您的系统支持 [Boris REPL](https://github.com/d11wtq/boris)，`php artisan thinker` 命令将会使用到它。系统中也必须先行安装好 `readline` 和 `pcntl` 两个 PHP 扩展包。如果你没这些扩展包，从 4.0 之后将会使用到它。
 
 ### Eloquent 强化
 
@@ -487,9 +492,8 @@ Laravel 4.1 拥有一个完全重新编写的路由层。API 一样不变。然�
 
 ### 强化 Session 引擎
 
-此发行版本中，我们亦发布了全新的 Session 引擎。如同路由增进的部分，新的 Session 曾更加简化且更快速。我们不再使用 Symfony 的 Session 处理工具，并且使用更简单、更容易维护的客制化解法。
-
+此发行版本中，我们亦发布了全新的 Session 引擎。如同路由增进的部分，新的 Session 曾更加简化且更快速。我们不再使用 Symfony 的 Session 处理工具，并且使用更简单、更容易维护的自定义解法。
 
 ### Doctrine DBAL
 
-如果你有在你的迁移中使用到 `renameColumn`，之后你必须在 `composer.json` 里加 `doctrine/dbal` 进相依套件中。此套件不再默认包含在 Laravel 之中。
+如果你有在你的迁移中使用到 `renameColumn`，之后你必须在 `composer.json` 里加 `doctrine/dbal` 进相依扩展包中。此扩展包不再默认包含在 Laravel 之中。
