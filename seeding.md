@@ -14,11 +14,11 @@ Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。
 <a name="writing-seeders"></a>
 ## 编写数据填充
 
-你可以透过 `make:seeder` [Artisan 命令](/docs/{{version}}/artisan) 来生成一个 Seeder。所有透过框架生成的 Seeder 都将被放置在 `database/seeders` 路径：
+你可以通过 `make:seeder` [Artisan 命令](/docs/{{version}}/artisan) 来生成一个 Seeder。所有通过框架生成的 Seeder 都将被放置在 `database/seeders` 路径：
 
     php artisan make:seeder UsersTableSeeder
 
-在 seeder 类里只会默认一个方法：`run`。当运行 `db:seed` [Artisan 命令](/docs/{{version}}/artisan) 时就会调用此方法。在 `run` 方法中，你可以添加任何想要的数据至你的数据库中。你可使用 [查找产生器](/docs/{{version}}/queries) 手动添加数据或你也可以使用 [Eloquent 模型工厂](/docs/{{version}}/testing#model-factories)。
+在 seeder 类里只会默认一个方法：`run`。当运行 `db:seed` [Artisan 命令](/docs/{{version}}/artisan) 时就会调用此方法。在 `run` 方法中，你可以添加任何想要的数据至你的数据库中。你可使用 [查询语句构造器](/docs/{{version}}/queries) 手动添加数据或你也可以使用 [Eloquent 模型工厂](/docs/{{version}}/testing#model-factories)。
 
 如同下面的例子，我们修改 Laravel 预先安装好的 `DatabaseSeeder` 类。我们在 `run` 方法中添加了一段在数据库添加数据的语法：
 
@@ -87,7 +87,7 @@ Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。
 <a name="running-seeders"></a>
 ## 运行数据填充
 
-一旦你编写完你的 seeder 类，可以使用 `db:seed` Artisan 命令来对数据库进行数据填充。在默认的情况下，`db:seed` 命令将运行 `DatabaseSeeder` 类，并透过它来调用其他的 seed 类。但是，你也可以使用 `--class` 选项来单独运行一个特别指定的 seeder 类：
+一旦你编写完你的 seeder 类，可以使用 `db:seed` Artisan 命令来对数据库进行数据填充。在默认的情况下，`db:seed` 命令将运行 `DatabaseSeeder` 类，并通过它来调用其他的 seed 类。但是，你也可以使用 `--class` 选项来单独运行一个特别指定的 seeder 类：
 
     php artisan db:seed
 

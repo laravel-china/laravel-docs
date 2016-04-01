@@ -705,7 +705,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-config"></a>
 #### `config()` {#collection-method}
 
-`config` 取得设置选项的设置值。设置值可透过「点」式语法读取，其中包含要访问的文件名以及选项名称。可传递一默认值在找不到指定的设置选项时返回该数值：
+`config` 取得设置选项的设置值。设置值可通过「点」式语法读取，其中包含要访问的文件名以及选项名称。可传递一默认值在找不到指定的设置选项时返回该数值：
 
     $value = config('app.timezone');
 
@@ -732,7 +732,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-dd"></a>
 #### `dd()` {#collection-method}
 
-`dd` 函数印出给定变量并结束脚本运行：
+`dd` 函数输出给定变量并结束脚本运行：
 
     dd($value);
 
@@ -808,7 +808,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $value = session('key');
 
-你可以透过传递键值对给该函数进行内容设置：
+你可以通过传递键值对给该函数进行内容设置：
 
     session(['chairs' => 7, 'instruments' => 3]);
 

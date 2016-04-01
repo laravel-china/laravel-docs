@@ -56,7 +56,7 @@
 <a name="attaching-cookies-to-responses"></a>
 #### 附加 Cookies 至回应
 
-透过回应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至回应。举个例子，你可以使用 `withCookie` 方法来产生 cookie 并附加至回应实例：
+通过回应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至回应。举个例子，你可以使用 `withCookie` 方法来产生 cookie 并附加至回应实例：
 
     return response($content)->header('Content-Type', $type)
                      ->withCookie('name', 'value');
@@ -93,7 +93,7 @@
 <a name="json-responses"></a>
 #### JSON 回应
 
-`json` 方法会自动将标头的 `Content-Type` 设置为 `application/json`，并透过 PHP 的 `json_encode` 函数将给定的数组转换为 JSON：
+`json` 方法会自动将标头的 `Content-Type` 设置为 `application/json`，并通过 PHP 的 `json_encode` 函数将给定的数组转换为 JSON：
 
     return response()->json(['name' => 'Abigail', 'state' => 'CA']);
 
@@ -116,7 +116,7 @@
 <a name="redirects"></a>
 ## 重定向
 
-重定向回应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是透过全域的 `redirect` 辅助方法：
+重定向回应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是通过全域的 `redirect` 辅助方法：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');

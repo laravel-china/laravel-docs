@@ -107,7 +107,7 @@ Laravel 对于产生 HTTP 请求并送至应用程序，检查输出，甚至填
 
 #### 使用表单
 
-Laravel 还提供了几种用于测试表单的方法。透过 `type`、`select`、`check`、`attach` 及 `press` 方法让你与表单所有的输入栏进行交互。举个例子，让我们想像一下有个表单在应用程序的注册页面：
+Laravel 还提供了几种用于测试表单的方法。通过 `type`、`select`、`check`、`attach` 及 `press` 方法让你与表单所有的输入栏进行交互。举个例子，让我们想像一下有个表单在应用程序的注册页面：
 
     <form action="/register" method="POST">
         {!! csrf_field() !!}
@@ -288,7 +288,7 @@ Laravel 提供了几个辅助方法在测试时使用 Session。首先，你需�
         $this->assertEquals(200, $response->status());
     }
 
-如果你创建的是 `POST`、`PUT`、或是 `PATCH` 请求，你可以在请求时传入一个数组作为输入数据。当然，你可在你的路由及控制器中透过[请求实例](/docs/{{version}}/requests)取用这些数据：
+如果你创建的是 `POST`、`PUT`、或是 `PATCH` 请求，你可以在请求时传入一个数组作为输入数据。当然，你可在你的路由及控制器中通过[请求实例](/docs/{{version}}/requests)取用这些数据：
 
        $response = $this->call('POST', '/user', ['name' => 'Taylor']);
 
@@ -427,7 +427,7 @@ Laravel 也提供了多种有用的工具，让你更容易测试使用数据库
 
 #### 在测试中使用工厂
 
-定义工厂后，就可以在测试或是数据库填充文件中，透过全域 `factory` 函数产生模型实例。那么让我们来看看几个创建模型的例子。首先我们会使用 `make` 方法创建模型，但是不将它们保存至数据库：
+定义工厂后，就可以在测试或是数据库填充文件中，通过全域 `factory` 函数产生模型实例。那么让我们来看看几个创建模型的例子。首先我们会使用 `make` 方法创建模型，但是不将它们保存至数据库：
 
     public function testDatabase()
     {
@@ -565,7 +565,7 @@ Laravel 提供了一个简洁的 `expectsJobs` 方法，验证预期的任务有
         }
     }
 
-我们可以透过 `shouldReceive` 方法仿真调用 `Cache` facade，它会返回一个 [Mockery](https://github.com/padraic/mockery) 仿真的实例。因为 facades 实际上已经被 Laravel [服务容器](/docs/{{version}}/container)解决及管理，它们比起一般的静态类更有可测试性。举个例子，让我们仿真我们调用 `Cache` facade：
+我们可以通过 `shouldReceive` 方法仿真调用 `Cache` facade，它会返回一个 [Mockery](https://github.com/padraic/mockery) 仿真的实例。因为 facades 实际上已经被 Laravel [服务容器](/docs/{{version}}/container)解决及管理，它们比起一般的静态类更有可测试性。举个例子，让我们仿真我们调用 `Cache` facade：
 
     <?php
 

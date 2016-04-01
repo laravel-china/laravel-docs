@@ -19,7 +19,7 @@
 
 #### 错误细节
 
-你的应用程序透过 `config/app.php` 配置文件中的 `debug` 设置选项来控制浏览器显示错误的细节。默认情况下，此设置选项是参照于保存在 `.env` 文件的 `APP_DEBUG` 环境变量。
+你的应用程序通过 `config/app.php` 配置文件中的 `debug` 设置选项来控制浏览器显示错误的细节。默认情况下，此设置选项是参照于保存在 `.env` 文件的 `APP_DEBUG` 环境变量。
 
 在本机开发的时候，你应该将 `APP_DEBUG` 环境变量设置为 `true`。在你的上线环境中，这个值应该永远为 `false`。
 
@@ -42,7 +42,7 @@ Laravel 提供立即可用的 `single`、`daily`、`syslog` 和 `errorlog` 日�
 <a name="the-exception-handler"></a>
 ## 错误处理
 
-所有的例外处理都是透过 `App\Exceptions\Handler` 类。这个类包含了两个方法：`report` 和 `render`。我们将研究这些方法的细节。
+所有的例外处理都是通过 `App\Exceptions\Handler` 类。这个类包含了两个方法：`report` 和 `render`。我们将研究这些方法的细节。
 
 <a name="report-method"></a>
 ### 报告方法
@@ -100,7 +100,7 @@ Laravel 提供立即可用的 `single`、`daily`、`syslog` 和 `errorlog` 日�
 
     abort(404);
 
-`abort` 方法透过错误处理，将会立即引发例外，并且呈现错误。或者，你可以提供回应的文本消息：
+`abort` 方法通过错误处理，将会立即引发例外，并且呈现错误。或者，你可以提供回应的文本消息：
 
     abort(403, 'Unauthorized action.');
 

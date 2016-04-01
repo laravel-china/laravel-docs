@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 的 Contracts 是一组定义了框架核心服务的接口（ interfaces ）。例如，`Illuminate\Contracts\Queue\Queue` contract 定义了队列任务所需要的方法，而 `Illuminate\Contracts\Mail\Mailer` contract 定义了寄送 e-mail 需要的方法。
+Laravel 的 Contracts 是一组定义了框架核心服务的接口（ php class interfaces ）。例如，`Illuminate\Contracts\Queue\Queue` contract 定义了队列任务所需要的方法，而 `Illuminate\Contracts\Mail\Mailer` contract 定义了寄送 e-mail 需要的方法。
 
 框架对于每个 contract 都有提供对应的实现，例如，Laravel 提供各种驱动程序的队列实现，以及由 [SwiftMailer](http://swiftmailer.org/) 提供的 mailer 实现。
 
@@ -16,7 +16,7 @@ Laravel 所有的 contracts 都放在 [各自的 GitHub 保存库](https://githu
 
 ### Contracts Vs. Facades
 
-Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来使用服务，而不需要使用类型提示和在服务容器之外解析 contracts。然而，使用 contracts 可以明显地定义出类的依赖，对大部分应用进程而言，使用 facade 就很足够了，然而，若您实在需要特别的低耦合，使用 contracts 可以做到这一点，就让我们继续看下去！
+Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来使用服务，而不需要使用类型提示和在服务容器之外解析 contracts。然而，使用 contracts 可以明显地定义出类的依赖，对大部分应用进程而言，使用 facade 就很足够了，然而，若你实在需要特别的低耦合，使用 contracts 可以做到这一点，就让我们继续看下去！
 
 <a name="why-contracts"></a>
 ## 为何要用 Contracts?
@@ -59,7 +59,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
          */
         public function find($id)
         {
-            if ($this->cache->has($id))    {
+            if ($this->cache->has($id)) {
                 //
             }
         }

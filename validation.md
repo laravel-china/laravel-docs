@@ -175,7 +175,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 <a name="manually-creating-validators"></a>
 ### 手动创建验证程序
 
-如果你不想要使用 `ValidatesRequests` trait 的 `validate` 方法，你可以手动创建一个 validator 实例透过 `Validator::make` 方法在 [facade](/docs/{{version}}/facades) 产生一个新的 validator 实例：
+如果你不想要使用 `ValidatesRequests` trait 的 `validate` 方法，你可以手动创建一个 validator 实例通过 `Validator::make` 方法在 [facade](/docs/{{version}}/facades) 产生一个新的 validator 实例：
 
     <?php
 
@@ -327,7 +327,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 #### 自定错误消息
 
-你可以透过覆写表单请求的 `messages` 方法自定错误消息。此方法必须返回一个数组，含有成对的属性与规则及对应的错误消息：
+你可以通过覆写表单请求的 `messages` 方法自定错误消息。此方法必须返回一个数组，含有成对的属性与规则及对应的错误消息：
 
     /**
      * 取得已定义验证规则的错误消息。
@@ -390,7 +390,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 <a name="custom-error-messages"></a>
 ### 自定义错误消息
 
-如果有需要，你可以自定义错误的验证消息来取代默认的验证消息。有几种方法可以来自定义指定的消息。首先，你需要先自定义验证消息，透过三个参数传到 `Validator::make` 的方法：
+如果有需要，你可以自定义错误的验证消息来取代默认的验证消息。有几种方法可以来自定义指定的消息。首先，你需要先自定义验证消息，通过三个参数传到 `Validator::make` 的方法：
 
     $messages = [
         'required' => ':attribute 的字段是必要的。',
@@ -398,7 +398,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
     $validator = Validator::make($input, $rules, $messages);
 
-在这个例子中，`:attribute` 透过验证字段的的实际名称，预留的字段会被取代。你还可以使用其他默认字段的验证消息。例如：
+在这个例子中，`:attribute` 通过验证字段的的实际名称，预留的字段会被取代。你还可以使用其他默认字段的验证消息。例如：
 
     $messages = [
         'same'    => ':attribute 和 :other 必须相同。',
@@ -495,16 +495,16 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 <a name="rule-active-url"></a>
 #### active_url
 
-验证字段值是否为一个有效的网址，会透过 PHP 的 `checkdnsrr` 函数来验证。
+验证字段值是否为一个有效的网址，会通过 PHP 的 `checkdnsrr` 函数来验证。
 
 <a name="rule-after"></a>
 #### after:_date_
 
-验证字段是否是在指定日期之后。这个日期将会透过 `strtotime` 函数验证。
+验证字段是否是在指定日期之后。这个日期将会通过 `strtotime` 函数验证。
 
     'start_date' => 'required|date|after:tomorrow'
 
-相反的传入日期字符串透过 `strtotime` 来确认，你可以指定其他的字段来比较日期：
+相反的传入日期字符串通过 `strtotime` 来确认，你可以指定其他的字段来比较日期：
 
     'finish_date' => 'required|date|after:start_date'
 
@@ -556,7 +556,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-验证字段值符合定义的日期 _格式_，透过 PHP 的 `date_parse_from_format` 函数验证。
+验证字段值符合定义的日期 _格式_，通过 PHP 的 `date_parse_from_format` 函数验证。
 
 <a name="rule-different"></a>
 #### different:_field_
@@ -640,7 +640,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
     'photo' => 'mimes:jpeg,bmp,png'
 
-即便你只需要指定的扩展名，但此规则实际上验证了文件的 MIME 类型，透过读取文件的内容，并猜测它的 MIME 类型。
+即便你只需要指定的扩展名，但此规则实际上验证了文件的 MIME 类型，通过读取文件的内容，并猜测它的 MIME 类型。
 
 完整的 MIME 类型及对应的扩展名清单可以在下方链接找到：[http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
@@ -737,7 +737,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 **自定义数据库连接**
 
-有时候你可能需要自定义一个连接，透过 Validator 对数据库进行查找。如上面所示，设置 `unique:users` 作为验证规则，透过默认数据库连接来做数据库查找。如果要覆写验证规则，将指定的连接后在表单名称后加上「.」：
+有时候你可能需要自定义一个连接，通过 Validator 对数据库进行查找。如上面所示，设置 `unique:users` 作为验证规则，通过默认数据库连接来做数据库查找。如果要覆写验证规则，将指定的连接后在表单名称后加上「.」：
 
     'email' => 'unique:connection.users,email_address'
 
@@ -851,7 +851,7 @@ Laravel 提供了很多有用的验证规则；但是，你可能希望自定义
 
     // 其余的验证错误消息...
 
-当你在创建自定义的验证规则时，你可能需要定义保留字段来取代错误消息。你可以创建自定义的验证器，像上面所描述的透过 `Validator` facade 来使用 `replacer` 的方法。你可以透过[服务提供者](/docs/{{version}}/providers)中的 `boot` 方法这么做：
+当你在创建自定义的验证规则时，你可能需要定义保留字段来取代错误消息。你可以创建自定义的验证器，像上面所描述的通过 `Validator` facade 来使用 `replacer` 的方法。你可以通过[服务提供者](/docs/{{version}}/providers)中的 `boot` 方法这么做：
 
     /**
      * 启动所有应用程序服务。

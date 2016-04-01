@@ -43,7 +43,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 
 ### 手动注册事件
 
-一般来说，事件必须透过 `EventServiceProvider` 的 `$listen` 数组进行注册；不过，你也可以透过 `Event` facade 或是 `Illuminate\Contracts\Events\Dispatcher` contract 实现的事件发送器来手动注册事件：
+一般来说，事件必须通过 `EventServiceProvider` 的 `$listen` 数组进行注册；不过，你也可以通过 `Event` facade 或是 `Illuminate\Contracts\Events\Dispatcher` contract 实现的事件发送器来手动注册事件：
 
     /**
      * 注册你应用程序中的任何其他事件。
@@ -169,7 +169,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
         //
     }
 
-如此而已！现在，当这个监听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues)自动的进行队列。如果监听器是透过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
+如此而已！现在，当这个监听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues)自动的进行队列。如果监听器是通过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
 
 #### 手动访问队列
 
@@ -235,7 +235,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 <a name="broadcasting-events"></a>
 ## 广播事件
 
-在许多现代的网页应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息透过客户端处理。
+在许多现代的网页应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息通过客户端处理。
 
 为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 websocket 连接来「广播」你的事件。广播你的 Laravel 事件让你能够在你的服务器端代码和你的客户端 JavaScript 框架间分享相同的事件名称。
 
@@ -343,7 +343,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 
 #### Pusher
 
-透过 [Pusher](https://pusher.com) 驱动，你可以使用 Pusher 的 JavaScript SDK 方便的消耗事件广播。例如，让我们从先前的例子消耗 `App\Events\ServerCreated` 事件：
+通过 [Pusher](https://pusher.com) 驱动，你可以使用 Pusher 的 JavaScript SDK 方便的消耗事件广播。例如，让我们从先前的例子消耗 `App\Events\ServerCreated` 事件：
 
     this.pusher = new Pusher('pusher-key');
 

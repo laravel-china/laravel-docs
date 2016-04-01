@@ -24,7 +24,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="configuration"></a>
 ### 设置
 
-#### Composer
+#### Composer 安装
 
 首先，将 Cashier 扩展包添加至 `composer.json` 文件并运行 `composer update` 命令：
 
@@ -32,13 +32,17 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
     "laravel/cashier": "~4.0" (For Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~3.0" (For Stripe APIs up to and including 2015-02-16 version)
 
+> ：这里应该使用 require 来安装扩展包，见 []()
+
 #### 服务提供者
 
 接着，在 `app` 配置文件中注册 `Laravel\Cashier\CashierServiceProvider` [服务提供者](/docs/{{version}}/providers)。
 
-#### 迁移
+#### 数据库迁移
 
-使用 Cashier 前，我们需要增加几个字段到数据库。别担心，你可以使用 `cashier:table` Artisan 命令，创建迁移文件来添加必要字段。举个例子，若要增加字段到 users 数据表，使用命令：`php artisan cashier:table users`。
+使用 Cashier 前，我们需要增加几个字段到数据库，你可以使用 `cashier:table` Artisan 命令，创建迁移文件来添加必要字段。举个例子，若要增加字段到 users 数据表，使用命令：`php artisan cashier:table users`。
+
+> TODO: 把具体的字段写出来。
 
 创建完迁移文件后，只要运行 `migrate` 命令即可。
 
@@ -108,13 +112,13 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="checking-subscription-status"></a>
 ### 确认订购状态
 
-一旦用户在你的应用程序订购，你可以使用多种便捷的方法，很简单的检查他们的订购状态。首先，当用户拥有有效订购时，`subscribed` 方法会返回 `true`，即使该订购目前在试用期间：
+一旦用户在你的应用程序订购，你可以使用多种方法来检查他们的订购状态。首先，当用户拥有有效订购时，`subscribed` 方法会返回 `true`，即使该订购目前在试用期间：
 
     if ($user->subscribed()) {
         //
     }
 
-`subscribed` 方法很适合用在[路由中间件](/docs/{{version}}/middleware)，让你可以透过用户的订购状态，过滤访问路由及控制器：
+`subscribed` 方法很适合用在[路由中间件](/docs/{{version}}/middleware)，让你可以通过用户的订购状态，过滤访问路由及控制器：
 
     public function handle($request, Closure $next)
     {
@@ -126,7 +130,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
         return $next($request);
     }
 
-如果你想确认用户是否还在他们的试用期内，你可以使用 `onTrial` 方法。此方法在向用户显示他们还在试用期内的警告是很有用的：
+如果你想确认用户是否还在他们的试用期内，你可以使用 `onTrial` 方法。你可以利用此方法在页面的顶部展示正在试用期内的提示：
 
     if ($user->onTrial()) {
         //
@@ -140,7 +144,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
 #### 取消订购状态
 
-若要确认用户是否曾经订购，但是已经取消他们的订购，你可以使用 `cancelled` 方法：
+若要确认用户是否曾经订购过，但现在已取消订购，你可以使用 `cancelled` 方法：
 
     if ($user->cancelled()) {
         //
@@ -161,7 +165,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="changing-plans"></a>
 ### 改变方案
 
-当用户在你的应用程序订购之后，他们有时可能想更改自己的订购方案。使用 `swap` 方法可以把用户转换到新的订购。举个例子，我们可以简单的将用户切换至 `premium` 订购：
+当用户在你的应用程序订购之后，他们有时可能想更改自己的订购方案。使用 `swap` 方法可以把用户转换到新的订购方案。举个例子，我们可以简单的将用户切换至 `premium` 订购：
 
     $user = App\User::find(1);
 
@@ -176,7 +180,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="subscription-quantity"></a>
 ### 订购数量
 
-有时候订购行为会跟「数量」有关。例如，你的应用程序可能会依照帐号的用户人数，**每人**每月收取 10 元。你可以使用 `increment` 和 `decrement` 方法简单的调整订购数量：
+有时候订购行为会跟「数量」有关。例如，你的应用程序可能会依照帐号的用户人数，**每人** 每月收取 10 元。你可以使用 `increment` 和 `decrement` 方法简单的调整订购数量：
 
     $user = User::find(1);
 
@@ -241,9 +245,9 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
     Route::post('stripe/webhook', '\Laravel\Cashier\WebhookController@handleWebhook');
 
-这样就完成了！失败的交易会经由控制器捕捉并进行处理。控制器在 Stripe 确认订购已经失败后 (通常在三次交易尝试失败后)，才会取消顾客的订单。别忘了：你必须设置 Stripe 控制皮肤设置里的 webhook URI。
+这样就完成了！失败的交易会经由控制器捕捉并进行处理。控制器在 Stripe 确认订购已经失败后 (通常在三次交易尝试失败后)，才会取消顾客的订单。别忘了：你必须设置 Stripe 控制设置里的 webhook URI。
 
-由于 Stripe webhooks 必须绕过 Laravel 的 [CSRF 验证](/docs/{{version}}/routing#csrf-protection)，请确定在增加 URI 例外至你的 `VerifyCsrfToken` 中间件：
+由于 Stripe Webhooks 必须绕过 Laravel 的 [CSRF 验证](/docs/{{version}}/routing#csrf-protection)，请确定在增加 URI 例外至你的 `VerifyCsrfToken` 中间件：
 
     protected $except = [
         'stripe/*',
@@ -252,7 +256,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="handling-other-webhooks"></a>
 ### 其他 Webhooks
 
-如果你想要处理额外的 Stripe webhook 事件，只需要继承 Webhook 控制器。你的方法名称要对应到 Cashier 默认的名称，尤其是方法名称应该使用 `handle` 前缀，并使用「驼峰式」命名法，后面接着你想要处理的 Stripe webhook。例如，如果你想要处理 `invoice.payment_succeeded` webhook，你应该增加一个 `handleInvoicePaymentSucceeded` 方法到控制器。
+如果你想要处理额外的 Stripe Webhook 事件，只需要继承 Webhook 控制器。你的方法名称要对应到 Cashier 默认的名称，尤其是方法名称应该使用 `handle` 前缀，并使用「驼峰式」命名法，后面接着你想要处理的 Stripe webhook。例如，如果你想要处理 `invoice.payment_succeeded` webhook，你应该增加一个 `handleInvoicePaymentSucceeded` 方法到控制器。
 
     <?php
 
@@ -277,7 +281,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="single-charges"></a>
 ## 一次性收费
 
-如果你想对一个已订购客户的信用卡进行「一次性」收费，你可以对一个交易模型实例使用 `charge` 方法。`charge` 方法接受你想收取**应用程序使用货币的最低单位**的金额。所以，举例来说，下方的例子将会对用户的信用卡收取 100 美分，或是 1 美元：
+如果你想对一个已订购客户的信用卡进行「一次性」收费，你可以对一个交易模型实例使用 `charge` 方法。`charge` 方法接受你想收取 **应用程序使用货币的最低单位** 的金额。所以，举例来说，下方的例子将会对用户的信用卡收取 100 美分，或是 1 美元：
 
     $user->charge(100);
 
@@ -299,11 +303,11 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="invoices"></a>
 ## 收据
 
-你可以很简单的透过 `invoices` 方法取得交易模型的收据数据数组：
+你可以很简单的通过 `invoices` 方法取得交易模型的收据数据数组：
 
     $invoices = $user->invoices();
 
-当列出收据给客户时，你可以使用收据的辅助方法来显示收据的相关信息。举例来说，你可能希望列出每个收据至表格中，让用户可以简单的下载其中一个：
+当列出收据给客户时，你可以使用收据的辅助方法来显示收据的相关信息。举例来说，你可能希望列出每个收据至数据库表中，让用户可以简单的下载其中一个：
 
     <table>
         @foreach ($invoices as $invoice)
@@ -318,7 +322,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="generating-invoice-pdfs"></a>
 #### 产生收据的 PDFs
 
-在路由或是控制器中，使用 `downloadInvoice` 方法可以产生收据的 PDF 下载动作。此方法会自动产生正确的 HTTP 回应并发送下载动作至浏览器：
+在路由或是控制器中，使用 `downloadInvoice` 方法可以触发收据的 PDF 下载动作，此方法会自动产生正确的 HTTP 回应并发送下载动作至浏览器：
 
     Route::get('user/invoice/{invoice}', function ($invoiceId) {
         return Auth::user()->downloadInvoice($invoiceId, [

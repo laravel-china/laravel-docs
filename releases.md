@@ -18,7 +18,7 @@
 <a name="laravel-5.1.11"></a>
 ## Laravel 5.1.11
 
-Laravel 5.1.11 推出了内置的[授权](/docs/{{version}}/authorization)支持！透过回调或授权策略类方便的组织你应用程序的授权逻辑，使用简单明了的方法对行为进行授权。
+Laravel 5.1.11 推出了内置的[授权](/docs/{{version}}/authorization)支持！通过回调或授权策略类方便的组织你应用程序的授权逻辑，使用简单明了的方法对行为进行授权。
 
 更多的信息请参考[授权的文档](/docs/{{version}}/authorization)。
 
@@ -30,7 +30,7 @@ Laravel 5.1.4 为框架推出了简单的登录限制。查阅[认证的文档](
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
 
-Laravel 5.1 继续以 Laravel 5.0 改进而成，透过采用 PSR-2 及添加事件广播、中间件参数、Artisan 的改进及其他等等。
+Laravel 5.1 继续以 Laravel 5.0 改进而成，通过采用 PSR-2 及添加事件广播、中间件参数、Artisan 的改进及其他等等。
 
 ### PHP 5.5.9+
 
@@ -50,7 +50,7 @@ Laravel 文档的每一页已被精心审查，并得到显著的改善。所有
 
 ### 事件广播
 
-在许多现代的 web 应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息透过客户端处理。
+在许多现代的 web 应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息通过客户端处理。
 
 为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 websocket 连接来「广播」你的事件。广播你的 Laravel 事件让你能够在你的服务器端代码和你的客户端 JavaScript 框架间分享相同的事件名称。
 
@@ -144,7 +144,7 @@ Artisan 命令现在可以使用简单的方式定义，相似于路由的「署
 
 ### 加密
 
-在 Laravel 之前的版本，加密是透过 `mcrypt` PHP 扩充功能进行处理。不过，从 Laravel 5.1 起，加密透过更积极维护的 `openssl` 扩充功能进行处理。
+在 Laravel 之前的版本，加密是通过 `mcrypt` PHP 扩充功能进行处理。不过，从 Laravel 5.1 起，加密通过更积极维护的 `openssl` 扩充功能进行处理。
 
 <a name="laravel-5.0"></a>
 ## Laravel 5.0
@@ -376,11 +376,11 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
 
 ### 配置文件缓存
 
-你现在可以透过 `config:cache` 命令将所有的配置文件缓存在单一文件中了。
+你现在可以通过 `config:cache` 命令将所有的配置文件缓存在单一文件中了。
 
 ### Symfony VarDumper
 
-出名的 `dd` 辅助函数，其可以在调试时印出变量信息，已经升级成使用令人惊艳的 Symfony VarDumper 扩展包。它提供了颜色标记的输出，甚至数组可以自动缩合。在项目中试试下列代码：
+出名的 `dd` 辅助函数，其可以在调试时输出变量信息，已经升级成使用令人惊艳的 Symfony VarDumper 扩展包。它提供了颜色标记的输出，甚至数组可以自动缩合。在项目中试试下列代码：
 
     dd([1, 2, 3]);
 
@@ -397,7 +397,7 @@ Laravel 4.2 需要 PHP 5.4 以上的版本。此 PHP 更新版本让我们可以
 
 ### Laravel Forge
 
-Larvel Forge，一个网页应用程序，提供一个简单的接口去创建管理你云端上的 PHP 服务器，像是 Linode、DigitalOcean、Rackspace 和 Amazon EC2。支持自动化 nginx 设置、SSH 密钥管理、Cron job 自动化、透过 NewRelic & Papertrail 服务器监控、「推送部署」、Laravel queue worker 设置等等。Forge 提供最简单且更实惠的方式来部署所有你的 Laravel 应用程序。
+Larvel Forge，一个网页应用程序，提供一个简单的接口去创建管理你云端上的 PHP 服务器，像是 Linode、DigitalOcean、Rackspace 和 Amazon EC2。支持自动化 nginx 设置、SSH 密钥管理、Cron job 自动化、通过 NewRelic & Papertrail 服务器监控、「推送部署」、Laravel queue worker 设置等等。Forge 提供最简单且更实惠的方式来部署所有你的 Laravel 应用程序。
 
 默认 Laravel 4.2 的安装里，`app/config/database.php` 配置文件默认已为 Forge 设置完成，让在平台上的全新应用程序更方便部署。
 
@@ -458,7 +458,7 @@ Laravel 4.2 为 `Mail` 函数采用了新的 Mailgun 和 Mandrill API 驱动。�
 
 ### Boris In Tinker
 
-如果您的系统支持 [Boris REPL](https://github.com/d11wtq/boris)，`php artisan thinker` 命令将会使用到它。系统中也必须先行安装好 `readline` 和 `pcntl` 两个 PHP 扩展包。如果你没这些扩展包，从 4.0 之后将会使用到它。
+如果你的系统支持 [Boris REPL](https://github.com/d11wtq/boris)，`php artisan thinker` 命令将会使用到它。系统中也必须先行安装好 `readline` 和 `pcntl` 两个 PHP 扩展包。如果你没这些扩展包，从 4.0 之后将会使用到它。
 
 ### Eloquent 强化
 
@@ -468,7 +468,7 @@ Eloquent 添加了新的 `hasManyThrough` 关系链。想要了解更多，请�
 
 ### 数据库读写分离
 
-Query Builder 和 Eloquent 目前透过数据库层，已经可以自动做到读写分离。更多的信息，请参考 [文档](/docs/database#read-write-connections)。
+Query Builder 和 Eloquent 目前通过数据库层，已经可以自动做到读写分离。更多的信息，请参考 [文档](/docs/database#read-write-connections)。
 
 ### 队列排序
 

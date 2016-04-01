@@ -122,7 +122,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="included-authenticating"></a>
 ### 认证
 
-现在你已经为认证控制器设置好了路由及视图，你可以准备在你的应用程序注册新用户并认证他。你只要简单地在浏览器访问你定义的路由，认证控制器早已包含了处理认证现有用户，及保存新用户在数据库的逻辑了（透过他们各自的 traits）。
+现在你已经为认证控制器设置好了路由及视图，你可以准备在你的应用程序注册新用户并认证他。你只要简单地在浏览器访问你定义的路由，认证控制器早已包含了处理认证现有用户，及保存新用户在数据库的逻辑了（通过他们各自的 traits）。
 
 当用户成功的认证后，他们将被导向 `/home` URI，而你需要向路由注册这个 URI 来处理这个请求，你可以自定义认证后，转向的 URI，只需要修改 `AuthController` 的 `redirectPath` 属性：
 
@@ -145,11 +145,11 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="retrieving-the-authenticated-user"></a>
 ### 取得已认证的用户信息
 
-你可以透过 `Auth` facade 来访问认证的用户。
+你可以通过 `Auth` facade 来访问认证的用户。
 
     $user = Auth::user();
 
-也有另外一种方法可以访问认证过的用户，就是透过 `Illuminate\Http\Request` 实例：
+也有另外一种方法可以访问认证过的用户，就是通过 `Illuminate\Http\Request` 实例：
 
     <?php
 
@@ -211,7 +211,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="authentication-throttling"></a>
 ### 错误尝试限制
 
-如果你使用 Laravel's 内置的 `AuthController` 类，可以透过 `Illuminate\Foundation\Auth\ThrottlesLogins` trait 在你的应用程序限制登录次数。默认情况下，如果用户在几次尝试后仍不能提供正确的凭证，将在一分钟内无法进行登录。这个限制会特别针对用户的用户名称 / 邮件地址和他们的 IP 地址：
+如果你使用 Laravel's 内置的 `AuthController` 类，可以通过 `Illuminate\Foundation\Auth\ThrottlesLogins` trait 在你的应用程序限制登录次数。默认情况下，如果用户在几次尝试后仍不能提供正确的凭证，将在一分钟内无法进行登录。这个限制会特别针对用户的用户名称 / 邮件地址和他们的 IP 地址：
 
     <?php
 
@@ -235,7 +235,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 当然，你不一定要使用 Laravel 内置的认证控制器，你可以选择删除这些控制器，然后创建自定义的控制器。
 
-我们将透过 `Auth` [facade](/docs/{{version}}/facades) 访问 Laravel 的认证服务，所以我们需要确认是否在类的最上面引入 `Auth` facade，接下来让我们看一下 `attempt` 方法：
+我们将通过 `Auth` [facade](/docs/{{version}}/facades) 访问 Laravel 的认证服务，所以我们需要确认是否在类的最上面引入 `Auth` facade，接下来让我们看一下 `attempt` 方法：
 
     <?php
 

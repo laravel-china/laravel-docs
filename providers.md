@@ -10,7 +10,7 @@
 <a name="introduction"></a>
 ## 简介
 
-服务提供者是所有 Laravel 应用程序启动的中心所在。你自己的应用程序，以及所有的 Laravel 核心服务，都是透过服务提供者启动的。
+服务提供者是所有 Laravel 应用程序启动的中心所在。你自己的应用程序，以及所有的 Laravel 核心服务，都是通过服务提供者启动的。
 
 但我们所说的「启动」指的是什么？一般而言，我们指的是**注册**事物，包括注册服务容器绑定、事件监听器、中间件，甚至路由。服务提供者是设置你的应用程序的中心所在。
 
@@ -23,7 +23,7 @@
 
 所有的服务提供者都继承了 `Illuminate\Support\ServiceProvider` 类。这个抽象类要求你在你的提供者上定义至少一个方法：`register`。在 `register` 方法中，你应该**只将事物绑定至[服务容器](/docs/{{version}}/container)之中**。你永远不该试图在 `register` 方法中注册任何事件监听器、路由或任何其他功能。
 
-Artisan 命令行接口可以很容易地透过 `make:provider` 命令生成新的提供者：
+Artisan 命令行接口可以很容易地通过 `make:provider` 命令生成新的提供者：
 
     php artisan make:provider RiakServiceProvider
 

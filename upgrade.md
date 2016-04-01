@@ -124,7 +124,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 #### `find` 方法
 
-如果你有在自己的模型中覆写了 `find` 方法并在你的方法中调用了 `parent::find()`，你现在应该把它改成调用 Eloquent 查找产生器上的 `find` 方法：
+如果你有在自己的模型中覆写了 `find` 方法并在你的方法中调用了 `parent::find()`，你现在应该把它改成调用 Eloquent 查询语句构造器上的 `find` 方法：
 
     public static function find($id, $columns = ['*'])
     {
@@ -141,7 +141,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
     User::lists('id')->all();
 
-必须小心查找产生器的 `lists` 方法仍然是返回一个数组。
+必须小心查询语句构造器的 `lists` 方法仍然是返回一个数组。
 
 #### 日期格式
 
@@ -165,7 +165,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 #### `groupBy` 方法
 
-`groupBy` 方法现在会返回 `Collection` 实例给在父 `Collection` 中的每一个元素。如果你想要把所有元素转换回一般数组，你可以透过 `map` 处理它们：
+`groupBy` 方法现在会返回 `Collection` 实例给在父 `Collection` 中的每一个元素。如果你想要把所有元素转换回一般数组，你可以通过 `map` 处理它们：
 
     $collection->groupBy('type')->map(function($item)
     {
@@ -220,7 +220,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 - `Illuminate\Foundation\Bus\DispatchesCommands` trait 已经被弃用并改名成 `Illuminate\Foundation\Bus\DispatchesJobs`。
 - `Illuminate\Container\BindingResolutionException` 被移到 `Illuminate\Contracts\Container\BindingResolutionException`。
 - 服务容器的 `bindShared` 方法已经被弃用而用 `singleton` 方法取代。
-- Eloquent 和查找产生器的 `pluck` 方法已经被弃用并改名成 `value`。
+- Eloquent 和查询语句构造器的 `pluck` 方法已经被弃用并改名成 `value`。
 - 集合的 `fetch` 方法已经被弃用而用 `pluck` 方法取代。
 - `array_fetch` 辅助函数已经被弃用而用 `array_pluck` 方法取代。
 </div>
@@ -249,7 +249,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 ### 命名空间
 
-默认情况下，Laravel 4 应用程序 没有在应用程序的代码中使用命名空间。所以，举例来说，所有的 Eloquent 模型和控制器都简单地存在于「全域」的命名空间中。为了更快速的迁移，Laravel 5 也允许您可以将这些类一样保留在全域的命名空间。
+默认情况下，Laravel 4 应用程序 没有在应用程序的代码中使用命名空间。所以，举例来说，所有的 Eloquent 模型和控制器都简单地存在于「全域」的命名空间中。为了更快速的迁移，Laravel 5 也允许你可以将这些类一样保留在全域的命名空间。
 
 ### 设置
 
@@ -285,7 +285,7 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来提供�
 
 将筛选逻辑绑定从 `app/filters.php` 复制到 `app/Providers/RouteServiceProvider.php` 的 `boot()` 方法。并在 `app/Providers/RouteServiceProvider.php` 添加 `use Illuminate\Support\Facades\Route;` 来继续使用 `Route` Facade。
 
-您不需要移动任何 Laravel 4.0 的默认过滤器，像是 `auth` 和 `csrf`。他们已经内置其中，只是换作以中间件形式出现。那些在路由或控制器内有使用到旧有默认过滤器  (例如，`['before' => 'auth']`) 请修改使用新的中间件 (例如，`['middleware' => 'auth']`)。
+你不需要移动任何 Laravel 4.0 的默认过滤器，像是 `auth` 和 `csrf`。他们已经内置其中，只是换作以中间件形式出现。那些在路由或控制器内有使用到旧有默认过滤器  (例如，`['before' => 'auth']`) 请修改使用新的中间件 (例如，`['middleware' => 'auth']`)。
 
 筛选器在 Laravel 5 中没有被移除。你仍然可以绑定并借由 `before` 和 `after`使用你自己自定义的筛选器。
 
@@ -313,7 +313,7 @@ Eloquent 不再提供 `remember` 方法来缓存查找结果。现在你有责�
 
 ### 用户认证模型
 
-要使用 Laravel 5 的认证系统，请遵循以下指引来升级您的 `User` 模型：
+要使用 Laravel 5 的认证系统，请遵循以下指引来升级你的 `User` 模型：
 
 **从你的 `use` 区块删除以下内容：**
 
@@ -589,7 +589,7 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
 
 ### 环境侦测的变更
 
-为了安全因素，不再使用网域来侦测应用程序的环境。因为这些值很容易被伪造欺骗，继而让攻击者透过请求来变更环境。你必须改为使用机器的主机名称 (在 Mac、Linux 和 Windows 下运行 `hostname` 命令的值) 来侦测环境。
+为了安全因素，不再使用网域来侦测应用程序的环境。因为这些值很容易被伪造欺骗，继而让攻击者通过请求来变更环境。你必须改为使用机器的主机名称 (在 Mac、Linux 和 Windows 下运行 `hostname` 命令的值) 来侦测环境。
 
 ### 更简单的日志文件
 
@@ -603,7 +603,7 @@ Laravel 目前只会产生单一的日志文件：`app/storage/logs/laravel.log`
 
 ### 取得目前路由
 
-目前路由现在透过 `Route::current()` 取得，而不是 `Route::getCurrentRoute()`。
+目前路由现在通过 `Route::current()` 取得，而不是 `Route::getCurrentRoute()`。
 
 ### Composer 更新
 

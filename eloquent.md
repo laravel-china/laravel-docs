@@ -19,14 +19,14 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和数据库交互。每个数据库表有一个对应的「模型」可以用来跟数据表交互。你可以透过模型查找数据表内的数据，以及添加记录到数据表中。
+Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和数据库交互。每个数据库表有一个对应的「模型」可以用来跟数据表交互。你可以通过模型查找数据表内的数据，以及添加记录到数据表中。
 
 在开始之前，请确认有设置你的数据库链接在 `config/database.php` 文件内。更多数据库的设置信息，请查看[数据库设置](/docs/{{version}}/database#configuration)。
 
 <a name="defining-models"></a>
 ## 定义模型
 
-开始之前，让我们先创建一个 Eloquent 模型。模型通常放在 `app` 目录，不过你可以自由地把他们放在任何可以透过你的 `composer.json` 自动加载的地方。所有的 Eloquent 模型都继承 `Illuminate\Database\Eloquent\Model` 类。
+开始之前，让我们先创建一个 Eloquent 模型。模型通常放在 `app` 目录，不过你可以自由地把他们放在任何可以通过你的 `composer.json` 自动加载的地方。所有的 Eloquent 模型都继承 `Illuminate\Database\Eloquent\Model` 类。
 
 创建模型实例的最简单的方法是使用 `make:model` [Artisan 命令](/docs/{{version}}/artisan)：
 
@@ -166,7 +166,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 
 #### 访问字段的值
 
-假设你有一个 Eloquent 模型的实例，你可以透过相对应的属性来访问模型的字段值。例如，让我们遍历查找所返回的每个 `Flight` 实例，并且印出 `name` 字段的值：
+假设你有一个 Eloquent 模型的实例，你可以通过相对应的属性来访问模型的字段值。例如，让我们遍历查找所返回的每个 `Flight` 实例，并且输出 `name` 字段的值：
 
     foreach ($flights as $flight) {
         echo $flight->name;
@@ -174,7 +174,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 
 #### 增加额外的限制
 
-Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于每个 Eloquent 模型可以当作一个[查询建构器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后透过 `get` 方法来取得结果：
+Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于每个 Eloquent 模型可以当作一个[查询建构器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后通过 `get` 方法来取得结果：
 
     $flights = App\Flight::where('active', 1)
                    ->orderBy('name', 'desc')
@@ -206,7 +206,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 <a name="retrieving-single-models"></a>
 ## 取回单一模型／集合
 
-当然，除了从给定的数据表取回所有记录，你也可以透过 `find` 和 `first` 取回单一的记录。这些方法返回单一模型的实例，而不是返回模型的集合：
+当然，除了从给定的数据表取回所有记录，你也可以通过 `find` 和 `first` 取回单一的记录。这些方法返回单一模型的实例，而不是返回模型的集合：
 
     // 借由主键取回一个模型...
     $flight = App\Flight::find(1);
@@ -299,7 +299,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 你也可以使用 `create` 方法来在一行间保存一个新的模型。被添加的模型实例将会从你的方法返回。然而，在这样做之前，你需要在你的模型上指定一个 `fillable` 或 `guarded` 属性，因为所有的 Eloquent 模型有针对批量赋值（Mass-Assignment）做保护。
 
-当用户透过 HTTP 请求传入非预期的参数，并接着这些参数更改了数据库中你不打算要改的字段，就发生了批量赋值（Mass-Assignment）的漏洞。例如，恶意用户可能会透过 HTTP 请求发送 `is_admin` 参数，然后对应到你模型的 `create` 方法，这让该用户把自己升级为一个管理者。
+当用户通过 HTTP 请求传入非预期的参数，并接着这些参数更改了数据库中你不打算要改的字段，就发生了批量赋值（Mass-Assignment）的漏洞。例如，恶意用户可能会通过 HTTP 请求发送 `is_admin` 参数，然后对应到你模型的 `create` 方法，这让该用户把自己升级为一个管理者。
 
 所以，在开始之前，你应该定义你希望哪些模型属性是可以被批量赋值的。你可以在模型上借由 `$fillable` 属性达到这个。例如，让我们来使 `Flight` 模型的 `name` 属性可以被批量赋值：
 
@@ -345,9 +345,9 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 其他创建的方法
 
-还有两种其他方法，你可以用来透过属性批量赋值创建你的模型：`firstOrCreate` 和 `firstOrNew`。`firstOrCreate` 方法将会使用给定的字段／值对，来尝试寻找数据库中的记录。如果在数据库找不到模型，将会用给定的属性来添加一条记录。
+还有两种其他方法，你可以用来通过属性批量赋值创建你的模型：`firstOrCreate` 和 `firstOrNew`。`firstOrCreate` 方法将会使用给定的字段／值对，来尝试寻找数据库中的记录。如果在数据库找不到模型，将会用给定的属性来添加一条记录。
 
-`firstOrNew` 方法类似 `firstOrCreate`，会尝试使用给定的属性在数据库中寻找符合的纪录。然而，假设找不到模型，将会返回一个新的模型实例。请注意 `firstOrnew` 返回的模型还尚未保存到数据库。你需要透过手动调用 `save` 方法来保存它：
+`firstOrNew` 方法类似 `firstOrCreate`，会尝试使用给定的属性在数据库中寻找符合的纪录。然而，假设找不到模型，将会返回一个新的模型实例。请注意 `firstOrnew` 返回的模型还尚未保存到数据库。你需要通过手动调用 `save` 方法来保存它：
 
     // 用属性取回航班，或如果不存在则创建它...
     $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
@@ -364,7 +364,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     $flight->delete();
 
-#### 透过键来删除现有的模型
+#### 通过键来删除现有的模型
 
 在上面的例子中，我们在调用 `delete` 方法之前，先从数据库取回了模型。然而，如果你知道模型中的主键，你可以不取回模型就直接删除它。如果要这么做，请调用 `destroy` 方法：
 
@@ -374,7 +374,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     App\Flight::destroy(1, 2, 3);
 
-#### 透过查找来删除模型
+#### 通过查找来删除模型
 
 当然，你也可以在一组模型上运行删除查找。在这个例子中，我们将会删除所有被标记为不活跃的航班：
 

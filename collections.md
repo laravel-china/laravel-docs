@@ -17,7 +17,7 @@
     });
 
 
-如你所见，`Collection` 类允许你链结它的方法以对底层的数组流畅地进行映射与删减。一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例。
+如你所见，`Collection` 类允许你链结它的方法以对底层的数组流畅地进行映射与删减。一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地链接调用。
 
 <a name="creating-collections"></a>
 ## 创建集合
@@ -31,9 +31,9 @@
 <a name="available-methods"></a>
 ## 可用的方法
 
-在这份文档剩余的部份，我们将会探讨每一个 `Collection` 类上可用的方法。要记得的是，所有方法都能被链结以流畅地操控底层的数组。此外，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
+在这份文档剩余的部份，我们将会探讨每一个 `Collection` 类上可用的方法。要记得的是，所有方法都能被链结调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
 
-你可以从这张表格中选择任一方法看使用例子：
+你可以从这张数据库表中选择任一方法看使用例子：
 
 <style>
     #collection-method-list > p {
@@ -265,7 +265,7 @@
 <a name="method-every"></a>
 #### `every()` {#collection-method}
 
-`every` 方法会创建一个包含每第 n 个元素的新集合：
+`every` 方法会创建一个包含每 **第 n 个** 元素的新集合：
 
     $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
 
@@ -367,12 +367,12 @@
 
     // [framework' => 'laravel']
 
-> **注意：**与大多数其他集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改它被调用的集合。
+> **注意：** 与大多数其他集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改它被调用的集合。
 
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
 
-`forPage` 方法返回含有可以用来在给定页码显示的项目的新集合：
+`forPage` 方法返回含有可以用来在给定页码显示项目的新集合：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -602,7 +602,7 @@
 
     // [2, 4, 6, 8, 10]
 
-> **注意：**正如集合大多数其他的方法一样，`map` 返回一个新集合实例；它并没有修改被调用的集合。假如你想改变原始的集合，得使用 [`transform`](#method-transform) 方法。
+> **注意：** 正如集合大多数其他的方法一样，`map` 返回一个新集合实例；它并没有修改被调用的集合。假如你想改变原始的集合，得使用 [`transform`](#method-transform) 方法。
 
 <a name="method-max"></a>
 #### `max()` {#collection-method}
@@ -1105,7 +1105,7 @@
         ]
     */
 
-> **注意：**`toArray` 也会转换所有内嵌的对象为数组。假如你希望取得原本的底层数组，改用 [`all`](#method-all) 方法。
+> **注意：** `toArray` 也会转换所有内嵌的对象为数组。假如你希望取得原本的底层数组，改用 [`all`](#method-all) 方法。
 
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}
@@ -1133,7 +1133,7 @@
 
     // [2, 4, 6, 8, 10]
 
-> **注意：**与大多数其他集合的方法不同，`transform` 会修改集合本身。如果你希望创建新集合，就改用 [`map`](#method-map) 方法。
+> **注意：** 与大多数其他集合的方法不同，`transform` 会修改集合本身。如果你希望创建新集合，就改用 [`map`](#method-map) 方法。
 
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}

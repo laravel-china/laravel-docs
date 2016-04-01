@@ -48,7 +48,7 @@ vendor 目录包含你的 [Composer](https://getcomposer.org) 依赖模块。
 
 `Exceptions` 目录包含应用程序的例外处理进程，也是个处置应用程序抛出的任何例外的好位置。
 
-> **注意：**在 `app` 目录中的许多类可以透过 Artisan 命令生成。若要查看可以使用的命令，只要在终端机运行 `php artisan list make` 命令。
+> **注意：**在 `app` 目录中的许多类可以通过 Artisan 命令生成。若要查看可以使用的命令，只要在终端机运行 `php artisan list make` 命令。
 
 <a name="namespacing-your-application"></a>
 ## 为应用程序设置命名空间

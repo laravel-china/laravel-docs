@@ -213,6 +213,6 @@
         ], 'migrations');
     }
 
-现在当你的用户使用 `vendor:publish` Artisan 命令时，可以透过标签名称分别发布不同分类的资源文件：
+现在当你的用户使用 `vendor:publish` Artisan 命令时，可以通过标签名称分别发布不同分类的资源文件：
 
     php artisan vendor:publish --provider="Vendor\Providers\PackageServiceProvider" --tag="config"

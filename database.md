@@ -9,24 +9,28 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 使得在各种数据库后端系统进行连接与运行查找变得非常简单，无论是使用原始的 SQL、[流畅的查找产生器](/docs/{{version}}/queries)，或是目前的 [Eloquent ORM](/docs/{{version}}/eloquent)。目前，Laravel 支持以下四种数据库系统：
+Laravel 对主流的数据库系统连接和查询都有很好的支持，无论是使用原始的 SQL、[流畅的查询语句构造器](/docs/{{version}}/queries)，或是强大的 [Eloquent ORM](/docs/{{version}}/eloquent)。
+
+目前，Laravel 支持以下四种数据库系统：
 
 - MySQL
 - Postgres
 - SQLite
 - SQL Server
 
+> CJ: Mongo DB 的支持可以使用这个项目 - [laravel-mongodb](https://github.com/jenssegers/laravel-mongodb)
+
 <a name="configuration"></a>
 ### 设置
 
-Laravel 使数据库连接与运行查找变得非常简单。应用程序的数据库的配置文件放置在 `config/database.php`。在这个配置文件内你可以定义所有的数据库连接，以及指定默认使用哪个连接。在这个文件内提供了所有支持的数据库系统例子。
+Laravel 应用程序的数据库配置文件放置在 `config/database.php`。在这个配置文件内你可以定义所有的数据库连接，以及指定默认使用哪个连接。在这个文件内提供了所有支持的数据库系统例子。
 
 默认情况下，Laravel 的[环境配置](/docs/{{version}}/installation#environment-configuration)例子是使用 [Laravel Homestead](/docs/{{version}}/homestead)，在开发 Laravel 时，这是相当便利的本机虚拟机。当然，你可以因应需求随时修改你本机端的数据库设置。
 
 <a name="read-write-connections"></a>
-#### 读取与写入连接
+#### 数据库读写分离
 
-有时候也许你会希望使用一个数据库作为查找，而另一个作为写入、更新以及删除。Laravel 使他变得轻而一举，无论你使用原始查找、查找产生器或是 Eloquent ORM 都是可以使用的。
+有时候也许你会希望使用一个数据库作为只读，而另一个作为写入、更新以及删除。Laravel 使他变得轻而一举，无论你使用原始查找、查询语句构造器或是 Eloquent ORM 都是可以使用的。
 
 如何设置读取与写入的连接，让我们看看这个例子：
 
@@ -173,15 +177,15 @@ Laravel 使数据库连接与运行查找变得非常简单。应用程序的数
 
     DB::beginTransaction();
 
-你可以还原交易，透过 `rollBack` 方法：
+你可以还原交易，通过 `rollBack` 方法：
 
     DB::rollBack();
 
-最后，你可以提交这个交易，透过 `commit` 方法：
+最后，你可以提交这个交易，通过 `commit` 方法：
 
     DB::commit();
 
-> **注意：**使用 `DB` facade 的交易方法也可以控制[查找产生器](/docs/{{version}}/queries)及 [Eloquent ORM](/docs/{{version}}/eloquent) 的交易。
+> **注意：** 使用 `DB` facade 的交易方法也可以控制[查询语句构造器](/docs/{{version}}/queries)及 [Eloquent ORM](/docs/{{version}}/eloquent) 的交易。
 
 <a name="accessing-connections"></a>
 ## 使用多数据库连接

@@ -130,7 +130,7 @@
 <a name="task-output"></a>
 ## 任务输出
 
-Laravel 调度器为任务调度输出提供许多便捷的方法。首先，透过 `sendOutputTo` 你可以发送输出到单一文件做为后续检查：
+Laravel 调度器为任务调度输出提供许多便捷的方法。首先，通过 `sendOutputTo` 你可以发送输出到单一文件做为后续检查：
 
     $schedule->command('emails:send')
              ->daily()
@@ -142,7 +142,7 @@ Laravel 调度器为任务调度输出提供许多便捷的方法。首先，透
              ->daily()
              ->appendOutputTo($filePath);
 
-透过 `emailOutputTo` 方法，你可以发送输出到你所选的电子邮件。注意，你必须先透过 `sendOutputTo` 方法输出到一个文件。同时，在将任务输出发送到电子邮件之前，你需要先设置 Laravel 的[电子邮件服务](/docs/{{version}}/mail)：
+通过 `emailOutputTo` 方法，你可以发送输出到你所选的电子邮件。注意，你必须先通过 `sendOutputTo` 方法输出到一个文件。同时，在将任务输出发送到电子邮件之前，你需要先设置 Laravel 的[电子邮件服务](/docs/{{version}}/mail)：
 
     $schedule->command('foo')
              ->daily()
@@ -154,7 +154,7 @@ Laravel 调度器为任务调度输出提供许多便捷的方法。首先，透
 <a name="task-hooks"></a>
 ## 任务挂勾
 
-透过 `before` 与 `after` 方法，你能让特定的代码在任务完成之前及之后运行：
+通过 `before` 与 `after` 方法，你能让特定的代码在任务完成之前及之后运行：
 
     $schedule->command('emails:send')
              ->daily()
@@ -167,13 +167,13 @@ Laravel 调度器为任务调度输出提供许多便捷的方法。首先，透
 
 #### Ping 网址
 
-透过 `pingBefore` 与 `thenPing` 方法，调度器能自动的在一个任务完成之前或之后 ping 一个给定的网址。该方法在你排定的任务进行或完成时，能有效的通知一个外部服务，例如 [Laravel Envoyer](https://envoyer.io)：
+通过 `pingBefore` 与 `thenPing` 方法，调度器能自动的在一个任务完成之前或之后 ping 一个给定的网址。该方法在你排定的任务进行或完成时，能有效的通知一个外部服务，例如 [Laravel Envoyer](https://envoyer.io)：
 
     $schedule->command('emails:send')
              ->daily()
              ->pingBefore($url)
              ->thenPing($url);
 
-使用 `pingBefore($url)` 或 `thenPing($url)` 功能需要 Guzzle HTTP 函数库。你可以透过将下列增加到你的 `composer.json` 文件，使 Guzzle 加入你的项目：
+使用 `pingBefore($url)` 或 `thenPing($url)` 功能需要 Guzzle HTTP 函数库。你可以通过将下列增加到你的 `composer.json` 文件，使 Guzzle 加入你的项目：
 
     "guzzlehttp/guzzle": "~5.3|~6.0"

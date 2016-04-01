@@ -97,7 +97,7 @@
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 透过明确的定义「模型」，让你无痛的在数据库取得及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你无痛的在数据库取得及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
 
 所以，让我们定义一个对应至 `tasks` 数据表的 `Task` 模型。同样的，我们可以使用 Artisan 命令来产生此模型。在此例中，我们会使用 `make:model` 命令：
 
@@ -209,7 +209,7 @@
 <a name="defining-the-child-view"></a>
 ### 定义子视图
 
-很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务表格的视图。让我们将此视图定义在 `resources/views/tasks.blade.php`。
+很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks.blade.php`。
 
 我们会跳过一些 Bootstrap CSS 样板，只专注在重要的事物上。切记，你可以在 [GitHub](https://github.com/laravel/quickstart-basic) 下载应用程序的完整原代码：
 
@@ -292,7 +292,7 @@
 
 #### `$errors` 变量
 
-让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会透过给定的验证器实例将错误消息快闪至 session 中，所以我们可以在视图中透过 `$errors` 变量访问它们。
+让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过给定的验证器实例将错误消息快闪至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
 
 记得我们在视图中使用了 `@include('common.errors')` 命令来渲染表单的验证错误消息。`common.errors` 让我们可以简单的在我们所有的页面显示相同格式的验证错误消息。现在让我们定义此视图的内容：
 
@@ -354,7 +354,7 @@
 		]);
 	});
 
-一旦数据被传递之后，我们在我们的 `tasks.blade.php` 视图中将任务切分并将它们显示至表格中。`@foreach` 命令结构让我们可以编写简洁的循环，并编译成快速的纯 PHP 代码：
+一旦数据被传递之后，我们在我们的 `tasks.blade.php` 视图中将任务切分并将它们显示至数据库表中。`@foreach` 命令结构让我们可以编写简洁的循环，并编译成快速的纯 PHP 代码：
 
 	@extends('layouts.app')
 
@@ -430,14 +430,14 @@
 
 注意，删除按钮的表单 `method` 被列为 `POST`，即使我们回应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单假冒一个 `DELETE` 请求。
 
-我们可以在表单中透过 `method_field('DELETE')` 函数输出的结果假冒一个 `DELETE` 请求。此函数会产生一个隐藏的表单输入，Laravel 会辨识并覆盖掉实际使用的 HTTP 请求方法。产生的字段看起来如下：
+我们可以在表单中通过 `method_field('DELETE')` 函数输出的结果假冒一个 `DELETE` 请求。此函数会产生一个隐藏的表单输入，Laravel 会辨识并覆盖掉实际使用的 HTTP 请求方法。产生的字段看起来如下：
 
 	<input type="hidden" name="_method" value="DELETE">
 
 <a name="deleting-the-task"></a>
 ### 删除该任务
 
-最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法透过 ID 取得模型，当该模型不存在时则会抛出 404 例外。一旦我们取得模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
+最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 取得模型，当该模型不存在时则会抛出 404 例外。一旦我们取得模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
 
 	Route::delete('/task/{id}', function ($id) {
 		Task::findOrFail($id)->delete();

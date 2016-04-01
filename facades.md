@@ -60,7 +60,7 @@ facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAcces
 <a name="facade-class-reference"></a>
 ## Facade 类参考
 
-在下方你可以找到每个 facade 及其底层的类。这个工具对于透过给定 facade 的来源快速寻找 API 文档相当有用。可应用的[服务容器绑定](/docs/{{version}}/container)关键字也包含在里面。
+在下方你可以找到每个 facade 及其底层的类。这个工具对于通过给定 facade 的来源快速寻找 API 文档相当有用。可应用的[服务容器绑定](/docs/{{version}}/container)关键字也包含在里面。
 
 Facade  |  Class  |  Service Container Binding
 ------------- | ------------- | -------------

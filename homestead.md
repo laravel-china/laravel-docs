@@ -7,7 +7,7 @@
     - [启动 Vagrant box](#launching-the-vagrant-box)
     - [根据项目分别安装](#per-project-installation)
 - [常见用法](#daily-usage)
-    - [透过 SSH 连接](#connecting-via-ssh)
+    - [通过 SSH 连接](#connecting-via-ssh)
     - [连接数据库](#connecting-to-databases)
     - [增加更多网站](#adding-additional-sites)
     - [设置 Cron 调度器](#configuring-cron-schedules)
@@ -24,7 +24,7 @@ Laravel Homestead 是一个官方预载的 Vagrant「box」，提供你一个美
 
 Homestead 可以在任何 Windows、Mac 或 Linux 上面运行，里面包含了 Nginx 网页服务器、PHP 5.6、MySQL、Postgres、Redis、Memcached、Node，以及所有你在使用 Laravel 开发各种精彩的应用程序时所需要的软件。
 
-> **附注：** 如果您是 Windows 的用户，您可能需要启用硬件虚拟化（VT-x）。这通常需要透过 BIOS 来启用它。
+> **附注：** 如果你是 Windows 的用户，你可能需要启用硬件虚拟化（VT-x）。这通常需要通过 BIOS 来启用它。
 
 Homestead 目前是建置且测试于 Vagrant 1.7。
 
@@ -70,7 +70,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 
 #### 手动克隆 Homestead 资源库
 
-你可以简单地透过手动克隆资源库的方式来安装 Homestead。建议可将资源库克隆至你的「home」目录中的 `Homestead` 文件夹，如此一来 Homestead box 将能提供主机服务给你所有的 Laravel 项目：
+你可以简单地通过手动克隆资源库的方式来安装 Homestead。建议可将资源库克隆至你的「home」目录中的 `Homestead` 文件夹，如此一来 Homestead box 将能提供主机服务给你所有的 Laravel 项目：
 
     git clone https://github.com/laravel/homestead.git Homestead
 
@@ -154,7 +154,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 
     192.168.10.10  homestead.app
 
-务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。一旦你将网域设置在 `hosts` 文件之后，你就可以透过网页浏览器造访你的网站！
+务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。一旦你将网域设置在 `hosts` 文件之后，你就可以通过网页浏览器造访你的网站！
 
     http://homestead.app
 
@@ -184,17 +184,17 @@ Windows:
 
         vendor\bin\homestead make
 
-接着，运行在终端机中运行 `vagrant up` 并透过网页浏览器造访 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的网域。
+接着，运行在终端机中运行 `vagrant up` 并通过网页浏览器造访 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的网域。
 
 <a name="daily-usage"></a>
 ## 常见用法
 
 <a name="connecting-via-ssh"></a>
-### 透过 SSH 连接
+### 通过 SSH 连接
 
 你可以在终端机里进入你的 Homestead 目录并运行 `vagrant ssh` 命令借此以 SSH 连上你的虚拟主机。
 
-但是，你可能会经常需要透过 SSH 连上你的 Homestead 主机，因此你可以考虑在你的本机电脑上创建一个「别名」来快速连上 Homestead box。一旦你创建这个别名，你可以轻易地透过「vm」这个命令从你的电脑以 SSH 连上你的 Homestead 主机：
+但是，你可能会经常需要通过 SSH 连上你的 Homestead 主机，因此你可以考虑在你的本机电脑上创建一个「别名」来快速连上 Homestead box。一旦你创建这个别名，你可以轻易地通过「vm」这个命令从你的电脑以 SSH 连上你的 Homestead 主机：
 
     alias vm="ssh vagrant@127.0.0.1 -p 2222"
 
@@ -203,7 +203,7 @@ Windows:
 
 在 `Homestead` 中，已经预装了 MySQL 与 Postgres 两种数据库。为了方便使用，Laravel 在 `local` 的数据库设置值中已经默认将其设置完成。
 
-如果想要从本机电脑上透过 Navicat 或者是 Sequel Pro 连接 MySQL 或 Postgres 数据库，你可以连接 `127.0.0.1` 的连接端口 33060 (MySQL) 或 54320 (Postgres)。而帐号密码分别是 `homestead` / `secret`。
+如果想要从本机电脑上通过 Navicat 或者是 Sequel Pro 连接 MySQL 或 Postgres 数据库，你可以连接 `127.0.0.1` 的连接端口 33060 (MySQL) 或 54320 (Postgres)。而帐号密码分别是 `homestead` / `secret`。
 
 > **附注：** 从本机电脑你应该只能使用这些非标准的连接端口来连接数据库。因为当 Laravel 运行于虚拟主机时，在 Laravel 的数据库设置值中依然是设置使用默认的 3306 及 5432 连接端口。
 
@@ -215,7 +215,7 @@ Windows:
 <a name="configuring-cron-schedules"></a>
 ### 设置 Cron 调度器
 
-Laravel 提供了便利的方式来[调度 Cron 任务](/docs/{{version}}/scheduling)，透过 `schedule:run` Artisan 命令，调度便会在每分钟被运行。`schedule:run` 命令会检查定义在你 `App\Console\Kernel` 类中调度的任务，判断哪个任务该被运行。
+Laravel 提供了便利的方式来[调度 Cron 任务](/docs/{{version}}/scheduling)，通过 `schedule:run` Artisan 命令，调度便会在每分钟被运行。`schedule:run` 命令会检查定义在你 `App\Console\Kernel` 类中调度的任务，判断哪个任务该被运行。
 
 如果你想为 Homestead 网站使用 `schedule:run` 命令，你可以在定义网站时设置 `schedule` 选项为 `true`：
 

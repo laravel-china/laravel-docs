@@ -1,9 +1,9 @@
 # 缓存
 
-- [设置](#configuration)
+- [配置信息](#configuration)
 - [缓存的使用](#cache-usage)
     - [取得一个缓存的实例](#obtaining-a-cache-instance)
-    - [从缓存中截取项目](#retrieving-items-from-the-cache)
+    - [从缓存中获取项目](#retrieving-items-from-the-cache)
     - [存放项目到缓存中](#storing-items-in-the-cache)
     - [删除缓存中的项目](#removing-items-from-the-cache)
 - [加入自定义的缓存驱动](#adding-custom-cache-drivers)
@@ -13,17 +13,17 @@
 - [缓存事件](#cache-events)
 
 <a name="configuration"></a>
-## 设置
+## 配置信息
 
-Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的配置文件都放在 `config/cache.php` 中，在这个文件中，你可以指定在你的应用程序中，你默认想用哪个缓存驱动，Laravel 支持流行的缓存后端，如 [Memcached](http://memcached.org) 和 [Redis](http://redis.io)。
+Laravel 提供了统一的 API 给各种不同的缓存系统，缓存的配置文件都放在 `config/cache.php` 中，在这个文件中，你可以指定默认想用哪个缓存驱动，Laravel 支持当前流行的缓存后端，如 [Memcached](http://memcached.org) 和 [Redis](http://redis.io)。
 
-缓存配置文件还包含了其他的选项，你可以在文件中找到这些选项，请确保你都有读过这些选项上方的说明。Laravel 默认采用的缓存驱动是 `file`，这个驱动保存了串行化的缓存对象在文件系统中，对于大型应用程序而言，Laravel 比较建议你使用一个在内存内的缓存，例如 Memcached 或 APC， 你可能也会想为同一个驱动设置多个缓存配置文件。
+缓存配置文件还包含了其他的选项，你可以在文件中找到这些选项，请确保你都有读过这些选项上方的说明。Laravel 默认采用的缓存驱动是 `file`，这个驱动保存了串行化的缓存对象在文件系统中，对于大型应用程序而言，Laravel 比较建议你使用内存缓存，例如 Memcached 或 APC。
 
-### 缓存预先需求
+### 场景布置
 
 #### 数据库
 
-当使用 `database` 这个缓存驱动，你需要设置一个表格来放置缓存项目，你可以看一下例子 `Schema` 如何声明这样的表格：
+当使用 `database` 这个缓存驱动，你需要配置一个数据库表来放置缓存项目，下面是表结构：
 
     Schema::create('cache', function($table) {
         $table->string('key')->unique();
@@ -45,7 +45,7 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
         ],
     ],
 
-你可能也会设置 `host` 选项到 UNIX 的 socket 路径中，如果你有这么做，记得 `port` 选项要设为 `0`：
+你可能也会配置 `host` 选项到 UNIX 的 socket 路径中，如果你有这么做，记得 `port` 选项要设为 `0`：
 
     'memcached' => [
         [
@@ -57,9 +57,9 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 
 #### Redis
 
-在你选择使用 Redis 作为 Laravel 的缓存前，你需要透过 Composer 预先安装 `predis/predis` 扩展包 (~1.0)。
+在你选择使用 Redis 作为 Laravel 的缓存前，你需要通过 Composer 预先安装 `predis/predis` 扩展包 (~1.0)。
 
-更多有关设置 Redis 的信息，请参考 [Laravel 的文档页面](/docs/{{version}}/redis#configuration)。
+更多有关配置 Redis 的信息，请参考 [Laravel 的文档页面](/docs/{{version}}/redis#configuration)。
 
 <a name="cache-usage"></a>
 ## 缓存的使用
@@ -67,9 +67,9 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 <a name="obtaining-a-cache-instance"></a>
 ### 取得一个缓存的实例
 
-`Illuminate\Contracts\Cache\Factory` 和 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts) 提供了访问 Laravel 缓存服务的机制， 而`Factory` contract 则为你的应用程序提供了访问所有缓存驱动的机制，`Repository` contract  是典型的缓存驱动实现，它会依照你的缓存配置文件变化。
+`Illuminate\Contracts\Cache\Factory` 和 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts) 提供了访问 Laravel 缓存服务的机制， 而 `Factory` contract 则为你的应用程序提供了访问所有缓存驱动的机制，`Repository` contract  是典型的缓存驱动实现，它会依照你的缓存配置文件变化。
 
-然而，你可能也需要使用 `Cache` facade，我们会在整份文档中使用它，`Cache` facade 提供了方便又简洁的方法访问现行实现的 Laravel 缓存 contracts。
+你也需要使用 `Cache` facade，我们将会在此文档中介绍，`Cache` facade 提供了方便又简洁的方法访问缓存实例。
 
 例如，我们试着在一个控制器中引用 `Cache` facade：
 
@@ -97,23 +97,23 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 
 #### 访问多个缓存保存
 
-使用 `Cache` facade，你可能会透过 `store` 方法来访问多个缓存保存，传入 `store` 方法的键应符合你在缓存配置文件中的 `store` 设置项目指定的所有 store 列表其中一项：
+你可以通过 `store` 方法来访问缓存实例，传入 `store` 方法的键对应你在缓存配置文件中驱动：
 
     $value = Cache::store('file')->get('foo');
 
     Cache::store('redis')->put('bar', 'baz', 10);
 
 <a name="retrieving-items-from-the-cache"></a>
-### 从缓存中截取项目
+### 从缓存中获取项目
 
-在 `Cache` facade 中，`get` 方法可以用来取出缓存中的项目，如果要取出的项目不再缓存中，`get`方法会返回 `null` ，如果你想，你也可以传入第二个参数给 `get` 方法来自定义找不到项目时的预返回值设值：
+在 `Cache` facade 中，`get` 方法可以用来取出缓存中的项目，缓存不存在的话返回 `null`，`get` 方法接受第二个参数，作为找不到项目时返回的预设值：
 
     $value = Cache::get('key');
 
     $value = Cache::get('key', 'default');
 
 
-你甚至可能传入一个`闭包`作为默认值，当指定的项目不存在缓存中时，闭包将会被返回，传入一个闭包让你可以延后存数据库或外部服务中取出默认值：
+你甚至可能传入一个`闭包`作为默认值，当指定的项目不存在缓存中时，闭包将会被返回，传入一个闭包允许你延迟从数据库或外部服务中取出值：
 
     $value = Cache::get('key', function() {
         return DB::table(...)->get();
@@ -141,7 +141,7 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 
 #### 取出或更新
 
-有时候，你可能会想从缓存中取出一个项目，但也想在取出的项目不存在时存入一个默认值，例如，你可能会想从缓存中取出所有用户，或者当找不到用户时，从数据库中将这些用户取出并放入缓存中，则你将会使用 `Cache::remember` 方法达到目的：
+有时候，你可能会想从缓存中取出一个项目，但也想在取出的项目不存在时存入一个默认值，例如，你可能会想从缓存中取出所有用户，当找不到用户时，从数据库中将这些用户取出并放入缓存中，你可以使用 `Cache::remember` 方法达到目的：
 
     $value = Cache::remember('users', $minutes, function() {
         return DB::table('users')->get();
@@ -149,7 +149,7 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 
 如果那个项目不存在缓存中，则返回给 `remember` 方法的闭包将会被运行，而且闭包的运行结果将会被存放在缓存中。
 
-你可能也会结合 `remember` 和 `forever` 这两个方法：
+你可能也会结合 `remember` 和 `forever` 这两个方法来 ”永久“ 存储缓存：
 
     $value = Cache::rememberForever('users', function() {
         return DB::table('users')->get();
@@ -164,7 +164,7 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 <a name="storing-items-in-the-cache"></a>
 ### 存放项目到缓存中
 
-你可能会在 `Cache` facade 中使用 `put` 方法来存放项目到缓存中，当你将一个项目放进缓存时，你需要指定「几分钟」给将要存放的值：
+你可以使用 `Cache` facade 的 `put` 方法来存放项目到缓存中，你需要使用第三个参数来设定缓存的存放时间：
 
     Cache::put('key', 'value', $minutes);
 
@@ -178,27 +178,27 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 
     Cache::add('key', 'value', $minutes);
 
-`forever` 方法可以用来存放永久的项目到缓存中，这些值必须被手动的删除，这可以透过 `forget` 方法达成：
+`forever` 方法可以用来存放永久的项目到缓存中，这些值必须被手动的删除，这可以通过 `forget` 方法达成：
 
     Cache::forever('key', 'value');
 
 <a name="removing-items-from-the-cache"></a>
 ### 删除缓存中的项目
 
-你可能会使用 `forget` 方法在 `Cache` facade 下从缓存中移除一个项目：
+你可以使用 `forget` 方法从缓存中移除一个项目：
 
     Cache::forget('key');
 
-你可以使用 `flush` 方法清除所有缓存：
+也使用 `flush` 方法清除所有缓存：
 
     Cache::flush();
 
-清空缓存**并不会**遵从缓存的前缀，并会将缓存中所有的项目删除。在清除与其他应用程序共用的缓存时应谨慎考虑这一点。
+清空缓存 **并不会** 遵从缓存的前缀，并会将缓存中所有的项目删除。在清除与其他应用程序共用的缓存时应谨慎考虑这一点。
 
 <a name="adding-custom-cache-drivers"></a>
 ## 加入自定义的缓存驱动
 
-为了要透过自定义的驱动来扩充 Laravel 缓存，我们将会在 `Cache` facade 中使用 `extend` 方法，它被用来绑定一个自定义驱动的解析器到管理者上，通常这可以透过[服务容器](/docs/{{version}}/providers)来完成。
+我们可以在 `Cache` facade 中使用 `extend` 方法自定义缓存驱动来扩充 Laravel 缓存，它被用来绑定一个自定义驱动的解析器到管理者上，通常这可以通过[服务容器](/docs/{{version}}/providers)来完成。
 
 例如，要注册一个名为「mongo」的缓存驱动：
 
@@ -257,25 +257,25 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
         public function getPrefix() {}
     }
 
-我们只需要透过一个 MongoDB 的连接来实现这些方法，一旦我们完成实现，我们就可以接着完成注册我们的自定义驱动：
+我们只需要通过一个 MongoDB 的连接来实现这些方法，一旦我们完成实现，我们就可以接着完成注册我们的自定义驱动：
 
     Cache::extend('mongo', function($app) {
         return Cache::repository(new MongoStore);
     });
 
-一旦你的扩充功能完成，你只需要简单的更新 `config/cache.php` 配置文件中的 `driver` 选项为你的扩充功能名称即可。
+如果你想让自定义扩展驱动为默认，只需要更新 `config/cache.php` 配置文件中的 `driver` 选项为驱动的 `key` 即可，如这个例子的 `mongo`。
 
 如果你不知道要将你的自定义缓存驱动代码放置在何处，可以考虑将它放在 Packagist 上！或者你可以在你的 `app` 目录下创建一个 `Extension` 的命名空间。但是请记住，Laravel 没有硬性规定的应用程序结构，你可以依照你的喜好任意组织你的应用程序。
 
 <a name="cache-tags"></a>
 ## 缓存标签
 
-> **注意：**缓存标签并不支持使用 `file` 或 `dababase` 的缓存驱动。此外，当在缓存使用多个标签并「永久」写入时，像是 `memcached` 的驱动性能会是最佳的，且会自动清除旧的纪录。
+> **注意：** 缓存标签并不支持使用 `file` 或 `dababase` 的缓存驱动。此外，当在缓存使用多个标签并「永久」写入时，像是 `memcached` 的驱动性能会是最佳的，且会自动清除旧的纪录。
 
 <a name="storing-tagged-cache-items"></a>
 ### 写入被标记的缓存项目
 
-缓存标签允许你在缓存中标记关联的项目，并清空所有已分配指定标签的缓存值。你可以透过传递一组标签名称的有序数组，以访问被标记的缓存。举例来说，让我们访问一个被标记的缓存并 `put` 值给它：
+缓存标签允许你在缓存中标记关联的项目，并清空所有已分配指定标签的缓存值。你可以通过传递一组标签名称的有序数组，以访问被标记的缓存。举例来说，让我们访问一个被标记的缓存并 `put` 值给它：
 
 	Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
 
@@ -288,9 +288,9 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 
 若要取得一个被标记的缓存项目，只要传递一样的标签有串行表至 `tags` 方法：
 
-	$john = Cache::tags(['people', 'artists'])->get('John');
+   $john = Cache::tags(['people', 'artists'])->get('John');
 
-    $anne = Cache::tags(['people', 'authors'])->get('Anne');
+   $anne = Cache::tags(['people', 'authors'])->get('Anne');
 
 你可以清空已分配单一标签或是一组标签列表中的所有项目。例如，下方的语法会将被标记 `people`、`authors`，或两者的缓存给移除。所以，`Anne` 与 `John` 都从缓存中被移除：
 
@@ -303,7 +303,7 @@ Laravel 提供了一套统一的 API 给各种不同的缓存系统，缓存的�
 <a name="cache-events"></a>
 ## 缓存事件
 
-如果要在每次操作缓存时运行程序，你可以为缓存触发[事件](/docs/{{version}}/events)进行监听。一般来说，你必须将事件监听器放置在 `EventServiceProvider` 的 `boot` 方法中：
+你可以监听到缓存做每一次操作的触发[事件](/docs/{{version}}/events)。一般来说，你必须将事件监听器放置在 `EventServiceProvider` 的 `boot` 方法中：
 
     /**
      * 为你的应用程序注册任何其它事件。

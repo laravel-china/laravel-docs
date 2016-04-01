@@ -110,7 +110,7 @@
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 透过明确的定义「模型」，让你无痛的在数据库取得及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你无痛的在数据库取得及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
 
 #### `User` 模型
 
@@ -343,7 +343,7 @@
 <a name="defining-the-child-view"></a>
 ### 定义子视图
 
-很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务表格的视图。让我们将此视图定义在 `resources/views/tasks/index.blade.php`，它会对应至我们 `TaskController` 的 `index` 方法。
+很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks/index.blade.php`，它会对应至我们 `TaskController` 的 `index` 方法。
 
 我们会跳过一些 Bootstrap CSS 样板，只专注在重要的事物上。切记，你可以在 [GitHub](https://github.com/laravel/quickstart-intermediate) 下载应用程序的完整原代码：
 
@@ -465,7 +465,7 @@
 
 现在输入已经被验证处理完毕。让我们继续填写我们的路由来实际的创建一条新的任务。一旦新的任务被创建后，我们会将用户重定向回 `/tasks` URL。要创建该任务，我们会充分的利用 Eloquent 的关联功能。
 
-Laravel 大部分的关联提供了一个 `create` 方法，它接收一个包含属性的数组，并会在保存至数据库前自动设置关联模型的外键值。在此例中，`create` 方法会自动将给定任务的 `user_id` 属性设置为目前已验证用户的 ID，因为我们透过 `$request->user()` 访问。
+Laravel 大部分的关联提供了一个 `create` 方法，它接收一个包含属性的数组，并会在保存至数据库前自动设置关联模型的外键值。在此例中，`create` 方法会自动将给定任务的 `user_id` 属性设置为目前已验证用户的 ID，因为我们通过 `$request->user()` 访问。
 
     /**
      * 创建新的任务。
@@ -508,7 +508,7 @@ Laravel 大部分的关联提供了一个 `create` 方法，它接收一个包�
         ]);
     }
 
-不过，让我们来探讨一些 Laravel 的依赖注入功能，注入 `TaskRepository` 至我们的 `TaskController`，我们会透过它访问所有的数据。
+不过，让我们来探讨一些 Laravel 的依赖注入功能，注入 `TaskRepository` 至我们的 `TaskController`，我们会通过它访问所有的数据。
 
 <a name="dependency-injection"></a>
 ### 依赖注入
@@ -597,7 +597,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 <a name="displaying-the-tasks"></a>
 ### 显示任务
 
-一旦数据被传递之后，我们在我们的 `tasks/index.blade.php` 视图中将任务切分并将它们显示至表格中。`@foreach` 命令结构让我们可以编写简洁的循环，并编译成快速的纯 PHP 代码：
+一旦数据被传递之后，我们在我们的 `tasks/index.blade.php` 视图中将任务切分并将它们显示至数据库表中。`@foreach` 命令结构让我们可以编写简洁的循环，并编译成快速的纯 PHP 代码：
 
 	@extends('layouts.app')
 
@@ -673,7 +673,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 
 注意，删除按钮的表单 `method` 被列为 `POST`，即使我们回应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单假冒一个 `DELETE` 请求。
 
-我们可以在表单中透过 `method_field('DELETE')` 函数输出的结果假冒一个 `DELETE` 请求。此函数会产生一个隐藏的表单输入，Laravel 会辨识并覆盖掉实际使用的 HTTP 请求方法。产生的字段看起来如下：
+我们可以在表单中通过 `method_field('DELETE')` 函数输出的结果假冒一个 `DELETE` 请求。此函数会产生一个隐藏的表单输入，Laravel 会辨识并覆盖掉实际使用的 HTTP 请求方法。产生的字段看起来如下：
 
 	<input type="hidden" name="_method" value="DELETE">
 
@@ -698,7 +698,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 		//
 	}
 
-但是，我们要在这个方法中做的第一件事，就是透过给定的 ID 从数据库中取得 `Task` 实例。所以，如果 Laravel 可以先注入与 ID 符合的 `Task` 实例，那岂不是很棒？让我们做到这一点！
+但是，我们要在这个方法中做的第一件事，就是通过给定的 ID 从数据库中取得 `Task` 实例。所以，如果 Laravel 可以先注入与 ID 符合的 `Task` 实例，那岂不是很棒？让我们做到这一点！
 
 在你的 `app/Providers/RouteServiceProvider.php` 文件的 `boot` 方法中，让我们增加下方这行代码：
 
@@ -721,7 +721,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 <a name="authorization"></a>
 ### 认证
 
-现在，我们有一个注入至 `destroy` 方法的 `Task` 实例；然而，我们不能保证通过认证的用户实际上「拥有」给定的任务。举个例子，一个恶意的请求可能透过传递一个随机任务 ID 至 `/tasks/{task}` URL，企图尝试删除其他用户的任务。所以，我们需要使用 Laravel 的授权功能，以确保已认证的用户实际上拥有注入至路由的 `Task` 实例。
+现在，我们有一个注入至 `destroy` 方法的 `Task` 实例；然而，我们不能保证通过认证的用户实际上「拥有」给定的任务。举个例子，一个恶意的请求可能通过传递一个随机任务 ID 至 `/tasks/{task}` URL，企图尝试删除其他用户的任务。所以，我们需要使用 Laravel 的授权功能，以确保已认证的用户实际上拥有注入至路由的 `Task` 实例。
 
 #### 创建一个授权策略
 
@@ -756,7 +756,7 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 	    }
 	}
 
-最后，我们需要连接我们的 `Task` 模型与 `TaskPolicy`。我们可以透过增加一行至 `app/Providers/AuthServiceProvider.php` 文件的 `$policies` 属性做到这件事。这会告知 Laravel，每当我们尝试授权 `Task` 实例的行为时该用哪个授权策略：
+最后，我们需要连接我们的 `Task` 模型与 `TaskPolicy`。我们可以通过增加一行至 `app/Providers/AuthServiceProvider.php` 文件的 `$policies` 属性做到这件事。这会告知 Laravel，每当我们尝试授权 `Task` 实例的行为时该用哪个授权策略：
 
     /**
      * 应用程序的授权策略对应。

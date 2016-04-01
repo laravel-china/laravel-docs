@@ -43,13 +43,13 @@
 
 #### 为多重的动作注册路由
 
-有时候你可能需要注册一个路由来回应多个 HTTP 的动作。你可以透过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来使用：
+有时候你可能需要注册一个路由来回应多个 HTTP 的动作。你可以通过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来使用：
 
     Route::match(['get', 'post'], '/', function () {
         return 'Hello World';
     });
 
-或者，你甚至可以透过 `any` 方法来使用注册路由并回应所有的 HTTP 动作：
+或者，你甚至可以通过 `any` 方法来使用注册路由并回应所有的 HTTP 动作：
 
     Route::any('foo', function () {
         return 'Hello World';
@@ -57,7 +57,7 @@
 
 #### 产生 URLs 路由
 
-你可以透过 `url` 辅助函数产生应用程序路由：
+你可以通过 `url` 辅助函数产生应用程序路由：
 
     $url = url('foo');
 
@@ -67,7 +67,7 @@
 <a name="required-parameters"></a>
 ### 基础路由参数
 
-有时候你可能需要在你的 URI 路由中，取得一些参数。例如，你可能需要从 URL 取得用户的 ID。你可以透过定义路由参数来取得：
+有时候你可能需要在你的 URI 路由中，取得一些参数。例如，你可能需要从 URL 取得用户的 ID。你可以通过定义路由参数来取得：
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
@@ -79,7 +79,7 @@
         //
     });
 
-路由的参数都会被放在「大括号」内。当运行路由时，参数会透过路由`闭包`来传递。
+路由的参数都会被放在「大括号」内。当运行路由时，参数会通过路由`闭包`来传递。
 
 > **注意：**路由参数不能包含 `-` 字符。用底线 (`_`) 来取代。
 
@@ -171,7 +171,7 @@
 
 #### 对命名路由产生 URLs
 
-一旦你在给定的路由中分配了名称，你可以透过 `route` 函数，使用路由名称产生 URLs 或是重新导向：
+一旦你在给定的路由中分配了名称，你可以通过 `route` 函数，使用路由名称产生 URLs 或是重新导向：
 
     $url = route('profile');
 
@@ -239,7 +239,7 @@
 <a name="route-group-prefixes"></a>
 ### 路由前缀
 
-透过路由群组数组属性中的 `prefix`，在路由群组内为每个路由给定的 URI 加上前缀。例如，你可能想要在路由群组中将所有的路由 URIs 加上前缀 `admin`：
+通过路由群组数组属性中的 `prefix`，在路由群组内为每个路由给定的 URI 加上前缀。例如，你可能想要在路由群组中将所有的路由 URIs 加上前缀 `admin`：
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('users', function ()    {
@@ -261,7 +261,7 @@
 <a name="csrf-introduction"></a>
 ### 介绍
 
-Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以透过经过身份验证的用户身份运行未经授权的命令。
+Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以通过经过身份验证的用户身份运行未经授权的命令。
 
 Laravel 会自动产生了一个 CSRF token 给每个活动用户受应用程序管理的 Session。该 token 用来验证用户为实际发出请求至应用程序的用户。要产生一个隐藏的输入字段 `_token` 包含 CSRF token，你可以使用 `csrf_field` 辅助函数：
 

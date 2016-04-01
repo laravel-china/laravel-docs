@@ -30,7 +30,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
 #### 其他驱动的预先需求
 
-在使用 S3 或 Rackspace 驱动之前，你需要透过 Composer 安装适当扩展包：
+在使用 S3 或 Rackspace 驱动之前，你需要通过 Composer 安装适当扩展包：
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
@@ -71,7 +71,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
         }
     }
 
-面对使用多个磁盘时，你可以透过 `Storage` facade 的 `disk` 方法访问特定磁盘。当然，你也可以使用方法链结（chain methods）对磁盘使用各种运行方法。
+面对使用多个磁盘时，你可以通过 `Storage` facade 的 `disk` 方法访问特定磁盘。当然，你也可以使用方法链结（chain methods）对磁盘使用各种运行方法。
 
     $disk = Storage::disk('s3');
 
@@ -80,7 +80,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 <a name="retrieving-files"></a>
 ### 提取文件
 
-`get` 方法提取给定文件的内容，该文件的原始字符串内容将透过该方法取得：
+`get` 方法提取给定文件的内容，该文件的原始字符串内容将通过该方法取得：
 
     $contents = Storage::get('file.jpg');
 
@@ -212,4 +212,4 @@ Laravel 集成的 Flysystem 提供许多默认的驱动；然而 Flysystem 本�
 
 `extend` 方法的第一个参数是你的驱动名称，第二个参数则是一个接受 `$app` 及 `$config` 变量的闭包。该闭包必须返回 `League\Flysystem\Filesystem` 实例。`$config` 变量包含了定义在 `config/filesystems.php` 对指定磁盘的设置。
 
-当你透过创建服务提供者注册该扩展，你便能在 `config/filesystem.php` 配置文件中使用 `dropbox` 驱动。
+当你通过创建服务提供者注册该扩展，你便能在 `config/filesystem.php` 配置文件中使用 `dropbox` 驱动。

@@ -70,11 +70,11 @@
 <a name="task-variables"></a>
 ### 任务变量
 
-如果需要，你可以透过命令行选项传递变量至 Envoy 文件，让你能够自定义你的任务：
+如果需要，你可以通过命令行选项传递变量至 Envoy 文件，让你能够自定义你的任务：
 
     envoy run deploy --branch=master
 
-你可以透过 Blade 的「echo」语法使用这些选项：
+你可以通过 Blade 的「echo」语法使用这些选项：
 
     @servers(['web' => '192.168.1.1'])
 
@@ -131,7 +131,7 @@
         composer install
     @endtask
 
-一旦该宏被定义之后，你可以透过简单的一行命令运行它们：
+一旦该宏被定义之后，你可以通过简单的一行命令运行它们：
 
     envoy run deploy
 

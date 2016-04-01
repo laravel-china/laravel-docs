@@ -111,7 +111,7 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
 
 注意，在这个例子里我们在任务类的构造器中直接传递了一个 [Eloquent 模型](/docs/{{version}}/eloquent)。因为我们在任务类里引用了 `SerializesModels` 这个 trait，使得 Eloquent 模型在处理任务的时候可以被优雅地串行化和反串行化。如果你的队列任务类在构造器接受一个 Eloquent 模型，那么只有可识别出该模型的属性会被串行化至队列里。当任务实际被运行时，队列系统会自动从数据库中重新取回完整的模型。整个过程对你的应用程序来说是透明的，这样可以避免串行化完整的 Eloquent 的模式实例所带来的问题。
 
-在队列处理任务时，会调用 `handle` 方法，而这里我们也可以透过 `handle` 方法的参数类型提示，让 Laravel 的[服务容器](/docs/{{version}}/container)自动注入相依对象。
+在队列处理任务时，会调用 `handle` 方法，而这里我们也可以通过 `handle` 方法的参数类型提示，让 Laravel 的[服务容器](/docs/{{version}}/container)自动注入相依对象。
 
 #### 当发生错误的时候
 
@@ -220,7 +220,7 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
 <a name="delayed-jobs"></a>
 ### 延迟性任务
 
-有时你可能会希望队列任务能晚一点再运行，例如在用户注册后 15 分钟后才透过队列任务寄送提醒信件。你可以透过任务类引用的 `Illuminate\Bus\Queueable` 这个 trait 所提供的 `delay` 方法来达成这个目的：
+有时你可能会希望队列任务能晚一点再运行，例如在用户注册后 15 分钟后才通过队列任务寄送提醒信件。你可以通过任务类引用的 `Illuminate\Bus\Queueable` 这个 trait 所提供的 `delay` 方法来达成这个目的：
 
     <?php
 
@@ -335,7 +335,7 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
 
 #### 启动队列监听器
 
-Laravel 引入了一个 Artisan 命令，用来运行被推送到队列里的任务。你可以透过 `queue:listen` 命令来运行监听器：
+Laravel 引入了一个 Artisan 命令，用来运行被推送到队列里的任务。你可以通过 `queue:listen` 命令来运行监听器：
 
     php artisan queue:listen
 
@@ -446,7 +446,7 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
 <a name="failed-job-events"></a>
 ### 任务失败事件
 
-如果你想注册一个当队列任务失败时会被调用的事件，你可以用 `Queue::failing` 方法；这样你就有机会透过这个事件，用 e-mail 或 [HipChat](https://www.hipchat.com) 来通知你的团队。例如我们可以在 Laravel 内置的 `AppServiceProvider` 中对这个事件附加一个回调函数：
+如果你想注册一个当队列任务失败时会被调用的事件，你可以用 `Queue::failing` 方法；这样你就有机会通过这个事件，用 e-mail 或 [HipChat](https://www.hipchat.com) 来通知你的团队。例如我们可以在 Laravel 内置的 `AppServiceProvider` 中对这个事件附加一个回调函数：
 
     <?php
 

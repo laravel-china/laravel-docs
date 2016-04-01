@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依赖注入是个花俏的名词，事实上是指：类的依赖透过构造器或在某些情况下透过「setter」方法「注入」。
+Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依赖注入是个花俏的名词，事实上是指：类的依赖通过构造器或在某些情况下通过「setter」方法「注入」。
 
 让我们来看个简单例子：
 
@@ -52,16 +52,16 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         }
     }
 
-在这例子中，当播客被购买时，`PurchasePodcast` 任务会需要寄送 e-mails。因此，我们将**注入**能寄送 e-mails 的服务。由于服务被注入，我们能容易地切换成其它实现。当测试应用程序时，我们一样能轻易地「mock」，或创建假的邮件寄送器实现。
+在这例子中，当播客被购买时，`PurchasePodcast` 任务会需要寄送 e-mails。因此，我们将 **注入** 能寄送 e-mails 的服务。由于服务被注入，我们能容易地切换成其它实现。当测试应用程序时，我们一样能轻易地「mock」，或创建假的邮件寄送器实现。
 
 在建置强大的应用程序，以及为 Laravel 核心贡献时，须深入理解 Laravel 服务容器。
 
 <a name="binding"></a>
 ## 绑定
 
-几乎你所有的服务容器绑都会注册至[服务提供者](/docs/{{version}}/providers)中，所以下方所有的例子将示范在该情境中使用容器。不过，如果它们没有依赖任何的接口，那么就没有将类绑定至容器中的必要。并不需要为容器指定如何建构这些对象，因为它会透过 PHP 的反射服务自动解析「实际」的对象。
+几乎所有的服务容器绑定都会注册至[服务提供者](/docs/{{version}}/providers)中，所以下方所有的例子将示范在该情境中使用容器。不过，如果它们没有依赖任何的接口，那么就没有将类绑定至容器中的必要。并不需要为容器指定如何建构这些对象，因为它会通过 PHP 的反射服务自动解析「实际」的对象。
 
-在服务提供者中，你总是可以透过 `$this->app` 实例变量访问容器。我们可以使用 `bind` 方法注册一个绑定，传递我们希望注册的类或接口名称，并连同返回该类实例的`闭包`：
+在服务提供者中，你总是可以通过 `$this->app` 实例变量访问容器。我们可以使用 `bind` 方法注册一个绑定，传递我们希望注册的类或接口名称，并连同返回该类实例的`闭包`：
 
     $this->app->bind('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app['HttpClient']);
@@ -92,7 +92,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $this->app->bind('App\Contracts\EventPusher', 'App\Services\RedisEventPusher');
 
-这么做会告知容器当有个类需要 `EventPusher` 的实现时，必须注入 `RedisEventPusher`。现在我们可以在构造器中对 `EventPusher` 接口使用类型提示，或任何需要透过服务容器注入依赖的其他位置：
+这么做会告知容器当有个类需要 `EventPusher` 的实现时，必须注入 `RedisEventPusher`。现在我们可以在构造器中对 `EventPusher` 接口使用类型提示，或任何需要通过服务容器注入依赖的其他位置：
 
     use App\Contracts\EventPusher;
 
@@ -110,7 +110,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 <a name="contextual-binding"></a>
 ### 情境绑定
 
-有时候，你可能有两个类使用到相同接口，但你希望每个类能注入不同实现。例如，当系统收到新订单时，我们可能想透过 [PubNub](http://www.pubnub.com/) 来发送事件，而不是 Pusher。Laravel 提供一个简单又流利接口来定义此行为：
+有时候，你可能有两个类使用到相同接口，但你希望每个类能注入不同实现。例如，当系统收到新订单时，我们可能想通过 [PubNub](http://www.pubnub.com/) 来发送事件，而不是 Pusher。Laravel 提供一个简单又流利接口来定义此行为：
 
     $this->app->when('App\Handlers\Commands\CreateOrderHandler')
               ->needs('App\Contracts\EventPusher')
@@ -139,7 +139,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
 
-一旦服务被标记之后，你可以透过 `tagged` 方法很简单的解析它们全部：
+一旦服务被标记之后，你可以通过 `tagged` 方法很简单的解析它们全部：
 
     $this->app->bind('ReportAggregator', function ($app) {
         return new ReportAggregator($app->tagged('reports'));

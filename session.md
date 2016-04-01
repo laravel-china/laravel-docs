@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-由于 HTTP 协定是无状态的，所以 session 提供一种保存用户数据的方法。Laravel 附带支持了多种 session 后端驱动，并透过统一的 API 进行使用。也内置支持像是 [Memcached](http://memcached.org)、[Redis](http://redis.io) 和数据库的后端驱动。
+由于 HTTP 协定是无状态的，所以 session 提供一种保存用户数据的方法。Laravel 附带支持了多种 session 后端驱动，并通过统一的 API 进行使用。也内置支持像是 [Memcached](http://memcached.org)、[Redis](http://redis.io) 和数据库的后端驱动。
 
 ### 设置
 
@@ -48,7 +48,7 @@ Session `driver` 定义了数据将由什么样的方式保存。Laravel 附带�
 
 #### Redis
 
-在 Laravel 使用 Redis Session 之前，你需要先透过 Composer 安装 `predis/predis`(~1.0) 扩展包。
+在 Laravel 使用 Redis Session 之前，你需要先通过 Composer 安装 `predis/predis`(~1.0) 扩展包。
 
 ### 其它 Session 注意事项
 
@@ -61,7 +61,7 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
 
 #### 访问 Session
 
-首先，让我们访问 session。我们可以在控制器方法内，透过对 HTTP 请求使用类型提示访问 session 实例。请记得，控制器方法的依赖是透过 Laravel 的[服务容器](/docs/{{version}}/container)注入：
+首先，让我们访问 session。我们可以在控制器方法内，通过对 HTTP 请求使用类型提示访问 session 实例。请记得，控制器方法的依赖是通过 Laravel 的[服务容器](/docs/{{version}}/container)注入：
 
     <?php
 

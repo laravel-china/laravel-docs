@@ -153,7 +153,7 @@ elixir(function(mix) {
 });
 ```
 
-当然，你也可以透过传递第二个参数至 `styles` 方法，将产生的文件输出至自定的位置：
+当然，你也可以通过传递第二个参数至 `styles` 方法，将产生的文件输出至自定的位置：
 
 ```javascript
 elixir(function(mix) {

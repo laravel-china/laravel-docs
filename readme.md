@@ -4,9 +4,9 @@
 
 各位 Artisan 大家好！
 
-Laravel 台湾 目前正在集成社区资源进行官方文档的翻译工作，若您愿意贡献心力协助翻译，请参考 [翻译分工指南](https://laraveltw.hackpad.com/Laravel-5.1-Translation-ZYNn4rULGlB)。
+Laravel 台湾 目前正在集成社区资源进行官方文档的翻译工作，若你愿意贡献心力协助翻译，请参考 [翻译分工指南](https://laraveltw.hackpad.com/Laravel-5.1-Translation-ZYNn4rULGlB)。
 
-若您想浏览翻译成果，请至 [Laravel 台湾官网](http://laravel.tw/docs/
+若你想浏览翻译成果，请至 [Laravel 台湾官网](http://laravel.tw/docs/
  )。
 
 若有任何问题请与我们联系，谢谢！

@@ -11,7 +11,7 @@
 <a name="accessing-the-request"></a>
 ## 取得请求
 
-要透过依赖注入的方式取得 HTTP 请求的实例，你必须在控制器的建构函子或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例就会自动由[服务容器](/docs/{{version}}/container)注入：
+要通过依赖注入的方式取得 HTTP 请求的实例，你必须在控制器的建构函子或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例就会自动由[服务容器](/docs/{{version}}/container)注入：
 
     <?php
 
@@ -87,7 +87,7 @@
 
 #### 取得请求的方法
 
-`method` 方法会返回当次请求的 HTTP 动词。你也可以透过 `isMethod` 方法来验证 HTTP 动词和给定的字符串是否互相匹配：
+`method` 方法会返回当次请求的 HTTP 动词。你也可以通过 `isMethod` 方法来验证 HTTP 动词和给定的字符串是否互相匹配：
 
     $method = $request->method();
 
@@ -119,7 +119,7 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想�
 
 #### 取得特定输入值
 
-你可以透过 `Illuminate\Http\Request` 的实例，经由几个简洁的方法取得所有的用户输入数据。不需要担心发出请求时使用的 HTTP 动词，取得输入数据的方式都是相同的。
+你可以通过 `Illuminate\Http\Request` 的实例，经由几个简洁的方法取得所有的用户输入数据。不需要担心发出请求时使用的 HTTP 动词，取得输入数据的方式都是相同的。
 
     $name = $request->input('name');
 
@@ -207,7 +207,7 @@ Laravel 框架创建的每个 cookie 会加密并且加上认证记号，这代�
 
 #### 加上新的 Cookie 至回应
 
-Laravel 提供了全域辅助方法 `cookie`，透过简易的工厂来产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后连接 `withCookie` 方法带入 cookie 至回应：
+Laravel 提供了全域辅助方法 `cookie`，通过简易的工厂来产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后连接 `withCookie` 方法带入 cookie 至回应：
 
     $response = new Illuminate\Http\Response('Hello World');
 
@@ -238,7 +238,7 @@ Laravel 提供了全域辅助方法 `cookie`，透过简易的工厂来产生新
 
 #### 确认上传的文件是否有效
 
-除了检查上传的文件是否存在外，你也可以透过 `isValid` 方法验证上传的文件是否有效：
+除了检查上传的文件是否存在外，你也可以通过 `isValid` 方法验证上传的文件是否有效：
 
     if ($request->file('photo')->isValid()) {
         //
