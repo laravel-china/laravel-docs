@@ -21,7 +21,7 @@ Laravel 对主流的数据库系统连接和查询都有很好的支持，无论
 > CJ: Mongo DB 的支持可以使用这个项目 - [laravel-mongodb](https://github.com/jenssegers/laravel-mongodb)
 
 <a name="configuration"></a>
-### 设置
+### 配置信息
 
 Laravel 应用程序的数据库配置文件放置在 `config/database.php`。在这个配置文件内你可以定义所有的数据库连接，以及指定默认使用哪个连接。在这个文件内提供了所有支持的数据库系统例子。
 

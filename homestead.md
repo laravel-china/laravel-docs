@@ -100,13 +100,13 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 <a name="configuring-homestead"></a>
 ### 配置 Homestead
 
-#### 设置你的提供者
+#### 配置你的提供者
 
 在 `Homestead.yaml` 文件中的 `provider` 参数是用来设置你想要使用哪一个 Vagrant 提供者：`virtualbox`、`vmware_fusion` 或 `vmware_workstation`。你可以根据你的喜好来决定提供者：
 
     provider: virtualbox
 
-#### 设置你的 SSH 密钥
+#### 配置你的 SSH 密钥
 
 你还需要将你的公有 SSH 密钥的路径配置在 `Homestead.yaml` 文件中。你没有 SSH 密钥？在 Mac 和 Linux 下，你可以利用下面的命令来创建一组 SSH 密钥：
 
@@ -116,7 +116,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 
 一旦你创建了一组 SSH 密钥，记得在你的 `Homestead.yaml` 文件中的 `authorize` 属性去设置公有密钥的路径。
 
-#### 设置共享文件夹
+#### 配置共享文件夹
 
 你可以在 `Homestead.yaml` 文件的 `folders` 属性里列出所有你想与你的 Homestead 环境共享的文件夹。这些文件夹中的文件若有更动，它们将会同步更动在你的本机电脑与 Homestead 环境。你可以将多个你所需要的共享文件夹都设置于此：
 
@@ -131,7 +131,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
           to: /home/vagrant/Code
           type: "nfs"
 
-#### 设置 Nginx 网站
+#### 配置 Nginx 网站
 
 对 Nginx 不熟悉吗？没关系。`sites` 属性帮助你可以轻易的指定一个 `网域` 对应至 homestead 环境中的一个目录。在 `Homestead.yaml` 文件中已内含一个网站设置的范本。同样的，你可以增加数个你所需要的网站到你的 Homestead 环境中。Homestead 可以为每个你正在开发中的 Laravel 项目提供方便的虚拟化环境：
 
@@ -213,7 +213,7 @@ Windows:
 一旦 Homestead 环境配置完毕且运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单一个 Homestead 环境中运行非常多 Laravel 安装程序。只要在 `Homestead.yaml` 档中增加另一个网站设置后，接着在终端机中进入到你的 Homestead 目录并运行 `vagrant provision` 命令，即可增加另一个网站。
 
 <a name="configuring-cron-schedules"></a>
-### 设置 Cron 调度器
+### 配置 Cron 调度器
 
 Laravel 提供了便利的方式来[调度 Cron 任务](/docs/{{version}}/scheduling)，通过 `schedule:run` Artisan 命令，调度便会在每分钟被运行。`schedule:run` 命令会检查定义在你 `App\Console\Kernel` 类中调度的任务，判断哪个任务该被运行。
 

@@ -240,7 +240,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 websocket 连接来「广播」你的事件。广播你的 Laravel 事件让你能够在你的服务器端代码和你的客户端 JavaScript 框架间分享相同的事件名称。
 
 <a name="broadcast-configuration"></a>
-### 设置
+### 配置
 
 所有的事件广播设置选项都保存在 `config/broadcasting.php` 配置文件内。Laravel 内置支持多种广播驱动：[Pusher](https://pusher.com)、[Redis](/docs/{{version}}/redis)，和一个用于本机开发和调试的 `log` 驱动程序。配置文件例子包含了每个驱动程序。
 

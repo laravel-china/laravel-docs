@@ -11,7 +11,7 @@
 [Redis](http://redis.io) 是开源且先进的键值对保存库。由于它可用的键包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets)和[有序集合](http://redis.io/topics/data-types#sorted-sets)，因此常被称作数据结构服务器。在 Laravel 使用 Redis 之前，你必须通过 Composer 安装 `predis/predis` 扩展包（~1.0）。
 
 <a name="configuration"></a>
-### 设置
+### 配置
 
 应用程序的 Redis 设置都在 `config/database.php` 配置文件中。在这个文件里，你会看到 `redis` 数组，里面有包含了应用程序使用的 Redis 服务器：
 

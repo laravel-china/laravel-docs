@@ -53,7 +53,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理相依性。所以，
 <a name="basic-configuration"></a>
 ### 基本设置
 
-所有 Laravel 框架的设置文件都放置在 `config` 目录下。每个选项都有说明，因此你可以轻松地浏览这些文档，并且熟悉这些选项配置。
+所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，因此你可以轻松地浏览这些文档，并且熟悉这些选项配置。
 
 #### 目录权限
 
@@ -104,11 +104,11 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
 <a name="environment-configuration"></a>
 ### 环境配置
 
-通常应用程序常常需要根据不同的运行环境而有不同的设置值。例如，你会希望在你的本机开发环境上会有与正式环境不同的暂存驱动。只要通过设置文件，就可以轻松完成。
+通常应用程序常常需要根据不同的运行环境而有不同的设置值。例如，你会希望在你的本机开发环境上会有与正式环境不同的暂存驱动。只要通过配置文件，就可以轻松完成。
 
 Laravel 通过 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来达到这项需求。在全新安装好的 Laravel 里，你的应用程序的根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
 
-当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全域变量 `$_ENV` 里。你可以使用辅助方法 `env` 来取得这些变量的值。事实上，如果你检阅过 Laravel 的设置文件，你会注意到有几个选项已经在使用这个辅助方法！
+当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全域变量 `$_ENV` 里。你可以使用辅助方法 `env` 来取得这些变量的值。事实上，如果你检阅过 Laravel 的配置文件，你会注意到有几个选项已经在使用这个辅助方法！
 
 根据你的本机服务器或者正式环境需求，你可以自由的修改你的环境变量。但是，你的 `.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用你的应用程序时，可能需要不同的环境配置。
 
@@ -135,7 +135,7 @@ Laravel 通过 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
     $environment = app()->environment();
 
 <a name="configuration-caching"></a>
-### 设置缓存
+### 配置缓存
 
 为了让你的的应用程序提升一些速度，你可以使用 Artisan 命令 `config:cache` 将所有的配置文件暂存到单一文件。通过命令会将所有的设置选项合并成一个文件，让框架能够快速加载。
 

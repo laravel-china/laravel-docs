@@ -251,7 +251,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 默认情况下，Laravel 4 应用程序 没有在应用程序的代码中使用命名空间。所以，举例来说，所有的 Eloquent 模型和控制器都简单地存在于「全域」的命名空间中。为了更快速的迁移，Laravel 5 也允许你可以将这些类一样保留在全域的命名空间。
 
-### 设置
+### 配置
 
 #### 迁移环境变量
 
@@ -561,7 +561,7 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
 
 置换你的 `artisan` 为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/artisan)。
 
-### 添加设置文件及选项
+### 添加配置文件及选项
 
 更新你在 `app/config/app.php` 配置文件里的 `aliases` 和 `providers` 数组。而这些数组更新后的值可以在[这个文件](https://github.com/laravel/laravel/blob/v4.1.0/app/config/app.php)中找到。请确定有把你自己和扩展包的服务提供者与别名加回数组。
 

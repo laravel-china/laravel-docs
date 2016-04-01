@@ -10,7 +10,7 @@
 
 由于 HTTP 协定是无状态的，所以 session 提供一种保存用户数据的方法。Laravel 附带支持了多种 session 后端驱动，并通过统一的 API 进行使用。也内置支持像是 [Memcached](http://memcached.org)、[Redis](http://redis.io) 和数据库的后端驱动。
 
-### 设置
+### 配置
 
 Session 的配置文件配置在 `config/session.php`。请务必看一下此配置文件中可用的选项设置及注解。Laravel 默认使用 `file` 的 session 驱动，它在大多的应用中可以良好运作。在上线的应用程序中，你可能会考虑使用更快的 `memcached ` 或 `redis` 等驱动。
 

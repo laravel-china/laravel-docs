@@ -22,7 +22,7 @@
 Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe.com)订购交易服务介接。它几乎处理了所有让人退步三舍的订购管理相关逻辑。除了基本的订购管理，Cashier 还可以处理折价券，订购转换，管理订购「数量」、取消宽限期，甚至产生收据的 PDF。
 
 <a name="configuration"></a>
-### 设置
+### 配置
 
 #### Composer 安装
 

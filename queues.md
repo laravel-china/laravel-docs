@@ -22,7 +22,7 @@
 Laravel 的队列服务为不同的队列后端系统提供一个统一的 API 。队列允许你将一个耗时的任务延迟处理，例如像寄送 e-mail，这会使得你的应用程序对网页请求有更快的反应。
 
 <a name="configuration"></a>
-### 设置
+### 配置
 
 队列的配置文件被保存在 `config/queue.php`。在这个文件里你可以找到包含在 Laravel 框架中，每一种队列驱动的链接设置。它们包含了数据库、[Beanstalkd](http://kr.github.com/beanstalkd)、[IronMQ](http://iron.io)、[Amazon SQS](http://aws.amazon.com/sqs)、[Redis](http://redis.io) 以及提供本机使用的 synchronous 驱动。
 

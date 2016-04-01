@@ -500,7 +500,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
     composer require laravel/socialite
 
-### 设置
+### 配置信息
 
 安装 Socialite 之后，到 `config/app.php` 配置文件中注册 `Laravel\Socialite\SocialiteServiceProvider`：
 
