@@ -13,7 +13,7 @@
 <a name="introduction"></a>
 ## 简介
 
-[Laravel Envoy](https://github.com/laravel/envoy) 提供了简洁、轻量的语法，定义在远程服务器运行的共同任务。使用 Blade 风格的语法，你可以简单的设置部署任务，运行 Artisan 命令或是更多。目前，Envoy 只支持 Mac 及 Linux 操作系统。
+[Laravel Envoy](https://github.com/laravel/envoy) 使用 Blade 风格的语法，你可以简单的代码部署任务，运行 Artisan 命令等。目前，Envoy 只支持 Mac 及 Linux 操作系统。
 
 <a name="envoy-installation"></a>
 ### 安装
@@ -26,14 +26,14 @@
 
 #### 更新 Envoy
 
-你也可以使用 Composer 让你的 Envoy 保持安装最新版本：
+使用 Composer 来更新 Envoy 到最新版本：
 
     composer global update
 
 <a name="writing-tasks"></a>
 ## 编写任务
 
-你所有的 Envoy 任务必须定义在项目根目录的 `Envoy.blade.php` 文件中。这里有个例子可以帮助你了解：
+你所有的 Envoy 任务必须定义在项目根目录的 `Envoy.blade.php` 文件中，这里有个例子：
 
     @servers(['web' => 'user@192.168.1.1'])
 
@@ -41,11 +41,11 @@
         ls -la
     @endtask
 
-如你所见，`@servers` 的数组被定义在文件的起始，让你可以在声明任务时，在 `on` 选项里参照这些服务器。在你的 `@task` 声明里，你必须放置当任务运行时想要在远程服务器运行的 Bash 代码。
+如你所见，`@servers` 的数组被定义在文件的起始，让你可以在声明任务时，在 `on` 选项里参照这些服务器。在你的 `@task` 声明里，你可以放置当任务运行时想要在远程服务器运行的 Bash 命令。
 
 #### 启动
 
-有时，你可能想在启动任务前运行一些 PHP 代码。你可以使用 ```@setup``` 命令在 Envoy 文件理声明变量及运行一般的 PHP 程序：
+有时，你可能想在启动任务前运行一些 PHP 代码。你可以使用 ```@setup``` 区块在 Envoy 文件理声明变量及运行一般的 PHP 程序：
 
     @setup
         $now = new DateTime();
@@ -59,7 +59,7 @@
 
 #### 任务确认
 
-如果你想要在服务器运行你指定的任务之前进行确认，你可以增加 `confirm` 命令至你的任务声明：
+如果你想要在运行任务之前进行提示确认，你可以增加 `confirm` 命令至你的任务声明：
 
     @task('deploy', ['on' => 'web', 'confirm' => true])
         cd site
@@ -87,7 +87,7 @@
 <a name="envoy-multiple-servers"></a>
 ### 多个服务器
 
-你可以简单的在多个服务器运行任务。首先，增加额外的服务器至你的 `@server` 声明。每个服务器必须分配一个唯一的名称。一旦你已经定义好额外的服务器，就能简单的在任务声明的 `on` 数组中列出这些服务器：
+你可以在多个服务器上运行任务，首先，增加额外的服务器至你的 `@server` 声明，每个服务器必须分配一个唯一的名称，一旦你已经定义好额外的服务器，就能简单的在任务声明的 `on` 数组中列出这些服务器：
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -149,7 +149,7 @@
 <a name="hipchat"></a>
 ### HipChat
 
-在任务运行之后，你可以使用 Envoy 的 `@hipchat` 发送通知到团队的 HipChat 聊天室。该命令接收 API token、聊天室名称、及发送消息时显示的用户名：
+在任务运行之后，你可以使用 Envoy 的 `@hipchat` 发送通知到团队的 HipChat 聊天室。该命令接受的参数是 API token、聊天室名称、及发送消息时显示的用户名：
 
     @servers(['web' => '192.168.1.1'])
 
