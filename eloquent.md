@@ -185,7 +185,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 集合
 
-像是 `all` 以及 `get` 之类可以取回多笔结果的 Eloquent 方法，将会返回一个 `Illuminate\Database\Eloquent\Collection` 实例。`Collection` 类提供[多样的辅助方法](/docs/{{version}}/eloquent-collections#available-methods) 用来处理你的 Eloquent 结果。当然，你也可以简单地像数组一样遍历你的集合：
+像是 `all` 以及 `get` 之类可以取回多个结果的 Eloquent 方法，将会返回一个 `Illuminate\Database\Eloquent\Collection` 实例。`Collection` 类提供[多样的辅助方法](/docs/{{version}}/eloquent-collections#available-methods) 用来处理你的 Eloquent 结果。当然，你也可以简单地像数组一样遍历你的集合：
 
     foreach ($flights as $flight) {
         echo $flight->name;

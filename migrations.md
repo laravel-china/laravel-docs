@@ -98,7 +98,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 <a name="rolling-back-migrations"></a>
 ### 还原迁移
 
-若要还原迁移至上一个「操作」，你可以使用 `rollback` 命令。请注意，此还原是回复到上一次运行的「批量」迁移，其中可能包括多笔的迁移文件：
+若要还原迁移至上一个「操作」，你可以使用 `rollback` 命令。请注意，此还原是回复到上一次运行的「批量」迁移，其中可能包括多个的迁移文件：
 
     php artisan migrate:rollback
 
@@ -276,7 +276,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
         $table->dropColumn('votes');
     });
 
-你可以传递字段名称的数组至 `dropCloumn` 方法，移除多笔字段：
+你可以传递字段名称的数组至 `dropCloumn` 方法，移除多个字段：
 
     Schema::table('users', function ($table) {
         $table->dropColumn(['votes', 'avatar', 'location']);
@@ -284,7 +284,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 
 > **注意：**在 SQLite 数据库中移除字段前，你需要增加 `doctrine/dbal` 依赖至你的 `composer.json` 文件，并在你的命令行运行 `composer update` 命令安装该函数库。
 
-> **注意：**当使用 SQLite 数据库时并不支持在单行迁移中移除或修改多笔字段。
+> **注意：**当使用 SQLite 数据库时并不支持在单行迁移中移除或修改多个字段。
 
 <a name="creating-indexes"></a>
 ### 创建索引

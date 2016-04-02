@@ -69,7 +69,7 @@
         return view('courier::admin');
     });
 
-#### 复写扩展包视图
+#### 重写扩展包视图
 
 当你使用 `loadViewsFrom` 方法时，Laravel 实际上为了你的视图注册了**两个**位置：一个是应用程序的 `resources/views/vendor` 目录，另一个是你所指定的目录。所以，使用我们的 `courier` 为例：当请求一个扩展包的视图时，Laravel 会在第一时间检查 `resources/views/vendor/courier` 是否有开发者提供的自定义版本视图存在。接着，如果这个路径没有自定义的视图，Laravel 会搜索你在扩展包 `loadViewsFrom` 方法里所指定的视图路径。这个方法让用户可以方便的自定义或重写你的扩展包里的视图。
 
