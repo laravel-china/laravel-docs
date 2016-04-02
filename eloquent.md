@@ -77,7 +77,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 #### 主键
 
-Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以定义一个 `$primaryKey` 属性来覆写这个惯例。
+Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以定义一个 `$primaryKey` 属性来重写这个惯例。
 
 #### 时间戳记
 

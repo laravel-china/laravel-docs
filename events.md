@@ -299,7 +299,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 接着，你只需要像往常的[触发事件](#firing-events)。一旦事件被触发之后，[队列任务](/docs/{{version}}/queues)将会自动的广播事件到你指定的广播驱动。
 
 <a name="overriding-broadcast-event-name"></a>
-#### 覆写广播事件名称
+#### 重写广播事件名称
 
 默认情况下，广播事件名称会使用完整的事件类名称。以下方类为例子，该广播事件会是 `App\Events\ServerCreated`。你可以使用 `broadcastAs` 方法来自定你想要的广播事件名称：
 

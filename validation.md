@@ -140,7 +140,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 <a name="quick-customizing-the-flashed-error-format"></a>
 #### 自定义快闪的错误消息格式
 
-当验证失败时，假设你想要自定义验证的错误格式到你的闪存，覆写 `formatValidationErrors` 在你的控制器里。别忘了将 `Illuminate\Contracts\Validation\Validator` 类引入到文件的上方：
+当验证失败时，假设你想要自定义验证的错误格式到你的闪存，重写 `formatValidationErrors` 在你的控制器里。别忘了将 `Illuminate\Contracts\Validation\Validator` 类引入到文件的上方：
 
     <?php
 
@@ -315,7 +315,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 #### 自定义闪存的错误消息格式
 
-如果你想要自定义验证失败时，闪存到 session 的验证错误的格式， 在你的基底要求 (`App\Http\Requests\Request`) 覆写 `formatErrors`。别忘了文件上方要引入 `Illuminate\Contracts\Validation\Validator` 类：
+如果你想要自定义验证失败时，闪存到 session 的验证错误的格式， 在你的基底要求 (`App\Http\Requests\Request`) 重写 `formatErrors`。别忘了文件上方要引入 `Illuminate\Contracts\Validation\Validator` 类：
 
     /**
      * {@inheritdoc}
@@ -327,7 +327,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 #### 自定错误消息
 
-你可以通过覆写表单请求的 `messages` 方法自定错误消息。此方法必须返回一个数组，含有成对的属性与规则及对应的错误消息：
+你可以通过重写表单请求的 `messages` 方法自定错误消息。此方法必须返回一个数组，含有成对的属性与规则及对应的错误消息：
 
     /**
      * 取得已定义验证规则的错误消息。
@@ -737,7 +737,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 **自定义数据库连接**
 
-有时候你可能需要自定义一个连接，通过 Validator 对数据库进行查找。如上面所示，设置 `unique:users` 作为验证规则，通过默认数据库连接来做数据库查找。如果要覆写验证规则，将指定的连接后在表单名称后加上「.」：
+有时候你可能需要自定义一个连接，通过 Validator 对数据库进行查找。如上面所示，设置 `unique:users` 作为验证规则，通过默认数据库连接来做数据库查找。如果要重写验证规则，将指定的连接后在表单名称后加上「.」：
 
     'email' => 'unique:connection.users,email_address'
 

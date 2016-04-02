@@ -152,7 +152,7 @@ DELETE    | `/photo/{photo}`      | destroy      | photo.destroy
 <a name="restful-naming-resource-routes"></a>
 #### 命名资源路由
 
-所有的资源控制器行为默认都有一路由名称；不过你可以在选项中传递一个 `names` 数组来覆写这些名称：
+所有的资源控制器行为默认都有一路由名称；不过你可以在选项中传递一个 `names` 数组来重写这些名称：
 
     Route::resource('photo', 'PhotoController',
                     ['names' => ['create' => 'photo.build']]);

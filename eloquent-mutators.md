@@ -82,7 +82,7 @@
 
 默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 的实例，它提供了各式各样有用的方法，并继承了 PHP 原生的 `DateTime` 类。
 
-你可以在你的模型中自定义哪些字段要自动地被修改，或甚至完全禁止修改，只要借由覆写模型的 `$dates` 属性：
+你可以在你的模型中自定义哪些字段要自动地被修改，或甚至完全禁止修改，只要借由重写模型的 `$dates` 属性：
 
     <?php
 

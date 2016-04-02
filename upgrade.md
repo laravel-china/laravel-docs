@@ -107,15 +107,15 @@ Laravel 5.1.11 包含了对于[授权](/docs/{{version}}/authorization)及[授�
 
 ### 验证
 
-如果你在基底控制器类上覆写了 `formatValidationErrors` 方法，你现在应该把类型提示改成 `Illuminate\Contracts\Validation\Validator` contract 来取代具体的 `Illuminate\Validation\Validator` 实例。
+如果你在基底控制器类上重写了 `formatValidationErrors` 方法，你现在应该把类型提示改成 `Illuminate\Contracts\Validation\Validator` contract 来取代具体的 `Illuminate\Validation\Validator` 实例。
 
-同样地，如果你在基底表单请求类上覆写了 `formatErrors` 方法，你现在应该把类型提示改成 `Illuminate\Contracts\Validation\Validator` contract 来取代具体的 `Illuminate\Validation\Validator` 实例。
+同样地，如果你在基底表单请求类上重写了 `formatErrors` 方法，你现在应该把类型提示改成 `Illuminate\Contracts\Validation\Validator` contract 来取代具体的 `Illuminate\Validation\Validator` 实例。
 
 ### Eloquent
 
 #### `create` 方法
 
-Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有在自己的模型覆写了 `create` 方法，请把 `$attributes` 参数的默认值设置成空数组：
+Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有在自己的模型重写了 `create` 方法，请把 `$attributes` 参数的默认值设置成空数组：
 
     public static function create(array $attributes = [])
     {
@@ -124,7 +124,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 #### `find` 方法
 
-如果你有在自己的模型中覆写了 `find` 方法并在你的方法中调用了 `parent::find()`，你现在应该把它改成调用 Eloquent 查询语句构造器上的 `find` 方法：
+如果你有在自己的模型中重写了 `find` 方法并在你的方法中调用了 `parent::find()`，你现在应该把它改成调用 Eloquent 查询语句构造器上的 `find` 方法：
 
     public static function find($id, $columns = ['*'])
     {
@@ -145,9 +145,9 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 #### 日期格式
 
-以前，Eloquent 日期字段的保存格式可以借由覆写模型上的 `getDateFormat` 方法来修改。这仍然是可行的。然而，方便起见你可以直接在模型上指定 `$dateFormat` 属性来取代覆写方法。
+以前，Eloquent 日期字段的保存格式可以借由重写模型上的 `getDateFormat` 方法来修改。这仍然是可行的。然而，方便起见你可以直接在模型上指定 `$dateFormat` 属性来取代重写方法。
 
-当串行化模型成 `array` 或 JSON 时，也会采用该日期格式。当从 Laravel 5.0 迁移到 5.1 时，这可能会改变你的 JSON 串行化的日期字段格式。要针对串行化模型设置特定的日期格式，你可以在你的模型上覆写 `serializeDate(DateTime $date)` 方法。这个方法让你可以在不改变日期字段保存格式的情况下，精细的控制 Eloquent 串行化格式。
+当串行化模型成 `array` 或 JSON 时，也会采用该日期格式。当从 Laravel 5.0 迁移到 5.1 时，这可能会改变你的 JSON 串行化的日期字段格式。要针对串行化模型设置特定的日期格式，你可以在你的模型上重写 `serializeDate(DateTime $date)` 方法。这个方法让你可以在不改变日期字段保存格式的情况下，精细的控制 Eloquent 串行化格式。
 
 ### 集合类
 
@@ -483,7 +483,7 @@ Laravel 4.2 需要 PHP 5.4.0 或更高的版本。
 
 而所有软删除的 API 使用方式维持相同。
 
-> **注意：**`SoftDeletingTrait` 无法在基底模型下被使用。他必须用在一个实际的模型类。
+> **注意：**`SoftDeletingTrait` 无法在模型基类下被使用。他必须用在一个实际的模型类。
 
 ### 视图 / 分页的环境名称修改
 
