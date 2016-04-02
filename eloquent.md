@@ -28,6 +28,8 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 开始之前，让我们先创建一个 Eloquent 模型。模型通常放在 `app` 目录，不过你可以自由地把他们放在任何可以通过你的 `composer.json` 自动加载的地方。所有的 Eloquent 模型都继承 `Illuminate\Database\Eloquent\Model` 类。
 
+> CJ: 建议在 app 目录下创建 `Models` 来统一存放。
+
 创建模型实例的最简单的方法是使用 `make:model` [Artisan 命令](/docs/{{version}}/artisan)：
 
     php artisan make:model User
@@ -57,7 +59,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 #### 数据表名称
 
-请注意，我们并没有告诉 Eloquent `Flight` 模型该使用哪一个数据表。除非明确地指定其他名称，不然类的小写、底线、复数形式会拿来当作数据表的表单名称。所以，这个案例中，Eloquent 将会假设 `Flight` 模型保存记录在 `flights` 数据表。你可以在模型上定义一个 `table` 属性，用来指定自定义的数据表：
+请注意，我们并没有告诉 Eloquent `Flight` 模型该使用哪一个数据表。除非明确地指定其他名称，不然类的小写、底线、复数形式会拿来当作数据表的表单名称。所以，这个例子中，Eloquent 将会假设 `Flight` 模型保存记录在 `flights` 数据表。你可以在模型上定义一个 `table` 属性，用来指定自定义的数据表名称：
 
     <?php
 
@@ -140,7 +142,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 <a name="retrieving-multiple-models"></a>
 ## 取回多个模型
 
-一旦你创建了一个模型并且将模型[关连到数据表](/docs/{{version}}/schema)，你就可以从数据库中取得数据。把每个 Eloquent 模型想像成强大的[查询建构器](/docs/{{version}}/queries)，让你可以流畅地查找与模型关联的数据表。例如：
+一旦你创建了一个模型并且将模型 [关连到数据表](/docs/{{version}}/schema)，你就可以从数据库中取得数据。把每个 Eloquent 模型想像成强大的[查询建构器](/docs/{{version}}/queries)，让你可以流畅地查找与模型关联的数据表。例如：
 
     <?php
 
@@ -181,7 +183,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
                    ->take(10)
                    ->get();
 
-> **注意：**由于 Eloquent 模型是查询建构器，应该检阅所有[查询建构器](/docs/{{version}}/queries)可用的方法。你可以在你的 Eloquent 查找中使用这其中的任何方法。
+> **注意：** 由于 Eloquent 模型是查询建构器，应该检阅所有 [查询建构器](/docs/{{version}}/queries)可用的方法。你可以在你的 Eloquent 查找中使用这其中的任何方法。
 
 #### 集合
 
@@ -341,7 +343,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
         protected $guarded = ['price'];
     }
 
-在上面的例子当中，所有属性**除了 `price`** 以外，都可以被批量赋值。
+在上面的例子当中，所有属性 **除了 `price`** 以外，都可以被批量赋值。
 
 #### 其他创建的方法
 
@@ -453,7 +455,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 只取得被软删除的模型
 
-`onlyTrashed` 方法会**只**取得被软删除的模型：
+`onlyTrashed` 方法会 **只** 取得被软删除的模型：
 
     $flights = App\Flight::onlyTrashed()
                     ->where('airline_id', 1)
