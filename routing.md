@@ -155,7 +155,7 @@
         'as' => 'profile', 'uses' => 'UserController@showProfile'
     ]);
 
-除了在路由的数组定义中指定路由名称外，你也可以在路由定义后方链结 `name` 方法：
+除了在路由的数组定义中指定路由名称外，你也可以在路由定义后方链式调用 `name` 方法：
 
     Route::get('user/profile', 'UserController@showProfile')->name('profile');
 

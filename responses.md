@@ -45,7 +45,7 @@
 <a name="attaching-headers-to-responses"></a>
 #### 附加标头至回应
 
-请记得，大部份的回应方法是可链结的，让你创建流利的回应。举例来说，你可以在回应送出给用户之前，使用 `header` 方法增加一系列的标头至回应：
+请记得，大部份的回应方法是可链式调用的，让你创建流利的回应。举例来说，你可以在回应送出给用户之前，使用 `header` 方法增加一系列的标头至回应：
 
     return response($content)
                 ->header('Content-Type', $type)
@@ -161,7 +161,7 @@
 <a name="redirecting-with-flashed-session-data"></a>
 #### 重定向并加上快闪 Session 数据
 
-通常重定向至新的 URL 时会一并[写入快闪数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用方法链结的方式创建一个 `RedirectResponse` 的实例**并**快闪数据至 Session。这对于在一个动作之后保存状态消息相当方便：
+通常重定向至新的 URL 时会一并[写入快闪数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用链式调用的方式创建一个 `RedirectResponse` 的实例**并**快闪数据至 Session。这对于在一个动作之后保存状态消息相当方便：
 
     Route::post('user/profile', function () {
         // 更新用户的个人数据...

@@ -867,9 +867,9 @@ Laravel 提供了很多有用的验证规则；但是，你可能希望自定义
         });
     }
 
-#### 隐式扩充功能
+#### 隐式扩展功能
 
-默认情况中，当验证一个属性时，如同定义的 [`required`](#rule-required) 规则，若不存在或包含空值，则一般的验证规则，包含自定扩充功能，都不会被运行。例如，[`integer`](#rule-integer) 规则当值为 `null` 将不被运行：
+默认情况中，当验证一个属性时，如同定义的 [`required`](#rule-required) 规则，若不存在或包含空值，则一般的验证规则，包含自定扩展功能，都不会被运行。例如，[`integer`](#rule-integer) 规则当值为 `null` 将不被运行：
 
     $rules = ['count' => 'integer'];
 
@@ -877,10 +877,10 @@ Laravel 提供了很多有用的验证规则；但是，你可能希望自定义
 
     Validator::make($input, $rules)->passes(); // true
 
-若要当属性为空时依然运行该规则，那么该规则必须暗示属性为必填。要创建一个「隐式」扩充功能，可以使用 `Validator::extendImplicit()` 方法：
+若要当属性为空时依然运行该规则，那么该规则必须暗示属性为必填。要创建一个「隐式」扩展功能，可以使用 `Validator::extendImplicit()` 方法：
 
     Validator::extendImplicit('foo', function($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
 
-> **注意：**一个「隐式」扩充功能只会_暗示_该属性为必填。不论它实际上是无效或是空的属性都取决你。
+> **注意：**一个「隐式」扩展功能只会_暗示_该属性为必填。不论它实际上是无效或是空的属性都取决你。

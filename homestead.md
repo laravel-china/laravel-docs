@@ -60,7 +60,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 
 #### 安装 Homestead Vagrant box
 
-当 VirtualBox / VMware 以及 Vagrant 安装完成后，你可以在终端机以下列命令将 'laravel/homestead' 这个 box 安装进你的 Vagrant 程序中。下载 box 会花你一点时间，时间长短将依据你的网络速度决定：
+当 VirtualBox / VMware 以及 Vagrant 安装完成后，你可以在命令行以下列命令将 'laravel/homestead' 这个 box 安装进你的 Vagrant 程序中。下载 box 会花你一点时间，时间长短将依据你的网络速度决定：
 
     vagrant box add laravel/homestead
 
@@ -161,7 +161,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 <a name="launching-the-vagrant-box"></a>
 ### 启动 Vagrant box
 
-当你根据你的喜好编辑完 `Homestead.yaml` 后，在终端机里进入你的 Homestead 目录并运行 `vagrant up` 命令。Vagrant 就会自将虚拟主机启动并自动设置你的共享文件夹和 Nginx 网站。
+当你根据你的喜好编辑完 `Homestead.yaml` 后，在命令行里进入你的 Homestead 目录并运行 `vagrant up` 命令。Vagrant 就会自将虚拟主机启动并自动设置你的共享文件夹和 Nginx 网站。
 
 如果要移除虚拟机，可以使用 `vagrant destroy --force` 命令。
 
@@ -184,7 +184,7 @@ Windows:
 
         vendor\bin\homestead make
 
-接着，运行在终端机中运行 `vagrant up` 并通过网页浏览器造访 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的网域。
+接着，运行在命令行中运行 `vagrant up` 并通过网页浏览器造访 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的网域。
 
 <a name="daily-usage"></a>
 ## 常见用法
@@ -192,7 +192,7 @@ Windows:
 <a name="connecting-via-ssh"></a>
 ### 通过 SSH 连接
 
-你可以在终端机里进入你的 Homestead 目录并运行 `vagrant ssh` 命令借此以 SSH 连上你的虚拟主机。
+你可以在命令行里进入你的 Homestead 目录并运行 `vagrant ssh` 命令借此以 SSH 连上你的虚拟主机。
 
 但是，你可能会经常需要通过 SSH 连上你的 Homestead 主机，因此你可以考虑在你的本机电脑上创建一个「别名」来快速连上 Homestead box。一旦你创建这个别名，你可以轻易地通过「vm」这个命令从你的电脑以 SSH 连上你的 Homestead 主机：
 
@@ -210,7 +210,7 @@ Windows:
 <a name="adding-additional-sites"></a>
 ### 增加更多网站
 
-一旦 Homestead 环境配置完毕且运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单一个 Homestead 环境中运行非常多 Laravel 安装程序。只要在 `Homestead.yaml` 档中增加另一个网站设置后，接着在终端机中进入到你的 Homestead 目录并运行 `vagrant provision` 命令，即可增加另一个网站。
+一旦 Homestead 环境配置完毕且运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单一个 Homestead 环境中运行非常多 Laravel 安装程序。只要在 `Homestead.yaml` 档中增加另一个网站设置后，接着在命令行中进入到你的 Homestead 目录并运行 `vagrant provision` 命令，即可增加另一个网站。
 
 <a name="configuring-cron-schedules"></a>
 ### 配置 Cron 调度器

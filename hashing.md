@@ -59,7 +59,7 @@ Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密�
 
 #### 验证密码是否须重新加密
 
-`needsRehash` 函数允许你检查已加密密码，它所使用的加密系数是否被变更：
+`needsRehash` 函数允许你检查已加密密码，它所使用的加密系数是否被修改：
 
     if (Hash::needsRehash($hashed)) {
         $hashed = Hash::make('plain-text');

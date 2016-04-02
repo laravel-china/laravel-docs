@@ -237,7 +237,7 @@ Laravel 提供了统一的 API 给各种不同的缓存系统，缓存的配置�
 
 第一个传给 `extend` 方法的参数是驱动的名称，这个名称要与你在 `config/cache.php` 配置文件中，`driver` 选项指定的名称相同，第二个参数是一个应返回一个 `Illuminate\Cache\Repository` 实例的闭包，这个闭包会被传入一个 `$app` 实例，这个实例是属于类[服务容器](/docs/{{version}}/container)。
 
-调用 `Cache::extend` 的工作可以在新加入的 Laravel 应用程序中默认的 `App\Providers\AppServiceProvider` 的 `boot` 方法中完成，或者你可以创建你自己的服务提供者来管理扩充功能（只是请别忘了在 `config/app.php` 中的服务提供者数组注册这个提供者）。
+调用 `Cache::extend` 的工作可以在新加入的 Laravel 应用程序中默认的 `App\Providers\AppServiceProvider` 的 `boot` 方法中完成，或者你可以创建你自己的服务提供者来管理扩展功能（只是请别忘了在 `config/app.php` 中的服务提供者数组注册这个提供者）。
 
 为了创建我们的自定义缓存驱动，首先需要实现 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts)。因此我们的 MongoDB 缓存实现大概会长这样子：
 

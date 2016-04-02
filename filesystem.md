@@ -18,7 +18,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 <a name="configuration"></a>
 ## 设置
 
-文件系统配置文件位于 `config/filesystems.php`。该文件能让你设置所有的「磁盘（disk）」。每个磁盘代表一种唯一的保存驱动以及保存位置。各种支持驱动例子已包含在其中，仅需要简单的根据你的偏好配置及凭证设置进行变更即可。
+文件系统配置文件位于 `config/filesystems.php`。该文件能让你设置所有的「磁盘（disk）」。每个磁盘代表一种唯一的保存驱动以及保存位置。各种支持驱动例子已包含在其中，仅需要简单的根据你的偏好配置及凭证设置进行修改即可。
 
 当然，你可以设置多组磁盘，甚至使用相同驱动。
 
@@ -71,7 +71,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
         }
     }
 
-面对使用多个磁盘时，你可以通过 `Storage` facade 的 `disk` 方法访问特定磁盘。当然，你也可以使用方法链结（chain methods）对磁盘使用各种运行方法。
+面对使用多个磁盘时，你可以通过 `Storage` facade 的 `disk` 方法访问特定磁盘。当然，你也可以使用链式调用（chain methods）对磁盘使用各种运行方法。
 
     $disk = Storage::disk('s3');
 

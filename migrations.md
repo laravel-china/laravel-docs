@@ -282,14 +282,14 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
-> **注意：**在 SQLite 数据库中移除字段前，你需要增加 `doctrine/dbal` 依赖至你的 `composer.json` 文件，并在你的终端机运行 `composer update` 命令安装该函数库。
+> **注意：**在 SQLite 数据库中移除字段前，你需要增加 `doctrine/dbal` 依赖至你的 `composer.json` 文件，并在你的命令行运行 `composer update` 命令安装该函数库。
 
 > **注意：**当使用 SQLite 数据库时并不支持在单行迁移中移除或修改多笔字段。
 
 <a name="creating-indexes"></a>
 ### 创建索引
 
-结构建构器支持多种类型的索引。首先，让我们看看一个指定字段的值必须是唯一的例子。要创建索引，我们可以简单的在字段定义之后链结上 `unique` 方法：
+结构建构器支持多种类型的索引。首先，让我们看看一个指定字段的值必须是唯一的例子。要创建索引，我们可以简单的在字段定义之后链式调用上 `unique` 方法：
 
     $table->string('email')->unique();
 

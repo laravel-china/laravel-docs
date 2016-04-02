@@ -116,7 +116,7 @@
         return true;
     });
 
-当链结使用 `when` 方法，排定命令只有在所有的 `when` 条件返回 `true` 的时候才运行。
+当链式调用使用 `when` 方法，排定命令只有在所有的 `when` 条件返回 `true` 的时候才运行。
 
 <a name="preventing-task-overlaps"></a>
 ### 避免任务重复

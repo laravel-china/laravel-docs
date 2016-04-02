@@ -11,9 +11,9 @@
 <a name="support-policy"></a>
 ## 发行说明
 
-对于像是 Laravel 5.1 的 LTS 版本，会提供两年的臭虫修复及三年的安全性修复。这些版本为支持及维护提供了长时间的窗口。
+对于像是 Laravel 5.1 的 LTS 版本，会提供两年的 BUG 修复及三年的安全性修复。这些版本为支持及维护提供了长时间的窗口。
 
-对于一般的版本，会提供六个月的臭虫修复及一年的安全性修复。
+对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
 
 <a name="laravel-5.1.11"></a>
 ## Laravel 5.1.11
@@ -39,7 +39,7 @@ Laravel 5.1 继续以 Laravel 5.0 改进而成，通过采用 PSR-2 及添加事
 
 ### LTS
 
-Laravel 5.1 是 Laravel 获得**长期支持**的第一个版本。Laravel 5.1 会获得两年的臭虫修复及三年的安全性修复。此支持窗口是 Laravel 有史以来最大的提供，为较大型的企业客户及消费者提供了稳定性及安心。
+Laravel 5.1 是 Laravel 获得**长期支持**的第一个版本。Laravel 5.1 会获得两年的 BUG 修复及三年的安全性修复。此支持窗口是 Laravel 有史以来最大的提供，为较大型的企业客户及消费者提供了稳定性及安心。
 ### PSR-2
 
 [PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)已经被 Laravel 框架采用为默认的风格指南。此外，所以的产生器都已进行更新，以产生 PSR-2 兼容的语法。
@@ -58,7 +58,7 @@ Laravel 文档的每一页已被精心审查，并得到显著的改善。所有
 
 ### 中间件参数
 
-中间件也可以额外置受自定义参数，例如，如果应用程序要在运行特定操作之前，检查通过验证的用户是否具备该操作的「角色」，可以创建 `RoleMiddleware` 来接收角色名称作为额外的参数。
+中间件也可以接收自定义传参，例如，如果应用程序要在运行特定操作之前，检查通过验证的用户是否具备该操作的「角色」，可以创建 `RoleMiddleware` 来接收角色名称作为额外的传参。
 
     <?php
 
@@ -144,7 +144,7 @@ Artisan 命令现在可以使用简单的方式定义，相似于路由的「署
 
 ### 加密
 
-在 Laravel 之前的版本，加密是通过 `mcrypt` PHP 扩充功能进行处理。不过，从 Laravel 5.1 起，加密通过更积极维护的 `openssl` 扩充功能进行处理。
+在 Laravel 之前的版本，加密是通过 `mcrypt` PHP 扩展功能进行处理。不过，从 Laravel 5.1 起，加密通过更积极维护的 `openssl` 扩展功能进行处理。
 
 <a name="laravel-5.0"></a>
 ## Laravel 5.0
@@ -389,7 +389,7 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
 
 此发行版本的完整更动列表可以从一个 4.2 的完整安装下，运行 `php artisan changes` 命令，或者 [Github 上的更动纪录](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json)。此纪录仅含括主要的强化更新和此发行的更动部分。
 
-> **附注:** 在 4.2 发布周期间，许多小的臭虫修正与功能强化被整并至各个 4.1 的子发行版本中。所以最好确认 Laravel 4.1 版本的更新列表。
+> **附注:** 在 4.2 发布周期间，许多小的 BUG 修正与功能强化被整并至各个 4.1 的子发行版本中。所以最好确认 Laravel 4.1 版本的更新列表。
 
 ### PHP 5.4 需求
 

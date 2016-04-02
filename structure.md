@@ -36,7 +36,7 @@ vendor 目录包含你的 [Composer](https://getcomposer.org) 依赖模块。
 <a name="the-app-directory"></a>
 ## App 目录
 
-应用程序的「内容」存在于 `app` 目录中。默认情况下，这个目录在 `App` 命名空间下并借由 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/)自动加载。**你可以使用 `app:name` Artisan 命令变更这个命名空间**。
+应用程序的「内容」存在于 `app` 目录中。默认情况下，这个目录在 `App` 命名空间下并借由 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/)自动加载。**你可以使用 `app:name` Artisan 命令修改这个命名空间**。
 
 `app` 目录附带许多个额外的目录，例如：`Console`、`Http` 和 `Providers`。试想 `Console` 和 `Http` 目录作为提供 API 进入应用程序的「核心」。HTTP 协定和 CLI 都是跟应用程序交互的机制，但实际上并不包含应用程序逻辑。换句话说，它们是两种简单地发布命令给应用程序的方法。`Console` 目录包含你全部的 Artisan 命令，而 `Http` 目录包含你的控制器、中间件和请求。
 
@@ -48,12 +48,12 @@ vendor 目录包含你的 [Composer](https://getcomposer.org) 依赖模块。
 
 `Exceptions` 目录包含应用程序的例外处理进程，也是个处置应用程序抛出的任何例外的好位置。
 
-> **注意：**在 `app` 目录中的许多类可以通过 Artisan 命令生成。若要查看可以使用的命令，只要在终端机运行 `php artisan list make` 命令。
+> **注意：**在 `app` 目录中的许多类可以通过 Artisan 命令生成。若要查看可以使用的命令，只要在命令行运行 `php artisan list make` 命令。
 
 <a name="namespacing-your-application"></a>
 ## 为应用程序设置命名空间
 
-如前面所提到的，默认的应用程序命名空间为 `App`；然而，你可以简单地借由 `app:name` Artisan 命令，将此命名空间变更成应用程序的名称。例如：如果你的应用程序叫做「SocialNet」，你将会运行下方的命令：
+如前面所提到的，默认的应用程序命名空间为 `App`；然而，你可以简单地借由 `app:name` Artisan 命令，将此命名空间修改成应用程序的名称。例如：如果你的应用程序叫做「SocialNet」，你将会运行下方的命令：
 
     php artisan app:name SocialNet
 

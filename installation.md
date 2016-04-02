@@ -76,7 +76,7 @@ Laravel 几乎不需设置就可以马上使用，你可以自由的开始开发
 一旦 Laravel 安装完成，你应该同时[设置本机环境](/docs/{{version}}/installation#environment-configuration)。
 
 <a name="pretty-urls"></a>
-#### 优雅链结
+#### 优雅链式调用
 
 **Apache**
 
@@ -99,7 +99,7 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-当然，如果你使用 [Homestead](/docs/{{version}}/homestead) 的话，优雅链结会自动的帮你设置完成。
+当然，如果你使用 [Homestead](/docs/{{version}}/homestead) 的话，优雅链式调用会自动的帮你设置完成。
 
 <a name="environment-configuration"></a>
 ### 环境配置

@@ -35,7 +35,7 @@ Laravel 在创建时就已考虑到测试的部分。事实上，默认就支持
 
     php artisan make:test UserTest
 
-此命令会放置一个新的 `UserTest` 类至你的 `tests` 目录。接着就可以像平常使用 PHPUnit 一样定义测试方法。要运行测试只需要在终端机上运行 `phpunit` 命令：
+此命令会放置一个新的 `UserTest` 类至你的 `tests` 目录。接着就可以像平常使用 PHPUnit 一样定义测试方法。要运行测试只需要在命令行上运行 `phpunit` 命令：
 
     <?php
 

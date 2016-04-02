@@ -1,7 +1,7 @@
 # Laravel Elixir
 
 - [简介](#introduction)
-- [安装与设置](#installation)
+- [安装与配置](#installation)
 - [运行 Elixir](#running-elixir)
 - [使用样式](#working-with-stylesheets)
     - [Less](#less)
@@ -17,12 +17,12 @@
 - [版本与暂存清除](#versioning-and-cache-busting)
 - [BrowserSync](#browser-sync)
 - [调用既有的 Gulp 任务](#calling-existing-gulp-tasks)
-- [编写 Elixir 扩充功能](#writing-elixir-extensions)
+- [编写 Elixir 扩展功能](#writing-elixir-extensions)
 
 <a name="introduction"></a>
 ## 简介
 
-Laravel Elixir 提供了简洁流畅的 API，让你能够为你的 Laravel 应用程序定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，甚至包含了测试工具。使用方法链结，Elixir 让你你流畅的定义你的资源文件管线，例如：
+Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，甚至包含了测试工具。使用链式调用，Elixir 让你流畅的定义你的开发流程，例如：
 
 ```javascript
 elixir(function(mix) {
@@ -31,10 +31,12 @@ elixir(function(mix) {
 });
 ```
 
-如果你曾经对于上手 Gulp 及编译资源文件感到困惑，那么你将会爱上 Laravel Elixir。但是，当你开发你的应用程序时并不一定需要使用它。你可以自由使用你想用的任何资源文件管线工具，甚至根本不需使用。
+如果你曾经对于上手 Gulp 及编译资源文件感到困惑，那么你将会爱上 Laravel Elixir，不过 Laravel 并不强迫你使用 Elixir，你可以自由的选用你喜欢的自动化开发流程工具。
+
+> TODO: 这里需要增加 Elixir 相关介绍文章链接，尤其说明在生产环境中使用的好处，如合并、压缩 CSS 和 JS 文件等。
 
 <a name="installation"></a>
-## 安装及设置
+## 安装及配置
 
 ### 安装 Node
 
@@ -52,7 +54,7 @@ elixir(function(mix) {
 
 ### Laravel Elixir
 
-最后的步骤就是安装 Elixir！伴随着新安装的 Laravel，你会发现根目录有个名为 `package.json` 的文件。想像它就如同你的 `composer.json` 文件，只是它定义的是 Node 的依赖扩展包，而不是 PHP 的。你可以使用以下的命令安装依赖扩展包：
+最后的步骤就是安装 Elixir！在每一份新安装的 Laravel 代码里，你会发现根目录有个名为 `package.json` 的文件。想像它就如同你的 `composer.json` 文件，只是它定义的是 Node 的依赖扩展包，而不是 PHP 的。你可以使用以下的命令安装依赖扩展包：
 
     npm install
 
@@ -63,7 +65,7 @@ elixir(function(mix) {
 <a name="running-elixir"></a>
 ## 运行 Elixir
 
-Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Elixir 任务，只需要在终端机运行 `gulp` 命令。在命令增加 `--production` 标示会告知 Elixir 压缩你的 CSS 及 JavaScript 文件：
+Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Elixir 任务，只需要在命令行运行 `gulp` 命令。在命令增加 `--production` 标示会告知 Elixir 压缩你的 CSS 及 JavaScript 文件：
 
     // 运行所有任务...
     gulp
@@ -71,21 +73,21 @@ Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Eli
     // 运行所有任务并压缩所有 CSS 及 JavaScript...
     gulp --production
 
-#### 监控资源文件变更
+#### 监控资源文件修改
 
-因为每次变更你的资源文件之后在终端机运行 `gulp` 命令相当不便，因此你可以使用 `gulp watch` 命令。此命令会在你的终端机继续运行，并监控资源文件的任何变更。当发生变更时，新文件将会自动被编译：
+因为每次修改你的资源文件之后在命令行运行 `gulp` 命令相当不便，因此你可以使用 `gulp watch` 命令。此命令会在你的命令行继续运行，并监控资源文件的任何修改。当发生修改时，新文件将会自动被编译：
 
     gulp watch
 
 <a name="working-with-stylesheets"></a>
 ## 使用样式
 
-项目根目录的 `gulpfile.js` 包含你所有的 Elixir 任务。Elixir 任务可以被链结起来，以定义你的资源文件该如何进行编译。
+项目根目录的 `gulpfile.js` 包含你所有的 Elixir 任务。Elixir 任务可以被链式调用起来，以定义你的资源文件该如何进行编译。
 
 <a name="less"></a>
 ### Less
 
-要将 [Less](http://lesscss.org/) 编译至 CSS，你可以使用 `less` 方法。`less` 方法会假设你的 Less 文件被保存在 `resources/assets/less`。默认情形下，此例子的任务会将编译后的 CSS 放置于 `public/css/app.css`：
+要将 [Less](http://lesscss.org/) 编译为 CSS，你可以使用 `less` 方法。`less` 方法会假设你的 Less 文件被保存在 `resources/assets/less`。默认情形下，此例子的任务会将编译后的 CSS 放置于 `public/css/app.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -169,7 +171,7 @@ elixir(function(mix) {
 
 Source maps 在默认情况下是开启的。因此，针对每个被编译的文件，同目录内都会伴随着一个 `*.css.map` 文件。这个文件能够让你在浏览器调试时，可以追踪编译后的样式选择器至原始的 Sass 或 Less 位置。
 
-如果你不想为你的 CSS 产生 source maps，你可以使用一个简单的设置选项关闭它们：
+如果你不想为你的 CSS 产生 source maps，你可以使用一个简单的配置选项关闭它们：
 
 ```javascript
 elixir.config.sourcemaps = false;
@@ -187,7 +189,7 @@ Elixir 也提供了一些函数来帮助你使用 JavaScript 文件，像是编�
 <a name="coffeescript"></a>
 ### CoffeeScript
 
-`coffee` 方法可以用于编译 [CoffeeScript](http://coffeescript.org/) 至纯 JavaScript。`coffee` 函数接收一个相对于 `resources/assets/coffee` 目录的 CoffeeScript 文件字符串或数组，接着在 `public/js` 目录产生单一的 `app.js` 文件：
+`coffee` 方法可以用于编译 [CoffeeScript](http://coffeescript.org/) 至纯 JavaScript。`coffee` 函数接收一个相对于 `resources/assets/coffee` 目录的 CoffeeScript 文件名字符串或数组，接着在 `public/js` 目录产生单一的 `app.js` 文件：
 
 ```javascript
 elixir(function(mix) {
@@ -198,7 +200,7 @@ elixir(function(mix) {
 <a name="browserify"></a>
 ### Browserify
 
-Elixir 还附带了一个 `browserify` 方法，给予你在浏览器引入模块及 ECMAScript 6 的所有好处。
+Elixir 还附带了一个 `browserify` 方法，给予你在浏览器引入模块及 ECMAScript 6 的有用的特性。
 
 此任务假设你的脚本都保存在 `resources/assets/js`，并会将产生的文件放置于 `public/js/main.js`：
 
@@ -315,7 +317,7 @@ elixir(function(mix) {
 });
 ```
 
-一旦该文件被加上版本，你需要使用 `elixir` 辅助函数来产生被哈希文件的正确链接。切记，你只需要传递未杂揍文件的名称至 `elixir` 辅助函数。此函数使用未哈希的名称来判断该文件为目前的哈希版本：
+一旦该文件被加上版本，你需要使用 `elixir` 辅助函数来产生被哈希文件的正确链接。切记，你只需要传递未哈希文件的名称至 `elixir` 辅助函数。此函数会自动使用未哈希的名称来判断该文件为目前的哈希版本：
 
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 
@@ -365,7 +367,7 @@ elixir(function(mix) {
 
 #### 自定义监控器
 
-如果你想注册一个监控器让你的自定任务能在每次文件改变时就运行，只需传递一个正则表达式作为 `task` 方法的第二个参数：
+如果你想注册一个监控器让你的自定义任务能在每次文件改变时就运行，只需传递一个正则表达式作为 `task` 方法的第二个参数：
 
 ```javascript
 elixir(function(mix) {
@@ -374,9 +376,9 @@ elixir(function(mix) {
 ```
 
 <a name="writing-elixir-extensions"></a>
-## 编写 Elixir 扩充功能
+## 编写 Elixir 扩展功能
 
-如果你需要比 Elixir 的 `task` 方法提供的更灵活，你可以创建自定的 Elixir 扩充功能。Elixir 扩充功能允许你传递参数至你的自定任务。举例来说，你可以编写一个扩充功能，像是：
+如果你需要比 Elixir 的 `task` 方法更灵活的方案，你可以创建自定义的 Elixir 扩展功能。Elixir 扩展功能允许你传递参数至你的自定义任务。举例来说，你可以编写一个扩展功能，像是：
 
 ```javascript
 // 文件：elixir-extensions.js
@@ -398,7 +400,7 @@ Elixir.extend('speak', function(message) {
 // mix.speak('Hello World');
 ```
 
-就是这样！注意，你的 Gulp 具体的逻辑必须被放置在 `Task` 第二个参数传递的构造器函数。你可以将此扩充功能放置在 Gulpfile 的上方，取而代之也可以导出至一个自定任务的文件。举个例子，如果你将你的扩充功能放置在 `elixir-extensions.js`，你可以在你的 `Gulpfile` 引入该文件，像是：
+就是这样！注意，你的 Gulp 具体的逻辑必须被放置在 `Task` 第二个参数传递的构造器函数。你可以将此扩展功能放置在 Gulpfile 的上方，取而代之也可以导出至一个自定任务的文件。举个例子，如果你将你的扩展功能放置在 `elixir-extensions.js`，你可以在你的 `Gulpfile` 引入该文件，像是：
 
 ```javascript
 // 文件：Gulpfile.js

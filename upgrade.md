@@ -373,7 +373,7 @@ use Authenticatable, CanResetPassword;
 
 将你的视图从 `app/views` 移到新的 `resources/views` 目录。
 
-### Blade 标签变更
+### Blade 标签修改
 
 基于安全考量，Laravel 5.0 会把所有 `{{ }}` and `{{{ }}}` Blade 标签的输出的特殊字符都进行转译。新的 `{!! !!}` 标签则被采用来显示原始未转译的输出。当你**有把握**显示原始输出是安全的话，升级你的应用程序最安全的方法是只使用新的 `{!! !!}` 标签。
 
@@ -485,7 +485,7 @@ Laravel 4.2 需要 PHP 5.4.0 或更高的版本。
 
 > **注意：**`SoftDeletingTrait` 无法在基底模型下被使用。他必须用在一个实际的模型类。
 
-### 视图 / 分页的环境名称变更
+### 视图 / 分页的环境名称修改
 
 如果你直接参照 `Illuminate\View\Environment` 或 `Illuminate\Pagination\Environment` 类， 请更新你的代码将其改为参照 `Illuminate\View\Factory` 和 `Illuminate\Pagination\Factory`。改名后的这两个类更可以代表他们的功能。
 
@@ -577,19 +577,19 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
 
 **(非必要)**  在你的 `app/config/view.php` 文件里，将 `pagination` 设置选项更新为 `pagination::slider-3`。
 
-### 控制器的变更
+### 控制器的修改
 
 如果 `app/controllers/BaseController.php` 有个 `use` 语句在最上面，将 `use Illuminate\Routing\Controllers\Controller;` 改为 `use Illuminate\Routing\Controller;`。
 
-### 密码提醒的变更
+### 密码提醒的修改
 
 密码提醒功能已经为了更大的弹性而大幅翻修。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览[更新后的文档](/docs/security#password-reminders-and-reset)并相应地更新你的应用程序。
 
 更新你的 `app/lang/en/reminders.php` 语系文件来对应[这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
 
-### 环境侦测的变更
+### 环境侦测的修改
 
-为了安全因素，不再使用网域来侦测应用程序的环境。因为这些值很容易被伪造欺骗，继而让攻击者通过请求来变更环境。你必须改为使用机器的主机名称 (在 Mac、Linux 和 Windows 下运行 `hostname` 命令的值) 来侦测环境。
+为了安全因素，不再使用网域来侦测应用程序的环境。因为这些值很容易被伪造欺骗，继而让攻击者通过请求来修改环境。你必须改为使用机器的主机名称 (在 Mac、Linux 和 Windows 下运行 `hostname` 命令的值) 来侦测环境。
 
 ### 更简单的日志文件
 

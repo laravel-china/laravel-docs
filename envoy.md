@@ -22,7 +22,7 @@
 
     composer global require "laravel/envoy=~1.0"
 
-记得将 `~/.composer/vendor/bin` 目录加入至你的 PATH，如此一来当你在终端机运行 `envoy` 命令时 `envoy` 才可被运行。
+记得将 `~/.composer/vendor/bin` 目录加入至你的 PATH，如此一来当你在命令行运行 `envoy` 命令时 `envoy` 才可被运行。
 
 #### 更新 Envoy
 
