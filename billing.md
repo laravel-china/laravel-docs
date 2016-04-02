@@ -247,7 +247,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
 这样就完成了！失败的交易会经由控制器捕捉并进行处理。控制器在 Stripe 确认订购已经失败后 (通常在三次交易尝试失败后)，才会取消顾客的订单。别忘了：你必须设置 Stripe 控制设置里的 webhook URI。
 
-由于 Stripe Webhooks 必须绕过 Laravel 的 [CSRF 验证](/docs/{{version}}/routing#csrf-protection)，请确定在增加 URI 例外至你的 `VerifyCsrfToken` 中间件：
+由于 Stripe Webhooks 必须绕过 Laravel 的 [CSRF 验证](/docs/{{version}}/routing#csrf-protection)，请确定在增加 URI 异常至你的 `VerifyCsrfToken` 中间件：
 
     protected $except = [
         'stripe/*',

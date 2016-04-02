@@ -366,7 +366,7 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
         ]);
     }
 
-如果验证失败，会抛出例外以及返回适当的 HTTP 回应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
+如果验证失败，会抛出异常以及返回适当的 HTTP 回应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
 
 更多关于这个新方法的信息，参考[这个文档](/docs/{{version}}/validation#controller-validation)。
 

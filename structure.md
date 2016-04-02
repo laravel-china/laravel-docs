@@ -46,7 +46,7 @@ vendor 目录包含你的 [Composer](https://getcomposer.org) 依赖模块。
 
 `Listeners` 目录包含事件的处理类。处理进程接收一个事件，并针对该事件运行逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
 
-`Exceptions` 目录包含应用程序的例外处理进程，也是个处置应用程序抛出的任何例外的好位置。
+`Exceptions` 目录包含应用程序的异常处理进程，也是个处置应用程序抛出的任何异常的好位置。
 
 > **注意：**在 `app` 目录中的许多类可以通过 Artisan 命令生成。若要查看可以使用的命令，只要在命令行运行 `php artisan list make` 命令。
 

@@ -13,7 +13,7 @@
     - [路由前缀](#route-group-prefixes)
 - [CSRF 保护](#csrf-protection)
     - [介绍](#csrf-introduction)
-    - [例外 URIs](#csrf-excluding-uris)
+    - [异常 URIs](#csrf-excluding-uris)
     - [X-CSRF-Token](#csrf-x-csrf-token)
     - [X-XSRF-Token](#csrf-x-xsrf-token)
 - [路由模型绑定](#route-model-binding)
@@ -346,7 +346,7 @@ Laravel 路由模型绑定提供了一个方便的方式来注入类实例至你
 
 因为我们已经绑定 `{user}` 参数至 `App\User` 模型，所以 `User` 实例会被注入至该路由。所以，举个例子，一个至 `profile/1` 的请求会注入 ID 为 1 的 `User` 实例。
 
-> **注意：**如果符合的模型不存在于数据库中，就会自动抛出一个 404 例外。
+> **注意：**如果符合的模型不存在于数据库中，就会自动抛出一个 404 异常。
 
 如果你希望指定你自己的「不存在」行为，只要传递一个闭包作为 `model` 方法的第三个参数：
 
@@ -387,4 +387,4 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义 `P
 
 第二，你可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
 
-更多有关如何操作 404 例外和自定义的回应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。
+更多有关如何操作 404 异常和自定义的回应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。

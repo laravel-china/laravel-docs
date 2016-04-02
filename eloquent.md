@@ -216,15 +216,15 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
     // 取回符合查找限制的第一个模型 ...
     $flight = App\Flight::where('active', 1)->first();
 
-#### 找不到的例外
+#### 找不到的异常
 
-有时候你可能希望在找不到模型时抛出例外，这在路由或是控制器内特别有用。`findOrFail` 以及 `firstOrFail` 方法会取回查找的第一个结果。而如果没有找到结果，将会抛出一个 `Illuminate\Database\Eloquent\ModelNotFoundException`：
+有时候你可能希望在找不到模型时抛出异常，这在路由或是控制器内特别有用。`findOrFail` 以及 `firstOrFail` 方法会取回查找的第一个结果。而如果没有找到结果，将会抛出一个 `Illuminate\Database\Eloquent\ModelNotFoundException`：
 
     $model = App\Flight::findOrFail(1);
 
     $model = App\Flight::where('legs', '>', 100)->firstOrFail();
 
-如果没有捕捉到例外，会自动地送回 HTTP `404` 回应给用户，所以当使用这些方法时，没有必要明确的编写检查以返回 `404` 回应：
+如果没有捕捉到异常，会自动地送回 HTTP `404` 回应给用户，所以当使用这些方法时，没有必要明确的编写检查以返回 `404` 回应：
 
     Route::get('/api/flights/{id}', function ($id) {
         return App\Flight::findOrFail($id);

@@ -437,7 +437,7 @@
 <a name="deleting-the-task"></a>
 ### 删除该任务
 
-最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 取得模型，当该模型不存在时则会抛出 404 例外。一旦我们取得模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
+最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 取得模型，当该模型不存在时则会抛出 404 异常。一旦我们取得模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
 
 	Route::delete('/task/{id}', function ($id) {
 		Task::findOrFail($id)->delete();
