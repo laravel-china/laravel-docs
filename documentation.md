@@ -59,4 +59,4 @@
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
     - [Getter/Setter](/docs/{{version}}/eloquent-mutators)
-    - [串行化](/docs/{{version}}/eloquent-serialization)
+    - [序列化](/docs/{{version}}/eloquent-serialization)

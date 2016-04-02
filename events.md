@@ -99,7 +99,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
         }
     }
 
-正如你所见的，这个事件类没有包含特别的逻辑。它只是一个当 `Podcast` 对象被购买时的容器。如果事件对象是使用 PHP 的 `serialized` 函数进行串行化，那么事件所使用的 `SerializesModels` trait 将会优雅的串行化任何的 Eloquent 模型。
+正如你所见的，这个事件类没有包含特别的逻辑。它只是一个当 `Podcast` 对象被购买时的容器。如果事件对象是使用 PHP 的 `serialized` 函数进行序列化，那么事件所使用的 `SerializesModels` trait 将会优雅的序列化任何的 Eloquent 模型。
 
 <a name="defining-listeners"></a>
 ## 定义监听器
@@ -316,7 +316,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 <a name="broadcast-data"></a>
 ### 广播数据
 
-当事件被广播时，所有的 `public` 属性都自动的被串行化和广播作为事件的有效数据，允许你可以从你的 JavaScript 应用程序中访问任何公开的数据。所以，在这个例子中，假设事件有一个单一公开的 `$user` 属性且包含了一个 Eloquent 模型，广播数据将会是：
+当事件被广播时，所有的 `public` 属性都自动的被序列化和广播作为事件的有效数据，允许你可以从你的 JavaScript 应用程序中访问任何公开的数据。所以，在这个例子中，假设事件有一个单一公开的 `$user` 属性且包含了一个 Eloquent 模型，广播数据将会是：
 
     {
         "user": {

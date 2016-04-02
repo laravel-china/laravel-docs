@@ -1,4 +1,4 @@
-# Eloquent: 串行化
+# Eloquent: 序列化
 
 - [简介](#introduction)
 - [基本用法](#basic-usage)
@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-当你在创建 JSON APIs 的时候，经常需要将模型和关联转换成数组或是 JSON。Eloquent 提供了一些方便的方法让我们可以做这些转换，以及控制哪些属性要包括在你的串行化中。
+当你在创建 JSON APIs 的时候，经常需要将模型和关联转换成数组或是 JSON。Eloquent 提供了一些方便的方法让我们可以做这些转换，以及控制哪些属性要包括在你的序列化中。
 
 <a name="basic-usage"></a>
 ## 基本用法

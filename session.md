@@ -222,7 +222,7 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
 <div class="content-list" markdown="1">
 - `open` 方法通常用在基于文件的 session 保存系统中。像 Larvel 附带了一个 `file` 的驱动，所以你不用把任何东西放到这个方法内。你可以把这方法看做是空的也没关系；很简单的事实只是因为不佳的接口设计（我们将在之后讨论），所以 PHP 要求必需要有这个方法的实现。
 - `close` 方法跟 `open` 方法很像，通常也是被忽略，对大多数的驱动而言，这并不是需要的。
-- `read` 方法必须根据给予的 `$sessionId` 返回关联的 session 数据的字符串版本。在驱动中这并不需要做任何的编码跟串行化的动作，在 Laravel 内已自动运行。
+- `read` 方法必须根据给予的 `$sessionId` 返回关联的 session 数据的字符串版本。在驱动中这并不需要做任何的编码跟序列化的动作，在 Laravel 内已自动运行。
 - `write` 方法必须在大部分保存系统内写入 `$data` 字符串时关联至 `$sessionId`，如 MongoDB、Dynamo 等等。
 - `destroy` 方法能删除与 `$sessionId` 关联的数据。
 - `gc` 方法能删除给予 `$lifetime` 之前的所有数据，`$lifetime` 是一个 UNIX 的时间戳记。但在一些系统如 Memcached 和 Redis 这个方法可能会留下一段空白的保存数据。
