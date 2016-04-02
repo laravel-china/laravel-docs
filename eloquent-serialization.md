@@ -21,7 +21,7 @@
 
     return $user->toArray();
 
-你也可以将[集合](/docs/{{version}}/eloquent-collections)转换成数组：
+你也可以将 [集合](/docs/{{version}}/eloquent-collections) 转换成数组：
 
     $users = App\User::all();
 
@@ -68,7 +68,7 @@
         protected $hidden = ['password'];
     }
 
-> **注意：**当你要隐藏关联时，要使用关联的**方法**名称，而不是它的动态属性的名称。
+> **注意：** 当你要隐藏关联时，要使用关联的 **方法** 名称，而不是它的动态属性的名称。
 
 另外，你也可以使用 `visible` 属性定义应该包含在你的模型数组和 JSON 表示法中的属性白名单：
 
@@ -91,7 +91,7 @@
 <a name="appending-values-to-json"></a>
 ## 添加一些值到 JSON
 
-有时候，你可能需要添加在数据库没有对应字段的数组属性。要达成这个目地，首先必须为这个值定义一个[访问器](/docs/{{version}}/eloquent-mutators)：
+有时候，你可能需要添加在数据库没有对应字段的数组属性。要达成这个目地，首先必须为这个值定义一个 [访问器](/docs/{{version}}/eloquent-mutators)：
 
     <?php
 
