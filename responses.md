@@ -88,7 +88,7 @@
 
     return response()->view('hello', $data)->header('Content-Type', $type);
 
-当然，如果你没有自定 HTTP 状态码及标头的需求，你可以简单的使用全域的 `view` 辅助方法。
+当然，如果你没有自定 HTTP 状态码及标头的需求，你可以简单的使用全局的 `view` 辅助方法。
 
 <a name="json-responses"></a>
 #### JSON 回应
@@ -116,13 +116,13 @@
 <a name="redirects"></a>
 ## 重定向
 
-重定向回应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是通过全域的 `redirect` 辅助方法：
+重定向回应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助方法：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
     });
 
-有时你可能希望将用户重定向至前一个位置，例如当提交一个无效的表单之后。你可以使用全域的 `back` 辅助方法来达成这个目的：
+有时你可能希望将用户重定向至前一个位置，例如当提交一个无效的表单之后。你可以使用全局的 `back` 辅助方法来达成这个目的：
 
     Route::post('user/profile', function () {
         // 验证该请求...

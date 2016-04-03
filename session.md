@@ -99,7 +99,7 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
 
     $data = $request->session()->all();
 
-你也可使用全域的 `session` PHP 函数取得 session 中保存的数据：
+你也可使用全局的 `session` PHP 函数取得 session 中保存的数据：
 
     Route::get('home', function () {
         // 取得 session 中的一条数据...
@@ -152,7 +152,7 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
 <a name="flash-data"></a>
 ### 快闪数据
 
-有时候你想存入一条暂存的数据，让它只有在下一次的请求内有效。你可以使用 `flash` 方法达到这个目的。使用这个方法保存，只能将数据保留到下个 HTTP 请求，然后就会自动删除。快闪数据在短期的状态消息中很有用：
+有时候你想存入一条缓存的数据，让它只有在下一次的请求内有效。你可以使用 `flash` 方法达到这个目的。使用这个方法保存，只能将数据保留到下个 HTTP 请求，然后就会自动删除。快闪数据在短期的状态消息中很有用：
 
     $request->session()->flash('status', 'Task was successful!');
 

@@ -366,7 +366,7 @@
 
 #### 通过授权策略辅助方法
 
-全域的 `policy` 辅助函数可以被用于为给定的类实例取得 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，取得对应的 `PostPolicy` 类实例：
+全局的 `policy` 辅助函数可以被用于为给定的类实例取得 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，取得对应的 `PostPolicy` 类实例：
 
 	if (policy($post)->update($user, $post)) {
 		//

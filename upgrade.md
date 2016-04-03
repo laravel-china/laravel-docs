@@ -249,7 +249,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 ### 命名空间
 
-默认情况下，Laravel 4 应用程序 没有在应用程序的代码中使用命名空间。所以，举例来说，所有的 Eloquent 模型和控制器都简单地存在于「全域」的命名空间中。为了更快速的迁移，Laravel 5 也允许你可以将这些类一样保留在全域的命名空间。
+默认情况下，Laravel 4 应用程序 没有在应用程序的代码中使用命名空间。所以，举例来说，所有的 Eloquent 模型和控制器都简单地存在于「全局」的命名空间中。为了更快速的迁移，Laravel 5 也允许你可以将这些类一样保留在全局的命名空间。
 
 ### 配置
 
@@ -289,7 +289,7 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来提供�
 
 筛选器在 Laravel 5 中没有被移除。你仍然可以绑定并借由 `before` 和 `after`使用你自己自定义的筛选器。
 
-### 全域 CSRF
+### 全局 CSRF
 
 默认情况下，所有路由都会启用[CSRF 保护](/docs/{{version}}/routing#csrf-protection)。如果你想要关闭它们或是只想在特定路由手动开启，请从 `App\Http\Kernel` 的 `middleware` 数组移除这行：
 
@@ -363,7 +363,7 @@ use Authenticatable, CanResetPassword;
 
 将你所有的迁移文件从原本的 `app/database/migrations` 目录移到新的 `database/migrations`。你所有的数据填充档也应该从 `app/database/seeds` 移到 `database/seeds`。
 
-### 全域 IoC 绑定
+### 全局 IoC 绑定
 
 如果你在 `start/global.php` 有任何的[服务容器](/docs/{{version}}/container)绑定，请将它们全部移至 `app/Providers/AppServiceProvider.php` 文件的 `register` 方法。你可能需要引入 `App` facade。
 

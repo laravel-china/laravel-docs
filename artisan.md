@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## 介绍
 
-Artisan 是 Laravel 里的一个命令行接口的名称。当你在开发应用程序时，它提供了许多有用的命令来帮助你开发。它是由强大的 Symfony 终端组件所驱动的。你可以使用 `list` 命令来列出所有可用的 Artisan 命令：
+Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命令来帮助你开发 Laravel 应用，它是由强大的 Symfony Console 组件所驱动的。你可以使用 `list` 命令来列出所有可用的 Artisan 命令：
 
     php artisan list
 

@@ -117,7 +117,7 @@
     ->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
 
 <a name="parameters-global-constraints"></a>
-#### 全域限制
+#### 全局限制
 
 如果你希望路由参数可以总是遵循正规表达式，你可以使用 `pattern` 方法。你应该在 `RouteServiceProvider` 的 `boot` 方法里定义这些模式：
 

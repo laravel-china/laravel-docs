@@ -232,7 +232,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### Mailtrap
 
-最后，你可以使用像 [Mailtrap](https://mailtrap.io) 这样的服务以及 `smtp` 驱动来将你的邮件消息寄到一个「假的」邮箱，而你可以在一个真的邮件客户端查看它们。这个方法的好处是让你可以在 Mailtrap 的消息检阅器中实际查看最终的电子邮件。
+最后，你可以使用像 [Mailtrap](https://mailtrap.io) 这样的服务以及 `smtp` 驱动来将你的邮件消息寄到一个「假的」邮箱，而你可以在一个真的邮件客户端查看它们。这个方法的好处是让你可以在 Mailtrap 的消息阅读器中实际查看最终的电子邮件。
 
 <a name="events"></a>
 ## 事件

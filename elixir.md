@@ -14,7 +14,7 @@
     - [Babel](#babel)
     - [Scripts](#javascript)
 - [复制文件与目录](#copying-files-and-directories)
-- [版本与暂存清除](#versioning-and-cache-busting)
+- [版本与缓存清除](#versioning-and-cache-busting)
 - [BrowserSync](#browser-sync)
 - [调用既有的 Gulp 任务](#calling-existing-gulp-tasks)
 - [编写 Elixir 扩展功能](#writing-elixir-extensions)
@@ -48,7 +48,7 @@ elixir(function(mix) {
 
 ### Gulp
 
-接着，你需要全域安装 [Gulp](http://gulpjs.com) 的 NPM 扩展包：
+接着，你需要全局安装 [Gulp](http://gulpjs.com) 的 NPM 扩展包：
 
     npm install --global gulp
 
@@ -291,7 +291,7 @@ elixir(function(mix) {
 ```
 
 <a name="versioning-and-cache-busting"></a>
-## 版本与暂存清除
+## 版本与缓存清除
 
 许多的开发者会在它们编译后的资源文件加上时间戳记或是唯一的 token，强迫浏览器加载全新的资源文件以取代提供的旧版本代码副本。你可以使用 `version` 方法让 Elixir 处理它们。
 
@@ -303,7 +303,7 @@ elixir(function(mix) {
 });
 ```
 
-在为文件产生版本之后，你可以在你的[视图](/docs/{{version}}/views)中使用 Laravel 的全域 `elixir` PHP 辅助函数来正确加载名称被哈希后的文件。`elixir` 函数会自动判断被哈希的文件名称：
+在为文件产生版本之后，你可以在你的[视图](/docs/{{version}}/views)中使用 Laravel 的全局 `elixir` PHP 辅助函数来正确加载名称被哈希后的文件。`elixir` 函数会自动判断被哈希的文件名称：
 
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 

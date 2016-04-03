@@ -168,7 +168,7 @@ Homestead 目前是建置且测试于 Vagrant 1.7。
 <a name="per-project-installation"></a>
 ### 根据项目分别安装
 
-有别于将 Homestead 安装成全域环境且让所有的项目共用同一个 Homestead box，你可以各别为每一个项目独立配置一个 Homstead。如果你希望直接在项目里传递 `Vagrantfile`，那么替每个项目安装 Homestead 即是你可以考虑的方式，这将会允许其他人可以简单地运行 `vagrant up` 即能开始工作于此项目。
+有别于将 Homestead 安装成全局环境且让所有的项目共用同一个 Homestead box，你可以各别为每一个项目独立配置一个 Homstead。如果你希望直接在项目里传递 `Vagrantfile`，那么替每个项目安装 Homestead 即是你可以考虑的方式，这将会允许其他人可以简单地运行 `vagrant up` 即能开始工作于此项目。
 
 你可以使用 Composer 将 Homestead 直接安装至你的项目中：
 

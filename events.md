@@ -17,12 +17,12 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 事件提供了一个简单的监听器实现，允许你在应用程序可以订阅和监听事件。事件类通常被保存在 `app/Events` 目录下，而它们的监听器保存在 `app/Listeners` 目录下。
+Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件，事件类通常被保存在 `app/Events` 目录下，而它们的监听器保存在 `app/Listeners` 目录下。
 
 <a name="registering-events-and-listeners"></a>
 ## 注册事件或监听器
 
-Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置来注册所有的事件监听器。`listen` 属性包含一个所有事件（键）以及他们的监听器（值）的数组。当然，你也可以在应用程序根据需求增加许多事件到这个数组。例如：让我们增加 `PodcastWasPurchased` 事件：
+你可以在 `EventServiceProvider` 注册所有的事件监听器，`listen` 属性是一个数组，包含所有事件（键）以及事件对应的监听器（值），你也可以根据需求增加事件到这个数组，例如：让我们增加 `PodcastWasPurchased` 事件：
 
     /**
      * 应用程序的事件监听器映射。
@@ -37,7 +37,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 
 ### 产生事件或监听器类
 
-当然，手动创建每个事件以及监听器文件是相当麻烦的。相反的，只要增加监听器和事件到你的 `EventServiceProvider` 以及使用 `event:generate` 命令即可。这个命令会产生所有列出在 `EventServiceProvider` 的事件和监听器。当然，已经存在的事件和监听器将保持不变：
+你可以使用 `event:generate` 来协作你处理此类操作，这个命令会自动生成所有列出在 `EventServiceProvider` 的事件文件和监听器文件，已经存在的事件和监听器将保持不变：
 
     php artisan event:generate
 
@@ -154,7 +154,7 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
 <a name="queued-event-listeners"></a>
 ### 可队列的事件监听器
 
-需要一个可[队列](/docs/{{version}}/queues)的事件监听器吗？它是再容易不过了。只要增加 `ShouldQueue` 接口到你的监听器类。由 `event:generate` Artisan 命令生成的监听器已经将目前存在的接口加载到命名空间，所以你可以立即的使用它：
+需要一个可[队列](/docs/{{version}}/queues) 的事件监听器吗？它是再容易不过了。只要增加 `ShouldQueue` 接口到你的监听器类。由 `event:generate` Artisan 命令生成的监听器已经将目前存在的接口加载到命名空间，所以你可以立即的使用它：
 
     <?php
 
@@ -169,11 +169,11 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
         //
     }
 
-如此而已！现在，当这个监听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues)自动的进行队列。如果监听器是通过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
+如此而已！现在，当这个监听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues) 自动的进行队列处理。如果监听器是通过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
 
 #### 手动访问队列
 
-如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，你可以这么做。在默认产生的监听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，让你可以访问这些方法：
+如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，在默认产生的监听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，这样你就可以访问这些方法了：
 
     <?php
 
@@ -228,16 +228,16 @@ Laravel 应用程序包含了 `EventServiceProvider` 提供一个方便的位置
         }
     }
 
-另外，你也可以使用全域 `event` 辅助函数来触发事件：
+另外，你也可以使用全局 `event` 辅助函数来触发事件：
 
     event(new PodcastWasPurchased($podcast));
 
 <a name="broadcasting-events"></a>
 ## 广播事件
 
-在许多现代的网页应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息通过客户端处理。
+在构建实时响应的 Web App 时，经常会使用到 Web Sockets，当在服务器上更新一些数据，Web Socket 连接通常会发送一个消息通知客户端处理。
 
-为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 websocket 连接来「广播」你的事件。广播你的 Laravel 事件让你能够在你的服务器端代码和你的客户端 JavaScript 框架间分享相同的事件名称。
+为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 Web Socket 连接来「广播」你的事件。广播 Laravel 事件让你能够在服务器端代码和客户端 JavaScript 框架间分享相同的事件名称。
 
 <a name="broadcast-configuration"></a>
 ### 配置

@@ -183,7 +183,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
                    ->take(10)
                    ->get();
 
-> **注意：** 由于 Eloquent 模型是查询建构器，应该检阅所有 [查询建构器](/docs/{{version}}/queries)可用的方法。你可以在你的 Eloquent 查找中使用这其中的任何方法。
+> **注意：** 由于 Eloquent 模型是查询建构器，应该阅读所有 [查询建构器](/docs/{{version}}/queries)可用的方法。你可以在你的 Eloquent 查找中使用这其中的任何方法。
 
 #### 集合
 

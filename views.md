@@ -20,7 +20,7 @@
         </body>
     </html>
 
-因为这个视图被保存在 `resources/views/greeting.php`，我们可以像这样使用全域的辅助方法 `view` 来返回：
+因为这个视图被保存在 `resources/views/greeting.php`，我们可以像这样使用全局的辅助方法 `view` 来返回：
 
     Route::get('/', function ()    {
         return view('greeting', ['name' => 'James']);
