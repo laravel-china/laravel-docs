@@ -12,7 +12,7 @@
 <a name="installation"></a>
 ## 安装
 
-### 服务器需求
+### 运行环境要求
 
 Laravel 框架有一些系统上的需求，另外，推荐你使用 [Laravel Homestead](/docs/{{version}}/homestead) 来做开发环境的统一：
 
@@ -69,7 +69,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
 #### 其他设置
 
-Laravel 几乎不需设置就可以马上使用，你也可以浏览 `config/app.php` 文件和对应的文档。它包含一些选项，如`时区`和`语言环境`，你不仿根据你的应用程序来做修改。
+Laravel 几乎不需设置就可以马上使用，但是建议你浏览 `config/app.php` 文件和对应的文档，它包含一些选项，如`时区`和`语言环境`，可以根据应你的用程序来做修改。
 
 你也可以设置 Laravel 的几个附加组件，像是：
 
@@ -110,7 +110,7 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
 
 应用程序常常需要根据不同的运行环境而有不同的设置值。例如，你会希望在你的本机开发环境上会有与正式环境不同的缓存驱动。只要通过配置文件，就可以轻松完成。
 
-Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在全新安装好的 Laravel 里，应用程序的根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
+Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在全新安装好的 Laravel 应用程序里，根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
 
 当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助方法 `env` 来取得这些变量的值。事实上，如果你阅读过 Laravel 的配置文件，你会注意到有几个选项已经在使用这个辅助方法！
 

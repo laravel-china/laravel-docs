@@ -1,14 +1,14 @@
 # 事件
 
 - [简介](#introduction)
-- [注册事件或监听器](#registering-events-and-listeners)
+- [注册事件或侦听器](#registering-events-and-listeners)
 - [定义事件](#defining-events)
-- [定义监听器](#defining-listeners)
-    - [可队列的事件监听器](#queued-event-listeners)
+- [定义侦听器](#defining-listeners)
+    - [可队列的事件侦听器](#queued-event-listeners)
 - [触发事件](#firing-events)
 - [广播事件](#broadcasting-events)
     - [设置](#broadcast-configuration)
-    - [将事件标记为广播](#marking-events-for-broadcast)
+    - [将事件标示为广播](#marking-events-for-broadcast)
     - [广播数据](#broadcast-data)
     - [消耗事件广播](#consuming-event-broadcasts)
 - [事件订阅器](#event-subscribers)
@@ -17,15 +17,15 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件，事件类通常被保存在 `app/Events` 目录下，而它们的监听器保存在 `app/Listeners` 目录下。
+Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件，事件类通常被保存在 `app/Events` 目录下，而它们的侦听器保存在 `app/Listeners` 目录下。
 
 <a name="registering-events-and-listeners"></a>
-## 注册事件或监听器
+## 注册事件或侦听器
 
-你可以在 `EventServiceProvider` 注册所有的事件监听器，`listen` 属性是一个数组，包含所有事件（键）以及事件对应的监听器（值），你也可以根据需求增加事件到这个数组，例如：让我们增加 `PodcastWasPurchased` 事件：
+你可以在 `EventServiceProvider` 注册所有的事件侦听器，`listen` 属性是一个数组，包含所有事件（键）以及事件对应的侦听器（值），你也可以根据需求增加事件到这个数组，例如：让我们增加 `PodcastWasPurchased` 事件：
 
     /**
-     * 应用程序的事件监听器映射。
+     * 应用程序的事件侦听器映射。
      *
      * @var array
      */
@@ -35,9 +35,9 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
         ],
     ];
 
-### 产生事件或监听器类
+### 产生事件或侦听器类
 
-你可以使用 `event:generate` 来协作你处理此类操作，这个命令会自动生成所有列出在 `EventServiceProvider` 的事件文件和监听器文件，已经存在的事件和监听器将保持不变：
+你可以使用 `event:generate` 来协作你处理此类操作，这个命令会自动生成所有列出在 `EventServiceProvider` 的事件文件和侦听器文件，已经存在的事件和侦听器将保持不变：
 
     php artisan event:generate
 
@@ -60,9 +60,9 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
         });
     }
 
-#### 事件监听器的通配符
+#### 事件侦听器的通配符
 
-你也可以使用 `*` 通配符注册监听器，让你可以在同个监听器拦截多个事件。通配符监听器会接收完整事件数据的数组作为唯一的参数：
+你也可以使用 `*` 通配符注册侦听器，让你可以在同个侦听器拦截多个事件。通配符侦听器会接收完整事件数据的数组作为唯一的参数：
 
     $events->listen('event.*', function (array $data) {
         //
@@ -102,9 +102,9 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
 正如你所见的，这个事件类没有包含特别的逻辑。它只是一个当 `Podcast` 对象被购买时的容器。如果事件对象是使用 PHP 的 `serialized` 函数进行序列化，那么事件所使用的 `SerializesModels` trait 将会优雅的序列化任何的 Eloquent 模型。
 
 <a name="defining-listeners"></a>
-## 定义监听器
+## 定义侦听器
 
-接下来，让我们看一下例子事件的监听器。事件监听器的 `handle` 方法接收了事件实例。`event:generate` 命令将会在事件的 `handle` 方法自动加载正确的事件类和类型提示。在 `handle` 方法内，你可以运行任何必要回应该事件的逻辑。
+接下来，让我们看一下例子事件的侦听器。事件侦听器的 `handle` 方法接收了事件实例。`event:generate` 命令将会在事件的 `handle` 方法自动加载正确的事件类和类型提示。在 `handle` 方法内，你可以运行任何必要回应该事件的逻辑。
 
     <?php
 
@@ -117,7 +117,7 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
     class EmailPurchaseConfirmation
     {
         /**
-         * 创建事件监听器。
+         * 创建事件侦听器。
          *
          * @return void
          */
@@ -138,7 +138,7 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
         }
     }
 
-你的事件监听器也可以在构造器内对任何依赖使用类型提示。所有事件监听器经由 Laravel [服务容器](/docs/{{version}}/container)做解析，所以依赖将会自动的被注入：
+你的事件侦听器也可以在构造器内对任何依赖使用类型提示。所有事件侦听器经由 Laravel [服务容器](/docs/{{version}}/container)做解析，所以依赖将会自动的被注入：
 
     use Illuminate\Contracts\Mail\Mailer;
 
@@ -149,12 +149,12 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
 
 #### 停止一个事件的传播
 
-有时候，你可能希望停止一个事件的传播到其他的监听器。你可以在监听器的 `handle` 方法返回 `false` 达到这项目的。
+有时候，你可能希望停止一个事件的传播到其他的侦听器。你可以在侦听器的 `handle` 方法返回 `false` 达到这项目的。
 
 <a name="queued-event-listeners"></a>
-### 可队列的事件监听器
+### 可队列的事件侦听器
 
-需要一个可[队列](/docs/{{version}}/queues) 的事件监听器吗？它是再容易不过了。只要增加 `ShouldQueue` 接口到你的监听器类。由 `event:generate` Artisan 命令生成的监听器已经将目前存在的接口加载到命名空间，所以你可以立即的使用它：
+需要一个可[队列](/docs/{{version}}/queues) 的事件侦听器吗？它是再容易不过了。只要增加 `ShouldQueue` 接口到你的侦听器类。由 `event:generate` Artisan 命令生成的侦听器已经将目前存在的接口加载到命名空间，所以你可以立即的使用它：
 
     <?php
 
@@ -169,11 +169,11 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
         //
     }
 
-如此而已！现在，当这个监听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues) 自动的进行队列处理。如果监听器是通过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
+如此而已！现在，当这个侦听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues) 自动的进行队列处理。如果侦听器是通过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
 
 #### 手动访问队列
 
-如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，在默认产生的监听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，这样你就可以访问这些方法了：
+如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，在默认产生的侦听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，这样你就可以访问这些方法了：
 
     <?php
 
@@ -198,7 +198,7 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
 <a name="firing-events"></a>
 ## 触发事件
 
-如果要触发一件事件，你可以使用 `Event` [facade](/docs/{{version}}/facades)，发送一个事件的实例到 `fire` 方法。`fire` 方法将会发送事件到所有已经注册的监听器：
+如果要触发一件事件，你可以使用 `Event` [facade](/docs/{{version}}/facades)，发送一个事件的实例到 `fire` 方法。`fire` 方法将会发送事件到所有已经注册的侦听器：
 
     <?php
 
@@ -253,10 +253,10 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
 
 #### 队列先决条件
 
-在广播事件之前，你还需要设置和运行[队列监听器](/docs/{{version}}/queues)。所有事件广播经由队列任务完成，因此你的应用程序回应时间不会有严重影响。
+在广播事件之前，你还需要设置和运行[队列侦听器](/docs/{{version}}/queues)。所有事件广播经由队列任务完成，因此你的应用程序回应时间不会有严重影响。
 
 <a name="marking-events-for-broadcast"></a>
-### 将事件标记为广播
+### 将事件标示为广播
 
 为了通知 Laravel 应该广播一个特定事件，在你的事件类实现 `Illuminate\Contracts\Broadcasting\ShouldBroadcast`。`ShouldBroadcast` 要求你实现单一方法：`broadcastOn`。`broadcastOn` 方法应该返回一个必须被广播的「频道」名称数组：
 
@@ -355,7 +355,7 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
 
 #### Redis
 
-如果你使用 Redis 广播器，你需要编写自己的 Redis pub/sub 消耗器来接收消息和广播，并使用你选择的 websocket 技术。例如，你可能选择使用 Node 编写，很受欢迎的 [Socket.io](http://socket.io) 函数库。
+如果你使用 Redis 广播器，你需要编写自己的 Redis pub/sub 消耗器来接收消息和广播，并使用你选择的 WebSocket 技术。例如，你可能选择使用 Node 编写，很受欢迎的 [Socket.io](http://socket.io) 函数库。
 
 使用 `socket.io` 和 `ioredis` Node 函数库，你可以快速的编写一个事件广播器，在你的 Laravel 应用程序发布所有事件的广播：
 
@@ -409,7 +409,7 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
         public function onUserLogout($event) {}
 
         /**
-         * 注册监听器的订阅者。
+         * 注册侦听器的订阅者。
          *
          * @param  Illuminate\Events\Dispatcher  $events
          */
@@ -442,7 +442,7 @@ Laravel 事件提供了简单的监听器实现，允许你订阅和监听事件
     class EventServiceProvider extends ServiceProvider
     {
         /**
-         * 事件监听器映射到应用程序。
+         * 事件侦听器映射到应用程序。
          *
          * @var array
          */

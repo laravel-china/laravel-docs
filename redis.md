@@ -2,7 +2,7 @@
 
 - [简介](#introduction)
 - [基本用法](#basic-usage)
-    - [管线化命令](#pipelining-commands)
+    - [管道化命令](#pipelining-commands)
 - [发布与订阅](#pubsub)
 
 <a name="introduction"></a>
@@ -86,9 +86,9 @@
     $redis = Redis::connection('other');
 
 <a name="pipelining-commands"></a>
-### 管线化命令
+### 管道化命令
 
-当你想要在单次操作中发送多个命令至服务器时可以使用管线化。`pipeline` 方法接受一个参数：接收 Redis 实例的`闭包`。你可以发送所有的命令至此 Redis 实例，它们都会在单次操作中运行：
+当你想要在单次操作中发送多个命令至服务器时可以使用管道化。`pipeline` 方法接受一个参数：接收 Redis 实例的`闭包`。你可以发送所有的命令至此 Redis 实例，它们都会在单次操作中运行：
 
     Redis::pipeline(function ($pipe) {
         for ($i = 0; $i < 1000; $i++) {
@@ -101,7 +101,7 @@
 
 Laravel 也对 Redis 的 `publish` 及 `subscribe` 提供了方便的接口。这些 Redis 命令让你可以监听给定「频道」的消息。你可以从另一个应用程序发布消息至频道，甚至使用另一种编程语言，让应用程序或进程之间容易沟通。
 
-首先，让我们通过 `Redis` 使用 `subscribe` 方法在一个频道设置监听器。我们会将方法调用放置于一个 [Artisan 命令](/docs/{{version}}/artisan)中，因为调用 `subscribe` 方法会启动一个长时间运行的进程：
+首先，让我们通过 `Redis` 使用 `subscribe` 方法在一个频道设置侦听器。我们会将方法调用放置于一个 [Artisan 命令](/docs/{{version}}/artisan)中，因为调用 `subscribe` 方法会启动一个长时间运行的进程：
 
     <?php
 

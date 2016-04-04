@@ -94,7 +94,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
     $size = Storage::size('file1.jpg');
 
-`lastModified` 方法返回文件的最后修改时间并以 UNIX 时间戳记显示：
+`lastModified` 方法返回文件的最后修改时间并以 UNIX 时间戳显示：
 
     $time = Storage::lastModified('file1.jpg');
 

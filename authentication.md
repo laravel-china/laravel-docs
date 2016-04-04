@@ -35,7 +35,7 @@ Laravel 让用户认证变得非常简单。几乎所有的认证行为都可以
 
 为 `App\User` 模型创建数据库结构时，确认密码字段最少有 60 字符长。
 
-同时，你需要确认你的 `users` (或是相同意义的) 数据表含有 nullable 、100 字符长的 `remember_token` 字段，这个字段将会被用来保存「记住我」 session 的标记。只要在创建迁移时，使用 `$table->rememberToken()`，即可轻松加入这个字段。
+同时，你需要确认你的 `users` (或是相同意义的) 数据表含有 nullable 、100 字符长的 `remember_token` 字段，这个字段将会被用来保存「记住我」 session 的令牌。只要在创建迁移时，使用 `$table->rememberToken()`，即可轻松加入这个字段。
 
 <a name="authentication-quickstart"></a>
 ## 认证快速入门
@@ -267,7 +267,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 重定向器上的 `intended` 方法将会重定向用户回原本想要进入的页面，也可以传入一个回退 URI 至这个方法，以避免要转回的页面不可使用。
 
-如果你希望，你也可以加入除了用户的电子信箱及密码的额外条件至认证查找。例如，我们要确认用户是否被标记为 `active`：
+如果你希望，你也可以加入除了用户的电子信箱及密码的额外条件至认证查找。例如，我们要确认用户是否被标示为 `active`：
 
     if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
         //这个用户是启动的，没有被停权，而且存在
@@ -282,7 +282,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="remembering-users"></a>
 ## 记住用户
 
-如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，这会永久保持用户的 session 直到注销。你的 `users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」的标记。
+如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，这会永久保持用户的 session 直到注销。你的 `users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」的令牌。
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // 这个用户被记住了...
@@ -379,9 +379,9 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 开始之前，请先确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
 
-#### 产生重置标记的数据表迁移文件
+#### 产生重置令牌的数据表迁移文件
 
-接下来，必须要创建一个数据表来保存密码的重置标记，而这个数据表的迁移已经包含在 Laravel 中了，就被放在 `database/migrations` 文件夹里。所以，你要做的就是做一次迁移：
+接下来，必须要创建一个数据表来保存密码的重置令牌，而这个数据表的迁移已经包含在 Laravel 中了，就被放在 `database/migrations` 文件夹里。所以，你要做的就是做一次迁移：
 
     php artisan migrate
 
@@ -432,7 +432,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
         </div>
     </form>
 
-当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的电子邮件。你将需要为电子邮件创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置标记的 `$token` 变量，这个变量含有了密码重置标记来匹配用户的密码重置请求，以下是例子来让你开始：
+当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的电子邮件。你将需要为电子邮件创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置令牌的 `$token` 变量，这个变量含有了密码重置令牌来匹配用户的密码重置请求，以下是例子来让你开始：
 
     <!-- 文件 resources/views/emails/password.blade.php -->
 
@@ -489,7 +489,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
     protected $redirectTo = '/dashboard';
 
-> **注意：**默认情况下，密码重置标记会在一个小时后过期，你可以更改 `config/auth.php` 的 `reminder.expire` 选项，来修改这个设置。
+> **注意：**默认情况下，密码重置令牌会在一个小时后过期，你可以更改 `config/auth.php` 的 `reminder.expire` 选项，来修改这个设置。
 
 <a name="social-authentication"></a>
 ## 社会化认证
@@ -658,7 +658,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
 `retrieveByToken` 函数借由用户唯一的 `$identifier` 和「记住我」`$token` 取得用户。如同之前的方法，`Authenticatable` 的实现应该被返回。
 
-`updateRememberToken` 方法使用新的 `$token` 更新了 `$user` 的 `remember_token` 字段。这个新的标记可以是全新的标记（当使用「记住我」尝试登录成功时），或是 null（当用户注销时）。
+`updateRememberToken` 方法使用新的 `$token` 更新了 `$user` 的 `remember_token` 字段。这个新的令牌可以是全新的令牌（当使用「记住我」尝试登录成功时），或是 null（当用户注销时）。
 
 `retrieveByCredentials` 方法取得了从 `Auth::attempt` 方法发送过来的凭证数组（当想要登录时）。这个方法应该要 「查找」所使用的永久式保存系统，来匹配这些凭证。通常，这个方法会运行一个带着「where」`$credentials['username']` 条件的查找。这个方法接着需要返回一个 `UserInterface` 的实现。**这个方法不应该企图做任何密码的验证或是认证。**
 
@@ -687,7 +687,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="events"></a>
 ## 事件
 
-Laravel 提供了在认证过程中的各种[事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 为这些事件连接监听器：
+Laravel 提供了在认证过程中的各种[事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 为这些事件连接侦听器：
 
     /**
      * 为你的应用程序注册任何事件。

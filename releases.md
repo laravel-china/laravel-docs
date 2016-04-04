@@ -11,7 +11,7 @@
 <a name="support-policy"></a>
 ## 发行说明
 
-对于像是 Laravel 5.1 的 LTS 版本，会提供两年的 BUG 修复及三年的安全性修复。这些版本为支持及维护提供了长时间的窗口。
+Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复，LTS 版本是 Laravel 能提供的支持及维护最长时间支持的发行版。
 
 对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
 
@@ -25,7 +25,7 @@ Laravel 5.1.11 推出了内置的[授权](/docs/{{version}}/authorization)支持
 <a name="laravel-5.1.4"></a>
 ## Laravel 5.1.4
 
-Laravel 5.1.4 为框架推出了简单的登录限制。查阅[认证的文档](/docs/{{version}}/authentication#authentication-throttling)以取得更多信息。
+Laravel 5.1.4 为框架推出了简单的登录限制。查阅 [认证的文档](/docs/{{version}}/authentication#authentication-throttling)以取得更多信息。
 
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
@@ -36,29 +36,29 @@ Laravel 5.1 继续以 Laravel 5.0 改进而成，通过采用 PSR-2 及添加事
 
 由于 PHP 5.4 将在九月「结束寿命」，不再接收来自 PHP 开发团队的安全性更新，Laravel 需要 PHP 5.5.9 或更高的版本。PHP 5.5.9 可以兼容最新版本的 PHP 函数库，像是 Guzzle 及 AWS SDK。
 
-
 ### LTS
 
-Laravel 5.1 是 Laravel 获得**长期支持**的第一个版本。Laravel 5.1 会获得两年的 BUG 修复及三年的安全性修复。此支持窗口是 Laravel 有史以来最大的提供，为较大型的企业客户及消费者提供了稳定性及安心。
+Laravel 5.1 是 Laravel 生态系统内 **长期支持** 的第一个版本。Laravel 5.1 会获得两年的 BUG 修复及三年的安全性修复，此策略也使 Laravel 能更好的服务于较大型的企业客户及消费者。
+
 ### PSR-2
 
-[PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)已经被 Laravel 框架采用为默认的风格指南。此外，所以的产生器都已进行更新，以产生 PSR-2 兼容的语法。
+[PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 已经被 Laravel 框架采用为默认的代码风格指南。此外，所以的产生器都已进行更新，以生成 PSR-2 兼容的语法。
 
 ### 文档
 
-Laravel 文档的每一页已被精心审查，并得到显著的改善。所有的代码例子也进行了审查，并扩增以提供更多的关联性与情境。
+Laravel 文档的每一页已被精心审阅，并得到显著的改善。所有的代码例子也进行了严密检查，并以提供更多的上下文关联性与情境。
 
 ### 事件广播
 
-在许多现代的 web 应用程序，web sockets 都用在实现即时，即时更新用户接口。当在服务器上更新一些数据，websocket 连接通常发送一个消息通过客户端处理。
+在许多现代的 Web 应用程序，WebSockets 都用来实现即时更新用户状态，当在服务器上更新一些数据，WebSocket 连接通常发送一个消息通过客户端处理。
 
-为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 websocket 连接来「广播」你的事件。广播你的 Laravel 事件让你能够在你的服务器端代码和你的客户端 JavaScript 框架间分享相同的事件名称。
+为了协助你创建这些类型的应用程序，Laravel 让你经由 WebSocket 连接来「广播」你的事件，广播事件让你能够在服务器端代码和客户端 JavaScript 框架间分享相同的事件名称。
 
-欲了解更多关于事件广播，请查阅[事件的文档](/docs/{{version}}/events#broadcasting-events)。
+了解更多关于事件广播，请查阅[事件的文档](/docs/{{version}}/events#broadcasting-events)。
 
 ### 中间件参数
 
-中间件也可以接收自定义传参，例如，如果应用程序要在运行特定操作之前，检查通过验证的用户是否具备该操作的「角色」，可以创建 `RoleMiddleware` 来接收角色名称作为额外的传参。
+中间件接收自定义传参，例如，如果应用程序要在运行特定操作之前，检查当前登录的用户是否具备该操作的「角色」，可以创建 `RoleMiddleware` 来接收角色名称作为额外的传参。
 
     <?php
 
@@ -93,9 +93,9 @@ Laravel 文档的每一页已被精心审查，并得到显著的改善。所有
         //
     }]);
 
-关于中间件的更多消息，请查阅[中间件的文档](/docs/{{version}}/middleware)。
+关于中间件的更多信息，请查阅[中间件的文档](/docs/{{version}}/middleware)。
 
-### 测试翻修
+### 测试改进
 
 Laravel 内置的测试功能已得到显著的改善。各种新的方法提供了流畅、简明的接口与应用程序进行交互，并检查回应。例如，查看下方的测试：
 
@@ -108,7 +108,7 @@ Laravel 内置的测试功能已得到显著的改善。各种新的方法提供
              ->seePageIs('/dashboard');
     }
 
-关于测试的更多消息，请查阅[测试的文档](/docs/{{version}}/testing)。
+关于测试的更多信息，请查阅[测试的文档](/docs/{{version}}/testing)。
 
 ### 模型工厂
 
@@ -140,7 +140,7 @@ Artisan 命令现在可以使用简单的方式定义，相似于路由的「署
 
 ### 文件夹结构
 
-为了更好地表明目的，`app/Commands` 目录已经被更名为 `app/Jobs`。此外，`app/Handler` 目录已经被合并成一个只包含事件监听器的 `app/Listeners` 目录。但是，这不是一个重大的改变，你不必更新成新的文件夹结构也能使用 Laravel 5.1。
+为了更好地表明目的，`app/Commands` 目录已经被更名为 `app/Jobs`。此外，`app/Handler` 目录已经被合并成一个只包含事件侦听器的 `app/Listeners` 目录。但是，这不是一个重大的改变，你不必更新成新的文件夹结构也能使用 Laravel 5.1。
 
 ### 加密
 

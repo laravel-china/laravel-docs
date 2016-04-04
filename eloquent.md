@@ -81,7 +81,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以定义一个 `$primaryKey` 属性来重写这个惯例。
 
-#### 时间戳记
+#### 时间戳
 
 默认情况下，Eloquent 预期你的数据表会有 `created_at` 和 `updated_at` 字段。如果你不希望让 Eloquent 来自动维护这两个字段，在你的模型内将 `$timestamps` 属性设置为 `false`：
 
@@ -101,7 +101,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
         public $timestamps = false;
     }
 
-如果你需要自定义你的时间戳记格式，在你的模型内设置 `$dateFormat` 属性。这个属性决定日期如何在数据库中保存，以及当模型被序列化成数组或是 JSON 时的格式：
+如果你需要自定义你的时间戳格式，在你的模型内设置 `$dateFormat` 属性。这个属性决定日期如何在数据库中保存，以及当模型被序列化成数组或是 JSON 时的格式：
 
     <?php
 
@@ -275,12 +275,12 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
         }
     }
 
-在这个例子中，我们把进来的 HTTP 请求的 `name` 参数简单地指定给 `App\Flight` 模型实例的 `name` 属性。当我们调用 `save` 方法，就会添加一条记录到数据库中。当 `save` 方法被调用时，`created_at` 以及 `updated_at` 时间戳记将会自动被设置，所以不需要手动去设置它们。
+在这个例子中，我们把进来的 HTTP 请求的 `name` 参数简单地指定给 `App\Flight` 模型实例的 `name` 属性。当我们调用 `save` 方法，就会添加一条记录到数据库中。当 `save` 方法被调用时，`created_at` 以及 `updated_at` 时间戳将会自动被设置，所以不需要手动去设置它们。
 
 <a name="basic-updates"></a>
 ### 基本更新
 
-`save` 方法也可以用于更新数据库中已经存在的模型。要更新模型，你必须先取回模型，设置任何你希望更新的属性，接着调用 `save` 方法。同样的，`updated_at` 时间戳记将会自动被更新，所以不需要手动设置它的值：
+`save` 方法也可以用于更新数据库中已经存在的模型。要更新模型，你必须先取回模型，设置任何你希望更新的属性，接着调用 `save` 方法。同样的，`updated_at` 时间戳将会自动被更新，所以不需要手动设置它的值：
 
     $flight = App\Flight::find(1);
 
@@ -288,7 +288,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     $flight->save();
 
-也可以针对符合给定查找的任意数量模型运行更新。在这个例子中，所有 `active` 并且 `destination` 为 `San Diego` 的航班，将会被标记为延迟：
+也可以针对符合给定查找的任意数量模型运行更新。在这个例子中，所有 `active` 并且 `destination` 为 `San Diego` 的航班，将会被标示为延迟：
 
     App\Flight::where('active', 1)
               ->where('destination', 'San Diego')
@@ -378,7 +378,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 通过查找来删除模型
 
-当然，你也可以在一组模型上运行删除查找。在这个例子中，我们将会删除所有被标记为不活跃的航班：
+当然，你也可以在一组模型上运行删除查找。在这个例子中，我们将会删除所有被标示为不活跃的航班：
 
     $deletedRows = App\Flight::where('active', 0)->delete();
 
@@ -566,7 +566,7 @@ Eloquent 模型会触发许多事件，让你可以借由以下的方法，在�
 
 当一个新模型初次被保存，将会触发 `creating` 以及 `created` 事件。如果一个模型已经存在于数据库而且调用了 `save` 方法，将会触发 `updating` 和 `updated` 事件。然而，在这两个状况下，都将会触发 `saving` 和 `saved` 事件。
 
-例如，让我们来在[服务提供者](/docs/{{version}}/providers)中定义一个 Eloquent 事件监听器。在我们的事件监听器中，我们会在给定的模型上调用 `isValid` 方法，并在模型无效的时候返回 `false`。从 Eloquent 事件监听器返回 `false` 会取消 `save` 和 `update` 的操作：
+例如，让我们来在[服务提供者](/docs/{{version}}/providers)中定义一个 Eloquent 事件侦听器。在我们的事件侦听器中，我们会在给定的模型上调用 `isValid` 方法，并在模型无效的时候返回 `false`。从 Eloquent 事件侦听器返回 `false` 会取消 `save` 和 `update` 的操作：
 
     <?php
 

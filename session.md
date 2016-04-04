@@ -225,7 +225,7 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
 - `read` 方法必须根据给予的 `$sessionId` 返回关联的 session 数据的字符串版本。在驱动中这并不需要做任何的编码跟序列化的动作，在 Laravel 内已自动运行。
 - `write` 方法必须在大部分保存系统内写入 `$data` 字符串时关联至 `$sessionId`，如 MongoDB、Dynamo 等等。
 - `destroy` 方法能删除与 `$sessionId` 关联的数据。
-- `gc` 方法能删除给予 `$lifetime` 之前的所有数据，`$lifetime` 是一个 UNIX 的时间戳记。但在一些系统如 Memcached 和 Redis 这个方法可能会留下一段空白的保存数据。
+- `gc` 方法能删除给予 `$lifetime` 之前的所有数据，`$lifetime` 是一个 UNIX 的时间戳。但在一些系统如 Memcached 和 Redis 这个方法可能会留下一段空白的保存数据。
 </div>
 
 一但 session 驱动被注册后，你必须在 `config/session.php` 的配置文件内使用 `mongo` 驱动。

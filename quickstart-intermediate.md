@@ -66,7 +66,7 @@
 
 	php artisan make:migration create_tasks_table --create=tasks
 
-此迁移会被放置于你项目的 `database/migrations` 目录中。你可能已经注意到，`make:migration` 命令已经增加了自动递增的 ID 及时间戳记至迁移文件。让我们编辑这个文件并为任务的名称增加额外的 `string` 字段，也增加链接 `tasks` 与 `users` 数据表的 `user_id` 字段：
+此迁移会被放置于你项目的 `database/migrations` 目录中。你可能已经注意到，`make:migration` 命令已经增加了自动递增的 ID 及时间戳至迁移文件。让我们编辑这个文件并为任务的名称增加额外的 `string` 字段，也增加链接 `tasks` 与 `users` 数据表的 `user_id` 字段：
 
 	<?php
 

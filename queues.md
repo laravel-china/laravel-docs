@@ -8,10 +8,10 @@
     - [延迟性任务](#delayed-jobs)
     - [从请求中派送任务](#dispatching-jobs-from-requests)
     - [任务事件](#job-events)
-- [运行队列监听器](#running-the-queue-listener)
+- [运行队列侦听器](#running-the-queue-listener)
     - [Supervisor 设置](#supervisor-configuration)
-    - [将任务监听器设为后台服务](#daemon-queue-listener)
-    - [随着在后台服务的任务监听器进行布署](#deploying-with-daemon-queue-listeners)
+    - [将任务侦听器设为后台服务](#daemon-queue-listener)
+    - [随着在后台服务的任务侦听器进行布署](#deploying-with-daemon-queue-listeners)
 - [处理失败的任务](#dealing-with-failed-jobs)
     - [任务失败事件](#failed-job-events)
     - [重新尝试运行失败任务](#retrying-failed-jobs)
@@ -115,7 +115,7 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
 
 #### 当发生错误的时候
 
-如果在任务处理时抛出了一个异常，它会自动被释放回队列里再次尝试运行。当该任务一直出错时，它会不断被发布再重试，直到超过你的应用程序所允许的最大重试值。最大重试值可以在运行 `queue:listen` 或 `queue:work` 命令时，用 `--tries` 选项来设置；运行队列监听器的更多信息在稍后会有[详细说明](#running-the-queue-listener)。
+如果在任务处理时抛出了一个异常，它会自动被释放回队列里再次尝试运行。当该任务一直出错时，它会不断被发布再重试，直到超过你的应用程序所允许的最大重试值。最大重试值可以在运行 `queue:listen` 或 `queue:work` 命令时，用 `--tries` 选项来设置；运行队列侦听器的更多信息在稍后会有[详细说明](#running-the-queue-listener)。
 
 #### 手动释放任务
 
@@ -331,19 +331,19 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
     }
 
 <a name="running-the-queue-listener"></a>
-## 运行队列监听器
+## 运行队列侦听器
 
-#### 启动队列监听器
+#### 启动队列侦听器
 
-Laravel 引入了一个 Artisan 命令，用来运行被推送到队列里的任务。你可以通过 `queue:listen` 命令来运行监听器：
+Laravel 引入了一个 Artisan 命令，用来运行被推送到队列里的任务。你可以通过 `queue:listen` 命令来运行侦听器：
 
     php artisan queue:listen
 
-你也可以指定监听器应该利用哪一个队列链接：
+你也可以指定侦听器应该利用哪一个队列链接：
 
     php artisan queue:listen connection
 
-要注意的是，一旦这个工作命令启动后，它会持续运作直到它被手动停止。你可以利用像 [Supervisor](http://supervisord.org/) 这样的行程监控软件，来确保队列监听器不会停止运行。
+要注意的是，一旦这个工作命令启动后，它会持续运作直到它被手动停止。你可以利用像 [Supervisor](http://supervisord.org/) 这样的行程监控软件，来确保队列侦听器不会停止运行。
 
 #### 队列优先序
 
@@ -399,7 +399,7 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
 更多有关 Supervisor 的设置与使用，请参考 [Supervisor 官方文档](http://supervisord.org/index.html)。或是你可以使用 [Laravel Forge](https://forge.laravel.com) 所提供的 Web 接口，来自动设置与管理你的 Supervisor 设置。
 
 <a name="daemon-queue-listener"></a>
-### 将任务监听器设为后台服务
+### 将任务侦听器设为后台服务
 
 在 `queue:work` Artisan 命令里包含了 `--daemon` 选项，强迫队列服务器持续处理任务，而不需要重新启动整个框架。比起 `queue:listen` 命令，这会显著减少 CPU 的用量。
 
@@ -413,14 +413,14 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
 
 如你所见，`queue:work` 命令提供了多数和 `queue:listen` 命令相同的选项；你可以用 `php artisan help queue:work` 命令来查看所有可用的选项。
 
-### 在后台服务的队列监听器中开发所要考量的事项
+### 在后台服务的队列侦听器中开发所要考量的事项
 
-在后台运行的队列监听器在处理完每个任务前，不会重新启动框架；因此你应该在任务运行完成前，谨慎地释放任何占用内存较重的资源。例如你利用 GD 函数库处理影像，就要在结束前用 `imagedestroy` 来释放内存。
+在后台运行的队列侦听器在处理完每个任务前，不会重新启动框架；因此你应该在任务运行完成前，谨慎地释放任何占用内存较重的资源。例如你利用 GD 函数库处理影像，就要在结束前用 `imagedestroy` 来释放内存。
 
 相同地，你的数据库链接也要在使用完后关闭连接；你可以用 `DB::reconnect` 方法来确保有新的数据库连接。
 
 <a name="deploying-with-daemon-queue-listeners"></a>
-### 随着在后台服务的任务监听器进行布署
+### 随着在后台服务的任务侦听器进行布署
 
 从后台服务的队列服务器是长时间运行的行程来看，除非重新启动，否则它们将不会理会任何代码上的修改。所以要布署一个有用到后台服务的队列服务器的应用程序，最简单的方法就是在布署脚本文件中重新启动作业器。你可以在你的布署命令里加上以下命令，来优雅地重新启动所有作业器：
 
@@ -439,7 +439,7 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
 
     php artisan queue:failed-table
 
-当你运行[队列监听器](#running-the-queue-listener)时，你可以用 `queue:listen` 命令的 `--tries` 参数来指定任务的最大重试次数：
+当你运行[队列侦听器](#running-the-queue-listener)时，你可以用 `queue:listen` 命令的 `--tries` 参数来指定任务的最大重试次数：
 
     php artisan queue:listen connection-name --tries=3
 

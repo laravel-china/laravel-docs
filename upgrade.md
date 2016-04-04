@@ -213,7 +213,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 以下的 Laravel 功能已经被弃用并将会在 2015 十二月发布的 Laravel 5.2 中完全地移除：
 
 <div class="content-list" markdown="1">
-- 路由筛选器已经被弃用而偏好使用[中间件](/docs/{{version}}/middleware)。
+- 路由过滤器已经被弃用而偏好使用[中间件](/docs/{{version}}/middleware)。
 - `Illuminate\Contracts\Routing\Middleware` contract 已经被弃用。你的中间件上不需要任何 contract。此外，`TerminableMiddleware` contract 也已经被弃用。不要实现接口，简单地定义一个 `terminate` 方法在你的中间件上就好。
 - `Illuminate\Contracts\Queue\ShouldBeQueued` contract 已经被弃用而用 `Illuminate\Contracts\Queue\ShouldQueue` 取代。
 - Iron.io 的「推送队列」已经被弃用而用一般的 Iron.io 队列和[队列监听者](/docs/{{version}}/queues#running-the-queue-listener)取代。
@@ -281,13 +281,13 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来提供�
 
 在你的 `app/Providers/RouteServiceProvider.php` 文件，设置 `namespace` 属性为 `null`。
 
-### 路由筛选器
+### 路由过滤器
 
 将筛选逻辑绑定从 `app/filters.php` 复制到 `app/Providers/RouteServiceProvider.php` 的 `boot()` 方法。并在 `app/Providers/RouteServiceProvider.php` 添加 `use Illuminate\Support\Facades\Route;` 来继续使用 `Route` Facade。
 
 你不需要移动任何 Laravel 4.0 的默认过滤器，像是 `auth` 和 `csrf`。他们已经内置其中，只是换作以中间件形式出现。那些在路由或控制器内有使用到旧有默认过滤器  (例如，`['before' => 'auth']`) 请修改使用新的中间件 (例如，`['middleware' => 'auth']`)。
 
-筛选器在 Laravel 5 中没有被移除。你仍然可以绑定并借由 `before` 和 `after`使用你自己自定义的筛选器。
+过滤器在 Laravel 5 中没有被移除。你仍然可以绑定并借由 `before` 和 `after`使用你自己自定义的过滤器。
 
 ### 全局 CSRF
 
@@ -583,7 +583,7 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
 
 ### 密码提醒的修改
 
-密码提醒功能已经为了更大的弹性而大幅翻修。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览[更新后的文档](/docs/security#password-reminders-and-reset)并相应地更新你的应用程序。
+密码提醒功能已经为了更大的弹性而大幅改进。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览[更新后的文档](/docs/security#password-reminders-and-reset)并相应地更新你的应用程序。
 
 更新你的 `app/lang/en/reminders.php` 语系文件来对应[这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
 

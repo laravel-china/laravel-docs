@@ -44,7 +44,7 @@ vendor 目录包含你的 [Composer](https://getcomposer.org) 依赖模块。
 
 `Events` 目录，如你所料，是用来放置[事件类](/docs/{{version}}/events)。事件可以被用于当指定的动作发生时，通知你应用程序的其他部分，提供很大的灵活性及减少耦合。
 
-`Listeners` 目录包含事件的处理类。处理进程接收一个事件，并针对该事件运行逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
+`Listeners` 目录包含事件的处理类。处理进程接收一个事件，并针对该事件运行逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 侦听器处理。
 
 `Exceptions` 目录包含应用程序的异常处理进程，也是个处置应用程序抛出的任何异常的好位置。
 

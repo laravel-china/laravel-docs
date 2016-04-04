@@ -14,7 +14,7 @@
     - [延迟预加载](#lazy-eager-loading)
 - [写入关联模型](#inserting-related-models)
     - [多对多关联](#inserting-many-to-many-relationships)
-    - [连动上层时间戳记](#touching-parent-timestamps)
+    - [连动上层时间戳](#touching-parent-timestamps)
 
 <a name="introduction"></a>
 ## 简介
@@ -777,9 +777,9 @@ Eloquent 提供了方便的方法来增加新的模型至关联中。例如，�
     $user->roles()->sync([1 => ['expires' => true], 2, 3]);
 
 <a name="touching-parent-timestamps"></a>
-### 连动上层时间戳记
+### 连动上层时间戳
 
-当一个模型 `belongsTo` 或 `belongsToMany` 另一个模型时，像是一个 `Comment` 属于一个 `Post`，对于下层模型被更新时，欲更新上层的时间戳记相当有帮助。举例来说，当一个 `Commnet` 模型被更新，你可能想要自动的「连动」所属 `Post` 的 `updated_at` 时间戳记。Eloquent 使得此事相当容易。只要在关联的下层模型增加一个包含名称的 `touches` 属性即可：
+当一个模型 `belongsTo` 或 `belongsToMany` 另一个模型时，像是一个 `Comment` 属于一个 `Post`，对于下层模型被更新时，欲更新上层的时间戳相当有帮助。举例来说，当一个 `Commnet` 模型被更新，你可能想要自动的「连动」所属 `Post` 的 `updated_at` 时间戳。Eloquent 使得此事相当容易。只要在关联的下层模型增加一个包含名称的 `touches` 属性即可：
 
     <?php
 

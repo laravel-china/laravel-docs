@@ -718,14 +718,14 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-csrf-field"></a>
 #### `csrf_field()` {#collection-method}
 
-`csrf_field` 函数产生包含 CSRF 标记内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
+`csrf_field` 函数产生包含 CSRF 令牌内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
 
     {!! csrf_field() !!}
 
 <a name="method-csrf-token"></a>
 #### `csrf_token()` {#collection-method}
 
-`csrf_token` 函数取得当前 CSRF 标记的内容：
+`csrf_token` 函数取得当前 CSRF 令牌的内容：
 
     $token = csrf_token();
 
@@ -749,7 +749,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
-`event` 函数配送给定[事件](/docs/{{version}}/events)到所属的监听器：
+`event` 函数配送给定[事件](/docs/{{version}}/events)到所属的侦听器：
 
     event(new UserRegistered($user));
 

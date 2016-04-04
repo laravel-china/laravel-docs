@@ -296,14 +296,14 @@ Laravel 提供了统一的 API 给各种不同的缓存系统，缓存的配置�
 
 	Cache::tags(['people', 'authors'])->flush();
 
-相反的，下方的语法只会删除被标记为 `authors` 的缓存，所以 `Anne` 会被移除，但 `John` 不会。
+相反的，下方的语法只会删除被标示为 `authors` 的缓存，所以 `Anne` 会被移除，但 `John` 不会。
 
 	Cache::tags('authors')->flush();
 
 <a name="cache-events"></a>
 ## 缓存事件
 
-你可以监听到缓存做每一次操作的触发[事件](/docs/{{version}}/events)。一般来说，你必须将事件监听器放置在 `EventServiceProvider` 的 `boot` 方法中：
+你可以监听到缓存做每一次操作的触发[事件](/docs/{{version}}/events)。一般来说，你必须将事件侦听器放置在 `EventServiceProvider` 的 `boot` 方法中：
 
     /**
      * 为你的应用程序注册任何其它事件。

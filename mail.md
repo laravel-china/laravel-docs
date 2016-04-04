@@ -237,7 +237,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 <a name="events"></a>
 ## 事件
 
-Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，此事件只会在邮件**发送**时触发，在队列时则不会。你可以在你的 `EventServiceProvider` 注册一个事件监听器：
+Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，此事件只会在邮件**发送**时触发，在队列时则不会。你可以在你的 `EventServiceProvider` 注册一个事件侦听器：
 
     /**
      * 注册你应用程序中的任何其他事件。

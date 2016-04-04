@@ -126,7 +126,7 @@ Laravel 应用程序的数据库配置文件放置在 `config/database.php`。�
 <a name="listening-for-query-events"></a>
 ### 监听查找事件
 
-如果你希望能够收到来自于你的应用程序每一条 SQL 查找，你可以使用 `listen` 方法。这个方法对于纪录查找跟调试非常有用。你可以在[服务容器](/docs/{{version}}/providers)注册你的查找监听器：
+如果你希望能够收到来自于你的应用程序每一条 SQL 查找，你可以使用 `listen` 方法。这个方法对于纪录查找跟调试非常有用。你可以在[服务容器](/docs/{{version}}/providers)注册你的查找侦听器：
 
     <?php
 
