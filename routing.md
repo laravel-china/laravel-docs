@@ -17,7 +17,7 @@
     - [X-CSRF-Token](#csrf-x-csrf-token)
     - [X-XSRF-Token](#csrf-x-xsrf-token)
 - [路由模型绑定](#route-model-binding)
-- [表单方法欺骗](#form-method-spoofing)
+- [跨站请求伪造](#form-method-spoofing)
 - [抛出 404 错误](#throwing-404-errors)
 
 <a name="basic-routing"></a>
@@ -361,7 +361,7 @@ Laravel 路由模型绑定提供了一个方便的方式来注入类实例至你
     });
 
 <a name="form-method-spoofing"></a>
-## 表单方法欺骗
+## 跨站请求伪造
 
 HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义 `PUT`、`PATCH` 或 `DELETE` 路由，并在 HTML 表单中被调用的时候，你将需要在表单中增加隐藏的 `_method` 字段。随着 `_method` 字段送出的值将被视为 HTTP 请求方法使用：
 

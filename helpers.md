@@ -419,7 +419,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-config-path"></a>
 #### `config_path()` {#collection-method}
 
-`config_path` 函数取得应用设置目录的完整路径：
+`config_path` 函数取得应用配置目录的完整路径：
 
     $path = config_path();
 
@@ -812,7 +812,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     session(['chairs' => 7, 'instruments' => 3]);
 
-该函数在没有内容传递时，将返回所保存的 seesion 内容：
+该函数在没有传递参数时，将返回 session 实例：
 
     $value = session()->get('key');
 
@@ -835,6 +835,6 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-with"></a>
 #### `with()` {#collection-method}
 
-`with` 函数返回给定的数值。该函数主要用于方法炼结（method chaining），除此之外不太可能用到：
+`with` 函数返回给定的数值。该函数主要用于链式调用回所保存的 seesion 内容，除此之外不太可能用到：
 
     $value = with(new Foo)->work();

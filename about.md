@@ -19,7 +19,7 @@
 
 ### A
 
-- Aggregate 集合
+- Aggregate 聚合
 - Array 数组
 - Artisan (指令，不翻)
 - Argument 参数
