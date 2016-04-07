@@ -84,7 +84,7 @@
 <a name="via-the-gate-facade"></a>
 ### 通过 Gate Facade
 
-一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会取得权限的名称及参数，并会被传递至权限的回调中。你**不**需要传递目前的用户至该方法，因为 `Gate` 会自动载入当然登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
+一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。你**不**需要传递目前的用户至该方法，因为 `Gate` 会自动载入当然登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
 
     <?php
 
@@ -346,7 +346,7 @@
 
 #### 通过用户模型
 
-`User` 模型的 `can` 与 `cannot` 方法也会自动采用给定参数可用的授权策略。此方法提供一个简单的方式在应用程序中为任何取得到的 `User` 实例授权行为：
+`User` 模型的 `can` 与 `cannot` 方法也会自动采用给定参数可用的授权策略。此方法提供一个简单的方式在应用程序中为任何获取到的 `User` 实例授权行为：
 
 	if ($user->can('update', $post)) {
 		//
@@ -366,7 +366,7 @@
 
 #### 通过授权策略辅助方法
 
-全局的 `policy` 辅助函数可以被用于为给定的类实例取得 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，取得对应的 `PostPolicy` 类实例：
+全局的 `policy` 辅助函数可以被用于为给定的类实例获取 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，获取对应的 `PostPolicy` 类实例：
 
 	if (policy($post)->update($user, $post)) {
 		//

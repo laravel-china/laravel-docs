@@ -1,7 +1,7 @@
 # 数据库：查询建构器
 
 - [简介](#introduction)
-- [取得结果](#retrieving-results)
+- [获取结果](#retrieving-results)
     - [聚合](#aggregates)
 - [Selects](#selects)
 - [Joins](#joins)
@@ -22,11 +22,11 @@
 > **注意：**Laravel 的查询建构器使用 PDO 参数绑定，以保护你的应用程序不受数据库隐码攻击。传入字符串作为绑定前不需先清理它们。
 
 <a name="retrieving-results"></a>
-## 取得结果
+## 获取结果
 
-#### 从数据表中取得所有的数据列
+#### 从数据表中获取所有的数据列
 
-要开始进行流畅查找，在 `DB` facade 上使用 `table` 方法。`table` 方法会针对给定的数据表传回一个流畅查询建构器实例，允许你在查找上链式调用更多的约束，并于最后得到结果。在这个例子，让我们从一个数据表中`取得`所有的记录：
+要开始进行流畅查找，在 `DB` facade 上使用 `table` 方法。`table` 方法会针对给定的数据表传回一个流畅查询建构器实例，允许你在查找上链式调用更多的约束，并于最后得到结果。在这个例子，让我们从一个数据表中`获取`所有的记录：
 
     <?php
 
@@ -56,7 +56,7 @@
         echo $user->name;
     }
 
-#### 从数据表中取得单一列或栏
+#### 从数据表中获取单一列或栏
 
 若你只需从数据表中取出单一列，你可以使用 `first` 方法。这个方法会返回单一的 `StdClass` 对象：
 
@@ -86,9 +86,9 @@
         return false;
     });
 
-#### 取得字段值列表
+#### 获取字段值列表
 
-若你想要取得一个包含单一字段值的数组，你可以使用 `lists` 方法。在这个例子中，我们将取出 role 数据表 title 字段的数组：
+若你想要获取一个包含单一字段值的数组，你可以使用 `lists` 方法。在这个例子中，我们将取出 role 数据表 title 字段的数组：
 
     $titles = DB::table('roles')->lists('title');
 
@@ -376,13 +376,13 @@
 
 #### 自动递增 ID
 
-若数据表有一自动递增的 id，使用 `insertGetId` 方法来插入记录并取得其 ID：
+若数据表有一自动递增的 id，使用 `insertGetId` 方法来插入记录并获取其 ID：
 
     $id = DB::table('users')->insertGetId(
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
->**注意：**当使用 PostgreSQL 时，insertGetId 方法预期自动递增字段的名称为 `id`。若你要从不同的「次序」取得 ID，你可以将次序名称作为第二个参数传入 `insertGetId` 方法。
+>**注意：**当使用 PostgreSQL 时，insertGetId 方法预期自动递增字段的名称为 `id`。若你要从不同的「次序」获取 ID，你可以将次序名称作为第二个参数传入 `insertGetId` 方法。
 
 <a name="updates"></a>
 ## Updates

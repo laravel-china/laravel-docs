@@ -81,7 +81,7 @@
 
     $redis = Redis::connection();
 
-你会得到一个 Redis 默认服务器的实例。如果你没有使用服务器集群，你可以在 `connection` 方法传入定义在 Redis 配置文件的服务器名称，以取得特定服务器：
+你会得到一个 Redis 默认服务器的实例。如果你没有使用服务器集群，你可以在 `connection` 方法传入定义在 Redis 配置文件的服务器名称，以获取特定服务器：
 
     $redis = Redis::connection('other');
 

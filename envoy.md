@@ -176,7 +176,7 @@
         @slack('hook', 'channel', 'message')
     @endafter
 
-当你在 Slack 的网站创建 `Incoming WebHooks` 时会取得一组 webhook 的网址。`hook` 参数必须是 Slack 的 Incoming WebHooks 所提供的整串网址。例如：
+当你在 Slack 的网站创建 `Incoming WebHooks` 时会获取一组 webhook 的网址。`hook` 参数必须是 Slack 的 Incoming WebHooks 所提供的整串网址。例如：
 
     https://hooks.slack.com/services/ZZZZZZZZZ/YYYYYYYYY/XXXXXXXXXXXXXXX
 

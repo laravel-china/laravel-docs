@@ -95,14 +95,14 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
         return 'default';
     });
 
-如果你想从 session 中取得所有数据，你可以使用 `all` 方法：
+如果你想从 session 中获取所有数据，你可以使用 `all` 方法：
 
     $data = $request->session()->all();
 
-你也可使用全局的 `session` PHP 函数取得 session 中保存的数据：
+你也可使用全局的 `session` PHP 函数获取 session 中保存的数据：
 
     Route::get('home', function () {
-        // 取得 session 中的一条数据...
+        // 获取 session 中的一条数据...
         $value = session('key');
 
         // 写入一条数据至 session 中...

@@ -110,7 +110,7 @@
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你无痛的在数据库取得及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你无痛的在数据库获取及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
 
 #### `User` 模型
 
@@ -142,7 +142,7 @@
 	    protected $fillable = ['name'];
 	}
 
-在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型。当然，你可以很自由的参考[完整的 Eloquent 文档](/docs/{{version}}/eloquent)取得更多信息。
+在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型。当然，你可以很自由的参考[完整的 Eloquent 文档](/docs/{{version}}/eloquent)获取更多信息。
 
 <a name="eloquent-relationships"></a>
 ### Eloquent 关联
@@ -157,7 +157,7 @@
 
 #### `tasks` 关联
 
-首先，让我们在 `User` 模型定义 `tasks` 的关联。Eloquent 关联被定义为模型中的方法。Eloquent 支持多种不同类型的关联，所以请务必查阅[完整的 Eloquent 文档](/docs/{{version}}/eloquent-relationships)取得更多信息。在本例中，我们会在 `User` 模型中定义一个 `tasks` 函数，并调用 Eloquent 提供的 `hasMany` 方法：
+首先，让我们在 `User` 模型定义 `tasks` 的关联。Eloquent 关联被定义为模型中的方法。Eloquent 支持多种不同类型的关联，所以请务必查阅[完整的 Eloquent 文档](/docs/{{version}}/eloquent-relationships)获取更多信息。在本例中，我们会在 `User` 模型中定义一个 `tasks` 函数，并调用 Eloquent 提供的 `hasMany` 方法：
 
 	<?php
 
@@ -174,7 +174,7 @@
 	    // 其它的 Eloquent 属性...
 
 	    /**
-	     * 取得该用户的所有任务。
+	     * 获取该用户的所有任务。
 	     */
 	    public function tasks()
 	    {
@@ -203,7 +203,7 @@
 	    protected $fillable = ['name'];
 
 	    /**
-	     * 取得拥有此任务的用户。
+	     * 获取拥有此任务的用户。
 	     */
 	    public function user()
 	    {
@@ -259,12 +259,12 @@
 
 `login.blade.php` 文件必需包含一个表单，包含 `email` 与 `password` 字段，并制造一个 `POST` 请求至 `/auth/login`。
 
-> **注意：**如果你想查看这些视图的完整例子，请记得应用程序的完整原代码可以在 [GitHub 上取得](https://github.com/laravel/quickstart-intermediate)。
+> **注意：**如果你想查看这些视图的完整例子，请记得应用程序的完整原代码可以在 [GitHub 上获取](https://github.com/laravel/quickstart-intermediate)。
 
 <a name="the-task-controller"></a>
 ### 任务控制器
 
-因为我们已经知道我们需要取得及保存任务，所以让我们使用 Artisan 命令行接口创建一个 `TaskController`，这个新的控制器会放置在 `app/Http/Controllers` 目录中：
+因为我们已经知道我们需要获取及保存任务，所以让我们使用 Artisan 命令行接口创建一个 `TaskController`，这个新的控制器会放置在 `app/Http/Controllers` 目录中：
 
 	php artisan make:controller TaskController --plain
 
@@ -531,7 +531,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 	class TaskRepository
 	{
 	    /**
-	     * 取得给定用户的所有任务。
+	     * 获取给定用户的所有任务。
 	     *
 	     * @param  User  $user
 	     * @return Collection
@@ -581,7 +581,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 	    }
 
 	    /**
-	     * 取得给定用户的所有任务。
+	     * 获取给定用户的所有任务。
 	     *
 	     * @param  Request  $request
 	     * @return Response
@@ -698,13 +698,13 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 		//
 	}
 
-但是，我们要在这个方法中做的第一件事，就是通过给定的 ID 从数据库中取得 `Task` 实例。所以，如果 Laravel 可以先注入与 ID 符合的 `Task` 实例，那岂不是很棒？让我们做到这一点！
+但是，我们要在这个方法中做的第一件事，就是通过给定的 ID 从数据库中获取 `Task` 实例。所以，如果 Laravel 可以先注入与 ID 符合的 `Task` 实例，那岂不是很棒？让我们做到这一点！
 
 在你的 `app/Providers/RouteServiceProvider.php` 文件的 `boot` 方法中，让我们增加下方这行代码：
 
 	$router->model('task', 'App\Task');
 
-这一小行的代码会告知 Laravel，若在路由声明中看见 `{task}`，就会取得与给定 ID 对应的 `Task` 模型。现在我们可以定义我们的 destroy 方法，如下：
+这一小行的代码会告知 Laravel，若在路由声明中看见 `{task}`，就会获取与给定 ID 对应的 `Task` 模型。现在我们可以定义我们的 destroy 方法，如下：
 
     /**
      * 卸除给定的任务。
@@ -729,7 +729,7 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 
 	php artisan make:policy TaskPolicy
 
-接着，让我们增加一个 `destroy` 方法治授权策略中。此方法会取得一个 `User` 实例及一个 `Task` 实例。此方法会简单的检查当用户的 ID 符合任务的 `user_id`。实际上，所有的授权方法必须返回 `true` 或 `false`：
+接着，让我们增加一个 `destroy` 方法治授权策略中。此方法会获取一个 `User` 实例及一个 `Task` 实例。此方法会简单的检查当用户的 ID 符合任务的 `user_id`。实际上，所有的授权方法必须返回 `true` 或 `false`：
 
 	<?php
 

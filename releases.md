@@ -25,7 +25,7 @@ Laravel 5.1.11 推出了内置的[授权](/docs/{{version}}/authorization)支持
 <a name="laravel-5.1.4"></a>
 ## Laravel 5.1.4
 
-Laravel 5.1.4 为框架推出了简单的登录限制。查阅 [认证的文档](/docs/{{version}}/authentication#authentication-throttling)以取得更多信息。
+Laravel 5.1.4 为框架推出了简单的登录限制。查阅 [认证的文档](/docs/{{version}}/authentication#authentication-throttling)以获取更多信息。
 
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
@@ -448,7 +448,7 @@ Laravel 4.2 为 `Mail` 函数采用了新的 Mailgun 和 Mandrill API 驱动。�
 
 ### 完整更动列表
 
-此发行版本的完整更动列表，可以在版本 4.1 的安装中命令行运行 `php artisan changes` 取得，或者浏览 [Github 更动档](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json) 中了解。其中只记录了该版本比较主要的强化功能和更动。
+此发行版本的完整更动列表，可以在版本 4.1 的安装中命令行运行 `php artisan changes` 获取，或者浏览 [Github 更动档](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json) 中了解。其中只记录了该版本比较主要的强化功能和更动。
 
 ### 新的 SSH 组件
 

@@ -77,7 +77,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="creating-subscriptions"></a>
 ### 创建订购
 
-要创建一个订购，首先要取得可交易的模型实例，这通常会是 `App\User` 的实例。一旦你取得了模型实例，你可以使用 `subscription` 方法来管理模型的订购：
+要创建一个订购，首先要获取可交易的模型实例，这通常会是 `App\User` 的实例。一旦你获取了模型实例，你可以使用 `subscription` 方法来管理模型的订购：
 
     $user = User::find(1);
 
@@ -303,7 +303,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="invoices"></a>
 ## 收据
 
-你可以很简单的通过 `invoices` 方法取得交易模型的收据数据数组：
+你可以很简单的通过 `invoices` 方法获取交易模型的收据数据数组：
 
     $invoices = $user->invoices();
 

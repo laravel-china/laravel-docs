@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 的本地化功能提供方便的方法来取得多语系的字符串，让你的网站可以简单的支持多语系。
+Laravel 的本地化功能提供方便的方法来获取多语系的字符串，让你的网站可以简单的支持多语系。
 
 语系档存放在 `resources/lang` 文件夹的文件里。在此文件夹内，应该要有网站支持的语系并对应到每一个子目录。：
 
@@ -44,7 +44,7 @@ Laravel 的本地化功能提供方便的方法来取得多语系的字符串，
 <a name="basic-usage"></a>
 ## 基本用法
 
-你可以使用 `trans` 辅助函数来取得语系字符串，`trans` 函数的第一个参数接受文件名和键值名称，例如，从 `resources/lang/messages.php` 语言档取得名称为 `welcome` 的句子：
+你可以使用 `trans` 辅助函数来获取语系字符串，`trans` 函数的第一个参数接受文件名和键值名称，例如，从 `resources/lang/messages.php` 语言档获取名称为 `welcome` 的句子：
 
     echo trans('messages.welcome');
 
@@ -71,7 +71,7 @@ Laravel 的本地化功能提供方便的方法来取得多语系的字符串，
 
     'apples' => 'There is one apple|There are many apples',
 
-接着，可以使用 `trans_choice` 方法来设置总数，例如，当总数大于一将会取得复数句子：
+接着，可以使用 `trans_choice` 方法来设置总数，例如，当总数大于一将会获取复数句子：
 
     echo trans_choice('messages.apples', 10);
 

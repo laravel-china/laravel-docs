@@ -142,7 +142,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 <a name="retrieving-multiple-models"></a>
 ## 取回多个模型
 
-一旦你创建了一个模型并且将模型 [关连到数据表](/docs/{{version}}/schema)，你就可以从数据库中取得数据。把每个 Eloquent 模型想像成强大的[查询建构器](/docs/{{version}}/queries)，让你可以流畅地查找与模型关联的数据表。例如：
+一旦你创建了一个模型并且将模型 [关连到数据表](/docs/{{version}}/schema)，你就可以从数据库中获取数据。把每个 Eloquent 模型想像成强大的[查询建构器](/docs/{{version}}/queries)，让你可以流畅地查找与模型关联的数据表。例如：
 
     <?php
 
@@ -176,7 +176,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 
 #### 增加额外的限制
 
-Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于每个 Eloquent 模型可以当作一个[查询建构器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后通过 `get` 方法来取得结果：
+Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于每个 Eloquent 模型可以当作一个[查询建构器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后通过 `get` 方法来获取结果：
 
     $flights = App\Flight::where('active', 1)
                    ->orderBy('name', 'desc')
@@ -195,7 +195,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 分块结果
 
-如果你需要处理上千笔 Eloquent 查找结果，可以使用 `chunk` 命令。`chunk` 方法将会取得一个 Eloquent 模型的「分块」，将它们送到给定的 `闭包 (Closure)` 进行处理。当你在处理大量的结果时，使用 `chunk` 方法可以节省内存：
+如果你需要处理上千笔 Eloquent 查找结果，可以使用 `chunk` 命令。`chunk` 方法将会获取一个 Eloquent 模型的「分块」，将它们送到给定的 `闭包 (Closure)` 进行处理。当你在处理大量的结果时，使用 `chunk` 方法可以节省内存：
 
     Flight::chunk(200, function ($flights) {
         foreach ($flights as $flight) {
@@ -453,9 +453,9 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     select * from `users` where `users`.`deleted_at` is null and `name` = 'John' or `votes` > 100
 
-#### 只取得被软删除的模型
+#### 只获取被软删除的模型
 
-`onlyTrashed` 方法会 **只** 取得被软删除的模型：
+`onlyTrashed` 方法会 **只** 获取被软删除的模型：
 
     $flights = App\Flight::onlyTrashed()
                     ->where('airline_id', 1)
@@ -490,7 +490,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 <a name="query-scopes"></a>
 ## 查找范围
 
-范围（Scopes）让你定义限制的共用集合，它可以轻松地在你的应用程序重复使用。例如，你可能需要频繁地取得所有被认为是「受欢迎的」用户。要定义范围，必须简单地在 Eloquent 模型方法前面加上前缀 `scope`：
+范围（Scopes）让你定义限制的共用集合，它可以轻松地在你的应用程序重复使用。例如，你可能需要频繁地获取所有被认为是「受欢迎的」用户。要定义范围，必须简单地在 Eloquent 模型方法前面加上前缀 `scope`：
 
 范围应总是返回查询建构器的实例：
 

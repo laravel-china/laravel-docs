@@ -93,7 +93,7 @@
 
 视图组件就是在视图被渲染前，会调用的闭包或类方法。如果你想在每次渲染某些视图时绑定数据，视图组件可以把这样的程序逻辑组织在同一个地方。
 
-让我们在[服务提供者](/docs/{{version}}/providers)内注册我们的视图组件。底下例子将使用 View 辅助方法来取得底层 `Illuminate\Contracts\View\Factory` contract 实现。请注意，Laravel 没有默认的目录来放置视图组件。你可以自由的把它们放在你想要的地方。举例来说，你可以创建一个 `App\Http\ViewComposers` 目录：
+让我们在[服务提供者](/docs/{{version}}/providers)内注册我们的视图组件。底下例子将使用 View 辅助方法来获取底层 `Illuminate\Contracts\View\Factory` contract 实现。请注意，Laravel 没有默认的目录来放置视图组件。你可以自由的把它们放在你想要的地方。举例来说，你可以创建一个 `App\Http\ViewComposers` 目录：
 
     <?php
 

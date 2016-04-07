@@ -118,7 +118,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
     // 以原始 $data 字符串附加一个文件…
     $message->attachData($data, $name, array $options = []);
 
-    // 取得底层的 SwiftMailer 消息实例…
+    // 获取底层的 SwiftMailer 消息实例…
     $message->getSwiftMessage();
 
 > **注意：**传递至 `Mail::send` 闭包的消息实例继承了 SwiftMailer 消息类，让你可以调用该类的任何方法来创建你的电子邮件消息。
@@ -161,7 +161,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 在电子邮件视图中嵌入图像
 
-在电子邮件中嵌入内部图像通常是件很麻烦的事；然而 Laravel 提供一个便利的方法，让你在电子邮件中附加图像并取得适当的 CID。要嵌入内部图像，在电子邮件视图的 `$message` 变量中使用 `embed` 方法。记得，Laravel 会自动让你所有的电子邮件视图都能取得 `$message` 变量：
+在电子邮件中嵌入内部图像通常是件很麻烦的事；然而 Laravel 提供一个便利的方法，让你在电子邮件中附加图像并获取适当的 CID。要嵌入内部图像，在电子邮件视图的 `$message` 变量中使用 `embed` 方法。记得，Laravel 会自动让你所有的电子邮件视图都能获取 `$message` 变量：
 
     <body>
         这是一张图片：

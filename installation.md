@@ -5,7 +5,7 @@
     - [基本配置](#basic-configuration)
     - [环境配置](#environment-configuration)
     - [设置缓存](#configuration-caching)
-    - [取得设置值](#accessing-configuration-values)
+    - [获取设置值](#accessing-configuration-values)
     - [命名你的应用程序](#naming-your-application)
 - [维护模式](#maintenance-mode)
 
@@ -112,15 +112,15 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
 
 Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在全新安装好的 Laravel 应用程序里，根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
 
-当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助方法 `env` 来取得这些变量的值。事实上，如果你阅读过 Laravel 的配置文件，你会注意到有几个选项已经在使用这个辅助方法！
+当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助方法 `env` 来获取这些变量的值。事实上，如果你阅读过 Laravel 的配置文件，你会注意到有几个选项已经在使用这个辅助方法！
 
 根据你的本机服务器或者正式环境需求，你可以自由的修改你的环境变量。但是，你的 `.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用你的应用程序时，可能需要不同的环境配置。
 
 如果你是一个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过例子配置文件里的预设值，你的团队中其他开发人员可以清楚地看到，在运行你的应用程序时，有哪些环境变量是必须的。
 
-#### 取得目前应用程序的环境
+#### 获取目前应用程序的环境
 
-应用程序的当前环境是由 `.env` 文件中的 `APP_ENV` 变量所决定。你可以通过 `App` [facade](/docs/{{version}}/facades) 的 `environment` 方法取得该值：
+应用程序的当前环境是由 `.env` 文件中的 `APP_ENV` 变量所决定。你可以通过 `App` [facade](/docs/{{version}}/facades) 的 `environment` 方法获取该值：
 
     $environment = App::environment();
 
@@ -134,7 +134,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
         // 环境是 local 或 staging...
     }
 
-也能通过 `app` 辅助方法取得应用程序实例：
+也能通过 `app` 辅助方法获取应用程序实例：
 
     $environment = app()->environment();
 
@@ -146,9 +146,9 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在本机开发的时候运行，因为设置选项需要根据你应用程序的开发而经常变动。
 
 <a name="accessing-configuration-values"></a>
-### 取得设置值
+### 获取设置值
 
-你可以使用 `config` 辅助方法取得你的设置值，设置值可以通过「点」语法来取得，其中包含了文件与选项的名称。也可以指定默认值，当该设置选项不存在时就会返回默认值：
+你可以使用 `config` 辅助方法获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。也可以指定默认值，当该设置选项不存在时就会返回默认值：
 
     $value = config('app.timezone');
 

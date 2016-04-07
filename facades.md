@@ -48,7 +48,7 @@ facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAcces
     class Cache extends Facade
     {
         /**
-         * 取得组件的注册名称。
+         * 获取组件的注册名称。
          *
          * @return string
          */

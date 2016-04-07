@@ -2,14 +2,14 @@
 
 - [配置信息](#configuration)
 - [缓存的使用](#cache-usage)
-    - [取得一个缓存的实例](#obtaining-a-cache-instance)
+    - [获取一个缓存的实例](#obtaining-a-cache-instance)
     - [从缓存中获取项目](#retrieving-items-from-the-cache)
     - [存放项目到缓存中](#storing-items-in-the-cache)
     - [删除缓存中的项目](#removing-items-from-the-cache)
 - [加入自定义的缓存驱动](#adding-custom-cache-drivers)
 - [缓存标签](#cache-tags)
     - [写入被标记的缓存项目](#storing-tagged-cache-items)
-    - [取得被标记的缓存项目](#accessing-tagged-cache-items)
+    - [获取被标记的缓存项目](#accessing-tagged-cache-items)
 - [缓存事件](#cache-events)
 
 <a name="configuration"></a>
@@ -65,7 +65,7 @@ Laravel 提供了统一的 API 给各种不同的缓存系统，缓存的配置�
 ## 缓存的使用
 
 <a name="obtaining-a-cache-instance"></a>
-### 取得一个缓存的实例
+### 获取一个缓存的实例
 
 `Illuminate\Contracts\Cache\Factory` 和 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts) 提供了访问 Laravel 缓存服务的机制， 而 `Factory` contract 则为你的应用程序提供了访问所有缓存驱动的机制，`Repository` contract  是典型的缓存驱动实现，它会依照你的缓存配置文件变化。
 
@@ -284,9 +284,9 @@ Laravel 提供了统一的 API 给各种不同的缓存系统，缓存的配置�
 当然，你不必限制于 `put` 方法。你可以在利用标签时使用任何缓存保存系统的方法。
 
 <a name="accessing-tagged-cache-items"></a>
-### 取得被标记的缓存项目
+### 获取被标记的缓存项目
 
-若要取得一个被标记的缓存项目，只要传递一样的标签有串行表至 `tags` 方法：
+若要获取一个被标记的缓存项目，只要传递一样的标签有串行表至 `tags` 方法：
 
    $john = Cache::tags(['people', 'artists'])->get('John');
 

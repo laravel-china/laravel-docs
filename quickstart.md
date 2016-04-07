@@ -97,7 +97,7 @@
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你无痛的在数据库取得及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你无痛的在数据库获取及保存数据。一般情况下，每个 Eloqunet 模型会直接对应于一张数据表。
 
 所以，让我们定义一个对应至 `tasks` 数据表的 `Task` 模型。同样的，我们可以使用 Artisan 命令来产生此模型。在此例中，我们会使用 `make:model` 命令：
 
@@ -116,7 +116,7 @@
 		//
 	}
 
-在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型。当然，你可以很自由的参考[完整的 Eloquent 文档](/docs/{{version}}/eloquent)取得更多信息。
+在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型。当然，你可以很自由的参考[完整的 Eloquent 文档](/docs/{{version}}/eloquent)获取更多信息。
 
 <a name="routing"></a>
 ## 路由
@@ -437,7 +437,7 @@
 <a name="deleting-the-task"></a>
 ### 删除该任务
 
-最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 取得模型，当该模型不存在时则会抛出 404 异常。一旦我们取得模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
+最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 获取模型，当该模型不存在时则会抛出 404 异常。一旦我们获取模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
 
 	Route::delete('/task/{id}', function ($id) {
 		Task::findOrFail($id)->delete();

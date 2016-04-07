@@ -17,7 +17,7 @@
 
 #### 定义一个访问器
 
-若要定义一个访问器，必须在你的模型上创建一个 `getFooAttribute` 方法，而且你希望访问的 `Foo` 字段需使用「驼峰式」的方式命名。在这个例子中，我们将对 `first_name` 属性定义一个访问器。当 Eloquent 尝试取得 `first_name` 的值时，将会自动的调用访问器：
+若要定义一个访问器，必须在你的模型上创建一个 `getFooAttribute` 方法，而且你希望访问的 `Foo` 字段需使用「驼峰式」的方式命名。在这个例子中，我们将对 `first_name` 属性定义一个访问器。当 Eloquent 尝试获取 `first_name` 的值时，将会自动的调用访问器：
 
     <?php
 
@@ -28,7 +28,7 @@
     class User extends Model
     {
         /**
-         * 取得用户的名字。
+         * 获取用户的名字。
          *
          * @param  string  $value
          * @return string
@@ -69,7 +69,7 @@
         }
     }
 
-修改器会取得属性已经被设置的值，让你可以操作该值并设置到 Eloquent 模型内部的 `$attributes` 属性。所以，举个例子，如果我们尝试将 `first_name` 属性设置成 `Sally`：
+修改器会获取属性已经被设置的值，让你可以操作该值并设置到 Eloquent 模型内部的 `$attributes` 属性。所以，举个例子，如果我们尝试将 `first_name` 属性设置成 `Sally`：
 
     $user = App\User::find(1);
 

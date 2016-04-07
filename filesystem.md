@@ -3,7 +3,7 @@
 - [简介](#introduction)
 - [设置](#configuration)
 - [基本用法](#basic-usage)
-    - [取得磁盘实体](#obtaining-disk-instances)
+    - [获取磁盘实体](#obtaining-disk-instances)
     - [提取文件](#retrieving-files)
     - [保存文件](#storing-files)
     - [删除文件](#deleting-files)
@@ -80,7 +80,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 <a name="retrieving-files"></a>
 ### 提取文件
 
-`get` 方法提取给定文件的内容，该文件的原始字符串内容将通过该方法取得：
+`get` 方法提取给定文件的内容，该文件的原始字符串内容将通过该方法获取：
 
     $contents = Storage::get('file.jpg');
 
@@ -90,7 +90,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
 #### 文件信息
 
-`size` 方法取得文件的大小并以 bytes 显示：
+`size` 方法获取文件的大小并以 bytes 显示：
 
     $size = Storage::size('file1.jpg');
 
@@ -135,7 +135,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 <a name="directories"></a>
 ### 目录
 
-#### 取得单一目录内所有文件
+#### 获取单一目录内所有文件
 
 `files` 方法返回给定目录下的文件数组。如果你希望返回包含给定目录下所有子目录的文件，你可以使用 `allFiles` 方法。
 
@@ -143,9 +143,9 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
     $files = Storage::allFiles($directory);
 
-#### 取得单一目录内所有目录
+#### 获取单一目录内所有目录
 
-`directories` 方法返回给定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法取得给定目录下子目录以及子目录所包含的目录。
+`directories` 方法返回给定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法获取给定目录下子目录以及子目录所包含的目录。
 
     $directories = Storage::directories($directory);
 

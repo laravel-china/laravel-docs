@@ -52,7 +52,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
 
         /**
-         * 借由 ID 取得订单信息。
+         * 借由 ID 获取订单信息。
          *
          * @param  int  $id
          * @return Order

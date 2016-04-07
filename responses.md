@@ -169,7 +169,7 @@
         return redirect('dashboard')->with('status', 'Profile updated!');
     });
 
-当然，在用户重定向至新的页面后，你可以取得并显示 [session](/docs/{{version}}/session) 的快闪数据。举个例子，使用 [Blade 的语法](/docs/{{version}}/blade)：
+当然，在用户重定向至新的页面后，你可以获取并显示 [session](/docs/{{version}}/session) 的快闪数据。举个例子，使用 [Blade 的语法](/docs/{{version}}/blade)：
 
     @if (session('status'))
         <div class="alert alert-success">

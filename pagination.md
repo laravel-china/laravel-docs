@@ -73,7 +73,7 @@
 
 有时候你可能会希望从项目的数组中手动创建一个分页实例。你可以依据你的需求决定创建 `Illuminate\Pagination\Paginator` 或是 `Illuminate\Pagination\LengthAwarePaginator` 。
 
-`Paginator` 类不需要知道数据的总笔数；然而因为这点，它也无法提供取得最后一页的方法。`LengthAwarePaginator` 与 `Paginator` 的参数几乎相同；但是它需要数据的总笔数。
+`Paginator` 类不需要知道数据的总笔数；然而因为这点，它也无法提供获取最后一页的方法。`LengthAwarePaginator` 与 `Paginator` 的参数几乎相同；但是它需要数据的总笔数。
 
 换句话说， `Paginator` 对应于查询语句构造器和 Eloquent 的 `simplePaginate` 方法，而 `LengthAwarePaginator` 相等于 `paginate` 方法。
 
@@ -84,7 +84,7 @@
 
 当在查询语句构造器或 Eloquent 中使用 `simplePaginate` 方法或使用 `paginate` 方法，你会得到一个分页器的实例。当使用 `paginate` 方法时，将得到 `Illuminate\Pagination\LengthAwarePaginator` 的实例。当使用 `simplePaginate` 方法时，会得到 `Illuminate\Pagination\Paginator` 的实例。这些对象提供几种方法用来描述结果集。除了这些辅助方法，分页器的实例也是个迭代器，并且可以像数组一样使用循环取值。
 
-总之，一旦你已经取得结果，你可以显示结果，并使用 [Blade 模板](/docs/{{version}}/blade)渲染页面的链接：
+总之，一旦你已经获取结果，你可以显示结果，并使用 [Blade 模板](/docs/{{version}}/blade)渲染页面的链接：
 
     <div class="container">
         @foreach ($users as $user)
@@ -145,7 +145,7 @@ Laravel 的分页类实现了 `Illuminate\Contracts\Support\JsonableInterface` �
         return App\User::paginate();
     });
 
-分页器的 JSON 将包括分页相关的信息，如 `total` ， `current_page` ， `last_page` ，等等。该实例数据可通过 JSON 数组中的 `data` 键中取得。下方是从路由返回的分页器实例转换成 JSON 的一个例子：
+分页器的 JSON 将包括分页相关的信息，如 `total` ， `current_page` ， `last_page` ，等等。该实例数据可通过 JSON 数组中的 `data` 键中获取。下方是从路由返回的分页器实例转换成 JSON 的一个例子：
 
 #### 分页结果转为 JSON 的例子
 

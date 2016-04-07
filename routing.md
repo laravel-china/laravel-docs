@@ -67,7 +67,7 @@
 <a name="required-parameters"></a>
 ### 基础路由参数
 
-有时候你可能需要在你的 URI 路由中，取得一些参数。例如，你可能需要从 URL 取得用户的 ID。你可以通过定义路由参数来取得：
+有时候你可能需要在你的 URI 路由中，获取一些参数。例如，你可能需要从 URL 获取用户的 ID。你可以通过定义路由参数来获取：
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
@@ -228,7 +228,7 @@
 <a name="route-group-sub-domain-routing"></a>
 ### 子网域路由
 
-路由群组也可以用来处理通配符的子网域。子网域可以像路由 URIs 分配路由参数，让你在你的路由或控制器取得子网域参数。可以使用路由群组属性数组上的 `domain` 指定子网域变量名称：
+路由群组也可以用来处理通配符的子网域。子网域可以像路由 URIs 分配路由参数，让你在你的路由或控制器获取子网域参数。可以使用路由群组属性数组上的 `domain` 指定子网域变量名称：
 
     Route::group(['domain' => '{account}.myapp.com'], function () {
         Route::get('user/{id}', function ($account, $id) {
@@ -354,7 +354,7 @@ Laravel 路由模型绑定提供了一个方便的方式来注入类实例至你
         throw new NotFoundHttpException;
     });
 
-如果你希望使用你自己的解析逻辑，那么你必须使用 `Route::bind` 方法。你传递至 `bind` 方法的闭包会取得 URI 的部分值，且必须返回你想注入至路由的类实例：
+如果你希望使用你自己的解析逻辑，那么你必须使用 `Route::bind` 方法。你传递至 `bind` 方法的闭包会获取 URI 的部分值，且必须返回你想注入至路由的类实例：
 
     $router->bind('user', function($value) {
         return App\User::where('name', $value)->first();

@@ -279,7 +279,7 @@ Laravel 提供了几个辅助方法在测试时使用 Session。首先，你需�
 <a name="custom-http-requests"></a>
 ### 自定义 HTTP 请求
 
-如果你想要创建一个自定义的 HTTP 请求至你的应用程序，并取得完整的 `Illuminate\Http\Response` 对象，你可以使用 `call` 方法：
+如果你想要创建一个自定义的 HTTP 请求至你的应用程序，并获取完整的 `Illuminate\Http\Response` 对象，你可以使用 `call` 方法：
 
     public function testApplication()
     {
@@ -417,7 +417,7 @@ Laravel 也提供了多种有用的工具，让你更容易测试使用数据库
         ];
     });
 
-除了从一般用户工厂复制所有基底属性，你也可以使用 `raw` 方法来取得基底属性。一旦你取得这些属性，就可以轻松的增加额外任何你需要的值：
+除了从一般用户工厂复制所有基底属性，你也可以使用 `raw` 方法来获取基底属性。一旦你获取这些属性，就可以轻松的增加额外任何你需要的值：
 
     $factory->defineAs(App\User::class, 'admin', function ($faker) use ($factory) {
         $user = $factory->raw(App\User::class);

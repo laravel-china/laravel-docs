@@ -216,12 +216,12 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 #### 命名错误清单
 
-假如在一个页面中有许多的表单，你可能希望为 `MessageBag` 的错误命名。这可以让你取得特定表单的所有错误消息，只要在 `withErrors` 的第二个参数设置名称即可：
+假如在一个页面中有许多的表单，你可能希望为 `MessageBag` 的错误命名。这可以让你获取特定表单的所有错误消息，只要在 `withErrors` 的第二个参数设置名称即可：
 
     return redirect('register')
                 ->withErrors($validator, 'login');
 
-然后你就可以从一个 `$errors` 变量中，取得已命名的 `MessageBag` 实例：
+然后你就可以从一个 `$errors` 变量中，获取已命名的 `MessageBag` 实例：
 
     {{ $errors->login->first('email') }}
 
@@ -251,7 +251,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 新产生的类档会放在 `app/Http/Requests` 目录下。让我们加入一些验证规则到 `rules` 方法中：
 
     /**
-     * 取得适用于请求的验证规则。
+     * 获取适用于请求的验证规则。
      *
      * @return array
      */
@@ -295,7 +295,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
                       ->where('user_id', Auth::id())->exists();
     }
 
-注意到上面例子中调用 `route` 的方法。这个方法可以帮助你，取得路由被调用时传入的 URI 参数，像是如下例子的 `{comment}` 参数：
+注意到上面例子中调用 `route` 的方法。这个方法可以帮助你，获取路由被调用时传入的 URI 参数，像是如下例子的 `{comment}` 参数：
 
     Route::post('comment/{comment}');
 
@@ -330,7 +330,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 你可以通过重写表单请求的 `messages` 方法自定错误消息。此方法必须返回一个数组，含有成对的属性与规则及对应的错误消息：
 
     /**
-     * 取得已定义验证规则的错误消息。
+     * 获取已定义验证规则的错误消息。
      *
      * @return array
      */
@@ -377,11 +377,11 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
         //
     }
 
-#### 取得格式化后的错误消息
+#### 获取格式化后的错误消息
 
     echo $messages->first('email', '<p>:message</p>');
 
-#### 取得所有格式化后的错误消息
+#### 获取所有格式化后的错误消息
 
     foreach ($messages->all('<li>:message</li>') as $message) {
         //
@@ -796,7 +796,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
         return $input->games >= 100;
     });
 
-> **注意：**传入`闭包`的 `$input` 参数是 `Illuminate\Support\Fluent` 实例，可以用来作为取得你的输入和文件的对象。
+> **注意：**传入`闭包`的 `$input` 参数是 `Illuminate\Support\Fluent` 实例，可以用来作为获取你的输入和文件的对象。
 
 <a name="custom-validation-rules"></a>
 ## 自定义验证规则

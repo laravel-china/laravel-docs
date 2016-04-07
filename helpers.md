@@ -397,7 +397,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-app-path"></a>
 #### `app_path()` {#collection-method}
 
-`app_path` 函数取得 `app` 文件夹的完整路径：
+`app_path` 函数获取 `app` 文件夹的完整路径：
 
     $path = app_path();
 
@@ -408,7 +408,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-base-path"></a>
 #### `base_path()` {#collection-method}
 
-`base_path` 函数取得项目根目录的完整路径：
+`base_path` 函数获取项目根目录的完整路径：
 
     $path = base_path();
 
@@ -419,35 +419,35 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-config-path"></a>
 #### `config_path()` {#collection-method}
 
-`config_path` 函数取得应用配置目录的完整路径：
+`config_path` 函数获取应用配置目录的完整路径：
 
     $path = config_path();
 
 <a name="method-database-path"></a>
 #### `database_path()` {#collection-method}
 
-`database_path` 函数取得应用数据库目录的完整路径：
+`database_path` 函数获取应用数据库目录的完整路径：
 
     $path = database_path();
 
 <a name="method-elixir"></a>
 #### `elixir()` {#collection-method}
 
-`elixir` 函数取得加上版本号的 [Elixir](/docs/{{version}}/elixir) 文件路径：
+`elixir` 函数获取加上版本号的 [Elixir](/docs/{{version}}/elixir) 文件路径：
 
     elixir($file);
 
 <a name="method-public-path"></a>
 #### `public_path()` {#collection-method}
 
-`public_path` 函数取得 `public` 目录的完整路径：
+`public_path` 函数获取 `public` 目录的完整路径：
 
     $path = public_path();
 
 <a name="method-storage-path"></a>
 #### `storage_path()` {#collection-method}
 
-`storage_path` 函数取得 `storage` 目录的完整路径：
+`storage_path` 函数获取 `storage` 目录的完整路径：
 
     $path = storage_path();
 
@@ -565,7 +565,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     // children
 
-你能提供一整数做为第二参数，取得字符串的单数或复数形：
+你能提供一整数做为第二参数，获取字符串的单数或复数形：
 
     $plural = str_plural('child', 2);
 
@@ -705,7 +705,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-config"></a>
 #### `config()` {#collection-method}
 
-`config` 取得设置选项的设置值。设置值可通过「点」式语法读取，其中包含要访问的文件名以及选项名称。可传递一默认值在找不到指定的设置选项时返回该数值：
+`config` 获取设置选项的设置值。设置值可通过「点」式语法读取，其中包含要访问的文件名以及选项名称。可传递一默认值在找不到指定的设置选项时返回该数值：
 
     $value = config('app.timezone');
 
@@ -725,7 +725,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-csrf-token"></a>
 #### `csrf_token()` {#collection-method}
 
-`csrf_token` 函数取得当前 CSRF 令牌的内容：
+`csrf_token` 函数获取当前 CSRF 令牌的内容：
 
     $token = csrf_token();
 
@@ -739,7 +739,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-env"></a>
 #### `env()` {#collection-method}
 
-`env` 函数取得环境变量值或返回默认值：
+`env` 函数获取环境变量值或返回默认值：
 
     $env = env('APP_ENV');
 
@@ -772,7 +772,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
-`old` 函数[取得](/docs/{{version}}/requests#retrieving-input)快闪到 session 的旧有输入数值：
+`old` 函数[获取](/docs/{{version}}/requests#retrieving-input)快闪到 session 的旧有输入数值：
 
     $value = old('value');
 
@@ -786,7 +786,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
-`request` 函数取得目前的[请求](/docs/{{version}}/requests)实例或输入的项目：
+`request` 函数获取目前的[请求](/docs/{{version}}/requests)实例或输入的项目：
 
     $request = request();
 
@@ -804,7 +804,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-session"></a>
 #### `session()` {#collection-method}
 
-`session` 函数可被用于取得或设置单一 session 内容：
+`session` 函数可被用于获取或设置单一 session 内容：
 
     $value = session('key');
 
@@ -828,7 +828,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-view"></a>
 #### `view()` {#collection-method}
 
-`view` 函数取得[视图](/docs/{{version}}/views) 实例：
+`view` 函数获取[视图](/docs/{{version}}/views) 实例：
 
     return view('auth.login');
 

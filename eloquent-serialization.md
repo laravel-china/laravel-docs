@@ -102,7 +102,7 @@
     class User extends Model
     {
         /**
-         * 为用户取得管理者的标记。
+         * 为用户获取管理者的标记。
          *
          * @return bool
          */

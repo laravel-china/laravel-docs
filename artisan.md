@@ -5,7 +5,7 @@
     - [命令结构](#command-structure)
 - [命令的输入与输出](#command-io)
     - [定义预期的输入](#defining-input-expectations)
-    - [取得输入](#retrieving-input)
+    - [获取输入](#retrieving-input)
     - [为输入加上提示](#prompting-for-input)
     - [编写输出](#writing-output)
 - [注册命令](#registering-commands)
@@ -174,11 +174,11 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
                             {--queue= : 这个工作是否该进入队列}';
 
 <a name="retrieving-input"></a>
-### 取得输入
+### 获取输入
 
 我们可以通过调用 `argument` 及 `option` 方法来获取到用输入的参数和选项数据。
 
-使用 `argument` 方法来取得参数的值：
+使用 `argument` 方法来获取参数的值：
 
     /**
      * 命令行的处理逻辑
@@ -196,13 +196,13 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
 
     $arguments = $this->argument();
 
-而取得选项就跟参数一样简单，除了使用的方法变为 `option`。就像 `argument` 方法一样，你可以调用 `option` 不加任何参数，即可取得所有的
+而获取选项就跟参数一样简单，除了使用的方法变为 `option`。就像 `argument` 方法一样，你可以调用 `option` 不加任何参数，即可获取所有的
 选项并将之转为一个`数组`：
 
-    // 取得特定的选择
+    // 获取特定的选择
     $queueName = $this->option('queue');
 
-    // 取得所有选择
+    // 获取所有选择
     $options = $this->option();
 
 如果参数或选项不存在，将会返回 `null`。
