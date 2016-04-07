@@ -15,7 +15,7 @@
 
 扩展包是扩增功能到 Laravel 的主要方式。扩展包可以包含许多好用的功能，像 [Carbon](https://github.com/briannesbitt/Carbon) 用于处理时间，或像 [Behat](https://github.com/Behat/Behat) 这种完整的 BDD 测试框架。
 
-当然，有非常多不同类型的扩展包。有些扩展包是独立运作的，意思是指他们并不相依于任何框架，包括 Laravel。刚刚所提到的 Carbon 及 Behat 就是这种扩展包。要使用这种扩展包只需要在 `composer.json` 文件里引入它们即可。
+当然，有非常多不同类型的扩展包。有些扩展包是独立运作的，意思是指他们并不依赖于任何框架，包括 Laravel。刚刚所提到的 Carbon 及 Behat 就是这种扩展包。要使用这种扩展包只需要在 `composer.json` 文件里引入它们即可。
 
 另一方面，有些扩展包特别指定要与 Laravel 集成。这些扩展包可能包含路由、控制器、视图以及扩展包的相关设置，目标是增强 Laravel 本身的功能。这份指南里将主要以开发 Laravel 专属的扩展包为目标进行说明。
 

@@ -163,7 +163,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 ### Contracts
 
-所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其他的外部相依。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
+所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其他的外部依赖。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
 
 更多关于 contracts 的信息，参考[完整文档](/docs/{{version}}/contracts)。
 
@@ -405,7 +405,7 @@ Larvel Forge，一个网页应用程序，提供一个简单的接口去创建�
 
 ### Laravel Homestead
 
-Laravel Homestead 是一个为部署健全的 Laravel 和 PHP 应用程序的官方 Vagrant 环境。绝大多数的封装包的相依与软件在发布前已经部署处理完成，让封装包可以极快的被启用。Homestead 包含 Nginx 1.6、PHP 5.5.12、MySQL、Postres、Redis、Memcached、Beanstalk、Node、Gulp、Grunt 和 Bower。Homestead 包含一个简单的 `Homestead.yaml` 配置文件，让你在单一个封装包中管理多个 Laravel 应用程序。
+Laravel Homestead 是一个为部署健全的 Laravel 和 PHP 应用程序的官方 Vagrant 环境。绝大多数的封装包的依赖与软件在发布前已经部署处理完成，让封装包可以极快的被启用。Homestead 包含 Nginx 1.6、PHP 5.5.12、MySQL、Postres、Redis、Memcached、Beanstalk、Node、Gulp、Grunt 和 Bower。Homestead 包含一个简单的 `Homestead.yaml` 配置文件，让你在单一个封装包中管理多个 Laravel 应用程序。
 
 默认的 Laravel 4.2 安装中包含的 `app/config/local/database.php` 配置文件使用 Homestead 的数据库作为默认。让 Laravel 初始化安装与设置更为方便。
 
@@ -496,4 +496,4 @@ Laravel 4.1 拥有一个完全重新编写的路由层。API 一样不变。然�
 
 ### Doctrine DBAL
 
-如果你有在你的迁移中使用到 `renameColumn`，之后你必须在 `composer.json` 里加 `doctrine/dbal` 进相依扩展包中。此扩展包不再默认包含在 Laravel 之中。
+如果你有在你的迁移中使用到 `renameColumn`，之后你必须在 `composer.json` 里加 `doctrine/dbal` 进依赖扩展包中。此扩展包不再默认包含在 Laravel 之中。
