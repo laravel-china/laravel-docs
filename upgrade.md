@@ -22,7 +22,7 @@ Laravel 5.1.11 包含了对于[授权](/docs/{{version}}/authorization)及[授�
 
 #### 创建并注册 AuthServiceProvider 与 Gate Facade
 
-在你的 `app/Providers` 目录创建一个 `AuthServiceProvider`。你可以复制[从 GitHub](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php) 提供的默认内容。切记，如果你的应用程序使用自定的命名空间，请修改提供者的命名空间。在创建提供者之后，请务必在你的 `app.php` 配置文件的 `providers` 数组注册它。
+在你的 `app/Providers` 目录创建一个 `AuthServiceProvider`。你可以 [从 GitHub](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php) 获取此文件作为默认的内容，请注意，如果你的应用程序使用自定的命名空间的话，请修改提供者的命名空间。创建完成后，请务必在你的 `app.php` 配置文件的 `providers` 数组注册它。
 
 同样的，你必须在你的 `app.php` 配置文件的 `aliases` 数组注册 `Gate` facade：
 
@@ -30,7 +30,7 @@ Laravel 5.1.11 包含了对于[授权](/docs/{{version}}/authorization)及[授�
 
 #### 更新用户模型
 
-再来，在你的 `App\User` 模型使用 `Illuminate\Foundation\Auth\Access\Authorizable` trait 及 `Illuminate\Contracts\Auth\Access\Authorizable` contract：
+然后，在你的 `App\User` 模型使用 `Illuminate\Foundation\Auth\Access\Authorizable` trait 及 `Illuminate\Contracts\Auth\Access\Authorizable` contract：
 
     <?php
 
@@ -53,7 +53,7 @@ Laravel 5.1.11 包含了对于[授权](/docs/{{version}}/authorization)及[授�
 
 #### 更新基础控制器
 
-接着，更新你基础的 `App\Http\Controllers\Controller` 控制器，让它使用 `Illuminate\Foundation\Auth\Access\AuthorizesRequests` trait：
+接着，更新 `App\Http\Controllers\Controller` 基础控制器，让它使用 `Illuminate\Foundation\Auth\Access\AuthorizesRequests` trait：
 
     <?php
 
@@ -124,7 +124,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 #### `find` 方法
 
-如果你有在自己的模型中重写了 `find` 方法并在你的方法中调用了 `parent::find()`，你现在应该把它改成调用 Eloquent 查询语句构造器上的 `find` 方法：
+如果你在自己的模型中重写了 `find` 方法并在方法中调用了 `parent::find()`，现在则应该把它改成调用 Eloquent 查询语句构造器上的 `find` 方法：
 
     public static function find($id, $columns = ['*'])
     {
@@ -141,31 +141,31 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
     User::lists('id')->all();
 
-必须小心查询语句构造器的 `lists` 方法仍然是返回一个数组。
+请注意查询语句构造器的 `lists` 方法返回的是一个数组。
 
 #### 日期格式
 
-以前，Eloquent 日期字段的保存格式可以借由重写模型上的 `getDateFormat` 方法来修改。这仍然是可行的。然而，方便起见你可以直接在模型上指定 `$dateFormat` 属性来取代重写方法。
+以前，Eloquent 日期字段的保存格式可以借助重写模型上的 `getDateFormat` 方法来修改。现在仍然可以这么做。然而，为了方便起见你可以直接在模型上指定 `$dateFormat` 属性来取代重写方法。
 
-当序列化模型成 `array` 或 JSON 时，也会采用该日期格式。当从 Laravel 5.0 迁移到 5.1 时，这可能会改变你的 JSON 序列化的日期字段格式。要针对序列化模型设置特定的日期格式，你可以在你的模型上重写 `serializeDate(DateTime $date)` 方法。这个方法让你可以在不改变日期字段保存格式的情况下，精细的控制 Eloquent 序列化格式。
+当序列化模型成 `array` 或 JSON 时，也会采用该日期格式。当从 Laravel 5.0 迁移到 5.1 时，这可能会改变你的 JSON 序列化的日期字段格式。要想针对序列化模型设置特定的日期格式，你需要在你的模型上重写 `serializeDate(DateTime $date)` 方法。这个方法可以让你在不改变日期字段保存格式的情况下，精细的控制 Eloquent 序列化格式。
 
 ### 集合类
 
 #### `sort` 方法
 
-`sort` 方法现在返回全新的集合实例，而不是修改原有的集合：
+`sort` 方法现在会返回全新的集合实例，而不是修改原有的集合：
 
     $collection = $collection->sort($callback);
 
 #### `sortBy` 方法
 
-`sortBy` 方法现在返回一个全新的集合实例而不会去改动到既有的集合：
+`sortBy` 方法现在会返回一个全新的集合实例而不会去改动到现有的集合：
 
     $collection = $collection->sortBy('name');
 
 #### `groupBy` 方法
 
-`groupBy` 方法现在会返回 `Collection` 实例给在父 `Collection` 中的每一个元素。如果你想要把所有元素转换回一般数组，你可以通过 `map` 处理它们：
+`groupBy` 方法现在会返回 `Collection` 实例给父 `Collection` 的每一个元素。如果你想要把所有元素转换回一般数组，你可以通过 `map` 来处理：
 
     $collection->groupBy('type')->map(function($item)
     {
@@ -180,11 +180,11 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 ### 命令和处理进程
 
-`app/Commands` 目录已经被改名成 `app/Jobs`。然而，你不需要移动你所有的命令到新的位置，并且你可以继续用 `make:command` 和 `handler:command` Artisan 命令来生成你的类。
+`app/Commands` 目录已经被改名成 `app/Jobs`。然而你并不需要把所有的命令移动到新的位置，且可以继续用 `make:command` 和 `handler:command` Artisan 命令来生成类。
 
-同样地，`app/Handlers` 目录已经被改名成 `app/Listeners` 并且现在只包含事件监听者。然而，你不需要移动或重命名你既有的命令和事件处理进程，而且你可以继续使用 `handler:event` 命令来生成事件处理进程。
+`app/Handlers` 目录已经被改名成 `app/Listeners` 并且现在只包含事件监听者。不需要移动或重命名现有的命令和事件处理进程，并且可以继续使用 `handler:event` 命令来生成事件处理进程。
 
-借由提供对 Laravel 5.0 目录结构的向下兼容，你可以先升级你的应用程序到 Laravel 5.1，然后在你或你的团队方便的时候慢慢地升级你的事件跟命令到它们的新位置。
+借由 Laravel 5.0 目录结构提供的向下兼容性，你可以先升级你的应用程序到 Laravel 5.1，然后在你或你的团队方便的时候再慢慢地将你的事件跟命令升级到它们的新位置上。
 
 ### Blade
 
@@ -204,31 +204,31 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 如果你有使用 AWS SQS 队列驱动或 AWS SES 电子邮件驱动，你应该升级你安装的 AWS PHP SDK 到 3.0 版本。
 
-如果你有使用 Amazon S3 文件系统驱动，你将需要借由 Composer 更新对应的文件系统扩展包：
+如果你有使用 Amazon S3 文件系统驱动，你将需要借助 Composer 更新对应的文件系统扩展包：
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 
 ### 弃用的功能
 
-以下的 Laravel 功能已经被弃用并将会在 2015 十二月发布的 Laravel 5.2 中完全地移除：
+以下的 Laravel 功能已经被弃用， 并将会在 2015 十二月发布的 Laravel 5.2 中被完全移除：
 
 <div class="content-list" markdown="1">
-- 路由过滤器已经被弃用而偏好使用[中间件](/docs/{{version}}/middleware)。
+- 路由过滤器已经被弃用，转而使用[中间件](/docs/{{version}}/middleware)。
 - `Illuminate\Contracts\Routing\Middleware` contract 已经被弃用。你的中间件上不需要任何 contract。此外，`TerminableMiddleware` contract 也已经被弃用。不要实现接口，简单地定义一个 `terminate` 方法在你的中间件上就好。
 - `Illuminate\Contracts\Queue\ShouldBeQueued` contract 已经被弃用而用 `Illuminate\Contracts\Queue\ShouldQueue` 取代。
 - Iron.io 的「推送队列」已经被弃用而用一般的 Iron.io 队列和[队列监听者](/docs/{{version}}/queues#running-the-queue-listener)取代。
 - `Illuminate\Foundation\Bus\DispatchesCommands` trait 已经被弃用并改名成 `Illuminate\Foundation\Bus\DispatchesJobs`。
 - `Illuminate\Container\BindingResolutionException` 被移到 `Illuminate\Contracts\Container\BindingResolutionException`。
-- 服务容器的 `bindShared` 方法已经被弃用而用 `singleton` 方法取代。
-- Eloquent 和查询语句构造器的 `pluck` 方法已经被弃用并改名成 `value`。
-- 集合的 `fetch` 方法已经被弃用而用 `pluck` 方法取代。
-- `array_fetch` 辅助函数已经被弃用而用 `array_pluck` 方法取代。
+- 服务容器的 `bindShared` 方法已经被弃用，转而使用 `singleton` 方法取代。
+- Eloquent 和查询语句构造器的 `pluck` 方法已被弃用并改名为 `value`。
+- 集合的 `fetch` 方法已经被弃用，转而用 `pluck` 方法取代。
+- `array_fetch` 辅助函数已经被弃用，转而用 `array_pluck` 方法取代。
 </div>
 
 <a name="upgrade-5.0.16"></a>
 ## 升级到 5.0.16
 
-在你的 `bootstrap/autoload.php` 文件中，更新 `$compiledPath` 变量成：
+在你的 `bootstrap/autoload.php` 文件中，更新 `$compiledPath` 变量为：
 
     $compiledPath = __DIR__.'/../vendor/compiled.php';
 
@@ -237,39 +237,39 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 ### 全新安装，然后迁移
 
-推荐的升级方式是创建一个全新的 Laravel `5.0` 项目，然后复制你 `4.2` 网站特定的应用程序文件到此新的应用程序。这将包含控制器、路由、Eloquent 模型、Artisan 命令、资源文件，和其他专属于你的应用程序的代码。
+推荐的升级方式是创建一个全新的 Laravel `5.0` 项目，然后复制你 `4.2` 网站特定的应用程序文件到此新的应用程序。其中包含控制器、路由、Eloquent 模型、Artisan 命令、资源文件，和其他专属于你的应用程序代码。
 
-开始前，在你的本地环境中[安装一个新的 Laravel 5 应用程序](/docs/{{version}}/installation)到一个全新的目录中。不要安装超过 5.0 的任何版本，因为我们需要先完成迁移至 5.0 的步骤。我们将会在后面详细探讨各部分的迁移过程。
+开始前，请先在你的本地环境中[安装一个新的 Laravel 5 应用程序](/docs/{{version}}/installation)到一个全新的目录中。不要安装超过 5.0 的任何版本，因为我们需要先完成迁移至 5.0 的步骤。我们将会在后面详细探讨各部分的详细迁移过程。
 
-### Composer 相依与扩展包
+### Composer 依赖与扩展包
 
-别忘了复制任何额外的 Composer 相依扩展包到你的 5.0 应用程序内。这包含第三方代码，例如 SDKs。
+别忘了复制其它额外的 Composer 依赖扩展包到你的 5.0 应用程序内。其中包含如 SDKs 的第三方代码。
 
-部分 Laravel 专用扩展包也许不兼容于刚发布的 Laravel 5。请向扩展包的维护者确认该扩展包支持 Laravel 5 的版本。一旦你加入应用程序需要的任何额外 Composer 相依扩展包后，请运行 `composer update`。
+部分 Laravel 专用扩展包也许不兼容于刚发布的 Laravel 5。请向扩展包的维护者确认该扩展包支持 Laravel 5 的版本。在你添加完应用程序需要的所有额外 Composer 依赖后，请运行 `composer update`。
 
 ### 命名空间
 
-默认情况下，Laravel 4 应用程序 没有在应用程序的代码中使用命名空间。所以，举例来说，所有的 Eloquent 模型和控制器都简单地存在于「全局」的命名空间中。为了更快速的迁移，Laravel 5 也允许你可以将这些类一样保留在全局的命名空间。
+默认情况下，Laravel 4 应用程序不会在应用程序的代码中使用命名空间。如所有的 Eloquent 模型和控制器都简单地存在于「全局」的命名空间中。为了更快速的迁移，Laravel 5 也允许你将这些类继续保留在全局的命名空间内。
 
 ### 配置
 
 #### 迁移环境变量
 
-复制新的 `.env.example` 文件到 `.env`，在 `5.0` 这相当于原本的 `.env.php`。设置所有该有的设置值，像是 `APP_ENV` 和 `APP_KEY` (你的加密密钥)、数据库凭证、缓存驱动与 session 驱动。
+复制新的 `.env.example` 文件到 `.env`，在 `5.0` 中这相当于原本的 `.env.php`。在此设置合适的值，如 `APP_ENV` 和 `APP_KEY` (你的加密密钥)、数据库凭证、缓存驱动与 session 驱动。
 
-此外，将你原本的 `.env.php` 文件中自定义的设置值都复制并搬到 `.env` (本机环境的实际设置值) 和 `.env.example` (给其他团队成员的范本教程)。
+此外，将你原本的 `.env.php` 文件中自定义的设置值都复制并移到 `.env` (本机环境的实际设置值) 和 `.env.example` (给其他团队成员的范本教程)。
 
 更多关于环境配置的信息，请查看[完整文档](/docs/{{version}}/installation#environment-configuration)。
 
-> **注意：**在部署你的 Laravel 5 应用程序之前，你需要在正式主机上放置 `.env` 文件并设置适当的值。
+> **注意：**在部署你的 Laravel 5 应用程序之前，你需要先在正式主机上放置 `.env` 文件并给其设置好适当的值。
 
 #### 配置文件
 
-Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来提供对应该环境的配置文件。取而代之的是，将环境对应的各种设置值移到 `.env`，并接着借由 `env('key', 'default value')` 来取用在配置文件的值。你可以在 `config/database.php` 配置文件看到相关例子。
+Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来为指定环境提供配置文件。取而代之的是，将环境对应的各种设置值移到 `.env`，并接着借助 `env('key', 'default value')` 来获取配置文件的值。你可以在 `config/database.php` 配置文件中看到相关例子。
 
-将配置文件放在 `config/` 目录下，来代表所有环境共用的配置文件，或是在使用 `env()` 来取得对应该环境的设置值。
+将配置文件放在 `config/` 目录下，来代表所有环境共用的配置文件，或是在使用 `env()` 来获取对应该环境的设置值。
 
-请记住，如果你添加了其他的键值到 `.env` 文件中，同时也要加例子值到 `.env.example` 档。这将可以帮助其他团队成员创建他们自己的 `.env` 档。
+请记住，如果你添加了其他的键值到 `.env` 文件中，记得在 `.env.example` 文件内也要添加相对应的键值。这将可以帮助其他团队成员创建他们自己的 `.env` 文件。
 
 ### 路由
 
@@ -283,11 +283,11 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来提供�
 
 ### 路由过滤器
 
-将筛选逻辑绑定从 `app/filters.php` 复制到 `app/Providers/RouteServiceProvider.php` 的 `boot()` 方法。并在 `app/Providers/RouteServiceProvider.php` 添加 `use Illuminate\Support\Facades\Route;` 来继续使用 `Route` Facade。
+将过滤器逻辑绑定从 `app/filters.php` 复制到 `app/Providers/RouteServiceProvider.php` 的 `boot()` 方法。并在 `app/Providers/RouteServiceProvider.php` 添加 `use Illuminate\Support\Facades\Route;` 来继续使用 `Route` Facade。
 
-你不需要移动任何 Laravel 4.0 的默认过滤器，像是 `auth` 和 `csrf`。他们已经内置其中，只是换作以中间件形式出现。那些在路由或控制器内有使用到旧有默认过滤器  (例如，`['before' => 'auth']`) 请修改使用新的中间件 (例如，`['middleware' => 'auth']`)。
+你不需要移动任何 Laravel 4.0 中的默认过滤器，如 `auth` 和 `csrf`。他们已经内置其中，只是换作以中间件形式出现。那些在路由或控制器内有使用到旧有默认过滤器的 (例如，`['before' => 'auth']`) 请修改使用新的中间件 (例如，`['middleware' => 'auth']`)。
 
-过滤器在 Laravel 5 中没有被移除。你仍然可以绑定并借由 `before` 和 `after`使用你自己自定义的过滤器。
+过滤器在 Laravel 5 中没有被移除。你仍然可以绑定并借由 `before` 和 `after` 使用你自己自定义的过滤器。
 
 ### 全局 CSRF
 
@@ -299,13 +299,13 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来提供�
 
     'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
 
-现在你可以于路由内使用 `['middleware' => 'csrf']` 添加中间件到各别路由/控制器。要了解更多关于中间件的信息，请查看[完整文档](/docs/{{version}}/middleware)。
+现在你可以在路由内使用 `['middleware' => 'csrf']` 添加中间件到各个路由/控制器上。想要了解更多关于中间件的信息，请查看[完整文档](/docs/{{version}}/middleware)。
 
 ### Eloquent 模型
 
-你可以自由地创建一个新的 `app/Models` 目录来放置你的 Eloquent 模型。同样地，必须把这个目录加到 `composer.json` 文件的 `classmap` 属性。
+你可以随意创建一个新的 `app/Models` 目录来放置你的 Eloquent 模型。同样地，这个目录必须添加到 `composer.json` 文件的 `classmap` 属性中。
 
-更新任何现在有使用 `SoftDeletingTrait` 的模型改用 `Illuminate\Database\Eloquent\SoftDeletes`。
+将正在使用 `SoftDeletingTrait` 的模型更改为使用 `Illuminate\Database\Eloquent\SoftDeletes`。
 
 #### Eloquent 缓存
 
@@ -349,7 +349,7 @@ use Authenticatable, CanResetPassword;
 
 ### Cashier 的用户需要做的修改
 
-[Laravel Cashier](/docs/{{version}}/billing) 使用的 trait 和接口名称已作修改。trait 请改用 `Laravel\Cashier\Billable` 取代 `BillableTrait`。接口请实现 `Laravel\Cashier\Contracts\Billable` 取代 `Laravel\Cashier\BillableInterface`。不需要修改其他任何方法。
+[Laravel Cashier](/docs/{{version}}/billing) 使用的 trait 和接口名称已作修改。trait 请改用 `Laravel\Cashier\Billable` 取代 `BillableTrait`。接口实现请用 `Laravel\Cashier\Contracts\Billable` 取代 `Laravel\Cashier\BillableInterface`。不需要修改其他任何方法。
 
 ### Artisan 命令
 
@@ -375,7 +375,7 @@ use Authenticatable, CanResetPassword;
 
 ### Blade 标签修改
 
-基于安全考量，Laravel 5.0 会把所有 `{{ }}` and `{{{ }}}` Blade 标签的输出的特殊字符都进行转译。新的 `{!! !!}` 标签则被采用来显示原始未转译的输出。当你**有把握**显示原始输出是安全的话，升级你的应用程序最安全的方法是只使用新的 `{!! !!}` 标签。
+基于安全考量，Laravel 5.0 会把所有 `{{ }}` 和 `{{{ }}}` Blade 标签的输出的特殊字符都进行转译。新的 `{!! !!}` 标签则被采用来显示原始未转译的输出。当你**有足够把握**来保证显示的原始输出内容是安全的，那么升级你的应用程序的最安全方法是只使用新的 `{!! !!}` 标签。
 
 然而，如果你**必须**使用旧的 Blade 语法，请在  `AppServiceProvider@register` 的结尾加入以下几行：
 
@@ -385,7 +385,7 @@ use Authenticatable, CanResetPassword;
 \Blade::setEscapedContentTags('{{{', '}}}');
 ```
 
-你不该轻易的使用上述设置，这将使你的应用程序更加容易暴露于 XSS 攻击。而且用 `{{--` 注解将无法作用。
+上述设置你不该轻易使用，这将使你的应用程序更加容易遭受 XSS 攻击。而且用 `{{--` 注解将无法作用。
 
 ### 语系档
 
@@ -407,7 +407,7 @@ use Authenticatable, CanResetPassword;
 
 ### 表单和 HTML 辅助函数
 
-如果你使用表单或 HTML 辅助函数，你将会看到 `class 'Form' not found` 或 `class 'Html' not found` 的错误。表单和 HTML 辅助函数已经在 Laravel 5.0 中被弃用。然而，有些社区导向的替代品，例如：[Laravel Collective](http://laravelcollective.com/docs/{{version}}/html) 维护的这些。
+如果你使用表单或 HTML 辅助函数，你将会看到 `class 'Form' not found` 或 `class 'Html' not found` 的错误。表单和 HTML 辅助函数已经在 Laravel 5.0 中被弃用。然而，有些社区导向的替代品可供替代，例如：[Laravel Collective](http://laravelcollective.com/docs/{{version}}/html) 维护的这些。
 
 举例来说，你可以把 `"laravelcollective/html": "~5.0"` 添加到你的 `composer.json` 的 `require` 区块。
 
@@ -422,13 +422,13 @@ use Authenticatable, CanResetPassword;
 
 ### 缓存管理员
 
-如果你的代码有注入 `Illuminate\Cache\CacheManager` 来取得非 Facade 版本的 Laravel 缓存，请改成注入 `Illuminate\Contracts\Cache\Repository` 取代。
+如果你的代码有注入 `Illuminate\Cache\CacheManager` 来获取非 Facade 版本的 Laravel 缓存，请改成注入 `Illuminate\Contracts\Cache\Repository` 取代。
 
 ### 分页
 
-置换所有的 `$paginator->links()` 为 `$paginator->render()`。
+替换所有的 `$paginator->links()` 为 `$paginator->render()`。
 
-分别地置换所有的 `$paginator->getFrom()` 和 `$paginator->getTo()` 为 `$paginator->firstItem()` 和 `$paginator->lastItem()`。
+依次替换所有的 `$paginator->getFrom()` 和 `$paginator->getTo()` 为 `$paginator->firstItem()` 和 `$paginator->lastItem()`。
 
 从 `$paginator->getPerPage()`、`$paginator->getCurrentPage()`、`$paginator->getLastPage()` 和 `$paginator->getTotal()` 移除「get」前缀 (例如：`$paginator->perPage()`)。
 
@@ -461,7 +461,7 @@ Laravel 4.2 需要 PHP 5.4.0 或更高的版本。
 
 > **注意：**在 Laravel 4.2，默认的加密方法为 `MCRYPT_RIJNDAEL_128` (AES)，它认为是最安全的加密方法。必须将加密方法改回 `MCRYPT_RIJNDAEL_256` 来解密在 Laravel 4.1 以前版本下加密的 cookies 和值。
 
-### 现在使用 Traits 在可以软删除的模型上
+### 现在在可以软删除的模型上使用 Traits
 
 如果你有使用可以软删除的模型，`softDeletes` 属性已经被移除。现在你必须使用 `SoftDeletingTrait` 如下：
 
@@ -481,7 +481,7 @@ Laravel 4.2 需要 PHP 5.4.0 或更高的版本。
         protected $dates = ['deleted_at'];
     }
 
-而所有软删除的 API 使用方式维持相同。
+而所有软删除的 API 使用方式保持不变。
 
 > **注意：**`SoftDeletingTrait` 无法在模型基类下被使用。他必须用在一个实际的模型类。
 
@@ -511,7 +511,7 @@ Laravel 4.1.29 对于所有的数据库驱动加强了 column quoting 的部分�
 <a name="upgrade-4.1.26"></a>
 ## 从 4.1.25 以前版本升级到 4.1.26
 
-Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此更新之前，如果记得我 cookies 被恶意用户劫持，该 cookie 将还可以生存很长一段时间，即使真实的用户重设密码或者注销等等后还是一样。
+Laravel 4.1.26 针对「记得我」cookies 的安全性进行了更新。在此更新之前，如果一个 「记得我」cookie 被恶意用户劫持，该 cookie 在很长一段时间内仍然有效，即便真实的用户进行了重设密码或者注销等操作。
 
 此更动需要在你的 `users` (或同等的) 数据表中添加一个额外的 `remember_token` 字段。在更新之后，当用户每次登录你的应用程序将会被给予一个全新的 token。在用户注销应用程序后，这个 token 也会被更新。这个更新的影响为：如果一个「记得我」的 cookie 被劫持，只要用户注销应用程序该 cookie 将会失效。
 
@@ -551,19 +551,19 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
 <a name="upgrade-4.1"></a>
 ## 从 4.0 升级到 4.1
 
-### 升级你的 Composer 相依
+### 升级你的 Composer 依赖
 
-要升级你的应用程序至 Laravel 4.1，必须将你的 `composer.json` 里的 `laravel/framework` 版本更改至 `4.1.*`。
+要将你的应用程序升级至 Laravel 4.1，则必须将应用程序的 `composer.json` 里的 `laravel/framework` 版本更改至 `4.1.*`。
 
-### 置换文件
+### 文件替换
 
-置换你的 `public/index.php` 为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/public/index.php)。
+将你的 `public/index.php` 文件替换为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/public/index.php)。
 
-置换你的 `artisan` 为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/artisan)。
+将你的 `artisan` 文件替换为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/artisan)。
 
 ### 添加配置文件及选项
 
-更新你在 `app/config/app.php` 配置文件里的 `aliases` 和 `providers` 数组。而这些数组更新后的值可以在[这个文件](https://github.com/laravel/laravel/blob/v4.1.0/app/config/app.php)中找到。请确定有把你自己和扩展包的服务提供者与别名加回数组。
+更新 `app/config/app.php` 配置文件里的 `aliases` 和 `providers` 数组。这些数组更新后的值可以在[这个文件](https://github.com/laravel/laravel/blob/v4.1.0/app/config/app.php)中找到。请确保你自定义的 providers / aliases 和扩展包的 providers / aliases 都已添加回数组中。
 
 [从 repository](https://github.com/laravel/laravel/blob/v4.1.0/app/config/remote.php) 添加新的 `app/config/remote.php` 文件。
 
@@ -575,7 +575,7 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
         'database' => 'mysql', 'table' => 'failed_jobs',
     ],
 
-**(非必要)**  在你的 `app/config/view.php` 文件里，将 `pagination` 设置选项更新为 `pagination::slider-3`。
+**(可选的)**  在你的 `app/config/view.php` 文件里，将 `pagination` 设置选项更新为 `pagination::slider-3`。
 
 ### 控制器的修改
 
@@ -583,32 +583,32 @@ Laravel 4.1.26 采用了针对「记得我」cookies 的安全性更新。在此
 
 ### 密码提醒的修改
 
-密码提醒功能已经为了更大的弹性而大幅改进。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览[更新后的文档](/docs/security#password-reminders-and-reset)并相应地更新你的应用程序。
+密码提醒功能在大幅改进后已经具有更好的灵活性。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览 [更新后的文档](/docs/security#password-reminders-and-reset) 来相应更新你的应用程序。
 
 更新你的 `app/lang/en/reminders.php` 语系文件来对应[这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
 
 ### 环境侦测的修改
 
-为了安全因素，不再使用网域来侦测应用程序的环境。因为这些值很容易被伪造欺骗，继而让攻击者通过请求来修改环境。你必须改为使用机器的主机名称 (在 Mac、Linux 和 Windows 下运行 `hostname` 命令的值) 来侦测环境。
+为了安全因素，不再使用网址域名来侦测应用程序的环境。因为这些值很容易被伪造欺骗，继而让攻击者通过请求来修改环境。你必须改为使用机器的主机名称 (在 Mac、Linux 和 Windows 下运行 `hostname` 命令的值) 来侦测环境。
 
 ### 更简单的日志文件
 
-Laravel 目前只会产生单一的日志文件：`app/storage/logs/laravel.log`。然而，你还是可以在 `app/start/global.php` 文件作设置更改它的行为。
+Laravel 目前只会产生单一的日志文件：`app/storage/logs/laravel.log`。然而，你还是可以在 `app/start/global.php` 文件设置更改它的行为。
 
 ### 移除重定向向结尾的斜线
 
 在你的 `bootstrap/start.php` 文件中，移除对 `$app->redirectIfTrailingSlash()` 的调用。这个方法已经不再需要，因为这个功能现在已交由框架内的 `.htaccess` 文件来处理。
 
-然后，用[新的文件](https://github.com/laravel/laravel/blob/v4.1.0/public/.htaccess)置换掉你的 Apache `.htaccess`，来处理结尾的斜线。
+然后，用 [新的文件](https://github.com/laravel/laravel/blob/v4.1.0/public/.htaccess) 替换为 Apache 的 `.htaccess`，来处理结尾的斜线。
 
-### 取得目前路由
+### 获取目前路由
 
-目前路由现在通过 `Route::current()` 取得，而不是 `Route::getCurrentRoute()`。
+现在通过 `Route::current()` 获取当前路由，而不是 `Route::getCurrentRoute()`。
 
 ### Composer 更新
 
-一旦你完成以上的更新，你可以运行 `composer update` 功能来更新应用程序的核心文件！如果发生 class load 错误，试着运行 `update` 命令并加上 `--no-scripts` 选项，样这样：`composer update --no-scripts`。
+一旦你完成以上更新，则可以运行 `composer update` 功能来更新应用程序的核心文件！如果发生 class load 错误，试着运行 `update` 命令并加上 `--no-scripts` 选项，样就像这样：`composer update --no-scripts`。
 
 ### 通配符事件监听者
 
-通配符事件监听者不再添加事件为参数到你的处理函数。如果你需要寻找你触发的事件你应该用 `Event::firing()`。
+通配符事件监听者不再添加事件到你的处理函数参数上。如果你需要寻找触发的事件，则可用 `Event::firing()` 来触发。
