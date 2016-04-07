@@ -118,7 +118,7 @@
 
     php artisan make:controller PhotoController
 
-此 Artisan 命令会产生 `app/Http/Controllers/PhotoController.php` 控制器文件。此控制器会包含用来操作可取得的各种资源的方法。
+此 Artisan 命令会产生 `app/Http/Controllers/PhotoController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
 
 接下来，你可以在控制器中注册资源化路由：
 

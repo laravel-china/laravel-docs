@@ -108,7 +108,7 @@
 
     $user->save();
 
-如上面所述，在你的 `$dates` 属性中列出取得的属性，他们将自动转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，让你可以在你的属性上使用任何的 Carbon 方法：
+如上面所述，在你的 `$dates` 属性中列出获取到的属性，他们将自动转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，让你可以在你的属性上使用任何的 Carbon 方法：
 
     $user = App\User::find(1);
 

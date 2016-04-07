@@ -29,7 +29,7 @@
 
 默认的服务器设置对于开发应该是足够的。然而，你可以根据使用环境自由修改数组。只要给每个 Redis 一个名称，并且指定服务器使用的的 host 和 port。
 
-`cluster` 选项会让 Laravel 的 Redis 客户端在所有 Redis 节点间运行客户端分片（client-side sharding），让你创建节点池，并因此拥有大量的可用内存。但是请注意，客户端分片的节点不能运行容错转移；因此，此选项主要适用于可从另一台主要数据保存库取得的缓存数据。
+`cluster` 选项会让 Laravel 的 Redis 客户端在所有 Redis 节点间运行客户端分片（client-side sharding），让你创建节点池，并因此拥有大量的可用内存。但是请注意，客户端分片的节点不能运行容错转移；因此，此选项主要适用于可从另一台主要数据保存库获取到的缓存数据。
 
 此外，你可以在你的 Redis 连接中定义一个 `options` 数组值，让你指定一套 Predis 的[客户端选项](https://github.com/nrk/predis/wiki/Client-Options)。
 

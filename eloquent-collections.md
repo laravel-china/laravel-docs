@@ -7,7 +7,7 @@
 <a name="introduction"></a>
 ## 简介
 
-默认情况下 Eloquent 返回的都是一个 `Illuminate\Database\Eloquent\Collection` 对象的实例，包含经由 `get` 方法或是经由访问一个关联来取得的结果。Eloquent 集合对象继承了 Laravel [集合基类](/docs/{{version}}/collections)，所以它自然继承了许多可用于与 Eloquent 模型交互的方法。
+默认情况下 Eloquent 返回的都是一个 `Illuminate\Database\Eloquent\Collection` 对象的实例，包含经由 `get` 方法或是经由访问一个关联来获取到的结果。Eloquent 集合对象继承了 Laravel [集合基类](/docs/{{version}}/collections)，所以它自然继承了许多可用于与 Eloquent 模型交互的方法。
 
 当然，所有集合也可以作为迭代器，让你可以遍历集合像是一个简单的 PHP 数组：
 
