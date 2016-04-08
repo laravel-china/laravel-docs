@@ -424,6 +424,28 @@ Eloquent 会假设对应的关联的外键名称是基于模型名称。在这�
 
 `Photo` 模型的 `imageable` 关联会返回 `Staff` 或 `Product` 实例，这取决于照片所属模型的类型。
 
+#### 自定义多态关联的类型字段
+
+默认情况下，Laravel 会使用「包含命名空间的类名」作为多态表的类型区分，例如，`Post` 和 `Comment` 可以被 `Like`，`likable_type` 的值会是 `App\Post` 或 `App\Comment`。
+
+然而，你也可以选择自定义自己的「多态对照表」：
+
+    Relation::morphMap([
+        App\Post::class,
+        App\Comment::class,
+    ]);
+
+或者定义对应字段：
+
+    Relation::morphMap([
+        'posts' => App\Post::class,
+        'likes' => App\Like::class,
+    ]);
+
+> CJ: 可以使用 class_basename(App\Post::class) 来得到 `Post`
+
+你可以在 `AppServiceProvider` 中注册你的「多态对照表」，或者创建一个单独的提供者文件。
+
 <a name="many-to-many-polymorphic-relations"></a>
 ### 多态多对多关联
 
