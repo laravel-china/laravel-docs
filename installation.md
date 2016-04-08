@@ -14,7 +14,7 @@
 
 ### 运行环境要求
 
-Laravel 框架有一些系统上的需求，另外，推荐你使用 [Laravel Homestead](/docs/{{version}}/homestead) 来做开发环境的统一：
+Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel Homestead](/docs/{{version}}/homestead) 虚拟机上都已经完全配置好了：
 
 <div class="content-list" markdown="1">
 - PHP >= 5.5.9
@@ -29,7 +29,7 @@ Laravel 框架有一些系统上的需求，另外，推荐你使用 [Laravel Ho
 <a name="install-laravel"></a>
 ### 安装 Laravel
 
-Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以，在使用 Laravel 之前，你必须确认电脑上是否安装了 Composer。
+Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以，在使用 Laravel 之前，请先确认你的电脑上安装了 Composer。
 
 #### 通过 Laravel 安装工具
 
@@ -37,9 +37,9 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer global require "laravel/installer"
 
-请确定把 `~/.composer/vendor/bin` 路径放置于你的 PATH 里，这样你的系统才能找到 `laravel` 执行文件。
+请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH 里了，只有这样系统才能找到 `laravel` 的执行文件。
 
-一旦安装完成，就可以使用 `laravel new` 命令在指定的目录创建一份新安装的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个安装方法比通过 Composer 安装速度快上许多：
+一旦安装完成，就可以使用 `laravel new` 命令在指定的目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装快上许多：
 
     laravel new blog
 
@@ -65,11 +65,11 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
 #### 应用程序密钥
 
-在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥应该有 32 字符长。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你应该现在处理下。**如果应用程序密钥没有被设置的话，你的用户 Sessions 和其他的加密数据都是不安全的！**
+在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥应该有 32 字符长度。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你应该现在处理下。**如果应用程序密钥没有被设置的话，你的用户 Sessions 和其他的加密数据都是不安全的！**
 
 #### 其他设置
 
-Laravel 几乎不需设置就可以马上使用，但是建议你浏览 `config/app.php` 文件和对应的文档，它包含一些选项，如`时区`和`语言环境`，可以根据应你的用程序来做修改。
+Laravel 几乎不需设置就可以马上使用，但是建议你浏览 `config/app.php` 文件和对应的文档，它包含一些选项，如`时区`和`语言环境`，可以根据你的应用程序来做修改。
 
 你也可以设置 Laravel 的几个附加组件，像是：
 
@@ -77,7 +77,7 @@ Laravel 几乎不需设置就可以马上使用，但是建议你浏览 `config/
 - [数据库](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
 
-一旦 Laravel 安装完成，你应该同时[设置本机环境](/docs/{{version}}/installation#environment-configuration)。
+一旦 Laravel 安装完成，你应该立即[设置好本机环境](/docs/{{version}}/installation#environment-configuration)。
 
 <a name="pretty-urls"></a>
 #### 优雅链接
@@ -97,24 +97,24 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
 
 **Nginx**
 
-若使用 Nginx ，可以在你的网站设置中增加下面的设置，以开启「优雅链接」：
+若使用 Nginx，可以在你的网站设置中增加下面的设置，以开启「优雅链接」：
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-当然，如果你使用 [Homestead](/docs/{{version}}/homestead) 的话，优雅链式调用会自动的帮你设置完成。
+当然，如果你使用 [Homestead](/docs/{{version}}/homestead) 的话，将会自动的帮你设置好优雅链接。
 
 <a name="environment-configuration"></a>
 ### 环境配置
 
-应用程序常常需要根据不同的运行环境而有不同的设置值。例如，你会希望在你的本机开发环境上会有与正式环境不同的缓存驱动。只要通过配置文件，就可以轻松完成。
+应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在你的本机开发环境上有与正式环境不同的缓存驱动。只要通过配置文件，就可以轻松完成。
 
-Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在全新安装好的 Laravel 应用程序里，根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
+Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在全新安装好的 Laravel 应用程序里，在根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
 
 当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助方法 `env` 来获取这些变量的值。事实上，如果你阅读过 Laravel 的配置文件，你会注意到有几个选项已经在使用这个辅助方法！
 
-根据你的本机服务器或者正式环境需求，你可以自由的修改你的环境变量。但是，你的 `.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用你的应用程序时，可能需要不同的环境配置。
+根据你的本机服务器或者正式环境的需求，你可以自由的修改你的环境变量。但是，你的 `.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用你的应用程序时，可能需要不同的环境配置。
 
 如果你是一个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过例子配置文件里的预设值，你的团队中其他开发人员可以清楚地看到，在运行你的应用程序时，有哪些环境变量是必须的。
 
