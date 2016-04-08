@@ -134,7 +134,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-add"></a>
 #### `array_add()` {#collection-method .first-collection-method}
 
-如果给定的键不存在于该数组，`array_add` 函数将给定的键值对加到数组中：
+如果指定的键不存在于该数组，`array_add` 函数将指定的键值对加到数组中：
 
     $array = array_add(['name' => 'Desk'], 'price', 100);
 
@@ -172,7 +172,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-except"></a>
 #### `array_except()` {#collection-method}
 
-`array_except` 函数从数组移除给定的键值对：
+`array_except` 函数从数组移除指定的键值对：
 
     $array = ['name' => 'Desk', 'price' => 100];
 
@@ -211,7 +211,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-forget"></a>
 #### `array_forget()` {#collection-method}
 
-`array_forget` 函数以「点」式语法从深度嵌套数组移除给定的键值对：
+`array_forget` 函数以「点」式语法从深度嵌套数组移除指定的键值对：
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -222,7 +222,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-get"></a>
 #### `array_get()` {#collection-method}
 
-`array_get` 函数使用「点」式语法从深度嵌套数组取回给定的值：
+`array_get` 函数使用「点」式语法从深度嵌套数组取回指定的值：
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -237,7 +237,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-has"></a>
 #### `array_has()` {#collection-method}
 
-`array_has` 函数使用「点」式语法检查给定的项目是否存在于数组中：
+`array_has` 函数使用「点」式语法检查指定的项目是否存在于数组中：
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -248,7 +248,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-only"></a>
 #### `array_only()` {#collection-method}
 
-`array_only` 函数从数组返回给定的键值对：
+`array_only` 函数从数组返回指定的键值对：
 
     $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
 
@@ -259,7 +259,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-pluck"></a>
 #### `array_pluck()` {#collection-method}
 
-`array_pluck` 函数从数组拉出一列给定的键值对：
+`array_pluck` 函数从数组拉出一列指定的键值对：
 
     $array = [
         ['developer' => ['id' => 1, 'name' => 'Taylor']],
@@ -279,7 +279,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-pull"></a>
 #### `array_pull()` {#collection-method}
 
-`array_pull` 函数从数组移除并返回给定的键值对：
+`array_pull` 函数从数组移除并返回指定的键值对：
 
     $array = ['name' => 'Desk', 'price' => 100];
 
@@ -303,7 +303,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-sort"></a>
 #### `array_sort()` {#collection-method}
 
-`array_sort` 函数借由给定闭包结果排序数组：
+`array_sort` 函数借由指定闭包结果排序数组：
 
     $array = [
         ['name' => 'Desk'],
@@ -359,7 +359,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-where"></a>
 #### `array_where()` {#collection-method}
 
-`array_where` 函数使用给定的闭包过滤数组：
+`array_where` 函数使用指定的闭包过滤数组：
 
     $array = [100, '200', 300, '400', 500];
 
@@ -372,7 +372,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-head"></a>
 #### `head()` {#collection-method}
 
-`head` 函数返回给定数组的第一个元素：
+`head` 函数返回指定数组的第一个元素：
 
     $array = [100, 200, 300];
 
@@ -383,7 +383,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-last"></a>
 #### `last()` {#collection-method}
 
-`last` 函数返回给定数组的最后一个元素：
+`last` 函数返回指定数组的最后一个元素：
 
     $array = [100, 200, 300];
 
@@ -401,7 +401,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $path = app_path();
 
-你同样可以使用 `app_path` 函数产生针对给定文件相对于 app 目录的完整路径：
+你同样可以使用 `app_path` 函数产生针对指定文件相对于 app 目录的完整路径：
 
     $path = app_path('Http/Controllers/Controller.php');
 
@@ -412,7 +412,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $path = base_path();
 
-你同样可以使用 `base_path` 函数产生针对给定文件相对于项目根目录的完整路径：
+你同样可以使用 `base_path` 函数产生针对指定文件相对于项目根目录的完整路径：
 
     $path = base_path('vendor/bin');
 
@@ -451,7 +451,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $path = storage_path();
 
-你同样可以使用 `storage_path` 函数产生针对给定文件相对于 storage 目录的完整路径：
+你同样可以使用 `storage_path` 函数产生针对指定文件相对于 storage 目录的完整路径：
 
     $path = storage_path('app/file.txt');
 
@@ -461,7 +461,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-camel-case"></a>
 #### `camel_case()` {#collection-method}
 
-`camel_case` 函数会将给定的字符串转换成 `驼峰式命名`：
+`camel_case` 函数会将指定的字符串转换成 `驼峰式命名`：
 
     $camel = camel_case('foo_bar');
 
@@ -479,7 +479,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-`e` 函数对给定字符串运行 `htmlentities`：
+`e` 函数对指定字符串运行 `htmlentities`：
 
     echo e('<html>foo</html>');
 
@@ -488,7 +488,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-ends-with"></a>
 #### `ends_with()` {#collection-method}
 
-`ends_with` 函数判断给定字符串结尾是否为指定内容：
+`ends_with` 函数判断指定字符串结尾是否为指定内容：
 
     $value = ends_with('This is my name', 'name');
 
@@ -497,7 +497,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-snake-case"></a>
 #### `snake_case()` {#collection-method}
 
-`snake_case` 函数会将给定的字符串转换成 `蛇形命名`：
+`snake_case` 函数会将指定的字符串转换成 `蛇形命名`：
 
     $snake = snake_case('fooBar');
 
@@ -515,7 +515,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-starts-with"></a>
 #### `starts_with()` {#collection-method}
 
-`starts_with` 函数判断字符串开头是否为给定内容：
+`starts_with` 函数判断字符串开头是否为指定内容：
 
     $value = starts_with('This is my name', 'This');
 
@@ -524,7 +524,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}
 
-`str_contains` 函数判断给定字符串是否包含指定内容：
+`str_contains` 函数判断指定字符串是否包含指定内容：
 
     $value = str_contains('This is my name', 'my');
 
@@ -533,7 +533,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-`str_finish` 函数添加给定内容到字符串结尾：
+`str_finish` 函数添加指定内容到字符串结尾：
 
     $string = str_finish('this/string', '/');
 
@@ -542,7 +542,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-is"></a>
 #### `str_is()` {#collection-method}
 
-`str_is` 函数判断给定的字符串与给定的格式是否符合。星号可作为通配符使用：
+`str_is` 函数判断指定的字符串与指定的格式是否符合。星号可作为通配符使用：
 
     $value = str_is('foo*', 'foobar');
 
@@ -578,7 +578,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-random"></a>
 #### `str_random()` {#collection-method}
 
-`str_random` 函数产生给定长度的随机字符串：
+`str_random` 函数产生指定长度的随机字符串：
 
     $string = str_random(40);
 
@@ -594,7 +594,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-slug"></a>
 #### `str_slug()` {#collection-method}
 
-`str_slug` 函数从给定字符串产生网址友善的「slug」：
+`str_slug` 函数从指定字符串产生网址友善的「slug」：
 
     $title = str_slug("Laravel 5 Framework", "-");
 
@@ -603,7 +603,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-studly-case"></a>
 #### `studly_case()` {#collection-method}
 
-`studly_case` 函数将给定字符串转换成 `首字大写命名`：
+`studly_case` 函数将指定字符串转换成 `首字大写命名`：
 
     $value = studly_case('foo_bar');
 
@@ -612,14 +612,14 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
-`trans` 函数根据你的[本地化文件](/docs/{{version}}/localization)翻译给定的语句：
+`trans` 函数根据你的[本地化文件](/docs/{{version}}/localization)翻译指定的语句：
 
     echo trans('validation.required'):
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
-`trans_choice` 函数根据后缀变化翻译给定的语句：
+`trans_choice` 函数根据后缀变化翻译指定的语句：
 
     $value = trans_choice('foo.bar', $count);
 
@@ -629,7 +629,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-`action` 函数产生给定控制器行为网址。你不需要输入该控制器的完整命名空间。作为替代，请输入基于 `App\Http\Controllers` 命名空间的控制器类名称：
+`action` 函数产生指定控制器行为网址。你不需要输入该控制器的完整命名空间。作为替代，请输入基于 `App\Http\Controllers` 命名空间的控制器类名称：
 
     $url = action('HomeController@getIndex');
 
@@ -654,7 +654,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-route"></a>
 #### `route()` {#collection-method}
 
-`route` 函数产生给定路由名称网址：
+`route` 函数产生指定路由名称网址：
 
     $url = route('routeName');
 
@@ -665,7 +665,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-url"></a>
 #### `url()` {#collection-method}
 
-`url` 函数产生给定路径的完整网址：
+`url` 函数产生指定路径的完整网址：
 
     echo url('user/profile');
 
@@ -691,14 +691,14 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-bcrypt"></a>
 #### `bcrypt()` {#collection-method}
 
-`bcrypt` 函数使用 Bcrypt 哈希给定的数值。你可以使用它替代 `Hash` facade：
+`bcrypt` 函数使用 Bcrypt 哈希指定的数值。你可以使用它替代 `Hash` facade：
 
     $password = bcrypt('my-secret-password');
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
-`collect` 函数从给定的项目产生[集合](/docs/{{version}}/collections)实例：
+`collect` 函数从指定的项目产生[集合](/docs/{{version}}/collections)实例：
 
     $collection = collect(['taylor', 'abigail']);
 
@@ -711,7 +711,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $value = config('app.timezone', $default);
 
-`config` 辅助方法也可以在运行期间，根据给定的键值对指定设置值：
+`config` 辅助方法也可以在运行期间，根据指定的键值对指定设置值：
 
     config(['app.debug' => true]);
 
@@ -732,7 +732,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-dd"></a>
 #### `dd()` {#collection-method}
 
-`dd` 函数输出给定变量并结束脚本运行：
+`dd` 函数输出指定变量并结束脚本运行：
 
     dd($value);
 
@@ -749,14 +749,14 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
-`event` 函数配送给定[事件](/docs/{{version}}/events)到所属的侦听器：
+`event` 函数配送指定[事件](/docs/{{version}}/events)到所属的侦听器：
 
     event(new UserRegistered($user));
 
 <a name="method-factory"></a>
 #### `factory()` {#collection-method}
 
-`factory` 函数根据给定类、名称以及总数产生模型工厂建构器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
+`factory` 函数根据指定类、名称以及总数产生模型工厂建构器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
 
     $user = factory(App\User::class)->make();
 
@@ -821,7 +821,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-value"></a>
 #### `value()` {#collection-method}
 
-`value` 函数返回给定数值。而当你传递一个 `闭包` 给该函数，该 `闭包` 将被运行并返回结果：
+`value` 函数返回指定数值。而当你传递一个 `闭包` 给该函数，该 `闭包` 将被运行并返回结果：
 
     $value = value(function() { return 'bar'; });
 
@@ -835,6 +835,6 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-with"></a>
 #### `with()` {#collection-method}
 
-`with` 函数返回给定的数值。该函数主要用于链式调用回所保存的 seesion 内容，除此之外不太可能用到：
+`with` 函数返回指定的数值。该函数主要用于链式调用回所保存的 seesion 内容，除此之外不太可能用到：
 
     $value = with(new Foo)->work();

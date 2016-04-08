@@ -212,7 +212,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
     class UserController extends Controller
     {
         /**
-         * 显示给定用户的基本数据
+         * 显示指定用户的基本数据
          *
          * @param  int  $userId
          * @param  int  $podcastId

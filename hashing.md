@@ -51,7 +51,7 @@ Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密�
 
 #### 根据哈希值验证密码
 
-`check` 方法允许你通过一个给定的纯字符串跟哈希值进行验证。如果你目前正使用 [Laravel 内含的](/docs/{{version}}/authentication) `AuthController`，你可能不需要直接使用该方法，它已经包含在控制器当中并且自动调用。
+`check` 方法允许你通过一个指定的纯字符串跟哈希值进行验证。如果你目前正使用 [Laravel 内含的](/docs/{{version}}/authentication) `AuthController`，你可能不需要直接使用该方法，它已经包含在控制器当中并且自动调用。
 
     if (Hash::check('plain-text', $hashedPassword)) {
         // The passwords match...

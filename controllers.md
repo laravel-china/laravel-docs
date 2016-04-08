@@ -36,7 +36,7 @@
     class UserController extends Controller
     {
         /**
-         * 显示给定用户的个人数据。
+         * 显示指定用户的个人数据。
          *
          * @param  int  $id
          * @return Response

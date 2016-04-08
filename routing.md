@@ -177,7 +177,7 @@
 
     $redirect = redirect()->route('profile');
 
-如果路由定义了参数，那么你可以把参数作为第二个参数传递给 `route` 方法。给定的参数将自动加入到 URL 中：
+如果路由定义了参数，那么你可以把参数作为第二个参数传递给 `route` 方法。指定的参数将自动加入到 URL 中：
 
     Route::get('user/{id}/profile', ['as' => 'profile', function ($id) {
         //
@@ -239,7 +239,7 @@
 <a name="route-group-prefixes"></a>
 ### 路由前缀
 
-通过路由群组数组属性中的 `prefix`，在路由群组内为每个路由给定的 URI 加上前缀。例如，你可能想要在路由群组中将所有的路由 URIs 加上前缀 `admin`：
+通过路由群组数组属性中的 `prefix`，在路由群组内为每个路由指定的 URI 加上前缀。例如，你可能想要在路由群组中将所有的路由 URIs 加上前缀 `admin`：
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('users', function ()    {
@@ -325,9 +325,9 @@ Laravel 也会在 `XSRF-TOKEN` cookie 中保存 CSRF token。你也可以使用 
 <a name="route-model-binding"></a>
 ## 路由模型绑定
 
-Laravel 路由模型绑定提供了一个方便的方式来注入类实例到你的路由中。例如，除了注入一个用户的 ID，你也可以注入与给定 ID 相符的完整 `User` 类实例。
+Laravel 路由模型绑定提供了一个方便的方式来注入类实例到你的路由中。例如，除了注入一个用户的 ID，你也可以注入与指定 ID 相符的完整 `User` 类实例。
 
-首先，使用路由的 `model` 方法为给定参数指定类。必须在 `RouteServiceProvider::boot` 方法中定义你的模型绑定：
+首先，使用路由的 `model` 方法为指定参数指定类。必须在 `RouteServiceProvider::boot` 方法中定义你的模型绑定：
 
 #### 绑定参数至模型
 

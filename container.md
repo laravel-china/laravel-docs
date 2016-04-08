@@ -79,7 +79,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
 #### 绑定实例
 
-你也可以使用 `instance` 方法，绑定一个已经存在的对象实例至容器中。尔后的调用都会从容器中返回给定的实例：
+你也可以使用 `instance` 方法，绑定一个已经存在的对象实例至容器中。尔后的调用都会从容器中返回指定的实例：
 
     $fooBar = new FooBar(new SomethingElse);
 
@@ -88,7 +88,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 <a name="binding-interfaces-to-implementations"></a>
 ### 绑定接口至实现
 
-服务容器有个非常强大的特色，就是能够将给定的实现绑定至接口的功能。举个例子，让我们假设我们有个 `EventPusher` 接口及一个 `RedisEventPusher` 实现。一旦我们编写完该接口的 `RedisEventPusher` 实现，就可以如下将它注册至服务容器：
+服务容器有个非常强大的特色，就是能够将指定的实现绑定至接口的功能。举个例子，让我们假设我们有个 `EventPusher` 接口及一个 `RedisEventPusher` 实现。一旦我们编写完该接口的 `RedisEventPusher` 实现，就可以如下将它注册至服务容器：
 
     $this->app->bind('App\Contracts\EventPusher', 'App\Services\RedisEventPusher');
 
@@ -186,7 +186,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         }
 
         /**
-         * 显示给定 ID 的用户。
+         * 显示指定 ID 的用户。
          *
          * @param  int  $id
          * @return Response

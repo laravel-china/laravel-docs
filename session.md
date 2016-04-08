@@ -73,7 +73,7 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
     class UserController extends Controller
     {
         /**
-         * 显示给定用户的个人文件。
+         * 显示指定用户的个人文件。
          *
          * @param  Request  $request
          * @param  int  $id

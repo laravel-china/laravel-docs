@@ -267,7 +267,7 @@ elixir(function(mix) {
 });
 ```
 
-如果你想合并给定目录中的所有脚本，你可以使用 `scriptsIn` 方法。产生的 JavaScript 会被放置在 `public/js/all.js`：
+如果你想合并指定目录中的所有脚本，你可以使用 `scriptsIn` 方法。产生的 JavaScript 会被放置在 `public/js/all.js`：
 
 ```javascript
 elixir(function(mix) {

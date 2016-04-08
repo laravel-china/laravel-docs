@@ -50,7 +50,7 @@
 	    }
 	}
 
-注意，我们并不会检查当给定的 `$user` 不是 `NULL`，未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为**所有权限**返回 `false`。
+注意，我们并不会检查当指定的 `$user` 不是 `NULL`，未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为**所有权限**返回 `false`。
 
 #### 基于类的权限
 
@@ -98,7 +98,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新给定的文章。
+         * 更新指定的文章。
          *
          * @param  int  $id
          * @return Response
@@ -119,7 +119,7 @@
 
 #### 检查指定用户的权限
 
-如果你想检查 **除了当前登录用户外的其他用户** 是否有给定的权限，你可以使用 `forUser` 方法来指定：
+如果你想检查 **除了当前登录用户外的其他用户** 是否有指定的权限，你可以使用 `forUser` 方法来指定：
 
 	if (Gate::forUser($user)->allows('update-post', $post)) {
 		//
@@ -155,7 +155,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新给定的文章。
+         * 更新指定的文章。
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  int  $id
@@ -182,7 +182,7 @@
 <a name="within-blade-templates"></a>
 ### 使用 Blade 模板
 
-在 Blade 模板中，你还可以使用 `@can` 命令来快速检查当前登录用户是否有给定的权限。例如：
+在 Blade 模板中，你还可以使用 `@can` 命令来快速检查当前登录用户是否有指定的权限。例如：
 
 	<a href="/post/{{ $post->id }}">查看文章</a>
 
@@ -265,7 +265,7 @@
 <a name="writing-policies"></a>
 ### 编写授权策略
 
-一旦授权策略被产生且注册，我们可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断给定的 `User` 是否可以「更新」一条 `Post`：
+一旦授权策略被产生且注册，我们可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断指定的 `User` 是否可以「更新」一条 `Post`：
 
 	<?php
 
@@ -277,7 +277,7 @@
 	class PostPolicy
 	{
 		/**
-		 * 判断给定的文章是否可以被该用户更新。
+		 * 判断指定的文章是否可以被该用户更新。
 		 *
 		 * @param  \App\User  $user
 		 * @param  \App\Post  $post
@@ -327,7 +327,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新给定的文章。
+         * 更新指定的文章。
          *
          * @param  int  $id
          * @return Response
@@ -346,7 +346,7 @@
 
 #### 通过用户模型
 
-`User` 模型的 `can` 与 `cannot` 方法也会自动采用给定参数可用的授权策略。此方法提供一个简单的方式在应用程序中为任何获取到的 `User` 实例授权行为：
+`User` 模型的 `can` 与 `cannot` 方法也会自动采用指定参数可用的授权策略。此方法提供一个简单的方式在应用程序中为任何获取到的 `User` 实例授权行为：
 
 	if ($user->can('update', $post)) {
 		//
@@ -358,7 +358,7 @@
 
 #### 使用 Blade 模板
 
-同样的，`@can` Blade 命令会采用给定参数可用的授权。
+同样的，`@can` Blade 命令会采用指定参数可用的授权。
 
 	@can('update', $post)
 		<!-- 目前的用户可以更新文章 -->
@@ -366,7 +366,7 @@
 
 #### 通过授权策略辅助方法
 
-全局的 `policy` 辅助函数可以被用于为给定的类实例获取 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，获取对应的 `PostPolicy` 类实例：
+全局的 `policy` 辅助函数可以被用于为指定的类实例获取 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，获取对应的 `PostPolicy` 类实例：
 
 	if (policy($post)->update($user, $post)) {
 		//
@@ -375,7 +375,7 @@
 <a name="controller-authorization"></a>
 ## 控制器授权
 
-默认的，`App\Http\Controllers\Controller` 类包含了 Laravel 使用的 `AuthorizesRequests` trait。此 trait 提供了 `authorize` 方法，它可以被用于快速授权一个给定的行为，当无权限运行该行为时会抛出 `HttpException`。
+默认的，`App\Http\Controllers\Controller` 类包含了 Laravel 使用的 `AuthorizesRequests` trait。此 trait 提供了 `authorize` 方法，它可以被用于快速授权一个指定的行为，当无权限运行该行为时会抛出 `HttpException`。
 
 `authorize` 方法与其他授权方法共用了同样的特征，像是 `Gate::allows` 与 `$user->can()`。所以，让我们使用 `authorize` 方法来快速授权一个请求以更新一条 `Post`：
 
@@ -389,7 +389,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新给定的文章。
+         * 更新指定的文章。
          *
          * @param  int  $id
          * @return Response
@@ -417,7 +417,7 @@
 因此，Laravel 让你能够简单的传递实例参数至 `authorize` 方法，基于被调用的函数名称，自动判断出应该授权的权限。在本例中，因为 `authorize` 被控制器的 `update` 方法调用，所以也会调用 `PostPolicy` 中的 `update` 方法：
 
     /**
-     * 更新给定的文章。
+     * 更新指定的文章。
      *
      * @param  int  $id
      * @return Response

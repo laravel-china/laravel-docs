@@ -195,7 +195,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 分块结果
 
-如果你需要处理上千笔 Eloquent 查找结果，可以使用 `chunk` 命令。`chunk` 方法将会获取一个 Eloquent 模型的「分块」，将它们送到给定的 `闭包 (Closure)` 进行处理。当你在处理大量的结果时，使用 `chunk` 方法可以节省内存：
+如果你需要处理上千笔 Eloquent 查找结果，可以使用 `chunk` 命令。`chunk` 方法将会获取一个 Eloquent 模型的「分块」，将它们送到指定的 `闭包 (Closure)` 进行处理。当你在处理大量的结果时，使用 `chunk` 方法可以节省内存：
 
     Flight::chunk(200, function ($flights) {
         foreach ($flights as $flight) {
@@ -208,7 +208,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 <a name="retrieving-single-models"></a>
 ## 取回单一模型／集合
 
-当然，除了从给定的数据表取回所有记录，你也可以通过 `find` 和 `first` 取回单一的记录。这些方法返回单一模型的实例，而不是返回模型的集合：
+当然，除了从指定的数据表取回所有记录，你也可以通过 `find` 和 `first` 取回单一的记录。这些方法返回单一模型的实例，而不是返回模型的集合：
 
     // 借由主键取回一个模型...
     $flight = App\Flight::find(1);
@@ -288,7 +288,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     $flight->save();
 
-也可以针对符合给定查找的任意数量模型运行更新。在这个例子中，所有 `active` 并且 `destination` 为 `San Diego` 的航班，将会被标示为延迟：
+也可以针对符合指定查找的任意数量模型运行更新。在这个例子中，所有 `active` 并且 `destination` 为 `San Diego` 的航班，将会被标示为延迟：
 
     App\Flight::where('active', 1)
               ->where('destination', 'San Diego')
@@ -347,9 +347,9 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### 其他创建的方法
 
-还有两种其他方法，你可以用来通过属性批量赋值创建你的模型：`firstOrCreate` 和 `firstOrNew`。`firstOrCreate` 方法将会使用给定的字段／值对，来尝试寻找数据库中的记录。如果在数据库找不到模型，将会用给定的属性来添加一条记录。
+还有两种其他方法，你可以用来通过属性批量赋值创建你的模型：`firstOrCreate` 和 `firstOrNew`。`firstOrCreate` 方法将会使用指定的字段／值对，来尝试寻找数据库中的记录。如果在数据库找不到模型，将会用指定的属性来添加一条记录。
 
-`firstOrNew` 方法类似 `firstOrCreate`，会尝试使用给定的属性在数据库中寻找符合的纪录。然而，假设找不到模型，将会返回一个新的模型实例。请注意 `firstOrnew` 返回的模型还尚未保存到数据库。你需要通过手动调用 `save` 方法来保存它：
+`firstOrNew` 方法类似 `firstOrCreate`，会尝试使用指定的属性在数据库中寻找符合的纪录。然而，假设找不到模型，将会返回一个新的模型实例。请注意 `firstOrnew` 返回的模型还尚未保存到数据库。你需要通过手动调用 `save` 方法来保存它：
 
     // 用属性取回航班，或如果不存在则创建它...
     $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
@@ -414,7 +414,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 现在，当你在模型上调用 `delete` 方法，`deleted_at` 字段将会被设置成目前的日期和时间。而且，当查找有启用软删除的模型时，被软删除的模型将会自动从所有的查找结果中排除。
 
-要确认给定的模型实例是否已经被软删除，可以使用 `trashed` 方法：
+要确认指定的模型实例是否已经被软删除，可以使用 `trashed` 方法：
 
     if ($flight->trashed()) {
         //
@@ -542,7 +542,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
     class User extends Model
     {
         /**
-         * 限制查找只包括给定类型的用户。
+         * 限制查找只包括指定类型的用户。
          *
          * @return \Illuminate\Database\Eloquent\Builder
          */
@@ -566,7 +566,7 @@ Eloquent 模型会触发许多事件，让你可以借由以下的方法，在�
 
 当一个新模型初次被保存，将会触发 `creating` 以及 `created` 事件。如果一个模型已经存在于数据库而且调用了 `save` 方法，将会触发 `updating` 和 `updated` 事件。然而，在这两个状况下，都将会触发 `saving` 和 `saved` 事件。
 
-例如，让我们来在[服务提供者](/docs/{{version}}/providers)中定义一个 Eloquent 事件侦听器。在我们的事件侦听器中，我们会在给定的模型上调用 `isValid` 方法，并在模型无效的时候返回 `false`。从 Eloquent 事件侦听器返回 `false` 会取消 `save` 和 `update` 的操作：
+例如，让我们来在[服务提供者](/docs/{{version}}/providers)中定义一个 Eloquent 事件侦听器。在我们的事件侦听器中，我们会在指定的模型上调用 `isValid` 方法，并在模型无效的时候返回 `false`。从 Eloquent 事件侦听器返回 `false` 会取消 `save` 和 `update` 的操作：
 
     <?php
 
