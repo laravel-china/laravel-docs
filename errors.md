@@ -75,7 +75,7 @@ Laravel 提供立即可用的 `single`、`daily`、`syslog` 和 `errorlog` 日�
 <a name="render-method"></a>
 ### 呈现方法
 
-`render` 方法负责将给定的异常转换成 HTTP 回应再发送到浏览器。默认情况下，异常会被发送到基类并帮你产生回应。然而，你可以自由的检查异常类型或返回自定义的回应：
+`render` 方法负责将指定的异常转换成 HTTP 回应再发送到浏览器。默认情况下，异常会被发送到基类并帮你产生回应。然而，你可以自由的检查异常类型或返回自定义的回应：
 
     /**
      * 呈现异常到 HTTP 回应。
@@ -129,7 +129,7 @@ Laravel 日志工具在强大的 [Monolog](http://github.com/seldaek/monolog) �
     class UserController extends Controller
     {
         /**
-         * 显示给定用户的个人数据。
+         * 显示指定用户的个人数据。
          *
          * @param  int  $id
          * @return Response

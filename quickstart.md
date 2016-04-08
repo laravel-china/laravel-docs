@@ -292,7 +292,7 @@
 
 #### `$errors` 变量
 
-让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过给定的验证器实例将错误消息快闪至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
+让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过指定的验证器实例将错误消息快闪至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
 
 记得我们在视图中使用了 `@include('common.errors')` 命令来渲染表单的验证错误消息。`common.errors` 让我们可以简单的在我们所有的页面显示相同格式的验证错误消息。现在让我们定义此视图的内容：
 
@@ -437,7 +437,7 @@
 <a name="deleting-the-task"></a>
 ### 删除该任务
 
-最后，让我们增加实际删除给定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 获取模型，当该模型不存在时则会抛出 404 异常。一旦我们获取模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
+最后，让我们增加实际删除指定任务的逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 获取模型，当该模型不存在时则会抛出 404 异常。一旦我们获取模型，我们将使用 `delete` 方法来删除该笔记录。只要该记录被删除，我们会将用户重定向回 `/` URL：
 
 	Route::delete('/task/{id}', function ($id) {
 		Task::findOrFail($id)->delete();

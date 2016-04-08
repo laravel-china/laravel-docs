@@ -434,7 +434,7 @@
 
 如果你跟随过[基本快速入门](/docs/{{version}}/quickstart)，你会注意到验证的代码相比起来有些不同！因为我们在控制器内，所以我们可以利用 Laravel 基底控制器所包含方便的 `ValidatesRequests` trait。这个 trait 提供了一个简单的 `validate` 方法，它接收一个请求与包含验证规则的数组。
 
-我们不必再手动判断当验证失败时需手动重定向。如果给定的规则验证失败，用户会自动被重定向回原本的位置，并自动将错误消息快闪至 session 中。很好！
+我们不必再手动判断当验证失败时需手动重定向。如果指定的规则验证失败，用户会自动被重定向回原本的位置，并自动将错误消息快闪至 session 中。很好！
 
 #### `$errors` 变量
 
@@ -465,7 +465,7 @@
 
 现在输入已经被验证处理完毕。让我们继续填写我们的路由来实际的创建一条新的任务。一旦新的任务被创建后，我们会将用户重定向回 `/tasks` URL。要创建该任务，我们会充分的利用 Eloquent 的关联功能。
 
-Laravel 大部分的关联提供了一个 `create` 方法，它接收一个包含属性的数组，并会在保存至数据库前自动设置关联模型的外键值。在此例中，`create` 方法会自动将给定任务的 `user_id` 属性设置为目前已验证用户的 ID，因为我们通过 `$request->user()` 访问。
+Laravel 大部分的关联提供了一个 `create` 方法，它接收一个包含属性的数组，并会在保存至数据库前自动设置关联模型的外键值。在此例中，`create` 方法会自动将指定任务的 `user_id` 属性设置为目前已验证用户的 ID，因为我们通过 `$request->user()` 访问。
 
     /**
      * 创建新的任务。
@@ -531,7 +531,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 	class TaskRepository
 	{
 	    /**
-	     * 获取给定用户的所有任务。
+	     * 获取指定用户的所有任务。
 	     *
 	     * @param  User  $user
 	     * @return Collection
@@ -581,7 +581,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 	    }
 
 	    /**
-	     * 获取给定用户的所有任务。
+	     * 获取指定用户的所有任务。
 	     *
 	     * @param  Request  $request
 	     * @return Response
@@ -684,7 +684,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 
 	Route::delete('/task/{task}', 'TaskController@destroy');
 
-不增加任何额外的代码，Laravel 会注入给定的任务 ID 至 `TaskController@destroy` 方法中，如下：
+不增加任何额外的代码，Laravel 会注入指定的任务 ID 至 `TaskController@destroy` 方法中，如下：
 
     /**
      * Destroy the given task.
@@ -698,16 +698,16 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 		//
 	}
 
-但是，我们要在这个方法中做的第一件事，就是通过给定的 ID 从数据库中获取 `Task` 实例。所以，如果 Laravel 可以先注入与 ID 符合的 `Task` 实例，那岂不是很棒？让我们做到这一点！
+但是，我们要在这个方法中做的第一件事，就是通过指定的 ID 从数据库中获取 `Task` 实例。所以，如果 Laravel 可以先注入与 ID 符合的 `Task` 实例，那岂不是很棒？让我们做到这一点！
 
 在你的 `app/Providers/RouteServiceProvider.php` 文件的 `boot` 方法中，让我们增加下方这行代码：
 
 	$router->model('task', 'App\Task');
 
-这一小行的代码会告知 Laravel，若在路由声明中看见 `{task}`，就会获取与给定 ID 对应的 `Task` 模型。现在我们可以定义我们的 destroy 方法，如下：
+这一小行的代码会告知 Laravel，若在路由声明中看见 `{task}`，就会获取与指定 ID 对应的 `Task` 模型。现在我们可以定义我们的 destroy 方法，如下：
 
     /**
-     * 卸除给定的任务。
+     * 卸除指定的任务。
      *
      * @param  Request  $request
      * @param  Task  $task
@@ -721,7 +721,7 @@ Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强�
 <a name="authorization"></a>
 ### 认证
 
-现在，我们有一个注入至 `destroy` 方法的 `Task` 实例；然而，我们不能保证通过认证的用户实际上「拥有」给定的任务。举个例子，一个恶意的请求可能通过传递一个随机任务 ID 至 `/tasks/{task}` URL，企图尝试删除其他用户的任务。所以，我们需要使用 Laravel 的授权功能，以确保已认证的用户实际上拥有注入至路由的 `Task` 实例。
+现在，我们有一个注入至 `destroy` 方法的 `Task` 实例；然而，我们不能保证通过认证的用户实际上「拥有」指定的任务。举个例子，一个恶意的请求可能通过传递一个随机任务 ID 至 `/tasks/{task}` URL，企图尝试删除其他用户的任务。所以，我们需要使用 Laravel 的授权功能，以确保已认证的用户实际上拥有注入至路由的 `Task` 实例。
 
 #### 创建一个授权策略
 
@@ -744,7 +744,7 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 	    use HandlesAuthorization;
 
 	    /**
-	     * 判断当给定的用户可以删除给定的任务。
+	     * 判断当指定的用户可以删除指定的任务。
 	     *
 	     * @param  User  $user
 	     * @param  Task  $task
@@ -773,7 +773,7 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 现在我们的授权策略已经编写完，让我们在我们的 `destroy` 方法中使用它。Laravel 所有的控制器可以调用一个 `authorize` 方法，它由 `AuthorizesRequest` trait 所提供：
 
     /**
-     * 卸除给定的任务。
+     * 卸除指定的任务。
      *
      * @param  Request  $request
      * @param  Task  $task
@@ -795,10 +795,10 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 <a name="deleting-the-task"></a>
 ### 删除该任务
 
-最后，让我们完成增加逻辑至我们的 `destroy` 方法来实际删除给定的任务。我们可以使用 Eloquent 的 `delete` 方法从数据库中删除给定的模型实例。一旦记录被删除，我们会将用户重定向回 `tasks` URL：
+最后，让我们完成增加逻辑至我们的 `destroy` 方法来实际删除指定的任务。我们可以使用 Eloquent 的 `delete` 方法从数据库中删除指定的模型实例。一旦记录被删除，我们会将用户重定向回 `tasks` URL：
 
     /**
-     * 卸除给定的任务。
+     * 卸除指定的任务。
      *
      * @param  Request  $request
      * @param  Task  $task

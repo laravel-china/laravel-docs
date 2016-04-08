@@ -22,7 +22,7 @@
         return 'Hello World';
     });
 
-给定的字符串会被框架自动转换成 HTTP 回应。
+指定的字符串会被框架自动转换成 HTTP 回应。
 
 但是以大部分的路由及控制器所运行的动作来说，你需要返回完整的 `Illuminate\Http\Response` 实例或是一个[视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，你能够自定回应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多方法创建 HTTP 回应：
 
@@ -93,7 +93,7 @@
 <a name="json-responses"></a>
 #### JSON 回应
 
-`json` 方法会自动将标头的 `Content-Type` 设置为 `application/json`，并通过 PHP 的 `json_encode` 函数将给定的数组转换为 JSON：
+`json` 方法会自动将标头的 `Content-Type` 设置为 `application/json`，并通过 PHP 的 `json_encode` 函数将指定的数组转换为 JSON：
 
     return response()->json(['name' => 'Abigail', 'state' => 'CA']);
 
@@ -105,7 +105,7 @@
 <a name="file-downloads"></a>
 #### 文件下载
 
-`download` 方法可以用于产生强制让用户的浏览器下载给定路径文件的回应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个 HTTP 标头的数组作为第三个参数传入该方法：
+`download` 方法可以用于产生强制让用户的浏览器下载指定路径文件的回应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个 HTTP 标头的数组作为第三个参数传入该方法：
 
     return response()->download($pathToFile);
 

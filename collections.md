@@ -152,7 +152,7 @@
 <a name="method-chunk"></a>
 #### `chunk()` {#collection-method}
 
-`chunk` 方法将集合拆成多个给定大小的较小集合：
+`chunk` 方法将集合拆成多个指定大小的较小集合：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7]);
 
@@ -248,7 +248,7 @@
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 
-`each` 方法遍历集合中的项目，并将之传入给定的回调函数：
+`each` 方法遍历集合中的项目，并将之传入指定的回调函数：
 
     $collection = $collection->each(function ($item, $key) {
         //
@@ -297,7 +297,7 @@
 <a name="method-filter"></a>
 #### `filter()` {#collection-method}
 
-`filter` 方法以给定的回调函数筛选集合，只留下那些通过判断测试的项目：
+`filter` 方法以指定的回调函数筛选集合，只留下那些通过判断测试的项目：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -314,7 +314,7 @@
 <a name="method-first"></a>
 #### `first()` {#collection-method}
 
-`first` 方法返回集合中，第一个通过给定测试的元素：
+`first` 方法返回集合中，第一个通过指定测试的元素：
 
     collect([1, 2, 3, 4])->first(function ($key, $value) {
         return $value > 2;
@@ -372,7 +372,7 @@
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
 
-`forPage` 方法返回含有可以用来在给定页码显示项目的新集合：
+`forPage` 方法返回含有可以用来在指定页码显示项目的新集合：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -387,7 +387,7 @@
 <a name="method-get"></a>
 #### `get()` {#collection-method}
 
-`get` 方法返回给定键的项目。如果该键不存在，则返回 `null`：
+`get` 方法返回指定键的项目。如果该键不存在，则返回 `null`：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -414,7 +414,7 @@
 <a name="method-groupby"></a>
 #### `groupBy()` {#collection-method}
 
-`groupBy` 方法根据给定的键替集合内的项目分组：
+`groupBy` 方法根据指定的键替集合内的项目分组：
 
     $collection = collect([
         ['account_id' => 'account-x10', 'product' => 'Chair'],
@@ -461,7 +461,7 @@
 <a name="method-has"></a>
 #### `has()` {#collection-method}
 
-`has` 方法用来确认集合中是否含有给定的键：
+`has` 方法用来确认集合中是否含有指定的键：
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk']);
 
@@ -494,7 +494,7 @@
 <a name="method-intersect"></a>
 #### `intersect()` {#collection-method}
 
-`intersect` 方法移除任何给定`数组`或集合内所没有的数值：
+`intersect` 方法移除任何指定`数组`或集合内所没有的数值：
 
     $collection = collect(['Desk', 'Sofa', 'Chair']);
 
@@ -518,7 +518,7 @@
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
-以给定键的值作为集合项目的键：
+以指定键的值作为集合项目的键：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'desk'],
@@ -573,7 +573,7 @@
 <a name="method-last"></a>
 #### `last()` {#collection-method}
 
-`last` 方法返回集合中，最后一个通过给定测试的元素：
+`last` 方法返回集合中，最后一个通过指定测试的元素：
 
     collect([1, 2, 3, 4])->last(function ($key, $value) {
         return $value < 3;
@@ -590,7 +590,7 @@
 <a name="method-map"></a>
 #### `map()` {#collection-method}
 
-`map` 方法遍历整个集合并将每一个数值传入给定的回调函数。回调函数可以任意修改并返回项目，于是形成修改过的项目组成的新集合：
+`map` 方法遍历整个集合并将每一个数值传入指定的回调函数。回调函数可以任意修改并返回项目，于是形成修改过的项目组成的新集合：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -607,7 +607,7 @@
 <a name="method-max"></a>
 #### `max()` {#collection-method}
 
-`max` 方法会传给定键的最大值：
+`max` 方法会传指定键的最大值：
 
     $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
 
@@ -620,7 +620,7 @@
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-`merge` 方法将给定的数组合并进集合。数组字符串键与集合字符串键相同的将会覆盖掉集合的数值：
+`merge` 方法将指定的数组合并进集合。数组字符串键与集合字符串键相同的将会覆盖掉集合的数值：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -630,7 +630,7 @@
 
     // ['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]
 
-如果给定数组的键为数字，则数值将会附加在集合的后面：
+如果指定数组的键为数字，则数值将会附加在集合的后面：
 
     $collection = collect(['Desk', 'Chair']);
 
@@ -643,7 +643,7 @@
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
-`max` 方法会传给定键的最小值：
+`max` 方法会传指定键的最小值：
 
     $min = collect([['foo' => 10], ['foo' => 20]])->min('foo');
 
@@ -671,7 +671,7 @@
 <a name="method-pluck"></a>
 #### `pluck()` {#collection-method}
 
-`pluck` 方法获取所有集合中给定键的值：
+`pluck` 方法获取所有集合中指定键的值：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -761,7 +761,7 @@
 <a name="method-put"></a>
 #### `put()` {#collection-method}
 
-`put` 在集合内设置一个给定键和数值：
+`put` 在集合内设置一个指定键和数值：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -814,7 +814,7 @@
 <a name="method-reject"></a>
 #### `reject()` {#collection-method}
 
-`reject` 方法以给定的回调函数筛选集合。该回调函数应该对希望从最终集合移除掉的项目返回 `true`：
+`reject` 方法以指定的回调函数筛选集合。该回调函数应该对希望从最终集合移除掉的项目返回 `true`：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -844,7 +844,7 @@
 <a name="method-search"></a>
 #### `search()` {#collection-method}
 
-`search` 方法在集合内搜索给定的数值并返回找到的键。假如找不到项目，则返回 `false`：
+`search` 方法在集合内搜索指定的数值并返回找到的键。假如找不到项目，则返回 `false`：
 
     $collection = collect([2, 4, 6, 8]);
 
@@ -897,7 +897,7 @@
 <a name="method-slice"></a>
 #### `slice()` {#collection-method}
 
-`slice` 方法返回集合从给定索引开始的一部分切片：
+`slice` 方法返回集合从指定索引开始的一部分切片：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
@@ -939,7 +939,7 @@
 <a name="method-sortby"></a>
 #### `sortBy()` {#collection-method}
 
-`sortBy` 方法以给定的键排序集合：
+`sortBy` 方法以指定的键排序集合：
 
     $collection = collect([
         ['name' => 'Desk', 'price' => 200],
@@ -1121,7 +1121,7 @@
 <a name="method-transform"></a>
 #### `transform()` {#collection-method}
 
-`transform` 方法遍历集合并对集合内每一个项目调用给定的回调函数。集合的项目将会被回调函数返回的数值取代掉：
+`transform` 方法遍历集合并对集合内每一个项目调用指定的回调函数。集合的项目将会被回调函数返回的数值取代掉：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1211,7 +1211,7 @@
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 
-`where` 方法以一对给定的键／数值筛选集合：
+`where` 方法以一对指定的键／数值筛选集合：
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1241,7 +1241,7 @@
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}
 
-`zip` 方法将集合与给定数组同样索引的值合并在一起：
+`zip` 方法将集合与指定数组同样索引的值合并在一起：
 
     $collection = collect(['Chair', 'Desk']);
 

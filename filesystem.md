@@ -80,11 +80,11 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 <a name="retrieving-files"></a>
 ### 提取文件
 
-`get` 方法提取给定文件的内容，该文件的原始字符串内容将通过该方法获取：
+`get` 方法提取指定文件的内容，该文件的原始字符串内容将通过该方法获取：
 
     $contents = Storage::get('file.jpg');
 
-`has` 方法可以用于判定给定的文件是否存于磁盘上：
+`has` 方法可以用于判定指定的文件是否存于磁盘上：
 
     $exists = Storage::disk('s3')->has('file.jpg');
 
@@ -137,7 +137,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
 #### 获取单一目录内所有文件
 
-`files` 方法返回给定目录下的文件数组。如果你希望返回包含给定目录下所有子目录的文件，你可以使用 `allFiles` 方法。
+`files` 方法返回指定目录下的文件数组。如果你希望返回包含指定目录下所有子目录的文件，你可以使用 `allFiles` 方法。
 
     $files = Storage::files($directory);
 
@@ -145,7 +145,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
 #### 获取单一目录内所有目录
 
-`directories` 方法返回给定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法获取给定目录下子目录以及子目录所包含的目录。
+`directories` 方法返回指定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法获取指定目录下子目录以及子目录所包含的目录。
 
     $directories = Storage::directories($directory);
 
@@ -154,7 +154,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
 #### 创建目录
 
-`makeDirectory` 方法将创建给定的目录，包括任何所需的子目录。
+`makeDirectory` 方法将创建指定的目录，包括任何所需的子目录。
 
     Storage::makeDirectory($directory);
 

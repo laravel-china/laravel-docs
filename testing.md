@@ -88,7 +88,7 @@ Laravel 对于产生 HTTP 请求并送至应用程序，检查输出，甚至填
 <a name="interacting-with-your-application"></a>
 ### 与你的应用程序进行交互
 
-当然，除了断言文本是否存在于一个给定的回应，你可以做更多的交互。让我们看看点击链接及填写表单的例子：
+当然，除了断言文本是否存在于一个指定的回应，你可以做更多的交互。让我们看看点击链接及填写表单的例子：
 
 #### 点击链接
 
@@ -140,7 +140,7 @@ Laravel 还提供了几种用于测试表单的方法。通过 `type`、`select`
 
 方法  | 说明
 ------------- | -------------
-`$this->type($text, $elementName)`  |  「输入（type）」文本在一个给定的区域
+`$this->type($text, $elementName)`  |  「输入（type）」文本在一个指定的区域
 `$this->select($value, $elementName)`  |  「选择（select）」一个单选栏或下拉式菜单的区域
 `$this->check($elementName)`  |  「勾选（Check）」一个复选栏的区域
 `$this->attach($pathToFile, $elementName)`  |  「附上（Attach）」一个文件至表单
@@ -182,7 +182,7 @@ Laravel 也提供了几个辅助方法测试 JSON APIs 及其回应。举例来�
         }
     }
 
-`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 回应中的**任何位置**。也就是说，即使有其他的属性在 JSON 回应中，但是只要给定的片段存在，此测试仍然会通过。
+`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 回应中的**任何位置**。也就是说，即使有其他的属性在 JSON 回应中，但是只要指定的片段存在，此测试仍然会通过。
 
 #### 验证 JSON 完全匹配
 
@@ -209,7 +209,7 @@ Laravel 也提供了几个辅助方法测试 JSON APIs 及其回应。举例来�
 <a name="sessions-and-authentication"></a>
 ### Sessions 和认证
 
-Laravel 提供了几个辅助方法在测试时使用 Session。首先，你需要设置 Session 数据至给定的数组，并使用 `withSession` 方法。对于要测试送到应用程序的请求之前，先将数据加载 session 上相当有用：
+Laravel 提供了几个辅助方法在测试时使用 Session。首先，你需要设置 Session 数据至指定的数组，并使用 `withSession` 方法。对于要测试送到应用程序的请求之前，先将数据加载 session 上相当有用：
 
     <?php
 
@@ -300,15 +300,15 @@ Laravel 为 [PHPUnit](https://phpunit.de/) 测试提供了一些额外的断言�
 方法  | 描述
 ------------- | -------------
 `->assertResponseOk();`  |  断言客户端的回应拥有 OK 状态码。
-`->assertResponseStatus($code);`  |  断言客户端的回应拥有给定的状态码。
-`->assertViewHas($key, $value = null);`  |  断言回应视图拥有给定的部分绑定数据。
-`->assertViewHasAll(array $bindings);`  |  断言回应视图拥有给定的绑定数据列表。
-`->assertViewMissing($key);`  |  断言回应视图不包含给定的部分绑定数据。
-`->assertRedirectedTo($uri, $with = []);`  |  断言客户端是否被重定向至给定的 URI。
-`->assertRedirectedToRoute($name, $parameters = [], $with = []);`  | 断言客户端是否被重定向至给定的路由
-`->assertRedirectedToAction($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向至给定的行为。
-`->assertSessionHas($key, $value = null);`  |  断言 session 中有给定的值。
-`->assertSessionHasAll(array $bindings);`  |  断言 session 中有给定的列表值。
+`->assertResponseStatus($code);`  |  断言客户端的回应拥有指定的状态码。
+`->assertViewHas($key, $value = null);`  |  断言回应视图拥有指定的部分绑定数据。
+`->assertViewHasAll(array $bindings);`  |  断言回应视图拥有指定的绑定数据列表。
+`->assertViewMissing($key);`  |  断言回应视图不包含指定的部分绑定数据。
+`->assertRedirectedTo($uri, $with = []);`  |  断言客户端是否被重定向至指定的 URI。
+`->assertRedirectedToRoute($name, $parameters = [], $with = []);`  | 断言客户端是否被重定向至指定的路由
+`->assertRedirectedToAction($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向至指定的行为。
+`->assertSessionHas($key, $value = null);`  |  断言 session 中有指定的值。
+`->assertSessionHasAll(array $bindings);`  |  断言 session 中有指定的列表值。
 `->assertSessionHasErrors($bindings = [], $format = null);`  |  断言 session 有错误的绑定。
 `->assertHasOldInput();`  |  断言 session 有旧输入数据。
 
@@ -442,7 +442,7 @@ Laravel 也提供了多种有用的工具，让你更容易测试使用数据库
         'name' => 'Abigail',
        ]);
 
-你也可以创建一个含有多个模型的集合，或创建一个给定类型的模型：
+你也可以创建一个含有多个模型的集合，或创建一个指定类型的模型：
 
     // 创建三个 App\User 实例...
     $users = factory(App\User::class, 3)->make();

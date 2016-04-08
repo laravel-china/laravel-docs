@@ -110,7 +110,7 @@
 
 #### 为真验证限制条件
 
-`when` 方法可以被用于限制任务运行与否，基于给定一个为真验证的运行结果。换句话说，如果给定的 `闭包` 返回 `true`，这个任务将持续被运行只要没有其他的限制条件。
+`when` 方法可以被用于限制任务运行与否，基于指定一个为真验证的运行结果。换句话说，如果指定的 `闭包` 返回 `true`，这个任务将持续被运行只要没有其他的限制条件。
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
@@ -136,7 +136,7 @@ Laravel 调度器为任务调度输出提供许多便捷的方法。首先，通
              ->daily()
              ->sendOutputTo($filePath);
 
-如果想将输出附加到给定的文件，你可以使用 `appendOutputTo` 方法：
+如果想将输出附加到指定的文件，你可以使用 `appendOutputTo` 方法：
 
     $schedule->command('emails:send')
              ->daily()
@@ -167,7 +167,7 @@ Laravel 调度器为任务调度输出提供许多便捷的方法。首先，通
 
 #### Ping 网址
 
-通过 `pingBefore` 与 `thenPing` 方法，调度器能自动的在一个任务完成之前或之后 ping 一个给定的网址。该方法在你排定的任务进行或完成时，能有效的通知一个外部服务，例如 [Laravel Envoyer](https://envoyer.io)：
+通过 `pingBefore` 与 `thenPing` 方法，调度器能自动的在一个任务完成之前或之后 ping 一个指定的网址。该方法在你排定的任务进行或完成时，能有效的通知一个外部服务，例如 [Laravel Envoyer](https://envoyer.io)：
 
     $schedule->command('emails:send')
              ->daily()
