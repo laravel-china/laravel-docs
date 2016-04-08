@@ -43,13 +43,13 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     laravel new blog
 
-> CJ: 推荐使用此方法来创建 Laravel 项目，已经提前安装好依赖，直接是一个 zip 包下载下来解压，所以速度是最快的。
-
 #### 通过 Composer Create-Project
 
 除此之外，你也可以通过 Composer 在命令行运行 `create-project` 命令来安装 Laravel：
 
     composer create-project laravel/laravel --prefer-dist blog
+
+> CJ: `composer create-project laravel/laravel=5.1.* your-project-name --prefer-dist`
 
 <a name="configuration"></a>
 ## 配置信息
