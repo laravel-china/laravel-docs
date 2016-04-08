@@ -37,9 +37,9 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer global require "laravel/installer"
 
-请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH 里了，只有这样系统才能找到 `laravel` 的执行文件。
+请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH，只有这样系统才能找到 `laravel` 的执行文件。
 
-一旦安装完成，就可以使用 `laravel new` 命令在指定的目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装快上许多：
+一旦安装完成，就可以使用 `laravel new` 命令在指定的目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
 
     laravel new blog
 
@@ -65,11 +65,11 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
 #### 应用程序密钥
 
-在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥应该有 32 字符长度。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你应该现在处理下。**如果应用程序密钥没有被设置的话，你的用户 Sessions 和其他的加密数据都是不安全的！**
+在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥应该有 32 字符长度。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你现在应该去设置下。**如果应用程序密钥没有被设置的话，你的用户 Sessions 和其他的加密数据都是不安全的！**
 
 #### 其他设置
 
-Laravel 几乎不需设置就可以马上使用，但是建议你浏览 `config/app.php` 文件和对应的文档，它包含一些选项，如`时区`和`语言环境`，可以根据你的应用程序来做修改。
+Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你先浏览 `config/app.php` 文件和对应的文档，这里面包含着一些选项，如`时区`和`语言环境`，你可以根据自己的应用程序来做修改。
 
 你也可以设置 Laravel 的几个附加组件，像是：
 
@@ -77,7 +77,7 @@ Laravel 几乎不需设置就可以马上使用，但是建议你浏览 `config/
 - [数据库](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
 
-一旦 Laravel 安装完成，你应该立即[设置好本机环境](/docs/{{version}}/installation#environment-configuration)。
+一旦 Laravel 安装完成，你应该立即[设置本机环境](/docs/{{version}}/installation#environment-configuration)。
 
 <a name="pretty-urls"></a>
 #### 优雅链接
@@ -103,20 +103,20 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-当然，如果你使用 [Homestead](/docs/{{version}}/homestead) 的话，将会自动的帮你设置好优雅链接。
+当然，如果你使用了 [Homestead](/docs/{{version}}/homestead) 的话，它将会自动的帮你设置好优雅链接。
 
 <a name="environment-configuration"></a>
 ### 环境配置
 
 应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在你的本机开发环境上有与正式环境不同的缓存驱动。只要通过配置文件，就可以轻松完成。
 
-Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在全新安装好的 Laravel 应用程序里，在根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，不然你应该手动更改文件名。
+Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在安装好的全新 Laravel 应用程序里，在根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，否则你只能手动更改文件名。
 
-当你的应用程序收到请求时，这个文件所有的变量会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助方法 `env` 来获取这些变量的值。事实上，如果你阅读过 Laravel 的配置文件，你会注意到有几个选项已经在使用这个辅助方法！
+当你的应用程序收到请求时，这个文件所有的变量都会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助方法 `env` 来获取这些变量的值。事实上，如果你阅读过 Laravel 的相关配置文件，你会注意到里面有几个选项已经在使用着这个辅助方法！
 
-根据你的本机服务器或者正式环境的需求，你可以自由的修改你的环境变量。但是，你的 `.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用你的应用程序时，可能需要不同的环境配置。
+根据本机服务器或者正式环境的需求的不同，可自由修改环境变量。但是，`.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用应用程序时，可能需要不同的环境配置。
 
-如果你是一个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过例子配置文件里的预设值，你的团队中其他开发人员可以清楚地看到，在运行你的应用程序时，有哪些环境变量是必须的。
+如果你是某个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过样本配置文件里的预设值，你团队中的其他开发人员可以清楚地知道，在运行你的应用程序时，有哪些环境变量是必须有的。
 
 #### 获取目前应用程序的环境
 
@@ -124,7 +124,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
     $environment = App::environment();
 
-你也可以传递参数至 `environment` 方法中，来确认目前的环境是否与参数相符合：
+你也可以传递参数至 `environment` 方法中，来确认当前环境是否与参数相符合：
 
     if (App::environment('local')) {
         // 环境是 local
@@ -134,21 +134,21 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
         // 环境是 local 或 staging...
     }
 
-也能通过 `app` 辅助方法获取应用程序实例：
+也可通过 `app` 辅助方法获取应用程序实例：
 
     $environment = app()->environment();
 
 <a name="configuration-caching"></a>
 ### 缓存配置信息
 
-为了让你的的应用程序提升一些速度，你可以使用 Artisan 命令 `config:cache` 将所有的配置文件缓存到单一文件。通过命令会将所有的设置选项合并成一个文件，让框架能够快速加载。
+为了让应用程序的速度获得提升，可以使用 Artisan 命令 `config:cache` 将所有的配置文件缓存到单一文件。通过此命令将所有的设置选项合并成一个文件，让框架能够更快速的加载。
 
-你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在本机开发的时候运行，因为设置选项需要根据你应用程序的开发而经常变动。
+你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在本机开发时运行，因为设置选项会在应用程序的开发时经常变动。
 
 <a name="accessing-configuration-values"></a>
 ### 获取设置值
 
-你可以使用 `config` 辅助方法获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。也可以指定默认值，当该设置选项不存在时就会返回默认值：
+你可以使用 `config` 辅助方法获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。你也可以指定一个默认值，当该设置选项不存在时就会返回默认值：
 
     $value = config('app.timezone');
 
@@ -159,18 +159,18 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 <a name="naming-your-application"></a>
 ### 命名你的应用程序
 
-在安装完成 Laravel 后，你可以「命名」你的应用程序。默认情况下，`app` 的目录的命名空间是 `App`，然后会通过 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/) 来自动加载。不过，你可以轻松地通过 Artisan 命令 `app:name` 来修改命名空间，以配合你的应用程序名称。
+在安装完成 Laravel 后，你可以来「命名」你的应用程序。默认情况下，`app` 的目录的命名空间是 `App`，然后会通过 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/) 来自动加载。不过，你可以轻松地通过 Artisan 命令 `app:name` 来修改命名空间，以配合你的应用程序名称。
 
 举例来说，假设你的应用程序叫做「Horsefly」，你可以在安装完的根目录运行下方的命令：
 
     php artisan app:name Horsefly
 
-重命名你的应用程序是完全自由的，如果你希望的话也可以保持命名空间为 `App`。
+你可以随意重命名你的应用程序，如果你愿意的话也可以继续保持命名空间为 `App`。
 
 <a name="maintenance-mode"></a>
 ## 维护模式
 
-当你的应用程序处于维护模式时，所有的传递至应用程序的请求都会显示一个自定的视图。在你要更新或进行维护作业时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的介层堆栈。如果应用程序处于维护模式，`HttpException` 会抛出 503 的状态码。
+当你的应用程序处于维护模式时，所有传递至应用程序的请求都会显示出一个自定义视图。在你更新应用或进行性能维护时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的中间件堆栈。如果应用程序处于维护模式，`HttpException` 会抛出 503 的状态码。
 
 启用维护模式，只需要运行 Artisan 命令 `down`：
 
@@ -180,10 +180,10 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
     php artisan up
 
-### 维护模式的回应模板
+### 维护模式的响应模板
 
 维护模式的默认模板放在 `resources/views/errors/503.blade.php`。
 
 ### 维护模式与队列
 
-当应用程序处于维护模式中，将不会处理任何 [队列工作](/docs/{{version}}/queues)。所有的队列工作将会在应用程序离开维护模式后继续被运行。
+当应用程序处于维护模式中时，将不会处理任何 [队列工作](/docs/{{version}}/queues)。所有的队列工作将会在应用程序离开维护模式后继续被运行。
