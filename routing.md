@@ -3,8 +3,8 @@
 - [基本路由](#basic-routing)
 - [路由参数](#route-parameters)
     - [基础路由参数](#required-parameters)
-    - [选择性路由参数](#parameters-optional-parameters)
-    - [正规表达式限制参数](#parameters-regular-expression-constraints)
+    - [可选的路由参数](#parameters-optional-parameters)
+    - [正则表达式限制参数](#parameters-regular-expression-constraints)
 - [命名路由](#named-routes)
 - [路由群组](#route-groups)
     - [中间件](#route-group-middleware)
@@ -23,7 +23,7 @@
 <a name="basic-routing"></a>
 ## 基本路由
 
-你会在 `app/Http/routes.php` 中定义应用程序大多数的路由，该文件将会被 `App\Providers\RouteServiceProvider` 类加载。而最基本的 Laravel 路由仅接受 URI 加上一个`闭包`：
+你可以在 `app/Http/routes.php` 文件中定义应用程序的大多数路由，该文件将会被 `App\Providers\RouteServiceProvider` 类加载。最基本的 Laravel 路由仅接受 URI 和一个`闭包`：
 
     Route::get('/', function () {
         return 'Hello World';
@@ -41,15 +41,15 @@
         //
     });
 
-#### 为多重的动作注册路由
+#### 为多重动作注册路由
 
-有时候你可能需要注册一个路由来回应多个 HTTP 的动作。你可以通过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来使用：
+有时候你可能需要注册一个可响应多个 HTTP 动作的路由。这时可通过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来实现：
 
     Route::match(['get', 'post'], '/', function () {
         return 'Hello World';
     });
 
-或者，你甚至可以通过 `any` 方法来使用注册路由并回应所有的 HTTP 动作：
+或者，你甚至可以通过 `any` 方法来使用注册路由并响应所有的 HTTP 动作：
 
     Route::any('foo', function () {
         return 'Hello World';
@@ -67,13 +67,13 @@
 <a name="required-parameters"></a>
 ### 基础路由参数
 
-有时候你可能需要在你的 URI 路由中，获取一些参数。例如，你可能需要从 URL 获取用户的 ID。你可以通过定义路由参数来获取：
+有时候你可能需要在你的 URI 路由中，获取一些参数。例如，从 URL 获取用户的 ID。这时可通过自定义路由参数来获取：
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
     });
 
-你可以依照路由需要，定义任何数量的路由参数：
+你可以依照路由需要，定义任意数量的路由参数：
 
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
@@ -81,12 +81,12 @@
 
 路由的参数都会被放在「大括号」内。当运行路由时，参数会通过路由`闭包`来传递。
 
-> **注意：**路由参数不能包含 `-` 字符。用底线 (`_`) 来取代。
+> **注意：**路由参数不能包含 `-` 字符。请用底线 (`_`) 替换。
 
 <a name="parameters-optional-parameters"></a>
-### 选择性路由参数
+### 可选的路由参数
 
-有时候你可能需要指定路由参数，但是让路由参数的存在是可选的。你可以借由在参数名称后面加上 `?` 达成：
+有时候你可能需要指定路由参数，但是让路由参数的存在是可选的。这时可以在参数名称后面加上 `?` 来实现：
 
     Route::get('user/{name?}', function ($name = null) {
         return $name;
@@ -97,9 +97,9 @@
     });
 
 <a name="parameters-regular-expression-constraints"></a>
-### 正规表达式限制参数
+### 正则表达式限制参数
 
-你可以在路由实例上使用 `where` 方法限制你的路由参数格式。`where` 方法接受参数的名称和定义参数应该如何被限制的正规表达式：
+你可以在路由实例上使用 `where` 方法来限制路由参数格式。`where` 方法接受参数的名称和定义参数应该如何被限制的正则表达式：
 
     Route::get('user/{name}', function ($name) {
         //
@@ -119,7 +119,7 @@
 <a name="parameters-global-constraints"></a>
 #### 全局限制
 
-如果你希望路由参数可以总是遵循正规表达式，你可以使用 `pattern` 方法。你应该在 `RouteServiceProvider` 的 `boot` 方法里定义这些模式：
+如果你希望路由参数可以总是遵循正则表达式，则可以使用 `pattern` 方法。你应该在 `RouteServiceProvider` 的 `boot` 方法里定义这些模式：
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -134,7 +134,7 @@
         parent::boot($router);
     }
 
-一旦定义了模式，会自动的应用到所有使用该参数名称的路由：
+模式一旦被定义，便会自动应用到所有使用该参数名称的路由上：
 
     Route::get('user/{id}', function ($id) {
         // Only called if {id} is numeric.
@@ -143,25 +143,25 @@
 <a name="named-routes"></a>
 ## 命名路由
 
-命名路由让你更方便为特定路由产生 URL 或进行重定向。你可以使用 `as`  数组键指定名称到你的路由：
+命名路由让你可以更方便的为特定路由产生 URL 或进行重定向。你可以使用 `as` 数组键指定名称到路由上：
 
     Route::get('user/profile', ['as' => 'profile', function () {
         //
     }]);
 
-你还可以指定路由名称到你的控制器操作：
+还可以指定路由名称到控制器动作：
 
     Route::get('user/profile', [
         'as' => 'profile', 'uses' => 'UserController@showProfile'
     ]);
 
-除了在路由的数组定义中指定路由名称外，你也可以在路由定义后方链式调用 `name` 方法：
+除了可以在路由的数组定义中指定路由名称外，你也可以在路由定义后方链式调用 `name` 方法：
 
     Route::get('user/profile', 'UserController@showProfile')->name('profile');
 
 #### 路由群组和命名路由
 
-假设你使用[路由群组](#route-groups)，你可以指定一个 `as` 关键字在你的路由群组的属性数组，也允许你设置所有路由群组中共同的路由名称前缀：
+如果你使用了[路由群组](#route-groups)，那么你可以在路由群组的属性数组中指定一个 `as` 关键字，这将允许你为路由群组中的所有路由设置相同的前缀名称：
 
     Route::group(['as' => 'admin::'], function () {
         Route::get('dashboard', ['as' => 'dashboard', function () {
@@ -171,13 +171,13 @@
 
 #### 对命名路由产生 URLs
 
-一旦你在给定的路由中分配了名称，你可以通过 `route` 函数，使用路由名称产生 URLs 或是重新导向：
+一旦你在指定的路由中分配了名称，则可通过 `route` 函数来使用路由名称产生 URLs 或重定位：
 
     $url = route('profile');
 
     $redirect = redirect()->route('profile');
 
-如果在路由定义参数，你可以把参数作为第二个参数传递给 `route` 方法。给定的参数将自动加入到 URL：
+如果路由定义了参数，那么你可以把参数作为第二个参数传递给 `route` 方法。给定的参数将自动加入到 URL 中：
 
     Route::get('user/{id}/profile', ['as' => 'profile', function ($id) {
         //
@@ -188,14 +188,14 @@
 <a name="route-groups"></a>
 ## 路由群组
 
-路由群组允许你共用路由属性，例如：中间件、命名空间，你可以利用路由群组套用这些属性到多个路由，而不需在每个路由都设置一次。共用属性被指定为数组格式，当作 `Route::group` 方法的第一个参数：
+路由群组允许你共用路由属性，例如：中间件、命名空间，你可以利用路由群组到多个路由套用这些属性，而不需在每个路由都设置一次。共用属性被指定为数组格式，当作 `Route::group` 方法的第一个参数：
 
-为了了解更多路由群组相关内容，我们会看过去几个常见的使用例子和功能。
+为了了解更多路由群组的相关内容，我们可通过几个常用样例来熟悉这些特性。
 
 <a name="route-group-middleware"></a>
 ### 中间件
 
-要指定中间件到所有群组内的路由，你可以在群组属性数组里使用 `middleware` 参数。中间件将会依照你在列表内指定的顺序运行：
+要想指定中间件到所有群组内的路由中，你可以在群组属性数组里使用 `middleware` 参数。中间件将会依照列表内指定的顺序运行：
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/', function ()    {
@@ -210,7 +210,7 @@
 <a name="route-group-namespaces"></a>
 ### 命名空间
 
-另一个常见的例子是，指派相同的 PHP 命名空间中给控制器群组。你可以使用 `namespace` 参数指定群组内所有控制器的命名空间：
+另一个常见的例子是，指定相同的 PHP 命名空间给控制器群组。可以使用 `namespace` 参数来指定群组内所有控制器的命名空间：
 
 
     Route::group(['namespace' => 'Admin'], function()
@@ -223,12 +223,12 @@
         });
     });
 
-记得，默认 `RouteServiceProvider` 会在命名空间群组内导入你的 `routes.php` 文件，让你不用指定完整的 `App\Http\Controllers` 命名空间前缀就能注册控制器路由。所以，我们只需要指定在基底 `App\Http\Controllers` 根命名空间之后的命名空间部分。
+请记住，默认 `RouteServiceProvider` 会在命名空间群组内导入你的 `routes.php` 文件，让你不用指定完整的 `App\Http\Controllers` 命名空间前缀就能注册控制器路由。所以，我们只需要指定在基底 `App\Http\Controllers` 根命名空间之后的部分命名空间。
 
 <a name="route-group-sub-domain-routing"></a>
 ### 子网域路由
 
-路由群组也可以用来处理通配符的子网域。子网域可以像路由 URIs 分配路由参数，让你在你的路由或控制器获取子网域参数。可以使用路由群组属性数组上的 `domain` 指定子网域变量名称：
+路由群组也可以被用来做处理通配符的子网域。子网域可以像路由 URIs 分配路由参数，让你在路由或控制器中获取子网域参数。使用路由群组属性数组上的 `domain` 指定子网域变量名称：
 
     Route::group(['domain' => '{account}.myapp.com'], function () {
         Route::get('user/{id}', function ($account, $id) {
@@ -247,7 +247,7 @@
         });
     });
 
-你也可以使用 `prefix` 参数去指定你的路由群组中共用的参数：
+你也可以使用 `prefix` 参数去指定路由群组中共用的参数：
 
     Route::group(['prefix' => 'accounts/{account_id}'], function () {
         Route::get('detail', function ($account_id)    {
@@ -263,7 +263,7 @@
 
 Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以通过经过身份验证的用户身份运行未经授权的命令。
 
-Laravel 会自动产生了一个 CSRF token 给每个活动用户受应用程序管理的 Session。该 token 用来验证用户为实际发出请求至应用程序的用户。要产生一个隐藏的输入字段 `_token` 包含 CSRF token，你可以使用 `csrf_field` 辅助函数：
+Laravel 会自动产生一个 CSRF token 给每个受应用程序管理的活动用户的 Session。该 token 用来验证用户是否为实际发出请求至应用程序的用户。若要产生一个包含 CSRF token 的 `_token` 隐藏输入字段，可以使用 `csrf_field` 辅助函数：
 
     <?php echo csrf_field(); ?>
 
@@ -280,9 +280,9 @@ Laravel 会自动产生了一个 CSRF token 给每个活动用户受应用程序
 <a name="csrf-excluding-uris"></a>
 ### 不受 CSRF 保护的 URIs
 
-有时候你可能会希望一组 URIs 不要被 CSRF 保护。例如，你如果使用 [Stripe](https://stripe.com) 处理付款，并且利用他们的 webhook 系统，你需要从 Laravel CSRF 保护中，排除 webhook 的处理路由。
+有时候你可能会希望一组 URIs 不要被 CSRF 保护。例如，你如果使用 [Stripe](https://stripe.com) 处理付款，并且利用他们的 webhook 系统，你需要从 Laravel CSRF 保护中排除 webhook 的处理路由。
 
-你可以在 `VerifyCsrfToken` 中间件中增加 `$except` 属性来排除 URIs：
+可以在 `VerifyCsrfToken` 中间件中增加 `$except` 属性来排除 URIs：
 
     <?php
 
@@ -305,11 +305,11 @@ Laravel 会自动产生了一个 CSRF token 给每个活动用户受应用程序
 <a name="csrf-x-csrf-token"></a>
 ### X-CSRF-TOKEN
 
-除了检查 CSRF token 当作 POST 参数之外，在 Laravel `VerifyCsrfToken` 中间件也会确认请求标头中的 `X-CSRF-TOKEN`。例如，你可以将其保存在 meta 标签中：
+除了检查 CSRF token 是否被当作 POST 参数之外，在 Laravel `VerifyCsrfToken` 中间件也会检查请求标头中的 `X-CSRF-TOKEN`。例如，你可以将其保存在 meta 标签中：
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-一旦你创建了 `meta` 标签，你可以使用 jQuery 之类的函数库将 token 加入到所有的请求标头。基于 AJAX 的应用，提供了简单、方便的 CSRF 保护：
+一旦你创建了 `meta` 标签，你就可以使用 jQuery 之类的函数库将 token 加入到所有的请求标头。基于 AJAX 的应用，提供了简单、方便的 CSRF 保护：
 
     $.ajaxSetup({
             headers: {
@@ -320,14 +320,14 @@ Laravel 会自动产生了一个 CSRF token 给每个活动用户受应用程序
 <a name="csrf-x-xsrf-token"></a>
 ### X-XSRF-TOKEN
 
-Laravel 也会在 `XSRF-TOKEN` cookie 中保存 CSRF token。你也可以使用 cookie 的值来设置 `X-XSRF-TOKEN` 请求标头。一些 JavaScript 框架会自动帮你处理，例如：Angular。你不太可能会需要手动去设置这个值。
+Laravel 也会在 `XSRF-TOKEN` cookie 中保存 CSRF token。你也可以使用 cookie 的值来设置 `X-XSRF-TOKEN` 请求标头。一些 JavaScript 框架会自动帮你处理，例如：Angular。你不大可能会需要手动去设置这个值。
 
 <a name="route-model-binding"></a>
 ## 路由模型绑定
 
-Laravel 路由模型绑定提供了一个方便的方式来注入类实例至你的路由中。例如，除了注入一个用户的 ID，你可以注入与给定 ID 相符的完整 `User` 类实例。
+Laravel 路由模型绑定提供了一个方便的方式来注入类实例到你的路由中。例如，除了注入一个用户的 ID，你也可以注入与给定 ID 相符的完整 `User` 类实例。
 
-首先，使用路由的 `model` 方法为给定参数指定类。你必须在 `RouteServiceProvider::boot` 方法中定义你的模型绑定：
+首先，使用路由的 `model` 方法为给定参数指定类。必须在 `RouteServiceProvider::boot` 方法中定义你的模型绑定：
 
 #### 绑定参数至模型
 
@@ -348,13 +348,13 @@ Laravel 路由模型绑定提供了一个方便的方式来注入类实例至你
 
 > **注意：**如果符合的模型不存在于数据库中，就会自动抛出一个 404 异常。
 
-如果你希望指定你自己的「不存在」行为，只要传递一个闭包作为 `model` 方法的第三个参数：
+如果你希望指定你自己的「不存在」行为，只需传递一个闭包作为 `model` 方法的第三个参数：
 
     $router->model('user', 'App\User', function() {
         throw new NotFoundHttpException;
     });
 
-如果你希望使用你自己的解析逻辑，那么你必须使用 `Route::bind` 方法。你传递至 `bind` 方法的闭包会获取 URI 的部分值，且必须返回你想注入至路由的类实例：
+如果你希望使用你自己的解析逻辑，那么你必须使用 `Route::bind` 方法。你传递至 `bind` 方法的闭包会获取 URI 的部分值，且会返回你想注入至路由的类实例：
 
     $router->bind('user', function($value) {
         return App\User::where('name', $value)->first();
@@ -363,18 +363,18 @@ Laravel 路由模型绑定提供了一个方便的方式来注入类实例至你
 <a name="form-method-spoofing"></a>
 ## 跨站请求伪造
 
-HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义 `PUT`、`PATCH` 或 `DELETE` 路由，并在 HTML 表单中被调用的时候，你将需要在表单中增加隐藏的 `_method` 字段。随着 `_method` 字段送出的值将被视为 HTTP 请求方法使用：
+HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 表单中调用被定义的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。跟随 `_method` 字段送出的值将被作为 HTTP 的请求方法使用：
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
     </form>
 
-要产生隐藏的输入字段 `_method`，你也可以使用 `methid_field` 辅助函数：
+你也可以使用 `methid_field` 辅助函数来产生隐藏的输入字段 `_method`：
 
     <?php echo method_field('PUT'); ?>
 
-当然，可以使用 Blade [模板引擎](/docs/{{version}}/blade)：
+当然，也可以使用 Blade [模板引擎](/docs/{{version}}/blade)：
 
     {{ method_field('PUT') }}
 
@@ -385,6 +385,6 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义 `P
 
     abort(404);
 
-第二，你可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
+其次，你也可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
 
-更多有关如何操作 404 异常和自定义的回应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。
+更多有关如何操作 404 异常和自定义响应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。
