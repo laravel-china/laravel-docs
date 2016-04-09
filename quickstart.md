@@ -24,7 +24,7 @@
 
 此快速入门指南主要为 Laravel 框架提供基本的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、验证、视图，及 Blade 样板。如果你是第一次使用 Laravel 框架或 PHP，那么这会是个很好的开头。如果你已经在使用 Laravel 或者其它的框架，不仿参考我们高端的快速入门指南。
 
-为了在 Laravel 功能中给样本做基本的选择，我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的原代码[在 GitHub 上](http://github.com/laravel/quickstart-basic)。
+为了在 Laravel 功能中给样本做基本的选择，我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码[在 GitHub 上](http://github.com/laravel/quickstart-basic)。
 
 <a name="installation"></a>
 ## 安装

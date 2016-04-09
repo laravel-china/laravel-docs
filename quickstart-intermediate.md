@@ -30,7 +30,7 @@
 
 这个快速入门导引为 Laravel 框架提供了高端的介绍，内容概括了数据库迁移、Eloquent ORM、路由、认证、授权、依赖注入、验证、视图，及 Blade 样板。如果你已经熟悉 Laravel 框架的基础或 PHP 框架，那么这会是个很好的起始点。
 
-要在 Laravel 功能中为样本做基本的选择，我们会建构一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门相比，此教程会允许用户在应用程序创建帐号并认证。此项目完整并完成的原代码[在 GitHub 上](http://github.com/laravel/quickstart-intermediate)。
+要在 Laravel 功能中为样本做基本的选择，我们会建构一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门相比，此教程会允许用户在应用程序创建帐号并认证。此项目完整并完成的源代码[在 GitHub 上](http://github.com/laravel/quickstart-intermediate)。
 
 <a name="installation"></a>
 ## 安装
@@ -39,7 +39,7 @@
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
-你可以自由的只阅读快速入门的剩余部分；不过，如果你想下载这个快速入门的原代码并在你的本机机器运行，那么你需要克隆它的 Git 资源库并安装依赖：
+你可以自由的只阅读快速入门的剩余部分；不过，如果你想下载这个快速入门的源代码并在你的本机机器运行，那么你需要克隆它的 Git 资源库并安装依赖：
 
 	git clone https://github.com/laravel/quickstart-intermediate quickstart
 	cd quickstart
@@ -259,7 +259,7 @@
 
 `login.blade.php` 文件必需包含一个表单，包含 `email` 与 `password` 字段，并制造一个 `POST` 请求至 `/auth/login`。
 
-> **注意：**如果你想查看这些视图的完整例子，请记得应用程序的完整原代码可以在 [GitHub 上获取](https://github.com/laravel/quickstart-intermediate)。
+> **注意：**如果你想查看这些视图的完整例子，请记得应用程序的完整源代码可以在 [GitHub 上获取](https://github.com/laravel/quickstart-intermediate)。
 
 <a name="the-task-controller"></a>
 ### 任务控制器
@@ -345,7 +345,7 @@
 
 很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks/index.blade.php`，它会对应至我们 `TaskController` 的 `index` 方法。
 
-我们会跳过一些 Bootstrap CSS 样板，只专注在重要的事物上。切记，你可以在 [GitHub](https://github.com/laravel/quickstart-intermediate) 下载应用程序的完整原代码：
+我们会跳过一些 Bootstrap CSS 样板，只专注在重要的事物上。切记，你可以在 [GitHub](https://github.com/laravel/quickstart-intermediate) 下载应用程序的完整源代码：
 
     // resources/views/tasks/index.blade.php
 

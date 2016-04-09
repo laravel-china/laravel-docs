@@ -16,7 +16,7 @@
 
 请记住，错误反馈的初衷是让其它有相同问题的人可以协作解决问题。不要期望反馈错误后会很快有人会马上修复它。创建错误反馈主要是为了能帮助你自己和其他人开始着手修复问题。
 
-Laravel 原代码托管在 GitHub 上面，并且每个 Laravel 的项目都有自己的代码仓库：
+Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有自己的代码仓库：
 
 - [Laravel Framework](https://github.com/laravel/framework)
 - [Laravel Application](https://github.com/laravel/laravel)
