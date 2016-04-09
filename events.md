@@ -235,7 +235,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="broadcasting-events"></a>
 ## 广播事件
 
-在构建实时响应的 Web App 时，经常会使用到 Web Sockets，当在服务器上更新一些数据，Web Socket 连接通常会发送一个消息通知客户端处理。
+在构建实时回应的 Web App 时，经常会使用到 Web Sockets，当在服务器上更新一些数据，Web Socket 连接通常会发送一个消息通知客户端处理。
 
 为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 Web Socket 连接来「广播」你的事件。广播 Laravel 事件让你能够在服务器端代码和客户端 JavaScript 框架间分享相同的事件名称。
 

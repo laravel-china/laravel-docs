@@ -98,7 +98,7 @@
 <a name="psr7-requests"></a>
 ### PSR-7 请求
 
-PSR-7 标准制定的 HTTP 消息接口包含了请求及响应。如果你想获得一个 PSR-7 的请求实例，你就必须先安装几个函数库。Laravel 使用 Symfony 的 HTTP 消息桥接组件，将原 Laravel 的请求及响应转换至 PSR-7 所支持的实现：
+PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想获得一个 PSR-7 的请求实例，你就必须先安装几个函数库。Laravel 使用 Symfony 的 HTTP 消息桥接组件，将原 Laravel 的请求及回应转换至 PSR-7 所支持的实现：
 
     composer require symfony/psr-http-message-bridge
 
@@ -112,7 +112,7 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及响应。如果你想�
         //
     });
 
-如果你从路由或控制器返回一个 PSR-7 的响应实例，那么它会被框架自动转换回 Laravel 的响应实例并显示。
+如果你从路由或控制器返回一个 PSR-7 的回应实例，那么它会被框架自动转换回 Laravel 的回应实例并显示。
 
 <a name="retrieving-input"></a>
 ## 获取输入数据
@@ -205,9 +205,9 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 
     $value = $request->cookie('name');
 
-#### 将新的 Cookie 附加到响应
+#### 将新的 Cookie 附加到回应
 
-Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后加上 `withCookie` 方法来把 cookie 附加至响应：
+Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后加上 `withCookie` 方法来把 cookie 附加至回应：
 
     $response = new Illuminate\Http\Response('Hello World');
 
