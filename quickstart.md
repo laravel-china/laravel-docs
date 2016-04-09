@@ -274,7 +274,7 @@
 
 现在我们视图中已经有一个表单，我们需要增加代码至我们的 `POST /task` 路由来验证接收到的表单输入并创建新的任务。首先，让我们验证输入。
 
-对此表单来说，我们要让 `name` 字段为必填，且它必须少于 `255` 字符。如果验证失败，我们会将用户重定向回 `/` URL，并将旧的输入及错误消息快闪至 [session](/docs/{{version}}/session)：
+对此表单来说，我们要让 `name` 字段为必填，且它必须少于 `255` 字符。如果验证失败，我们会将用户重定向回 `/` URL，并将旧的输入及错误消息闪存至 [session](/docs/{{version}}/session)：
 
 	Route::post('/task', function (Request $request) {
 		$validator = Validator::make($request->all(), [
@@ -292,7 +292,7 @@
 
 #### `$errors` 变量
 
-让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过指定的验证器实例将错误消息快闪至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
+让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过指定的验证器实例将错误消息闪存至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
 
 记得我们在视图中使用了 `@include('common.errors')` 命令来渲染表单的验证错误消息。`common.errors` 让我们可以简单的在我们所有的页面显示相同格式的验证错误消息。现在让我们定义此视图的内容：
 

@@ -10,7 +10,7 @@
 - [重定向](#redirects)
     - [重定向至命名路由](#redirecting-named-routes)
     - [重定向至控制器行为](#redirecting-controller-actions)
-    - [重定向并加上快闪 Session 数据](#redirecting-with-flashed-session-data)
+    - [重定向并加上闪存 Session 数据](#redirecting-with-flashed-session-data)
 - [响应宏](#response-macros)
 
 <a name="basic-responses"></a>
@@ -159,9 +159,9 @@
     return redirect()->action('UserController@profile', [1]);
 
 <a name="redirecting-with-flashed-session-data"></a>
-#### 重定向并加上快闪 Session 数据
+#### 重定向并加上闪存 Session 数据
 
-通常重定向至新的 URL 时会一并[写入快闪数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用链式调用的方式创建一个 `RedirectResponse` 的实例**并**快闪数据至 Session。这对于在一个动作之后保存状态消息相当方便：
+通常重定向至新的 URL 时会一并[写入闪存数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用链式调用的方式创建一个 `RedirectResponse` 的实例**并**闪存数据至 Session。这对于在一个动作之后保存状态消息相当方便：
 
     Route::post('user/profile', function () {
         // 更新用户的个人数据...
@@ -169,7 +169,7 @@
         return redirect('dashboard')->with('status', 'Profile updated!');
     });
 
-当然，在用户重定向至新的页面后，你可以获取并显示 [session](/docs/{{version}}/session) 的快闪数据。举个例子，使用 [Blade 的语法](/docs/{{version}}/blade)：
+当然，在用户重定向至新的页面后，你可以获取并显示 [session](/docs/{{version}}/session) 的闪存数据。举个例子，使用 [Blade 的语法](/docs/{{version}}/blade)：
 
     @if (session('status'))
         <div class="alert alert-success">

@@ -115,7 +115,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 <a name="quick-displaying-the-validation-errors"></a>
 #### 显示验证错误
 
-所以，如果当次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动[快闪至 session](/docs/{{version}}/session#flash-data)。
+所以，如果当次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动[闪存至 session](/docs/{{version}}/session#flash-data)。
 
 同样的，注意我们不需要在 `GET ` 路由明确的绑定错误消息至视图。这是因为 Laravel 会自动检查 session 内的错误数据，如果错误存在的话，会自动绑定这些错误消息到视图。**所以，请注意到 `$errors` 变量在每次请求的所有视图中都将可以使用**，让你可以方便假设 `$errors` 变量已被定义且可以安全地使用。`$errors` 变量是 `Illuminate\Support\MessageBag` 的实例。有关此对象的详细信息，[请查阅它的文档](#working-with-error-messages)。
 
@@ -138,7 +138,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
     <!-- 创建文章的表单 -->
 
 <a name="quick-customizing-the-flashed-error-format"></a>
-#### 自定义快闪的错误消息格式
+#### 自定义闪存的错误消息格式
 
 当验证失败时，假设你想要自定义验证的错误格式到你的闪存，重写 `formatValidationErrors` 在你的控制器里。别忘了将 `Illuminate\Contracts\Validation\Validator` 类引入到文件的上方：
 

@@ -772,7 +772,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
-`old` 函数[获取](/docs/{{version}}/requests#retrieving-input)快闪到 session 的旧有输入数值：
+`old` 函数[获取](/docs/{{version}}/requests#retrieving-input)闪存到 session 的旧有输入数值：
 
     $value = old('value');
 

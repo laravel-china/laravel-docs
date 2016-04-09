@@ -2,7 +2,7 @@
 
 - [简介](#introduction)
 - [基本用法](#basic-usage)
-    - [快闪数据](#flash-data)
+    - [闪存数据](#flash-data)
 - [增加 Session 驱动](#adding-custom-session-drivers)
 
 <a name="introduction"></a>
@@ -150,13 +150,13 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
     $request->session()->regenerate();
 
 <a name="flash-data"></a>
-### 快闪数据
+### 闪存数据
 
-有时候你想存入一条缓存的数据，让它只有在下一次的请求内有效。你可以使用 `flash` 方法达到这个目的。使用这个方法保存，只能将数据保留到下个 HTTP 请求，然后就会自动删除。快闪数据在短期的状态消息中很有用：
+有时候你想存入一条缓存的数据，让它只有在下一次的请求内有效。你可以使用 `flash` 方法达到这个目的。使用这个方法保存，只能将数据保留到下个 HTTP 请求，然后就会自动删除。闪存数据在短期的状态消息中很有用：
 
     $request->session()->flash('status', 'Task was successful!');
 
-如果需要保留闪存数据给更多的请求，可以使用 `reflash` 方法，这将会保留所有的快闪数据给额外的请求。如果只想留一个特定的快内数据，你可以使用 `keep` 方法：
+如果需要保留闪存数据给更多的请求，可以使用 `reflash` 方法，这将会保留所有的闪存数据给额外的请求。如果只想留一个特定的快内数据，你可以使用 `keep` 方法：
 
     $request->session()->reflash();
 
