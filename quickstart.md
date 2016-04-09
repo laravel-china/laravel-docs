@@ -17,7 +17,7 @@
 	- [显示已有的任务](#displaying-existing-tasks)
 - [删除任务](#deleting-tasks)
 	- [增加删除按钮](#adding-the-delete-button)
-	- [删除该笔任务](#deleting-the-task)
+	- [删除该任务](#deleting-the-task)
 
 <a name="introduction"></a>
 ## 简介
@@ -29,11 +29,11 @@
 <a name="installation"></a>
 ## 安装
 
-首先你需要一个全新安装的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其他本机 PHP 环境来运行框架。只要你的本机环境准备好了，就可以使用 Composer 安装 Laravel 框架：
+首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其他本机 PHP 环境来运行框架。只要你的本机环境准备好了，就可以使用 Composer 安装 Laravel 框架：
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
-你可以随意阅读快速入门的剩余部分；不过，如果你想下载这个快速入门的源代码并在你的本机机器运行，那么你需要克隆它的 Git 代码仓库并安装依赖：
+你可以随意阅读快速入门指南的剩余部分；不过，如果你想下载这个快速入门指南的源代码并在你的本机机器运行，那么你需要克隆它的 Git 代码仓库并安装依赖：
 
 	git clone https://github.com/laravel/quickstart-basic quickstart
 	cd quickstart
@@ -50,7 +50,7 @@
 
 首先，让我们使用迁移来定义数据表以容纳我们所有的任务。Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库副本中，你的队友就可以简单运行你推送到版本控制的迁移。
 
-所以，让我们构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan)可以被用于产生各种类，为你构建 Laravel 项目时节省大量的手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表产生新的数据库迁移：
+所以，让我们构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan)可以被用于产生各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表产生新的数据库迁移：
 
 	php artisan make:migration create_tasks_table --create=tasks
 
@@ -264,7 +264,7 @@
 
 接着，我们已经准备好增加代码至我们的 `POST /task` 路由，以处理接收到的表单输入并增加新的任务至数据库中。
 
-> **注意：**`@include('common.errors')` 命令会加载位于 `resources/views/common/errors.blade.php` 的模板。我们尚未定义此模板，但是我们将会在稍后定义它！
+> **注意：**`@include('common.errors')` 命令会加载位于 `resources/views/common/errors.blade.php` 的模板。我们尚未定义此模板，但是我们将会在后面定义它！
 
 <a name="adding-tasks"></a>
 ## 增加任务
@@ -294,7 +294,7 @@
 
 让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过指定的验证器实例将错误消息闪存至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
 
-我们在视图中使用了 `@include('common.errors')` 命令来渲染表单的验证错误消息。`common.errors` 让我们可以简单的在我们所有的页面显示相同格式的验证错误消息。现在让我们定义此视图的内容：
+我们在视图中使用了 `@include('common.errors')` 命令来渲染表单的错误验证消息。`common.errors` 让我们可以简单的在所有的页面都显示相同格式的错误验证消息。现在让我们定义此视图的内容：
 
     // resources/views/common/errors.blade.php
 
@@ -314,7 +314,7 @@
     @endif
 
 
-> **注意：**`errors` 变量可用于**每个** Laravel 的视图中。如果没有验证错误消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
+> **注意：**`errors` 变量可用于**每个** Laravel 的视图中。如果没有错误验证消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
 
 <a name="creating-the-task"></a>
 ### 创建任务
