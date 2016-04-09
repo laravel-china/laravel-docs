@@ -10,13 +10,13 @@
 - [重定向](#redirects)
     - [重定向至命名路由](#redirecting-named-routes)
     - [重定向至控制器行为](#redirecting-controller-actions)
-    - [重定向并加上闪存 Session 数据](#redirecting-with-flashed-session-data)
+    - [重定向并加上 Session 闪存数据](#redirecting-with-flashed-session-data)
 - [响应宏](#response-macros)
 
 <a name="basic-responses"></a>
 ## 基本响应
 
-当然，所有的路由及控制器必须返回某个类型的响应，并发送回用户的浏览器。Laravel 提供了几种不同的方法来返回响应。最基本的响应就是从路由或控制器简易的返回一个字符串：
+所有的路由及控制器必须返回某个类型的响应，并发送回用户的浏览器。Laravel 提供了几种不同的方法来返回响应。最基本的响应就是从路由或控制器简单的返回一个字符串：
 
     Route::get('/', function () {
         return 'Hello World';
@@ -24,7 +24,7 @@
 
 指定的字符串会被框架自动转换成 HTTP 响应。
 
-但是以大部分的路由及控制器所运行的动作来说，你需要返回完整的 `Illuminate\Http\Response` 实例或是一个[视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，你能够自定响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多方法创建 HTTP 响应：
+但是对大部分的路由及控制器所运行的动作来说，一般需要的是返回完整的 `Illuminate\Http\Response` 实例或是一个[视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，就能够自定义响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多创建 HTTP 响应的方法：
 
     use Illuminate\Http\Response;
 
@@ -45,7 +45,7 @@
 <a name="attaching-headers-to-responses"></a>
 #### 附加标头至响应
 
-请记得，大部份的响应方法是可链式调用的，让你创建流利的响应。举例来说，你可以在响应送出给用户之前，使用 `header` 方法增加一系列的标头至响应：
+请记得，大部份的响应方法是可链式调用的，这让你可以顺畅的创建响应。举例来说，你可以在响应发送给用户之前，使用 `header` 方法增加一系列的标头至响应：
 
     return response($content)
                 ->header('Content-Type', $type)
@@ -61,14 +61,14 @@
     return response($content)->header('Content-Type', $type)
                      ->withCookie('name', 'value');
 
-`withCookie` 方法可以接受额外的可选参数，让你进一步定义自定义 cookies 的属性：
+`withCookie` 方法可以接受额外的可选参数，让你进一步自定义 cookies 的属性：
 
     ->withCookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
 
-默认情况下，所有 Laravel 产生的 cookies 都会被加密并加上认证记号，所以无法被用户读取及修改。如果你想将应用程序产生的 cookies 中某个子集的加密停用，你可以使用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性：
+默认情况下，所有 Laravel 产生的 cookies 都会被加密并加上认证标识，因此无法被用户读取及修改。如果你想在应用程序产生的 cookies 中的某个子集进行加密停用，则可以使用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性：
 
     /**
-     * 不需被加密的 cookies 名称。
+     * 无需被加密的 cookies 名称。
      *
      * @var array
      */
@@ -84,11 +84,11 @@
 <a name="view-responses"></a>
 #### 视图响应
 
-如果你想要控制响应状态码及标头，但是也想要返回一个[视图](/docs/{{version}}/views)作为返回的内容时，你可以使用 `view` 方法：
+如果你想要控制响应状态码及标头，同时也想要返回一个[视图](/docs/{{version}}/views)作为返回的内容时，则可以使用 `view` 方法：
 
     return response()->view('hello', $data)->header('Content-Type', $type);
 
-当然，如果你没有自定 HTTP 状态码及标头的需求，你可以简单的使用全局的 `view` 辅助方法。
+当然，如果你没有自定义 HTTP 状态码及标头的需求，则可以简单的使用全局的 `view` 辅助方法。
 
 <a name="json-responses"></a>
 #### JSON 响应
@@ -97,7 +97,7 @@
 
     return response()->json(['name' => 'Abigail', 'state' => 'CA']);
 
-如果你想创建一个 JSONP 响应，你可以使用 `json` 方法并加上 `setCallback`：
+如果你想创建一个 JSONP 响应，则可以使用 `json` 方法并加上 `setCallback`：
 
     return response()->json(['name' => 'Abigail', 'state' => 'CA'])
                      ->setCallback($request->input('callback'));
@@ -111,7 +111,7 @@
 
     return response()->download($pathToFile, $name, $headers);
 
-> **注意：**管理文件下载的扩展包 Symfony HttpFoundation，要求下载文件名必须为 ASCII。
+> **注意：**管理文件下载的扩展包 Symfony HttpFoundation，要求下载文件必须是 ASCII 文件名。
 
 <a name="redirects"></a>
 ## 重定向
@@ -122,7 +122,7 @@
         return redirect('home/dashboard');
     });
 
-有时你可能希望将用户重定向至前一个位置，例如当提交一个无效的表单之后。你可以使用全局的 `back` 辅助方法来达成这个目的：
+有时你可能希望将用户重定向至前一个位置，例如当提交一个无效的表单之后。这时可以使用全局的 `back` 辅助方法来达成这个目的：
 
     Route::post('user/profile', function () {
         // 验证该请求...
@@ -133,24 +133,24 @@
 <a name="redirecting-named-routes"></a>
 #### 重定向至命名路由
 
-当你调用辅助方法 `redirect` 且不带任何参数时，将会返回 `Illuminate\Routing\Redirector` 的实例，你可以对该 `Redirector` 的实例调用任何的方法。举个例子，要产生一个 `RedirectResponse` 到一个命名路由，你可以使用 `route` 方法：
+当你调用 `redirect` 辅助方法且不带任何参数时，将会返回 `Illuminate\Routing\Redirector` 的实例，你可以对该 `Redirector` 的实例调用任何方法。举个例子，要产生一个 `RedirectResponse` 到一个命名路由，你可以使用 `route` 方法：
 
     return redirect()->route('login');
 
-如果你的路由有参数，你可以将参数放进 `route` 方法的第二个参数：
+如果你的路由有参数，则可以将参数放进 `route` 方法的第二个参数：
 
     // For a route with the following URI: profile/{id}
 
     return redirect()->route('profile', [1]);
 
-如果你要重定向至路由且路由的参数为 Eloquent 模型的「ID」，你可以直接将模型传入，ID 将会自动被提取：
+如果你要重定向至路由且路由的参数为 Eloquent 模型的「ID」，则可以直接将模型传入，ID 将会自动被提取：
 
     return redirect()->route('profile', [$user]);
 
 <a name="redirecting-controller-actions"></a>
 #### 重定向至控制器行为
 
-你可能会希望产生重定向至[控制器行为](/docs/{{version}}/controllers)。要做到这一点，只需传递控制器及行为名称至 `action` 方法。请记得，你不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置默认的控制器命名空间：
+你可能会希望产生重定向至[控制器的行为](/docs/{{version}}/controllers)。要做到这一点，只需传递控制器及行为名称至 `action` 方法。请记得，你不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置默认的控制器命名空间：
 
     return redirect()->action('HomeController@index');
 
@@ -159,7 +159,7 @@
     return redirect()->action('UserController@profile', [1]);
 
 <a name="redirecting-with-flashed-session-data"></a>
-#### 重定向并加上闪存 Session 数据
+#### 重定向并加上 Session 闪存数据
 
 通常重定向至新的 URL 时会一并[写入闪存数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用链式调用的方式创建一个 `RedirectResponse` 的实例**并**闪存数据至 Session。这对于在一个动作之后保存状态消息相当方便：
 
@@ -180,7 +180,7 @@
 <a name="response-macros"></a>
 ## 响应宏
 
-如果你想要自定义可以在很多路由和控制器重复使用的响应，你可以使用 `Illuminate\Contracts\Routing\ResponseFactory` 实现的方法 `macro`。
+如果你想要自定义可以在很多路由和控制器重复使用的响应，可以使用 `Illuminate\Contracts\Routing\ResponseFactory` 实现的方法 `macro`。
 
 举个例子，来自[服务提供者的](/docs/{{version}}/providers) `boot` 方法：
 
