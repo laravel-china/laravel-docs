@@ -52,9 +52,9 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         }
     }
 
-在这例子中，当播客被购买时，`PurchasePodcast` 任务会需要寄送 e-mails。因此，我们将 **注入** 能寄送 e-mails 的服务。由于服务被注入，我们能容易地切换成其它实现。当测试应用程序时，我们一样能轻易地「mock」，或创建假的邮件寄送器实现。
+在这例子中，当播客被购买时，`PurchasePodcast` 任务会需要寄送 e-mails。因此，我们将**注入**能寄送 e-mails 的服务。由于服务被注入，我们能容易地切换成其它实现。当测试应用程序时，我们能轻易地「mock」，或创建假的邮件寄送器实现。
 
-在建置强大的应用程序，以及为 Laravel 核心贡献时，须深入理解 Laravel 服务容器。
+在构建强大的应用程序，以及为 Laravel 核心贡献时，须深入理解 Laravel 服务容器。
 
 <a name="binding"></a>
 ## 绑定
@@ -71,7 +71,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
 #### 绑定一个单例
 
-`singletion` 方法绑定一个只会被解析一次的类或接口至容器中，且尔后的调用都会从容器中返回相同的实例：
+`singletion` 方法绑定一个只会被解析一次的类或接口至容器中，且后面的调用都会从容器中返回相同的实例：
 
     $this->app->singleton('FooBar', function ($app) {
         return new FooBar($app['SomethingElse']);
@@ -79,7 +79,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
 #### 绑定实例
 
-你也可以使用 `instance` 方法，绑定一个已经存在的对象实例至容器中。尔后的调用都会从容器中返回指定的实例：
+你也可以使用 `instance` 方法，绑定一个已经存在的对象实例至容器中。后面的调用都会从容器中返回指定的实例：
 
     $fooBar = new FooBar(new SomethingElse);
 
@@ -88,7 +88,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 <a name="binding-interfaces-to-implementations"></a>
 ### 绑定接口至实现
 
-服务容器有个非常强大的特色，就是能够将指定的实现绑定至接口的功能。举个例子，让我们假设我们有个 `EventPusher` 接口及一个 `RedisEventPusher` 实现。一旦我们编写完该接口的 `RedisEventPusher` 实现，就可以如下将它注册至服务容器：
+服务容器有个非常强大的特色功能，就是能够将指定的实现绑定至接口。举个例子，让我们假设我们有个 `EventPusher` 接口及一个 `RedisEventPusher` 实现。一旦我们编写完该接口的 `RedisEventPusher` 实现，就可以将它注册至服务容器：
 
     $this->app->bind('App\Contracts\EventPusher', 'App\Services\RedisEventPusher');
 
@@ -110,7 +110,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 <a name="contextual-binding"></a>
 ### 情境绑定
 
-有时候，你可能有两个类使用到相同接口，但你希望每个类能注入不同实现。例如，当系统收到新订单时，我们可能想通过 [PubNub](http://www.pubnub.com/) 来发送事件，而不是 Pusher。Laravel 提供一个简单又流利接口来定义此行为：
+有时候，你可能有两个类使用到相同接口，但你希望每个类都能注入不同实现。例如，当系统收到新订单时，我们可能想通过 [PubNub](http://www.pubnub.com/) 来发送事件，而不是 Pusher。Laravel 提供一个简单流畅的接口来定义此行为：
 
     $this->app->when('App\Handlers\Commands\CreateOrderHandler')
               ->needs('App\Contracts\EventPusher')
@@ -127,7 +127,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 <a name="tagging"></a>
 ### 标记
 
-有些时候，可能需要解析某个「分类」下的所有绑定。例如，你正在建置一个能接收多个不同 `Report` 接口实现数组的报表汇整器。注册完 Report 实现后，可以使用 `tag` 方法为它们赋予一个标签：
+有些时候，可能需要解析某个「分类」下的所有绑定。例如，你正在构建一个能接收多个不同 `Report` 接口实现数组的报表汇整器。注册完 Report 实现后，可以使用 `tag` 方法为它们赋予一个标签：
 
     $this->app->bind('SpeedReport', function () {
         //
@@ -139,7 +139,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
 
-一旦服务被标记之后，你可以通过 `tagged` 方法很简单的解析它们全部：
+一旦服务被标记之后，你可以通过 `tagged` 方法将它们全部解析：
 
     $this->app->bind('ReportAggregator', function ($app) {
         return new ReportAggregator($app->tagged('reports'));
@@ -148,7 +148,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 <a name="resolving"></a>
 ## 解析
 
-有几种方式可以从容器中解析一些东西。首先，你可以使用 `make` 方法，它接收你希望解析的类或是接口的名称：
+有几种方式可以从容器中解析一些东西。首先，你可以使用 `make` 方法，它会接收你希望解析的类或是接口的名称：
 
     $fooBar = $this->app->make('FooBar');
 
@@ -156,9 +156,9 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $fooBar = $this->app['FooBar'];
 
-最后，但是最重要的，你可以简单地在类的构造器对依赖使用「类型提示」，类将会从容器中进行解析，包含[控制器](/docs/{{version}}/controllers)、[事件侦听器](/docs/{{version}}/events)、[对列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware)及其他等等。在实际情形中，这就是为何大部分的对象都是由容器中解析。
+最后，也是最重要的，你可以在类的构造器简单地对依赖使用「类型提示」，类将会从容器中进行解析，包含[控制器](/docs/{{version}}/controllers)、[事件侦听器](/docs/{{version}}/events)、[对列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware)等等。在实际情形中，这就是为何大部分的对象都是在容器中解析的。
 
-容器会自动为类注入解析出的依赖。举个例子，你可以在控制器的构造器中对应用程序中定义的保存库进行类型提示。保存库会自动被解析及注入至类中：
+容器会自动为类注入解析出的依赖。举个例子，你可以在控制器的构造器中对应用程序定义的保存库进行类型提示。保存库会自动被解析及注入至类中：
 
     <?php
 
@@ -210,4 +210,4 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         // 当容器解析「FooBar」类型的对象时会被调用...
     });
 
-如你所见，被解析的对象会被传递至回调中，让你可以在传递前设置任何额外的属性至对象。
+如你所见，被解析的对象会被传递至回调中，让你可以在传递前设置任何额外属性到对象上。
