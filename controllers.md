@@ -202,7 +202,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
 
     Route::controller('users', 'UserController');
 
-接下来，只要在控制器中加入方法。方法的名称应由它们所回应的 HTTP 动词作为开头，紧跟着首字母大写的 URI 所组成：
+接下来，只要在控制器中加入方法。方法的名称应由它们所响应的 HTTP 动词作为开头，紧跟着首字母大写的 URI 所组成：
 
     <?php
 
@@ -211,7 +211,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
     class UserController extends Controller
     {
         /**
-         * 回应对 GET /users 的请求
+         * 响应对 GET /users 的请求
          */
         public function getIndex()
         {
@@ -219,7 +219,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
         }
 
         /**
-         * 回应对 GET /users/show/1 的请求
+         * 响应对 GET /users/show/1 的请求
          */
         public function getShow($id)
         {
@@ -227,7 +227,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
         }
 
         /**
-         * 回应对 GET /users/admin-profile 的请求
+         * 响应对 GET /users/admin-profile 的请求
          */
         public function getAdminProfile()
         {
@@ -235,7 +235,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
         }
 
         /**
-         * 回应对 POST /users/profile 的请求
+         * 响应对 POST /users/profile 的请求
          */
         public function postProfile()
         {
@@ -243,7 +243,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
         }
     }
 
-正如你在上述例子中所看到的，`index` 方法会回应控制器所处理的根 URI，在这个例子中是 `users`。
+正如你在上述例子中所看到的，`index` 方法会响应控制器所处理的根 URI，在这个例子中是 `users`。
 
 #### 分派路由名称
 

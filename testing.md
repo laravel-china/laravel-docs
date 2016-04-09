@@ -83,16 +83,16 @@ Laravel 对于产生 HTTP 请求并送至应用程序，检查输出，甚至填
         }
     }
 
-`visit` 方法会制造 `GET` 请求至应用程序，`see` 方法则断言在应用程序返回的回应中，有指定的文本。The `dontSee` method asserts that the given text is not returned in the application response.这是 Laravel 所提供最基本的应用程序测试。
+`visit` 方法会制造 `GET` 请求至应用程序，`see` 方法则断言在应用程序返回的响应中，有指定的文本。The `dontSee` method asserts that the given text is not returned in the application response.这是 Laravel 所提供最基本的应用程序测试。
 
 <a name="interacting-with-your-application"></a>
 ### 与你的应用程序进行交互
 
-当然，除了断言文本是否存在于一个指定的回应，你可以做更多的交互。让我们看看点击链接及填写表单的例子：
+当然，除了断言文本是否存在于一个指定的响应，你可以做更多的交互。让我们看看点击链接及填写表单的例子：
 
 #### 点击链接
 
-在这个测试中，我们会产生一个请求送到应用程序，并「点击」返回回应中的链接，接着断言我们会停留在指定的 URI。举个例子，假设在回应中有个链接，并写着「About Us」：
+在这个测试中，我们会产生一个请求送到应用程序，并「点击」返回响应中的链接，接着断言我们会停留在指定的 URI。举个例子，假设在响应中有个链接，并写着「About Us」：
 
     <a href="/about-us">About Us</a>
 
@@ -162,7 +162,7 @@ Laravel 还提供了几种用于测试表单的方法。通过 `type`、`select`
 <a name="testing-json-apis"></a>
 ### 测试 JSON APIs
 
-Laravel 也提供了几个辅助方法测试 JSON APIs 及其回应。举例来说，`get`、`post`、`put`、`patch` 及 `delete` 方法可以用于发出各种 HTTP 动词的请求。你也可以很轻松的传入数据或是标头到这些方法。首先，我们编写一个测试，发出 `POST` 请求至 `/user` ，并断言会返回JSON 格式的指定数组：
+Laravel 也提供了几个辅助方法测试 JSON APIs 及其响应。举例来说，`get`、`post`、`put`、`patch` 及 `delete` 方法可以用于发出各种 HTTP 动词的请求。你也可以很轻松的传入数据或是标头到这些方法。首先，我们编写一个测试，发出 `POST` 请求至 `/user` ，并断言会返回JSON 格式的指定数组：
 
     <?php
 
@@ -182,7 +182,7 @@ Laravel 也提供了几个辅助方法测试 JSON APIs 及其回应。举例来�
         }
     }
 
-`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 回应中的**任何位置**。也就是说，即使有其他的属性在 JSON 回应中，但是只要指定的片段存在，此测试仍然会通过。
+`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 响应中的**任何位置**。也就是说，即使有其他的属性在 JSON 响应中，但是只要指定的片段存在，此测试仍然会通过。
 
 #### 验证 JSON 完全匹配
 
@@ -299,11 +299,11 @@ Laravel 为 [PHPUnit](https://phpunit.de/) 测试提供了一些额外的断言�
 
 方法  | 描述
 ------------- | -------------
-`->assertResponseOk();`  |  断言客户端的回应拥有 OK 状态码。
-`->assertResponseStatus($code);`  |  断言客户端的回应拥有指定的状态码。
-`->assertViewHas($key, $value = null);`  |  断言回应视图拥有指定的部分绑定数据。
-`->assertViewHasAll(array $bindings);`  |  断言回应视图拥有指定的绑定数据列表。
-`->assertViewMissing($key);`  |  断言回应视图不包含指定的部分绑定数据。
+`->assertResponseOk();`  |  断言客户端的响应拥有 OK 状态码。
+`->assertResponseStatus($code);`  |  断言客户端的响应拥有指定的状态码。
+`->assertViewHas($key, $value = null);`  |  断言响应视图拥有指定的部分绑定数据。
+`->assertViewHasAll(array $bindings);`  |  断言响应视图拥有指定的绑定数据列表。
+`->assertViewMissing($key);`  |  断言响应视图不包含指定的部分绑定数据。
 `->assertRedirectedTo($uri, $with = []);`  |  断言客户端是否被重定向至指定的 URI。
 `->assertRedirectedToRoute($name, $parameters = [], $with = []);`  | 断言客户端是否被重定向至指定的路由
 `->assertRedirectedToAction($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向至指定的行为。

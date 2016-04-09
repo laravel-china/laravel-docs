@@ -180,7 +180,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
     php artisan up
 
-### 维护模式的回应模板
+### 维护模式的响应模板
 
 维护模式的默认模板放在 `resources/views/errors/503.blade.php`。
 

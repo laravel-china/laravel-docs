@@ -224,7 +224,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     $model = App\Flight::where('legs', '>', 100)->firstOrFail();
 
-如果没有捕捉到异常，会自动地送回 HTTP `404` 回应给用户，所以当使用这些方法时，没有必要明确的编写检查以返回 `404` 回应：
+如果没有捕捉到异常，会自动地送回 HTTP `404` 响应给用户，所以当使用这些方法时，没有必要明确的编写检查以返回 `404` 响应：
 
     Route::get('/api/flights/{id}', function ($id) {
         return App\Flight::findOrFail($id);

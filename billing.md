@@ -298,7 +298,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
         // 该收费被拒绝...
     }
 
-如果收费成功，该方法会返回完整的 Stripe 回应。
+如果收费成功，该方法会返回完整的 Stripe 响应。
 
 <a name="invoices"></a>
 ## 收据
@@ -322,7 +322,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="generating-invoice-pdfs"></a>
 #### 产生收据的 PDFs
 
-在路由或是控制器中，使用 `downloadInvoice` 方法可以触发收据的 PDF 下载动作，此方法会自动产生正确的 HTTP 回应并发送下载动作至浏览器：
+在路由或是控制器中，使用 `downloadInvoice` 方法可以触发收据的 PDF 下载动作，此方法会自动产生正确的 HTTP 响应并发送下载动作至浏览器：
 
     Route::get('user/invoice/{invoice}', function ($invoiceId) {
         return Auth::user()->downloadInvoice($invoiceId, [

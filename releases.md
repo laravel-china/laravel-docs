@@ -97,7 +97,7 @@ Laravel 文档的每一页已被精心审阅，并得到显著的改善。所有
 
 ### 测试改进
 
-Laravel 内置的测试功能已得到显著的改善。各种新的方法提供了流畅、简明的接口与应用程序进行交互，并检查回应。例如，查看下方的测试：
+Laravel 内置的测试功能已得到显著的改善。各种新的方法提供了流畅、简明的接口与应用程序进行交互，并检查响应。例如，查看下方的测试：
 
     public function testNewUserRegistration()
     {
@@ -366,7 +366,7 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
         ]);
     }
 
-如果验证失败，会抛出异常以及返回适当的 HTTP 回应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
+如果验证失败，会抛出异常以及返回适当的 HTTP 响应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
 
 更多关于这个新方法的信息，参考[这个文档](/docs/{{version}}/validation#controller-validation)。
 

@@ -338,7 +338,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="stateless-http-basic-authentication"></a>
 ### 无状态 HTTP 基础认证
 
-你可以使用 HTTP 基础认证而不用在 session 中设置用户认证用的 cookie，这个功能对 API 认证来说非常有用。为了达到这个目的，[定义一个中间件](/docs/{{version}}/middleware)并这个中间件会调用 `onceBasic` 方法。如果没有任何回应从 `onceBasic` 方法返回的话，这个请求会直接传进应用程序中：
+你可以使用 HTTP 基础认证而不用在 session 中设置用户认证用的 cookie，这个功能对 API 认证来说非常有用。为了达到这个目的，[定义一个中间件](/docs/{{version}}/middleware)并这个中间件会调用 `onceBasic` 方法。如果没有任何响应从 `onceBasic` 方法返回的话，这个请求会直接传进应用程序中：
 
     <?php
 

@@ -12,7 +12,7 @@
     - [中间件](/docs/{{version}}/middleware)
     - [控制器](/docs/{{version}}/controllers)
     - [请求](/docs/{{version}}/requests)
-    - [回应](/docs/{{version}}/responses)
+    - [响应](/docs/{{version}}/responses)
     - [视图](/docs/{{version}}/views)
     - [Blade 模板](/docs/{{version}}/blade)
 - 教程

@@ -1,30 +1,30 @@
-# HTTP 回应
+# HTTP 响应
 
-- [基本回应](#basic-responses)
-    - [附加标头至回应](#attaching-headers-to-responses)
-    - [附加 Cookies 至回应](#attaching-cookies-to-responses)
-- [其它回应类型](#other-response-types)
-    - [视图回应](#view-responses)
-    - [JSON 回应](#json-responses)
+- [基本响应](#basic-responses)
+    - [附加标头至响应](#attaching-headers-to-responses)
+    - [附加 Cookies 至响应](#attaching-cookies-to-responses)
+- [其它响应类型](#other-response-types)
+    - [视图响应](#view-responses)
+    - [JSON 响应](#json-responses)
     - [文件下载](#file-downloads)
 - [重定向](#redirects)
     - [重定向至命名路由](#redirecting-named-routes)
     - [重定向至控制器行为](#redirecting-controller-actions)
     - [重定向并加上快闪 Session 数据](#redirecting-with-flashed-session-data)
-- [回应宏](#response-macros)
+- [响应宏](#response-macros)
 
 <a name="basic-responses"></a>
-## 基本回应
+## 基本响应
 
-当然，所有的路由及控制器必须返回某个类型的回应，并发送回用户的浏览器。Laravel 提供了几种不同的方法来返回回应。最基本的回应就是从路由或控制器简易的返回一个字符串：
+当然，所有的路由及控制器必须返回某个类型的响应，并发送回用户的浏览器。Laravel 提供了几种不同的方法来返回响应。最基本的响应就是从路由或控制器简易的返回一个字符串：
 
     Route::get('/', function () {
         return 'Hello World';
     });
 
-指定的字符串会被框架自动转换成 HTTP 回应。
+指定的字符串会被框架自动转换成 HTTP 响应。
 
-但是以大部分的路由及控制器所运行的动作来说，你需要返回完整的 `Illuminate\Http\Response` 实例或是一个[视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，你能够自定回应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多方法创建 HTTP 回应：
+但是以大部分的路由及控制器所运行的动作来说，你需要返回完整的 `Illuminate\Http\Response` 实例或是一个[视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，你能够自定响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多方法创建 HTTP 响应：
 
     use Illuminate\Http\Response;
 
@@ -43,9 +43,9 @@
 > **注意：**有关 `Response` 方法的完整列表可以参照 [API 文档](http://laravel.com/api/master/Illuminate/Http/Response.html)以及 [Symfony API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/Response.html)。
 
 <a name="attaching-headers-to-responses"></a>
-#### 附加标头至回应
+#### 附加标头至响应
 
-请记得，大部份的回应方法是可链式调用的，让你创建流利的回应。举例来说，你可以在回应送出给用户之前，使用 `header` 方法增加一系列的标头至回应：
+请记得，大部份的响应方法是可链式调用的，让你创建流利的响应。举例来说，你可以在响应送出给用户之前，使用 `header` 方法增加一系列的标头至响应：
 
     return response($content)
                 ->header('Content-Type', $type)
@@ -54,9 +54,9 @@
 
 
 <a name="attaching-cookies-to-responses"></a>
-#### 附加 Cookies 至回应
+#### 附加 Cookies 至响应
 
-通过回应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至回应。举个例子，你可以使用 `withCookie` 方法来产生 cookie 并附加至回应实例：
+通过响应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来产生 cookie 并附加至响应实例：
 
     return response($content)->header('Content-Type', $type)
                      ->withCookie('name', 'value');
@@ -77,27 +77,27 @@
     ];
 
 <a name="other-response-types"></a>
-## 其它回应类型
+## 其它响应类型
 
-使用辅助方法 `response` 可以轻松的产生其他类型的回应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来产生回应。
+使用辅助方法 `response` 可以轻松的产生其他类型的响应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来产生响应。
 
 <a name="view-responses"></a>
-#### 视图回应
+#### 视图响应
 
-如果你想要控制回应状态码及标头，但是也想要返回一个[视图](/docs/{{version}}/views)作为返回的内容时，你可以使用 `view` 方法：
+如果你想要控制响应状态码及标头，但是也想要返回一个[视图](/docs/{{version}}/views)作为返回的内容时，你可以使用 `view` 方法：
 
     return response()->view('hello', $data)->header('Content-Type', $type);
 
 当然，如果你没有自定 HTTP 状态码及标头的需求，你可以简单的使用全局的 `view` 辅助方法。
 
 <a name="json-responses"></a>
-#### JSON 回应
+#### JSON 响应
 
 `json` 方法会自动将标头的 `Content-Type` 设置为 `application/json`，并通过 PHP 的 `json_encode` 函数将指定的数组转换为 JSON：
 
     return response()->json(['name' => 'Abigail', 'state' => 'CA']);
 
-如果你想创建一个 JSONP 回应，你可以使用 `json` 方法并加上 `setCallback`：
+如果你想创建一个 JSONP 响应，你可以使用 `json` 方法并加上 `setCallback`：
 
     return response()->json(['name' => 'Abigail', 'state' => 'CA'])
                      ->setCallback($request->input('callback'));
@@ -105,7 +105,7 @@
 <a name="file-downloads"></a>
 #### 文件下载
 
-`download` 方法可以用于产生强制让用户的浏览器下载指定路径文件的回应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个 HTTP 标头的数组作为第三个参数传入该方法：
+`download` 方法可以用于产生强制让用户的浏览器下载指定路径文件的响应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个 HTTP 标头的数组作为第三个参数传入该方法：
 
     return response()->download($pathToFile);
 
@@ -116,7 +116,7 @@
 <a name="redirects"></a>
 ## 重定向
 
-重定向回应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助方法：
+重定向响应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助方法：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
@@ -178,9 +178,9 @@
     @endif
 
 <a name="response-macros"></a>
-## 回应宏
+## 响应宏
 
-如果你想要自定义可以在很多路由和控制器重复使用的回应，你可以使用 `Illuminate\Contracts\Routing\ResponseFactory` 实现的方法 `macro`。
+如果你想要自定义可以在很多路由和控制器重复使用的响应，你可以使用 `Illuminate\Contracts\Routing\ResponseFactory` 实现的方法 `macro`。
 
 举个例子，来自[服务提供者的](/docs/{{version}}/providers) `boot` 方法：
 

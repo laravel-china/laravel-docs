@@ -43,13 +43,13 @@
 
 #### 为多重动作注册路由
 
-有时候你可能需要注册一个可回应多个 HTTP 动作的路由。这时可通过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来实现：
+有时候你可能需要注册一个可响应多个 HTTP 动作的路由。这时可通过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来实现：
 
     Route::match(['get', 'post'], '/', function () {
         return 'Hello World';
     });
 
-或者，你甚至可以通过 `any` 方法来使用注册路由并回应所有的 HTTP 动作：
+或者，你甚至可以通过 `any` 方法来使用注册路由并响应所有的 HTTP 动作：
 
     Route::any('foo', function () {
         return 'Hello World';
@@ -387,4 +387,4 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
 其次，你也可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
 
-更多有关如何操作 404 异常和自定义回应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。
+更多有关如何操作 404 异常和自定义响应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。

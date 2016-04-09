@@ -684,7 +684,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-back"></a>
 #### `back()` {#collection-method}
 
-`back()` 函数产生一个重定向回应让用户回到之前的位置：
+`back()` 函数产生一个重定向响应让用户回到之前的位置：
 
     return back();
 
@@ -795,7 +795,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-response"></a>
 #### `response()` {#collection-method}
 
-`response` 函数创建一个[回应](/docs/{{version}}/responses)实例或获取一个回应工厂（response factory）实例：
+`response` 函数创建一个[响应](/docs/{{version}}/responses)实例或获取一个响应工厂（response factory）实例：
 
     return response('Hello World', 200, $headers);
 

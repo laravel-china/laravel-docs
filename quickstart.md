@@ -428,7 +428,7 @@
 <a name="a-note-on-method-spoofing"></a>
 #### 方法欺骗的注记
 
-注意，删除按钮的表单 `method` 被列为 `POST`，即使我们回应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单假冒一个 `DELETE` 请求。
+注意，删除按钮的表单 `method` 被列为 `POST`，即使我们响应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单假冒一个 `DELETE` 请求。
 
 我们可以在表单中通过 `method_field('DELETE')` 函数输出的结果假冒一个 `DELETE` 请求。此函数会产生一个隐藏的表单输入，Laravel 会辨识并覆盖掉实际使用的 HTTP 请求方法。产生的字段看起来如下：
 

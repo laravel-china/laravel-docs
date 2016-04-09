@@ -151,7 +151,7 @@
 - Route / Routing 路由
 - Router 路由器
 - Request 请求
-- Response 回应
+- Response 响应
 - Resolved 解析
 - Repository 存储库
 - Redirect 重定向
