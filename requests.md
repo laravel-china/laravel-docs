@@ -11,7 +11,7 @@
 <a name="accessing-the-request"></a>
 ## 获取请求
 
-要通过依赖注入的方式获取 HTTP 请求的实例，你必须在控制器的建构函子或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例就会自动由[服务容器](/docs/{{version}}/container)注入：
+要通过依赖注入的方式获取 HTTP 请求的实例，就必须在控制器的构造器或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例便会自动由[服务容器](/docs/{{version}}/container)注入：
 
     <?php
 
@@ -36,11 +36,11 @@
         }
     }
 
-如果你的控制器方法也有从路由参数传入的输入数据，只需要将路由参数置于其他依赖之后。举例来说，如果你的路由定义像是：
+如果控制器方法也有输入数据是从路由参数传入的，只需将路由参数置于其他依赖之后。举例来说，如果你的路由是这样定义的：
 
     Route::put('user/{id}', 'UserController@update');
 
-只要像下方一样定义控制器方法，一样可以使用 `Illuminate\Http\Request` 类型提示，同时获取你的路由参数 `id`：
+只要像下方一样定义控制器方法，就可以使用 `Illuminate\Http\Request` 类型提示，同时获取到你的路由参数 `id`：
 
     <?php
 
@@ -67,7 +67,7 @@
 <a name="basic-request-information"></a>
 ### 基本请求信息
 
-`Illuminate\Http\Request` 的实例提供了多种方法，用于检查应用程序的 HTTP 请求。Larevel 的 `Illuminate\Http\Request` 继承了 `Symfony\Component\HttpFoundation\Request` 类。下方是该类的几个有用的方法：
+`Illuminate\Http\Request` 的实例提供了多种方法来用于检查应用程序的 HTTP 请求。Larevel 的 `Illuminate\Http\Request` 继承了 `Symfony\Component\HttpFoundation\Request` 类。下方是该类的几个有用的方法：
 
 #### 获取请求的 URI
 
@@ -81,13 +81,13 @@
         //
     }
 
-若要获取完整的网址，而不只有路径信息，你可以对请求实例使用 `url` 方法：
+若要获取完整的网址，而不是仅有路径信息，则可以对请求实例使用 `url` 方法：
 
     $url = $request->url();
 
 #### 获取请求的方法
 
-`method` 方法会返回当次请求的 HTTP 动词。你也可以通过 `isMethod` 方法来验证 HTTP 动词和指定的字符串是否互相匹配：
+`method` 方法会返回此次请求的 HTTP 动作。也可以通过 `isMethod` 方法来验证 HTTP 动作和指定的字符串是否相匹配：
 
     $method = $request->method();
 
@@ -98,13 +98,13 @@
 <a name="psr7-requests"></a>
 ### PSR-7 请求
 
-PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想获得一个 PSR-7 的请求实例，你必须先安装几个函数库。Laravel 使用 Symfony 的 HTTP 消息桥接组件，将原 Laravel 的请求及回应转换至 PSR-7 所支持的实现：
+PSR-7 标准制定的 HTTP 消息接口包含了请求及响应。如果你想获得一个 PSR-7 的请求实例，你就必须先安装几个函数库。Laravel 使用 Symfony 的 HTTP 消息桥接组件，将原 Laravel 的请求及响应转换至 PSR-7 所支持的实现：
 
     composer require symfony/psr-http-message-bridge
 
     composer require zendframework/zend-diactoros
 
-只要你安装完这些函数库，你就可以在你的路由或控制器中，简单的对请求类型使用类型提示获取 PSR-7 的请求：
+只要你安装完这些函数库，就可以在路由或控制器中，简单的对请求类型使用类型提示来获取 PSR-7 的请求：
 
     use Psr\Http\Message\ServerRequestInterface;
 
@@ -112,14 +112,14 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想�
         //
     });
 
-如果你从路由或控制器返回一个 PSR-7 的回应实例，它会被框架自动转换回 Laravel 的回应实例并显示。
+如果你从路由或控制器返回一个 PSR-7 的响应实例，那么它会被框架自动转换回 Laravel 的响应实例并显示。
 
 <a name="retrieving-input"></a>
 ## 获取输入数据
 
 #### 获取特定输入值
 
-你可以通过 `Illuminate\Http\Request` 的实例，经由几个简洁的方法获取所有的用户输入数据。不需要担心发出请求时使用的 HTTP 动词，获取输入数据的方式都是相同的。
+你可以通过 `Illuminate\Http\Request` 的实例，借助几个简洁的方法获取所有的用户输入数据。而不需要去担心发出请求时使用的 HTTP 动作，因为它们获取输入数据的方式都是相同的。
 
     $name = $request->input('name');
 
@@ -127,17 +127,17 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想�
 
     $name = $request->name;
 
-你可以在 `input` 方法的第二个参数传入一个默认值。当请求的输入数据不存在于当次请求，就会返回默认值：
+你可以在 `input` 方法的第二个参数中传入一个默认值。当请求的输入数据不存在于此次请求时，就会返回默认值：
 
     $name = $request->input('name', 'Sally');
 
-如果是「数组」形式的输入数据，可以使用「点」语法获取数组：
+如果是「数组」形式的输入数据，则可以使用「点」语法来获取数组：
 
     $input = $request->input('products.0.name');
 
 #### 确认是否有输入值
 
-要判断数据是否存在于当次请求，你可以使用 `has` 方法。当该数据存在**而且**不为空字符串时，`has` 方法就会传回 `true`：
+要判断数据是否存在于此次请求，可以使用 `has` 方法。当该数据存在**并且**字符串不为空时，`has` 方法就会传回 `true`：
 
     if ($request->has('name')) {
         //
@@ -151,7 +151,7 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想�
 
 #### 获取部分输入数据
 
-如果你想获取输入数据的子集，你可以使用 `only` 及 `except` 方法。这两个方法都接受单一`数组`或是动态列表作为参数：
+如果你想获取输入数据的子集，你可以使用 `only` 及 `except` 方法。这两个方法都接受单个`数组`或是动态列表作为参数：
 
     $input = $request->only(['username', 'password']);
 
@@ -164,9 +164,9 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及回应。如果你想�
 <a name="old-input"></a>
 ### 旧输入数据
 
-Laravel 可以让你保留这次的输入数据，直到下一次请求发送前。对于在表单验证失败后重新填入表单值相当有用。当然，如果你使用 Laravel 的[验证服务](/docs/{{version}}/validation)，你就不需要手动使用这些方法，因为一些 Laravel 内置的验证功能会自动调用它们。
+Laravel 可以让你将本次的输入数据保留到下一次请求发送前。对于在表单验证失败后重新填入表单值相当有用。当然，如果你使用 Laravel 的[验证服务](/docs/{{version}}/validation)，你就不需要再手动使用这些方法，因为 Laravel 的一些内置验证功能会自动调用它们。
 
-#### 将输入数据快闪至 Session
+#### 将输入数据闪存至 Session
 
 `Illuminate\Http\Request` 实例的 `flash` 方法会将当前的输入数据存进 [Session](/docs/{{version}}/session) 中，所以下次用户发出请求至应用程序时就可以使用它们：
 
@@ -178,9 +178,9 @@ Laravel 可以让你保留这次的输入数据，直到下一次请求发送前
 
     $request->flashExcept('password');
 
-#### 快闪输入数据至 Session 后重定向
+#### 闪存输入数据至 Session 后重定向
 
-你可能常常想要将输入数据快闪并重定向至前一页，你只要在重定向方法后串接 `withInput` 就行了：
+你可能常常需要将输入数据闪存并重定向至前一页，这时只要在重定向方法后加上 `withInput` 就行了：
 
     return redirect('form')->withInput();
 
@@ -188,26 +188,26 @@ Laravel 可以让你保留这次的输入数据，直到下一次请求发送前
 
 #### 获取旧输入数据
 
-若要获取前次请求所快闪的输入数据，你可以使用 `Request` 实例中的 `old` 方法。`old` 方法提供一个简便的方式从 [Session](/docs/{{version}}/session) 取出被快闪的输入数据：
+若要获取上一次请求后所闪存的输入数据，你可以使用 `Request` 实例中的 `old` 方法。`old` 方法提供一个简便的方式从 [Session](/docs/{{version}}/session) 取出被闪存的输入数据：
 
     $username = $request->old('username');
 
-Laravel 也提供了全局辅助方法 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade)显示旧输入数据，可以使用更加方便的辅助方法 `old`：
+Laravel 也提供了全局辅助方法 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade)中显示旧输入数据，可以使用更加方便的 `old` 辅助方法：
 
     {{ old('username') }}
 
 <a name="cookies"></a>
 ### Cookies
 
-#### 从请求取的 Cookie 值
+#### 从请求取出 Cookie 值
 
-Laravel 框架创建的每个 cookie 会加密并且加上认证记号，这代表着被用户擅自更改的 cookie 会失效。若要从当次请求获取 cookie 值，你可以使用 `Illuminate\Http\Request` 实例中的 `cookie` 方法：
+Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，这代表着用户擅自更改的 cookie 都会失效。若要从此次请求获取 cookie 值，你可以使用 `Illuminate\Http\Request` 实例中的 `cookie` 方法：
 
     $value = $request->cookie('name');
 
-#### 加上新的 Cookie 至回应
+#### 将新的 Cookie 附加到响应
 
-Laravel 提供了全局辅助方法 `cookie`，通过简易的工厂来产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后连接 `withCookie` 方法带入 cookie 至回应：
+Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后加上 `withCookie` 方法来把 cookie 附加至响应：
 
     $response = new Illuminate\Http\Response('Hello World');
 
@@ -215,7 +215,7 @@ Laravel 提供了全局辅助方法 `cookie`，通过简易的工厂来产生新
 
     return $response;
 
-如果要创建一个长期存在，为期五年的 cookie，你可以先调用 `cookie` 辅助方法且不带入任何参数，再使用 cookie 工厂的 `forever` 方法，接着将 `forever` 方法串接在返回的 cookie 工厂：
+如果要创建一个可长期存在，为期五年的 cookie，可以先调用 `cookie` 辅助方法且不带入任何参数，再使用 cookie 工厂的 `forever` 方法，接着将 `forever` 方法拼接在返回的 cookie 工厂之后：
 
     $response->withCookie(cookie()->forever('name', 'value'));
 
@@ -230,7 +230,7 @@ Laravel 提供了全局辅助方法 `cookie`，通过简易的工厂来产生新
 
 #### 确认文件是否有上传
 
-你可以使用请求的 `hasFile` 方法确定上传的文件是否存在：
+你可以使用请求的 `hasFile` 方法确认上传的文件是否存在：
 
     if ($request->hasFile('photo')) {
         //
@@ -246,7 +246,7 @@ Laravel 提供了全局辅助方法 `cookie`，通过简易的工厂来产生新
 
 #### 移动上传的文件
 
-若要移动上传的文件至新的位置，你必须使用 `move` 方法。该方法会将文件从缓存位置（由你的 PHP 配置决定）移动至你指定的永久保存位置：
+若要移动上传的文件至新位置，则必须使用 `move` 方法。该方法会将文件从缓存位置（由你的 PHP 配置决定）移动至你指定的永久保存位置：
 
     $request->file('photo')->move($destinationPath);
 
@@ -254,4 +254,4 @@ Laravel 提供了全局辅助方法 `cookie`，通过简易的工厂来产生新
 
 #### 其他上传文件的方法
 
-`UploadedFile` 的实例还有许多可用的方法，可以至[该对象的 API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html)了解有关这些方法的详细信息。
+`UploadedFile` 的实例还有许多可用的方法，可以到[该对象的 API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html)了解这些方法的详细信息。
