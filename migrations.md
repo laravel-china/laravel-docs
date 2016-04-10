@@ -31,7 +31,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 
 新的迁移文件将会放置在 `database/migrations` 目录中。每个迁移文件名称都包含了一个时间戳，让 Laravel 能够确认迁移的顺序。
 
-`--table` 和 `--create` 选项可用来指定数据表的名称，或是该迁移会创建新的数据表。这些选项只需预先在产生迁移建置文件时填入指定的数据表：
+`--table` 和 `--create` 选项可用来指定数据表的名称，或是该迁移会创建新的数据表。这些选项只需预先在产生迁移构建文件时填入指定的数据表：
 
     php artisan make:migration add_votes_to_users_table --table=users
 
