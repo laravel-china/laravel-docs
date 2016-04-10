@@ -49,7 +49,9 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer create-project laravel/laravel --prefer-dist blog
 
-> CJ: `composer create-project laravel/laravel=5.1.* your-project-name --prefer-dist`
+> CJ: 使用以下命令安装 Laravel 5.1 LTS
+
+    composer create-project laravel/laravel your-project-name --prefer-dist "5.1.*"
 
 <a name="configuration"></a>
 ## 配置信息
