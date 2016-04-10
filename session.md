@@ -12,7 +12,7 @@
 
 ### 配置
 
-Session 的配置文件配置在 `config/session.php`。请务必看一下此配置文件中可用的选项设置及注解。Laravel 默认使用 `file` 的 session 驱动，它在大多的应用中可以良好运作。在上线的应用程序中，你可能会考虑使用更快的 `memcached ` 或 `redis` 等驱动。
+Session 的配置文件配置在 `config/session.php`。请务必看一下此配置文件中可用的选项设置及注释。Laravel 默认使用 `file` 的 session 驱动，它在大多的应用中可以良好运作。在上线的应用程序中，你可能会考虑使用更快的 `memcached ` 或 `redis` 等驱动。
 
 Session `driver` 定义了数据将由什么样的方式保存。Laravel 附带了几个不错且可立即使用的驱动：
 

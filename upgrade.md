@@ -385,7 +385,7 @@ use Authenticatable, CanResetPassword;
 \Blade::setEscapedContentTags('{{{', '}}}');
 ```
 
-上述设置你不该轻易使用，这将使你的应用程序更加容易遭受 XSS 攻击。而且用 `{{--` 注解将无法作用。
+上述设置你不该轻易使用，这将使你的应用程序更加容易遭受 XSS 攻击。而且用 `{{--` 注释将无法作用。
 
 ### 语系档
 
