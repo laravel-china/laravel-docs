@@ -18,7 +18,7 @@ Laravel 对主流的数据库系统连接和查询都有很好的支持，无论
 - SQLite
 - SQL Server
 
-> CJ: Mongo DB 的支持可以使用这个项目 - [laravel-mongodb](https://github.com/jenssegers/laravel-mongodb)
+> [Summer](http://github.com/summerblue): Mongo DB 的支持可以使用这个项目 - [laravel-mongodb](https://github.com/jenssegers/laravel-mongodb)
 
 <a name="configuration"></a>
 ### 配置信息

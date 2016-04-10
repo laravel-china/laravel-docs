@@ -17,7 +17,7 @@
 
 除了可以在单个的 `routes.php` 文件中定义所有的请求处理逻辑外，你可能还希望可以使用控制器类来组织此行为。控制器可将相关的 HTTP 请求处理逻辑组成一个类。控制器一般存放在 `app/Http/Controllers` 目录下。
 
-> CJ: 不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
+> [Summer](http://github.com/summerblue): 不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
 1. 因为这是最佳实践，一开始做对了，后面节省你大量的时间；
 2. 路由缓存并不会作用在基于闭包的路由。
 

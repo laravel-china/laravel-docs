@@ -442,7 +442,7 @@ Eloquent 会假设对应的关联的外键名称是基于模型名称。在这�
         'likes' => App\Like::class,
     ]);
 
-> CJ: 可以使用 class_basename(App\Post::class) 来得到 `Post`
+> [Summer](http://github.com/summerblue): 可以使用 class_basename(App\Post::class) 来得到 `Post`
 
 你可以在 `AppServiceProvider` 中注册你的「多态对照表」，或者创建一个单独的提供者文件。
 
