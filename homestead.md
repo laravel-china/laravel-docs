@@ -123,7 +123,7 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包
 
     192.168.10.10  homestead.app
 
-务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。在将网域设置在 `hosts` 文件之后，你就可以通过网页浏览器造访你的网站啦！
+务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。在将网域设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站啦！
 
     http://homestead.app
 
