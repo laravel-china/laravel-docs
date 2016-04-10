@@ -3,7 +3,7 @@
     - [发行说明](/docs/{{version}}/releases)
     - [升级导引](/docs/{{version}}/upgrade)
     - [贡献导引](/docs/{{version}}/contributions)
-    - [API 文档](http://laravel.com/api/{{version}})
+    - [API 文档](http://laravel-china.org/api/{{version}})
 - 环境配置
     - [安装](/docs/{{version}}/installation)
     - [Homestead](/docs/{{version}}/homestead)
