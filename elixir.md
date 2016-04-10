@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，甚至包含了测试工具。使用链式调用，Elixir 让你流畅的定义你的开发流程，例如：
+Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序中定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，甚至包含了测试工具。使用链式调用，Elixir 让你流畅的定义你的开发流程，例如：
 
 ```javascript
 elixir(function(mix) {
@@ -75,7 +75,7 @@ Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Eli
 
 #### 监控资源文件修改
 
-因为每次修改你的资源文件之后在命令行运行 `gulp` 命令相当不便，因此你可以使用 `gulp watch` 命令。此命令会在你的命令行继续运行，并监控资源文件的任何修改。当发生修改时，新文件将会自动被编译：
+因为每次修改你的资源文件之后在命令行运行 `gulp` 命令会相当不便，因此你可以使用 `gulp watch` 命令。此命令会在你的命令行继续运行并监控资源文件的任何修改。当发生修改时，新文件将会自动被编译：
 
     gulp watch
 
@@ -87,7 +87,7 @@ Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Eli
 <a name="less"></a>
 ### Less
 
-要将 [Less](http://lesscss.org/) 编译为 CSS，你可以使用 `less` 方法。`less` 方法会假设你的 Less 文件被保存在 `resources/assets/less`。默认情形下，此例子的任务会将编译后的 CSS 放置于 `public/css/app.css`：
+要将 [Less](http://lesscss.org/) 编译为 CSS，你可以使用 `less` 方法。`less` 方法会假设你的 Less 文件被保存在 `resources/assets/less` 中。默认情况下，此例子的任务会将编译后的 CSS 放置于 `public/css/app.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -95,7 +95,7 @@ elixir(function(mix) {
 });
 ```
 
-你可能会想合并多个 Less 文件至单一的 CSS 文件。同样的，产生的 CSS 会被放置于 `public/css/app.css`：
+你可能会想合并多个 Less 文件至单个 CSS 文件。同样的，产生的 CSS 会被放置于 `public/css/app.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -106,7 +106,7 @@ elixir(function(mix) {
 });
 ```
 
-如果你想自定编译后的 CSS 的输出位置，你可以传递第二个参数至 `less` 方法：
+如果你想自定义编译后的 CSS 输出位置，你可以传递第二个参数至 `less` 方法：
 
 ```javascript
 elixir(function(mix) {
@@ -130,7 +130,7 @@ elixir(function(mix) {
 });
 ```
 
-同样的，如同 `less` 方法，你可以编译多个 Sass 文件至单一的 CSS 文件，甚至可以自定产生的 CSS 的输出目录：
+同样的，如同 `less` 方法，你可以编译多个 Sass 文件至单一的 CSS 文件，甚至可以自定义产生的 CSS 的输出目录：
 
 ```javascript
 elixir(function(mix) {
@@ -210,7 +210,7 @@ elixir(function(mix) {
 });
 ```
 
-虽然 Browserify 附带了 Partialify 及 Babelify 转换器，但是如果你希望，你可以自由地安装并增加更多的转换器：
+虽然 Browserify 附带了 Partialify 及 Babelify 转换器，但是只要你愿意，你可以随意安装并增加更多的转换器：
 
     npm install aliasify --save-dev
 
@@ -278,7 +278,7 @@ elixir(function(mix) {
 <a name="copying-files-and-directories"></a>
 ## 复制文件与目录
 
-`copy` 方法可以被用于复制文件与目录至新位置。所有操作都相对于项目的根目录：
+`copy` 方法可以复制文件与目录至新位置。所有操作路径都相对于项目的根目录：
 
 ```javascript
 elixir(function(mix) {
@@ -293,7 +293,7 @@ elixir(function(mix) {
 <a name="versioning-and-cache-busting"></a>
 ## 版本与缓存清除
 
-许多的开发者会在它们编译后的资源文件加上时间戳或是唯一的 token，强迫浏览器加载全新的资源文件以取代提供的旧版本代码副本。你可以使用 `version` 方法让 Elixir 处理它们。
+许多的开发者会在它们编译后的资源文件中加上时间戳或是唯一的 token，强迫浏览器加载全新的资源文件以取代提供的旧版本代码副本。你可以使用 `version` 方法让 Elixir 处理它们。
 
 `version` 方法接收一个相对于 `public` 目录的文件名称，接着为你的文件名称加上唯一的哈希值，以防止文件被缓存。举例来说，产生出来的文件名称可能像这样：`all-16d570a7.css`：
 
@@ -317,7 +317,7 @@ elixir(function(mix) {
 });
 ```
 
-一旦该文件被加上版本，你需要使用 `elixir` 辅助函数来产生被哈希文件的正确链接。切记，你只需要传递未哈希文件的名称至 `elixir` 辅助函数。此函数会自动使用未哈希的名称来判断该文件为目前的哈希版本：
+一旦该文件被加上版本，你需要使用 `elixir` 辅助函数来产生哈希文件的正确链接。切记，你只需要传递未哈希文件的名称至 `elixir` 辅助函数。此函数会自动使用未哈希的名称来判断该文件为目前的哈希版本：
 
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 
@@ -334,7 +334,7 @@ elixir(function(mix) {
 });
 ```
 
-一旦你运行 `gulp watch`，就可以使用连接端口 3000 启用浏览器同步并访问你的网页应用程序：`http://homestead.app:3000`。如果你在本机开发所使用的域名不是 `homestead.app`，那么你可以传递一个[选项](http://www.browsersync.io/docs/options/)的数组作为 `browserSync` 方法的第一个参数：
+一旦你运行 `gulp watch`，就能使用连接端口 3000 启用浏览器同步并访问你的网页应用程序：`http://homestead.app:3000`。如果你在本机开发所使用的域名不是 `homestead.app`，那么你可以传递一个[选项](http://www.browsersync.io/docs/options/)的数组作为 `browserSync` 方法的第一个参数：
 
 ```javascript
 elixir(function(mix) {
@@ -347,7 +347,7 @@ elixir(function(mix) {
 <a name="calling-existing-gulp-tasks"></a>
 ## 调用既有的 Gulp 任务
 
-如果你需要在 Elixir 调用一个既有的 Gulp 任务，你可以使用 `task` 方法。举个例子，假设你有一个 Gulp 任务，当你调用时就会说一些简单的文本。
+如果你需要在 Elixir 调用一个既有的 Gulp 任务，你可以使用 `task` 方法。举个例子，假设你有一个 Gulp 任务，当你调用时会输出一些简单的文本：
 
 ```javascript
 gulp.task('speak', function() {
@@ -357,7 +357,7 @@ gulp.task('speak', function() {
 });
 ```
 
-如果你希望在 Elixir 调用这个任务，使用 `mix.task` 方法并传递该任务的名称作为该方法唯一的参数：
+如果你希望在 Elixir 中调用这个任务，使用 `mix.task` 方法并传递该任务的名称作为该方法唯一的参数：
 
 ```javascript
 elixir(function(mix) {
@@ -400,7 +400,7 @@ Elixir.extend('speak', function(message) {
 // mix.speak('Hello World');
 ```
 
-就是这样！注意，你的 Gulp 具体的逻辑必须被放置在 `Task` 第二个参数传递的构造器函数。你可以将此扩展功能放置在 Gulpfile 的上方，取而代之也可以导出至一个自定任务的文件。举个例子，如果你将你的扩展功能放置在 `elixir-extensions.js`，你可以在你的 `Gulpfile` 引入该文件，像是：
+就是这样！注意，你的 Gulp 具体的逻辑必须被放置在 `Task` 第二个参数传递的构造器函数里面。你可以将此扩展功能放置在 Gulpfile 的上方，取而代之也可以导出至一个自定义任务的文件。举个例子，如果你将你的扩展功能放置在 `elixir-extensions.js` 文件中，那么你可以在 `Gulpfile` 中像这样引入该文件：
 
 ```javascript
 // 文件：Gulpfile.js
@@ -416,7 +416,7 @@ elixir(function(mix) {
 
 #### 自定义监控器
 
-如果你想在运行 `gulp watch` 时能够重新触发你的自定任务，你可以注册一个监控器：
+如果你想在运行 `gulp watch` 时能够重新触发你的自定义任务，你可以注册一个监控器：
 
 ```javascript
 new Task('speak', function() {
