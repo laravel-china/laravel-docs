@@ -35,7 +35,7 @@
 	class AuthServiceProvider extends ServiceProvider
 	{
 	    /**
-	     * 注册任何应用程序的认证或授权服务。
+	     * 注册应用程序的认证或授权服务。
 	     *
 	     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
 	     * @return void
@@ -50,11 +50,11 @@
 	    }
 	}
 
-注意，我们并不会检查当指定的 `$user` 不是 `NULL`，未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为**所有权限**返回 `false`。
+注意，我们并不会检查当指定的 `$user` 是不是 `NULL`。未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为其**所有权限**返回 `false`。
 
 #### 基于类的权限
 
-除了注册`闭包`作为授权的回调，你可以通过传递包含 `类名称` 及 `方法` 的字符串来注册类方法，该类会通过[服务容器](/docs/{{version}}/container)被解析：
+除了注册`闭包`作为授权的回调，你也可以通过传递包含 `类名称` 及 `方法` 的字符串来注册类方法，该类会通过[服务容器](/docs/{{version}}/container)被解析：
 
     $gate->define('update-post', 'Class@method');
 
@@ -84,7 +84,7 @@
 <a name="via-the-gate-facade"></a>
 ### 通过 Gate Facade
 
-一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。你**不**需要传递目前的用户至该方法，因为 `Gate` 会自动载入当然登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
+一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。你**不**需要传递目前的用户至该方法，因为 `Gate` 会自动加载当前登录的用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
 
     <?php
 
@@ -133,7 +133,7 @@
 		//
 	});
 
-如果你的权限需要多个参数，只要简单的传递一个数组作为 `Gate` 方法的参数：
+如果你的权限需要多个参数，只需简单的传递一个数组作为 `Gate` 方法的参数：
 
 	if (Gate::allows('delete-comment', [$post, $comment])) {
 		//
@@ -229,7 +229,7 @@
 
 #### 注册授权策略
 
-一旦该授权策略存在，我们需要将它与 `Gate` 类进行注册。`AuthServiceProvider` 包含了一个 `policies` 属性，将各种模型对应至管理它们的授权策略。所以，我们需要指定 `Post` 模型的授权策略是 `PostPilicy` 类：
+一旦该授权策略存在，我们需要将它与 `Gate` 类进行注册。`AuthServiceProvider` 包含了一个 `policies` 属性，可将各种模型对应至管理它们的授权策略。所以，我们需要指定 `Post` 模型的授权策略是 `PostPilicy` 类：
 
 	<?php
 
@@ -265,7 +265,7 @@
 <a name="writing-policies"></a>
 ### 编写授权策略
 
-一旦授权策略被产生且注册，我们可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断指定的 `User` 是否可以「更新」一条 `Post`：
+一旦授权策略被产生且注册，我们就可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断指定的 `User` 是否可以「更新」一条 `Post`：
 
 	<?php
 
@@ -313,7 +313,7 @@
 
 #### 通过 Gate Facade
 
-`Gate` 会通过检查传递给该类方法的参数自动的判断该使用授权策略。所以，如果我们传递一个 `Post` 实例至 `denies` 方法，`Gate` 会采用对应的 `PostPolicy` 来授权行为：
+`Gate` 会通过检查传递给该类方法的参数自动判断该使用哪种授权策略。所以，如果我们传递一个 `Post` 实例到 `denies` 方法，`Gate` 会采用对应的 `PostPolicy` 来授权行为：
 
     <?php
 
@@ -404,15 +404,15 @@
         }
     }
 
-如果该行为被授权了，控制器将会继续正常运行；但是，如果 `authorize` 方法判断没有权限运行该行为，那么将会自动产生一个带有 `403 Not Authorized` 状态码的 HTTP 响应并抛出异常。如你所见，`authorize` 方法是进行授权行为或抛出异常简单、快速的方法，只使用了一行的程序。
+如果该行为被授权了，控制器将会继续正常运行；但是，如果 `authorize` 方法判断没有权限运行该行为，那么将会自动产生一个带有 `403 Not Authorized` 状态码的 HTTP 响应并抛出异常。如你所见，`authorize` 方法是进行授权行为或处理抛出异常的一个简单、快速的方法，仅使用了一行程序代码。
 
-`AuthorizesRequests` trait 也提供了 `authorizeForUser` 方法来为非目前已认证的用户授权行为：
+`AuthorizesRequests` trait 也提供了 `authorizeForUser` 方法来为当前非认证用户授权行为：
 
 	$this->authorizeForUser($user, 'update', $post);
 
 #### 自动判断授权策略方法
 
-通常，一个授权策略的方法会对应至一个控制器方法。以下方的 `update` 方法为例，控制器方法及授权策略方法会共用相同的名称：`update`。
+通常，一个授权策略方法会对应一个控制器方法。以下方的 `update` 方法为例，控制器方法及授权策略方法会共用相同的名称：`update`。
 
 因此，Laravel 让你能够简单的传递实例参数至 `authorize` 方法，基于被调用的函数名称，自动判断出应该授权的权限。在本例中，因为 `authorize` 被控制器的 `update` 方法调用，所以也会调用 `PostPolicy` 中的 `update` 方法：
 

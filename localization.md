@@ -8,9 +8,9 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 的本地化功能提供方便的方法来获取多语系的字符串，让你的网站可以简单的支持多语系。
+Laravel 的本地化功能提供方便的方法来获取多语言的字符串，让你的网站可以简单的支持多语言。
 
-语系档存放在 `resources/lang` 文件夹的文件里。在此文件夹内，应该要有网站支持的语系并对应到每一个子目录。：
+语言档存放在 `resources/lang` 文件夹的文件里。在此文件夹内，应该要有网站支持的语言并对应到每一个子目录。：
 
     /resources
         /lang
@@ -19,7 +19,7 @@ Laravel 的本地化功能提供方便的方法来获取多语系的字符串，
             /es
                 messages.php
 
-语系档简单地返回键值和字符串数组，例如：
+语言档简单地返回键值和字符串数组，例如：
 
     <?php
 
@@ -27,9 +27,9 @@ Laravel 的本地化功能提供方便的方法来获取多语系的字符串，
         'welcome' => 'Welcome to our application'
     ];
 
-#### 切换语系
+#### 切换语言
 
-网站的默认语系保存在 `config/app.php` 配置文件。你可以在任何时后使用 `App` facade 的 `setLocale` 方法动态地变换现行语系：
+网站的默认语言保存在 `config/app.php` 配置文件。你可以在任何时后使用 `App` facade 的 `setLocale` 方法动态地变换现行语言：
 
     Route::get('welcome/{locale}', function ($locale) {
         App::setLocale($locale);
@@ -37,14 +37,14 @@ Laravel 的本地化功能提供方便的方法来获取多语系的字符串，
         //
     });
 
-你也可以设置 "备用语系"，它将会在当现行语言没有指定的语句时被使用。就像默认语言，备用语言也可以在 `config/app.php` 配置文件设置：
+你也可以设置 "备用语言"，它将会在当现行语言没有指定的语句时被使用。就像默认语言，备用语言也可以在 `config/app.php` 配置文件设置：
 
     'fallback_locale' => 'en',
 
 <a name="basic-usage"></a>
 ## 基本用法
 
-你可以使用 `trans` 辅助函数来获取语系字符串，`trans` 函数的第一个参数接受文件名和键值名称，例如，从 `resources/lang/messages.php` 语言档获取名称为 `welcome` 的句子：
+你可以使用 `trans` 辅助函数来获取语言字符串，`trans` 函数的第一个参数接受文件名和键值名称，例如，从 `resources/lang/messages.php` 语言档获取名称为 `welcome` 的句子：
 
     echo trans('messages.welcome');
 
@@ -56,7 +56,7 @@ Laravel 的本地化功能提供方便的方法来获取多语系的字符串，
 
 #### 在句子中做替代
 
-如果需要，你也可以在语系档中定义占位符，占位符使用 `:` 开头，例如，你可以定义一则欢迎消息的占位符：
+如果需要，你也可以在语言档中定义占位符，占位符使用 `:` 开头，例如，你可以定义一则欢迎消息的占位符：
 
     'welcome' => 'Welcome, :name',
 
@@ -82,6 +82,6 @@ Laravel 的本地化功能提供方便的方法来获取多语系的字符串，
 <a name="overriding-vendor-language-files"></a>
 ## 重写扩展包的语言档
 
-部分扩展包带有自己的语系档，你可以借由放置文件在 `resources/lang/vendor/{package}/{locale}` 来重写它们，而不是直接修改扩展包的核心文件。
+部分扩展包带有自己的语言档，你可以借由放置文件在 `resources/lang/vendor/{package}/{locale}` 来重写它们，而不是直接修改扩展包的核心文件。
 
-例如，你需要重写 `skyrim/hearthfire` 扩展包的英文语系档 `messages.php`，你需要把文件放置在 `resources/lang/vendor/hearthfire/en/messages.php`。这个文件内，只要去定义需要重写的语句，任何没有重写的语句将会仍从扩展包的语言档加载。
+例如，你需要重写 `skyrim/hearthfire` 扩展包的英文语言档 `messages.php`，你需要把文件放置在 `resources/lang/vendor/hearthfire/en/messages.php`。这个文件内，只要去定义需要重写的语句，任何没有重写的语句将会仍从扩展包的语言档加载。
