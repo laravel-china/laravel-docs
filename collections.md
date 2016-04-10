@@ -17,7 +17,7 @@
     });
 
 
-如你所见，`Collection` 类允许你链式调用它的方法以对底层的数组流畅地进行映射与删减。一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地链接调用。
+如你所见，`Collection` 类允许你链式调用它的方法以对底层的数组流畅地进行映射与删减。一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
 
 <a name="creating-collections"></a>
 ## 创建集合
@@ -26,7 +26,7 @@
 
     $collection = collect([1, 2, 3]);
 
-默认 [Eloquent](/docs/{{version}}/eloquent) 模型的集合总是以 `Collection` 实例返回；然而，你可以任意在你应用程序任何适当的场合使用 `Collection` 类。
+默认 [Eloquent](/docs/{{version}}/eloquent) 模型的集合总是以 `Collection` 实例返回；然而，你可以随意的在你应用程序的任何适当场合使用 `Collection` 类。
 
 <a name="available-methods"></a>
 ## 可用的方法
@@ -123,7 +123,7 @@
 <a name="method-all"></a>
 #### `all()` {#collection-method .first-collection-method}
 
-`all` 方法单纯地返回该集合所代表的底层数组：
+`all` 方法简单地返回该集合所代表的底层数组：
 
     collect([1, 2, 3])->all();
 
@@ -138,7 +138,7 @@
 
     // 3
 
-如果集合包含了嵌套数组或对象，你可以传递键来指定使用哪些值计算平均值：
+如果集合包含了嵌套数组或对象，你可以通过传递键来指定使用哪些值计算平均值：
 
     $collection = collect([
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
@@ -175,7 +175,7 @@
 <a name="method-collapse"></a>
 #### `collapse()` {#collection-method}
 
-`collapse` 方法将多个数组组成的集合折成单一数组集合：
+`collapse` 方法将多个数组组成的集合合成单一数组集合：
 
     $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -309,7 +309,7 @@
 
     // [3, 4]
 
-与 `filter` 相对的方法可以查看 [reject](#method-reject)。
+与 `filter` 相反的方法可以查看 [reject](#method-reject)。
 
 <a name="method-first"></a>
 #### `first()` {#collection-method}
@@ -367,7 +367,7 @@
 
     // [framework' => 'laravel']
 
-> **注意：** 与大多数其他集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改它被调用的集合。
+> **注意：** 与大多数其他集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改调用它的集合。
 
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
@@ -382,7 +382,7 @@
 
     // [4, 5, 6]
 
-这个方法要求页码和每个页面要显示的项目数目。
+这个方法需要页码和每个页面要显示的项目数目。
 
 <a name="method-get"></a>
 #### `get()` {#collection-method}
@@ -395,7 +395,7 @@
 
     // taylor
 
-你可以选择性地传入一个默认值为第二个参数：
+你可以选择性地传入一个默认值作为第二个参数：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -485,7 +485,7 @@
 
     // Desk, Chair
 
-假如集合只含有简单的字符串或数字，就只要传入黏着字符串作该方法唯一的参数：
+假如集合只含有简单的字符串或数字，就只要传入黏着的字符串作该方法唯一的参数：
 
     collect([1, 2, 3, 4, 5])->implode('-');
 
@@ -780,7 +780,7 @@
 
     $collection->random();
 
-    // 4 - (retrieved randomly)
+    // 4 - (随机返回)
 
 你可以选择性地传入一个整数到 `random`。如果该整数大于 `1`，则会返回一个集合：
 
@@ -788,7 +788,7 @@
 
     $random->all();
 
-    // [2, 4, 5] - (retrieved randomly)
+    // [2, 4, 5] - (随机返回)
 
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
@@ -826,7 +826,7 @@
 
     // [1, 2]
 
-与 `reject` 相对的方法可以查看 [`filter`](#method-filter) 方法。
+与 `reject` 相反的方法可以查看 [`filter`](#method-filter) 方法。
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}
@@ -1236,7 +1236,7 @@
 <a name="method-whereloose"></a>
 #### `whereLoose()` {#collection-method}
 
-这个方法与 [`where`](#method-where) 方法有着一样的形式；但是会以宽松比对来比对数值：
+这个方法与 [`where`](#method-where) 方法有着一样的形式；但是会以「宽松」比对来比对数值：
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}
