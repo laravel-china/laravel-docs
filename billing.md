@@ -13,13 +13,13 @@
     - [订购失败](#handling-failed-subscriptions)
     - [其他 Webhooks](#handling-other-webhooks)
 - [一次性收费](#single-charges)
-- [收据](#invoices)
-    - [产生收据的 PDFs](#generating-invoice-pdfs)
+- [发票](#invoices)
+    - [产生发票的 PDF](#generating-invoice-pdfs)
 
 <a name="introduction"></a>
 ## 简介
 
-Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe.com)订购交易服务介接。它几乎处理了所有让人退步三舍的订购管理相关逻辑。除了基本的订购管理，Cashier 还可以处理折价券，订购转换，管理订购「数量」、取消宽限期，甚至产生收据的 PDF。
+Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了生动流畅的接口。它基本上处理了所有会让人恐惧的订购管理的相关逻辑。除了基本的订购管理外，Cashier 还可以处理优惠券，订购转换，管理订购「数量」、取消宽限期，甚至生成发票的 PDF 文件。
 
 <a name="configuration"></a>
 ### 配置
@@ -32,7 +32,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
     "laravel/cashier": "~4.0" (For Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~3.0" (For Stripe APIs up to and including 2015-02-16 version)
 
-> ：这里应该使用 require 来安装扩展包，见 []()
+> TODO: 这里应该使用 require 来安装扩展包，见 []()
 
 #### 服务提供者
 
@@ -44,11 +44,11 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
 > TODO: 把具体的字段写出来。
 
-创建完迁移文件后，只要运行 `migrate` 命令即可。
+创建完迁移文件后，只需运行 `migrate` 命令即可。
 
 #### 模型设置
 
-再来，将 `Billable` trait 和适当的日期访问器添加至你的模型定义中：
+接着，将 `Billable` trait 和适当的日期访问器添加至你的模型定义中：
 
     use Laravel\Cashier\Billable;
     use Laravel\Cashier\Contracts\Billable as BillableContract;
@@ -83,9 +83,9 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
     $user->subscription('monthly')->create($creditCardToken);
 
-`create` 方法会自动创建与 Stripe 的交易，以及将 Stripe 客户 ID 和其他相关帐款信息更新到数据库。如果你的方案有在 Stripe 设置试用期，试用到期日也会自动保存至用户的记录。
+`create` 方法会自动创建与 Stripe 的交易，以及将 Stripe 客户 ID 和其他相关帐款信息更新到数据库。如果你的方案有在 Stripe 设置试用期，试用的截止日期也会自动保存至用户的记录。
 
-如果你想要实施试用期，但是你完全用应用程序来管理试用期，而不是在 Stripe 里设置，那么你必须手动设置试用到期日：
+如果你想要实现试用期，但是你想完全用应用程序来管理试用期，而不是在 Stripe 里设置，那么你必须手动设置试用截止日期：
 
     $user->trial_ends_at = Carbon::now()->addDays(14);
 
@@ -93,17 +93,17 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
 #### 额外用户详细数据
 
-如果你想自定额外的顾客详细数据，你可以将数据数组作为 `create` 方法的第二个参数传入：
+如果你想自定义额外的顾客详细数据，可以将数据数组作为 `create` 方法的第二个参数传入：
 
     $user->subscription('monthly')->create($creditCardToken, [
         'email' => $email, 'description' => '我们的第一个客户'
     ]);
 
-想知道更多 Stripe 支持的额外字段，请查看 Stripe 的[创建顾客的文档](https://stripe.com/docs/api#create_customer)。
+想知道更多 Stripe 支持的额外字段，请查看 Stripe 的[创建顾客文档](https://stripe.com/docs/api#create_customer)。
 
-#### 折价券
+#### 优惠券
 
-如果你想在创建订购的时候使用折价券，可以使用 `withCoupon` 方法：
+如果你想在创建订购的时候使用优惠券，可以使用 `withCoupon` 方法：
 
     $user->subscription('monthly')
          ->withCoupon('code')
@@ -112,7 +112,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="checking-subscription-status"></a>
 ### 确认订购状态
 
-一旦用户在你的应用程序订购，你可以使用多种方法来检查他们的订购状态。首先，当用户拥有有效订购时，`subscribed` 方法会返回 `true`，即使该订购目前在试用期间：
+一旦用户在你的应用程序完成订购，你便可以使用多种方法来检查他们的订购状态。首先，当用户拥有有效订购时，`subscribed` 方法会返回 `true`，即使该订购目前在试用期间：
 
     if ($user->subscribed()) {
         //
@@ -130,7 +130,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
         return $next($request);
     }
 
-如果你想确认用户是否还在他们的试用期内，你可以使用 `onTrial` 方法。你可以利用此方法在页面的顶部展示正在试用期内的提示：
+如果你想确认用户是否还在他们的试用期内，你可以使用 `onTrial` 方法。利用此方法可以在页面的顶部展示正在试用期内的提示：
 
     if ($user->onTrial()) {
         //
@@ -150,7 +150,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
         //
     }
 
-你可能想确认用户是否已经取消订购，但是还在他们订购完全到期前的「宽限期」。例如，如果用户在三月五号取消了订购，但是服务会到三月十号才过期。那么用户到三月十号前都是「宽限期」。注意，`subscribed` 方法在这个期间仍然会返回 `true`。
+你可能想确认用户是否已经取消订购，但是订购还在他们完全到期前的「宽限期」内。例如，如果用户在三月五号取消了订购，但是服务会到三月十号才过期。那么用户到三月十号前都是「宽限期」。注意，`subscribed` 方法在这个期间仍然会返回 `true`。
 
     if ($user->onGracePeriod()) {
         //
@@ -165,7 +165,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 <a name="changing-plans"></a>
 ### 改变方案
 
-当用户在你的应用程序订购之后，他们有时可能想更改自己的订购方案。使用 `swap` 方法可以把用户转换到新的订购方案。举个例子，我们可以简单的将用户切换至 `premium` 订购：
+当用户在你的应用程序订购之后，他们有时可能想更改自己的订购方案。使用 `swap` 方法可以把用户转换到新的订购方案。举个例子，我们可以简单的将用户切换至 `premium` 订购方案：
 
     $user = App\User::find(1);
 
@@ -209,7 +209,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
         return 20;
     }
 
-这让你基于个别模型去运用税率，可能对横跨多个国家的用户群非常有帮助。
+这能让你基于个别模型去运用税率，可能对横跨多个国家的用户群非常有帮助。
 
 <a name="cancelling-subscriptions"></a>
 ### 取消订购
@@ -220,7 +220,7 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 
 当订购被取消时，Cashier 会自动更新数据库的 `subscription_ends_at` 字段。这个字段会被用来判断 `subscribed` 方法什么时候该开始返回  `false`。例如，如果顾客在三月一号取消订购，但是服务可以使用到三月五号为止，那么 `subscribed` 方法在三月五号前都会传回 `true`。
 
-你想确认用户是否已经取消他们的订购，但是还在他们的「宽限期」间，可以使用 `onGracePeriod` 方法：
+你想确认用户是否已经取消他们的订购，但是还在他们的「宽限期」内，可以使用 `onGracePeriod` 方法：
 
     if ($user->onGracePeriod()) {
         //
@@ -301,13 +301,13 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
 如果收费成功，该方法会返回完整的 Stripe 响应。
 
 <a name="invoices"></a>
-## 收据
+## 发票
 
-你可以很简单的通过 `invoices` 方法获取交易模型的收据数据数组：
+你可以很简单的通过 `invoices` 方法获取交易模型的发票数据数组：
 
     $invoices = $user->invoices();
 
-当列出收据给客户时，你可以使用收据的辅助方法来显示收据的相关信息。举例来说，你可能希望列出每个收据至数据库表中，让用户可以简单的下载其中一个：
+当列出发票给客户时，你可以使用发票的辅助方法来显示发票的相关信息。举例来说，你可能希望在表格中列出每个发票的信息，让用户可以简单对其中一个进行下载：
 
     <table>
         @foreach ($invoices as $invoice)
@@ -320,9 +320,9 @@ Laravel Cashier 提供口语化，流畅的接口与 [Stripe 的](https://stripe
     </table>
 
 <a name="generating-invoice-pdfs"></a>
-#### 产生收据的 PDFs
+#### 产生发票的 PDF
 
-在路由或是控制器中，使用 `downloadInvoice` 方法可以触发收据的 PDF 下载动作，此方法会自动产生正确的 HTTP 响应并发送下载动作至浏览器：
+在路由或是控制器中，使用 `downloadInvoice` 方法可以触发发票的 PDF 下载动作，此方法会自动产生正确的 HTTP 响应并发送下载动作至浏览器：
 
     Route::get('user/invoice/{invoice}', function ($invoiceId) {
         return Auth::user()->downloadInvoice($invoiceId, [
