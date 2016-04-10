@@ -24,7 +24,7 @@ Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel
 - Tokenizer PHP Extension
 </div>
 
-> CJ: 开发推荐使用 Homestead，线上环境的部署可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和线上环境的统一。
+> [Summer](http://github.com/summerblue): 开发推荐使用 Homestead，线上环境的部署可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和线上环境的统一。
 
 <a name="install-laravel"></a>
 ### 安装 Laravel
@@ -49,7 +49,9 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer create-project laravel/laravel --prefer-dist blog
 
-> CJ: `composer create-project laravel/laravel=5.1.* your-project-name --prefer-dist`
+> [Summer](http://github.com/summerblue): 使用以下命令安装 Laravel 5.1 LTS
+
+    composer create-project laravel/laravel your-project-name --prefer-dist "5.1.*"
 
 <a name="configuration"></a>
 ## 配置信息

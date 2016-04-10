@@ -2,7 +2,7 @@
 
 ## 说明
 
-此文档目前由 [EST 团队](http://estgroupe.com) 的 [Summer](https://phphub.org/users/1) 维护。
+此文档目前由 [EST 团队](http://estgroupe.com) 的 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到[他们](https://phphub.org/users/1)。
 
 此文档起初作为团队内部使用为目的，所以会有很多偏见。
 
