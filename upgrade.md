@@ -196,9 +196,9 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
     protected $baseUrl = 'http://localhost';
 
-### 语系档
+### 语言档
 
-第三方扩展包发布语系档的默认目录已经改变。必须从 `resources/lang/packages/{locale}/{namespace}` 移动所有的第三方扩展包语系档到 `resources/lang/vendor/{namespace}/{locale}` 目录。例如，`Acme/Anvil` 扩展包命名空间为 `acme/anvil::foo` 的英文语系档应该从 `resources/lang/packages/en/acme/anvil/foo.php` 移动到 `resources/lang/vendor/acme/anvil/en/foo.php`。
+第三方扩展包发布语言档的默认目录已经改变。必须从 `resources/lang/packages/{locale}/{namespace}` 移动所有的第三方扩展包语言档到 `resources/lang/vendor/{namespace}/{locale}` 目录。例如，`Acme/Anvil` 扩展包命名空间为 `acme/anvil::foo` 的英文语言档应该从 `resources/lang/packages/en/acme/anvil/foo.php` 移动到 `resources/lang/vendor/acme/anvil/en/foo.php`。
 
 ### Amazon 网络服务 SDK
 
@@ -387,9 +387,9 @@ use Authenticatable, CanResetPassword;
 
 上述设置你不该轻易使用，这将使你的应用程序更加容易遭受 XSS 攻击。而且用 `{{--` 注释将无法作用。
 
-### 语系档
+### 语言档
 
-将你的语系档从 `app/lang` 移到新的 `resources/lang` 目录。
+将你的语言档从 `app/lang` 移到新的 `resources/lang` 目录。
 
 ### 公开目录
 
@@ -585,7 +585,7 @@ Laravel 4.1.26 针对「记得我」cookies 的安全性进行了更新。在此
 
 密码提醒功能在大幅改进后已经具有更好的灵活性。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览 [更新后的文档](/docs/security#password-reminders-and-reset) 来相应更新你的应用程序。
 
-更新你的 `app/lang/en/reminders.php` 语系文件来对应[这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
+更新你的 `app/lang/en/reminders.php` 语言文件来对应[这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
 
 ### 环境侦测的修改
 
