@@ -437,7 +437,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 #### Where 子句注意事项
 
-当在你的软删除模型的查找增加 `orWhere` 子句时，总是使用[高端 where 子句](http://laravel.com/docs/5.1/queries#advanced-where-clauses)将 `WHERE` 子句的逻辑分组。例如：
+当在你的软删除模型的查找增加 `orWhere` 子句时，总是使用[高端 where 子句](http://laravel-china.org/docs/5.1/queries#advanced-where-clauses)将 `WHERE` 子句的逻辑分组。例如：
 
     User::where(function($query) {
             $query->where('name', '=', 'John')
