@@ -130,7 +130,7 @@
 <a name="task-output"></a>
 ## 任务输出
 
-Laravel 调度器为任务调度输出提供许多便捷的方法。首先，通过 `sendOutputTo` 你可以发送输出到单一文件做为后续检查：
+Laravel 调度器为任务调度输出提供许多便捷的方法。首先，通过 `sendOutputTo` 你可以发送输出到单个文件做为后续检查：
 
     $schedule->command('emails:send')
              ->daily()

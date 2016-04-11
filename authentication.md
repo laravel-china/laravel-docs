@@ -405,7 +405,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
 #### 重置密码链接的请求表单例子
 
-你需要提供 HTML 视图给密码重置的请求表单。这些视图被放在 `resources/views/auth/password.blade.php`。这个表单提供了单一的字段来给用户输入邮箱，让他们可以收到密码重置链接：
+你需要提供 HTML 视图给密码重置的请求表单。这些视图被放在 `resources/views/auth/password.blade.php`。这个表单提供了单个的字段来给用户输入邮箱，让他们可以收到密码重置链接：
 
     <!-- resources/views/auth/password.blade.php -->
 

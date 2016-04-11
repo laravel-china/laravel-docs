@@ -173,7 +173,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 ### 路由中间件
 
-除了像 Laravel 4 风格的路由「过滤器」，Laravel 5 现在有 HTTP 中间件，而原本的认证和 CSRF 「过滤器」已经改写成中间件。中间件提供了单一、一致的接口取代了各种过滤器，让你在请求进到应用程序前，可以简单地检查甚至拒绝请求。
+除了像 Laravel 4 风格的路由「过滤器」，Laravel 5 现在有 HTTP 中间件，而原本的认证和 CSRF 「过滤器」已经改写成中间件。中间件提供了单个、一致的接口取代了各种过滤器，让你在请求进到应用程序前，可以简单地检查甚至拒绝请求。
 
 更多关于中间件的信息，参考[完整文档](/docs/{{version}}/middleware)。
 
@@ -376,7 +376,7 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
 
 ### 配置文件缓存
 
-你现在可以通过 `config:cache` 命令将所有的配置文件缓存在单一文件中了。
+你现在可以通过 `config:cache` 命令将所有的配置文件缓存在单个文件中了。
 
 ### Symfony VarDumper
 
@@ -405,7 +405,7 @@ Larvel Forge，一个网页应用程序，提供一个简单的接口去创建�
 
 ### Laravel Homestead
 
-Laravel Homestead 是一个为部署健全的 Laravel 和 PHP 应用程序的官方 Vagrant 环境。绝大多数的封装包的依赖与软件在发布前已经部署处理完成，让封装包可以极快的被启用。Homestead 包含 Nginx 1.6、PHP 5.5.12、MySQL、Postres、Redis、Memcached、Beanstalk、Node、Gulp、Grunt 和 Bower。Homestead 包含一个简单的 `Homestead.yaml` 配置文件，让你在单一个封装包中管理多个 Laravel 应用程序。
+Laravel Homestead 是一个为部署健全的 Laravel 和 PHP 应用程序的官方 Vagrant 环境。绝大多数的封装包的依赖与软件在发布前已经部署处理完成，让封装包可以极快的被启用。Homestead 包含 Nginx 1.6、PHP 5.5.12、MySQL、Postres、Redis、Memcached、Beanstalk、Node、Gulp、Grunt 和 Bower。Homestead 包含一个简单的 `Homestead.yaml` 配置文件，让你在单个个封装包中管理多个 Laravel 应用程序。
 
 默认的 Laravel 4.2 安装中包含的 `app/config/local/database.php` 配置文件使用 Homestead 的数据库作为默认。让 Laravel 初始化安装与设置更为方便。
 

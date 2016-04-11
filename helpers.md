@@ -6,7 +6,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自身框架中使用；如果觉得实用，也可以在你的应用当中使用。
+Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自身框架中使用；如果你觉得实用，也可以在你应用当中使用。
 
 <a name="available-methods"></a>
 ## 可用方法
@@ -134,7 +134,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-add"></a>
 #### `array_add()` {#collection-method .first-collection-method}
 
-如果指定的键不存在于该数组，`array_add` 函数将指定的键值对加到数组中：
+如果指定的键不存在于该数组，`array_add` 函数便会将指定的键值对加到数组中：
 
     $array = array_add(['name' => 'Desk'], 'price', 100);
 
@@ -143,7 +143,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-collapse"></a>
 #### `array_collapse()` {#collection-method}
 
-`array_collapse` 函数将数组的每一个数组折成单一数组：
+`array_collapse` 函数将数组的每一个数组折成单个数组：
 
     $array = array_collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -804,7 +804,7 @@ Laravel 包含一群多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-session"></a>
 #### `session()` {#collection-method}
 
-`session` 函数可被用于获取或设置单一 session 内容：
+`session` 函数可被用于获取或设置单个 session 内容：
 
     $value = session('key');
 

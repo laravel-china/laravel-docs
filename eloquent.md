@@ -4,7 +4,7 @@
 - [定义模型](#defining-models)
     - [Eloquent 模型惯例](#eloquent-model-conventions)
 - [取回多个模型](#retrieving-multiple-models)
-- [取回单一模型或集合](#retrieving-single-models)
+- [取回单个模型或集合](#retrieving-single-models)
     - [取回集合](#retrieving-aggregates)
 - [添加和更新模型](#inserting-and-updating-models)
     - [基本添加](#basic-inserts)
@@ -206,9 +206,9 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 传递到方法的第一个参数是表示你希望每次「分块」要接收的数据数量。闭包则作为第二个参数传递，它将会在每次从数据取出分块时被调用。
 
 <a name="retrieving-single-models"></a>
-## 取回单一模型／集合
+## 取回单个模型／集合
 
-当然，除了从指定的数据表取回所有记录，你也可以通过 `find` 和 `first` 取回单一的记录。这些方法返回单一模型的实例，而不是返回模型的集合：
+当然，除了从指定的数据表取回所有记录，你也可以通过 `find` 和 `first` 取回单个的记录。这些方法返回单个模型的实例，而不是返回模型的集合：
 
     // 借由主键取回一个模型...
     $flight = App\Flight::find(1);
@@ -481,7 +481,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 有时候你可能需要真正地从数据库移除模型。要永久地从数据库移除一个被软删除的模型，必须使用 `forceDelete` 方法：
 
-    // 强制删除单一模型实例...
+    // 强制删除单个模型实例...
     $flight->forceDelete();
 
     // 强制删除所有相关模型...

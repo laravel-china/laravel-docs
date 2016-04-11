@@ -130,7 +130,7 @@ elixir(function(mix) {
 });
 ```
 
-同样的，如同 `less` 方法，你可以编译多个 Sass 文件至单一的 CSS 文件，甚至可以自定义产生的 CSS 的输出目录：
+同样的，如同 `less` 方法，你可以编译多个 Sass 文件至单个的 CSS 文件，甚至可以自定义产生的 CSS 的输出目录：
 
 ```javascript
 elixir(function(mix) {
@@ -144,7 +144,7 @@ elixir(function(mix) {
 <a name="plain-css"></a>
 ### 纯 CSS
 
-如果你只是想将一些纯 CSS 样式合并成单一的文件，你可以使用 `styles` 方法。传递给此方法的路径相对于 `resources/assets/css` 目录，而产生的 CSS 会被放置于 `public/css/all.css`：
+如果你只是想将一些纯 CSS 样式合并成单个的文件，你可以使用 `styles` 方法。传递给此方法的路径相对于 `resources/assets/css` 目录，而产生的 CSS 会被放置于 `public/css/all.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -189,7 +189,7 @@ Elixir 也提供了一些函数来帮助你使用 JavaScript 文件，像是编�
 <a name="coffeescript"></a>
 ### CoffeeScript
 
-`coffee` 方法可以用于编译 [CoffeeScript](http://coffeescript.org/) 至纯 JavaScript。`coffee` 函数接收一个相对于 `resources/assets/coffee` 目录的 CoffeeScript 文件名字符串或数组，接着在 `public/js` 目录产生单一的 `app.js` 文件：
+`coffee` 方法可以用于编译 [CoffeeScript](http://coffeescript.org/) 至纯 JavaScript。`coffee` 函数接收一个相对于 `resources/assets/coffee` 目录的 CoffeeScript 文件名字符串或数组，接着在 `public/js` 目录产生单个的 `app.js` 文件：
 
 ```javascript
 elixir(function(mix) {
@@ -228,7 +228,7 @@ elixir(function(mix) {
 <a name="babel"></a>
 ### Babel
 
-`babel` 方法可被用于编译 [ECMAScript 6 与 7](https://babeljs.io/docs/learn-es2015/) 至纯 JavaScript。此函数接收一个相对于 `resources/assets/js` 目录的文件数组，接着在 `public/js` 目录产生单一的 `all.js` 文件：
+`babel` 方法可被用于编译 [ECMAScript 6 与 7](https://babeljs.io/docs/learn-es2015/) 至纯 JavaScript。此函数接收一个相对于 `resources/assets/js` 目录的文件数组，接着在 `public/js` 目录产生单个的 `all.js` 文件：
 
 ```javascript
 elixir(function(mix) {
@@ -245,7 +245,7 @@ elixir(function(mix) {
 <a name="javascript"></a>
 ### Scripts
 
-如果你想将多个 JavaScript 文件合并至单一文件，你可以使用 `scripts` 方法。
+如果你想将多个 JavaScript 文件合并至单个文件，你可以使用 `scripts` 方法。
 
 `scripts` 方法假设所有的路径都相对于 `resources/assets/js` 目录，且默认会将产生的 JavaScript 放置于 `public/js/all.js`：
 

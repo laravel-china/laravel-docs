@@ -175,7 +175,7 @@
 <a name="method-collapse"></a>
 #### `collapse()` {#collection-method}
 
-`collapse` 方法将多个数组组成的集合合成单一数组集合：
+`collapse` 方法将多个数组组成的集合合成单个数组集合：
 
     $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -793,7 +793,7 @@
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
 
-`reduce` 方法将集合缩减到单一数值，该方法会将每次迭代的结果传入到下一次迭代：
+`reduce` 方法将集合缩减到单个数值，该方法会将每次迭代的结果传入到下一次迭代：
 
     $collection = collect([1, 2, 3]);
 

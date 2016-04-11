@@ -258,7 +258,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="marking-events-for-broadcast"></a>
 ### 将事件标示为广播
 
-为了通知 Laravel 应该广播一个特定事件，在你的事件类实现 `Illuminate\Contracts\Broadcasting\ShouldBroadcast`。`ShouldBroadcast` 要求你实现单一方法：`broadcastOn`。`broadcastOn` 方法应该返回一个必须被广播的「频道」名称数组：
+为了通知 Laravel 应该广播一个特定事件，在你的事件类实现 `Illuminate\Contracts\Broadcasting\ShouldBroadcast`。`ShouldBroadcast` 要求你实现单个方法：`broadcastOn`。`broadcastOn` 方法应该返回一个必须被广播的「频道」名称数组：
 
     <?php
 
@@ -316,7 +316,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="broadcast-data"></a>
 ### 广播数据
 
-当事件被广播时，所有的 `public` 属性都会被自动序列化且将广播作为事件的有效负载，允许你从 JavaScript 应用程序中访问任何公开的数据。所以，在这个例子中，假设事件有一个单一公开的 `$user` 属性且包含了一个 Eloquent 模型，广播数据将会是：
+当事件被广播时，所有的 `public` 属性都会被自动序列化且将广播作为事件的有效负载，允许你从 JavaScript 应用程序中访问任何公开的数据。所以，在这个例子中，假设事件有一个单个公开的 `$user` 属性且包含了一个 Eloquent 模型，广播数据将会是：
 
     {
         "user": {
@@ -390,7 +390,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="event-subscribers"></a>
 ## 事件订阅器
 
-事件订阅器是一个让你可以订阅多个事件的类，允许你在单一类内定义多个事件的操作。订阅器应该定义一个可以发送一个事件发送器实例的 `subscribe` 方法，：
+事件订阅器是一个让你可以订阅多个事件的类，允许你在单个类内定义多个事件的操作。订阅器应该定义一个可以发送一个事件发送器实例的 `subscribe` 方法，：
 
     <?php
 

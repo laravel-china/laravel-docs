@@ -593,7 +593,7 @@ Laravel 4.1.26 针对「记得我」cookies 的安全性进行了更新。在此
 
 ### 更简单的日志文件
 
-Laravel 目前只会产生单一的日志文件：`app/storage/logs/laravel.log`。然而，你还是可以在 `app/start/global.php` 文件设置更改它的行为。
+Laravel 目前只会产生单个的日志文件：`app/storage/logs/laravel.log`。然而，你还是可以在 `app/start/global.php` 文件设置更改它的行为。
 
 ### 移除重定向向结尾的斜线
 

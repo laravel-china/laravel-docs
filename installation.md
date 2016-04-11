@@ -143,7 +143,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 <a name="configuration-caching"></a>
 ### 缓存配置信息
 
-为了让应用程序的速度获得提升，可以使用 Artisan 命令 `config:cache` 将所有的配置文件缓存到单一文件。通过此命令将所有的设置选项合并成一个文件，让框架能够更快速的加载。
+为了让应用程序的速度获得提升，可以使用 Artisan 命令 `config:cache` 将所有的配置文件缓存到单个文件。通过此命令将所有的设置选项合并成一个文件，让框架能够更快速的加载。
 
 你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在本机开发时运行，因为设置选项会在应用程序的开发时经常变动。
 

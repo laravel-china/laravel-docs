@@ -66,7 +66,7 @@ Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。
 <a name="calling-additional-seeders"></a>
 ### 调用其他的 Seeders
 
-在 `DatabaseSeeder` 类，你可以使用 `call` 方法运行其他的 seed 类。为避免发生单一个 seeder 类变得压倒性巨大的情况，使用 `call`方法来将你将数据填充拆分成多个文件。只需简单的传递你想要运行的 seeder 类名称即可：
+在 `DatabaseSeeder` 类，你可以使用 `call` 方法运行其他的 seed 类。为避免发生单个个 seeder 类变得压倒性巨大的情况，使用 `call`方法来将你将数据填充拆分成多个文件。只需简单的传递你想要运行的 seeder 类名称即可：
 
     /**
      * Run the database seeds.
