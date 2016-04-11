@@ -323,7 +323,7 @@ Laravel 现在包含了强大的[文件系统](https://github.com/thephpleague/f
 
 ### Form Requests
 
-Laravel 5.0 引进了 **form requests**，是继承自 `Illuminate\Foundation\Http\FormRequest` 的类。这些 request 对象可以和控制器方法依赖注入结合，提供一个不需样板的方法，来验证用户输入。让我们深入点，看一个 `FormRequest` 的例子：
+Laravel 5.0 引进了 **form requests**，是继承自 `Illuminate\Foundation\Http\FormRequest` 的类。这些 request 对象可以和控制器方法依赖注入结合，提供一个不需模版的方法，来验证用户输入。让我们深入点，看一个 `FormRequest` 的例子：
 
     <?php
 

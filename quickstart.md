@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## 简介
 
-此快速入门指南主要为 Laravel 框架提供基本的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、验证、视图，及 Blade 样板。如果你是第一次使用 Laravel 框架或 PHP，那么这会是个很好的开头。如果你已经在使用 Laravel 或者其它的框架，不仿参考我们高端的快速入门指南。
+此快速入门指南主要为 Laravel 框架提供基本的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、验证、视图，及 Blade 模版。如果你是第一次使用 Laravel 框架或 PHP，那么这会是个很好的开头。如果你已经在使用 Laravel 或者其它的框架，不仿参考我们高端的快速入门指南。
 
 为了在 Laravel 功能中给样本做基本的选择，我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码[在 GitHub 上](http://github.com/laravel/quickstart-basic)。
 
@@ -157,9 +157,9 @@
 <a name="displaying-a-view"></a>
 ### 显示视图
 
-接着，让我们填写我们的 `/` 路由。在此路由中，我们想要渲染一个包含添加任务的表单，及目前所有任务清单的 HTML 样板。
+接着，让我们填写我们的 `/` 路由。在此路由中，我们想要渲染一个包含添加任务的表单，及目前所有任务清单的 HTML 模版。
 
-在 Laravel 里，所有的 HTML 样板都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助方法来返回这些样板的其中一个：
+在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助方法来返回这些模版的其中一个：
 
 	Route::get('/', function () {
 		return view('tasks');
@@ -179,7 +179,7 @@
 
 几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局**来让不同页面共用这些相同的功能。
 
-如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade)渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的样板。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
+如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade)渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
 
 我们的 `app.blade.php` 视图看起来应该如下面这样：
 
@@ -211,7 +211,7 @@
 
 很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks.blade.php`。
 
-我们会跳过一些 Bootstrap CSS 样板，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-basic) 下载到应用程序的完整源代码：
+我们会跳过一些 Bootstrap CSS 模版，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-basic) 下载到应用程序的完整源代码：
 
     // resources/views/tasks.blade.php
 
@@ -219,7 +219,7 @@
 
 	@section('content')
 
-        <!-- Bootstrap 样板... -->
+        <!-- Bootstrap 模版... -->
 
 		<div class="panel-body">
             <!-- 显示验证错误 -->

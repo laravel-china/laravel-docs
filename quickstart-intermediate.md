@@ -28,7 +28,7 @@
 <a name="introduction"></a>
 ## 简介
 
-此快速入门指南为 Laravel 框架提供了高级的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、认证、授权、依赖注入、验证、视图，及 Blade 样板。如果你已经有 Laravel 框架或 PHP 的基础，那么这会是个很好的开头。
+此快速入门指南为 Laravel 框架提供了高级的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、认证、授权、依赖注入、验证、视图，及 Blade 模版。如果你已经有 Laravel 框架或 PHP 的基础，那么这会是个很好的开头。
 
 要在 Laravel 功能中为样本做基本的选择，我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码[在 GitHub 上](http://github.com/laravel/quickstart-intermediate)。
 
@@ -223,7 +223,7 @@
 
 我们只会有一个使用闭包的`/` 路由，它是给应用程序访客的一个简单起始页面。所以，让我们先填写 `/` 路由。对于此路由，我们想渲染一个包含「欢迎」页面的 HTML 模板：
 
-在 Laravel 里，所有的 HTML 样板都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助方法来返回这些样板的其中一个：
+在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助方法来返回这些模版的其中一个：
 
 	Route::get('/', function () {
 		return view('welcome');
@@ -313,7 +313,7 @@
 
 几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局**来让不同页面共用这些相同的功能。
 
-如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade)渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的样板。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
+如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade)渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
 
 我们的 `app.blade.php` 视图看起来应该如下面这样：
 
@@ -345,7 +345,7 @@
 
 很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks/index.blade.php`，它会对应至我们 `TaskController` 的 `index` 方法。
 
-我们会跳过一些 Bootstrap CSS 样板，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-intermediate) 下载到应用程序的完整源代码：
+我们会跳过一些 Bootstrap CSS 模版，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-intermediate) 下载到应用程序的完整源代码：
 
     // resources/views/tasks/index.blade.php
 
@@ -353,7 +353,7 @@
 
 	@section('content')
 
-		<!-- Bootstrap 样板... -->
+		<!-- Bootstrap 模版... -->
 
 		<div class="panel-body">
 			<!-- 显示验证错误 -->
