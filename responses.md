@@ -40,7 +40,7 @@
                       ->header('Content-Type', $value);
     });
 
-> **注意：**有关 `Response` 方法的完整列表可以参照 [API 文档](http://laravel.com/api/master/Illuminate/Http/Response.html)以及 [Symfony API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/Response.html)。
+> **注意：**有关 `Response` 方法的完整列表可以参照 [API 文档](http://laravel-china.org/api/master/Illuminate/Http/Response.html)以及 [Symfony API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/Response.html)。
 
 <a name="attaching-headers-to-responses"></a>
 #### 附加标头至响应

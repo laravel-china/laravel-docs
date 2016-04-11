@@ -64,41 +64,41 @@ facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAcces
 
 Facade  |  Class  |  Service Container Binding
 ------------- | ------------- | -------------
-App  |  [Illuminate\Foundation\Application](http://laravel.com/api/{{version}}/Illuminate/Foundation/Application.html)  | `app`
-Artisan  |  [Illuminate\Contracts\Console\Kernel](http://laravel.com/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`
-Auth  |  [Illuminate\Auth\AuthManager](http://laravel.com/api/{{version}}/Illuminate/Auth/AuthManager.html)  |  `auth`
-Auth (Instance)  |  [Illuminate\Auth\Guard](http://laravel.com/api/{{version}}/Illuminate/Auth/Guard.html)  |
-Blade  |  [Illuminate\View\Compilers\BladeCompiler](http://laravel.com/api/{{version}}/Illuminate/View/Compilers/BladeCompiler.html)  |  `blade.compiler`
-Bus  |  [Illuminate\Contracts\Bus\Dispatcher](http://laravel.com/api/{{version}}/Illuminate/Contracts/Bus/Dispatcher.html)  |
-Cache  |  [Illuminate\Cache\Repository](http://laravel.com/api/{{version}}/Illuminate/Cache/Repository.html)  |  `cache`
-Config  |  [Illuminate\Config\Repository](http://laravel.com/api/{{version}}/Illuminate/Config/Repository.html)  |  `config`
-Cookie  |  [Illuminate\Cookie\CookieJar](http://laravel.com/api/{{version}}/Illuminate/Cookie/CookieJar.html)  |  `cookie`
-Crypt  |  [Illuminate\Encryption\Encrypter](http://laravel.com/api/{{version}}/Illuminate/Encryption/Encrypter.html)  |  `encrypter`
-DB  |  [Illuminate\Database\DatabaseManager](http://laravel.com/api/{{version}}/Illuminate/Database/DatabaseManager.html)  |  `db`
-DB (Instance)  |  [Illuminate\Database\Connection](http://laravel.com/api/{{version}}/Illuminate/Database/Connection.html)  |
-Event  |  [Illuminate\Events\Dispatcher](http://laravel.com/api/{{version}}/Illuminate/Events/Dispatcher.html)  |  `events`
-File  |  [Illuminate\Filesystem\Filesystem](http://laravel.com/api/{{version}}/Illuminate/Filesystem/Filesystem.html)  |  `files`
-Gate  |  [Illuminate\Contracts\Auth\Access\Gate](http://laravel.com/api/5.1/Illuminate/Contracts/Auth/Access/Gate.html)  |
-Hash  |  [Illuminate\Contracts\Hashing\Hasher](http://laravel.com/api/{{version}}/Illuminate/Contracts/Hashing/Hasher.html)  |  `hash`
-Input  |  [Illuminate\Http\Request](http://laravel.com/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
-Lang  |  [Illuminate\Translation\Translator](http://laravel.com/api/{{version}}/Illuminate/Translation/Translator.html)  |  `translator`
-Log  |  [Illuminate\Log\Writer](http://laravel.com/api/{{version}}/Illuminate/Log/Writer.html)  |  `log`
-Mail  |  [Illuminate\Mail\Mailer](http://laravel.com/api/{{version}}/Illuminate/Mail/Mailer.html)  |  `mailer`
-Password  |  [Illuminate\Auth\Passwords\PasswordBroker](http://laravel.com/api/{{version}}/Illuminate/Auth/Passwords/PasswordBroker.html)  |  `auth.password`
-Queue  |  [Illuminate\Queue\QueueManager](http://laravel.com/api/{{version}}/Illuminate/Queue/QueueManager.html)  |  `queue`
-Queue (Instance) |  [Illuminate\Queue\QueueInterface](http://laravel.com/api/{{version}}/Illuminate/Queue/QueueInterface.html)  |
-Queue (Base Class) |  [Illuminate\Queue\Queue](http://laravel.com/api/{{version}}/Illuminate/Queue/Queue.html)  |
-Redirect  |  [Illuminate\Routing\Redirector](http://laravel.com/api/{{version}}/Illuminate/Routing/Redirector.html)  |  `redirect`
-Redis  |  [Illuminate\Redis\Database](http://laravel.com/api/{{version}}/Illuminate/Redis/Database.html)  |  `redis`
-Request  |  [Illuminate\Http\Request](http://laravel.com/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
-Response  |  [Illuminate\Contracts\Routing\ResponseFactory](http://laravel.com/api/{{version}}/Illuminate/Contracts/Routing/ResponseFactory.html)  |
-Route  |  [Illuminate\Routing\Router](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html)  |  `router`
-Schema  |  [Illuminate\Database\Schema\Blueprint](http://laravel.com/api/{{version}}/Illuminate/Database/Schema/Blueprint.html)  |
-Session  |  [Illuminate\Session\SessionManager](http://laravel.com/api/{{version}}/Illuminate/Session/SessionManager.html)  |  `session`
-Session (Instance)  |  [Illuminate\Session\Store](http://laravel.com/api/{{version}}/Illuminate/Session/Store.html)  |
-Storage  |  [Illuminate\Contracts\Filesystem\Factory](http://laravel.com/api/{{version}}/Illuminate/Contracts/Filesystem/Factory.html)  |  `filesystem`
-URL  |  [Illuminate\Routing\UrlGenerator](http://laravel.com/api/{{version}}/Illuminate/Routing/UrlGenerator.html)  |  `url`
-Validator  |  [Illuminate\Validation\Factory](http://laravel.com/api/{{version}}/Illuminate/Validation/Factory.html)  |  `validator`
-Validator (Instance)  |  [Illuminate\Validation\Validator](http://laravel.com/api/{{version}}/Illuminate/Validation/Validator.html) |
-View  |  [Illuminate\View\Factory](http://laravel.com/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
-View (Instance)  |  [Illuminate\View\View](http://laravel.com/api/{{version}}/Illuminate/View/View.html)  |
+App  |  [Illuminate\Foundation\Application](http://laravel-china.org/api/{{version}}/Illuminate/Foundation/Application.html)  | `app`
+Artisan  |  [Illuminate\Contracts\Console\Kernel](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`
+Auth  |  [Illuminate\Auth\AuthManager](http://laravel-china.org/api/{{version}}/Illuminate/Auth/AuthManager.html)  |  `auth`
+Auth (Instance)  |  [Illuminate\Auth\Guard](http://laravel-china.org/api/{{version}}/Illuminate/Auth/Guard.html)  |
+Blade  |  [Illuminate\View\Compilers\BladeCompiler](http://laravel-china.org/api/{{version}}/Illuminate/View/Compilers/BladeCompiler.html)  |  `blade.compiler`
+Bus  |  [Illuminate\Contracts\Bus\Dispatcher](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Bus/Dispatcher.html)  |
+Cache  |  [Illuminate\Cache\Repository](http://laravel-china.org/api/{{version}}/Illuminate/Cache/Repository.html)  |  `cache`
+Config  |  [Illuminate\Config\Repository](http://laravel-china.org/api/{{version}}/Illuminate/Config/Repository.html)  |  `config`
+Cookie  |  [Illuminate\Cookie\CookieJar](http://laravel-china.org/api/{{version}}/Illuminate/Cookie/CookieJar.html)  |  `cookie`
+Crypt  |  [Illuminate\Encryption\Encrypter](http://laravel-china.org/api/{{version}}/Illuminate/Encryption/Encrypter.html)  |  `encrypter`
+DB  |  [Illuminate\Database\DatabaseManager](http://laravel-china.org/api/{{version}}/Illuminate/Database/DatabaseManager.html)  |  `db`
+DB (Instance)  |  [Illuminate\Database\Connection](http://laravel-china.org/api/{{version}}/Illuminate/Database/Connection.html)  |
+Event  |  [Illuminate\Events\Dispatcher](http://laravel-china.org/api/{{version}}/Illuminate/Events/Dispatcher.html)  |  `events`
+File  |  [Illuminate\Filesystem\Filesystem](http://laravel-china.org/api/{{version}}/Illuminate/Filesystem/Filesystem.html)  |  `files`
+Gate  |  [Illuminate\Contracts\Auth\Access\Gate](http://laravel-china.org/api/5.1/Illuminate/Contracts/Auth/Access/Gate.html)  |
+Hash  |  [Illuminate\Contracts\Hashing\Hasher](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Hashing/Hasher.html)  |  `hash`
+Input  |  [Illuminate\Http\Request](http://laravel-china.org/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
+Lang  |  [Illuminate\Translation\Translator](http://laravel-china.org/api/{{version}}/Illuminate/Translation/Translator.html)  |  `translator`
+Log  |  [Illuminate\Log\Writer](http://laravel-china.org/api/{{version}}/Illuminate/Log/Writer.html)  |  `log`
+Mail  |  [Illuminate\Mail\Mailer](http://laravel-china.org/api/{{version}}/Illuminate/Mail/Mailer.html)  |  `mailer`
+Password  |  [Illuminate\Auth\Passwords\PasswordBroker](http://laravel-china.org/api/{{version}}/Illuminate/Auth/Passwords/PasswordBroker.html)  |  `auth.password`
+Queue  |  [Illuminate\Queue\QueueManager](http://laravel-china.org/api/{{version}}/Illuminate/Queue/QueueManager.html)  |  `queue`
+Queue (Instance) |  [Illuminate\Queue\QueueInterface](http://laravel-china.org/api/{{version}}/Illuminate/Queue/QueueInterface.html)  |
+Queue (Base Class) |  [Illuminate\Queue\Queue](http://laravel-china.org/api/{{version}}/Illuminate/Queue/Queue.html)  |
+Redirect  |  [Illuminate\Routing\Redirector](http://laravel-china.org/api/{{version}}/Illuminate/Routing/Redirector.html)  |  `redirect`
+Redis  |  [Illuminate\Redis\Database](http://laravel-china.org/api/{{version}}/Illuminate/Redis/Database.html)  |  `redis`
+Request  |  [Illuminate\Http\Request](http://laravel-china.org/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
+Response  |  [Illuminate\Contracts\Routing\ResponseFactory](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Routing/ResponseFactory.html)  |
+Route  |  [Illuminate\Routing\Router](http://laravel-china.org/api/{{version}}/Illuminate/Routing/Router.html)  |  `router`
+Schema  |  [Illuminate\Database\Schema\Blueprint](http://laravel-china.org/api/{{version}}/Illuminate/Database/Schema/Blueprint.html)  |
+Session  |  [Illuminate\Session\SessionManager](http://laravel-china.org/api/{{version}}/Illuminate/Session/SessionManager.html)  |  `session`
+Session (Instance)  |  [Illuminate\Session\Store](http://laravel-china.org/api/{{version}}/Illuminate/Session/Store.html)  |
+Storage  |  [Illuminate\Contracts\Filesystem\Factory](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Filesystem/Factory.html)  |  `filesystem`
+URL  |  [Illuminate\Routing\UrlGenerator](http://laravel-china.org/api/{{version}}/Illuminate/Routing/UrlGenerator.html)  |  `url`
+Validator  |  [Illuminate\Validation\Factory](http://laravel-china.org/api/{{version}}/Illuminate/Validation/Factory.html)  |  `validator`
+Validator (Instance)  |  [Illuminate\Validation\Validator](http://laravel-china.org/api/{{version}}/Illuminate/Validation/Validator.html) |
+View  |  [Illuminate\View\Factory](http://laravel-china.org/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
+View (Instance)  |  [Illuminate\View\View](http://laravel-china.org/api/{{version}}/Illuminate/View/View.html)  |
