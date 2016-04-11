@@ -9,7 +9,7 @@
 - [路由群组](#route-groups)
     - [中间件](#route-group-middleware)
     - [命名空间](#route-group-namespaces)
-    - [子网域路由](#route-group-sub-domain-routing)
+    - [子域名路由](#route-group-sub-domain-routing)
     - [路由前缀](#route-group-prefixes)
 - [CSRF 保护](#csrf-protection)
     - [介绍](#csrf-introduction)
@@ -226,9 +226,9 @@
 请记住，默认 `RouteServiceProvider` 会在命名空间群组内导入你的 `routes.php` 文件，让你不用指定完整的 `App\Http\Controllers` 命名空间前缀就能注册控制器路由。所以，我们只需要指定在基底 `App\Http\Controllers` 根命名空间之后的部分命名空间。
 
 <a name="route-group-sub-domain-routing"></a>
-### 子网域路由
+### 子域名路由
 
-路由群组也可以被用来做处理通配符的子网域。子网域可以像路由 URIs 分配路由参数，让你在路由或控制器中获取子网域参数。使用路由群组属性数组上的 `domain` 指定子网域变量名称：
+路由群组也可以被用来做处理通配符的子域名。子域名可以像路由 URIs 分配路由参数，让你在路由或控制器中获取子域名参数。使用路由群组属性数组上的 `domain` 指定子域名变量名称：
 
     Route::group(['domain' => '{account}.myapp.com'], function () {
         Route::get('user/{id}', function ($account, $id) {

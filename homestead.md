@@ -102,7 +102,7 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包
 
 #### 配置 Nginx 网站
 
-对 Nginx 不熟悉吗？没关系。`sites` 属性可以帮助你可以轻易指定一个 `网域` 来对应到 homestead 环境中的一个目录上。在 `Homestead.yaml` 文件中已包含了一个网站设置范本。同样的，你也可以增加多个网站到你的 Homestead 环境中。Homestead 可以为每个你正在开发中的 Laravel 项目提供方便的虚拟化环境：
+对 Nginx 不熟悉吗？没关系。`sites` 属性可以帮助你可以轻易指定一个 `域名` 来对应到 homestead 环境中的一个目录上。在 `Homestead.yaml` 文件中已包含了一个网站设置范本。同样的，你也可以增加多个网站到你的 Homestead 环境中。Homestead 可以为每个你正在开发中的 Laravel 项目提供方便的虚拟化环境：
 
     sites:
         - map: homestead.app
@@ -119,11 +119,11 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包
 
 #### 关于 Hosts 文件
 
-你必须将在 Nginx sites 中所添加的「网域」也添加到你本机电脑的 `hosts` 上。`hosts` 文件会将你所发出的请求重定向至你在 Homestead 环境中设置的本地网域。在 Mac 或 Linux 上，该文件通常会存放在 `/etc/hosts`。在 Windows 上，则存放于 `C:\Windows\System32\drivers\etc\hosts`。设置内容如下所示：
+你必须将在 Nginx sites 中所添加的「域名」也添加到你本机电脑的 `hosts` 上。`hosts` 文件会将你所发出的请求重定向至你在 Homestead 环境中设置的本地域名。在 Mac 或 Linux 上，该文件通常会存放在 `/etc/hosts`。在 Windows 上，则存放于 `C:\Windows\System32\drivers\etc\hosts`。设置内容如下所示：
 
     192.168.10.10  homestead.app
 
-务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。在将网域设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站啦！
+务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。在将域名设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站啦！
 
     http://homestead.app
 
@@ -153,7 +153,7 @@ Windows:
 
         vendor\bin\homestead make
 
-接着，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的网域。
+接着，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的域名。
 
 <a name="daily-usage"></a>
 ## 常见用法
