@@ -17,7 +17,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件，事件类通常被保存在 `app/Events` 目录下，而它们的侦听器保存在 `app/Listeners` 目录下。
+Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件，事件类通常被保存在 `app/Events` 目录下，而它们的侦听器被保存在 `app/Listeners` 目录下。
 
 <a name="registering-events-and-listeners"></a>
 ## 注册事件或侦听器
@@ -71,7 +71,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="defining-events"></a>
 ## 定义事件
 
-一个事件类只是一个数据容器包含了相关的事件信息。例如，假设我们产生了 `PodcastWasPurchased` 事件来接收一个 [Eloquent ORM](/docs/{{version}}/eloquent) 对象：
+一个事件类只是一个包含了相关事件信息的数据容器。例如，假设我们产生了 `PodcastWasPurchased` 事件来接收一个 [Eloquent ORM](/docs/{{version}}/eloquent) 对象：
 
     <?php
 
@@ -99,7 +99,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
         }
     }
 
-正如你所见的，这个事件类没有包含特别的逻辑。它只是一个当 `Podcast` 对象被购买时的容器。如果事件对象是使用 PHP 的 `serialized` 函数进行序列化，那么事件所使用的 `SerializesModels` trait 将会优雅的序列化任何的 Eloquent 模型。
+正如你所见的，这个事件类没有包含其它特殊逻辑。它只是一个被购买的 `Podcast` 对象的容器。如果事件对象是使用 PHP 的 `serialized` 函数进行序列化，那么事件所使用的 `SerializesModels` trait 将会优雅的序列化任何的 Eloquent 模型。
 
 <a name="defining-listeners"></a>
 ## 定义侦听器
@@ -149,12 +149,12 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 
 #### 停止一个事件的传播
 
-有时候，你可能希望停止一个事件的传播到其他的侦听器。你可以在侦听器的 `handle` 方法返回 `false` 达到这项目的。
+有时候，你可能希望停止一个事件传播到其他的侦听器。你可以通过在侦听器的 `handle` 方法中返回 `false` 来实现。
 
 <a name="queued-event-listeners"></a>
 ### 可队列的事件侦听器
 
-需要一个可[队列](/docs/{{version}}/queues) 的事件侦听器吗？它是再容易不过了。只要增加 `ShouldQueue` 接口到你的侦听器类。由 `event:generate` Artisan 命令生成的侦听器已经将目前存在的接口加载到命名空间，所以你可以立即的使用它：
+需要一个可 [队列](/docs/{{version}}/queues) 的事件侦听器吗？那是再容易不过了。只要增加 `ShouldQueue` 接口到你的侦听器类。由 `event:generate` Artisan 命令生成的侦听器已经将此接口导入到命名空间了，因此可以像这样来立即使用它：
 
     <?php
 
@@ -169,11 +169,11 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
         //
     }
 
-如此而已！现在，当这个侦听器调用事件时，事件发送器会使用 Laravel 的[队列系统](/docs/{{version}}/queues) 自动的进行队列处理。如果侦听器是通过队列运行而没有抛出任何异常，已处理的队列任务将自动的被删除。
+仅此而已！现在，当这个侦听器调用事件时，事件发送器会使用 Laravel 的 [队列系统](/docs/{{version}}/queues) 自动进行队列处理。如果侦听器是通过队列运行而没有抛出任何异常，则已处理过的队列任务将会被自动删除。
 
 #### 手动访问队列
 
-如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，在默认产生的侦听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，这样你就可以访问这些方法了：
+如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，那是可以做到的。默认产生的侦听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，让你可以访问这些方法：
 
     <?php
 
@@ -198,7 +198,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="firing-events"></a>
 ## 触发事件
 
-如果要触发一件事件，你可以使用 `Event` [facade](/docs/{{version}}/facades)，发送一个事件的实例到 `fire` 方法。`fire` 方法将会发送事件到所有已经注册的侦听器：
+如果要触发一个事件，你可以使用 `Event` [facade](/docs/{{version}}/facades) 来发送一个事件的实例到 `fire` 方法。`fire` 方法将会发送事件到所有已经注册的侦听器上：
 
     <?php
 
@@ -235,14 +235,14 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="broadcasting-events"></a>
 ## 广播事件
 
-在构建实时响应的 Web App 时，经常会使用到 Web Sockets，当在服务器上更新一些数据，Web Socket 连接通常会发送一个消息通知客户端处理。
+在构建实时响应的 Web App 时，经常会使用到 Web Sockets。当在服务器上更新一些数据时，Web Socket 连接通常会发送一个消息来通知客户端处理。
 
-为了协助你创建这些类型的应用程序，Laravel 让你可以简单的经由 Web Socket 连接来「广播」你的事件。广播 Laravel 事件让你能够在服务器端代码和客户端 JavaScript 框架间分享相同的事件名称。
+为了协助你创建这些类型的应用程序，Laravel 让你可以简单的通过 Web Socket 连接来「广播」你的事件。广播 Laravel 事件让你能够在服务器端代码和客户端 JavaScript 框架间共享相同的事件名称。
 
 <a name="broadcast-configuration"></a>
 ### 配置
 
-所有的事件广播设置选项都保存在 `config/broadcasting.php` 配置文件内。Laravel 内置支持多种广播驱动：[Pusher](https://pusher.com)、[Redis](/docs/{{version}}/redis)，和一个用于本机开发和调试的 `log` 驱动程序。配置文件例子包含了每个驱动程序。
+所有的事件广播设置选项都保存在 `config/broadcasting.php` 配置文件内。Laravel 内置支持多种广播驱动：[Pusher](https://pusher.com)、[Redis](/docs/{{version}}/redis)，和一个用于本机开发和调试的 `log` 驱动程序。配置文件例子包含了所有的驱动程序。
 
 #### 广播先决条件
 
@@ -253,7 +253,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 
 #### 队列先决条件
 
-在广播事件之前，你还需要设置和运行[队列侦听器](/docs/{{version}}/queues)。所有事件广播经由队列任务完成，因此你的应用程序响应时间不会有严重影响。
+在广播事件之前，你还需要设置和运行[队列侦听器](/docs/{{version}}/queues)。所有事件广播经由队列任务完成，因此对应用程序的响应时间不会有严重影响。
 
 <a name="marking-events-for-broadcast"></a>
 ### 将事件标示为广播
@@ -296,12 +296,12 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
         }
     }
 
-接着，你只需要像往常的[触发事件](#firing-events)。一旦事件被触发之后，[队列任务](/docs/{{version}}/queues)将会自动的广播事件到你指定的广播驱动。
+接着，你只需要像往常一样[触发事件](#firing-events)。一旦事件被触发之后，[队列任务](/docs/{{version}}/queues)将会自动的广播事件到你指定的广播驱动上。
 
 <a name="overriding-broadcast-event-name"></a>
 #### 重写广播事件名称
 
-默认情况下，广播事件名称会使用完整的事件类名称。以下方类为例子，该广播事件会是 `App\Events\ServerCreated`。你可以使用 `broadcastAs` 方法来自定你想要的广播事件名称：
+默认情况下，广播事件名称会使用完整的事件类名称。以下方的类为例子，该广播事件会是 `App\Events\ServerCreated`。你可以使用 `broadcastAs` 方法来自定你想要的广播事件名称：
 
     /**
      * 获取广播事件名称。
@@ -316,7 +316,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="broadcast-data"></a>
 ### 广播数据
 
-当事件被广播时，所有的 `public` 属性都自动的被序列化和广播作为事件的有效数据，允许你可以从你的 JavaScript 应用程序中访问任何公开的数据。所以，在这个例子中，假设事件有一个单一公开的 `$user` 属性且包含了一个 Eloquent 模型，广播数据将会是：
+当事件被广播时，所有的 `public` 属性都会被自动序列化且将广播作为事件的有效负载，允许你从 JavaScript 应用程序中访问任何公开的数据。所以，在这个例子中，假设事件有一个单一公开的 `$user` 属性且包含了一个 Eloquent 模型，广播数据将会是：
 
     {
         "user": {
@@ -326,7 +326,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
         }
     }
 
-然而，如果你希望有更多精确的控制在你的广播数据，你可以增加 `broadcastWith` 方法到你的事件。这个方法应该返回一个你希望广播的事件数据数组：
+然而，如果你希望在广播数据中有更精确的控制，则可以增加 `broadcastWith` 方法到事件上。这个方法应该返回一个你希望广播的事件数据数组：
 
     /**
      * 获取广播数据。
@@ -355,9 +355,9 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 
 #### Redis
 
-如果你使用 Redis 广播器，你需要编写自己的 Redis pub/sub 消耗器来接收消息和广播，并使用你选择的 WebSocket 技术。例如，你可能选择使用 Node 编写，很受欢迎的 [Socket.io](http://socket.io) 函数库。
+如果你使用了 Redis 广播器，则需要编写自己的 Redis pub/sub 消耗器来接收消息和广播，并使用你所选择的 WebSocket 技术。例如，你可能选择使用 Node 编写、很受欢迎的 [Socket.io](http://socket.io) 函数库。
 
-使用 `socket.io` 和 `ioredis` Node 函数库，你可以快速的编写一个事件广播器，在你的 Laravel 应用程序发布所有事件的广播：
+使用 `socket.io` 和 `ioredis` Node 函数库可以快速的编写一个事件广播器，在 Laravel 应用程序发布所有事件的广播：
 
     var app = require('http').createServer(handler);
     var io = require('socket.io')(app);
@@ -390,7 +390,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="event-subscribers"></a>
 ## 事件订阅器
 
-事件订阅器是一个类，让你可以在该类内订阅多个事件，允许你从单一类内定义多个事件的操作。订阅器应该定义一个 `subscribe` 方法，可以发送一个事件发送器实例：
+事件订阅器是一个让你可以订阅多个事件的类，允许你在单一类内定义多个事件的操作。订阅器应该定义一个可以发送一个事件发送器实例的 `subscribe` 方法，：
 
     <?php
 
@@ -430,7 +430,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 
 #### 注册事件订阅器
 
-一旦订阅器被定义，它可以被注册到事件发送器。你可以在 `EventServiceProvider` 中使用 `$subscribe` 属性注册订阅器。例如，让我们增加 `UserEventListener`。
+一旦订阅器被定义，它就可以被注册到事件发送器中。你可以在 `EventServiceProvider` 中使用 `$subscribe` 属性注册订阅器。例如，让我们增加 `UserEventListener`。
 
     <?php
 
@@ -463,26 +463,26 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="framework-events"></a>
 ## 框架事件
 
-Laravel 为框架运行的行为提供了许多「核心」事件。你可以使用与你订阅自定事件同样的方式订阅它们：
+Laravel 为框架运行的行为提供了许多「核心」事件。你可以像订阅自己自定义事件一样的方式来订阅它们：
 
-事件  |  参数
-------------- | -----------
-artisan.start | $application
-auth.attempt | $credentials, $remember, $login
-auth.login | $user, $remember
-auth.logout | $user
-cache.missed | $key
-cache.hit | $key, $value
-cache.write | $key, $value, $minutes
-cache.delete | $key
-connection.{name}.beginTransaction | $connection
-connection.{name}.committed | $connection
-connection.{name}.rollingBack | $connection
-illuminate.query | $query, $bindings, $time, $connectionName
-illuminate.queue.after | $connection, $job, $data
-illuminate.queue.failed | $connection, $job, $data
-illuminate.queue.stopping | null
-mailer.sending | $message
-router.matched | $route, $request
-composing:{view name} | $view
-creating:{view name} | $view
+| 事件                               | 参数                                      |
+|:-----------------------------------|:------------------------------------------|
+| artisan.start                      | $application                              |
+| auth.attempt                       | $credentials, $remember, $login           |
+| auth.login                         | $user, $remember                          |
+| auth.logout                        | $user                                     |
+| cache.missed                       | $key                                      |
+| cache.hit                          | $key, $value                              |
+| cache.write                        | $key, $value, $minutes                    |
+| cache.delete                       | $key                                      |
+| connection.{name}.beginTransaction | $connection                               |
+| connection.{name}.committed        | $connection                               |
+| connection.{name}.rollingBack      | $connection                               |
+| illuminate.query                   | $query, $bindings, $time, $connectionName |
+| illuminate.queue.after             | $connection, $job, $data                  |
+| illuminate.queue.failed            | $connection, $job, $data                  |
+| illuminate.queue.stopping          | null                                      |
+| mailer.sending                     | $message                                  |
+| router.matched                     | $route, $request                          |
+| composing:{view name}              | $view                                     |
+| creating:{view name}               | $view                                     |
