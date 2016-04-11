@@ -52,7 +52,7 @@
     - [验证](/docs/{{version}}/validation)
 - 数据库
     - [入门](/docs/{{version}}/database)
-    - [查询建构器](/docs/{{version}}/queries)
+    - [查询构造器](/docs/{{version}}/queries)
     - [迁移](/docs/{{version}}/migrations)
     - [数据填充](/docs/{{version}}/seeding)
 - Eloquent ORM

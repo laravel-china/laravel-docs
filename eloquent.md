@@ -142,7 +142,7 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 <a name="retrieving-multiple-models"></a>
 ## 取回多个模型
 
-一旦你创建了一个模型并且将模型 [关连到数据表](/docs/{{version}}/schema)，你就可以从数据库中获取数据。把每个 Eloquent 模型想像成强大的[查询建构器](/docs/{{version}}/queries)，让你可以流畅地查找与模型关联的数据表。例如：
+一旦你创建了一个模型并且将模型 [关连到数据表](/docs/{{version}}/schema)，你就可以从数据库中获取数据。把每个 Eloquent 模型想像成强大的[查询构造器](/docs/{{version}}/queries)，让你可以流畅地查找与模型关联的数据表。例如：
 
     <?php
 
@@ -176,14 +176,14 @@ Eloquent 也会假设每个数据表有一个主键字段叫做 `id`。你可以
 
 #### 增加额外的限制
 
-Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于每个 Eloquent 模型可以当作一个[查询建构器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后通过 `get` 方法来获取结果：
+Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于每个 Eloquent 模型可以当作一个[查询构造器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后通过 `get` 方法来获取结果：
 
     $flights = App\Flight::where('active', 1)
                    ->orderBy('name', 'desc')
                    ->take(10)
                    ->get();
 
-> **注意：** 由于 Eloquent 模型是查询建构器，应该阅读所有 [查询建构器](/docs/{{version}}/queries)可用的方法。你可以在你的 Eloquent 查找中使用这其中的任何方法。
+> **注意：** 由于 Eloquent 模型是查询构造器，应该阅读所有 [查询构造器](/docs/{{version}}/queries)可用的方法。你可以在你的 Eloquent 查找中使用这其中的任何方法。
 
 #### 集合
 
@@ -233,7 +233,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 <a name="retrieving-aggregates"></a>
 ### 取回集合
 
-当然，你也可以使用 `count`、`sum`、`max`，和其他[查询建构器](/docs/{{version}}/queries)提供的[聚合函数](/docs/{{version}}/queries#aggregates)。这些方法会返回适当的纯量值，而不是一个完整的模型实例：
+当然，你也可以使用 `count`、`sum`、`max`，和其他[查询构造器](/docs/{{version}}/queries)提供的[聚合函数](/docs/{{version}}/queries#aggregates)。这些方法会返回适当的纯量值，而不是一个完整的模型实例：
 
     $count = App\Flight::where('active', 1)->count();
 
@@ -492,7 +492,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 范围（Scopes）让你定义限制的共用集合，它可以轻松地在你的应用程序重复使用。例如，你可能需要频繁地获取所有被认为是「受欢迎的」用户。要定义范围，必须简单地在 Eloquent 模型方法前面加上前缀 `scope`：
 
-范围应总是返回查询建构器的实例：
+范围应总是返回查询构造器的实例：
 
     <?php
 

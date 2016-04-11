@@ -18,7 +18,7 @@
 <a name="introduction"></a>
 ## 简介
 
-迁移是一种数据库的版本控制，让团队能够轻松的修改跟共享应用程序的数据库结构。迁移通常会搭配 Laravel 的结构建构器，让你可以轻松的建构应用程序的数据库结构。
+迁移是一种数据库的版本控制，让团队能够轻松的修改跟共享应用程序的数据库结构。迁移通常会搭配 Laravel 的结构构造器，让你可以轻松的建构应用程序的数据库结构。
 
 Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库创建和操作数据表的相关支持。它对所有 Laravel 所支持的数据库系统共用了同样一目了然、流畅的 API。
 
@@ -44,7 +44,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 
 一个迁移类会包含两个方法：`up` 和 `down`。`up` 方法用于在数据库内增加新的数据表表、字段、或索引，而 `down` 方法则必须简单的反向运行 `up` 方法的操作。
 
-这两个方法中你可以使用 Laravel 结构建构器明确的创建及修改数据表。若要了解`结构`建构器中所有可用的方法，[请查阅它的文档](#creating-tables)。例如：让我们瞧瞧创建一张 `flights` 数据表的例子：
+这两个方法中你可以使用 Laravel 结构构造器明确的创建及修改数据表。若要了解`结构`构造器中所有可用的方法，[请查阅它的文档](#creating-tables)。例如：让我们瞧瞧创建一张 `flights` 数据表的例子：
 
     <?php
 
@@ -126,7 +126,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
         $table->increments('id');
     });
 
-当然，当创建数据表时，你可以使用任何的结构建构器的[字段方法](#creating-columns)来定义数据表的字段。
+当然，当创建数据表时，你可以使用任何的结构构造器的[字段方法](#creating-columns)来定义数据表的字段。
 
 #### 检查数据表或字段是否存在
 
@@ -148,7 +148,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
         $table->increments('id');
     });
 
-若要设置数据表的保存引擎，只要在结构建构器上设置 `engine` 属性：
+若要设置数据表的保存引擎，只要在结构构造器上设置 `engine` 属性：
 
     Schema::create('users', function ($table) {
         $table->engine = 'InnoDB';
@@ -180,7 +180,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 
 #### 可用的字段类型
 
-当然，结构建构器包含许多字段类型，供你建构数据表时使用：
+当然，结构构造器包含许多字段类型，供你建构数据表时使用：
 
 命令  | 描述
 ------------- | -------------
@@ -259,7 +259,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 <a name="renaming-columns"></a>
 #### 重命名字段
 
-要重命名字段，你可使用结构建构器的 `renameColumn` 方法。在重命名字段前，请确定你的 `composer.json` 文件内已经加入 `doctrine/dbal` 依赖：
+要重命名字段，你可使用结构构造器的 `renameColumn` 方法。在重命名字段前，请确定你的 `composer.json` 文件内已经加入 `doctrine/dbal` 依赖：
 
     Schema::table('users', function ($table) {
         $table->renameColumn('from', 'to');
@@ -270,7 +270,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 <a name="dropping-columns"></a>
 ### 移除字段
 
-要移除字段，可使用结构建构器的 `dropColumn` 方法：
+要移除字段，可使用结构构造器的 `dropColumn` 方法：
 
     Schema::table('users', function ($table) {
         $table->dropColumn('votes');
@@ -289,7 +289,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 提供了在数据库�
 <a name="creating-indexes"></a>
 ### 创建索引
 
-结构建构器支持多种类型的索引。首先，让我们看看一个指定字段的值必须是唯一的例子。要创建索引，我们可以简单的在字段定义之后链式调用上 `unique` 方法：
+结构构造器支持多种类型的索引。首先，让我们看看一个指定字段的值必须是唯一的例子。要创建索引，我们可以简单的在字段定义之后链式调用上 `unique` 方法：
 
     $table->string('email')->unique();
 
