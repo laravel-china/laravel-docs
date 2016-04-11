@@ -28,7 +28,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
     Storage::disk('local')->put('file.txt', 'Contents');
 
-#### 其他驱动的预先需求
+#### 其它驱动的预先需求
 
 在使用 S3 或 Rackspace 驱动之前，你需要通过 Composer 安装适当扩展包：
 
@@ -167,7 +167,7 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 <a name="custom-filesystems"></a>
 ## 自定义文件系统
 
-Laravel 集成的 Flysystem 提供许多默认驱动；然而 Flysystem 本身不仅仅提供了这些，还包括其他保存系统的接口（adapter）。你能在 Laravel 的应用当中通过创建新的驱动使用这些额外的接口。
+Laravel 集成的 Flysystem 提供许多默认驱动；然而 Flysystem 本身不仅仅提供了这些，还包括其它保存系统的接口（adapter）。你能在 Laravel 的应用当中通过创建新的驱动使用这些额外的接口。
 
 为了建构一个自定义的磁盘系统，你将需要创建一个像是 `DropboxServiceProvider` 的 [服务提供者](/docs/{{version}}/providers)。并在该提供者的 `boot` 方法使用 `Storage` facade 的 `extend` 方法自定义你的驱动。
 

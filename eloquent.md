@@ -59,7 +59,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 #### 数据表名称
 
-请注意，我们并没有告诉 Eloquent `Flight` 模型该使用哪一个数据表。除非明确地指定其他名称，不然类的小写、底线、复数形式会拿来当作数据表的表单名称。所以，这个例子中，Eloquent 将会假设 `Flight` 模型保存记录在 `flights` 数据表。你可以在模型上定义一个 `table` 属性，用来指定自定义的数据表名称：
+请注意，我们并没有告诉 Eloquent `Flight` 模型该使用哪一个数据表。除非明确地指定其它名称，不然类的小写、底线、复数形式会拿来当作数据表的表单名称。所以，这个例子中，Eloquent 将会假设 `Flight` 模型保存记录在 `flights` 数据表。你可以在模型上定义一个 `table` 属性，用来指定自定义的数据表名称：
 
     <?php
 
@@ -233,7 +233,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 <a name="retrieving-aggregates"></a>
 ### 取回集合
 
-当然，你也可以使用 `count`、`sum`、`max`，和其他[查询构造器](/docs/{{version}}/queries)提供的[聚合函数](/docs/{{version}}/queries#aggregates)。这些方法会返回适当的纯量值，而不是一个完整的模型实例：
+当然，你也可以使用 `count`、`sum`、`max`，和其它[查询构造器](/docs/{{version}}/queries)提供的[聚合函数](/docs/{{version}}/queries#aggregates)。这些方法会返回适当的纯量值，而不是一个完整的模型实例：
 
     $count = App\Flight::where('active', 1)->count();
 
@@ -325,7 +325,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
     $flight = App\Flight::create(['name' => 'Flight 10']);
 
-`$fillable` 作为一个可以被批量赋值的属性的「白名单」，然而你也可以选择使用 `$guarded`。`$guarded` 属性应该包含一个属性的数组，是你不想要被批量赋值的。所有不在数组里面的其他属性将会是可以被批量赋值的。所以，`$guarded` 的功能像是一个「黑名单」。当然，你应该使用 `$fillable` 或 `$guarded` - 而不是两者：
+`$fillable` 作为一个可以被批量赋值的属性的「白名单」，然而你也可以选择使用 `$guarded`。`$guarded` 属性应该包含一个属性的数组，是你不想要被批量赋值的。所有不在数组里面的其它属性将会是可以被批量赋值的。所以，`$guarded` 的功能像是一个「黑名单」。当然，你应该使用 `$fillable` 或 `$guarded` - 而不是两者：
 
     <?php
 
@@ -345,9 +345,9 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
 
 在上面的例子当中，所有属性 **除了 `price`** 以外，都可以被批量赋值。
 
-#### 其他创建的方法
+#### 其它创建的方法
 
-还有两种其他方法，你可以用来通过属性批量赋值创建你的模型：`firstOrCreate` 和 `firstOrNew`。`firstOrCreate` 方法将会使用指定的字段／值对，来尝试寻找数据库中的记录。如果在数据库找不到模型，将会用指定的属性来添加一条记录。
+还有两种其它方法，你可以用来通过属性批量赋值创建你的模型：`firstOrCreate` 和 `firstOrNew`。`firstOrCreate` 方法将会使用指定的字段／值对，来尝试寻找数据库中的记录。如果在数据库找不到模型，将会用指定的属性来添加一条记录。
 
 `firstOrNew` 方法类似 `firstOrCreate`，会尝试使用指定的属性在数据库中寻找符合的纪录。然而，假设找不到模型，将会返回一个新的模型实例。请注意 `firstOrnew` 返回的模型还尚未保存到数据库。你需要通过手动调用 `save` 方法来保存它：
 

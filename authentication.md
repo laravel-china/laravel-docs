@@ -11,7 +11,7 @@
     - [错误尝试限制](#authentication-throttling)
 - [手动认证用户](#authenticating-users)
     - [记住用户](#remembering-users)
-    - [其他认证方法](#other-authentication-methods)
+    - [其它认证方法](#other-authentication-methods)
 - [HTTP 基础认证](#http-basic-authentication)
      - [无状态 HTTP 基础认证](#stateless-http-basic-authentication)
 - [重设密码](#resetting-passwords)
@@ -295,7 +295,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
     }
 
 <a name="other-authentication-methods"></a>
-### 其他认证方法
+### 其它认证方法
 
 #### 用用户实例做认证
 
@@ -505,7 +505,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 安装 Socialite 之后，到 `config/app.php` 配置文件中注册 `Laravel\Socialite\SocialiteServiceProvider`：
 
     'providers' => [
-        // 其他服务提供者...
+        // 其它服务提供者...
 
         Laravel\Socialite\SocialiteServiceProvider::class,
     ],

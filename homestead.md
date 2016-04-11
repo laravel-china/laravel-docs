@@ -153,7 +153,7 @@ Windows:
 
         vendor\bin\homestead make
 
-接着，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其他想要使用的域名。
+接着，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其它想要使用的域名。
 
 <a name="daily-usage"></a>
 ## 常见用法

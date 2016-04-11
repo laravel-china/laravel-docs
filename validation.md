@@ -7,7 +7,7 @@
     - [编写验证逻辑](#quick-writing-the-validation-logic)
     - [显示验证错误](#quick-displaying-the-validation-errors)
     - [AJAX 请求和验证](#quick-ajax-requests-and-validation)
-- [其他验证的处理](#other-validation-approaches)
+- [其它验证的处理](#other-validation-approaches)
     - [手动创建验证程序](#manually-creating-validators)
     - [表单要求验证](#form-request-validation)
 - [处理错误消息](#working-with-error-messages)
@@ -170,7 +170,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 在这个例子中，我们用一种传统形式将数据发送到应用程序。然而，许多应用程序使用 AJAX 请求。当我们使用 `validate` 方法在 AJAX 的请求中，Laravel 不会产生一个重定向的响应。相反的，Laravel 会产生一个包含所有错误验证的 JSON 响应。这个 JSON 响应会发送一个 422 HTTP 的状态码。
 
 <a name="other-validation-approaches"></a>
-## 其他验证的处理
+## 其它验证的处理
 
 <a name="manually-creating-validators"></a>
 ### 手动创建验证程序
@@ -301,7 +301,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
 如果 `authorize` 方法返回 `false`，会自动返回一个 HTTP 响应，包含 403 状态码， 而你的控制器方法将不会被运行。
 
-如果你打算在应用程序的其他部分处理授权逻辑，只要从 `authorize` 方法返回 `true` ：
+如果你打算在应用程序的其它部分处理授权逻辑，只要从 `authorize` 方法返回 `true` ：
 
     /**
      * 判断用户是否有权限做出此请求。
@@ -398,7 +398,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
     $validator = Validator::make($input, $rules, $messages);
 
-在这个例子中，`:attribute` 通过验证字段的的实际名称，预留的字段会被取代。你还可以使用其他默认字段的验证消息。例如：
+在这个例子中，`:attribute` 通过验证字段的的实际名称，预留的字段会被取代。你还可以使用其它默认字段的验证消息。例如：
 
     $messages = [
         'same'    => ':attribute 和 :other 必须相同。',
@@ -504,7 +504,7 @@ Laravel 提供了各种不同的处理方法来验证应用程序传入进来的
 
     'start_date' => 'required|date|after:tomorrow'
 
-相反的传入日期字符串通过 `strtotime` 来确认，你可以指定其他的字段来比较日期：
+相反的传入日期字符串通过 `strtotime` 来确认，你可以指定其它的字段来比较日期：
 
     'finish_date' => 'required|date|after:start_date'
 

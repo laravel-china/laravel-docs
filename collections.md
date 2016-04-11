@@ -235,7 +235,7 @@
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
-`diff` 方法拿该集合与其他集合或纯 PHP `数组`进行比较：
+`diff` 方法拿该集合与其它集合或纯 PHP `数组`进行比较：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -367,7 +367,7 @@
 
     // [framework' => 'laravel']
 
-> **注意：** 与大多数其他集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改调用它的集合。
+> **注意：** 与大多数其它集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改调用它的集合。
 
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
@@ -602,7 +602,7 @@
 
     // [2, 4, 6, 8, 10]
 
-> **注意：** 正如集合大多数其他的方法一样，`map` 返回一个新集合实例；它并没有修改被调用的集合。假如你想改变原始的集合，得使用 [`transform`](#method-transform) 方法。
+> **注意：** 正如集合大多数其它的方法一样，`map` 返回一个新集合实例；它并没有修改被调用的集合。假如你想改变原始的集合，得使用 [`transform`](#method-transform) 方法。
 
 <a name="method-max"></a>
 #### `max()` {#collection-method}
@@ -1133,7 +1133,7 @@
 
     // [2, 4, 6, 8, 10]
 
-> **注意：** 与大多数其他集合的方法不同，`transform` 会修改集合本身。如果你希望创建新集合，就改用 [`map`](#method-map) 方法。
+> **注意：** 与大多数其它集合的方法不同，`transform` 会修改集合本身。如果你希望创建新集合，就改用 [`map`](#method-map) 方法。
 
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}
