@@ -42,7 +42,7 @@ Laravel 5.1 是 Laravel 生态系统内 **长期支持** 的第一个版本。La
 
 ### PSR-2
 
-[PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 已经被 Laravel 框架采用为默认的代码风格指南。此外，所以的产生器都已进行更新，以生成 PSR-2 兼容的语法。
+[PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 已经被 Laravel 框架采用为默认的代码风格指南。此外，所以的生成器都已进行更新，以生成 PSR-2 兼容的语法。
 
 ### 文档
 
@@ -112,7 +112,7 @@ Laravel 内置的测试功能已得到显著的改善。各种新的方法提供
 
 ### 模型工厂
 
-Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用[模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充产生测试模型实例。模型工厂也使用高端的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来产生随机属性的数据：
+Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用[模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充生成测试模型实例。模型工厂也使用高端的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来生成随机属性的数据：
 
     $factory->define(App\User::class, function ($faker) {
         return [
@@ -272,7 +272,7 @@ Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可
 
 ### Laravel 调度器
 
-过去，开发者可以产生 Cron 设置，用以调度所有他们想要运行的命令行命令。然而，这是件很头痛的事情，因为你的命令行调度不在版本控制中，而你必须登录到服务器里加入 Cron 设置。让生活变得简单点。Laravel 命令行调度，让你可以流畅而且具有表达性的定义在 Laravel 里面，定义你的命令调度，而且只需要在服务器里设置一个 Cron 设置。
+过去，开发者可以生成 Cron 设置，用以调度所有他们想要运行的命令行命令。然而，这是件很头痛的事情，因为你的命令行调度不在版本控制中，而你必须登录到服务器里加入 Cron 设置。让生活变得简单点。Laravel 命令行调度，让你可以流畅而且具有表达性的定义在 Laravel 里面，定义你的命令调度，而且只需要在服务器里设置一个 Cron 设置。
 
 它会看起来如下：
 
@@ -370,7 +370,7 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
 
 更多关于这个新方法的信息，参考[这个文档](/docs/{{version}}/validation#controller-validation)。
 
-### 新的产生器
+### 新的生成器
 
 因应新的应用程序默认架构，框架添加了 Artisan generator 命令。使用 `php artisan list` 瞧瞧更多细节。
 

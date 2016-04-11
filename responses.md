@@ -56,7 +56,7 @@
 <a name="attaching-cookies-to-responses"></a>
 #### 附加 Cookies 至响应
 
-通过响应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来产生 cookie 并附加至响应实例：
+通过响应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来生成 cookie 并附加至响应实例：
 
     return response($content)->header('Content-Type', $type)
                      ->withCookie('name', 'value');
@@ -65,7 +65,7 @@
 
     ->withCookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
 
-默认情况下，所有 Laravel 产生的 cookies 都会被加密并加上认证标识，因此无法被用户读取及修改。如果你想在应用程序产生的 cookies 中的某个子集进行加密停用，则可以使用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性：
+默认情况下，所有 Laravel 生成的 cookies 都会被加密并加上认证标识，因此无法被用户读取及修改。如果你想在应用程序生成的 cookies 中的某个子集进行加密停用，则可以使用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性：
 
     /**
      * 无需被加密的 cookies 名称。
@@ -79,7 +79,7 @@
 <a name="other-response-types"></a>
 ## 其它响应类型
 
-使用辅助方法 `response` 可以轻松的产生其它类型的响应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来产生响应。
+使用辅助方法 `response` 可以轻松的生成其它类型的响应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来生成响应。
 
 <a name="view-responses"></a>
 #### 视图响应
@@ -105,7 +105,7 @@
 <a name="file-downloads"></a>
 #### 文件下载
 
-`download` 方法可以用于产生强制让用户的浏览器下载指定路径文件的响应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个 HTTP 标头的数组作为第三个参数传入该方法：
+`download` 方法可以用于生成强制让用户的浏览器下载指定路径文件的响应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个 HTTP 标头的数组作为第三个参数传入该方法：
 
     return response()->download($pathToFile);
 
@@ -116,7 +116,7 @@
 <a name="redirects"></a>
 ## 重定向
 
-重定向响应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以产生 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助方法：
+重定向响应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以生成 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助方法：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
@@ -133,7 +133,7 @@
 <a name="redirecting-named-routes"></a>
 #### 重定向至命名路由
 
-当你调用 `redirect` 辅助方法且不带任何参数时，将会返回 `Illuminate\Routing\Redirector` 的实例，你可以对该 `Redirector` 的实例调用任何方法。举个例子，要产生一个 `RedirectResponse` 到一个命名路由，你可以使用 `route` 方法：
+当你调用 `redirect` 辅助方法且不带任何参数时，将会返回 `Illuminate\Routing\Redirector` 的实例，你可以对该 `Redirector` 的实例调用任何方法。举个例子，要生成一个 `RedirectResponse` 到一个命名路由，你可以使用 `route` 方法：
 
     return redirect()->route('login');
 
@@ -150,7 +150,7 @@
 <a name="redirecting-controller-actions"></a>
 #### 重定向至控制器行为
 
-你可能会希望产生重定向至[控制器的行为](/docs/{{version}}/controllers)。要做到这一点，只需传递控制器及行为名称至 `action` 方法。请记得，你不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置默认的控制器命名空间：
+你可能会希望生成重定向至[控制器的行为](/docs/{{version}}/controllers)。要做到这一点，只需传递控制器及行为名称至 `action` 方法。请记得，你不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置默认的控制器命名空间：
 
     return redirect()->action('HomeController@index');
 

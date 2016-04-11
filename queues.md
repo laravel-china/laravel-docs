@@ -2,7 +2,7 @@
 
 - [简介](#introduction)
 - [编写任务类](#writing-job-classes)
-    - [产生任务类](#generating-job-classes)
+    - [生成任务类](#generating-job-classes)
     - [任务类结构](#job-class-structure)
 - [将任务推送到队列上](#pushing-jobs-onto-the-queue)
     - [延迟性任务](#delayed-jobs)
@@ -51,13 +51,13 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
 ## 编写任务类
 
 <a name="generating-job-classes"></a>
-### 产生任务类
+### 生成任务类
 
-在你的应用程序中，所有能放在队列的任务类默认放在 `app/Jobs` 目录下，你可以用以下的 Artisan 命令来产生一个新的队列任务：
+在你的应用程序中，所有能放在队列的任务类默认放在 `app/Jobs` 目录下，你可以用以下的 Artisan 命令来生成一个新的队列任务：
 
     php artisan make:job SendReminderEmail --queued
 
-这个命令将会在 `app/Jobs` 下产生一个新类，而这个类会实现 `Illuminate\Contracts\Queue\ShouldQueue` 接口，让 Laravel 知道这个任务应该是被放到队列里，而不是直接运行。
+这个命令将会在 `app/Jobs` 下生成一个新类，而这个类会实现 `Illuminate\Contracts\Queue\ShouldQueue` 接口，让 Laravel 知道这个任务应该是被放到队列里，而不是直接运行。
 
 <a name="job-class-structure"></a>
 ### 任务类结构
@@ -119,7 +119,7 @@ Laravel 的队列服务为不同的队列后端系统提供一个统一的 API �
 
 #### 手动释放任务
 
-如果你想手动释放任务，那么在产生出来的任务类已经引用了 `InteractsWithQueue` 这个 trait，它提供了 `release` 方法让我们可以释放任务。在 `release` 方法中接受一个数值参数，它表示直到这个任务可以被重新运行之前，你愿意等待的秒数。
+如果你想手动释放任务，那么在生成出来的任务类已经引用了 `InteractsWithQueue` 这个 trait，它提供了 `release` 方法让我们可以释放任务。在 `release` 方法中接受一个数值参数，它表示直到这个任务可以被重新运行之前，你愿意等待的秒数。
 
     public function handle(Mailer $mailer)
     {

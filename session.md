@@ -143,9 +143,9 @@ Laravel 框架在内部有使用 `flash` 作为 session 的键，所以应该避
 
     $request->session()->flush();
 
-#### 重新产生 Session ID
+#### 重新生成 Session ID
 
-如果你想重新产生 session ID，你可以使用 `regenerate` 方法：
+如果你想重新生成 session ID，你可以使用 `regenerate` 方法：
 
     $request->session()->regenerate();
 

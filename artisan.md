@@ -31,7 +31,7 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
 
     php artisan make:console SendEmails
 
-上面的这个命令会产生一个放置在 `app/Console/Commands/SendEmails.php` 的类。创建命令时，`--command` 这个参数可以用来指定要使用的终端命令名称：
+上面的这个命令会生成一个放置在 `app/Console/Commands/SendEmails.php` 的类。创建命令时，`--command` 这个参数可以用来指定要使用的终端命令名称：
 
     php artisan make:console SendEmails --command=emails:send
 

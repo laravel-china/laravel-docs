@@ -207,7 +207,7 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 
 #### 将新的 Cookie 附加到响应
 
-Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂产生新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后加上 `withCookie` 方法来把 cookie 附加至响应：
+Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂生成新的 `Symfony\Component\HttpFoundation\Cookie` 实例。可以在 `Illuminate\Http\Response` 实例之后加上 `withCookie` 方法来把 cookie 附加至响应：
 
     $response = new Illuminate\Http\Response('Hello World');
 

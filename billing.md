@@ -14,7 +14,7 @@
     - [其它 Webhooks](#handling-other-webhooks)
 - [一次性收费](#single-charges)
 - [发票](#invoices)
-    - [产生发票的 PDF](#generating-invoice-pdfs)
+    - [生成发票的 PDF](#generating-invoice-pdfs)
 
 <a name="introduction"></a>
 ## 简介
@@ -320,9 +320,9 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
     </table>
 
 <a name="generating-invoice-pdfs"></a>
-#### 产生发票的 PDF
+#### 生成发票的 PDF
 
-在路由或是控制器中，使用 `downloadInvoice` 方法可以触发发票的 PDF 下载动作，此方法会自动产生正确的 HTTP 响应并发送下载动作至浏览器：
+在路由或是控制器中，使用 `downloadInvoice` 方法可以触发发票的 PDF 下载动作，此方法会自动生成正确的 HTTP 响应并发送下载动作至浏览器：
 
     Route::get('user/invoice/{invoice}', function ($invoiceId) {
         return Auth::user()->downloadInvoice($invoiceId, [

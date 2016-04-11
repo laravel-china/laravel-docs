@@ -69,11 +69,11 @@
 
 #### 控制器行为的 URLs
 
-你也可以使用 `route` 辅助方法，产生命名控制器路由的 URL：
+你也可以使用 `route` 辅助方法，生成命名控制器路由的 URL：
 
     $url = route('name');
 
-一旦你指定了控制器路由的名称，你就可以很容易地产生能达成该行为的 URL。你也可以使用 `action` 辅助方法产生指向控制器行为的 URL。同样地，我们只需指定基类命名空间 `App\Http\Controllers` 之后的部分控制器类名称就可以了：
+一旦你指定了控制器路由的名称，你就可以很容易地生成能达成该行为的 URL。你也可以使用 `action` 辅助方法生成指向控制器行为的 URL。同样地，我们只需指定基类命名空间 `App\Http\Controllers` 之后的部分控制器类名称就可以了：
 
     $url = action('FooController@method');
 
@@ -117,13 +117,13 @@
 
     php artisan make:controller PhotoController
 
-此 Artisan 命令会产生 `app/Http/Controllers/PhotoController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
+此 Artisan 命令会生成 `app/Http/Controllers/PhotoController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
 
 接下来，你可以在控制器中注册资源化路由：
 
     Route::resource('photo', 'PhotoController');
 
-这一条路由声明会创建多个路由，用来处理各式各样和相片资源相关的的 RESTful 行为。同样地，产生的控制器有着各种和这些行为绑定的方法，包含要处理的 URI 及动词的记录通知。
+这一条路由声明会创建多个路由，用来处理各式各样和相片资源相关的的 RESTful 行为。同样地，生成的控制器有着各种和这些行为绑定的方法，包含要处理的 URI 及动词的记录通知。
 
 #### 由资源控制器处理的行为
 
@@ -348,12 +348,12 @@ Laravel [服务容器](/docs/{{version}}/container)用于解析所有的 Laravel
 
 > **注意：** 路由缓存并不会作用在基于闭包的路由。要使用路由缓存，你必须将所有闭包路由转换为控制器类。
 
-若你的应用程序完全通过控制器使用路由，你可以利用 Laravel 的路由缓存。使用路由缓存可以大幅降低注册你应用程序全部的路由所需的时间。在某些情况下，你的路由注册甚至可以快上一百倍！要产生路由缓存，只要运行 `route:cache` 此 Artisan 命令：
+若你的应用程序完全通过控制器使用路由，你可以利用 Laravel 的路由缓存。使用路由缓存可以大幅降低注册你应用程序全部的路由所需的时间。在某些情况下，你的路由注册甚至可以快上一百倍！要生成路由缓存，只要运行 `route:cache` 此 Artisan 命令：
 
     php artisan route:cache
 
-这就可以了！现在你的缓存路由文件将被用来代替 `app/Http/routes.php` 这一文件。请记得，若你添加了任何新的路由，就必须产生新的路由缓存。因此你可能希望只在你的项目部署时才运行 `route:cache` 这一命令。
+这就可以了！现在你的缓存路由文件将被用来代替 `app/Http/routes.php` 这一文件。请记得，若你添加了任何新的路由，就必须生成新的路由缓存。因此你可能希望只在你的项目部署时才运行 `route:cache` 这一命令。
 
-要移除缓存路由文件而不产生新的缓存，请使用 `route:clear` 命令：
+要移除缓存路由文件而不生成新的缓存，请使用 `route:clear` 命令：
 
     php artisan route:clear

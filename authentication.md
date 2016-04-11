@@ -379,7 +379,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 开始之前，请先确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
 
-#### 产生重置令牌的数据表迁移文件
+#### 生成重置令牌的数据表迁移文件
 
 接下来，必须要创建一个用来保存密码重置令牌的数据表，而这个数据表的迁移已经包含在 Laravel 中了，就在 `database/migrations` 文件夹里。所以，你要做的就是做一次迁移：
 

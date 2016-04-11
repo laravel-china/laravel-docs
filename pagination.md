@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-在其它的框架中，分页是非常让人苦恼的。而在 Laravel 中却是很轻而易举的。 Laravel 可以快速产生基于当前页面链接的智能「范围」，并且产生的 HTML 兼容于 [Bootstrap CSS 框架](http://getbootstrap.com/)。
+在其它的框架中，分页是非常让人苦恼的。而在 Laravel 中却是很轻而易举的。 Laravel 可以快速生成基于当前页面链接的智能「范围」，并且生成的 HTML 兼容于 [Bootstrap CSS 框架](http://getbootstrap.com/)。
 
 <a name="basic-usage"></a>
 ## 基本使用
@@ -19,7 +19,7 @@
 <a name="paginating-query-builder-results"></a>
 ### 对查询语句构造器进行分页
 
-有几种方法可以对项目进行分页。最简单的是使用 `paginate` 方法。在使用[查询语句构造器](/docs/{{version}}/queries)或是 [Eloquent 查找](/docs/{{version}}/eloquent)时。由 Laravel 提供的 `paginate` 方法能够自动判定当前页面正确的数量限制和偏移数。默认状况下，当前页数由 HTTP 请求所带的 `?page` 参数来决定。当然，该值由 Laravel 自动检测，并自动插入由分页器产生的链接。
+有几种方法可以对项目进行分页。最简单的是使用 `paginate` 方法。在使用[查询语句构造器](/docs/{{version}}/queries)或是 [Eloquent 查找](/docs/{{version}}/eloquent)时。由 Laravel 提供的 `paginate` 方法能够自动判定当前页面正确的数量限制和偏移数。默认状况下，当前页数由 HTTP 请求所带的 `?page` 参数来决定。当然，该值由 Laravel 自动检测，并自动插入由分页器生成的链接。
 
 首先，让我们来看看如何在数据库查找时使用 `paginate` 方法。在这个例子中，传递给 `paginate` 唯一的参数是你想在「每页」显示的数据数。我们在此指定每页显示 `15` 条数据：
 
@@ -96,13 +96,13 @@
 
     {!! $users->render() !!}
 
-`render` 方法将给予查找结果中其它页面的链接。每一个链接中都已经包含正确的 `?page` 查找字符串变量。请记住，由 `render` 方法产生的 HTML 兼容于 [Bootstrap CSS 框架](https://getbootstrap.com)。
+`render` 方法将给予查找结果中其它页面的链接。每一个链接中都已经包含正确的 `?page` 查找字符串变量。请记住，由 `render` 方法生成的 HTML 兼容于 [Bootstrap CSS 框架](https://getbootstrap.com)。
 
 > **注意：**当在 Blade 模版中使用 `render` 方法时，一定要使用 `{! !}` 语法，这样 HTML 链接才不会被转义。
 
 #### 自定义分页器的 URI
 
-`setPath` 方法允许你在产生链接时自定义 URI 。例如，如果你希望分页器产生像 `http://example.com/custom/url?page=N` 这样的链接，则应该使用 `setPath` 方法将 `custom/url` 加到分页中：
+`setPath` 方法允许你在生成链接时自定义 URI 。例如，如果你希望分页器生成像 `http://example.com/custom/url?page=N` 这样的链接，则应该使用 `setPath` 方法将 `custom/url` 加到分页中：
 
     Route::get('users', function () {
         $users = App\User::paginate(15);

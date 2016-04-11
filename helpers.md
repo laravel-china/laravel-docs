@@ -401,7 +401,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $path = app_path();
 
-你同样可以使用 `app_path` 函数产生针对指定文件相对于 app 目录的完整路径：
+你同样可以使用 `app_path` 函数生成针对指定文件相对于 app 目录的完整路径：
 
     $path = app_path('Http/Controllers/Controller.php');
 
@@ -412,7 +412,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $path = base_path();
 
-你同样可以使用 `base_path` 函数产生针对指定文件相对于项目根目录的完整路径：
+你同样可以使用 `base_path` 函数生成针对指定文件相对于项目根目录的完整路径：
 
     $path = base_path('vendor/bin');
 
@@ -451,7 +451,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $path = storage_path();
 
-你同样可以使用 `storage_path` 函数产生针对指定文件相对于 storage 目录的完整路径：
+你同样可以使用 `storage_path` 函数生成针对指定文件相对于 storage 目录的完整路径：
 
     $path = storage_path('app/file.txt');
 
@@ -578,7 +578,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-random"></a>
 #### `str_random()` {#collection-method}
 
-`str_random` 函数产生指定长度的随机字符串：
+`str_random` 函数生成指定长度的随机字符串：
 
     $string = str_random(40);
 
@@ -594,7 +594,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-slug"></a>
 #### `str_slug()` {#collection-method}
 
-`str_slug` 函数从指定字符串产生网址友善的「slug」：
+`str_slug` 函数从指定字符串生成网址友善的「slug」：
 
     $title = str_slug("Laravel 5 Framework", "-");
 
@@ -629,7 +629,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-`action` 函数产生指定控制器行为网址。你不需要输入该控制器的完整命名空间。作为替代，请输入基于 `App\Http\Controllers` 命名空间的控制器类名称：
+`action` 函数生成指定控制器行为网址。你不需要输入该控制器的完整命名空间。作为替代，请输入基于 `App\Http\Controllers` 命名空间的控制器类名称：
 
     $url = action('HomeController@getIndex');
 
@@ -640,21 +640,21 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-asset"></a>
 #### `asset()` {#collection-method}
 
-根据目前请求的协定（HTTP 或 HTTPS）产生资源文件网址：
+根据目前请求的协定（HTTP 或 HTTPS）生成资源文件网址：
 
 	$url = asset('img/photo.jpg');
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}
 
-根据 HTTPS 产生资源文件网址：
+根据 HTTPS 生成资源文件网址：
 
 	echo secure_asset('foo/bar.zip', $title, $attributes = []);
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
 
-`route` 函数产生指定路由名称网址：
+`route` 函数生成指定路由名称网址：
 
     $url = route('routeName');
 
@@ -665,7 +665,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-url"></a>
 #### `url()` {#collection-method}
 
-`url` 函数产生指定路径的完整网址：
+`url` 函数生成指定路径的完整网址：
 
     echo url('user/profile');
 
@@ -684,7 +684,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-back"></a>
 #### `back()` {#collection-method}
 
-`back()` 函数产生一个重定向响应让用户回到之前的位置：
+`back()` 函数生成一个重定向响应让用户回到之前的位置：
 
     return back();
 
@@ -698,7 +698,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
-`collect` 函数从指定的项目产生[集合](/docs/{{version}}/collections)实例：
+`collect` 函数从指定的项目生成[集合](/docs/{{version}}/collections)实例：
 
     $collection = collect(['taylor', 'abigail']);
 
@@ -718,7 +718,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-csrf-field"></a>
 #### `csrf_field()` {#collection-method}
 
-`csrf_field` 函数产生包含 CSRF 令牌内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
+`csrf_field` 函数生成包含 CSRF 令牌内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
 
     {!! csrf_field() !!}
 
@@ -756,14 +756,14 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-factory"></a>
 #### `factory()` {#collection-method}
 
-`factory` 函数根据指定类、名称以及总数产生模型工厂构造器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
+`factory` 函数根据指定类、名称以及总数生成模型工厂构造器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
 
     $user = factory(App\User::class)->make();
 
 <a name="method-method-field"></a>
 #### `method_field()` {#collection-method}
 
-`method_field` 函数产生模拟 HTTP 表单动作内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
+`method_field` 函数生成模拟 HTTP 表单动作内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
 
     <form method="POST">
         {!! method_field('delete') !!}

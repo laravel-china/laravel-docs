@@ -35,7 +35,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
         ],
     ];
 
-### 产生事件或侦听器类
+### 生成事件或侦听器类
 
 你可以使用 `event:generate` 来协作你处理此类操作，这个命令会自动生成所有列出在 `EventServiceProvider` 的事件文件和侦听器文件，已经存在的事件和侦听器将保持不变：
 
@@ -71,7 +71,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 <a name="defining-events"></a>
 ## 定义事件
 
-一个事件类只是一个包含了相关事件信息的数据容器。例如，假设我们产生了 `PodcastWasPurchased` 事件来接收一个 [Eloquent ORM](/docs/{{version}}/eloquent) 对象：
+一个事件类只是一个包含了相关事件信息的数据容器。例如，假设我们生成了 `PodcastWasPurchased` 事件来接收一个 [Eloquent ORM](/docs/{{version}}/eloquent) 对象：
 
     <?php
 
@@ -173,7 +173,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 
 #### 手动访问队列
 
-如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，那是可以做到的。默认产生的侦听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，让你可以访问这些方法：
+如果你需要手动访问底层队列任务的 `delete` 和 `release` 方法，那是可以做到的。默认生成的侦听器会加载 `Illuminate\Queue\InteractsWithQueue` trait，让你可以访问这些方法：
 
     <?php
 

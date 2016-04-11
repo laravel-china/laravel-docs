@@ -223,7 +223,7 @@
 
 在大型应用程序中，把你所有的授权逻辑定义在 `AuthServiceProvider` 中可能成为累赘，你可以切分你的授权逻辑至「授权策略」类。授权策略是简单的 PHP 类，并基于授权的资源将授权逻辑进行分组。
 
-首先，让我们产生一个授权策略来管理 `Post` 模型的授权。你可以通过 `make:policy` [artisan 命令](/docs/{{version}}/artisan)产生一个授权策略。产生的授权策略会被放置于 `app/Policies` 目录中：
+首先，让我们生成一个授权策略来管理 `Post` 模型的授权。你可以通过 `make:policy` [artisan 命令](/docs/{{version}}/artisan)生成一个授权策略。生成的授权策略会被放置于 `app/Policies` 目录中：
 
 	php artisan make:policy PostPolicy
 
@@ -265,7 +265,7 @@
 <a name="writing-policies"></a>
 ### 编写授权策略
 
-一旦授权策略被产生且注册，我们就可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断指定的 `User` 是否可以「更新」一条 `Post`：
+一旦授权策略被生成且注册，我们就可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断指定的 `User` 是否可以「更新」一条 `Post`：
 
 	<?php
 
@@ -404,7 +404,7 @@
         }
     }
 
-如果该行为被授权了，控制器将会继续正常运行；但是，如果 `authorize` 方法判断没有权限运行该行为，那么将会自动产生一个带有 `403 Not Authorized` 状态码的 HTTP 响应并抛出异常。如你所见，`authorize` 方法是进行授权行为或处理抛出异常的一个简单、快速的方法，仅使用了一行程序代码。
+如果该行为被授权了，控制器将会继续正常运行；但是，如果 `authorize` 方法判断没有权限运行该行为，那么将会自动生成一个带有 `403 Not Authorized` 状态码的 HTTP 响应并抛出异常。如你所见，`authorize` 方法是进行授权行为或处理抛出异常的一个简单、快速的方法，仅使用了一行程序代码。
 
 `AuthorizesRequests` trait 也提供了 `authorizeForUser` 方法来为当前非认证用户授权行为：
 

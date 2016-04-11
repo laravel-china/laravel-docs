@@ -55,9 +55,9 @@
         return 'Hello World';
     });
 
-#### 产生 URLs 路由
+#### 生成 URLs 路由
 
-你可以通过 `url` 辅助函数产生应用程序路由：
+你可以通过 `url` 辅助函数生成应用程序路由：
 
     $url = url('foo');
 
@@ -143,7 +143,7 @@
 <a name="named-routes"></a>
 ## 命名路由
 
-命名路由让你可以更方便的为特定路由产生 URL 或进行重定向。你可以使用 `as` 数组键指定名称到路由上：
+命名路由让你可以更方便的为特定路由生成 URL 或进行重定向。你可以使用 `as` 数组键指定名称到路由上：
 
     Route::get('user/profile', ['as' => 'profile', function () {
         //
@@ -169,9 +169,9 @@
         }]);
     });
 
-#### 对命名路由产生 URLs
+#### 对命名路由生成 URLs
 
-一旦你在指定的路由中分配了名称，则可通过 `route` 函数来使用路由名称产生 URLs 或重定位：
+一旦你在指定的路由中分配了名称，则可通过 `route` 函数来使用路由名称生成 URLs 或重定位：
 
     $url = route('profile');
 
@@ -263,11 +263,11 @@
 
 Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以通过经过身份验证的用户身份运行未经授权的命令。
 
-Laravel 会自动产生一个 CSRF token 给每个受应用程序管理的活动用户的 Session。该 token 用来验证用户是否为实际发出请求至应用程序的用户。若要产生一个包含 CSRF token 的 `_token` 隐藏输入字段，可以使用 `csrf_field` 辅助函数：
+Laravel 会自动生成一个 CSRF token 给每个受应用程序管理的活动用户的 Session。该 token 用来验证用户是否为实际发出请求至应用程序的用户。若要生成一个包含 CSRF token 的 `_token` 隐藏输入字段，可以使用 `csrf_field` 辅助函数：
 
     <?php echo csrf_field(); ?>
 
-`csrf_field` 辅助函数产生以下的 HTML：
+`csrf_field` 辅助函数生成以下的 HTML：
 
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
@@ -370,7 +370,7 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
     </form>
 
-你也可以使用 `methid_field` 辅助函数来产生隐藏的输入字段 `_method`：
+你也可以使用 `methid_field` 辅助函数来生成隐藏的输入字段 `_method`：
 
     <?php echo method_field('PUT'); ?>
 

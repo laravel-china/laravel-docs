@@ -34,7 +34,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
     php artisan make:model User
 
-假设当你生成一个模型时，想要产生一个[数据库迁移](/docs/{{version}}/schema#database-migrations)，可以使用 `--migration` 或 `-m` 选项：
+假设当你生成一个模型时，想要生成一个[数据库迁移](/docs/{{version}}/schema#database-migrations)，可以使用 `--migration` 或 `-m` 选项：
 
     php artisan make:model User --migration
 
@@ -406,7 +406,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
         protected $dates = ['deleted_at'];
     }
 
-当然，你应该添加 `deleted_at` 字段到你的数据表。Laravel [结构产生器](/docs/{{version}}/migrations)包含了一个辅助的方法用来创建这个字段：
+当然，你应该添加 `deleted_at` 字段到你的数据表。Laravel [结构生成器](/docs/{{version}}/migrations)包含了一个辅助的方法用来创建这个字段：
 
     Schema::table('flights', function ($table) {
         $table->softDeletes();
@@ -445,11 +445,11 @@ Eloquent 的 `all` 方法会返回在模型数据表中所有的结果。由于�
             })
             ->get();
 
-这会产生以下的 SQL：
+这会生成以下的 SQL：
 
     select * from `users` where `users`.`deleted_at` is null and (`name` = 'John' or `votes` > 100)
 
-如果 `orWhere` 子句没有被分组，它会在包含软删除的纪录产生以下的 SQL：
+如果 `orWhere` 子句没有被分组，它会在包含软删除的纪录生成以下的 SQL：
 
     select * from `users` where `users`.`deleted_at` is null and `name` = 'John' or `votes` > 100
 

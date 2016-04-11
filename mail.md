@@ -103,7 +103,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
         $message->to('foo@example.com')->cc('bar@example.com');
     });
 
-这是一份在 `$message` 消息产生器实例中可以使用的方法清单：
+这是一份在 `$message` 消息生成器实例中可以使用的方法清单：
 
     $message->from($address, $name = null);
     $message->sender($address, $name = null);
@@ -223,7 +223,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 通用收件者
 
-另一个由 Lavavel 提供的解决方案，是设置一个通用的收件者给框架发出的所有电子邮件。这样，应用程序产生的所有电子邮件都会被送到一个特定的地址，而不是寄信时实际指定的收件人地址。这可以通过 `config/mail.php` 配置文件的 `to` 选项来完成：
+另一个由 Lavavel 提供的解决方案，是设置一个通用的收件者给框架发出的所有电子邮件。这样，应用程序生成的所有电子邮件都会被送到一个特定的地址，而不是寄信时实际指定的收件人地址。这可以通过 `config/mail.php` 配置文件的 `to` 选项来完成：
 
     'to' => [
         'address' => 'dev@domain.com',

@@ -95,7 +95,7 @@ elixir(function(mix) {
 });
 ```
 
-你可能会想合并多个 Less 文件至单个 CSS 文件。同样的，产生的 CSS 会被放置于 `public/css/app.css`：
+你可能会想合并多个 Less 文件至单个 CSS 文件。同样的，生成的 CSS 会被放置于 `public/css/app.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -130,7 +130,7 @@ elixir(function(mix) {
 });
 ```
 
-同样的，如同 `less` 方法，你可以编译多个 Sass 文件至单个的 CSS 文件，甚至可以自定义产生的 CSS 的输出目录：
+同样的，如同 `less` 方法，你可以编译多个 Sass 文件至单个的 CSS 文件，甚至可以自定义生成的 CSS 的输出目录：
 
 ```javascript
 elixir(function(mix) {
@@ -144,7 +144,7 @@ elixir(function(mix) {
 <a name="plain-css"></a>
 ### 纯 CSS
 
-如果你只是想将一些纯 CSS 样式合并成单个的文件，你可以使用 `styles` 方法。传递给此方法的路径相对于 `resources/assets/css` 目录，而产生的 CSS 会被放置于 `public/css/all.css`：
+如果你只是想将一些纯 CSS 样式合并成单个的文件，你可以使用 `styles` 方法。传递给此方法的路径相对于 `resources/assets/css` 目录，而生成的 CSS 会被放置于 `public/css/all.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -155,7 +155,7 @@ elixir(function(mix) {
 });
 ```
 
-当然，你也可以通过传递第二个参数至 `styles` 方法，将产生的文件输出至自定的位置：
+当然，你也可以通过传递第二个参数至 `styles` 方法，将生成的文件输出至自定的位置：
 
 ```javascript
 elixir(function(mix) {
@@ -171,7 +171,7 @@ elixir(function(mix) {
 
 Source maps 在默认情况下是开启的。因此，针对每个被编译的文件，同目录内都会伴随着一个 `*.css.map` 文件。这个文件能够让你在浏览器调试时，可以追踪编译后的样式选择器至原始的 Sass 或 Less 位置。
 
-如果你不想为你的 CSS 产生 source maps，你可以使用一个简单的配置选项关闭它们：
+如果你不想为你的 CSS 生成 source maps，你可以使用一个简单的配置选项关闭它们：
 
 ```javascript
 elixir.config.sourcemaps = false;
@@ -189,7 +189,7 @@ Elixir 也提供了一些函数来帮助你使用 JavaScript 文件，像是编�
 <a name="coffeescript"></a>
 ### CoffeeScript
 
-`coffee` 方法可以用于编译 [CoffeeScript](http://coffeescript.org/) 至纯 JavaScript。`coffee` 函数接收一个相对于 `resources/assets/coffee` 目录的 CoffeeScript 文件名字符串或数组，接着在 `public/js` 目录产生单个的 `app.js` 文件：
+`coffee` 方法可以用于编译 [CoffeeScript](http://coffeescript.org/) 至纯 JavaScript。`coffee` 函数接收一个相对于 `resources/assets/coffee` 目录的 CoffeeScript 文件名字符串或数组，接着在 `public/js` 目录生成单个的 `app.js` 文件：
 
 ```javascript
 elixir(function(mix) {
@@ -202,7 +202,7 @@ elixir(function(mix) {
 
 Elixir 还附带了一个 `browserify` 方法，给予你在浏览器引入模块及 ECMAScript 6 的有用的特性。
 
-此任务假设你的脚本都保存在 `resources/assets/js`，并会将产生的文件放置于 `public/js/main.js`：
+此任务假设你的脚本都保存在 `resources/assets/js`，并会将生成的文件放置于 `public/js/main.js`：
 
 ```javascript
 elixir(function(mix) {
@@ -228,7 +228,7 @@ elixir(function(mix) {
 <a name="babel"></a>
 ### Babel
 
-`babel` 方法可被用于编译 [ECMAScript 6 与 7](https://babeljs.io/docs/learn-es2015/) 至纯 JavaScript。此函数接收一个相对于 `resources/assets/js` 目录的文件数组，接着在 `public/js` 目录产生单个的 `all.js` 文件：
+`babel` 方法可被用于编译 [ECMAScript 6 与 7](https://babeljs.io/docs/learn-es2015/) 至纯 JavaScript。此函数接收一个相对于 `resources/assets/js` 目录的文件数组，接着在 `public/js` 目录生成单个的 `all.js` 文件：
 
 ```javascript
 elixir(function(mix) {
@@ -247,7 +247,7 @@ elixir(function(mix) {
 
 如果你想将多个 JavaScript 文件合并至单个文件，你可以使用 `scripts` 方法。
 
-`scripts` 方法假设所有的路径都相对于 `resources/assets/js` 目录，且默认会将产生的 JavaScript 放置于 `public/js/all.js`：
+`scripts` 方法假设所有的路径都相对于 `resources/assets/js` 目录，且默认会将生成的 JavaScript 放置于 `public/js/all.js`：
 
 ```javascript
 elixir(function(mix) {
@@ -258,7 +258,7 @@ elixir(function(mix) {
 });
 ```
 
-如果你想多个脚本的集合合并成不同文件，你可以使用调用多个 `scripts` 方法。给予该方法的第二个参数会为每个串联决定产生的文件名称：
+如果你想多个脚本的集合合并成不同文件，你可以使用调用多个 `scripts` 方法。给予该方法的第二个参数会为每个串联决定生成的文件名称：
 
 ```javascript
 elixir(function(mix) {
@@ -267,7 +267,7 @@ elixir(function(mix) {
 });
 ```
 
-如果你想合并指定目录中的所有脚本，你可以使用 `scriptsIn` 方法。产生的 JavaScript 会被放置在 `public/js/all.js`：
+如果你想合并指定目录中的所有脚本，你可以使用 `scriptsIn` 方法。生成的 JavaScript 会被放置在 `public/js/all.js`：
 
 ```javascript
 elixir(function(mix) {
@@ -295,7 +295,7 @@ elixir(function(mix) {
 
 许多的开发者会在它们编译后的资源文件中加上时间戳或是唯一的 token，强迫浏览器加载全新的资源文件以取代提供的旧版本代码副本。你可以使用 `version` 方法让 Elixir 处理它们。
 
-`version` 方法接收一个相对于 `public` 目录的文件名称，接着为你的文件名称加上唯一的哈希值，以防止文件被缓存。举例来说，产生出来的文件名称可能像这样：`all-16d570a7.css`：
+`version` 方法接收一个相对于 `public` 目录的文件名称，接着为你的文件名称加上唯一的哈希值，以防止文件被缓存。举例来说，生成出来的文件名称可能像这样：`all-16d570a7.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -303,13 +303,13 @@ elixir(function(mix) {
 });
 ```
 
-在为文件产生版本之后，你可以在你的[视图](/docs/{{version}}/views)中使用 Laravel 的全局 `elixir` PHP 辅助函数来正确加载名称被哈希后的文件。`elixir` 函数会自动判断被哈希的文件名称：
+在为文件生成版本之后，你可以在你的[视图](/docs/{{version}}/views)中使用 Laravel 的全局 `elixir` PHP 辅助函数来正确加载名称被哈希后的文件。`elixir` 函数会自动判断被哈希的文件名称：
 
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 
-#### 为多个文件产生版本
+#### 为多个文件生成版本
 
-你可以传递一个数组至 `version` 方法来为多个文件产生版本：
+你可以传递一个数组至 `version` 方法来为多个文件生成版本：
 
 ```javascript
 elixir(function(mix) {
@@ -317,7 +317,7 @@ elixir(function(mix) {
 });
 ```
 
-一旦该文件被加上版本，你需要使用 `elixir` 辅助函数来产生哈希文件的正确链接。切记，你只需要传递未哈希文件的名称至 `elixir` 辅助函数。此函数会自动使用未哈希的名称来判断该文件为目前的哈希版本：
+一旦该文件被加上版本，你需要使用 `elixir` 辅助函数来生成哈希文件的正确链接。切记，你只需要传递未哈希文件的名称至 `elixir` 辅助函数。此函数会自动使用未哈希的名称来判断该文件为目前的哈希版本：
 
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 
