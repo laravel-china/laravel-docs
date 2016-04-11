@@ -196,9 +196,9 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
     protected $baseUrl = 'http://localhost';
 
-### 语言档
+### 语言包
 
-第三方扩展包发布语言档的默认目录已经改变。必须从 `resources/lang/packages/{locale}/{namespace}` 移动所有的第三方扩展包语言档到 `resources/lang/vendor/{namespace}/{locale}` 目录。例如，`Acme/Anvil` 扩展包命名空间为 `acme/anvil::foo` 的英文语言档应该从 `resources/lang/packages/en/acme/anvil/foo.php` 移动到 `resources/lang/vendor/acme/anvil/en/foo.php`。
+第三方扩展包发布语言包的默认目录已经改变。必须从 `resources/lang/packages/{locale}/{namespace}` 移动所有的第三方扩展包语言包到 `resources/lang/vendor/{namespace}/{locale}` 目录。例如，`Acme/Anvil` 扩展包命名空间为 `acme/anvil::foo` 的英文语言包应该从 `resources/lang/packages/en/acme/anvil/foo.php` 移动到 `resources/lang/vendor/acme/anvil/en/foo.php`。
 
 ### Amazon 网络服务 SDK
 
@@ -387,9 +387,9 @@ use Authenticatable, CanResetPassword;
 
 上述设置你不该轻易使用，这将使你的应用程序更加容易遭受 XSS 攻击。而且用 `{{--` 注释将无法作用。
 
-### 语言档
+### 语言包
 
-将你的语言档从 `app/lang` 移到新的 `resources/lang` 目录。
+将你的语言包从 `app/lang` 移到新的 `resources/lang` 目录。
 
 ### 公开目录
 

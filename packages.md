@@ -22,7 +22,7 @@
 <a name="service-providers"></a>
 ## 服务提供者
 
-[服务提供者](/docs/{{version}}/providers)是你的扩展包与 Laravel 连接的重点。服务提供者负责绑定一些东西至 Laravel 的[服务容器](/docs/{{version}}/container)并告知 Laravel 要从哪加载扩展包的资源，像是视图，配置文件，与语言档。
+[服务提供者](/docs/{{version}}/providers)是你的扩展包与 Laravel 连接的重点。服务提供者负责绑定一些东西至 Laravel 的[服务容器](/docs/{{version}}/container)并告知 Laravel 要从哪加载扩展包的资源，像是视图，配置文件，与语言包。
 
 服务提供者继承了 `Illuminate\Support\ServiceProvider` 类并包含了两个方法：`register` 及 `boot`。基底的 `ServiceProvider` 类被放置在 Composer 的 `illuminate/support` 扩展包，你必须将它加入至你自己的扩展包的依赖。
 
@@ -112,9 +112,9 @@
 
     echo trans('courier::messages.welcome');
 
-#### 发布语言档
+#### 发布语言包
 
-如果你想将扩展包的语言档发布至应用程序的 `resources/lang/vendor` 目录，你可以使用服务提供者的 `publishes` 方法。`publishes` 方法接受一个包含扩展包路径及对应发布位置的数组。例如，若要在我们的例子 `courier` 扩展包发布语言档：
+如果你想将扩展包的语言包发布至应用程序的 `resources/lang/vendor` 目录，你可以使用服务提供者的 `publishes` 方法。`publishes` 方法接受一个包含扩展包路径及对应发布位置的数组。例如，若要在我们的例子 `courier` 扩展包发布语言包：
 
     /**
      * 在注册后进行服务的启动。
@@ -130,7 +130,7 @@
         ]);
     }
 
-现在，当你扩展包的用户运行 Laravel 的 `vendor:publish` Artisan 命令时，你扩展包的语言档将会被复制到指定的位置。
+现在，当你扩展包的用户运行 Laravel 的 `vendor:publish` Artisan 命令时，你扩展包的语言包将会被复制到指定的位置。
 
 <a name="configuration"></a>
 ### 配置文件

@@ -25,7 +25,7 @@
 
 `public` 目录包含了前端控制器和资源文件（图片、JavaScript、CSS，等等）。
 
-`resources` 目录包含了视图、原始的资源文件 (LESS、SASS、CoffeeScript) ，以及语言档。
+`resources` 目录包含了视图、原始的资源文件 (LESS、SASS、CoffeeScript) ，以及语言包。
 
 `storage` 目录包含编译后的 Blade 模板、基于文件的 session、文件缓存和其他框架产生的文件。此文件夹分格成 `app`、`framework`，及 `logs` 目录。`app` 目录可用于存储应用程序使用的任何文件。`framework` 目录被用于保存框架产生的文件及缓存。最后，`logs` 目录包含了应用程序的日志文件。
 
