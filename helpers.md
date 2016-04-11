@@ -90,7 +90,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 [url](#method-url)
 </div>
 
-### 其他
+### 其它
 
 <div class="collection-method-list" markdown="1">
 [auth](#method-auth)
@@ -183,7 +183,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-first"></a>
 #### `array_first()` {#collection-method}
 
-`array_first` 函数返回数组中第一个通过为真测试的元素：
+`array_first` 函数返回数组中第一个通过测试的元素：
 
     $array = [100, 200, 300];
 
@@ -211,7 +211,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-forget"></a>
 #### `array_forget()` {#collection-method}
 
-`array_forget` 函数以「点」式语法从深度嵌套数组移除指定的键值对：
+`array_forget` 函数以「点」式语法从深度嵌套数组中移除指定的键值对：
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -222,7 +222,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-get"></a>
 #### `array_get()` {#collection-method}
 
-`array_get` 函数使用「点」式语法从深度嵌套数组取回指定的值：
+`array_get` 函数使用「点」式语法从深度嵌套数组中取回指定的值：
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -270,7 +270,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     // ['Taylor', 'Abigail'];
 
-你也能指定以什么做为结果列的键值：
+你也能指定要以什么作为结果列的键值：
 
     $array = array_pluck($array, 'developer.name', 'developer.id');
 
@@ -303,7 +303,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-array-sort"></a>
 #### `array_sort()` {#collection-method}
 
-`array_sort` 函数借由指定闭包结果排序数组：
+`array_sort` 函数借助指定闭包结果排序数组：
 
     $array = [
         ['name' => 'Desk'],
@@ -565,7 +565,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     // children
 
-你能提供一整数做为第二参数，获取字符串的单数或复数形：
+你可以提供一个整数作为第二参数，来获取字符串的单数或复数形式：
 
     $plural = str_plural('child', 2);
 
@@ -585,7 +585,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-str-singular"></a>
 #### `str_singular()` {#collection-method}
 
-`str_singular` 函数转换字符串成单数形。该函数目前仅支持英文：
+`str_singular` 函数转换字符串成单数形式。该函数目前仅支持英文：
 
     $singular = str_singular('cars');
 
@@ -672,7 +672,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
     echo url('user/profile', [1]);
 
 <a name="miscellaneous"></a>
-## 其他
+## 其它
 
 <a name="method-auth"></a>
 #### `auth()` {#collection-method}
@@ -743,7 +743,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $env = env('APP_ENV');
 
-    // Return a default value if the variable doesn't exist...
+    // 当变量不存在时返回一个默认值...
     $env = env('APP_ENV', 'production');
 
 <a name="method-event"></a>
@@ -756,14 +756,14 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-factory"></a>
 #### `factory()` {#collection-method}
 
-`factory` 函数根据指定类、名称以及总数产生模型工厂建构器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
+`factory` 函数根据指定类、名称以及总数产生模型工厂构造器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
 
     $user = factory(App\User::class)->make();
 
 <a name="method-method-field"></a>
 #### `method_field()` {#collection-method}
 
-`method_field` 函数产生拟造 HTTP 表单动作内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
+`method_field` 函数产生模拟 HTTP 表单动作内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
 
     <form method="POST">
         {!! method_field('delete') !!}
@@ -804,7 +804,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-session"></a>
 #### `session()` {#collection-method}
 
-`session` 函数可被用于获取或设置单个 session 内容：
+`session` 函数可用于获取或设置单个 session 内容：
 
     $value = session('key');
 
@@ -835,6 +835,6 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 <a name="method-with"></a>
 #### `with()` {#collection-method}
 
-`with` 函数返回指定的数值。该函数主要用于链式调用回所保存的 seesion 内容，除此之外不太可能用到：
+`with` 函数返回指定的数值。该函数主要用于链式调用回所保存的 seesion 内容，除此之外不大可能用到：
 
     $value = with(new Foo)->work();
