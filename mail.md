@@ -1,17 +1,17 @@
 # 邮件
 
 - [简介](#introduction)
-- [寄送邮件](#sending-mail)
+- [发送邮件](#sending-mail)
     - [附件](#attachments)
     - [内部附件](#inline-attachments)
     - [队列邮件](#queueing-mail)
-- [邮件与本机端开发](#mail-and-local-development)
+- [邮件与本地开发](#mail-and-local-development)
 - [事件](#events)
 
 <a name="introduction"></a>
 ## 简介
 
-Laravel 基于热门的 [SwiftMailer](http://swiftmailer.org) 函数库提供了一个简洁的 API。Laravel 为 SMTP、Mailgun、Mandrill、Amazon SES、PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以快速地以所选择的本地或云端服务开始寄送邮件。
+Laravel 基于热门的 [SwiftMailer](http://swiftmailer.org) 函数库提供了一个简洁的 API。Laravel 为 SMTP、Mailgun、Mandrill、Amazon SES、PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以快速地从所选择的本地或云端服务开始发送邮件。
 
 ### 驱动前提
 
@@ -51,11 +51,11 @@ Laravel 基于热门的 [SwiftMailer](http://swiftmailer.org) 函数库提供了
     ],
 
 <a name="sending-mail"></a>
-## 寄送邮件
+## 发送邮件
 
 Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息。例如，要组织你的电子邮件，你可以在 `resource/views` 目录中创建 `emails` 目录：
 
-要寄送消息，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `send` 方法。`send` 方法接收三个参数。首先是包含邮件消息的[视图](/docs/{{version}}/views)名称。其次是一个要传递给该视图的数据数组。最后是一个`闭包`回调用来接收消息实例，让你可以自定义收件者、主旨，以及邮件消息的其他部分：
+要发送消息，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `send` 方法。`send` 方法接收三个参数。首先是包含邮件消息的[视图](/docs/{{version}}/views)名称。其次是一个要传递给该视图的数据数组。最后是一个用来接收消息实例的 `闭包`回调，让你可以自定义收件者、主题，以及邮件消息的其它部分：
 
     <?php
 
@@ -95,7 +95,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 创建消息
 
-如先前讨论过的，传给 `send` 方法的第三个参数是一个`闭包`，让你可以对电子邮件消息本体指定不同的选项。使用此闭包，你可以指定消息的其他属性，例如副本、密件副本等等：
+如之前讨论过的，传给 `send` 方法的第三个参数是一个`闭包`，让你可以对电子邮件消息自身指定不同的选项。使用此闭包，你可以指定消息的其它属性，例如副本、密件副本等等：
 
     Mail::send('emails.welcome', $data, function ($message) {
         $message->from('us@example.com', 'Laravel');
@@ -115,27 +115,27 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
     $message->priority($level);
     $message->attach($pathToFile, array $options = []);
 
-    // 以原始 $data 字符串附加一个文件…
+    // 以原始 $data 字符串附加一个文件...
     $message->attachData($data, $name, array $options = []);
 
-    // 获取底层的 SwiftMailer 消息实例…
+    // 获取底层的 SwiftMailer 消息实例...
     $message->getSwiftMessage();
 
 > **注意：**传递至 `Mail::send` 闭包的消息实例继承了 SwiftMailer 消息类，让你可以调用该类的任何方法来创建你的电子邮件消息。
 
-#### 寄送纯文本
+#### 发送纯文本
 
-传给 `send` 方法的视图，在默认情况下会假定它包含 HTML。然而，借由传递数组作为 `send` 方法的第一个参数，除了 HTML 视图之外，你还可以同时指定发送纯文本视图：
+传给 `send` 方法的视图，在默认情况下会假定它包含了 HTML。然而，通过传递数组作为 `send` 方法的第一个参数，除了 HTML 视图之外，你还可以同时指定发送纯文本视图：
 
     Mail::send(['html.view', 'text.view'], $data, $callback);
 
-或者，若你只需要寄送纯文本电子邮件，可以在数组中使用 `text` 键来指定：
+或者，若你只需要发送纯文本电子邮件，则可以在数组中使用 `text` 键来指定：
 
     Mail::send(['text' => 'view'], $data, $callback);
 
-#### 寄送原始字符串
+#### 发送原始字符串
 
-若你希望直接发送原始字符串，你可以使用 `raw` 方法：
+若你希望直接发送原始字符串，则可以使用 `raw` 方法：
 
     Mail::raw('Text to e-mail', function ($message) {
         //
@@ -144,7 +144,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 <a name="attachments"></a>
 ### 附件
 
-要在电子邮件中加入附件，在传递给闭包的 `$message` 对象上使用 `attach` 方法。`attach` 方法接受文件的完整路径作为它的第一个参数：
+要在电子邮件中加入附件，可在传递给闭包的 `$message` 对象上使用 `attach` 方法。`attach` 方法接受文件的完整路径作为它的第一个参数：
 
     Mail::send('emails.welcome', $data, function ($message) {
         //
@@ -159,9 +159,9 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 <a name="inline-attachments"></a>
 ### 内部附件
 
-#### 在电子邮件视图中嵌入图像
+#### 在电子邮件视图中嵌入图片
 
-在电子邮件中嵌入内部图像通常是件很麻烦的事；然而 Laravel 提供一个便利的方法，让你在电子邮件中附加图像并获取适当的 CID。要嵌入内部图像，在电子邮件视图的 `$message` 变量中使用 `embed` 方法。记得，Laravel 会自动让你所有的电子邮件视图都能获取 `$message` 变量：
+在电子邮件中嵌入内部图片通常是件很麻烦的事；然而 Laravel 提供了一个便利的方法，让你在电子邮件中附加图片并获取适当的 CID。要嵌入内部图片，可在电子邮件视图的 `$message` 变量中使用 `embed` 方法。请记得，Laravel 会自动让你所有的电子邮件视图都能获取到 `$message` 变量：
 
     <body>
         这是一张图片：
@@ -171,7 +171,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 在电子邮件视图中嵌入原始数据
 
-若你已有希望嵌入电子邮件消息中的原始数据字符串，你可以在 `$message` 变量上使用 `embedData` 方法：
+若你已有想嵌入电子邮件消息中的原始数据字符串，则可以在 `$message` 变量上使用 `embedData` 方法：
 
     <body>
         这是一张从原始数据来的图片：
@@ -184,7 +184,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 将邮件消息加入队列
 
-由于寄送电子邮件消息会大幅延长应用程序的响应时间，许多开发者选择将邮件消息加入队列并于后台发送。Laravel 使用其内置的[统一的队列 API](/docs/{{version}}/queues)，让你轻松地完成此工作。要将邮件消息加入队列，使用 `Mail` facade 的 `queue` 方法：
+由于发送电子邮件消息会大幅延长应用程序的响应时间，许多开发者都会选择将邮件消息加入队列并于后台发送。Laravel 使用其内置的[统一的队列 API](/docs/{{version}}/queues) 来让你轻松地完成此工作。要将邮件消息加入队列，使用 `Mail` facade 的 `queue` 方法：
 
     Mail::queue('emails.welcome', $data, function ($message) {
         //
@@ -194,7 +194,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 延迟的消息队列
 
-若你希望延迟递送已加入队列的电子邮件消息，你可以使用 `later` 方法。要着手开始，只要将你想要延迟寄送消息的秒数，作为第一个参数发送给此方法：
+若你希望延迟发送已加入队列的电子邮件消息，则可以使用 `later` 方法。若要开始使用，只需将你想要延迟发送消息的秒数作为第一个参数发送给此方法即可：
 
     Mail::later(5, 'emails.welcome', $data, function ($message) {
         //
@@ -213,17 +213,17 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
     });
 
 <a name="mail-and-local-development"></a>
-## 邮件与本机端开发
+## 邮件与本地开发
 
-当开发需要寄送电子邮件的应用程序时，你有可能不想要实际地送出电子邮件到真正的邮件地址。Laravel 提供了几种方法以「停止」将电子邮件消息真正寄出。
+当开发需要发送电子邮件的应用程序时，你有可能不想要实际发送电子邮件到真正的邮件地址上。Laravel 提供了几种方法以「阻止」将电子邮件消息真正发出。
 
 #### 日志驱动
 
-一个解决方案是在本地端开发时使用 `log` 邮件驱动。此驱动会将所有的电子邮件消息写入日志文件作为检验之用。若需要更多根据环境来设置应用程序的信息，可参考[设置文档](/docs/{{version}}/installation#environment-configuration)。
+一个解决方案是在本地开发时使用 `log` 邮件驱动。此驱动会将所有的电子邮件消息写入日志文件作为检验。若需要更多根据环境来设置应用程序的信息，可参考[设置文档](/docs/{{version}}/installation#environment-configuration)。
 
 #### 通用收件者
 
-另一个由 Lavavel 提供的解决方案，是设置一个通用的收件者给框架寄出的所有电子邮件。这样，应用程序产生的所有电子邮件都会被送到一个特定的地址，而不是寄信时实际指定的收件人地址。这可以通过 `config/mail.php` 配置文件的 `to` 选项来完成：
+另一个由 Lavavel 提供的解决方案，是设置一个通用的收件者给框架发出的所有电子邮件。这样，应用程序产生的所有电子邮件都会被送到一个特定的地址，而不是寄信时实际指定的收件人地址。这可以通过 `config/mail.php` 配置文件的 `to` 选项来完成：
 
     'to' => [
         'address' => 'dev@domain.com',
@@ -232,7 +232,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### Mailtrap
 
-最后，你可以使用像 [Mailtrap](https://mailtrap.io) 这样的服务以及 `smtp` 驱动来将你的邮件消息寄到一个「假的」邮箱，而你可以在一个真的邮件客户端查看它们。这个方法的好处是让你可以在 Mailtrap 的消息阅读器中实际查看最终的电子邮件。
+最后，你可以使用像 [Mailtrap](https://mailtrap.io) 这样的服务以及 `smtp` 驱动来将你的邮件消息发到一个「假的」邮箱上，而你却可以在一个真实的邮件客户端上查看它们。这个方法的好处是让你可以在 Mailtrap 的消息阅读器中查看最终的实际电子邮件。
 
 <a name="events"></a>
 ## 事件
@@ -240,7 +240,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，此事件只会在邮件**发送**时触发，在队列时则不会。你可以在你的 `EventServiceProvider` 注册一个事件侦听器：
 
     /**
-     * 注册你应用程序中的任何其他事件。
+     * 注册你应用程序中的其它事件。
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return void
@@ -253,4 +253,3 @@ Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，
             //
         });
     }
-
