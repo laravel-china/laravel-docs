@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-在其他的框架中，分页是非常让人苦恼的。而在 Laravel 中是很轻而易举的。 Laravel 可以快速产生基于当前页面的智能「范围」，并且产生的 HTML 兼容于 [Bootstrap CSS 框架](http://getbootstrap.com/)。
+在其它的框架中，分页是非常让人苦恼的。而在 Laravel 中是很轻而易举的。 Laravel 可以快速产生基于当前页面的智能「范围」，并且产生的 HTML 兼容于 [Bootstrap CSS 框架](http://getbootstrap.com/)。
 
 <a name="basic-usage"></a>
 ## 基本使用
@@ -60,7 +60,7 @@
 
     $users = App\User::paginate(15);
 
-当然，你可以对 `paginate` 设置其他限制的查找，如 `where` 条件：
+当然，你可以对 `paginate` 设置其它限制的查找，如 `where` 条件：
 
     $users = User::where('votes', '>', 100)->paginate(15);
 
@@ -94,7 +94,7 @@
 
     {!! $users->render() !!}
 
-`render` 方法将给予查找结果中其他页面的链接。每一个链接中都已经包含正确的 `?page` 查找字符串变量。请记住，由 `render` 方法产生的 HTML 皆兼容于 [Bootstrap CSS 框架](https://getbootstrap.com)。
+`render` 方法将给予查找结果中其它页面的链接。每一个链接中都已经包含正确的 `?page` 查找字符串变量。请记住，由 `render` 方法产生的 HTML 皆兼容于 [Bootstrap CSS 框架](https://getbootstrap.com)。
 
 > **注意：**当在 Blade 模版中使用 `render` 方法时，一定要使用 `{！ ！}` 语法，HTML 链接才不会被转义。
 
@@ -120,7 +120,7 @@
 
     {!! $users->fragment('foo')->render() !!}
 
-#### 其他辅助方法
+#### 其它辅助方法
 
 你也可以通过以下方法获得额外的分页信息：
 

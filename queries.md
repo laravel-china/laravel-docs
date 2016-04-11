@@ -113,7 +113,7 @@
 
     $price = DB::table('orders')->max('price');
 
-当然，你也可以将这些方法合并其他的子句来打造你的查找：
+当然，你也可以将这些方法合并其它的子句来打造你的查找：
 
     $price = DB::table('orders')
                     ->where('finalized', 1)
@@ -153,7 +153,7 @@
 
 #### Inner Join 语法
 
-查询构造器也可用来编写 join 语法。要操作基本的 SQL「inner join」，你可以在查询构造器实例上使用 `join` 方法。传入 `join` 方法的第一个参数是你需要连接的数据表名称，其他参数则指定用以连接的字段约束。当然，如你所见，你可以在单个查找连接多个数据表：
+查询构造器也可用来编写 join 语法。要操作基本的 SQL「inner join」，你可以在查询构造器实例上使用 `join` 方法。传入 `join` 方法的第一个参数是你需要连接的数据表名称，其它参数则指定用以连接的字段约束。当然，如你所见，你可以在单个查找连接多个数据表：
 
     $users = DB::table('users')
                 ->join('contacts', 'users.id', '=', 'contacts.user_id')
@@ -218,7 +218,7 @@
 
     $users = DB::table('users')->where('votes', 100)->get();
 
-当然，在编写 `where` 子句时，你可以使用各式其他的运算符：
+当然，在编写 `where` 子句时，你可以使用各式其它的运算符：
 
     $users = DB::table('users')
                     ->where('votes', '>=', 100)
@@ -241,7 +241,7 @@
                         ->orWhere('name', 'John')
                         ->get();
 
-#### 其他的 Where 子句
+#### 其它的 Where 子句
 
 **whereBetween**
 
@@ -433,6 +433,6 @@
 
     DB::table('users')->where('votes', '>', 100)->sharedLock()->get();
 
-此外，你可以使用 `lockForUpdate` 方法。「用以更新」锁可避免数据列被其他共享锁修改或选取：
+此外，你可以使用 `lockForUpdate` 方法。「用以更新」锁可避免数据列被其它共享锁修改或选取：
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();

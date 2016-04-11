@@ -11,7 +11,7 @@
     - [恢复订购](#resuming-subscriptions)
 - [处理 Stripe Webhooks](#handling-stripe-webhooks)
     - [订购失败](#handling-failed-subscriptions)
-    - [其他 Webhooks](#handling-other-webhooks)
+    - [其它 Webhooks](#handling-other-webhooks)
 - [一次性收费](#single-charges)
 - [发票](#invoices)
     - [产生发票的 PDF](#generating-invoice-pdfs)
@@ -83,7 +83,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
 
     $user->subscription('monthly')->create($creditCardToken);
 
-`create` 方法会自动创建与 Stripe 的交易，以及将 Stripe 客户 ID 和其他相关帐款信息更新到数据库。如果你的方案有在 Stripe 设置试用期，试用的截止日期也会自动保存至用户的记录。
+`create` 方法会自动创建与 Stripe 的交易，以及将 Stripe 客户 ID 和其它相关帐款信息更新到数据库。如果你的方案有在 Stripe 设置试用期，试用的截止日期也会自动保存至用户的记录。
 
 如果你想要实现试用期，但是你想完全用应用程序来管理试用期，而不是在 Stripe 里设置，那么你必须手动设置试用截止日期：
 
@@ -254,7 +254,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
     ];
 
 <a name="handling-other-webhooks"></a>
-### 其他 Webhooks
+### 其它 Webhooks
 
 如果你想要处理额外的 Stripe Webhook 事件，只需要继承 Webhook 控制器。你的方法名称要对应到 Cashier 默认的名称，尤其是方法名称应该使用 `handle` 前缀，并使用「驼峰式」命名法，后面接着你想要处理的 Stripe webhook。例如，如果你想要处理 `invoice.payment_succeeded` webhook，你应该增加一个 `handleInvoicePaymentSucceeded` 方法到控制器。
 

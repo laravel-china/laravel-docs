@@ -3,13 +3,13 @@
 - [简介](#introduction)
 - [编写 Seeders](#writing-seeders)
     - [使用模型工厂](#using-model-factories)
-    - [调用其他的 Seeders](#calling-additional-seeders)
+    - [调用其它的 Seeders](#calling-additional-seeders)
 - [运行 Seeders](#running-seeders)
 
 <a name="introduction"></a>
 ## 简介
 
-Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。所有的 seed 类放在 `database/seeds` 目录下。你可以任意地为 Seed 类命名，但是应该遵守某些大小写规范，像是 `UserTableSeeder` 之类。默认已经为你定义了一个 `DatabaseSeeder` 类。在这个类里，你可以使用 `call` 方法运行其他的 seed 类，借此控制数据填充的顺序。
+Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。所有的 seed 类放在 `database/seeds` 目录下。你可以任意地为 Seed 类命名，但是应该遵守某些大小写规范，像是 `UserTableSeeder` 之类。默认已经为你定义了一个 `DatabaseSeeder` 类。在这个类里，你可以使用 `call` 方法运行其它的 seed 类，借此控制数据填充的顺序。
 
 <a name="writing-seeders"></a>
 ## 编写数据填充
@@ -64,9 +64,9 @@ Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。
     }
 
 <a name="calling-additional-seeders"></a>
-### 调用其他的 Seeders
+### 调用其它的 Seeders
 
-在 `DatabaseSeeder` 类，你可以使用 `call` 方法运行其他的 seed 类。为避免发生单个个 seeder 类变得压倒性巨大的情况，使用 `call`方法来将你将数据填充拆分成多个文件。只需简单的传递你想要运行的 seeder 类名称即可：
+在 `DatabaseSeeder` 类，你可以使用 `call` 方法运行其它的 seed 类。为避免发生单个个 seeder 类变得压倒性巨大的情况，使用 `call`方法来将你将数据填充拆分成多个文件。只需简单的传递你想要运行的 seeder 类名称即可：
 
     /**
      * Run the database seeds.
@@ -87,7 +87,7 @@ Laravel 可以简单的使用 seed 类，填充测试用的数据至数据库。
 <a name="running-seeders"></a>
 ## 运行数据填充
 
-一旦你编写完你的 seeder 类，可以使用 `db:seed` Artisan 命令来对数据库进行数据填充。在默认的情况下，`db:seed` 命令将运行 `DatabaseSeeder` 类，并通过它来调用其他的 seed 类。但是，你也可以使用 `--class` 选项来单独运行一个特别指定的 seeder 类：
+一旦你编写完你的 seeder 类，可以使用 `db:seed` Artisan 命令来对数据库进行数据填充。在默认的情况下，`db:seed` 命令将运行 `DatabaseSeeder` 类，并通过它来调用其它的 seed 类。但是，你也可以使用 `--class` 选项来单独运行一个特别指定的 seeder 类：
 
     php artisan db:seed
 

@@ -11,7 +11,7 @@
 
 这份文档的目的在于给你一个优良且高端的关于 Laravel 框架是如何「运作」的概述。当你愈了解整个框架，这些事情便不再那么令人感到「神奇」，而你在创建应用程序时也会更具信心。
 
-若你目前还无法了解所有的术语，请不要灰心！只要对现在提到的东西有个基本掌握，你的知识将会随着你对这份文档和其他章节的探索同时跟着成长。
+若你目前还无法了解所有的术语，请不要灰心！只要对现在提到的东西有个基本掌握，你的知识将会随着你对这份文档和其它章节的探索同时跟着成长。
 
 <a name="lifecycle-overview"></a>
 ## 生命周期概要
@@ -28,7 +28,7 @@
 
 HTTP 核心扩展了 `Illuminate\Foundation\Http\Kernel` 类，它定义了一个 `bootstrappers` 数组，在请求被运行前会先行运作。这些启动器设置了错误处理、日志记录、[侦测应用程序环境](/docs/{{version}}/installation#environment-configuration)，并运行其它需要在请求实际处理前就该被完成掉的工作。
 
-HTTP 核心也定义了一份 HTTP [中间件](/docs/{{version}}/middleware)清单，所有的请求在被应用程序处理之前都必须经过它们。这些中间件处理 [HTTP session](/docs/{{version}}/session) 的读写、[验证 CSRF 令牌](/docs/{{version}}/routing#csrf-protection)、决定应用程序是否处于维护模式，以及其他更多任务作。
+HTTP 核心也定义了一份 HTTP [中间件](/docs/{{version}}/middleware)清单，所有的请求在被应用程序处理之前都必须经过它们。这些中间件处理 [HTTP session](/docs/{{version}}/session) 的读写、[验证 CSRF 令牌](/docs/{{version}}/routing#csrf-protection)、决定应用程序是否处于维护模式，以及其它更多任务作。
 
 HTTP 核心 `handle` 方法的方法签章相当简单：接收一个 `Request` 并返回一个 `Response`。把核心想像成一个大的黑盒子，代表你完整的应用程序。喂给它 HTTP 请求，它就会传回 HTTP 响应。
 

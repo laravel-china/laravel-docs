@@ -79,7 +79,7 @@
 <a name="other-response-types"></a>
 ## 其它响应类型
 
-使用辅助方法 `response` 可以轻松的产生其他类型的响应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来产生响应。
+使用辅助方法 `response` 可以轻松的产生其它类型的响应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来产生响应。
 
 <a name="view-responses"></a>
 #### 视图响应

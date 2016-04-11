@@ -92,7 +92,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $this->app->bind('App\Contracts\EventPusher', 'App\Services\RedisEventPusher');
 
-这么做会告知容器当有个类需要 `EventPusher` 的实现时，必须注入 `RedisEventPusher`。现在我们可以在构造器中对 `EventPusher` 接口使用类型提示，或任何需要通过服务容器注入依赖的其他位置：
+这么做会告知容器当有个类需要 `EventPusher` 的实现时，必须注入 `RedisEventPusher`。现在我们可以在构造器中对 `EventPusher` 接口使用类型提示，或任何需要通过服务容器注入依赖的其它位置：
 
     use App\Contracts\EventPusher;
 

@@ -295,7 +295,7 @@
 
 #### 拦截所有检查
 
-有时，你可能希望在授权策略赋予所有权限给指定用户。对于这种情况，只要在授权策略中定义一个 `before` 方法。授权策略的此方法会在其他所有授权检查前被运行：
+有时，你可能希望在授权策略赋予所有权限给指定用户。对于这种情况，只要在授权策略中定义一个 `before` 方法。授权策略的此方法会在其它所有授权检查前被运行：
 
     public function before($user, $ability)
     {
@@ -377,7 +377,7 @@
 
 默认的，`App\Http\Controllers\Controller` 类包含了 Laravel 使用的 `AuthorizesRequests` trait。此 trait 提供了 `authorize` 方法，它可以被用于快速授权一个指定的行为，当无权限运行该行为时会抛出 `HttpException`。
 
-`authorize` 方法与其他授权方法共用了同样的特征，像是 `Gate::allows` 与 `$user->can()`。所以，让我们使用 `authorize` 方法来快速授权一个请求以更新一条 `Post`：
+`authorize` 方法与其它授权方法共用了同样的特征，像是 `Gate::allows` 与 `$user->can()`。所以，让我们使用 `authorize` 方法来快速授权一个请求以更新一条 `Post`：
 
     <?php
 

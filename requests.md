@@ -36,7 +36,7 @@
         }
     }
 
-如果控制器方法也有输入数据是从路由参数传入的，只需将路由参数置于其他依赖之后。举例来说，如果你的路由是这样定义的：
+如果控制器方法也有输入数据是从路由参数传入的，只需将路由参数置于其它依赖之后。举例来说，如果你的路由是这样定义的：
 
     Route::put('user/{id}', 'UserController@update');
 
@@ -252,6 +252,6 @@ Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂产生新
 
     $request->file('photo')->move($destinationPath, $fileName);
 
-#### 其他上传文件的方法
+#### 其它上传文件的方法
 
 `UploadedFile` 的实例还有许多可用的方法，可以到[该对象的 API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html)了解这些方法的详细信息。

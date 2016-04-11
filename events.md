@@ -46,7 +46,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 一般来说，事件必须通过 `EventServiceProvider` 的 `$listen` 数组进行注册；不过，你也可以通过 `Event` facade 或是 `Illuminate\Contracts\Events\Dispatcher` contract 实现的事件发送器来手动注册事件：
 
     /**
-     * 注册你应用程序中的任何其他事件。
+     * 注册你应用程序中的任何其它事件。
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return void
@@ -149,7 +149,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
 
 #### 停止一个事件的传播
 
-有时候，你可能希望停止一个事件传播到其他的侦听器。你可以通过在侦听器的 `handle` 方法中返回 `false` 来实现。
+有时候，你可能希望停止一个事件传播到其它的侦听器。你可以通过在侦听器的 `handle` 方法中返回 `false` 来实现。
 
 <a name="queued-event-listeners"></a>
 ### 可队列的事件侦听器

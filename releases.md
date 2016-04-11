@@ -30,7 +30,7 @@ Laravel 5.1.4 为框架推出了简单的登录限制。查阅 [认证的文档]
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
 
-Laravel 5.1 继续以 Laravel 5.0 改进而成，通过采用 PSR-2 及添加事件广播、中间件参数、Artisan 的改进及其他等等。
+Laravel 5.1 继续以 Laravel 5.0 改进而成，通过采用 PSR-2 及添加事件广播、中间件参数、Artisan 的改进及其它等等。
 
 ### PHP 5.5.9+
 
@@ -163,7 +163,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 ### Contracts
 
-所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其他的外部依赖。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
+所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其它的外部依赖。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
 
 更多关于 contracts 的信息，参考[完整文档](/docs/{{version}}/contracts)。
 
@@ -179,7 +179,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 ### 控制器方法注入
 
-除了之前有的建构函数注入外，你现在可以在控制器方法使用类型提示进行依赖注入。[服务容器](/docs/{{version}}/container)会自动注入依赖，即使路由包含了其他参数也不成问题：
+除了之前有的建构函数注入外，你现在可以在控制器方法使用类型提示进行依赖注入。[服务容器](/docs/{{version}}/container)会自动注入依赖，即使路由包含了其它参数也不成问题：
 
     public function createPost(Request $request, PostRepository $posts)
     {
@@ -268,7 +268,7 @@ Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可
 
 ### 数据库队列
 
-`database` 队列驱动现在已经包含在 Laravel 中了，提供了简单的本地端队列驱动，让你除了数据库相关软件外不需安装其他扩展包。
+`database` 队列驱动现在已经包含在 Laravel 中了，提供了简单的本地端队列驱动，让你除了数据库相关软件外不需安装其它扩展包。
 
 ### Laravel 调度器
 

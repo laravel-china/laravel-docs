@@ -27,7 +27,7 @@
 
 `resources` 目录包含了视图、原始的资源文件 (LESS、SASS、CoffeeScript) ，以及语言包。
 
-`storage` 目录包含编译后的 Blade 模板、基于文件的 session、文件缓存和其他框架产生的文件。此文件夹分格成 `app`、`framework`，及 `logs` 目录。`app` 目录可用于存储应用程序使用的任何文件。`framework` 目录被用于保存框架产生的文件及缓存。最后，`logs` 目录包含了应用程序的日志文件。
+`storage` 目录包含编译后的 Blade 模板、基于文件的 session、文件缓存和其它框架产生的文件。此文件夹分格成 `app`、`framework`，及 `logs` 目录。`app` 目录可用于存储应用程序使用的任何文件。`framework` 目录被用于保存框架产生的文件及缓存。最后，`logs` 目录包含了应用程序的日志文件。
 
 `tests` 目录包含自动化测试。这有一个现成的 [PHPUnit](https://phpunit.de/) 例子。
 
@@ -42,7 +42,7 @@
 
 `Jobs` 目录用于放置应用程序[可队列的任务](/docs/{{version}}/queues)。任务可以被应用程序放到队列中，也可以在当前请求生命周期内同步运行。
 
-`Events` 目录，如你所料，是用来放置[事件类](/docs/{{version}}/events)的。事件可以被用于当指定动作发生时，通知你应用程序的其他部分，提供了很棒的灵活性及解耦。
+`Events` 目录，如你所料，是用来放置[事件类](/docs/{{version}}/events)的。事件可以被用于当指定动作发生时，通知你应用程序的其它部分，提供了很棒的灵活性及解耦。
 
 `Listeners` 目录了包含事件的处理类。处理进程接收一个事件，并针对该事件运行逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 侦听器处理。
 
