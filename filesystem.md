@@ -13,7 +13,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https://github.com/thephpleague/flysystem) 扩展包。Laravel 的 flysystem 集成提供了可给本地端磁盘系统、Amazon S3、以及 Rackspace 云存储使用各种驱动（driver）。并且能像使用 API 一般，轻易的切换这些存储方式来应对各式系统。
+Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https://github.com/thephpleague/flysystem) 扩展包。Laravel 的 flysystem 集成提供了可给本地端磁盘系统、Amazon S3、以及 Rackspace 云存储使用的各种驱动（driver）。并且能像使用 API 一样，轻易的切换这些存储方式来应对各式系统。
 
 <a name="configuration"></a>
 ## 设置
@@ -145,11 +145,11 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
 
 #### 获取单个目录内所有目录
 
-`directories` 方法返回指定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法获取指定目录下子目录以及子目录所包含的目录。
+`directories` 方法返回指定目录下的目录数组。另外，你也可以使用 `allDirectories` 方法获取指定目录下的子目录以及子目录所包含的目录。
 
     $directories = Storage::directories($directory);
 
-    // Recursive...
+    // 递归...
     $directories = Storage::allDirectories($directory);
 
 #### 创建目录
