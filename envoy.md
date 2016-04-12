@@ -13,16 +13,16 @@
 <a name="introduction"></a>
 ## 简介
 
-[Laravel Envoy](https://github.com/laravel/envoy) 使用 Blade 风格的语法，你可以简单的代码部署任务，运行 Artisan 命令等。目前，Envoy 只支持 Mac 及 Linux 操作系统。
+[Laravel Envoy](https://github.com/laravel/envoy) 使用了 Blade 风格的语法，让你可以很方便的进行部署任务设置、Artisan 命令运行等操作。目前，Envoy 只支持 Mac 及 Linux 操作系统。
 
 <a name="envoy-installation"></a>
 ### 安装
 
-首先，使用 Composer 的 `global` 命令安装 Envoy：
+首先，先使用 Composer 的 `global` 命令安装 Envoy：
 
     composer global require "laravel/envoy=~1.0"
 
-记得将 `~/.composer/vendor/bin` 目录加入至你的 PATH，如此一来当你在命令行运行 `envoy` 命令时 `envoy` 才可被运行。
+记得将 `~/.composer/vendor/bin` 目录加入至你的 PATH，这样才能在命令行运行 `envoy`。
 
 #### 更新 Envoy
 
@@ -30,10 +30,12 @@
 
     composer global update
 
+> TODO: 上面这个命令应该是把所有的包都给更新了吧？    
+
 <a name="writing-tasks"></a>
 ## 编写任务
 
-你所有的 Envoy 任务必须定义在项目根目录的 `Envoy.blade.php` 文件中，这里有个例子：
+所有的 Envoy 任务都必须定义在项目根目录的 `Envoy.blade.php` 文件中，这里有个例子：
 
     @servers(['web' => 'user@192.168.1.1'])
 
@@ -41,11 +43,11 @@
         ls -la
     @endtask
 
-如你所见，`@servers` 的数组被定义在文件的起始，让你可以在声明任务时，在 `on` 选项里参照这些服务器。在你的 `@task` 声明里，你可以放置当任务运行时想要在远程服务器运行的 Bash 命令。
+如你所见，`@servers` 的数组被定义在文件的起始位置处，让你在声明任务时可以在 `on` 选项里参照使用这些服务器。在你的 `@task` 声明里，你可以放置当任务运行时想要在远程服务器运行的 Bash 命令。
 
 #### 启动
 
-有时，你可能想在启动任务前运行一些 PHP 代码。你可以使用 ```@setup``` 区块在 Envoy 文件理声明变量及运行一般的 PHP 程序：
+有时，你可能想在任务启动前运行一些 PHP 代码。这时可以使用 ```@setup``` 区块在 Envoy 文件中声明变量以及运行普通的 PHP 程序：
 
     @setup
         $now = new DateTime();
@@ -59,7 +61,7 @@
 
 #### 任务确认
 
-如果你想要在运行任务之前进行提示确认，你可以增加 `confirm` 命令至你的任务声明：
+如果你想要在运行任务之前进行提示确认，则可以增加 `confirm` 命令到任务声明：
 
     @task('deploy', ['on' => 'web', 'confirm' => true])
         cd site
@@ -70,7 +72,7 @@
 <a name="task-variables"></a>
 ### 任务变量
 
-如果需要，你可以通过命令行选项传递变量至 Envoy 文件，让你能够自定义你的任务：
+如果需要的话，你也可以通过命令行选项来传递变量至 Envoy 文件，以便自定义你的任务：
 
     envoy run deploy --branch=master
 
@@ -87,7 +89,7 @@
 <a name="envoy-multiple-servers"></a>
 ### 多个服务器
 
-你可以在多个服务器上运行任务，首先，增加额外的服务器至你的 `@server` 声明，每个服务器必须分配一个唯一的名称，一旦你已经定义好额外的服务器，就能简单的在任务声明的 `on` 数组中列出这些服务器：
+你可以在多个服务器上运行任务。首先，增加额外的服务器至你的 `@servers` 声明，每个服务器必须分配一个唯一的名称。一旦你定义好其它服务器，就能够在任务声明的 `on` 数组中列出这些服务器：
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -97,11 +99,11 @@
         php artisan migrate
     @endtask
 
-默认情况下，任务会循序的在每个服务器上运行。意味着任务会在第一个服务器运行完后，才换到下一个。
+默认情况下，任务会按照顺序在每个服务器上运行。意味着任务会在第一个服务器运行完后才跳到下一个。
 
 #### 平行运行
 
-如果你想在多个服务器上同时运行任务，只要简单的在任务声明里加上 `parallel` 选项：
+如果你想在多个服务器上同时运行任务，只需简单的在任务声明里加上 `parallel` 选项即可：
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -114,7 +116,7 @@
 <a name="envoy-task-macros"></a>
 ### 任务宏
 
-宏让你可以使用一个命令定义要循序运行的一组任务。以实例来说，一个 `deploy` 宏可能会运行 `git` 及 `composer` 任务：
+宏可以让你使用一个命令来定义要顺序运行的一组任务。举例来说，一个 `deploy` 宏可能会运行 `git` 及 `composer` 任务：
 
     @servers(['web' => '192.168.1.1'])
 
@@ -131,14 +133,14 @@
         composer install
     @endtask
 
-一旦该宏被定义之后，你可以通过简单的一行命令运行它们：
+一旦该宏被定义之后，就可以通过一行简单的命令来运行它们：
 
     envoy run deploy
 
 <a name="envoy-running-tasks"></a>
 ## 运行任务
 
-要从你的 `Envoy.blade.php` 文件运行一个任务，只要运行 Envoy 的 `run` 命令，传递你想运行的任务或宏命令名称。Envoy 会运行该任务并显示任务运行时的服务器输出。
+要从你的 `Envoy.blade.php` 文件运行一个任务，只需运行 Envoy 的 `run` 命令，并传递你想运行的任务或宏命令的名称。Envoy 会运行该任务并显示任务运行时的服务器输出。
 
     envoy run task
 
@@ -161,7 +163,7 @@
         @hipchat('token', 'room', 'Envoy')
     @endafter
 
-如果你希望，你也可以自定发送到 HipChat 聊天室的消息。任何在你的 Envoy 任务里可用的变量都可以使用在消息里：
+你也可以自定义发送到 HipChat 聊天室的消息。任何在 Envoy 任务里可用的变量都能被使用在消息里：
 
     @after
         @hipchat('token', 'room', 'Envoy', "{$task} ran in the {$env} environment.")
@@ -176,12 +178,11 @@
         @slack('hook', 'channel', 'message')
     @endafter
 
-当你在 Slack 的网站创建 `Incoming WebHooks` 时会获取一组 webhook 的网址。`hook` 参数必须是 Slack 的 Incoming WebHooks 所提供的整串网址。例如：
+当你在 Slack 的网站创建 `Incoming WebHooks` 时会获取一组 webhook 网址。`hook` 参数必须是 Slack 的 Incoming WebHooks 所提供的整串网址。例如：
 
     https://hooks.slack.com/services/ZZZZZZZZZ/YYYYYYYYY/XXXXXXXXXXXXXXX
 
-你可以提供下方的其中一种作为 channel 参数：
+你可以选择下方的任意一个来作为 channel 参数：
 
 - 如果要发送通知至一个频道：`#channel`
 - 如果要发送通知给一位用户：`@user`
-
