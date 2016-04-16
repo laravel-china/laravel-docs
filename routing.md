@@ -67,7 +67,7 @@
 <a name="required-parameters"></a>
 ### 基础路由参数
 
-有时候你可能需要在你的 URI 路由中，获取一些参数。例如，从 URL 获取用户的 ID。这时可通过自定义路由参数来获取：
+有时候你可能需要在你的 URI 路由中来获取一些参数。例如，从 URL 获取用户的 ID。这时可通过自定义路由参数来获取：
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
@@ -81,7 +81,7 @@
 
 路由的参数都会被放在「大括号」内。当运行路由时，参数会通过路由`闭包`来传递。
 
-> **注意：**路由参数不能包含 `-` 字符。请用底线 (`_`) 替换。
+> **注意：**路由参数不能包含 `-` 字符。请用下划线 (`_`) 替换。
 
 <a name="parameters-optional-parameters"></a>
 ### 可选的路由参数
@@ -122,7 +122,7 @@
 如果你希望路由参数可以总是遵循正则表达式，则可以使用 `pattern` 方法。你应该在 `RouteServiceProvider` 的 `boot` 方法里定义这些模式：
 
     /**
-     * Define your route model bindings, pattern filters, etc.
+     * 定义你的路由模型绑定，模式过滤器等。
      *
      * @param  \Illuminate\Routing\Router  $router
      * @return void
@@ -188,14 +188,14 @@
 <a name="route-groups"></a>
 ## 路由群组
 
-路由群组允许你共用路由属性，例如：中间件、命名空间，你可以利用路由群组到多个路由套用这些属性，而不需在每个路由都设置一次。共用属性被指定为数组格式，当作 `Route::group` 方法的第一个参数：
+路由群组允许你共用路由属性，例如：中间件、命名空间，你可以利用路由群组到多个路由中套用这些属性，而不需在每个路由上都设置一次。共用属性被指定为数组格式，当作 `Route::group` 方法的第一个参数：
 
 为了了解更多路由群组的相关内容，我们可通过几个常用样例来熟悉这些特性。
 
 <a name="route-group-middleware"></a>
 ### 中间件
 
-要想指定中间件到所有群组内的路由中，你可以在群组属性数组里使用 `middleware` 参数。中间件将会依照列表内指定的顺序运行：
+要想指定中间件到所有群组内的路由中，则可以在群组属性数组里使用 `middleware` 参数。中间件将会依照列表内指定的顺序运行：
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/', function ()    {
@@ -261,9 +261,9 @@
 <a name="csrf-introduction"></a>
 ### 介绍
 
-Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以通过经过身份验证的用户身份运行未经授权的命令。
+Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以通过身份验证的用户身份来运行未经授权的命令。
 
-Laravel 会自动生成一个 CSRF token 给每个受应用程序管理的活动用户的 Session。该 token 用来验证用户是否为实际发出请求至应用程序的用户。若要生成一个包含 CSRF token 的 `_token` 隐藏输入字段，可以使用 `csrf_field` 辅助函数：
+Laravel 会自动生成一个 CSRF token 给每个受应用程序管理的活动用户的 Session。该 token 用来验证用户是否为实际发出请求的用户。若要生成一个包含 CSRF token 的 `_token` 隐藏输入字段，可以使用 `csrf_field` 辅助函数：
 
     <?php echo csrf_field(); ?>
 
@@ -293,7 +293,7 @@ Laravel 会自动生成一个 CSRF token 给每个受应用程序管理的活动
     class VerifyCsrfToken extends BaseVerifier
     {
         /**
-         * The URIs that should be excluded from CSRF verification.
+         * URIs 应被 CSRF 验证执行。
          *
          * @var array
          */
@@ -381,7 +381,7 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 <a name="throwing-404-errors"></a>
 ## 抛出 404 错误
 
-这里有两种方法从路由手动触发 404 错误。首先，你可以使用 `abort` 辅助函数。`abort` 辅助函数只是简单的抛出一个带有指定状态代码的 `Symfony\Component\HttpFoundation\Exception\HttpException`：
+这里有两种方法来从路由手动触发 404 错误。首先，你可以使用 `abort` 辅助函数。`abort` 辅助函数只是简单的抛出一个带有指定状态代码的 `Symfony\Component\HttpFoundation\Exception\HttpException`：
 
     abort(404);
 
