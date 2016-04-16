@@ -18,9 +18,9 @@
 
 Laravel 致力于让 PHP 的开发过程变得更加轻松愉快，这其中也包含你的本地开发环境。[Vagrant](http://vagrantup.com) 提供了一个简单、优雅的方式来管理与配置虚拟机。
 
-Laravel Homestead 是一个官方预封装的 Vagrant box，提供给你一个美好的开发环境，你无需在本机电脑上安装 PHP、HHVM、Web 服务器或任何服务器软件。并且不用再担心系统被搞乱！Vagrant box 为你搞定一切。如果有什么地方出错了，你也可以在几分钟内快速的销毁并重建虚拟机！
+Laravel Homestead 是一个官方预封装的 Vagrant box，提供给你一个美好的开发环境，你无需在本机电脑上安装 PHP、HHVM、Web 服务器或其它服务器软件。并且不用再担心系统被搞乱！Vagrant box 为你搞定一切。如果有什么地方出错了，你也可以在几分钟内快速的销毁并重建虚拟机！
 
-Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包含了 Nginx Web 服务器、PHP 5.6、MySQL、Postgres、Redis、Memcached、Node，以及所有你在使用 Laravel 开发时所需要的各种软件。
+Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包含了 Nginx Web 服务器、PHP 5.6、MySQL、Postgres、Redis、Memcached、Node，以及所有你在使用 Laravel 开发时所需要用到的各种软件。
 
 > **附注：** 如果你是 Windows 用户，你可能需要启用硬件虚拟化（VT-x）。这通常需要通过 BIOS 来启用它。
 
@@ -102,13 +102,13 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包
 
 #### 配置 Nginx 网站
 
-对 Nginx 不熟悉吗？没关系。`sites` 属性可以帮助你可以轻易指定一个 `域名` 来对应到 homestead 环境中的一个目录上。在 `Homestead.yaml` 文件中已包含了一个网站设置范本。同样的，你也可以增加多个网站到你的 Homestead 环境中。Homestead 可以为每个你正在开发中的 Laravel 项目提供方便的虚拟化环境：
+对 Nginx 不熟悉吗？没关系。`sites` 属性可以帮助你可以轻易指定一个 `域名` 来对应到 homestead 环境中的一个目录上。在 `Homestead.yaml` 文件中已包含了一个网站设置范本。同样的，你也可以增加多个网站到你的 Homestead 环境中。Homestead 可以为你正在开发中的所有 Laravel 项目提供方便的虚拟化环境：
 
     sites:
         - map: homestead.app
           to: /home/vagrant/Code/Laravel/public
 
-你可以将 `hhvm` 属性设置为 `true` 来让 Homestead 里面的任一个网站改用 [HHVM](http://hhvm.com)：
+你可以将 `hhvm` 属性设置为 `true` 来让 Homestead 里面的任意一个网站改用 [HHVM](http://hhvm.com)：
 
     sites:
         - map: homestead.app
