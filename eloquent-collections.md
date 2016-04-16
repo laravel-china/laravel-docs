@@ -7,9 +7,9 @@
 <a name="introduction"></a>
 ## 简介
 
-默认情况下 Eloquent 返回的都是一个 `Illuminate\Database\Eloquent\Collection` 对象的实例，包含经由 `get` 方法或是经由访问一个关联来获取到的结果。Eloquent 集合对象继承了 Laravel [集合基类](/docs/{{version}}/collections)，所以它自然继承了许多可用于与 Eloquent 模型交互的方法。
+默认情况下 Eloquent 返回的都是一个 `Illuminate\Database\Eloquent\Collection` 对象的实例，包含通过 `get` 方法或是访问一个关联来获取到的结果。Eloquent 集合对象继承了 Laravel [集合基类](/docs/{{version}}/collections)，因此它自然也继承了许多可用于与 Eloquent 模型交互的方法。
 
-当然，所有集合也可以作为迭代器，让你可以遍历集合像是一个简单的 PHP 数组：
+当然，所有集合都可以作为迭代器，来让你像遍历一个 PHP 数组一样来遍历一个集合：
 
     $users = App\User::where('active', 1)->get();
 
@@ -17,7 +17,7 @@
         echo $user->name;
     }
 
-然而，集合比数组更强大的地方是使用各种 map / reduce 直观的操作。例如，我们移除所有未激活的用户模型和收集其余每个用户的名字：
+然而，集合比数组更强大的地方是其使用了各种 map / reduce 的直观操作。例如，我们移除所有未激活的用户模型和收集其余各个用户的名字：
 
     $users = App\User::where('active', 1)->get();
 
@@ -33,7 +33,7 @@
 
 ### 集合对象
 
-所有 Eloquent 集合继承了 [Laravel 集合](/docs/{{version}}/collections) 对象；因此，他们继承所有集合类所提供的强大的方法：
+所有 Eloquent 集合都继承了 [Laravel 集合](/docs/{{version}}/collections) 对象。因此，他们也继承了所有集合类提供的强大的方法：
 
 <style>
     #collection-method-list > p {
@@ -105,7 +105,7 @@
 <a name="custom-collections"></a>
 ## 自定义集合
 
-如果你需要使用一个自定义的 `Collection` 对象与你自己的扩充方法，你可以在模型中重写 `newCollection` 方法：
+如果你需要使用一个自定义的 `Collection` 对象到自己的扩充方法上，则可以在模型中重写 `newCollection` 方法：
 
     <?php
 
@@ -117,7 +117,7 @@
     class User extends Model
     {
         /**
-         * Create a new Eloquent Collection instance.
+         * 创建一个新的 Eloquent 集合实例。
          *
          * @param  array  $models
          * @return \Illuminate\Database\Eloquent\Collection
@@ -128,4 +128,4 @@
         }
     }
 
-一旦你定义了 `newCollection` 方法，在任何 Eloquent 返回该模型的 `Collection` 实例的时候，你将会接收到一个你的自定义集合的实例。如果你想要在你的应用程序每个模型中使用自定义的集合，你应该在所有的模型继承的模型基类中重写 `newCollection` 方法。
+一旦你定义了 `newCollection` 方法，则可在任何 Eloquent 返回该模型的 `Collection` 实例时，接收到一个你的自定义集合的实例。如果你想要在应用程序的每个模型中使用自定义集合，则应该在所有的模型继承的模型基类中重写 `newCollection` 方法。
