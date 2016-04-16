@@ -67,7 +67,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
 #### 应用程序密钥
 
-在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥应该有 32 字符长度。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你现在应该去设置下。**如果应用程序密钥没有被设置的话，你的用户 Sessions 和其它的加密数据都是不安全的！**
+在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装的 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥会有 32 字符长。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你现在应该去设置下。**如果应用程序密钥没有被设置的话，你的用户 Session 和其它的加密数据都是不安全的！**
 
 #### 其它设置
 
@@ -86,9 +86,9 @@ Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你
 
 **Apache**
 
-Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.php`。如果你的服务器是使用 Apache，请确认是否有开启 `mod_rewrite` 模块。
+Laravel 框架通过 `public/.htaccess` 文件来让网址不需要 `index.php`。如果你的服务器是使用 Apache，请确认是否有开启 `mod_rewrite` 模块。
 
-假设 Laravel 附带的 `.htaccess` 文件在 Apache 无法作用的话，请尝试下方的做法：
+如果 Laravel 附带的 `.htaccess` 文件在 Apache 中无法使用的话，请尝试下方的做法：
 
     Options +FollowSymLinks
     RewriteEngine On
@@ -99,18 +99,18 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址中不需要 `index.ph
 
 **Nginx**
 
-若使用 Nginx，可以在你的网站设置中增加下面的设置，以开启「优雅链接」：
+若你使用了 Nginx，则可以在网站设置中增加以下设置，以开启「优雅链接」：
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-当然，如果你使用了 [Homestead](/docs/{{version}}/homestead) 的话，它将会自动的帮你设置好优雅链接。
+如果你使用了 [Homestead](/docs/{{version}}/homestead) 的话，它将会自动的帮你设置好优雅链接。
 
 <a name="environment-configuration"></a>
 ### 环境配置
 
-应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在你的本机开发环境上有与正式环境不同的缓存驱动。只要通过配置文件，就可以轻松完成。
+应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在本机开发环境上有与正式环境不同的缓存驱动。只需通过配置文件就可轻松完成。
 
 Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在安装好的全新 Laravel 应用程序里，在根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，否则你只能手动更改文件名。
 
@@ -118,15 +118,15 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 根据本机服务器或者正式环境的需求的不同，可自由修改环境变量。但是，`.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用应用程序时，可能需要不同的环境配置。
 
-如果你是某个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过样本配置文件里的预设值，你团队中的其他开发人员可以清楚地知道，在运行你的应用程序时，有哪些环境变量是必须有的。
+如果你是某个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过样本配置文件里的预设值，你团队中的其他开发人员就可以清楚地知道，在运行你的应用程序时有哪些环境变量是必须有的。
 
 #### 获取目前应用程序的环境
 
-应用程序的当前环境是由 `.env` 文件中的 `APP_ENV` 变量所决定。你可以通过 `App` [facade](/docs/{{version}}/facades) 的 `environment` 方法获取该值：
+应用程序的当前环境是由 `.env` 文件中的 `APP_ENV` 变量所决定的。你可以通过 `App` [facade](/docs/{{version}}/facades) 的 `environment` 方法来获取该值：
 
     $environment = App::environment();
 
-你也可以传递参数至 `environment` 方法中，来确认当前环境是否与参数相符合：
+你也可以传递参数至 `environment` 方法来确认当前环境是否与参数相符合：
 
     if (App::environment('local')) {
         // 环境是 local
@@ -161,9 +161,9 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 <a name="naming-your-application"></a>
 ### 命名你的应用程序
 
-在安装完成 Laravel 后，你可以来「命名」你的应用程序。默认情况下，`app` 的目录的命名空间是 `App`，然后会通过 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/) 来自动加载。不过，你可以轻松地通过 Artisan 命令 `app:name` 来修改命名空间，以配合你的应用程序名称。
+在安装完 Laravel 后，你可以来「命名」你的应用程序。默认情况下，`app` 的目录的命名空间是 `App`，然后会通过 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/) 来自动加载。不过，你可以轻松地通过 Artisan 命令 `app:name` 来修改命名空间，以配合你的应用程序名称。
 
-举例来说，假设你的应用程序叫做「Horsefly」，你可以在安装完的根目录运行下方的命令：
+举例来说，假设你的应用程序叫做「Horsefly」，则可以在安装完的根目录运行下方的命令：
 
     php artisan app:name Horsefly
 
@@ -172,7 +172,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 <a name="maintenance-mode"></a>
 ## 维护模式
 
-当你的应用程序处于维护模式时，所有传递至应用程序的请求都会显示出一个自定义视图。在你更新应用或进行性能维护时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的中间件堆栈。如果应用程序处于维护模式，`HttpException` 会抛出 503 的状态码。
+当你的应用程序处于维护模式时，所有传递至应用程序的请求都会显示出一个自定义视图。在你更新应用或进行性能维护时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的中间件堆栈。如果应用程序处于维护模式，则 `HttpException` 会抛出 503 的状态码。
 
 启用维护模式，只需要运行 Artisan 命令 `down`：
 
@@ -188,4 +188,4 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 ### 维护模式与队列
 
-当应用程序处于维护模式中时，将不会处理任何 [队列工作](/docs/{{version}}/queues)。所有的队列工作将会在应用程序离开维护模式后继续被运行。
+当应用程序处于维护模式中时，将不会处理任何 [队列工作](/docs/{{version}}/queues)。所有的队列工作将会在应用程序离开维护模式后被继续运行。
