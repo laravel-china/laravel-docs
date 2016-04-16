@@ -31,7 +31,7 @@ Laravel 让用户认证变得非常简单。几乎所有的认证行为都可以
 <a name="introduction-database-considerations"></a>
 ### 数据库注意事项
 
-默认的 Laravel 在你的 `app` 文件夹中含有 `App\User` [Eloquent 模型](/docs/{{version}}/eloquent)。这个模型使用默认的 Eloquent 认证来驱动。如果你的应用程序没有使用 Eloquent，你可以使用 Laravel 查询构造器的 `database` 认证驱动。
+默认的 Laravel 在你的 `app` 文件夹中会含有 `App\User` [Eloquent 模型](/docs/{{version}}/eloquent)。这个模型将使用默认的 Eloquent 认证来驱动。如果你的应用程序没有使用 Eloquent，你可以使用 Laravel 查询构造器的 `database` 认证驱动。
 
 为 `App\User` 模型创建数据库结构时，确认密码字段最少有 60 字符长。
 
