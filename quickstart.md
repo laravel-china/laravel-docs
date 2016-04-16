@@ -29,7 +29,7 @@
 <a name="installation"></a>
 ## 安装
 
-首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其它本机 PHP 环境来运行框架。只要你的本机环境准备好了，就可以使用 Composer 安装 Laravel 框架：
+首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
@@ -50,7 +50,7 @@
 
 首先，让我们使用迁移来定义数据表以容纳我们所有的任务。Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库副本中，你的队友就可以简单运行你推送到版本控制的迁移。
 
-所以，让我们构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan)可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
+让我们来构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan)可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
 
 	php artisan make:migration create_tasks_table --create=tasks
 
