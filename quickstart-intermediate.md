@@ -35,7 +35,7 @@
 <a name="installation"></a>
 ## 安装
 
-首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其它本机 PHP 环境来运行框架。只要你的本机环境准备好了，就可以使用 Composer 安装 Laravel 框架：
+首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
