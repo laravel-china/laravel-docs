@@ -112,7 +112,7 @@ Laravel 内置的测试功能已得到显著的改善。各种新的方法提供
 
 ### 模型工厂
 
-Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用[模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充生成测试模型实例。模型工厂也使用高端的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来生成随机属性的数据：
+Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用[模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充生成测试模型实例。模型工厂也使用高级的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来生成随机属性的数据：
 
     $factory->define(App\User::class, function ($faker) {
         return [

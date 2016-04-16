@@ -322,7 +322,7 @@
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
-			<title>Laravel 快速入门 - 高端</title>
+			<title>Laravel 快速入门 - 高级</title>
 
 			<!-- CSS 及 JavaScript -->
 		</head>

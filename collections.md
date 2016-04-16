@@ -934,7 +934,7 @@
 
 要排序内含数组或对象的集合，见 [`sortBy`](#method-sortby) 和 [`sortByDesc`](#method-sortbydesc) 方法。
 
-假如你需要更高端的排序，你可以传入回调函数以你自己的算法进行`排序`。参考 PHP 文档的 [`usort`](http://php.net/manual/en/function.usort.php#refsect1-function.usort-parameters)，这是集合的 `sort` 方法在背后所调用的函数。
+假如你需要更高级的排序，你可以传入回调函数以你自己的算法进行`排序`。参考 PHP 文档的 [`usort`](http://php.net/manual/en/function.usort.php#refsect1-function.usort-parameters)，这是集合的 `sort` 方法在背后所调用的函数。
 
 <a name="method-sortby"></a>
 #### `sortBy()` {#collection-method}
