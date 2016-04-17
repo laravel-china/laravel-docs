@@ -629,7 +629,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 <a name="rule-max"></a>
 #### max:_value_
 
-验证字段值的大小是否小于或等于 _value_ 。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+字段值必须小于或等于 _value_ 。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
@@ -648,7 +648,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 <a name="rule-min"></a>
 #### min:_value_
 
-验证字段值的大小是否小于或等于 _value_。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+字段值必须大于或等于 _value_。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
