@@ -47,7 +47,7 @@
         }
     }
 
-我们可以通过路由指定控制器行为，就像这样：
+我们可以通过路由来指定控制器行为，就像这样：
 
     Route::get('user/{id}', 'UserController@showProfile');
 
