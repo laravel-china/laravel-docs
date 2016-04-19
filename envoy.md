@@ -30,7 +30,7 @@
 
     composer global update
 
-> TODO: 上面这个命令应该是把所有的包都给更新了吧？    
+> **[Summer](http://github.com/summerblue)：** 注意上面的命令是更新所有的 composer 全局安装过的包。    
 
 <a name="writing-tasks"></a>
 ## 编写任务

@@ -79,8 +79,6 @@
 
 当手动创建一个分页器实例时，你应该手动「切割」传递给分页器的数组。如果你不知道如何做到这一点，请查阅 PHP 的 [array_slice](http://php.net/manual/en/function.array-slice.php) 函数。
 
-> TODO: 这里可以贴下具体实现代码
-
 <a name="displaying-results-in-a-view"></a>
 ## 将分页结果显示在视图中
 

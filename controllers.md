@@ -357,3 +357,6 @@ Laravel [服务容器](/docs/{{version}}/container)用于解析所有的 Laravel
 要移除缓存路由文件而不生成新的缓存，请使用 `route:clear` 命令：
 
     php artisan route:clear
+
+> **[Summer](http://github.com/summerblue)：** 想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
+

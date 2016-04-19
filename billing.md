@@ -32,7 +32,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
     "laravel/cashier": "~4.0" (For Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~3.0" (For Stripe APIs up to and including 2015-02-16 version)
 
-> TODO: 这里应该使用 require 来安装扩展包，见 []()
+> **[Summer](http://github.com/summerblue)：** 请使用 require 来安装扩展包，讨论请见 [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
 
 #### 服务提供者
 
@@ -41,8 +41,6 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
 #### 数据库迁移
 
 使用 Cashier 前，我们需要增加几个字段到数据库，你可以使用 `cashier:table` Artisan 命令，创建迁移文件来添加必要字段。举个例子，若要增加字段到 users 数据表，使用命令：`php artisan cashier:table users`。
-
-> TODO: 把具体的字段写出来。
 
 创建完迁移文件后，只需运行 `migrate` 命令即可。
 
