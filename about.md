@@ -1,10 +1,10 @@
-# Laravel 中文文档
+# Laravel 5.1 LTS 中文文档
 
 ## 说明
 
 此文档目前由 [EST 团队](http://estgroupe.com) 的 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到[他们](https://phphub.org/users/1)。
 
-此文档起初作为团队内部使用为目的，所以会有很多偏见。
+此文档起初作为团队内部使用为目的，所以会有很多标注，以及「偏见」。
 
 ## 翻译规范
 

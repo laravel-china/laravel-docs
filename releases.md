@@ -15,6 +15,8 @@ Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复�
 
 对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
 
+> **[Summer](http://github.com/summerblue)：**  Laravel 5.1 LTS 于 2015 年 6 月份发布，自发布起提供两年时间的 Bug 修复（2017 年 6 月）, 3 年时间的安全修复（2018 年 6 月）。
+
 <a name="laravel-5.1.11"></a>
 ## Laravel 5.1.11
 

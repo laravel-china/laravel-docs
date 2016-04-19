@@ -41,6 +41,10 @@
         //
     });
 
+> **[Summer](http://github.com/summerblue)：** 请不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
+1. 因为这是最佳实践，一开始做对了，后面节省你重构代码的时间；
+2. 路由缓存并不会作用在基于闭包的路由。
+
 #### 为多重动作注册路由
 
 有时候你可能需要注册一个可响应多个 HTTP 动作的路由。这时可通过 `Route` [facade](/docs/{{version}}/facades) 的 `match` 方法来实现：

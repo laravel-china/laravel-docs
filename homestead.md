@@ -18,9 +18,9 @@
 
 Laravel 致力于让 PHP 的开发过程变得更加轻松愉快，这其中也包含你的本地开发环境。[Vagrant](http://vagrantup.com) 提供了一个简单、优雅的方式来管理与配置虚拟机。
 
-Laravel Homestead 是一个官方预封装的 Vagrant box，提供给你一个美好的开发环境，你无需在本机电脑上安装 PHP、HHVM、Web 服务器或其它服务器软件。并且不用再担心系统被搞乱！Vagrant box 为你搞定一切。如果有什么地方出错了，你也可以在几分钟内快速的销毁并重建虚拟机！
+Laravel Homestead 是一个官方预封装的 Vagrant box，提供给你一个完美的开发环境，你无需在本机电脑上安装 PHP、HHVM、Web 服务器或其它服务器软件。并且不用再担心系统被搞乱！Vagrant box 为你搞定一切。如果有什么地方出错了，你也可以在几分钟内快速的销毁并重建虚拟机！
 
-Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包含了 Nginx Web 服务器、PHP 5.6、MySQL、Postgres、Redis、Memcached、Node，以及所有你在使用 Laravel 开发时所需要用到的各种软件。
+Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了 Nginx Web 服务器、PHP 5.6、MySQL、Postgres、Redis、Memcached、Node，以及所有你在使用 Laravel 开发时所需要用到的各种软件。
 
 > **附注：** 如果你是 Windows 用户，你可能需要启用硬件虚拟化（VT-x）。这通常需要通过 BIOS 来启用它。
 
@@ -41,6 +41,8 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上面运行，里面包
 - Redis
 - Memcached (仅限 PHP 5.x)
 - Beanstalkd
+
+> **[Summer](http://github.com/summerblue)：** 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。线上环境的部署可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和线上环境的统一。
 
 <a name="installation-and-setup"></a>
 ## 安装与设置
