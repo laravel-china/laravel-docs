@@ -115,13 +115,13 @@
 
 资源控制器让你可以轻松地创建与资源相关的 RESTful 控制器。例如，你可能想要创建一个用来处理应用程序保存「相片」时发送 HTTP 请求的控制器。使用 `make:controller` Artisan 命令，我们可以快速地创建一个像这样的控制器：
 
-    php artisan make:controller PhotoController
+    php artisan make:controller PhotosController
 
-此 Artisan 命令会生成 `app/Http/Controllers/PhotoController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
+此 Artisan 命令会生成 `app/Http/Controllers/PhotosController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
 
 接下来，你可以在控制器中注册资源化路由：
 
-    Route::resource('photo', 'PhotoController');
+    Route::resource('photos', 'PhotosController');
 
 这一条路由声明会创建多个路由，用来处理各式各样和相片资源相关的的 RESTful 行为。同样地，生成的控制器有着各种和这些行为绑定的方法，包含要处理的 URI 及动词的记录通知。
 
@@ -129,23 +129,23 @@
 
 | 动词      | 路径                  | 行为（方法） | 路由名称      |
 |:----------|:----------------------|:-------------|:--------------|
-| GET       | `/photo`              | index        | photo.index   |
-| GET       | `/photo/create`       | create       | photo.create  |
-| POST      | `/photo`              | store        | photo.store   |
-| GET       | `/photo/{photo}`      | show         | photo.show    |
-| GET       | `/photo/{photo}/edit` | edit         | photo.edit    |
-| PUT/PATCH | `/photo/{photo}`      | update       | photo.update  |
-| DELETE    | `/photo/{photo}`      | destroy      | photo.destroy |
+| GET       | `/photos`              | index        | photos.index   |
+| GET       | `/photos/create`       | create       | photos.create  |
+| POST      | `/photos`              | store        | photos.store   |
+| GET       | `/photos/{id}`      | show         | photos.show    |
+| GET       | `/photos/{id}/edit` | edit         | photos.edit    |
+| PUT/PATCH | `/photos/{id}`      | update       | photos.update  |
+| DELETE    | `/photos/{id}`      | destroy      | photos.destroy |
 
 <a name="restful-partial-resource-routes"></a>
 #### 部分资源路由
 
 声明资源路由时，你可以指定让此路由仅处理一部分的行为：
 
-    Route::resource('photo', 'PhotoController',
+    Route::resource('photos', 'PhotosController',
                     ['only' => ['index', 'show']]);
 
-    Route::resource('photo', 'PhotoController',
+    Route::resource('photos', 'PhotosController',
                     ['except' => ['create', 'store', 'update', 'destroy']]);
 
 <a name="restful-naming-resource-routes"></a>
@@ -153,7 +153,7 @@
 
 所有的资源控制器行为默认都有一路由名称；不过你可以在选项中传递一个 `names` 数组来重写这些名称：
 
-    Route::resource('photo', 'PhotoController',
+    Route::resource('photos', 'PhotosController',
                     ['names' => ['create' => 'photo.build']]);
 
 <a name="restful-nested-resources"></a>
@@ -191,9 +191,9 @@
 
 如果想在资源控制器中默认的资源路由之外加入其它额外路由，则应该在调用 `Route::resource` **之前** 定义这些路由。否则，由 `resource` 方法定义的路由可能会不小心覆盖你附加的路由：
 
-    Route::get('photos/popular', 'PhotoController@method');
+    Route::get('photos/popular', 'PhotosController@method');
 
-    Route::resource('photos', 'PhotoController');
+    Route::resource('photos', 'PhotosController');
 
 <a name="implicit-controllers"></a>
 ## 隐式控制器
