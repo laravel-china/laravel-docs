@@ -42,7 +42,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 - Memcached (仅限 PHP 5.x)
 - Beanstalkd
 
-> **[Summer](http://github.com/summerblue)：** 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。线上环境的部署可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和线上环境的统一。
+> **[Summer](http://github.com/summerblue)：** 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和生产环境的统一。
 
 <a name="installation-and-setup"></a>
 ## 安装与设置
