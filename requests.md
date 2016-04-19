@@ -219,6 +219,8 @@ Laravel 提供了全局辅助方法 `cookie`，可通过简易的工厂生成新
 
     $response->withCookie(cookie()->forever('name', 'value'));
 
+> **[Summer](http://github.com/summerblue)：** 关于 Cookie，需要注意一点，默认 Laravel 的 Cookie 都是加密过的，创建未加密的 Cookie 的方法请见 [【小技巧分享】在 Laravel 中设置没有加密的 cookie](https://phphub.org/topics/1758)
+
 <a name="files"></a>
 ### 上传文件
 

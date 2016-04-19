@@ -173,6 +173,8 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
                             {user : 用户的 ID }
                             {--queue= : 这个工作是否该进入队列}';
 
+> **[Summer](http://github.com/summerblue)：** 另一个实例见 [Laravel 5.1 Artisan 命令行实战](https://phphub.org/topics/1759)
+
 <a name="retrieving-input"></a>
 ### 获取输入
 

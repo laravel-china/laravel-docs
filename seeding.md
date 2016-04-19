@@ -11,6 +11,8 @@
 
 Laravel 可以简单的使用 seed 类来给数据库填充测试数据。所有的 seed 类都放在 `database/seeds` 目录下。你可以任意地为 Seed 类命名，但是应该遵守某些大小写规范，可用类似 `UserTableSeeder` 之类的命名。 Laravle 默认为你定义了一个 `DatabaseSeeder` 类。你可以在这个类中使用 `call` 方法来运行其它的 seed 类，以借此控制数据填充的顺序。
 
+> **[Summer](http://github.com/summerblue)：** 想从已有数据库中导出数据为 Seed 文件？见 [【扩展推荐】将数据导出成 Seeder 文件](https://phphub.org/topics/1929)
+
 <a name="writing-seeders"></a>
 ## 编写数据填充
 
