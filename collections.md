@@ -357,7 +357,7 @@
 <a name="method-forget"></a>
 #### `forget()` {#collection-method}
 
-`forget` 方法以键自集合移除掉一个项目：
+`forget` 方法通过集合的键来移除掉集合中的一个项目：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -643,7 +643,7 @@
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
-`max` 方法会传指定键的最小值：
+`min` 方法会传指定键的最小值：
 
     $min = collect([['foo' => 10], ['foo' => 20]])->min('foo');
 
