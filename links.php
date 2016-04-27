@@ -114,7 +114,7 @@ return [
         'link' => '/docs/{{version}}/elixir'
     ],
     [
-        'text' => '加密',
+        'text' => '加密与解密',
         'link' => '/docs/{{version}}/encryption'
     ],
     [
@@ -166,7 +166,7 @@ return [
         'link' => '/docs/{{version}}/session'
     ],
     [
-        'text' => 'SSH 任务',
+        'text' => 'Envoy',
         'link' => '/docs/{{version}}/envoy'
     ],
     [
@@ -190,7 +190,7 @@ return [
         'link' => '/docs/{{version}}/queries'
     ],
     [
-        'text' => '迁移',
+        'text' => '数据库迁移',
         'link' => '/docs/{{version}}/migrations'
     ],
     [
