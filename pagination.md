@@ -82,7 +82,7 @@
 <a name="displaying-results-in-a-view"></a>
 ## 将分页结果显示在视图中
 
-当在查询语句构造器或 Eloquent 中使用 `simplePaginate` 方法或 `paginate` 方法时，你会得到一个分页器的实例。当使用 `paginate` 方法时，将得到 `Illuminate\Pagination\LengthAwarePaginator` 实例。当使用 `simplePaginate` 方法时，则会得到 `Illuminate\Pagination\Paginator` 实例。这些对象提供几种方法用来描述结果集。除了这些辅助方法之外，分页器的实例也是个迭代器，并且可以像数组一样来使用循环取值。
+当在查询语句构造器或 Eloquent 中使用 `simplePaginate` 方法或 `paginate` 方法时，你会得到一个分页器的实例。当使用 `paginate` 方法时，将得到 `Illuminate\Pagination\LengthAwarePaginator` 实例。当使用 `simplePaginate` 方法时，则会得到 `Illuminate\Pagination\Paginator` 实例。这些对象提供几种方法用来描述结果集。除了这些辅助函数之外，分页器的实例也是个迭代器，并且可以像数组一样来使用循环取值。
 
 总之，一旦你获取到结果，就可以对结果进行显示，并使用 [Blade 模板](/docs/{{version}}/blade)渲染页面的链接：
 
@@ -120,7 +120,7 @@
 
     {!! $users->fragment('foo')->render() !!}
 
-#### 其它辅助方法
+#### 其它辅助函数
 
 你也可以通过以下方法获得额外的分页信息：
 

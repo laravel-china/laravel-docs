@@ -223,7 +223,7 @@
 
 我们只会有一个使用闭包的`/` 路由，它是给应用程序访客的一个简单起始页面。所以，让我们先填写 `/` 路由。对于此路由，我们想渲染一个包含「欢迎」页面的 HTML 模板：
 
-在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助方法来返回这些模版的其中一个：
+在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助函数来返回这些模版的其中一个：
 
 	Route::get('/', function () {
 		return view('welcome');

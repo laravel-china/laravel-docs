@@ -20,13 +20,13 @@
         </body>
     </html>
 
-因为这个视图被保存在 `resources/views/greeting.php`，所以我们可以像这样使用全局的辅助方法 `view` 来返回：
+因为这个视图被保存在 `resources/views/greeting.php`，所以我们可以像这样使用全局的辅助函数 `view` 来返回：
 
     Route::get('/', function ()    {
         return view('greeting', ['name' => 'James']);
     });
 
-如你所见，`view` 辅助方法的第一个参数会对应到 `resources/views` 目录内视图文件的名称；传递到 `view` 辅助方法的第二个参数是一个能够在视图内取用的数据数组。在这个例子中，我们传递了 `name` 这个变量，然后在视图里面用简单的 `echo` 来显示这个变量。
+如你所见，`view` 辅助函数的第一个参数会对应到 `resources/views` 目录内视图文件的名称；传递到 `view` 辅助函数的第二个参数是一个能够在视图内取用的数据数组。在这个例子中，我们传递了 `name` 这个变量，然后在视图里面用简单的 `echo` 来显示这个变量。
 
 当然，视图文件也可以被存放在 `resources/views` 的子目录内。`.` （小数点）的表示法可以被用来表示在子目录内的视图文件。举例来说，如果你的视图文件保存在 `resources/views/admin/profile.php`，你可以用以下的代码来返回：
 
@@ -34,13 +34,13 @@
 
 #### 判断视图文件是否存在
 
-如果你需要判断视图文件是否存在，则可以在一个不传参的 `view` 辅助方法之后调用 `exists` 方法来进行判断。这个方法将会在视图文件存在时返回 `true`：
+如果你需要判断视图文件是否存在，则可以在一个不传参的 `view` 辅助函数之后调用 `exists` 方法来进行判断。这个方法将会在视图文件存在时返回 `true`：
 
     if (view()->exists('emails.customer')) {
         //
     }
 
-当 `view` 辅助方法进行不传参调用时，将会返回一个 `Illuminate\Contracts\View\Factory` 的实例，以便你调用这个 Factory 的任意方法。
+当 `view` 辅助函数进行不传参调用时，将会返回一个 `Illuminate\Contracts\View\Factory` 的实例，以便你调用这个 Factory 的任意方法。
 
 <a name="view-data"></a>
 ### 视图的数据
@@ -52,7 +52,7 @@
 
     return view('greetings', ['name' => 'Victoria']);
 
-当你用上面这种方式传递数据时，`$data` 必须是一个键值对的数组。在视图中，你可以用相对应的键名取用值，如：`<?php echo $key; ?>`；你也可以用另一个替代语法来传递一个数据数组，在 `view` 辅助方法使用 `with` 来传递额外数据给视图：
+当你用上面这种方式传递数据时，`$data` 必须是一个键值对的数组。在视图中，你可以用相对应的键名取用值，如：`<?php echo $key; ?>`；你也可以用另一个替代语法来传递一个数据数组，在 `view` 辅助函数使用 `with` 来传递额外数据给视图：
 
     $view = view('greeting')->with('name', 'Victoria');
 
@@ -93,7 +93,7 @@
 
 视图组件就是在视图被渲染前，会被调用的闭包或类方法。如果你想在每次渲染某些视图时绑定数据，视图组件可以帮你把这样的程序逻辑都组织到同一个地方。
 
-让我们在[服务提供者](/docs/{{version}}/providers)内注册我们的视图组件。下面例子将使用 View 辅助方法来获取底层 `Illuminate\Contracts\View\Factory` contract 实现。请注意，Laravel 没有默认的目录来放置视图组件。你可以随意把它们放到任何地方。举例来说，你可以创建一个 `App\Http\ViewComposers` 目录：
+让我们在[服务提供者](/docs/{{version}}/providers)内注册我们的视图组件。下面例子将使用 View 辅助函数来获取底层 `Illuminate\Contracts\View\Factory` contract 实现。请注意，Laravel 没有默认的目录来放置视图组件。你可以随意把它们放到任何地方。举例来说，你可以创建一个 `App\Http\ViewComposers` 目录：
 
     <?php
 

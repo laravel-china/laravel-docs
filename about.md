@@ -89,7 +89,7 @@
 
 ### H
 
-- Helper 辅助方法
+- Helper 辅助函数
 - Hash 哈希 (可不翻)
 - Homestead (不翻)
 - Header 标头

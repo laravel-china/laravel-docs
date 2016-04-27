@@ -134,7 +134,7 @@ return [
         'link' => '/docs/{{version}}/hashing'
     ],
     [
-        'text' => '辅助方法',
+        'text' => '辅助函数',
         'link' => '/docs/{{version}}/helpers'
     ],
     [

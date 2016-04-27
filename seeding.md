@@ -49,7 +49,7 @@ Laravel 可以简单的使用 seed 类来给数据库填充测试数据。所有
 <a name="using-model-factories"></a>
 ### 使用模型工厂
 
-手动为每一个 seed 模型一一指定属性是很麻烦的一件事。作为替代方案，你可以使用 [模型工厂](/docs/{{version}}/testing#model-factories) 来帮助你更便捷的生成大量数据库数据。首先，阅读 [模型工厂的文档](/docs/{{version}}/testing#model-factories) 来学习如何定义你的工厂。一旦工厂被定义，就能使用 `factory` 这个辅助方法函数来添加数据到数据库。
+手动为每一个 seed 模型一一指定属性是很麻烦的一件事。作为替代方案，你可以使用 [模型工厂](/docs/{{version}}/testing#model-factories) 来帮助你更便捷的生成大量数据库数据。首先，阅读 [模型工厂的文档](/docs/{{version}}/testing#model-factories) 来学习如何定义你的工厂。一旦工厂被定义，就能使用 `factory` 这个辅助函数函数来添加数据到数据库。
 
 让我们来创建 50 个用户并为每个用户创建一个关联：
 

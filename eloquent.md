@@ -186,7 +186,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
 #### 集合
 
-像是 `all` 以及 `get` 之类的可以取回多个结果的 Eloquent 方法，将会返回一个 `Illuminate\Database\Eloquent\Collection` 实例。`Collection` 类提供 [多种辅助方法](/docs/{{version}}/eloquent-collections#available-methods) 来处理你的 Eloquent 结果。当然，你也可以简单地像数组一样来遍历集合：
+像是 `all` 以及 `get` 之类的可以取回多个结果的 Eloquent 方法，将会返回一个 `Illuminate\Database\Eloquent\Collection` 实例。`Collection` 类提供 [多种辅助函数](/docs/{{version}}/eloquent-collections#available-methods) 来处理你的 Eloquent 结果。当然，你也可以简单地像数组一样来遍历集合：
 
     foreach ($flights as $flight) {
         echo $flight->name;
@@ -405,7 +405,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
         protected $dates = ['deleted_at'];
     }
 
-当然，你也应该添加 `deleted_at` 字段到数据表中。Laravel [结构生成器](/docs/{{version}}/migrations) 包含了一个用来创建此字段的辅助方法：
+当然，你也应该添加 `deleted_at` 字段到数据表中。Laravel [结构生成器](/docs/{{version}}/migrations) 包含了一个用来创建此字段的辅助函数：
 
     Schema::table('flights', function ($table) {
         $table->softDeletes();

@@ -257,7 +257,7 @@ Laravel 的队列服务为不同的队列后端系统提供了一套统一的 AP
 <a name="dispatching-jobs-from-requests"></a>
 ### 从请求中派送任务
 
-Laravel 提供了一些辅助方法以方便你在任务中对应 HTTP 请求的变量。像是在 `DispatchesJobs` 这个 trait 就提供了 `dispatchFrom` 方法，而 Laravel 基础控制器已经默认引入了这个 trait：
+Laravel 提供了一些辅助函数以方便你在任务中对应 HTTP 请求的变量。像是在 `DispatchesJobs` 这个 trait 就提供了 `dispatchFrom` 方法，而 Laravel 基础控制器已经默认引入了这个 trait：
 
     <?php
 

@@ -69,11 +69,11 @@
 
 #### 控制器行为的 URLs
 
-你也可以使用 `route` 辅助方法，生成命名控制器路由的 URL：
+你也可以使用 `route` 辅助函数，生成命名控制器路由的 URL：
 
     $url = route('name');
 
-一旦你指定了控制器路由的名称，则可以很容易地生成能实现该行为的 URL。你也可以使用 `action` 辅助方法生成指向控制器行为的 URL。同样地，我们只需指定基类命名空间 `App\Http\Controllers` 之后的部分控制器类名称就可以了：
+一旦你指定了控制器路由的名称，则可以很容易地生成能实现该行为的 URL。你也可以使用 `action` 辅助函数生成指向控制器行为的 URL。同样地，我们只需指定基类命名空间 `App\Http\Controllers` 之后的部分控制器类名称就可以了：
 
     $url = action('FooController@method');
 

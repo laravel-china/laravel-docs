@@ -159,7 +159,7 @@
 
 接着，让我们填写我们的 `/` 路由。在此路由中，我们想要渲染一个包含添加任务的表单，及目前所有任务清单的 HTML 模版。
 
-在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助方法来返回这些模版的其中一个：
+在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助函数来返回这些模版的其中一个：
 
 	Route::get('/', function () {
 		return view('tasks');

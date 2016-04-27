@@ -19,7 +19,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 在创建时就已考虑到测试的部分。事实上， Laravel 默认就支持用 PHPUnit 来做测试，并为你的应用程序创建好了 `phpunit.xml` 文件。框架还提供了一些便利的辅助方法，让你可以更直观的测试应用程序。
+Laravel 在创建时就已考虑到测试的部分。事实上， Laravel 默认就支持用 PHPUnit 来做测试，并为你的应用程序创建好了 `phpunit.xml` 文件。框架还提供了一些便利的辅助函数，让你可以更直观的测试应用程序。
 
 在 `tests` 目录中有提供一个 `ExampleTest.php` 的示例文件。安装新的 Laravel 应用程序之后，只需在命令行上运行 `phpunit` 就可以进行测试。
 
@@ -162,7 +162,7 @@ Laravel 还提供了几种用于测试表单的方法。通过 `type`、`select`
 <a name="testing-json-apis"></a>
 ### 测试 JSON APIs
 
-Laravel 也提供了几个辅助方法来测试 JSON API 及其响应。举例来说，`get`、`post`、`put`、`patch` 及 `delete` 方法可以用于发出各种 HTTP 动作的请求。你也可以轻松的传入数据或标头到这些方法上。首先，让我们来编写一个测试，将 `POST` 请求发送至 `/user` ，并断言其会返回 JSON 格式的指定数组：
+Laravel 也提供了几个辅助函数来测试 JSON API 及其响应。举例来说，`get`、`post`、`put`、`patch` 及 `delete` 方法可以用于发出各种 HTTP 动作的请求。你也可以轻松的传入数据或标头到这些方法上。首先，让我们来编写一个测试，将 `POST` 请求发送至 `/user` ，并断言其会返回 JSON 格式的指定数组：
 
     <?php
 
@@ -209,7 +209,7 @@ Laravel 也提供了几个辅助方法来测试 JSON API 及其响应。举例�
 <a name="sessions-and-authentication"></a>
 ### Sessions 和认证
 
-Laravel 提供了几个可在测试时使用 Session 的辅助方法。首先，你需要设置 Session 数据至指定的数组中，并使用 `withSession` 方法。在应用程序的测试请求发送之前，可先给数据加载 session：
+Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，你需要设置 Session 数据至指定的数组中，并使用 `withSession` 方法。在应用程序的测试请求发送之前，可先给数据加载 session：
 
     <?php
 
@@ -222,7 +222,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助方法。首先，
         }
     }
 
-当然，一般使用 Session 时都是用于维持用户的状态，如认证用户。`actingAs` 辅助方法提供了简单的方式来让指定的用户认证为当前的用户。举个例子，我们可以使用[模型工厂](#model-factories)来生成并认证用户：
+当然，一般使用 Session 时都是用于维持用户的状态，如认证用户。`actingAs` 辅助函数提供了简单的方式来让指定的用户认证为当前的用户。举个例子，我们可以使用[模型工厂](#model-factories)来生成并认证用户：
 
     <?php
 
@@ -315,7 +315,7 @@ Laravel 为 [PHPUnit](https://phpunit.de/) 测试提供了一些额外的断言�
 <a name="working-with-databases"></a>
 ## 使用数据库
 
-Laravel 也提供了多种有用的工具来让你更容易的测试使用数据库的应用程序。首先，你可以使用 `seeInDatabase` 辅助方法，来断言数据库中是否存在与指定条件互相匹配的数据。举例来说，如果我们想验证 `users` 数据表中是否存在 `email` 值为 `sally@example.com` 的数据，我们可以按照以下的方式来做测试：
+Laravel 也提供了多种有用的工具来让你更容易的测试使用数据库的应用程序。首先，你可以使用 `seeInDatabase` 辅助函数，来断言数据库中是否存在与指定条件互相匹配的数据。举例来说，如果我们想验证 `users` 数据表中是否存在 `email` 值为 `sally@example.com` 的数据，我们可以按照以下的方式来做测试：
 
     public function testDatabase()
     {
@@ -324,7 +324,7 @@ Laravel 也提供了多种有用的工具来让你更容易的测试使用数据
         $this->seeInDatabase('users', ['email' => 'sally@example.com']);
     }
 
-当然，使用 `seeInDatabase` 方法及其它的辅助方法只是为了方便。你也可以随意使用 PHPUnit 内置的所有断言方法来扩充测试。
+当然，使用 `seeInDatabase` 方法及其它的辅助函数只是为了方便。你也可以随意使用 PHPUnit 内置的所有断言方法来扩充测试。
 
 <a name="resetting-the-database-after-each-test"></a>
 ### 每次测试结束后重置数据库
@@ -582,4 +582,4 @@ Laravel 提供了一个简洁的 `expectsJobs` 方法，以验证预期的任务
         }
     }
 
-> **注意：** 你不应该模拟 `Request` facade。应该在测试时使用如 `call` 及 `post` 这样的 HTTP 辅助方法来传递你想要的数据。
+> **注意：** 你不应该模拟 `Request` facade。应该在测试时使用如 `call` 及 `post` 这样的 HTTP 辅助函数来传递你想要的数据。

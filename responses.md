@@ -33,7 +33,7 @@
                       ->header('Content-Type', $value);
     });
 
-为了方便起见，你可以使用辅助方法 `response`：
+为了方便起见，你可以使用辅助函数 `response`：
 
     Route::get('home', function () {
         return response($content, $status)
@@ -56,7 +56,7 @@
 <a name="attaching-cookies-to-responses"></a>
 #### 附加 Cookies 至响应
 
-通过响应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来生成 cookie 并附加至响应实例：
+通过响应实例的 `withCookie` 辅助函数可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来生成 cookie 并附加至响应实例：
 
     return response($content)->header('Content-Type', $type)
                      ->withCookie('name', 'value');
@@ -79,7 +79,7 @@
 <a name="other-response-types"></a>
 ## 其它响应类型
 
-使用辅助方法 `response` 可以轻松的生成其它类型的响应实例。当你调用辅助方法 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来生成响应。
+使用辅助函数 `response` 可以轻松的生成其它类型的响应实例。当你调用辅助函数 `response` 且不带任何参数时，将会返回 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 的实现。此 Contract 提供了一些有用的方法来生成响应。
 
 <a name="view-responses"></a>
 #### 视图响应
@@ -88,7 +88,7 @@
 
     return response()->view('hello', $data)->header('Content-Type', $type);
 
-当然，如果你没有自定义 HTTP 状态码及标头的需求，则可以简单的使用全局的 `view` 辅助方法。
+当然，如果你没有自定义 HTTP 状态码及标头的需求，则可以简单的使用全局的 `view` 辅助函数。
 
 <a name="json-responses"></a>
 #### JSON 响应
@@ -116,13 +116,13 @@
 <a name="redirects"></a>
 ## 重定向
 
-重定向响应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以生成 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助方法：
+重定向响应是类 `Illuminate\Http\RedirectResponse` 的实例，并且包含用户要重定向至另一个 URL 所需的标头。有几种方法可以生成 `RedirectResponse` 的实例。最简单的方式就是通过全局的 `redirect` 辅助函数：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
     });
 
-有时你可能希望将用户重定向至前一个位置，例如当提交一个无效的表单之后。这时可以使用全局的 `back` 辅助方法来达成这个目的：
+有时你可能希望将用户重定向至前一个位置，例如当提交一个无效的表单之后。这时可以使用全局的 `back` 辅助函数来达成这个目的：
 
     Route::post('user/profile', function () {
         // 验证该请求...
@@ -133,7 +133,7 @@
 <a name="redirecting-named-routes"></a>
 #### 重定向至命名路由
 
-当你调用 `redirect` 辅助方法且不带任何参数时，将会返回 `Illuminate\Routing\Redirector` 的实例，你可以对该 `Redirector` 的实例调用任何方法。举个例子，要生成一个 `RedirectResponse` 到一个命名路由，你可以使用 `route` 方法：
+当你调用 `redirect` 辅助函数且不带任何参数时，将会返回 `Illuminate\Routing\Redirector` 的实例，你可以对该 `Redirector` 的实例调用任何方法。举个例子，要生成一个 `RedirectResponse` 到一个命名路由，你可以使用 `route` 方法：
 
     return redirect()->route('login');
 
@@ -207,6 +207,6 @@
         }
     }
 
-`macro` 函数第一个参数为宏名称，第二个参数为闭包函数。宏的闭包函数会在 `ResponseFactory` 的实现或者辅助方法 `response` 调用宏名称的时候被运行：
+`macro` 函数第一个参数为宏名称，第二个参数为闭包函数。宏的闭包函数会在 `ResponseFactory` 的实现或者辅助函数 `response` 调用宏名称的时候被运行：
 
     return response()->caps('foo');

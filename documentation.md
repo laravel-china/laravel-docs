@@ -38,7 +38,7 @@
     - [事件](/docs/{{version}}/events)
     - [文件系统与云存储](/docs/{{version}}/filesystem)
     - [哈希](/docs/{{version}}/hashing)
-    - [辅助方法](/docs/{{version}}/helpers)
+    - [辅助函数](/docs/{{version}}/helpers)
     - [本地化](/docs/{{version}}/localization)
     - [邮件](/docs/{{version}}/mail)
     - [扩展包开发](/docs/{{version}}/packages)

@@ -1,4 +1,4 @@
-# 辅助方法
+# 辅助函数
 
 - [简介](#introduction)
 - [可用方法](#available-methods)
@@ -6,7 +6,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自身框架中使用；如果你觉得实用，也可以在你应用当中使用。
+Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自身框架中使用；如果你觉得实用，也可以在你应用当中使用。
 
 <a name="available-methods"></a>
 ## 可用方法
@@ -711,7 +711,7 @@ Laravel 包含一些多样化的 PHP 辅助方法函数。许多在 Laravel 自�
 
     $value = config('app.timezone', $default);
 
-`config` 辅助方法也可以在运行期间，根据指定的键值对指定设置值：
+`config` 辅助函数也可以在运行期间，根据指定的键值对指定设置值：
 
     config(['app.debug' => true]);
 

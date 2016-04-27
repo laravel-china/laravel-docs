@@ -45,7 +45,7 @@ Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密�
         }
     }
 
-另外，你也可以使用 `bcrypt` 辅助方法：
+另外，你也可以使用 `bcrypt` 辅助函数：
 
     bcrypt('plain-text');
 

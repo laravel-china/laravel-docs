@@ -309,7 +309,7 @@
 <a name="checking-policies"></a>
 ### 检查授权策略
 
-授权策略方法的调用方式和基于授权的回调`闭包`是完全相同的。你可以使用`Gate` facade、`User` 模型、`@can` Blade 命令或是 `policy` 辅助方法。
+授权策略方法的调用方式和基于授权的回调`闭包`是完全相同的。你可以使用`Gate` facade、`User` 模型、`@can` Blade 命令或是 `policy` 辅助函数。
 
 #### 通过 Gate Facade
 
@@ -364,9 +364,9 @@
 		<!-- 目前的用户可以更新文章 -->
 	@endcan
 
-#### 通过授权策略辅助方法
+#### 通过授权策略辅助函数
 
-全局的 `policy` 辅助函数可以被用于为指定的类实例获取 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助方法，获取对应的 `PostPolicy` 类实例：
+全局的 `policy` 辅助函数可以被用于为指定的类实例获取 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助函数，获取对应的 `PostPolicy` 类实例：
 
 	if (policy($post)->update($user, $post)) {
 		//
