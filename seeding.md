@@ -65,7 +65,7 @@ Laravel 可以简单的使用 seed 类来给数据库填充测试数据。所有
         });
     }
 
-> **[Summer](http://github.com/summerblue)：请阅读 [不建议使用「模型工厂」来做假数据填充](https://phphub.org/topics/2066)
+> **[Summer](http://github.com/summerblue)：请阅读 [大批量假数据填充的正确方法](https://phphub.org/topics/2066)
 
 <a name="calling-additional-seeders"></a>
 ### 调用其它的 Seeders
