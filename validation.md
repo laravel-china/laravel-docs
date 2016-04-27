@@ -1,4 +1,4 @@
-# 验证
+# 表单验证
 
 - [简介](#introduction)
 - [验证快速上手](#validation-quickstart)

@@ -178,7 +178,7 @@ return [
         'link' => '/docs/{{version}}/testing'
     ],
     [
-        'text' => '验证',
+        'text' => '表单验证',
         'link' => '/docs/{{version}}/validation'
     ],
     [

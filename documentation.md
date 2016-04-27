@@ -49,7 +49,7 @@
     - [SSH 任务](/docs/{{version}}/envoy)
     - [任务调度](/docs/{{version}}/scheduling)
     - [测试](/docs/{{version}}/testing)
-    - [验证](/docs/{{version}}/validation)
+    - [表单验证](/docs/{{version}}/validation)
 - 数据库
     - [入门](/docs/{{version}}/database)
     - [查询构造器](/docs/{{version}}/queries)
