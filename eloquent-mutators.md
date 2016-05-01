@@ -135,7 +135,19 @@
 <a name="attribute-casting"></a>
 ## 属性类型转换
 
-`$casts` 属性在模型中提供了将属性转换为常见的数据类型的方法。`$casts` 属性应是一个数组，而键是那些需要被转换的属性名称，而值则是代表字段要转换的类型。支持的转换的类型有：`integer`、`real`、`float`、`double`、`string`、`boolean`、`object`、`array`、`collection`、`date` 及 `datetime`。
+`$casts` 属性在模型中提供了将属性转换为常见的数据类型的方法。`$casts` 属性应是一个数组，而键是那些需要被转换的属性名称，而值则是代表字段要转换的类型。支持的转换的类型有：
+
+* integer
+* real
+* float
+* double
+* string
+* boolean
+* object
+* array
+* collection
+* date
+* datetime
 
 例如，`is_admin` 属性以整数（0 或 1）被保存在我们的数据库中，让我们来把它转换为布尔值：
 

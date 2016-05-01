@@ -558,14 +558,27 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 <a name="events"></a>
 ## 事件
 
-Eloquent 模型会触发许多事件，让你可以借助以下的方法在模型的生命周期的多个时间点进行操作：`creating`、`created`、`updating`、`updated`、`saving`、`saved`、`deleting`、`deleted`、`restoring`、`restored`。事件可以让你每当有特定的模型类在数据库中被保存或更新时简单地运行代码。
+Eloquent 模型会触发许多事件，让你可以借助以下的方法在模型的生命周期的多个时间点进行监控：
+
+* creating
+* created
+* updating
+* updated
+* saving
+* saved
+* deleting
+* deleted
+* restoring
+* restored
+
+事件让你每当有特定的模型类发生触发事件时，对这些动作进行监控。
 
 <a name="basic-usage"></a>
 ### 基本用法
 
 当一个新模型被初次保存将会触发 `creating` 以及 `created` 事件。如果一个模型已经存在于数据库且调用了 `save` 方法，将会触发 `updating` 和 `updated` 事件。在这两种情况下都会触发 `saving` 和 `saved` 事件。
 
-让我们在 [服务提供者](/docs/{{version}}/providers) 中定义一个 Eloquent 事件侦听器来作为示例。在我们的事件侦听器中，我们会在指定的模型上调用 `isValid` 方法，并在模型无效时返回 `false`。从 Eloquent 事件侦听器返回 `false` 会取消 `save` 和 `update` 的操作：
+让我们在 [服务提供者](/docs/{{version}}/providers) 中定义一个 Eloquent 事件侦听器来作为示例。在我们的事件侦听器中，我们会在指定的模型上调用 `isValid` 方法，并在模型无效时返回 `false`。从 Eloquent 事件侦听器中返回 `false` 的话会取消 `save` 和 `update` 的操作：
 
     <?php
 
@@ -600,3 +613,5 @@ Eloquent 模型会触发许多事件，让你可以借助以下的方法在模�
             //
         }
     }
+
+
