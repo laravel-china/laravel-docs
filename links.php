@@ -182,7 +182,7 @@ return [
         'link' => '/docs/{{version}}/validation'
     ],
     [
-        'text' => '入门',
+        'text' => '数据库入门',
         'link' => '/docs/{{version}}/database'
     ],
     [
@@ -198,7 +198,7 @@ return [
         'link' => '/docs/{{version}}/seeding'
     ],
     [
-        'text' => '入门',
+        'text' => 'Eloquent 入门',
         'link' => '/docs/{{version}}/eloquent'
     ],
     [

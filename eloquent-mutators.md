@@ -15,7 +15,7 @@
 <a name="accessors-and-mutators"></a>
 ## 访问器和修改器
 
-#### 定义一个访问器
+### 定义一个访问器
 
 若要定义一个访问器，则必须在你的模型上创建一个 `getFooAttribute` 方法。要访问的 `Foo` 字段需使用「驼峰式」来命名。在这个例子中，我们将为 `first_name` 属性定义一个访问器。当 Eloquent 尝试获取 `first_name` 的值时，将会自动调用此访问器：
 
@@ -45,7 +45,7 @@
 
     $firstName = $user->first_name;
 
-#### 定义一个修改器
+### 定义一个修改器
 
 若要定义一个修改器，则必须在模型上定义一个 `setFooAttribute` 方法。要访问的 `Foo` 字段需使用「驼峰式」来命名。让我们再来定义 `first_name` 属性的修改器。当我们尝试在模型上设置 `first_name` 的值时，将会自动调用此修改器：
 
@@ -198,3 +198,5 @@
     $user->options = $options;
 
     $user->save();
+
+

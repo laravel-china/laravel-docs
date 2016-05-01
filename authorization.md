@@ -16,14 +16,14 @@
 <a name="introduction"></a>
 ## 简介
 
-除了内置提供的[用户认证](/docs/{{version}}/authentication)服务外，Laravel 还提供了用户授权和资源访问控制的方案。有很多种方法与辅助函数能帮你处理授权逻辑，在本文档中我们将会涵盖每一种方式。
+除了内置提供的 [用户认证](/docs/{{version}}/authentication) 服务外，Laravel 还提供了用户授权和资源访问控制的方案。有很多种方法与辅助函数能帮你处理授权逻辑，在本文档中我们将会涵盖每一种方式。
 
-> **注意：**授权在 Laravel 5.1.11 被加入，请在集成这些功能前参考[升级导引](/docs/{{version}}/upgrade)。
+> **注意：**授权在 Laravel 5.1.11 被加入，请在集成这些功能前参考 [升级导引](/docs/{{version}}/upgrade)。
 
 <a name="defining-abilities"></a>
 ## 定义权限
 
-判断一个用户是否允许运行特定行为，最简单的方式就是使用 `Illuminate\Auth\Access\Gate` 类定义「权限」。可以在 `AuthServiceProvider` 文件中定义应用程序中的所有权限。举个例子，我们需要定义一个 `update-post` 的权限，需要判断目前的 `User` 及 `Post` [模型](/docs/{{version}}/eloquent) 是否有所属关系，我们会判断用户的 `id` 与文章的 `user_id` 是否相符：
+判断一个用户是否允许运行特定行为，最简单的方式就是使用 `Illuminate\Auth\Access\Gate` 类定义「权限」。可以在 `AuthServiceProvider` 文件中定义应用程序的所有权限。举个例子，我们需要定义一个 `update-post` 的权限，需要判断目前的 `User` 及 `Post` [模型](/docs/{{version}}/eloquent) 是否有所属关系，也就是「文章」是不是「用户」发的，我们会判断用户的 `id` 与文章的 `user_id` 是否一致：
 
 	<?php
 
@@ -50,11 +50,11 @@
 	    }
 	}
 
-注意，我们并不会检查当指定的 `$user` 是不是 `NULL`。未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为其**所有权限**返回 `false`。
+注意，我们并不会检查当指定的 `$user` 是不是 `NULL`。未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为其 **所有权限** 返回 `false`。
 
 #### 基于类的权限
 
-除了注册`闭包`作为授权的回调，你也可以通过传递包含 `类名称` 及 `方法` 的字符串来注册类方法，该类会通过[服务容器](/docs/{{version}}/container)被解析：
+除了注册 `闭包` 作为授权的回调，你也可以通过传递包含 `类名称` 及 `方法` 的字符串来注册类方法，该类会通过 [服务容器](/docs/{{version}}/container) 被解析：
 
     $gate->define('update-post', 'Class@method');
 
@@ -62,7 +62,7 @@
 <a name="intercepting-authorization-checks"></a>
 #### 拦截授权检查
 
-有时你希望赋予所有权限给指定用户，如管理员拥有所有权限，可以使用 `before` 方法来定义所有授权检查前会被运行的回调：
+有时你希望赋予给指定用户赋于最高权限，如管理员拥有所有权限，可以使用 `before` 方法来定义所有授权检查前会被运行的回调：
 
     $gate->before(function ($user, $ability) {
         if ($user->isSuperAdmin()) {
@@ -70,7 +70,7 @@
         }
     });
 
-如果 `before` 的回调返回一个非 null 的结果，则该结果会被作为检查的结果。
+如果 `before` 的回调返回一个非 null 的结果，则该结果会被作为检查的结果，并中断后面的其他验证。
 
 你还可以使用 `after` 方法定义一个当所有授权检查后会被运行的回调。但是，你不应该修改 `after` 回调中授权检查的结果：
 
@@ -84,7 +84,7 @@
 <a name="via-the-gate-facade"></a>
 ### 通过 Gate Facade
 
-一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。你**不**需要传递目前的用户至该方法，因为 `Gate` 会自动加载当前登录的用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
+一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。你 **不** 需要传递当前登录用户至该方法内，因为 `Gate` 会自动加载当前登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
 
     <?php
 
@@ -115,11 +115,11 @@
         }
     }
 
-`allows` 方法只是简单的将 `denies` 方法给颠倒过来，当行为授权成功时候会返回 `true`。`check` 方法则是 `allows` 方法的别名。
+`allows` 方法只是简单的将 `denies` 方法给颠倒过来，当授权成功时候会返回 `true`。`check` 方法则是 `allows` 方法的别名。
 
 #### 检查指定用户的权限
 
-如果你想检查 **除了当前登录用户外的其他用户** 是否有指定的权限，你可以使用 `forUser` 方法来指定：
+如果你想检查 **除了当前登录用户以外的其他用户** 是否拥有指定的权限，你可以使用 `forUser` 方法：
 
 	if (Gate::forUser($user)->allows('update-post', $post)) {
 		//
@@ -142,7 +142,7 @@
 <a name="via-the-user-model"></a>
 ### 通过用户模型
 
-另外，你也可以通过 `User` 模型的实例检查权限。默认情况下，Laravel 的 `App\User` 模型使用了 `Authorizable` trait，它提供了两个方法：`can` 及 `cannot`。这些方法使用起来相似于 `Gate` facade 提供的 `allows` 与 `denies` 方法。所以，使用我们之前的例子，我们可以将代码改成如下：
+另外，你也可以通过 `User` 模型的实例检查权限。默认情况下，Laravel 的 `App\User` 模型使用了 `Authorizable` trait，它提供了两个方法：`can` 及 `cannot`。这些方法使用起来相似于 `Gate` facade 提供的 `allows` 与 `denies` 方法。所以，沿用我们之前的例子，可以将代码改成如下：
 
     <?php
 
@@ -163,13 +163,13 @@
          */
         public function update(Request $request, $id)
         {
-        	$post = Post::findOrFail($id);
+	        $post = Post::findOrFail($id);
 
-        	if ($request->user()->cannot('update-post', $post)) {
-        		abort(403);
-        	}
+  	      	if ($request->user()->cannot('update-post', $post)) {
+  	      		abort(403);
+  	      	}
 
-        	// 更新文章...
+  	      	// 更新文章...
         }
     }
 
@@ -190,12 +190,12 @@
 		<a href="/post/{{ $post->id }}/edit">编辑文章</a>
 	@endcan
 
-你也可以将 `@else` 命令结合 `@can` 命令：
+你也可以将 `@else` 命令配合 `@can` 命令：
 
 	@can('update-post', $post)
-		<!-- 目前的用户可以更新文章 -->
+		<!-- 当前登录用户可以更新文章 -->
 	@else
-		<!-- 目前的用户不可以更新文章 -->
+		<!-- 当前登录用户不可以更新文章 -->
 	@endcan
 
 <a name="within-form-requests"></a>
@@ -223,7 +223,7 @@
 
 在大型应用程序中，把你所有的授权逻辑定义在 `AuthServiceProvider` 中可能成为累赘，你可以切分你的授权逻辑至「授权策略」类。授权策略是简单的 PHP 类，并基于授权的资源将授权逻辑进行分组。
 
-首先，让我们生成一个授权策略来管理 `Post` 模型的授权。你可以通过 `make:policy` [artisan 命令](/docs/{{version}}/artisan)生成一个授权策略。生成的授权策略会被放置于 `app/Policies` 目录中：
+首先，让我们生成一个授权策略来管理 `Post` 模型的授权。你可以通过 `make:policy` [artisan 命令](/docs/{{version}}/artisan) 生成一个授权策略。生成的授权策略会被放置于 `app/Policies` 目录中：
 
 	php artisan make:policy PostPolicy
 
@@ -430,3 +430,5 @@
 
     	// 更新文章...
     }
+
+

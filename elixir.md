@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序中定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，甚至包含了测试工具。使用链式调用，Elixir 让你流畅的定义你的开发流程，例如：
+Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序中定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，甚至包含了测试工具。使用链式调用，Elixir 让你流畅地定义开发流程，例如：
 
 ```javascript
 elixir(function(mix) {
@@ -33,8 +33,6 @@ elixir(function(mix) {
 
 如果你曾经对于上手 Gulp 及编译资源文件感到困惑，那么你将会爱上 Laravel Elixir，不过 Laravel 并不强迫你使用 Elixir，你可以自由的选用你喜欢的自动化开发流程工具。
 
-> TODO: 这里需要增加 Elixir 相关介绍文章链接，尤其说明在生产环境中使用的好处，如合并、压缩 CSS 和 JS 文件等。
-
 <a name="installation"></a>
 ## 安装及配置
 
@@ -44,7 +42,7 @@ elixir(function(mix) {
 
     node -v
 
-默认情况下，Laravel Homestead 会包含你所需的一切；但是，如果你没有使用 Vagrant，那么你可以简单的浏览 [Node 的下载页面](http://nodejs.org/download/)进行安装。
+默认情况下，Laravel Homestead 会包含你所需的一切；但是，如果你没有使用 Vagrant，那么你可以简单的浏览 [Node 的下载页面](http://nodejs.org/download/) 进行安装。
 
 ### Gulp
 
@@ -54,7 +52,7 @@ elixir(function(mix) {
 
 ### Laravel Elixir
 
-最后的步骤就是安装 Elixir！在每一份新安装的 Laravel 代码里，你会发现根目录有个名为 `package.json` 的文件。想像它就如同你的 `composer.json` 文件，只是它定义的是 Node 的依赖扩展包，而不是 PHP 的。你可以使用以下的命令安装依赖扩展包：
+最后的步骤就是安装 Elixir！在每一份新安装的 Laravel 代码里，你会发现根目录有个名为 `package.json` 的文件。想像它就如同你的 `composer.json` 文件，只不过它定义的是 Node 的依赖扩展包，而不是 PHP 的。你可以使用以下的命令安装依赖扩展包：
 
     npm install
 
@@ -75,7 +73,7 @@ Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Eli
 
 #### 监控资源文件修改
 
-因为每次修改你的资源文件之后在命令行运行 `gulp` 命令会相当不便，因此你可以使用 `gulp watch` 命令。此命令会在你的命令行继续运行并监控资源文件的任何修改。当发生修改时，新文件将会自动被编译：
+因为每次修改你的资源文件之后在命令行运行 `gulp` 命令会相当不便，因此你可以使用 `gulp watch` 命令。此命令会在你的命令行运行并监控资源文件的任何修改。当发生修改时，新文件将会自动被编译：
 
     gulp watch
 
@@ -87,7 +85,7 @@ Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Eli
 <a name="less"></a>
 ### Less
 
-要将 [Less](http://lesscss.org/) 编译为 CSS，你可以使用 `less` 方法。`less` 方法会假设你的 Less 文件被保存在 `resources/assets/less` 中。默认情况下，此例子的任务会将编译后的 CSS 放置于 `public/css/app.css`：
+要将 [Less](http://lesscss.org/) 编译为 CSS，你可以使用 `less` 方法。`less` 方法会假设你的 Less 文件被保存在 `resources/assets/less` 文件夹中。默认情况下，此例子的任务会将编译后的 CSS 放置于 `public/css/app.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -106,7 +104,7 @@ elixir(function(mix) {
 });
 ```
 
-如果你想自定义编译后的 CSS 输出位置，你可以传递第二个参数至 `less` 方法：
+如果你想自定义编译后的 CSS 输出位置，可以传递第二个参数至 `less` 方法：
 
 ```javascript
 elixir(function(mix) {
@@ -122,7 +120,7 @@ elixir(function(mix) {
 <a name="sass"></a>
 ### Sass
 
-`sass` 方法让你能编译 [Sass](http://sass-lang.com/) 至 CSS。你的 Sass 文件默认会被保存在 `resources/assets/sass`，你可以像这样使用此方法：
+`sass` 方法让你能编译 [Sass](http://sass-lang.com/) 至 CSS。Sass 文件的默认读取路径是 `resources/assets/sass`，你可以使用此方法：
 
 ```javascript
 elixir(function(mix) {
@@ -144,7 +142,7 @@ elixir(function(mix) {
 <a name="plain-css"></a>
 ### 纯 CSS
 
-如果你只是想将一些纯 CSS 样式合并成单个的文件，你可以使用 `styles` 方法。传递给此方法的路径相对于 `resources/assets/css` 目录，而生成的 CSS 会被放置于 `public/css/all.css`：
+如果你只是想将一些纯 CSS 样式合并成单个的文件，你可以使用 `styles` 方法。此方法的默认路径为 `resources/assets/css` 目录，而生成的 CSS 会被放置于 `public/css/all.css`：
 
 ```javascript
 elixir(function(mix) {
@@ -155,7 +153,7 @@ elixir(function(mix) {
 });
 ```
 
-当然，你也可以通过传递第二个参数至 `styles` 方法，将生成的文件输出至自定的位置：
+当然，你也可以通过传递第二个参数至 `styles` 方法，将生成的文件输出至指定的位置：
 
 ```javascript
 elixir(function(mix) {
@@ -241,7 +239,6 @@ elixir(function(mix) {
 
 若要选择不同的输出位置，只需简单的指定你希望的路径作为第二个参数。该方法除了 Babel 的编译外，特色与功能同等于 `mix.scripts()`。
 
-
 <a name="javascript"></a>
 ### Scripts
 
@@ -303,7 +300,7 @@ elixir(function(mix) {
 });
 ```
 
-在为文件生成版本之后，你可以在你的[视图](/docs/{{version}}/views)中使用 Laravel 的全局 `elixir` PHP 辅助函数来正确加载名称被哈希后的文件。`elixir` 函数会自动判断被哈希的文件名称：
+在为文件生成版本之后，你可以在你的 [视图](/docs/{{version}}/views) 中使用 Laravel 的全局 `elixir` PHP 辅助函数来正确加载名称被哈希后的文件。`elixir` 函数会自动判断被哈希的文件名称：
 
     <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 
@@ -334,7 +331,7 @@ elixir(function(mix) {
 });
 ```
 
-一旦你运行 `gulp watch`，就能使用连接端口 3000 启用浏览器同步并访问你的网页应用程序：`http://homestead.app:3000`。如果你在本机开发所使用的域名不是 `homestead.app`，那么你可以传递一个[选项](http://www.browsersync.io/docs/options/)的数组作为 `browserSync` 方法的第一个参数：
+一旦你运行 `gulp watch`，就能使用连接端口 3000 启用浏览器同步并访问你的网页应用程序：`http://homestead.app:3000`。如果你在本机开发所使用的域名不是 `homestead.app`，那么你可以传递一个 [选项](http://www.browsersync.io/docs/options/) 的数组作为 `browserSync` 方法的第一个参数：
 
 ```javascript
 elixir(function(mix) {
@@ -424,3 +421,5 @@ new Task('speak', function() {
 })
 .watch('./app/**');
 ```
+
+

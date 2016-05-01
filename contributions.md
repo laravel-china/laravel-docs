@@ -53,7 +53,9 @@ Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有�
 <a name="coding-style"></a>
 ## 编码风格
 
-Laravel 遵守 [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 编码规范和 [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 自动加载规范。
+Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](https://phphub.org/topics/2081) 自动加载规范。
+
+> **[Summer](http://github.com/summerblue)：** 扩展阅读 - [所有 PSR 的标准规范](https://psr.phphub.org/)。
 
 ### 注释区块
 
@@ -84,3 +86,5 @@ Laravel 遵守 [PSR-2](https://github.com/php-fig/fig-standards/blob/master/acce
 ```sh
 php-cs-fixer fix
 ```
+
+

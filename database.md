@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 对主流的数据库系统的连接和查询都提供了很好的支持，无论是原始的 SQL，还是[流畅的查询语句构造器](/docs/{{version}}/queries)，或是强大的 [Eloquent ORM](/docs/{{version}}/eloquent)。
+Laravel 对主流数据库系统连接和查询都提供了很好的支持，尤其是：流畅的 [查询语句构造器](/docs/{{version}}/queries) 和强大的 [Eloquent ORM](/docs/{{version}}/eloquent)。
 
 目前，Laravel 支持以下四种数据库系统：
 
@@ -25,12 +25,12 @@ Laravel 对主流的数据库系统的连接和查询都提供了很好的支持
 
 Laravel 应用程序的数据库配置文件放置在 `config/database.php`。在这个配置文件内你可以定义所有的数据库连接，以及指定默认使用哪个连接。在此文件内提供了所有支持的数据库系统示例。
 
-默认情况下，Laravel 的[环境配置](/docs/{{version}}/installation#environment-configuration)示例会使用 [Homestead](/docs/{{version}}/homestead)，对于 Laravel 开发来说这是一个相当便利的本地虚拟机。当然你也可以根据需求来随时修改本机端的数据库设置。
+默认情况下，Laravel 的 [环境配置](/docs/{{version}}/installation#environment-configuration) 示例会使用 [Homestead](/docs/{{version}}/homestead)，对于 Laravel 开发来说这是一个相当便利的本地虚拟机。当然你也可以根据需求来随时修改本机端的数据库设置。
 
 <a name="read-write-connections"></a>
 #### 数据库读写分离
 
-有时候你也许会希望使用一个数据库作为只读数据库，而另一个数据库则负责写入、更新以及删除。Laravel 使这种操作变得更加轻而易举，无论你是使用原始查找、查询语句构造器或是 Eloquent ORM 都可以正常使用。
+有时候你也许会希望使用一个数据库作为只读数据库，而另一个数据库则负责写入、更新以及删除。Laravel 让此类操作变得轻而易举，无论使用原始查找、查询语句构造器或是 Eloquent ORM 都可以适用。
 
 如何设置读取与写入的连接，让我们看下这个例子：
 
@@ -126,7 +126,7 @@ Laravel 应用程序的数据库配置文件放置在 `config/database.php`。�
 <a name="listening-for-query-events"></a>
 ### 监听查找事件
 
-如果你希望能够收到来自于应用程序的每一条 SQL 查找，则可以使用 `listen` 方法。这个方法对于纪录查找跟调试将非常有用。你可以在[服务容器](/docs/{{version}}/providers)中注册你的查找侦听器：
+如果你希望能够监控到程序执行的每一条 SQL 语句，则可以使用 `listen` 方法。这个方法对于纪录查找跟调试将非常有用。你可以在 [服务容器](/docs/{{version}}/providers) 中注册你的查找侦听器：
 
     <?php
 
@@ -185,7 +185,7 @@ Laravel 应用程序的数据库配置文件放置在 `config/database.php`。�
 
     DB::commit();
 
-> **注意：** `DB` facade 的事务方法也可以用来控制[查询语句构造器](/docs/{{version}}/queries)及 [Eloquent ORM](/docs/{{version}}/eloquent) 的事务。
+> **注意：** `DB` facade 的事务方法也可以用来控制 [查询语句构造器](/docs/{{version}}/queries) 及 [Eloquent ORM](/docs/{{version}}/eloquent) 的事务。
 
 <a name="accessing-connections"></a>
 ## 使用多数据库连接
@@ -197,3 +197,5 @@ Laravel 应用程序的数据库配置文件放置在 `config/database.php`。�
 你也可以在连接的实例中使用 `getPdo` 方法访问原始的底层 PDO 实例：
 
     $pdo = DB::connection()->getPdo();
+
+

@@ -7,7 +7,7 @@
 <a name="introduction"></a>
 ## 简介
 
-`Illuminate\Support\Collection` 类提供一个流畅、便利的封装来操控数组数据。举个例子，查看下列的代码。我们将用 `collect` 辅助函数从数组创建一个新的集合实例，对每一个元素运行 `strtoupper` 函数，然后移除所有的空元素：
+`Illuminate\Support\Collection` 类提供一个流畅、便利的封装来操控数组数据。如下面的示例代码，我们用 `collect` 函数从数组中创建新的集合实例，对每一个元素运行 `strtoupper` 函数，然后移除所有的空元素：
 
     $collection = collect(['taylor', 'abigail', null])->map(function ($name) {
         return strtoupper($name);
@@ -16,22 +16,21 @@
         return empty($name);
     });
 
-
-如你所见，`Collection` 类允许你链式调用它的方法以对底层的数组流畅地进行映射与删减。一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
+如你所见，`Collection` 类支持链式调用，一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
 
 <a name="creating-collections"></a>
 ## 创建集合
 
-如上所述，`collect` 辅助函数会用传入的数组返回一个新的 `Illuminate\Support\Collection` 实例。所以要创建一个集合就这么简单：
+如上所述，`collect` 辅助函数会利用传入的数组生成一个新的 `Illuminate\Support\Collection` 实例。所以要创建一个集合就这么简单：
 
     $collection = collect([1, 2, 3]);
 
-默认 [Eloquent](/docs/{{version}}/eloquent) 模型的集合总是以 `Collection` 实例返回；然而，你可以随意的在你应用程序的任何适当场合使用 `Collection` 类。
+默认 [Eloquent](/docs/{{version}}/eloquent) 模型的集合总是以 `Collection` 实例返回；然而，你可以随意的在你应用程序中使用 `Collection` 类。
 
 <a name="available-methods"></a>
 ## 可用的方法
 
-在这份文档剩余的部份，我们将会探讨每一个 `Collection` 类上可用的方法。要记得的是，所有方法都能被链式调用调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
+在这份文档剩余的部份，我们将会探讨 `Collection` 类的所有方法。要记得的是，所有方法都支持链式调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
 
 你可以从这张数据库表中选择任一方法看使用例子：
 
@@ -123,7 +122,7 @@
 <a name="method-all"></a>
 #### `all()` {#collection-method .first-collection-method}
 
-`all` 方法简单地返回该集合所代表的底层数组：
+返回该集合所代表的底层 `数组`：
 
     collect([1, 2, 3])->all();
 
@@ -132,13 +131,13 @@
 <a name="method-avg"></a>
 #### `avg()` {#collection-method}
 
-`avg` 方法返回集合中所有项目的平均值：
+返回集合中所有项目的平均值：
 
     collect([1, 2, 3, 4, 5])->avg();
 
     // 3
 
-如果集合包含了嵌套数组或对象，你可以通过传递键来指定使用哪些值计算平均值：
+如果集合包含了嵌套数组或对象，你可以通过传递「键」来指定使用哪些值计算平均值：
 
     $collection = collect([
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
@@ -152,7 +151,7 @@
 <a name="method-chunk"></a>
 #### `chunk()` {#collection-method}
 
-`chunk` 方法将集合拆成多个指定大小的较小集合：
+将集合拆成多个指定大小的较小集合：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7]);
 
@@ -162,7 +161,7 @@
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-这个方法在有用到网格系统如 [Bootstrap](http://getbootstrap.com/css/#grid) 的[视图](/docs/{{version}}/views)内特别有用。想像你有一个 [Eloquent](/docs/{{version}}/eloquent) 模型的集合要显示在一个网格内：
+这个方法在适用于网格系统如 [Bootstrap](http://getbootstrap.com/css/#grid) 的[视图](/docs/{{version}}/views) 。想像你有一个 [Eloquent](/docs/{{version}}/eloquent) 模型的集合要显示在一个网格内：
 
     @foreach ($products->chunk(3) as $chunk)
         <div class="row">
@@ -175,7 +174,7 @@
 <a name="method-collapse"></a>
 #### `collapse()` {#collection-method}
 
-`collapse` 方法将多个数组组成的集合合成单个数组集合：
+将多个数组组成的集合合成单个数组集合：
 
     $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -188,7 +187,7 @@
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}
 
-`contains` 方法用来判断该集合是否含有指定的项目：
+判断集合是否含有指定项目：
 
     $collection = collect(['name' => 'Desk', 'price' => 100]);
 
@@ -211,7 +210,7 @@
 
     // false
 
-最后，你也可以传入一个回调函数到 `contains` 方法内运行你自己的判断式：
+最后，你也可以传入一个回调函数到 `contains` 方法内运行你自己的判断语句：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -224,7 +223,7 @@
 <a name="method-count"></a>
 #### `count()` {#collection-method}
 
-`count` 方法返回该集合内的项目总数：
+返回该集合内的项目总数：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -235,7 +234,7 @@
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
-`diff` 方法拿该集合与其它集合或纯 PHP `数组`进行比较：
+将集合与其它集合或纯 PHP `数组`进行比较：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -248,13 +247,13 @@
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 
-`each` 方法遍历集合中的项目，并将之传入指定的回调函数：
+遍历集合中的项目，并将之传入回调函数：
 
     $collection = $collection->each(function ($item, $key) {
         //
     });
 
-让你的回调函数返回 `false` 以中断循环：
+回调函数返回 `false` 以中断循环：
 
     $collection = $collection->each(function ($item, $key) {
         if (/* some condition */) {
@@ -265,7 +264,7 @@
 <a name="method-every"></a>
 #### `every()` {#collection-method}
 
-`every` 方法会创建一个包含每 **第 n 个** 元素的新集合：
+创建一个包含每 **第 n 个** 元素的新集合：
 
     $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
 
@@ -282,7 +281,7 @@
 <a name="method-except"></a>
 #### `except()` {#collection-method}
 
-`except` 方法返回集合中排除指定键的所有项目：
+返回集合中除了指定键的所有项目：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
 
@@ -297,7 +296,7 @@
 <a name="method-filter"></a>
 #### `filter()` {#collection-method}
 
-`filter` 方法以指定的回调函数筛选集合，只留下那些通过判断测试的项目：
+使用回调函数筛选集合，只留下那些通过判断测试的项目：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -314,7 +313,7 @@
 <a name="method-first"></a>
 #### `first()` {#collection-method}
 
-`first` 方法返回集合中，第一个通过指定测试的元素：
+返回集合第一个通过指定测试的元素：
 
     collect([1, 2, 3, 4])->first(function ($key, $value) {
         return $value > 2;
@@ -331,7 +330,7 @@
 <a name="method-flatten"></a>
 #### `flatten()` {#collection-method}
 
-`flatten` 方法将多维集合转为一维集合：
+将多维集合转为一维集合：
 
     $collection = collect(['name' => 'taylor', 'languages' => ['php', 'javascript']]);
 
@@ -344,7 +343,7 @@
 <a name="method-flip"></a>
 #### `flip()` {#collection-method}
 
-`flip` 方法将集合中的键和对应的数值进行互换：
+将集合中的键和对应的数值进行互换：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -357,7 +356,7 @@
 <a name="method-forget"></a>
 #### `forget()` {#collection-method}
 
-`forget` 方法通过集合的键来移除掉集合中的一个项目：
+通过集合的键来移除掉集合中的一个项目：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -372,7 +371,7 @@
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
 
-`forPage` 方法返回含有可以用来在指定页码显示项目的新集合：
+返回可用来在指定页码显示项目的新集合：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -382,12 +381,12 @@
 
     // [4, 5, 6]
 
-这个方法需要页码和每个页面要显示的项目数目。
+这个方法需要「页码」和「每页显示数量」。
 
 <a name="method-get"></a>
 #### `get()` {#collection-method}
 
-`get` 方法返回指定键的项目。如果该键不存在，则返回 `null`：
+返回指定键的项目。如果该键不存在，则返回 `null`：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -414,7 +413,7 @@
 <a name="method-groupby"></a>
 #### `groupBy()` {#collection-method}
 
-`groupBy` 方法根据指定的键替集合内的项目分组：
+根据指定的「键」为集合内的项目分组：
 
     $collection = collect([
         ['account_id' => 'account-x10', 'product' => 'Chair'],
@@ -438,7 +437,7 @@
         ]
     */
 
-除了传入字符串的`键`之外，你也可以传入回调函数。该函数应该返回你希望用来分组的键的值。
+除了传入字符串的「键」之外，你也可以传入回调函数。该函数应该返回你希望用来分组的键的值。
 
     $grouped = $collection->groupBy(function ($item, $key) {
         return substr($item['account_id'], -3);
@@ -461,7 +460,7 @@
 <a name="method-has"></a>
 #### `has()` {#collection-method}
 
-`has` 方法用来确认集合中是否含有指定的键：
+检查集合中是否含有指定的「键」：
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk']);
 
@@ -472,9 +471,9 @@
 <a name="method-implode"></a>
 #### `implode()` {#collection-method}
 
-`implode` 方法连接集合中的项目。它的参数依集合中的项目类型而定。
+`implode` 方法合并集合中的项目。它的参数依集合中的项目类型而定。
 
-假如集合含有数组或对象，你应该传入你希望连接的属性的键，以及你希望放在数值之间的「黏着」字符串：
+假如集合含有数组或对象，你应该传入你希望连接的属性的「键」，以及你希望放在数值之间的拼接字符串：
 
     $collection = collect([
         ['account_id' => 1, 'product' => 'Desk'],
@@ -485,7 +484,7 @@
 
     // Desk, Chair
 
-假如集合只含有简单的字符串或数字，则只需要传入黏着的字符串作为该方法的唯一参数即可：
+假如集合只含有简单的字符串或数字，则只需要传入拼接的字符串作为该方法的唯一参数即可：
 
     collect([1, 2, 3, 4, 5])->implode('-');
 
@@ -494,7 +493,7 @@
 <a name="method-intersect"></a>
 #### `intersect()` {#collection-method}
 
-`intersect` 方法移除任何指定`数组`或集合内所没有的数值：
+移除任何指定 `数组` 或集合内所没有的数值：
 
     $collection = collect(['Desk', 'Sofa', 'Chair']);
 
@@ -504,12 +503,12 @@
 
     // [0 => 'Desk', 2 => 'Chair']
 
-如你所见，最后出来的集合将会保留原始集合的键。
+相当于去「交集」。
 
 <a name="method-isempty"></a>
 #### `isEmpty()` {#collection-method}
 
-假如集合是空的，`isEmpty` 方法会返回 `true`：否则返回 `false`：
+如果集合是空的，`isEmpty` 方法会返回 `true`：否则返回 `false`：
 
     collect([])->isEmpty();
 
@@ -557,7 +556,7 @@
 <a name="method-keys"></a>
 #### `keys()` {#collection-method}
 
-`keys` 方法返回该集合所有的键：
+返回该集合所有的键：
 
     $collection = collect([
         'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -573,7 +572,7 @@
 <a name="method-last"></a>
 #### `last()` {#collection-method}
 
-`last` 方法返回集合中，最后一个通过指定测试的元素：
+返回集合中，最后一个通过指定测试的元素：
 
     collect([1, 2, 3, 4])->last(function ($key, $value) {
         return $value < 3;
@@ -590,7 +589,7 @@
 <a name="method-map"></a>
 #### `map()` {#collection-method}
 
-`map` 方法遍历整个集合并将每一个数值传入指定的回调函数。回调函数可以任意修改并返回项目，于是形成修改过的项目组成的新集合：
+遍历整个集合并将每一个数值传入回调函数。回调函数可以任意修改并返回项目，形成修改过的项目组成的新集合：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -607,7 +606,7 @@
 <a name="method-max"></a>
 #### `max()` {#collection-method}
 
-`max` 方法会传指定键的最大值：
+计算指定键的最大值：
 
     $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
 
@@ -620,7 +619,7 @@
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-`merge` 方法将指定的数组合并进集合。数组字符串键与集合字符串键相同的将会覆盖掉集合的数值：
+合并数组进集合。数组「键」对应的数值会覆盖集合「键」对应的数值：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -630,7 +629,7 @@
 
     // ['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]
 
-如果指定数组的键为数字，则数值将会附加在集合的后面：
+如果指定数组的「键」为数字，则「值」将会合并到集合的后面：
 
     $collection = collect(['Desk', 'Chair']);
 
@@ -643,7 +642,7 @@
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
-`min` 方法会传指定键的最小值：
+计算指定「键」的最小值：
 
     $min = collect([['foo' => 10], ['foo' => 20]])->min('foo');
 
@@ -656,7 +655,7 @@
 <a name="method-only"></a>
 #### `only()` {#collection-method}
 
-`only` 方法返回集合中指定键的所有项目：
+返回集合中指定键的所有项目：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
 
@@ -671,7 +670,7 @@
 <a name="method-pluck"></a>
 #### `pluck()` {#collection-method}
 
-`pluck` 方法获取所有集合中指定键的值：
+获取所有集合中指定「键」对应的值：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -695,7 +694,7 @@
 <a name="method-pop"></a>
 #### `pop()` {#collection-method}
 
-`pop` 方法移除并返回集合最后一个项目：
+移除并返回集合最后一个项目：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -710,7 +709,7 @@
 <a name="method-prepend"></a>
 #### `prepend()` {#collection-method}
 
-`prepend` 方法在集合前面增加一个项目：
+在集合前面增加一个项目：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -733,7 +732,7 @@
 <a name="method-pull"></a>
 #### `pull()` {#collection-method}
 
-`pull` 方法以键从集合中移除并返回一个项目：
+把「键」对应的值从集合中移除并返回：
 
     $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
 
@@ -748,7 +747,7 @@
 <a name="method-push"></a>
 #### `push()` {#collection-method}
 
-`push` 方法附加一个项目到集合后面：
+在集合的后面新添加一个元素：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -761,7 +760,7 @@
 <a name="method-put"></a>
 #### `put()` {#collection-method}
 
-`put` 在集合内设置一个指定键和数值：
+在集合内设置一个「键/值」：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -920,7 +919,7 @@
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
 
-`sort` 方法对集合排序：
+对集合排序：
 
     $collection = collect([5, 3, 1, 2, 4]);
 
@@ -939,7 +938,7 @@
 <a name="method-sortby"></a>
 #### `sortBy()` {#collection-method}
 
-`sortBy` 方法以指定的键排序集合：
+以指定的键排序集合：
 
     $collection = collect([
         ['name' => 'Desk', 'price' => 200],
@@ -986,12 +985,12 @@
 <a name="method-sortbydesc"></a>
 #### `sortByDesc()` {#collection-method}
 
-这个方法与 [`sortBy`](#method-sortby) 有着一样的形式，但是会以相反的顺序来排序集合：
+与 [`sortBy`](#method-sortby) 有着一样的形式，但是会以相反的顺序来排序集合：
 
 <a name="method-splice"></a>
 #### `splice()` {#collection-method}
 
-`splice` 方法移除并返回从指定的索引开始的一小切片项目：
+返回从指定的索引开始的一小切片项目，原本集合也会被切除：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1036,13 +1035,13 @@
 <a name="method-sum"></a>
 #### `sum()` {#collection-method}
 
-`sum` 方法返回集合内所有项目的总和：
+返回集合内所有项目的总和：
 
     collect([1, 2, 3, 4, 5])->sum();
 
     // 15
 
-如果集合包含数组或对象，你应该传入一个键来确认要用哪些数值来计算总合：
+如果集合包含数组或对象，你应该传入一个「键」来指定要用哪些数值来计算总合：
 
     $collection = collect([
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
@@ -1070,7 +1069,7 @@
 <a name="method-take"></a>
 #### `take()` {#collection-method}
 
-`take` 方法返回有着指定数量项目的集合：
+返回有着指定数量项目的集合：
 
     $collection = collect([0, 1, 2, 3, 4, 5]);
 
@@ -1093,7 +1092,7 @@
 <a name="method-toarray"></a>
 #### `toArray()` {#collection-method}
 
-`toArray` 方法将集合转换成纯 PHP `数组`。假如集合的数值是 [Eloquent](/docs/{{version}}/eloquent) 模型，也会被转换成数组：
+将集合转换成纯 PHP `数组`。假如集合的数值是 [Eloquent](/docs/{{version}}/eloquent) 模型，也会被转换成数组：
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -1110,7 +1109,7 @@
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}
 
-`toJson` 方法将集合转换成 JSON：
+将集合转换成 JSON：
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -1121,7 +1120,7 @@
 <a name="method-transform"></a>
 #### `transform()` {#collection-method}
 
-`transform` 方法遍历集合并对集合内每一个项目调用指定的回调函数。集合的项目将会被回调函数返回的数值取代掉：
+遍历集合并对集合内每一个项目调用指定的回调函数。集合的项目将会被回调函数返回的数值取代掉：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1191,7 +1190,7 @@
 <a name="method-values"></a>
 #### `values()` {#collection-method}
 
-`values` 方法返回键重设为连续整数的的新集合：
+返回「键」重新被设为「连续整数」的新集合：
 
     $collection = collect([
         10 => ['product' => 'Desk', 'price' => 200],
@@ -1211,7 +1210,7 @@
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 
-`where` 方法以一对指定的键／数值筛选集合：
+以一对指定的「键／数值」筛选集合：
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1231,7 +1230,7 @@
     ]
     */
 
-`where` 方法以严格比对检查数值。使用 [`whereLoose`](#where-loose) 方法以宽松比对进行筛选。
+以严格比对检查数值。使用 [`whereLoose`](#where-loose) 方法以宽松比对进行筛选。
 
 <a name="method-whereloose"></a>
 #### `whereLoose()` {#collection-method}
@@ -1250,3 +1249,5 @@
     $zipped->all();
 
     // [['Chair', 100], ['Desk', 200]]
+
+

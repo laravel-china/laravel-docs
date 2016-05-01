@@ -4,16 +4,17 @@
 
 此文档目前由 [EST 团队](http://estgroupe.com) 的 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到[他们](https://phphub.org/users/1)。
 
-此文档起初作为团队内部使用为目的，所以会有很多标注，以及「偏见」。
+此文档起初作为 [团队](http://estgroupe.com) 内部使用为目的，所以会有很多标注、「偏见」和「喜好」。
 
 ## 翻译规范
 
-请参考 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 与以下规范：
+遵守 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 与以下规范：
 
 * 英文的左右保持一个空白，才不会跟中文黏在一起，不易阅读。
 * 请使用全角标点符号。
 * 请阅读 Markup 语法，请勿让语法错乱。
 * 原文中的双引号（" "）请代换成中文的引号（「」符号怎么打出来见 [这里](http://zhihu.com/question/19755746/answer/27233392)）。
+* 「`加亮`」和「**加粗**」和「[链接]()」都需要在左右保持一个空格。
 
 ## 翻译对照列表
 
@@ -193,3 +194,5 @@
 - Workbench (开源项目名称，不翻)
 - Webhooks (不翻)
 - Word Factor 加密系数
+
+
