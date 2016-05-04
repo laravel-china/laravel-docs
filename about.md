@@ -6,6 +6,8 @@
 
 此文档起初作为 [团队](http://estgroupe.com) 内部使用为目的，所以会有很多标注、「偏见」和「喜好」。
 
+关于此文档的讨论，请前往这个帖子：[Laravel 5.1 LTS 中文文档翻译完成「精校版」](https://phphub.org/topics/2095)。
+
 ## 翻译规范
 
 遵守 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 与以下规范：
