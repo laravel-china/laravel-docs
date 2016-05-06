@@ -24,7 +24,7 @@ Session `driver` 定义数据将由什么样的方式进行存储。Laravel 附�
 - `array` - 将 sessions 保存在简单的 PHP 数组中，并只存在于本次请求。
 </div>
 
-> **注意：**数组驱动一般应在[测试](/docs/{{version}}/testing)环境下使用，以防止 session 数据持续存在。
+> **注意：**数组驱动一般应在 [测试](/docs/{{version}}/testing) 环境下使用，以防止 session 数据持续存在。
 
 ### 驱动介绍
 
@@ -61,7 +61,7 @@ Laravel 框架在内部使用了 `flash` 作为 session 的键，所以应该避
 
 #### 访问 Session
 
-我们可在控制器方法内通过对 HTTP 请求使用类型提示访问 session 实例。请记住，控制器方法的依赖是通过 Laravel 的[服务容器](/docs/{{version}}/container)注入的：
+我们可在控制器方法内通过对 HTTP 请求使用类型提示访问 session 实例。请记住，控制器方法的依赖是通过 Laravel 的 [服务容器](/docs/{{version}}/container) 注入的：
 
     <?php
 
@@ -165,7 +165,7 @@ Laravel 框架在内部使用了 `flash` 作为 session 的键，所以应该避
 <a name="adding-custom-session-drivers"></a>
 ## 加入自定义的 Session 驱动
 
-若要加入额外驱动至 Laravel 的 session 中，则可以使用 `Session` [facade](/docs/{{version}}/session) 的 `extend` 方法。在[服务提供者](/docs/{{version}}/providers) 的 `boot` 方法内调用 `extend` 方法：
+若要加入额外驱动至 Laravel 的 session 中，则可以使用 `Session` [facade](/docs/{{version}}/session) 的 `extend` 方法。在 [服务提供者](/docs/{{version}}/providers) 的 `boot` 方法内调用 `extend` 方法：
 
     <?php
 
@@ -220,6 +220,7 @@ Laravel 框架在内部使用了 `flash` 作为 session 的键，所以应该避
 这些方法就像缓存的 `StoreInterface` 一样不是那么容易理解。让我们来快速了解每个方法的作用：
 
 <div class="content-list" markdown="1">
+
 - `open` 方法通常用在基于文件的 session 存储系统中。像 Larvel 就附带了一个 `file` 的驱动，所以你不用把任何东西放到这个方法内。你可以把这方法看做是空的也没关系。主要是因为其接口设计不佳（我们将在后面讨论），所以 PHP 要求必需要有这个方法的实现。
 - `close` 方法跟 `open` 方法很相似，通常也被忽略了。对大多数的驱动而言，此方法并不是需要的。
 - `read` 方法必须根据给予的 `$sessionId` 返回关联的 session 数据的字符串版本。这在驱动中并不需要做任何的编码跟序列化动作，在 Laravel 内已经会自动运行。
@@ -229,3 +230,5 @@ Laravel 框架在内部使用了 `flash` 作为 session 的键，所以应该避
 </div>
 
 一旦 session 驱动被注册，则必须在 `config/session.php` 的配置文件内使用 `mongo` 驱动。
+
+

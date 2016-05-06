@@ -32,7 +32,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
     "laravel/cashier": "~4.0" (For Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~3.0" (For Stripe APIs up to and including 2015-02-16 version)
 
-> **[Summer](http://github.com/summerblue)：** 请使用 require 来安装扩展包，讨论请见 [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
+> **[Summer](http://github.com/summerblue)：**请使用 require 来安装扩展包，讨论请见 [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
 
 #### 服务提供者
 
@@ -97,7 +97,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
         'email' => $email, 'description' => '我们的第一个客户'
     ]);
 
-想知道更多 Stripe 支持的额外字段，请查看 Stripe 的[创建顾客文档](https://stripe.com/docs/api#create_customer)。
+想知道更多 Stripe 支持的额外字段，请查看 Stripe 的 [创建顾客文档](https://stripe.com/docs/api#create_customer)。
 
 #### 优惠券
 
@@ -116,7 +116,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
         //
     }
 
-`subscribed` 方法很适合用在[路由中间件](/docs/{{version}}/middleware)，让你可以通过用户的订购状态，过滤访问路由及控制器：
+`subscribed` 方法很适合用在 [路由中间件](/docs/{{version}}/middleware)，让你可以通过用户的订购状态，过滤访问路由及控制器：
 
     public function handle($request, Closure $next)
     {
@@ -328,3 +328,5 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
             'product' => '你的产品',
         ]);
     });
+
+

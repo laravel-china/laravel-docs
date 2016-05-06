@@ -30,7 +30,7 @@
 
     composer global update
 
-> **[Summer](http://github.com/summerblue)：** 注意上面的命令是更新所有的 composer 全局安装过的包。    
+> **[Summer](http://github.com/summerblue)：**注意上面的命令是更新所有的 composer 全局安装过的包。    
 
 <a name="writing-tasks"></a>
 ## 编写任务
@@ -172,7 +172,7 @@
 <a name="slack"></a>
 ### Slack
 
-除了 HipChat 之外，Envoy 也支持发送通知至[Slack](https://slack.com)。`@slack` 命令接收 Slack hook 网址、频道名称、及你想发送至频道的消息：
+除了 HipChat 之外，Envoy 也支持发送通知至 [Slack](https://slack.com)。`@slack` 命令接收 Slack hook 网址、频道名称、及你想发送至频道的消息：
 
     @after
         @slack('hook', 'channel', 'message')
@@ -186,3 +186,5 @@
 
 - 如果要发送通知至一个频道：`#channel`
 - 如果要发送通知给一位用户：`@user`
+
+

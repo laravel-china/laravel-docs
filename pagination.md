@@ -19,7 +19,7 @@
 <a name="paginating-query-builder-results"></a>
 ### 对查询语句构造器进行分页
 
-有几种方法可以对项目进行分页。最简单的是使用 `paginate` 方法。在使用[查询语句构造器](/docs/{{version}}/queries)或是 [Eloquent 查找](/docs/{{version}}/eloquent)时。由 Laravel 提供的 `paginate` 方法能够自动判定当前页面正确的数量限制和偏移数。默认状况下，当前页数由 HTTP 请求所带的 `?page` 参数来决定。当然，该值由 Laravel 自动检测，并自动插入由分页器生成的链接。
+有几种方法可以对项目进行分页。最简单的是使用 `paginate` 方法。在使用 [查询语句构造器](/docs/{{version}}/queries) 或是 [Eloquent 查找](/docs/{{version}}/eloquent) 时。由 Laravel 提供的 `paginate` 方法能够自动判定当前页面正确的数量限制和偏移数。默认状况下，当前页数由 HTTP 请求所带的 `?page` 参数来决定。当然，该值由 Laravel 自动检测，并自动插入由分页器生成的链接。
 
 首先，让我们来看看如何在数据库查找时使用 `paginate` 方法。在这个例子中，传递给 `paginate` 唯一的参数是你想在「每页」显示的数据数。我们在此指定每页显示 `15` 条数据：
 
@@ -167,3 +167,5 @@ Laravel 的分页类实现了 `Illuminate\Contracts\Support\JsonableInterface` �
             }
        ]
     }
+
+

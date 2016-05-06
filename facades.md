@@ -7,7 +7,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Facades 为应用程序的[服务容器](/docs/{{version}}/container)中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，提供了一个简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和弹性。
+Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，提供了一个简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和弹性。
 
 <a name="using-facades"></a>
 ## 使用 Facades
@@ -55,12 +55,12 @@ facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAcces
         protected static function getFacadeAccessor() { return 'cache'; }
     }
 
-相反的，`Cache` facade 继承了基底 `Facade` 类以及定义了 `getFacadeAccessor()` 方法。记住，这个方法的工作是返回服务容器绑定的名称。当用户在 `Cache` facade 上参考任何的静态方法，Laravel 会从[服务容器](/docs/{{version}}/container)解析被绑定的 `cache` 以及针对对象运行请求的方法（在这个例子中是 `get`）。
+相反的，`Cache` facade 继承了基底 `Facade` 类以及定义了 `getFacadeAccessor()` 方法。记住，这个方法的工作是返回服务容器绑定的名称。当用户在 `Cache` facade 上参考任何的静态方法，Laravel 会从 [服务容器](/docs/{{version}}/container) 解析被绑定的 `cache` 以及针对对象运行请求的方法（在这个例子中是 `get`）。
 
 <a name="facade-class-reference"></a>
 ## Facade 类参考
 
-在下方你可以找到每个 facade 及其底层的类。这个工具对于通过指定 facade 的来源快速寻找 API 文档相当有用。可应用的[服务容器绑定](/docs/{{version}}/container)关键字也包含在里面。
+在下方你可以找到每个 facade 及其底层的类。这个工具对于通过指定 facade 的来源快速寻找 API 文档相当有用。可应用的 [服务容器绑定](/docs/{{version}}/container) 关键字也包含在里面。
 
 Facade  |  Class  |  Service Container Binding
 ------------- | ------------- | -------------
@@ -102,3 +102,5 @@ Validator  |  [Illuminate\Validation\Factory](http://laravel-china.org/api/{{ver
 Validator (Instance)  |  [Illuminate\Validation\Validator](http://laravel-china.org/api/{{version}}/Illuminate/Validation/Validator.html) |
 View  |  [Illuminate\View\Factory](http://laravel-china.org/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
 View (Instance)  |  [Illuminate\View\View](http://laravel-china.org/api/{{version}}/Illuminate/View/View.html)  |
+
+

@@ -193,7 +193,7 @@ Windows:
 <a name="configuring-cron-schedules"></a>
 ### 配置 Cron 调度器
 
-Laravel 提供了便利的方式来[调度 Cron 任务](/docs/{{version}}/scheduling)，通过 `schedule:run` Artisan 命令，调度便会在每分钟被运行。`schedule:run` 命令会检查定义在你 `App\Console\Kernel` 类中调度的任务，判断哪个任务该被运行。
+Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/scheduling)，通过 `schedule:run` Artisan 命令，调度便会在每分钟被运行。`schedule:run` 命令会检查定义在你 `App\Console\Kernel` 类中调度的任务，判断哪个任务该被运行。
 
 如果你想为 Homestead 网站使用 `schedule:run` 命令，你可以在定义网站时将 `schedule` 选项设置为 `true`：
 

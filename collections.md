@@ -161,7 +161,7 @@
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-这个方法在适用于网格系统如 [Bootstrap](http://getbootstrap.com/css/#grid) 的[视图](/docs/{{version}}/views) 。想像你有一个 [Eloquent](/docs/{{version}}/eloquent) 模型的集合要显示在一个网格内：
+这个方法在适用于网格系统如 [Bootstrap](http://getbootstrap.com/css/#grid) 的 [视图](/docs/{{version}}/views) 。想像你有一个 [Eloquent](/docs/{{version}}/eloquent) 模型的集合要显示在一个网格内：
 
     @foreach ($products->chunk(3) as $chunk)
         <div class="row">
@@ -366,7 +366,7 @@
 
     // [framework' => 'laravel']
 
-> **注意：** 与大多数其它集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改调用它的集合。
+> **注意：**与大多数其它集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改调用它的集合。
 
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
@@ -601,7 +601,7 @@
 
     // [2, 4, 6, 8, 10]
 
-> **注意：** 正如集合大多数其它的方法一样，`map` 返回一个新集合实例；它并没有修改被调用的集合。假如你想改变原始的集合，得使用 [`transform`](#method-transform) 方法。
+> **注意：**正如集合大多数其它的方法一样，`map` 返回一个新集合实例；它并没有修改被调用的集合。假如你想改变原始的集合，得使用 [`transform`](#method-transform) 方法。
 
 <a name="method-max"></a>
 #### `max()` {#collection-method}
@@ -1104,7 +1104,7 @@
         ]
     */
 
-> **注意：** `toArray` 也会转换所有内嵌的对象为数组。假如你希望获取原本的底层数组，改用 [`all`](#method-all) 方法。
+> **注意：**`toArray` 也会转换所有内嵌的对象为数组。假如你希望获取原本的底层数组，改用 [`all`](#method-all) 方法。
 
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}
@@ -1132,7 +1132,7 @@
 
     // [2, 4, 6, 8, 10]
 
-> **注意：** 与大多数其它集合的方法不同，`transform` 会修改集合本身。如果你希望创建新集合，就改用 [`map`](#method-map) 方法。
+> **注意：**与大多数其它集合的方法不同，`transform` 会修改集合本身。如果你希望创建新集合，就改用 [`map`](#method-map) 方法。
 
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}

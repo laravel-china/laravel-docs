@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-[Redis](http://redis.io) 是一款开源且先进的键值对存储库。由于它可用的键包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets)和[有序集合](http://redis.io/topics/data-types#sorted-sets)，因此常被称作数据结构服务器。在使用 Redis 之前，你必须通过 Composer 安装 `predis/predis` 扩展包（~1.0）。
+[Redis](http://redis.io) 是一款开源且先进的键值对存储库。由于它可用的键包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets) 和 [有序集合](http://redis.io/topics/data-types#sorted-sets)，因此常被称作数据结构服务器。在使用 Redis 之前，你必须通过 Composer 安装 `predis/predis` 扩展包（~1.0）。
 
 > **[Summer](http://github.com/summerblue)：** 实用此命令安装：`composer require "predis/predis:~1.0"`
 
@@ -103,7 +103,7 @@
 
 Laravel 也对 Redis 的 `publish` 及 `subscribe` 提供了方便的接口。这些 Redis 命令让你可以监听指定「频道」的消息。你可以从另一个应用程序发布消息至频道，甚至使用另一种编程语言，让应用程序或进程之间容易沟通。
 
-首先，让我们通过 `Redis` 来使用 `subscribe` 方法在一个频道设置侦听器。我们会将方法调用放置于一个 [Artisan 命令](/docs/{{version}}/artisan)中，因为调用 `subscribe` 方法会启动一个长时间运行的进程：
+首先，让我们通过 `Redis` 来使用 `subscribe` 方法在一个频道设置侦听器。我们会将方法调用放置于一个 [Artisan 命令](/docs/{{version}}/artisan) 中，因为调用 `subscribe` 方法会启动一个长时间运行的进程：
 
     <?php
 
@@ -160,3 +160,5 @@ Laravel 也对 Redis 的 `publish` 及 `subscribe` 提供了方便的接口。�
     Redis::psubscribe(['users.*'], function($message, $channel) {
         echo $message;
     });
+
+

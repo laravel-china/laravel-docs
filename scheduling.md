@@ -142,7 +142,7 @@ Laravel 调度器为任务调度输出提供多种便捷方法。首先，通过
              ->daily()
              ->appendOutputTo($filePath);
 
-通过 `emailOutputTo` 方法，你可以发送输出到你所指定的电子邮件上。注意，你必须先通过 `sendOutputTo` 方法将其输出到一个文件。同时，在邮件发出之前，你需要先设置 Laravel 的[电子邮件服务](/docs/{{version}}/mail)：
+通过 `emailOutputTo` 方法，你可以发送输出到你所指定的电子邮件上。注意，你必须先通过 `sendOutputTo` 方法将其输出到一个文件。同时，在邮件发出之前，你需要先设置 Laravel 的 [电子邮件服务](/docs/{{version}}/mail)：
 
     $schedule->command('foo')
              ->daily()
@@ -177,3 +177,5 @@ Laravel 调度器为任务调度输出提供多种便捷方法。首先，通过
 使用 `pingBefore($url)` 或 `thenPing($url)` 功能需要 Guzzle HTTP 函数库的支持。可在 `composer.json` 文件中加入以下代码来安装 Guzzle：
 
     "guzzlehttp/guzzle": "~5.3|~6.0"
+
+

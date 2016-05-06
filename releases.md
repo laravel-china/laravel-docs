@@ -20,14 +20,14 @@ Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复�
 <a name="laravel-5.1.11"></a>
 ## Laravel 5.1.11
 
-Laravel 5.1.11 推出了内置的[授权](/docs/{{version}}/authorization)支持！通过回调或授权策略类方便的组织你应用程序的授权逻辑，使用简单明了的方法对行为进行授权。
+Laravel 5.1.11 推出了内置的 [授权](/docs/{{version}}/authorization) 支持！通过回调或授权策略类方便的组织你应用程序的授权逻辑，使用简单明了的方法对行为进行授权。
 
-更多的信息请参考[授权的文档](/docs/{{version}}/authorization)。
+更多的信息请参考 [授权的文档](/docs/{{version}}/authorization)。
 
 <a name="laravel-5.1.4"></a>
 ## Laravel 5.1.4
 
-Laravel 5.1.4 为框架推出了简单的登录限制。查阅 [认证的文档](/docs/{{version}}/authentication#authentication-throttling)以获取更多信息。
+Laravel 5.1.4 为框架推出了简单的登录限制。查阅 [认证的文档](/docs/{{version}}/authentication#authentication-throttling) 以获取更多信息。
 
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
@@ -56,7 +56,7 @@ Laravel 文档的每一页已被精心审阅，并得到显著的改善。所有
 
 为了协助你创建这些类型的应用程序，Laravel 让你经由 WebSocket 连接来「广播」你的事件，广播事件让你能够在服务器端代码和客户端 JavaScript 框架间分享相同的事件名称。
 
-了解更多关于事件广播，请查阅[事件的文档](/docs/{{version}}/events#broadcasting-events)。
+了解更多关于事件广播，请查阅 [事件的文档](/docs/{{version}}/events#broadcasting-events)。
 
 ### 中间件参数
 
@@ -95,7 +95,7 @@ Laravel 文档的每一页已被精心审阅，并得到显著的改善。所有
         //
     }]);
 
-关于中间件的更多信息，请查阅[中间件的文档](/docs/{{version}}/middleware)。
+关于中间件的更多信息，请查阅 [中间件的文档](/docs/{{version}}/middleware)。
 
 ### 测试改进
 
@@ -110,11 +110,11 @@ Laravel 内置的测试功能已得到显著的改善。各种新的方法提供
              ->seePageIs('/dashboard');
     }
 
-关于测试的更多信息，请查阅[测试的文档](/docs/{{version}}/testing)。
+关于测试的更多信息，请查阅 [测试的文档](/docs/{{version}}/testing)。
 
 ### 模型工厂
 
-Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用[模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充生成测试模型实例。模型工厂也使用高级的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来生成随机属性的数据：
+Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使用 [模型工厂](/docs/{{version}}/testing#model-factories)。模型工厂让你简单的为 Eloquent 模型定义一组「默认」的属性，并为你的测试或数据填充生成测试模型实例。模型工厂也使用高级的 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库来生成随机属性的数据：
 
     $factory->define(App\User::class, function ($faker) {
         return [
@@ -125,7 +125,7 @@ Laravel 现在提供一个简单的方式创建仿真的 Eloquent 模型，使�
         ];
     });
 
-更多关于模型工厂的消息，请查阅[它的文档](/docs/{{version}}/testing#model-factories)。
+更多关于模型工厂的消息，请查阅 [它的文档](/docs/{{version}}/testing#model-factories)。
 
 ### Artisan 的改进
 
@@ -167,7 +167,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其它的外部依赖。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
 
-更多关于 contracts 的信息，参考[完整文档](/docs/{{version}}/contracts)。
+更多关于 contracts 的信息，参考 [完整文档](/docs/{{version}}/contracts)。
 
 ### 路由缓存
 
@@ -177,11 +177,11 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
 
 除了像 Laravel 4 风格的路由「过滤器」，Laravel 5 现在有 HTTP 中间件，而原本的认证和 CSRF 「过滤器」已经改写成中间件。中间件提供了单个、一致的接口取代了各种过滤器，让你在请求进到应用程序前，可以简单地检查甚至拒绝请求。
 
-更多关于中间件的信息，参考[完整文档](/docs/{{version}}/middleware)。
+更多关于中间件的信息，参考 [完整文档](/docs/{{version}}/middleware)。
 
 ### 控制器方法注入
 
-除了之前有的建构函数注入外，你现在可以在控制器方法使用类型提示进行依赖注入。[服务容器](/docs/{{version}}/container)会自动注入依赖，即使路由包含了其它参数也不成问题：
+除了之前有的建构函数注入外，你现在可以在控制器方法使用类型提示进行依赖注入。[服务容器](/docs/{{version}}/container) 会自动注入依赖，即使路由包含了其它参数也不成问题：
 
     public function createPost(Request $request, PostRepository $posts)
     {
@@ -223,7 +223,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新的架�
         }
     }
 
-更多关于使用事件的信息，参考[完整文档](/docs/{{version}}/events)。
+更多关于使用事件的信息，参考 [完整文档](/docs/{{version}}/events)。
 
 ### 命令及队列
 
@@ -280,7 +280,7 @@ Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可
 
     $schedule->command('artisan:command')->dailyAt('15:00');
 
-当然，快参考[完整文档](/docs/{{version}}/artisan#scheduling-artisan-commands)学习所有调度相关知识。
+当然，快参考 [完整文档](/docs/{{version}}/artisan#scheduling-artisan-commands) 学习所有调度相关知识。
 
 ### Tinker 与 Psysh
 
@@ -290,13 +290,13 @@ Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可
 
 ### DotEnv
 
-比起一堆令人困惑的、嵌套的环境配置档目录，Laravel 5 现在使用了 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv)。这个扩展包提供了超级简单的方式管理配置文件，并且让 Laravel 5 环境侦测变得轻松。更多的细节，参考完整的[配置文件文档](/docs/{{version}}/configuration#environment-configuration)。
+比起一堆令人困惑的、嵌套的环境配置档目录，Laravel 5 现在使用了 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv)。这个扩展包提供了超级简单的方式管理配置文件，并且让 Laravel 5 环境侦测变得轻松。更多的细节，参考完整的 [配置文件文档](/docs/{{version}}/configuration#environment-configuration)。
 
 ### Laravel Elixir
 
 Jeffrey Way 的 Laravel Elixir 提供了一个流畅、口语化的接口，可以编译以及合并 assets。如果你曾经因为学习 Grunt 或 Gulp 而被吓到，不必再害怕了。Elixir 让使用 Gulp 编译 Less、Sass 及 CoffeeScript 变得简单。它甚至可以帮你运行测试！
 
-更多关于 Elixir 的信息，参考[完整文档](/docs/{{version}}/elixir)。
+更多关于 Elixir 的信息，参考 [完整文档](/docs/{{version}}/elixir)。
 
 ### Laravel Socialite
 
@@ -312,16 +312,16 @@ Laravel Socialite 是个选用的，Laravel 5.0 以上兼容的扩展包，提�
         $user = Socialize::with('twitter')->user();
     }
 
-不用再花上数小时编写 OAuth 的认证流程。只要几分钟！查看[完整文档](/docs/{{version}}/authentication#social-authentication) 里有所有的细节。
+不用再花上数小时编写 OAuth 的认证流程。只要几分钟！查看 [完整文档](/docs/{{version}}/authentication#social-authentication) 里有所有的细节。
 
 ### 文件系统集成
 
-Laravel 现在包含了强大的[文件系统](https://github.com/thephpleague/flysystem)（一个文件系统的抽象函数库），提供了无痛的集成，把本地端文件系统、Amazon S3 和 Rackspace 云存储集成在一起，
+Laravel 现在包含了强大的 [文件系统](https://github.com/thephpleague/flysystem)（一个文件系统的抽象函数库），提供了无痛的集成，把本地端文件系统、Amazon S3 和 Rackspace 云存储集成在一起，
 有统一且优雅的 API！现在要将文件存到 Amazon S3 相当简单：
 
     Storage::put('file.txt', 'contents');
 
-更多关于 Laravel 文件系统集成，参考[完整文档](/docs/{{version}}/filesystem)。
+更多关于 Laravel 文件系统集成，参考 [完整文档](/docs/{{version}}/filesystem)。
 
 ### Form Requests
 
@@ -354,7 +354,7 @@ Laravel 5.0 引进了 **form requests**，是继承自 `Illuminate\Foundation\Ht
         var_dump($request->input());
     }
 
-当 Laravel 的服务容器辨别出要注入的类是个 `FormRequest` 实例，该请求将会被**自动验证**。意味着，当你的控制器动作被调用了，你可以安全的假设 HTTP 的请求输入己经被验证过，根据你在 form request 类里自定的规则。甚至，若这个请求验证不通过，一个 HTTP 重定向（可以自定），会自动发出，错误消息可以被闪存到 session 中或是转换成 JSON 返回。**表单验证再简单不过如此。**更多关于 `FormRequest` 验证，参考[文档](/docs/{{version}}/validation#form-request-validation)。
+当 Laravel 的服务容器辨别出要注入的类是个 `FormRequest` 实例，该请求将会被 **自动验证**。意味着，当你的控制器动作被调用了，你可以安全的假设 HTTP 的请求输入己经被验证过，根据你在 form request 类里自定的规则。甚至，若这个请求验证不通过，一个 HTTP 重定向（可以自定），会自动发出，错误消息可以被闪存到 session 中或是转换成 JSON 返回。**表单验证再简单不过如此。** 更多关于 `FormRequest` 验证，参考 [文档](/docs/{{version}}/validation#form-request-validation)。
 
 ### 简易控制器请求验证
 
@@ -370,7 +370,7 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
 
 如果验证失败，会抛出异常以及返回适当的 HTTP 响应到浏览器。验证错误信息会被闪存到 session！而如果请求是 AJAX 请求，Laravel 会自动返回 JSON 格式的验证错误信息。
 
-更多关于这个新方法的信息，参考[这个文档](/docs/{{version}}/validation#controller-validation)。
+更多关于这个新方法的信息，参考 [这个文档](/docs/{{version}}/validation#controller-validation)。
 
 ### 新的生成器
 
@@ -403,7 +403,7 @@ Larvel Forge，一个网页应用程序，提供一个简单的接口去创建�
 
 默认 Laravel 4.2 的安装里，`app/config/database.php` 配置文件默认已为 Forge 设置完成，让在平台上的全新应用程序更方便部署。
 
-关于 Laravel Forge 的更多信息可以在[官方 Forge 网站](https://forge.laravel.com)上找到。
+关于 Laravel Forge 的更多信息可以在 [官方 Forge 网站](https://forge.laravel.com) 上找到。
 
 ### Laravel Homestead
 
@@ -431,7 +431,7 @@ Laravel 4.2 为 `Mail` 函数采用了新的 Mailgun 和 Mandrill API 驱动。�
 
 对于软删除和全作用域更简洁的方案，PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作用域，这些新架构为框架提供了更有扩展性的功能，并且让框架更加简洁。
 
-更多关于软删除的文档请见: [Eloquent documentation](/docs/eloquent#soft-deleting).
+更多关于软删除的文档请见: [Eloquent documentation](/docs/eloquent#soft-deleting)。
 
 ### 更为方便的 认证(auth) & Remindable Traits
 
@@ -466,7 +466,7 @@ Laravel 4.2 为 `Mail` 函数采用了新的 Mailgun 和 Mandrill API 驱动。�
 
 Eloquent 添加了新的 `hasManyThrough` 关系链。想要了解更多，请参见 [Eloquent 文档](/docs/eloquent#has-many-through)。
 
-一个新的 `whereHas` 方法也同时登场，他将允许[检索基于关系模型的约束](/docs/eloquent#querying-relations)。
+一个新的 `whereHas` 方法也同时登场，他将允许 [检索基于关系模型的约束](/docs/eloquent#querying-relations)。
 
 ### 数据库读写分离
 
@@ -499,3 +499,5 @@ Laravel 4.1 拥有一个完全重新编写的路由层。API 一样不变。然�
 ### Doctrine DBAL
 
 如果你有在你的迁移中使用到 `renameColumn`，之后你必须在 `composer.json` 里加 `doctrine/dbal` 进依赖扩展包中。此扩展包不再默认包含在 Laravel 之中。
+
+

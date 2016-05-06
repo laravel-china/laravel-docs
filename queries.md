@@ -50,7 +50,7 @@
         }
     }
 
-就像[原始查找](/docs/{{version}}/database)一样，`get` 方法会返回一个`数组`结果，其中每一个结果都是 PHP `StdClass` 对象的实例。你可以将列作为对象的属性来访问每个列的值：
+就像 [原始查找](/docs/{{version}}/database) 一样，`get` 方法会返回一个`数组`结果，其中每一个结果都是 PHP `StdClass` 对象的实例。你可以将列作为对象的属性来访问每个列的值：
 
     foreach ($users as $user) {
         echo $user->name;
@@ -70,7 +70,7 @@
 
 #### 从数据表中将结果切块
 
-若你需要操作数千条数据库记录，则可考虑使用 `chunk` 方法。这个方法一次只取出一小「块」结果，并会将每个区块传给一个`闭包`进行处理。这个方法对于要编写处理数千条记录的 [Artisan 命令](/docs/{{version}}/artisan)非常有用。例如，让我们将整个 `user` 数据表进行切块，每次处理 100 条记录：
+若你需要操作数千条数据库记录，则可考虑使用 `chunk` 方法。这个方法一次只取出一小「块」结果，并会将每个区块传给一个`闭包`进行处理。这个方法对于要编写处理数千条记录的 [Artisan 命令](/docs/{{version}}/artisan) 非常有用。例如，让我们将整个 `user` 数据表进行切块，每次处理 100 条记录：
 
     DB::table('users')->chunk(100, function($users) {
         foreach ($users as $user) {
@@ -436,3 +436,5 @@
 此外，你也可以使用 `lockForUpdate` 方法。「用以更新」锁可避免数据列被其它共享锁修改或选取：
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();
+
+

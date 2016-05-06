@@ -612,7 +612,7 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
-`trans` 函数根据你的[本地化文件](/docs/{{version}}/localization)翻译指定的语句：
+`trans` 函数根据你的 [本地化文件](/docs/{{version}}/localization) 翻译指定的语句：
 
     echo trans('validation.required'):
 
@@ -698,7 +698,7 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
-`collect` 函数从指定的项目生成[集合](/docs/{{version}}/collections)实例：
+`collect` 函数从指定的项目生成 [集合](/docs/{{version}}/collections) 实例：
 
     $collection = collect(['taylor', 'abigail']);
 
@@ -749,14 +749,14 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
-`event` 函数配送指定[事件](/docs/{{version}}/events)到所属的侦听器：
+`event` 函数配送指定 [事件](/docs/{{version}}/events) 到所属的侦听器：
 
     event(new UserRegistered($user));
 
 <a name="method-factory"></a>
 #### `factory()` {#collection-method}
 
-`factory` 函数根据指定类、名称以及总数生成模型工厂构造器（model factory builder）。可用于[测试](/docs/{{version}}/testing#model-factories)或[数据填充](/docs/{{version}}/seeding#using-model-factories)：
+`factory` 函数根据指定类、名称以及总数生成模型工厂构造器（model factory builder）。可用于 [测试](/docs/{{version}}/testing#model-factories) 或 [数据填充](/docs/{{version}}/seeding#using-model-factories)：
 
     $user = factory(App\User::class)->make();
 
@@ -772,7 +772,7 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
-`old` 函数[获取](/docs/{{version}}/requests#retrieving-input)闪存到 session 的旧有输入数值：
+`old` 函数 [获取](/docs/{{version}}/requests#retrieving-input) 闪存到 session 的旧有输入数值：
 
     $value = old('value');
 
@@ -786,7 +786,7 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
-`request` 函数获取目前的[请求](/docs/{{version}}/requests)实例或输入的项目：
+`request` 函数获取目前的 [请求](/docs/{{version}}/requests) 实例或输入的项目：
 
     $request = request();
 
@@ -795,7 +795,7 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-response"></a>
 #### `response()` {#collection-method}
 
-`response` 函数创建一个[响应](/docs/{{version}}/responses)实例或获取一个响应工厂（response factory）实例：
+`response` 函数创建一个 [响应](/docs/{{version}}/responses) 实例或获取一个响应工厂（response factory）实例：
 
     return response('Hello World', 200, $headers);
 
@@ -828,7 +828,7 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 <a name="method-view"></a>
 #### `view()` {#collection-method}
 
-`view` 函数获取[视图](/docs/{{version}}/views) 实例：
+`view` 函数获取 [视图](/docs/{{version}}/views) 实例：
 
     return view('auth.login');
 
@@ -838,3 +838,5 @@ Laravel 包含一些多样化的 PHP 辅助函数函数。许多在 Laravel 自�
 `with` 函数返回指定的数值。该函数主要用于链式调用回所保存的 seesion 内容，除此之外不大可能用到：
 
     $value = with(new Foo)->work();
+
+

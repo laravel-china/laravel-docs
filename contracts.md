@@ -10,7 +10,7 @@
 
 Laravel 的 Contracts 是一组定义了框架核心服务的接口（ php class interfaces ）。例如，`Illuminate\Contracts\Queue\Queue` contract 定义了队列任务所需要的方法，而 `Illuminate\Contracts\Mail\Mailer` contract 定义了寄送 e-mail 需要的方法。
 
-框架对于每个 contract 都有提供对应的实现，例如，Laravel 提供各种驱动程序的队列实现，以及由 [SwiftMailer](http://swiftmailer.org/) 提供的 mailer 实现。
+框架对于每个 contract 都有提供对应的实现，例如，Laravel 提供各种驱动程序的队列实现，以及由  [SwiftMailer](http://swiftmailer.org/) 提供的 mailer 实现。
 
 Laravel 所有的 contracts 都放在 [各自的 GitHub 保存库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
 
@@ -150,7 +150,7 @@ Contract  |  对应的 Facade
 
 所以，要如何实现一个 contract 呢？实际上非常的简单。
 
-很多 Laravel 的类都是经由[服务容器](/docs/{{version}}/container) 来解析，包含控制器，事件监听，中间件，队列任务，甚至是路由闭包。所以，要实现一个 contract，你可以在类的构造器使用「类型提示」解析类。
+很多 Laravel 的类都是经由 [服务容器](/docs/{{version}}/container) 来解析，包含控制器，事件监听，中间件，队列任务，甚至是路由闭包。所以，要实现一个 contract，你可以在类的构造器使用「类型提示」解析类。
 
 例如，我们来看看这个事件监听程序：
 
@@ -192,4 +192,6 @@ Contract  |  对应的 Facade
         }
     }
 
-当事件监听被解析时，服务容器会经由类构造器参数的类型提示，注入适当的值。要知道怎么注册更多服务容器，参考[这份文档](/docs/{{version}}/container).
+当事件监听被解析时，服务容器会经由类构造器参数的类型提示，注入适当的值。要知道怎么注册更多服务容器，参考 [这份文档](/docs/{{version}}/container).
+
+

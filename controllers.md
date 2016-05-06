@@ -17,7 +17,7 @@
 
 除了可以在单个的 `routes.php` 文件中定义所有的请求处理逻辑外，你可能还希望可以使用控制器类来组织此行为。控制器可将相关的 HTTP 请求处理逻辑组成一个类。控制器一般存放在 `app/Http/Controllers` 目录下。
 
-> **[Summer](http://github.com/summerblue)：** 请不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
+> **[Summer](http://github.com/summerblue)：**请不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
 1. 因为这是最佳实践，一开始做对了，后面节省你重构代码的时间；
 2. [路由缓存](http://laravel-china.org/docs/5.1/controllers#%E8%B7%AF%E7%94%B1%E7%BC%93%E5%AD%98) 并不会作用在基于闭包的路由。
 
@@ -84,7 +84,7 @@
 <a name="controller-middleware"></a>
 ## 控制器中间件
 
-可将[中间件](/docs/{{version}}/middleware)指定给控制器路由，例如：
+可将 [中间件](/docs/{{version}}/middleware) 指定给控制器路由，例如：
 
     Route::get('profile', [
         'middleware' => 'auth',
@@ -247,7 +247,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
 
 #### 分派路由名称
 
-如果你想要[命名](/docs/{{version}}/routing#named-routes)控制器中的某些路由，你可以在 `controller` 方法中传入一个名称数组作为第三个参数：
+如果你想要 [命名](/docs/{{version}}/routing#named-routes) 控制器中的某些路由，你可以在 `controller` 方法中传入一个名称数组作为第三个参数：
 
     Route::controller('users', 'UserController', [
         'getShow' => 'user.show',
@@ -258,7 +258,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
 
 #### 构造器注入
 
-Laravel [服务容器](/docs/{{version}}/container)用于解析所有的 Laravel 控制器。因此，在此构造器中，你可以对控制器需要的任何依赖使用类型提示。依赖会自动被解析并注入控制器实例之中。
+Laravel [服务容器](/docs/{{version}}/container) 用于解析所有的 Laravel 控制器。因此，在此构造器中，你可以对控制器需要的任何依赖使用类型提示。依赖会自动被解析并注入控制器实例之中。
 
     <?php
 

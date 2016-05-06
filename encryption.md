@@ -15,7 +15,7 @@
 
 你可以借助 `Crypt` [facade](/docs/{{version}}/facades) 来加密一个值。这些值都会使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过后的值都会被签署文件消息验证码 (MAC)，以检测加密字符串是否被篡改过。
 
-例如，我们可以使用 `encrypt` 方法加密机密信息，并把它保存在 [Eloquent 模型](/docs/{{version}}/eloquent)中：
+例如，我们可以使用 `encrypt` 方法加密机密信息，并把它保存在 [Eloquent 模型](/docs/{{version}}/eloquent) 中：
 
     <?php
 
@@ -56,3 +56,5 @@
     } catch (DecryptException $e) {
         //
     }
+
+

@@ -42,7 +42,7 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
 
 命令运行的时候 `handle` 方法会被调用，因此你可以将程序逻辑放置在这个方法中，接下来让我们来看一个例子。
 
-我们可以在构造器中注入需要的依赖，Laravel 的[服务容器](/docs/{{version}}/container) 将会自动注入有类型提示的依赖到构造器中。
+我们可以在构造器中注入需要的依赖，Laravel 的 [服务容器](/docs/{{version}}/container) 将会自动注入有类型提示的依赖到构造器中。
 
 为了更好的代码重用性，还有可读性，通常我们都会把处理业务逻辑的代码抽离放到一个功能类里。
 
@@ -109,7 +109,7 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
 
 当编写命令行时，从参数或是选项中得到用户的输入是一种普遍的做法。借助命令的 `signature` 属性，让你很方便的定义希望从用户获得的输入格式。`signature` 属性可用来定义命令的名字、参数及选项，具有单个、表达清晰、与路由相似的语法等特性。
 
-所有提供给用户的参数及选项都包在大括号中。如以下例子，此命令会定义一个**必须的**参数：`user`：
+所有提供给用户的参数及选项都包在大括号中。如以下例子，此命令会定义一个 **必须的** 参数：`user`：
 
     /**
      * 命令行的名称及用法。
@@ -308,7 +308,7 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
 一旦你的命令编写完成，你需要注册 Artisan 后才能使用。注册文件为 `app/Console/Kernel.php`。
 
 在这个文件中，你会在 `commands` 属性里找到命令的清单。要注册你的命令，只要简单的在此清单加入类的名称。当 Artisan 启动时，所有罗列在这个
-属性的命令，都会被[服务容器](/docs/{{version}}/container)解析并向 Artisan 注册：
+属性的命令，都会被 [服务容器](/docs/{{version}}/container) 解析并向 Artisan 注册：
 
     protected $commands = [
         Commands\SendEmails::class,
@@ -328,7 +328,7 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
         //
     });
 
-在 `Artisan` facade 使用 `queue` 方法，可以将一堆 Artisan 命令放进队列，好让它们能在后台被你的[队列服务器](/docs/{{version}}/queues) 运行：
+在 `Artisan` facade 使用 `queue` 方法，可以将一堆 Artisan 命令放进队列，好让它们能在后台被你的 [队列服务器](/docs/{{version}}/queues) 运行：
 
     Route::get('/foo', function () {
         Artisan::queue('email:send', [
@@ -370,3 +370,5 @@ Artisan 是 Laravel 的命令行接口的名称，它提供了许多实用的命
         'user' => 1,
         '--queue' => 'default'
     ]);
+
+

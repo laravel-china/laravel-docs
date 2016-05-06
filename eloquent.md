@@ -28,13 +28,13 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 开始之前，让我们先来创建一个 Eloquent 模型。模型通常放在 `app` 目录中，不过你可以将他们随意放在任何可通过 `composer.json` 自动加载的地方。所有的 Eloquent 模型都继承自 `Illuminate\Database\Eloquent\Model` 类。
 
-> **[Summer](http://github.com/summerblue)：**  建议在 app 目录下创建 `Models` 来统一存放。
+> **[Summer](http://github.com/summerblue)：**建议在 app 目录下创建 `Models` 来统一存放。
 
 创建模型实例的最简单方法是使用 `make:model` [Artisan 命令](/docs/{{version}}/artisan)：
 
     php artisan make:model User
 
-当你生成一个模型时想要顺便生成一个[数据库迁移](/docs/{{version}}/schema#database-migrations)，可以使用 `--migration` 或 `-m` 选项：
+当你生成一个模型时想要顺便生成一个 [数据库迁移](/docs/{{version}}/schema#database-migrations)，可以使用 `--migration` 或 `-m` 选项：
 
     php artisan make:model User --migration
 
@@ -141,7 +141,7 @@ Eloquent 也会假设每个数据表都有一个叫做 `id` 的主键字段。�
 <a name="retrieving-multiple-models"></a>
 ## 取回多个模型
 
-一旦你创建并 [关联了一个模型到数据表](/docs/{{version}}/schema) 上，那么你就可以从数据库中获取数据。可把每个 Eloquent 模型想像成强大的[查询构造器](/docs/{{version}}/queries)，它让你可以流畅地查找与模型关联的数据表。例如：
+一旦你创建并 [关联了一个模型到数据表](/docs/{{version}}/schema) 上，那么你就可以从数据库中获取数据。可把每个 Eloquent 模型想像成强大的 [查询构造器](/docs/{{version}}/queries)，它让你可以流畅地查找与模型关联的数据表。例如：
 
     <?php
 
@@ -175,7 +175,7 @@ Eloquent 也会假设每个数据表都有一个叫做 `id` 的主键字段。�
 
 #### 增加额外的限制
 
-Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于每个 Eloquent 模型都可以当作一个[查询构造器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后使用 `get` 方法来获取结果：
+Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于每个 Eloquent 模型都可以当作一个 [查询构造器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后使用 `get` 方法来获取结果：
 
     $flights = App\Flight::where('active', 1)
                    ->orderBy('name', 'desc')

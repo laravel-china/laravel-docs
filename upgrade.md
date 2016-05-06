@@ -12,9 +12,9 @@
 <a name="upgrade-5.1.11"></a>
 ## 升级到 5.1.11
 
-Laravel 5.1.11 包含了对于[授权](/docs/{{version}}/authorization)及[授权策略](/docs/{{version}}/authorization#policies)的支持。要将这些功能添加到你现有的 Laravel 5.1 应用程序是相当容易的。
+Laravel 5.1.11 包含了对于 [授权](/docs/{{version}}/authorization) 及 [授权策略](/docs/{{version}}/authorization#policies) 的支持。要将这些功能添加到你现有的 Laravel 5.1 应用程序是相当容易的。
 
-> **注意：**这些升级是**可选的**，忽略它们并不会影响你的应用程序。
+> **注意：**这些升级是 **可选的**，忽略它们并不会影响你的应用程序。
 
 #### 创建 Policies 目录
 
@@ -188,7 +188,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 ### Blade
 
-`createMatcher`、`createOpenMatcher` 和 `createPlainMatcher` 方法已经从 Blade 编译器移除。在 Laravel 5.1，请使用新的 `directive` 方法来创建自定义的 Blade 标签。请查看[扩展 blade](/docs/{{version}}/blade#extending-blade) 文档来了解更多信息。
+`createMatcher`、`createOpenMatcher` 和 `createPlainMatcher` 方法已经从 Blade 编译器移除。在 Laravel 5.1，请使用新的 `directive` 方法来创建自定义的 Blade 标签。请查看 [扩展 blade](/docs/{{version}}/blade#extending-blade) 文档来了解更多信息。
 
 ### 测试
 
@@ -239,7 +239,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 推荐的升级方式是创建一个全新的 Laravel `5.0` 项目，然后复制你 `4.2` 网站特定的应用程序文件到此新的应用程序。其中包含控制器、路由、Eloquent 模型、Artisan 命令、资源文件，和其它专属于你的应用程序代码。
 
-开始前，请先在你的本地环境中[安装一个新的 Laravel 5 应用程序](/docs/{{version}}/installation)到一个全新的目录中。不要安装超过 5.0 的任何版本，因为我们需要先完成迁移至 5.0 的步骤。我们将会在后面详细探讨各部分的详细迁移过程。
+开始前，请先在你的本地环境中 [安装一个新的 Laravel 5 应用程序](/docs/{{version}}/installation) 到一个全新的目录中。不要安装超过 5.0 的任何版本，因为我们需要先完成迁移至 5.0 的步骤。我们将会在后面详细探讨各部分的详细迁移过程。
 
 ### Composer 依赖与扩展包
 
@@ -259,7 +259,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 此外，将你原本的 `.env.php` 文件中自定义的设置值都复制并移到 `.env` (本机环境的实际设置值) 和 `.env.example` (给其他团队成员的范本教程)。
 
-更多关于环境配置的信息，请查看[完整文档](/docs/{{version}}/installation#environment-configuration)。
+更多关于环境配置的信息，请查看 [完整文档](/docs/{{version}}/installation#environment-configuration)。
 
 > **注意：**在部署你的 Laravel 5 应用程序之前，你需要先在正式主机上放置 `.env` 文件并给其设置好适当的值。
 
@@ -291,7 +291,7 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来为指�
 
 ### 全局 CSRF
 
-默认情况下，所有路由都会启用[CSRF 保护](/docs/{{version}}/routing#csrf-protection)。如果你想要关闭它们或是只想在特定路由手动开启，请从 `App\Http\Kernel` 的 `middleware` 数组移除这行：
+默认情况下，所有路由都会启用 [CSRF 保护](/docs/{{version}}/routing#csrf-protection)。如果你想要关闭它们或是只想在特定路由手动开启，请从 `App\Http\Kernel` 的 `middleware` 数组移除这行：
 
     'App\Http\Middleware\VerifyCsrfToken',
 
@@ -299,7 +299,7 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来为指�
 
     'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
 
-现在你可以在路由内使用 `['middleware' => 'csrf']` 添加中间件到各个路由/控制器上。想要了解更多关于中间件的信息，请查看[完整文档](/docs/{{version}}/middleware)。
+现在你可以在路由内使用 `['middleware' => 'csrf']` 添加中间件到各个路由/控制器上。想要了解更多关于中间件的信息，请查看 [完整文档](/docs/{{version}}/middleware)。
 
 ### Eloquent 模型
 
@@ -309,7 +309,7 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来为指�
 
 #### Eloquent 缓存
 
-Eloquent 不再提供 `remember` 方法来缓存查找结果。现在你有责任手动地使用 `Cache::remember` 方法缓存查找结果。要了解更多关于缓存的信息，请查看[完整文档](/docs/{{version}}/cache)。
+Eloquent 不再提供 `remember` 方法来缓存查找结果。现在你有责任手动地使用 `Cache::remember` 方法缓存查找结果。要了解更多关于缓存的信息，请查看 [完整文档](/docs/{{version}}/cache)。
 
 ### 用户认证模型
 
@@ -365,7 +365,7 @@ use Authenticatable, CanResetPassword;
 
 ### 全局 IoC 绑定
 
-如果你在 `start/global.php` 有任何的[服务容器](/docs/{{version}}/container)绑定，请将它们全部移至 `app/Providers/AppServiceProvider.php` 文件的 `register` 方法。你可能需要引入 `App` facade。
+如果你在 `start/global.php` 有任何的 [服务容器](/docs/{{version}}/container) 绑定，请将它们全部移至 `app/Providers/AppServiceProvider.php` 文件的 `register` 方法。你可能需要引入 `App` facade。
 
 你也可以选择将这些绑定，依照类拆分到各别的服务提供者中。
 
@@ -375,9 +375,9 @@ use Authenticatable, CanResetPassword;
 
 ### Blade 标签修改
 
-基于安全考量，Laravel 5.0 会把所有 `{{ }}` 和 `{{{ }}}` Blade 标签的输出的特殊字符都进行转译。新的 `{!! !!}` 标签则被采用来显示原始未转译的输出。当你**有足够把握**来保证显示的原始输出内容是安全的，那么升级你的应用程序的最安全方法是只使用新的 `{!! !!}` 标签。
+基于安全考量，Laravel 5.0 会把所有 `{{ }}` 和 `{{{ }}}` Blade 标签的输出的特殊字符都进行转译。新的 `{!! !!}` 标签则被采用来显示原始未转译的输出。当你 **有足够把握** 来保证显示的原始输出内容是安全的，那么升级你的应用程序的最安全方法是只使用新的 `{!! !!}` 标签。
 
-然而，如果你**必须**使用旧的 Blade 语法，请在  `AppServiceProvider@register` 的结尾加入以下几行：
+然而，如果你 **必须** 使用旧的 Blade 语法，请在  `AppServiceProvider@register` 的结尾加入以下几行：
 
 ```php
 \Blade::setRawTags('{{', '}}');
@@ -504,7 +504,7 @@ Laravel 4.2 需要 PHP 5.4.0 或更高的版本。
 <a name="upgrade-4.1.29"></a>
 ## 从 4.1.x 以前版本升级到 4.1.29
 
-Laravel 4.1.29 对于所有的数据库驱动加强了 column quoting 的部分。当你的模型中**没有**使用 `fillable` 属性时，他保护你的应用程序不会受到 mass assignment 漏洞影响。如果你在模型中使用 `fillable` 属性来防范 mass assignment，你的应用程序将不会有漏洞。然而，如果你使用 `guarded` 并传递用户控制的数组到「更新」或「保存」类型的函数中，那你应该立即升级到 `4.1.29` 以避免你的应用程序遭受 mass assignment 的风险。
+Laravel 4.1.29 对于所有的数据库驱动加强了 column quoting 的部分。当你的模型中 **没有** 使用 `fillable` 属性时，他保护你的应用程序不会受到 mass assignment 漏洞影响。如果你在模型中使用 `fillable` 属性来防范 mass assignment，你的应用程序将不会有漏洞。然而，如果你使用 `guarded` 并传递用户控制的数组到「更新」或「保存」类型的函数中，那你应该立即升级到 `4.1.29` 以避免你的应用程序遭受 mass assignment 的风险。
 
 要升级到 Laravel 4.1.29，只要 `composer update` 即可。在这个发行版本中没有重大的更新。
 
@@ -557,13 +557,13 @@ Laravel 4.1.26 针对「记得我」cookies 的安全性进行了更新。在此
 
 ### 文件替换
 
-将你的 `public/index.php` 文件替换为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/public/index.php)。
+将你的 `public/index.php` 文件替换为 [这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/public/index.php)。
 
-将你的 `artisan` 文件替换为[这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/artisan)。
+将你的 `artisan` 文件替换为 [这个从 repository 复制的全新文件](https://github.com/laravel/laravel/blob/v4.1.0/artisan)。
 
 ### 添加配置文件及选项
 
-更新 `app/config/app.php` 配置文件里的 `aliases` 和 `providers` 数组。这些数组更新后的值可以在[这个文件](https://github.com/laravel/laravel/blob/v4.1.0/app/config/app.php)中找到。请确保你自定义的 providers / aliases 和扩展包的 providers / aliases 都已添加回数组中。
+更新 `app/config/app.php` 配置文件里的 `aliases` 和 `providers` 数组。这些数组更新后的值可以在 [这个文件](https://github.com/laravel/laravel/blob/v4.1.0/app/config/app.php)中找到。请确保你自定义的 providers / aliases 和扩展包的 providers / aliases 都已添加回数组中。
 
 [从 repository](https://github.com/laravel/laravel/blob/v4.1.0/app/config/remote.php) 添加新的 `app/config/remote.php` 文件。
 
@@ -575,7 +575,7 @@ Laravel 4.1.26 针对「记得我」cookies 的安全性进行了更新。在此
         'database' => 'mysql', 'table' => 'failed_jobs',
     ],
 
-**(可选的)**  在你的 `app/config/view.php` 文件里，将 `pagination` 设置选项更新为 `pagination::slider-3`。
+**(可选的)** 在你的 `app/config/view.php` 文件里，将 `pagination` 设置选项更新为 `pagination::slider-3`。
 
 ### 控制器的修改
 
@@ -585,7 +585,7 @@ Laravel 4.1.26 针对「记得我」cookies 的安全性进行了更新。在此
 
 密码提醒功能在大幅改进后已经具有更好的灵活性。你可以运行 `php artisan auth:reminders-controller` Artisan 命令来检查新的存根控制器。你也可以浏览 [更新后的文档](/docs/security#password-reminders-and-reset) 来相应更新你的应用程序。
 
-更新你的 `app/lang/en/reminders.php` 语言文件来对应[这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
+更新你的 `app/lang/en/reminders.php` 语言文件来对应 [这个新版文件](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)。
 
 ### 环境侦测的修改
 
@@ -612,3 +612,5 @@ Laravel 目前只会生成单个的日志文件：`app/storage/logs/laravel.log`
 ### 通配符事件监听者
 
 通配符事件监听者不再添加事件到你的处理函数参数上。如果你需要寻找触发的事件，则可用 `Event::firing()` 来触发。
+
+

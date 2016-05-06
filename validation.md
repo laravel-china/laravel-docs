@@ -115,7 +115,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 <a name="quick-displaying-the-validation-errors"></a>
 #### 显示验证错误
 
-如果本次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动[闪存至 session](/docs/{{version}}/session#flash-data)。
+如果本次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动 [闪存至 session](/docs/{{version}}/session#flash-data)。
 
 请注意我们并不需要在 `GET ` 路由中明确的将错误消息绑定到视图上。这是因为 Laravel 会自动检查 session 内的错误数据，如果错误存在的话，它会自动将这些错误消息绑定到视图上。**因此需要的注意一点是 `$errors` 变量在每次请求的所有视图中都可以被使用**，你可以很方便的假设 `$errors` 变量已被定义且进行安全地使用。`$errors` 变量是 `Illuminate\Support\MessageBag` 的实例。有关此对象的详细信息，[请查阅它的文档](#working-with-error-messages)。
 
@@ -802,7 +802,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 <a name="custom-validation-rules"></a>
 ## 自定义验证规则
 
-Laravel 提供了许多有用的验证规则。但你可能想自定义一些规则。注册自定义验证规则的方法之一，就是使用 Validator [facade](/docs/{{version}}/facades) 中的 `extend` 方法，让我们在[服务提供者](/docs/{{version}}/providers)中使用这个方法来自定义注册的验证规则：
+Laravel 提供了许多有用的验证规则。但你可能想自定义一些规则。注册自定义验证规则的方法之一，就是使用 Validator [facade](/docs/{{version}}/facades) 中的 `extend` 方法，让我们在 [服务提供者](/docs/{{version}}/providers) 中使用这个方法来自定义注册的验证规则：
 
     <?php
 
@@ -852,7 +852,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
 
     // 其余的验证错误消息...
 
-当你在创建自定义验证规则时，你可能需要定义保留字段来取代错误消息。你可以像上面所描述的那样通过 `Validator` facade 来使用 `replacer` 方法创建一个自定义验证器。通过[服务提供者](/docs/{{version}}/providers)中的 `boot` 方法可以实现：
+当你在创建自定义验证规则时，你可能需要定义保留字段来取代错误消息。你可以像上面所描述的那样通过 `Validator` facade 来使用 `replacer` 方法创建一个自定义验证器。通过 [服务提供者](/docs/{{version}}/providers) 中的 `boot` 方法可以实现：
 
     /**
      * 启动所有应用程序服务。
@@ -885,3 +885,5 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
     });
 
 > **注意：**一个「隐式」扩展功能只会 _暗示_ 该属性为必填。它的实际属性是否为无效属性或空属性主要取决于你。
+
+

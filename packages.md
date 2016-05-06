@@ -22,16 +22,16 @@
 <a name="service-providers"></a>
 ## 服务提供者
 
-[服务提供者](/docs/{{version}}/providers)是你的扩展包与 Laravel 连接的重点。服务提供者负责绑定一些东西至 Laravel 的[服务容器](/docs/{{version}}/container)并告知 Laravel 要从哪加载扩展包的资源，例如视图、配置文件、语言包。
+[服务提供者](/docs/{{version}}/providers) 是你的扩展包与 Laravel 连接的重点。服务提供者负责绑定一些东西至 Laravel 的 [服务容器](/docs/{{version}}/container) 并告知 Laravel 要从哪加载扩展包的资源，例如视图、配置文件、语言包。
 
 服务提供者继承了 `Illuminate\Support\ServiceProvider` 类并包含了两个方法：`register` 及 `boot`。基底的 `ServiceProvider` 类被放置在 Composer 的 `illuminate/support` 扩展包，你必须将它加入至你自己的扩展包依赖中。
 
-若要了解更多关于服务提供者的结构与用途，请查阅[它的文档](/docs/{{version}}/provider)。
+若要了解更多关于服务提供者的结构与用途，请查阅 [它的文档](/docs/{{version}}/provider)。
 
 <a name="routing"></a>
 ## 路由
 
-要为你的扩展包定义路由，只需简单的在扩展包的服务提供者的 `boot` 方法 `require` 路由文件。在你的路由文件中，你可以如同在一般的 Laravel 应用程序中一样使用 `Route` facade 来[注册路由](/docs/{{version}}/routing)：
+要为你的扩展包定义路由，只需简单的在扩展包的服务提供者的 `boot` 方法 `require` 路由文件。在你的路由文件中，你可以如同在一般的 Laravel 应用程序中一样使用 `Route` facade 来 [注册路由](/docs/{{version}}/routing)：
 
     /**
      * 在注册后进行服务的启动。
@@ -51,7 +51,7 @@
 <a name="views"></a>
 ### 视图
 
-若要在 Laravel 中注册扩展包[视图](/docs/{{version}}/views)，则必须告诉 Laravel 你的视图位置。你可以使用服务提供者的 `loadViewsFrom` 方法来实现。`loadViewsFrom` 方法允许两个参数：视图模板路径与扩展包名称。例如，如果你的扩展包名称是「courier」，你可以按照以下方式将其添加至服务提供者的 `boot` 方法内：
+若要在 Laravel 中注册扩展包 [视图](/docs/{{version}}/views)，则必须告诉 Laravel 你的视图位置。你可以使用服务提供者的 `loadViewsFrom` 方法来实现。`loadViewsFrom` 方法允许两个参数：视图模板路径与扩展包名称。例如，如果你的扩展包名称是「courier」，你可以按照以下方式将其添加至服务提供者的 `boot` 方法内：
 
     /**
      * 在注册后进行服务的启动。
@@ -71,7 +71,7 @@
 
 #### 重写扩展包视图
 
-当你使用 `loadViewsFrom` 方法时，Laravel 实际上为你的视图注册了**两个**位置：一个是应用程序的 `resources/views/vendor` 目录，另一个是你所指定的目录。所以，以 `courier` 为例：当用户请求一个扩展包的视图时，Laravel 会在第一时间检查 `resources/views/vendor/courier` 是否有开发者提供的自定义版本视图存在。接着，如果这个路径没有自定义的视图，Laravel 会搜索你在扩展包 `loadViewsFrom` 方法里所指定的视图路径。这个方法可以让用户很方便的自定义或重写扩展包视图。
+当你使用 `loadViewsFrom` 方法时，Laravel 实际上为你的视图注册了 **两个** 位置：一个是应用程序的 `resources/views/vendor` 目录，另一个是你所指定的目录。所以，以 `courier` 为例：当用户请求一个扩展包的视图时，Laravel 会在第一时间检查 `resources/views/vendor/courier` 是否有开发者提供的自定义版本视图存在。接着，如果这个路径没有自定义的视图，Laravel 会搜索你在扩展包 `loadViewsFrom` 方法里所指定的视图路径。这个方法可以让用户很方便的自定义或重写扩展包视图。
 
 #### 发布视图
 
@@ -96,7 +96,7 @@
 <a name="translations"></a>
 ### 语言
 
-如果你的扩展包里面包含了[语言文件](/docs/{{version}}/localization)，则可以使用 `loadTranslationsFrom` 方法来告知 Laravel 该如何加载它们。举个例子，如果你的扩展包名称为「courier」，你可以按照以下方式将其添加至服务提供者的 `boot` 方法：
+如果你的扩展包里面包含了 [语言文件](/docs/{{version}}/localization)，则可以使用 `loadTranslationsFrom` 方法来告知 Laravel 该如何加载它们。举个例子，如果你的扩展包名称为「courier」，你可以按照以下方式将其添加至服务提供者的 `boot` 方法：
 
     /**
      * 在注册后进行服务的启动。
@@ -216,3 +216,5 @@
 现在当你的用户使用 `vendor:publish` Artisan 命令时，就可以通过标签名称分别发布不同分类的资源文件：
 
     php artisan vendor:publish --provider="Vendor\Providers\PackageServiceProvider" --tag="config"
+
+

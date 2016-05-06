@@ -165,7 +165,7 @@
 
 #### 路由群组和命名路由
 
-如果你使用了[路由群组](#route-groups)，那么你可以在路由群组的属性数组中指定一个 `as` 关键字，这将允许你为路由群组中的所有路由设置相同的前缀名称：
+如果你使用了 [路由群组](#route-groups)，那么你可以在路由群组的属性数组中指定一个 `as` 关键字，这将允许你为路由群组中的所有路由设置相同的前缀名称：
 
     Route::group(['as' => 'admin::'], function () {
         Route::get('dashboard', ['as' => 'dashboard', function () {
@@ -391,4 +391,6 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
 其次，你也可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
 
-更多有关如何操作 404 异常和自定义响应，可以到[错误](/docs/{{version}}/errors#http-exceptions)章节内参考文档。
+更多有关如何操作 404 异常和自定义响应，可以到 [错误](/docs/{{version}}/errors#http-exceptions) 章节内参考文档。
+
+

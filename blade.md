@@ -89,7 +89,7 @@ Blade 是 Laravel 所提供的一个简单且强大的模板引擎。相较于�
 
     目前的 UNIX 时间戳为 {{ time() }}。
 
-> **注意：** Blade 的 `{{ }}` 语法会自动调用 PHP `htmlentites` 函数来防御 XSS 攻击。
+> **注意：**Blade 的 `{{ }}` 语法会自动调用 PHP `htmlentites` 函数来防御 XSS 攻击。
 
 #### Blade 与 JavaScript 框架
 
@@ -119,7 +119,7 @@ Blade 是 Laravel 所提供的一个简单且强大的模板引擎。相较于�
 
     Hello, {!! $name !!}.
 
-> **注意：** 要非常小心处理用户提供的字符串，请总是使用双大括号语法来转义内容中的 HTML 元素，以避免 XSS 攻击。
+> **注意：**要非常小心处理用户提供的字符串，请总是使用双大括号语法来转义内容中的 HTML 元素，以避免 XSS 攻击。
 
 <a name="control-structures"></a>
 ## 控制结构
@@ -182,7 +182,7 @@ Blade 的 `@include` 命令用来引入已存在的视图，所有在父视图�
 
     @include('view.name', ['some' => 'data'])
 
-> **注意：** 你必须在 Blade 视图中避免使用 `__DIR__` 及 `__FILE__` 常数，因为他们会引用视图被缓存的位置。
+> **注意：**你必须在 Blade 视图中避免使用 `__DIR__` 及 `__FILE__` 常数，因为他们会引用视图被缓存的位置。
 
 #### 为集合渲染视图
 
@@ -205,7 +205,7 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 <a name="service-injection"></a>
 ## 服务注入
 
-`@inject` 命令可以取出 Laravel [服务容器](/docs/{{version}}/container)中的服务。传递给 `@inject` 的第一个参数为置放该服务的变量名称，而第二个参数为你想要解析的服务的类或是接口的名称：
+`@inject` 命令可以取出 Laravel [服务容器](/docs/{{version}}/container) 中的服务。传递给 `@inject` 的第一个参数为置放该服务的变量名称，而第二个参数为你想要解析的服务的类或是接口的名称：
 
     @inject('metrics', 'App\Services\MetricsService')
 
@@ -255,3 +255,5 @@ Blade 甚至允许你自定义命令，你可以使用 `directive` 方法注册�
 如你所见，Laravel 的 `with` 辅助函数被用在这个命令中。`with` 辅助函数会简单地返回指定的对象或值，并允许使用便利的链式调用。最后此命令生成的 PHP 会是：
 
     <?php echo with($var)->format('m/d/Y H:i'); ?>
+
+

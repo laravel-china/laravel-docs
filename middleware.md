@@ -203,4 +203,6 @@ HTTP 请求在实际碰触到应用程序之前，最好是可以层层通过中
 
 `terminate` 方法必须接收请求及响应。一旦定义了 terminable 中间件，你便需要将它增加到 HTTP kernel 文件的全局中间件清单列表中。
 
-当在你的中间件调用 `terminate` 方法时，Laravel 会从[服务容器](/docs/{{version}}/container)解析一个全新的中间件实例。如果你希望在 `handle` 及 `terminate` 方法被调用时使用一致的中间件实例，只需在容器中使用容器的 `singleton` 方法注册中间件。
+当在你的中间件调用 `terminate` 方法时，Laravel 会从 [服务容器](/docs/{{version}}/container) 解析一个全新的中间件实例。如果你希望在 `handle` 及 `terminate` 方法被调用时使用一致的中间件实例，只需在容器中使用容器的 `singleton` 方法注册中间件。
+
+

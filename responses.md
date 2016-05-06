@@ -24,7 +24,7 @@
 
 指定的字符串会被框架自动转换成 HTTP 响应。
 
-但是对大部分的路由及控制器所运行的动作来说，一般需要的是返回完整的 `Illuminate\Http\Response` 实例或是一个[视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，就能够自定义响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多创建 HTTP 响应的方法：
+但是对大部分的路由及控制器所运行的动作来说，一般需要的是返回完整的 `Illuminate\Http\Response` 实例或是一个 [视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，就能够自定义响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多创建 HTTP 响应的方法：
 
     use Illuminate\Http\Response;
 
@@ -40,7 +40,7 @@
                       ->header('Content-Type', $value);
     });
 
-> **注意：**有关 `Response` 方法的完整列表可以参照 [API 文档](http://laravel-china.org/api/master/Illuminate/Http/Response.html)以及 [Symfony API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/Response.html)。
+> **注意：**有关 `Response` 方法的完整列表可以参照 [API 文档](http://laravel-china.org/api/master/Illuminate/Http/Response.html) 以及 [Symfony API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/Response.html)。
 
 <a name="attaching-headers-to-responses"></a>
 #### 附加标头至响应
@@ -84,7 +84,7 @@
 <a name="view-responses"></a>
 #### 视图响应
 
-如果你想要控制响应状态码及标头，同时也想要返回一个[视图](/docs/{{version}}/views)作为返回的内容时，则可以使用 `view` 方法：
+如果你想要控制响应状态码及标头，同时也想要返回一个 [视图](/docs/{{version}}/views) 作为返回的内容时，则可以使用 `view` 方法：
 
     return response()->view('hello', $data)->header('Content-Type', $type);
 
@@ -150,7 +150,7 @@
 <a name="redirecting-controller-actions"></a>
 #### 重定向至控制器行为
 
-你可能会希望生成重定向至[控制器的行为](/docs/{{version}}/controllers)。要做到这一点，只需传递控制器及行为名称至 `action` 方法。请记得，你不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置默认的控制器命名空间：
+你可能会希望生成重定向至 [控制器的行为](/docs/{{version}}/controllers)。要做到这一点，只需传递控制器及行为名称至 `action` 方法。请记得，你不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置默认的控制器命名空间：
 
     return redirect()->action('HomeController@index');
 
@@ -161,7 +161,7 @@
 <a name="redirecting-with-flashed-session-data"></a>
 #### 重定向并加上 Session 闪存数据
 
-通常重定向至新的 URL 时会一并[写入闪存数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用链式调用的方式创建一个 `RedirectResponse` 的实例**并**闪存数据至 Session。这对于在一个动作之后保存状态消息相当方便：
+通常重定向至新的 URL 时会一并 [写入闪存数据至 session](/docs/{{version}}/session#flash-data)。所以为了方便，你可以利用链式调用的方式创建一个 `RedirectResponse` 的实例 **并** 闪存数据至 Session。这对于在一个动作之后保存状态消息相当方便：
 
     Route::post('user/profile', function () {
         // 更新用户的个人数据...
@@ -182,7 +182,7 @@
 
 如果你想要自定义可以在很多路由和控制器重复使用的响应，可以使用 `Illuminate\Contracts\Routing\ResponseFactory` 实现的方法 `macro`。
 
-举个例子，来自[服务提供者的](/docs/{{version}}/providers) `boot` 方法：
+举个例子，来自 [服务提供者的](/docs/{{version}}/providers) `boot` 方法：
 
     <?php
 
@@ -210,3 +210,5 @@
 `macro` 函数第一个参数为宏名称，第二个参数为闭包函数。宏的闭包函数会在 `ResponseFactory` 的实现或者辅助函数 `response` 调用宏名称的时候被运行：
 
     return response()->caps('foo');
+
+

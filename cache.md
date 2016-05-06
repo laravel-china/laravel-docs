@@ -35,7 +35,7 @@ Laravel 给各种不同的缓存系统提供了统一的 API，缓存的配置�
 
 使用 Memcached 做缓存需要先安装 [Memcached PECL 扩展包](http://pecl.php.net/package/memcached)。
 
-默认的[配置文件](#configuration)采用以 [Memcached::addServer](http://php.net/manual/en/memcached.addserver.php) 为基础的 TCP/IP：
+默认的 [配置文件](#configuration) 采用以 [Memcached::addServer](http://php.net/manual/en/memcached.addserver.php) 为基础的 TCP/IP：
 
     'memcached' => [
         [
@@ -198,7 +198,7 @@ Laravel 给各种不同的缓存系统提供了统一的 API，缓存的配置�
 <a name="adding-custom-cache-drivers"></a>
 ## 加入自定义的缓存驱动
 
-我们可以在 `Cache` facade 中使用 `extend` 方法自定义缓存驱动来扩充 Laravel 缓存，它被用来绑定一个自定义驱动的解析器到管理者上，通常这可以通过[服务容器](/docs/{{version}}/providers)来完成。
+我们可以在 `Cache` facade 中使用 `extend` 方法自定义缓存驱动来扩充 Laravel 缓存，它被用来绑定一个自定义驱动的解析器到管理者上，通常这可以通过 [服务容器](/docs/{{version}}/providers) 来完成。
 
 例如，要注册一个名为「mongo」的缓存驱动：
 
@@ -235,7 +235,7 @@ Laravel 给各种不同的缓存系统提供了统一的 API，缓存的配置�
         }
     }
 
-第一个传给 `extend` 方法的参数是驱动的名称，这个名称要与你在 `config/cache.php` 配置文件中，`driver` 选项指定的名称相同，第二个参数是一个应返回一个 `Illuminate\Cache\Repository` 实例的闭包，这个闭包会被传入一个 `$app` 实例，这个实例是属于类[服务容器](/docs/{{version}}/container)的。
+第一个传给 `extend` 方法的参数是驱动的名称，这个名称要与你在 `config/cache.php` 配置文件中，`driver` 选项指定的名称相同，第二个参数是一个应返回一个 `Illuminate\Cache\Repository` 实例的闭包，这个闭包会被传入一个 `$app` 实例，这个实例是属于类 [服务容器](/docs/{{version}}/container) 的。
 
 调用 `Cache::extend` 的工作可以在新加入的 Laravel 应用程序中默认的 `App\Providers\AppServiceProvider` 的 `boot` 方法中完成，或者你可以创建你自己的服务提供者来管理扩展功能（只是请别忘了在 `config/app.php` 中的服务提供者数组注册这个提供者）。
 
@@ -303,7 +303,7 @@ Laravel 给各种不同的缓存系统提供了统一的 API，缓存的配置�
 <a name="cache-events"></a>
 ## 缓存事件
 
-你可以监听到缓存做每一次操作的触发[事件](/docs/{{version}}/events)。一般来说，你必须将事件侦听器放置在 `EventServiceProvider` 的 `boot` 方法中：
+你可以监听到缓存做每一次操作的触发 [事件](/docs/{{version}}/events)。一般来说，你必须将事件侦听器放置在 `EventServiceProvider` 的 `boot` 方法中：
 
     /**
      * 为你的应用程序注册任何其它事件。
@@ -331,3 +331,5 @@ Laravel 给各种不同的缓存系统提供了统一的 API，缓存的配置�
             //
         });
     }
+
+

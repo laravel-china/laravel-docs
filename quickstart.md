@@ -24,12 +24,12 @@
 
 此快速入门指南主要为 Laravel 框架提供基本的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、验证、视图，及 Blade 模版。如果你是第一次使用 Laravel 框架或 PHP，那么这会是个很好的开头。如果你已经在使用 Laravel 或者其它的框架，不仿参考我们高级的快速入门指南。
 
-为了在 Laravel 功能中给样本做基本的选择，我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码[在 GitHub 上](http://github.com/laravel/quickstart-basic)。
+为了在 Laravel 功能中给样本做基本的选择，我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码 [在 GitHub 上](http://github.com/laravel/quickstart-basic)。
 
 <a name="installation"></a>
 ## 安装
 
-首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
+首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead) 或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
@@ -40,7 +40,7 @@
 	composer install
 	php artisan migrate
 
-欲了解更多关于构建本机 Laravel 开发环境的文档，请查阅完整的 [Homestead](/docs/{{version}}/homestead) 及[安装](/docs/{{version}}/installation)文档。
+欲了解更多关于构建本机 Laravel 开发环境的文档，请查阅完整的 [Homestead](/docs/{{version}}/homestead) 及 [安装](/docs/{{version}}/installation) 文档。
 
 <a name="prepping-the-database"></a>
 ## 准备数据库
@@ -50,7 +50,7 @@
 
 首先，让我们使用迁移来定义数据表以容纳我们所有的任务。Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库副本中，你的队友就可以简单运行你推送到版本控制的迁移。
 
-让我们来构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan)可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
+让我们来构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan) 可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
 
 	php artisan make:migration create_tasks_table --create=tasks
 
@@ -116,7 +116,7 @@
 		//
 	}
 
-在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型的知识。当然，你也可以随意参考[完整的 Eloquent 文档](/docs/{{version}}/eloquent)来获取更多信息。
+在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型的知识。当然，你也可以随意参考 [完整的 Eloquent 文档](/docs/{{version}}/eloquent) 来获取更多信息。
 
 <a name="routing"></a>
 ## 路由
@@ -177,9 +177,9 @@
 <a name="defining-the-layout"></a>
 ### 定义布局
 
-几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局**来让不同页面共用这些相同的功能。
+几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局** 来让不同页面共用这些相同的功能。
 
-如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade)渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
+如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade) 渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
 
 我们的 `app.blade.php` 视图看起来应该如下面这样：
 
@@ -314,7 +314,7 @@
     @endif
 
 
-> **注意：**`errors` 变量可用于**每个** Laravel 的视图中。如果没有错误验证消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
+> **注意：**`errors` 变量可用于 **每个** Laravel 的视图中。如果没有错误验证消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
 
 <a name="creating-the-task"></a>
 ### 创建任务
@@ -444,3 +444,5 @@
 
 		return redirect('/');
 	});
+
+

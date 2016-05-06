@@ -182,11 +182,11 @@ Laravel 也提供了几个辅助函数来测试 JSON API 及其响应。举例�
         }
     }
 
-`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 响应中的**任何位置**。也就是说，即使有其它的属性存在于该 JSON 响应中，但是只要指定的片段存在，此测试便会通过。
+`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 响应中的 **任何位置**。也就是说，即使有其它的属性存在于该 JSON 响应中，但是只要指定的片段存在，此测试便会通过。
 
 #### 验证完全匹配的 JSON
 
-如果你想验证传入的数组是否与应用程序返回的 JSON **完全**匹配，则可以使用 `seeJsonEquals` 方法：
+如果你想验证传入的数组是否与应用程序返回的 JSON **完全** 匹配，则可以使用 `seeJsonEquals` 方法：
 
     <?php
 
@@ -222,7 +222,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，
         }
     }
 
-当然，一般使用 Session 时都是用于维持用户的状态，如认证用户。`actingAs` 辅助函数提供了简单的方式来让指定的用户认证为当前的用户。举个例子，我们可以使用[模型工厂](#model-factories)来生成并认证用户：
+当然，一般使用 Session 时都是用于维持用户的状态，如认证用户。`actingAs` 辅助函数提供了简单的方式来让指定的用户认证为当前的用户。举个例子，我们可以使用 [模型工厂](#model-factories) 来生成并认证用户：
 
     <?php
 
@@ -242,7 +242,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，
 <a name="disabling-middleware"></a>
 ### 停用中间件
 
-测试应用程序时，你会发现，在某些测试中停用[中间件](/docs/{{version}}/middleware)是很方便的。这让你可以隔离任何中间件的所有影响，以便更好的测试路由及控制器。Laravel 包含了一个简洁的 `WithoutMiddleware` trait，你能在测试类中使用它来自动停用所有的中间件：
+测试应用程序时，你会发现，在某些测试中停用 [中间件](/docs/{{version}}/middleware) 是很方便的。这让你可以隔离任何中间件的所有影响，以便更好的测试路由及控制器。Laravel 包含了一个简洁的 `WithoutMiddleware` trait，你能在测试类中使用它来自动停用所有的中间件：
 
     <?php
 
@@ -288,7 +288,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，
         $this->assertEquals(200, $response->status());
     }
 
-如果你创建的是 `POST`、`PUT`、或是 `PATCH` 请求，则可以在请求时传入一个数组作为输入数据。当然，你也可以在路由及控制器中通过[请求实例](/docs/{{version}}/requests)取用这些数据：
+如果你创建的是 `POST`、`PUT`、或是 `PATCH` 请求，则可以在请求时传入一个数组作为输入数据。当然，你也可以在路由及控制器中通过 [请求实例](/docs/{{version}}/requests) 取用这些数据：
 
        $response = $this->call('POST', '/user', ['name' => 'Taylor']);
 
@@ -388,7 +388,7 @@ Laravel 也提供了多种有用的工具来让你更容易的测试使用数据
 <a name="model-factories"></a>
 ### 模型工厂
 
-测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent)的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/ModelFactory.php` 文件。此文件包含一个现成的工厂定义：
+测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/ModelFactory.php` 文件。此文件包含一个现成的工厂定义：
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         return [
@@ -565,7 +565,7 @@ Laravel 提供了一个简洁的 `expectsJobs` 方法，以验证预期的任务
         }
     }
 
-我们可以通过 `shouldReceive` 方法模拟调用 `Cache` facade，它会返回一个 [Mockery](https://github.com/padraic/mockery) 模拟的实例。因为 facades 实际上已经被 Laravel 的[服务容器](/docs/{{version}}/container)解决并管理着，它们比起一般的静态类更有可测性。举个例子，让我们来模拟调用 `Cache` facade：
+我们可以通过 `shouldReceive` 方法模拟调用 `Cache` facade，它会返回一个 [Mockery](https://github.com/padraic/mockery) 模拟的实例。因为 facades 实际上已经被 Laravel 的 [服务容器](/docs/{{version}}/container) 解决并管理着，它们比起一般的静态类更有可测性。举个例子，让我们来模拟调用 `Cache` facade：
 
     <?php
 
@@ -583,3 +583,5 @@ Laravel 提供了一个简洁的 `expectsJobs` 方法，以验证预期的任务
     }
 
 > **注意：** 你不应该模拟 `Request` facade。应该在测试时使用如 `call` 及 `post` 这样的 HTTP 辅助函数来传递你想要的数据。
+
+

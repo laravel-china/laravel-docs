@@ -53,9 +53,9 @@ Laravel 基于热门的 [SwiftMailer](http://swiftmailer.org) 函数库提供了
 <a name="sending-mail"></a>
 ## 发送邮件
 
-Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息。例如，要组织你的电子邮件，你可以在 `resource/views` 目录中创建 `emails` 目录：
+Laravel 允许你在 [视图](/docs/{{version}}/views) 中存放电子邮件消息。例如，要组织你的电子邮件，你可以在 `resource/views` 目录中创建 `emails` 目录：
 
-要发送消息，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `send` 方法。`send` 方法接收三个参数。首先是包含邮件消息的[视图](/docs/{{version}}/views)名称。其次是一个要传递给该视图的数据数组。最后是一个用来接收消息实例的 `闭包`回调，让你可以自定义收件者、主题，以及邮件消息的其它部分：
+要发送消息，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `send` 方法。`send` 方法接收三个参数。首先是包含邮件消息的 [视图](/docs/{{version}}/views) 名称。其次是一个要传递给该视图的数据数组。最后是一个用来接收消息实例的 `闭包`回调，让你可以自定义收件者、主题，以及邮件消息的其它部分：
 
     <?php
 
@@ -91,7 +91,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
     <?php echo $user->name; ?>
 
-> **注意：**`$message` 变量永远会被传递至电子邮件视图，且允许[内部嵌入附件](#attachments)。因此，你应该避免将 `message` 变量传至视图。
+> **注意：**`$message` 变量永远会被传递至电子邮件视图，且允许 [内部嵌入附件](#attachments)。因此，你应该避免将 `message` 变量传至视图。
 
 #### 创建消息
 
@@ -184,13 +184,13 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 将邮件消息加入队列
 
-由于发送电子邮件消息会大幅延长应用程序的响应时间，许多开发者都会选择将邮件消息加入队列并于后台发送。Laravel 使用其内置的[统一的队列 API](/docs/{{version}}/queues) 来让你轻松地完成此工作。要将邮件消息加入队列，使用 `Mail` facade 的 `queue` 方法：
+由于发送电子邮件消息会大幅延长应用程序的响应时间，许多开发者都会选择将邮件消息加入队列并于后台发送。Laravel 使用其内置的 [统一的队列 API](/docs/{{version}}/queues) 来让你轻松地完成此工作。要将邮件消息加入队列，使用 `Mail` facade 的 `queue` 方法：
 
     Mail::queue('emails.welcome', $data, function ($message) {
         //
     });
 
-此方法会自动将工作加入队列，以便在后台发送邮件消息。当然，在使用此功能之前，你需要[设置你的队列](/docs/{{version}}/queues)。
+此方法会自动将工作加入队列，以便在后台发送邮件消息。当然，在使用此功能之前，你需要 [设置你的队列](/docs/{{version}}/queues)。
 
 #### 延迟的消息队列
 
@@ -219,7 +219,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 
 #### 日志驱动
 
-一个解决方案是在本地开发时使用 `log` 邮件驱动。此驱动会将所有的电子邮件消息写入日志文件作为检验。若需要更多根据环境来设置应用程序的信息，可参考[设置文档](/docs/{{version}}/installation#environment-configuration)。
+一个解决方案是在本地开发时使用 `log` 邮件驱动。此驱动会将所有的电子邮件消息写入日志文件作为检验。若需要更多根据环境来设置应用程序的信息，可参考 [设置文档](/docs/{{version}}/installation#environment-configuration)。
 
 #### 通用收件者
 
@@ -237,7 +237,7 @@ Laravel 允许你在[视图](/docs/{{version}}/views)中存放电子邮件消息
 <a name="events"></a>
 ## 事件
 
-Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，此事件只会在邮件**发送**时触发，在队列时则不会。你可以在你的 `EventServiceProvider` 注册一个事件侦听器：
+Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，此事件只会在邮件 **发送** 时触发，在队列时则不会。你可以在你的 `EventServiceProvider` 注册一个事件侦听器：
 
     /**
      * 注册你应用程序中的其它事件。
@@ -253,3 +253,5 @@ Laravel 会在发送邮件消息之前触发 `mailer.sending` 事件。切记，
             //
         });
     }
+
+

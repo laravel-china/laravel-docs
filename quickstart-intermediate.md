@@ -30,12 +30,12 @@
 
 此快速入门指南为 Laravel 框架提供了高级的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、认证、授权、依赖注入、验证、视图，及 Blade 模版。如果你已经有 Laravel 框架或 PHP 的基础，那么这会是个很好的开头。
 
-要在 Laravel 功能中为样本做基本的选择，我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码[在 GitHub 上](http://github.com/laravel/quickstart-intermediate)。
+要在 Laravel 功能中为样本做基本的选择，我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码 [在 GitHub 上](http://github.com/laravel/quickstart-intermediate)。
 
 <a name="installation"></a>
 ## 安装
 
-首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead)或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
+首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead) 或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
@@ -46,7 +46,7 @@
 	composer install
 	php artisan migrate
 
-欲了解更多关于构建本机 Laravel 开发环境的文档，请查阅完整的 [Homestead](/docs/{{version}}/homestead) 及[安装](/docs/{{version}}/installation)文档。
+欲了解更多关于构建本机 Laravel 开发环境的文档，请查阅完整的 [Homestead](/docs/{{version}}/homestead) 及 [安装](/docs/{{version}}/installation) 文档。
 
 <a name="prepping-the-database"></a>
 ## 准备数据库
@@ -62,7 +62,7 @@
 
 #### `tasks` 数据表
 
-下一步，让我们构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan)可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
+下一步，让我们构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan) 可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
 
 	php artisan make:migration create_tasks_table --create=tasks
 
@@ -142,7 +142,7 @@
 	    protected $fillable = ['name'];
 	}
 
-在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型的知识。当然，你也可以随意参考[完整的 Eloquent 文档](/docs/{{version}}/eloquent)来获取更多信息。
+在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型的知识。当然，你也可以随意参考 [完整的 Eloquent 文档](/docs/{{version}}/eloquent) 来获取更多信息。
 
 <a name="eloquent-relationships"></a>
 ### Eloquent 关联
@@ -157,7 +157,7 @@
 
 #### `tasks` 关联
 
-首先，让我们在 `User` 模型定义 `tasks` 的关联。Eloquent 关联被定义为模型中的方法。Eloquent 支持多种不同类型的关联，所以请务必查阅[完整的 Eloquent 文档](/docs/{{version}}/eloquent-relationships)以获取更多信息。在本例中，我们会在 `User` 模型中定义一个 `tasks` 函数，并调用 Eloquent 提供的 `hasMany` 方法：
+首先，让我们在 `User` 模型定义 `tasks` 的关联。Eloquent 关联被定义为模型中的方法。Eloquent 支持多种不同类型的关联，所以请务必查阅 [完整的 Eloquent 文档](/docs/{{version}}/eloquent-relationships) 以获取更多信息。在本例中，我们会在 `User` 模型中定义一个 `tasks` 函数，并调用 Eloquent 提供的 `hasMany` 方法：
 
 	<?php
 
@@ -216,7 +216,7 @@
 <a name="routing"></a>
 ## 路由
 
-在我们任务清单应用程序的[基本版本](/docs/{{version}}/quickstart)中，我们在 `routes.php` 中将所有逻辑都定义为闭包。对于大多数的应用程序来说，一般都会使用[控制器](/docs/{{version}}/controllers)来组织路由。控制器让我们将 HTTP 请求处理逻辑分散至多个文件以便进行更好的组织。
+在我们任务清单应用程序的 [基本版本](/docs/{{version}}/quickstart) 中，我们在 `routes.php` 中将所有逻辑都定义为闭包。对于大多数的应用程序来说，一般都会使用 [控制器](/docs/{{version}}/controllers) 来组织路由。控制器让我们将 HTTP 请求处理逻辑分散至多个文件以便进行更好的组织。
 
 <a name="displaying-a-view"></a>
 ### 显示视图
@@ -259,7 +259,7 @@
 
 `login.blade.php` 文件必需有一个包含 `email` 与 `password` 字段的表单，并创建一个到 `/auth/login` 上的 `POST` 请求。
 
-> **注意：**如果你想查看这些视图的完整例子，可以在 [GitHub 上获取](https://github.com/laravel/quickstart-intermediate)完整的源代码。
+> **注意：**如果你想查看这些视图的完整例子，可以在 [GitHub 上获取](https://github.com/laravel/quickstart-intermediate) 完整的源代码。
 
 <a name="the-task-controller"></a>
 ### 任务控制器
@@ -276,7 +276,7 @@
 
 #### 认证所有的任务路由
 
-对于此应用程序，我们希望所有的任务路由都需要一个认证的用户。换句话说，用户为了创建任务必须「登录至」应用程序中。所以，我们需要对任务路由进行限制让其仅限已认证的用户访问。Laravel 使用[中间件](/docs/{{version}}/middleware)让这件事变得相当容易。
+对于此应用程序，我们希望所有的任务路由都需要一个认证的用户。换句话说，用户为了创建任务必须「登录至」应用程序中。所以，我们需要对任务路由进行限制让其仅限已认证的用户访问。Laravel 使用 [中间件](/docs/{{version}}/middleware) 让这件事变得相当容易。
 
 要让所有控制器中的行为要求已认证的用户，我们可以在控制器的构造器中增加 `middleware` 方法的调用。所以可用的路由中间件都被定义在 `app/Http/Kernel.php` 文件中。在本例中，我们希望为所有控制器的动作指派 `auth` 中间件：
 
@@ -311,9 +311,9 @@
 <a name="defining-the-layout"></a>
 ### 定义布局
 
-几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局**来让不同页面共用这些相同的功能。
+几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局** 来让不同页面共用这些相同的功能。
 
-如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade)渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
+如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade) 渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
 
 我们的 `app.blade.php` 视图看起来应该如下面这样：
 
@@ -432,7 +432,7 @@
 		// 创建该任务...
 	}
 
-如果你看过[基本快速入门指南](/docs/{{version}}/quickstart)，你会注意到验证的代码相比起来有些不同！这是因为在控制器内可以使用 Laravel 基底控制器所包含的 `ValidatesRequests` trait。这个 trait 提供了一个简单的 `validate` 方法，此方法可接收一个请求和包含验证规则的数组。
+如果你看过 [基本快速入门指南](/docs/{{version}}/quickstart)，你会注意到验证的代码相比起来有些不同！这是因为在控制器内可以使用 Laravel 基底控制器所包含的 `ValidatesRequests` trait。这个 trait 提供了一个简单的 `validate` 方法，此方法可接收一个请求和包含验证规则的数组。
 
 当验证失败时我们无需再手动重定向。如果指定的规则验证失败，用户会自动被重定向回原本的位置，并自动将错误消息闪存至 session 中。
 
@@ -458,7 +458,7 @@
     @endif
 
 
-> **注意：**`errors` 变量可用于**每个** Laravel 的视图中。如果没有错误验证消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
+> **注意：**`errors` 变量可用于 **每个** Laravel 的视图中。如果没有错误验证消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
 
 <a name="creating-the-task"></a>
 ### 创建任务
@@ -513,7 +513,7 @@ Laravel 大部分的关联提供了一个 `create` 方法，它接收一个包�
 <a name="dependency-injection"></a>
 ### 依赖注入
 
-Laravel 的[服务容器](/docs/{{version}}/container)是整个框架中最强大的功能之一。在读完本快速上手之后，请务必阅读容器文档的全部内容。
+Laravel 的 [服务容器](/docs/{{version}}/container) 是整个框架中最强大的功能之一。在读完本快速上手之后，请务必阅读容器文档的全部内容。
 
 #### 创建资源库
 
@@ -790,7 +790,7 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 
 如果该行为被授权了，我们的代码就会继续正常运行。但是，如果该行为不被授权（意指授权策略的 `destroy` 方法返回 `false`），就会自动被抛出一个 403 异常并将错误页面显示给用户。
 
-> **注意：**Laravel 提供的授权服务还有很多种其它的方式可供交互。请务必浏览完整的[授权文档](/docs/{{version}}/authorization)。
+> **注意：**Laravel 提供的授权服务还有很多种其它的方式可供交互。请务必浏览完整的 [授权文档](/docs/{{version}}/authorization)。
 
 <a name="deleting-the-task"></a>
 ### 删除该任务
@@ -812,3 +812,5 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 
         return redirect('/tasks');
     }
+
+

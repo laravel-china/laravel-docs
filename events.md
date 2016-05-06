@@ -296,7 +296,7 @@ Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件
         }
     }
 
-接着，你只需要像往常一样[触发事件](#firing-events)。一旦事件被触发之后，[队列任务](/docs/{{version}}/queues)将会自动的广播事件到你指定的广播驱动上。
+接着，你只需要像往常一样 [触发事件](#firing-events)。一旦事件被触发之后，[队列任务](/docs/{{version}}/queues) 将会自动的广播事件到你指定的广播驱动上。
 
 <a name="overriding-broadcast-event-name"></a>
 #### 重写广播事件名称
@@ -486,3 +486,5 @@ Laravel 为框架运行的行为提供了许多「核心」事件。你可以像
 | router.matched                     | $route, $request                          |
 | composing:{view name}              | $view                                     |
 | creating:{view name}               | $view                                     |
+
+

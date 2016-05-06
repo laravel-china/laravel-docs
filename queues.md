@@ -111,11 +111,11 @@ Laravel 的队列服务为不同的队列后端系统提供了一套统一的 AP
 
 注意，在这个例子中，我们在任务类的构造器中直接传递了一个 [Eloquent 模型](/docs/{{version}}/eloquent)。因为我们在任务类里引用了 `SerializesModels` 这个 trait，使得 Eloquent 模型在处理任务时可以被优雅地序列化和反序列化。如果你的队列任务类在构造器中接收了一个 Eloquent 模型，那么只有可识别出该模型的属性会被序列化到队列里。当任务被实际运行时，队列系统便会自动从数据库中重新取回完整的模型。这整个过程对你的应用程序来说是完全透明的，这样可以避免在序列化完整的 Eloquent 模式实例时所带来的一些问题。
 
-在队列处理任务时，会调用 `handle` 方法，而这里我们也可以通过 `handle` 方法的参数类型提示，让 Laravel 的[服务容器](/docs/{{version}}/container)自动注入依赖对象。
+在队列处理任务时，会调用 `handle` 方法，而这里我们也可以通过 `handle` 方法的参数类型提示，让 Laravel 的 [服务容器](/docs/{{version}}/container) 自动注入依赖对象。
 
 #### 当发生错误的时候
 
-如果在处理任务时抛出了一个异常，它将会自动被释放回队列里并再次尝试运行。当该任务一直出错时，它会不断被发布重试，直到超过应用程序所允许的最大重试值。最大重试值可以在运行 `queue:listen` 或 `queue:work` 命令时，用 `--tries` 选项来设置。关于运行队列侦听器的更多信息在稍后会有[详细说明](#running-the-queue-listener)。
+如果在处理任务时抛出了一个异常，它将会自动被释放回队列里并再次尝试运行。当该任务一直出错时，它会不断被发布重试，直到超过应用程序所允许的最大重试值。最大重试值可以在运行 `queue:listen` 或 `queue:work` 命令时，用 `--tries` 选项来设置。关于运行队列侦听器的更多信息在稍后会有 [详细说明](#running-the-queue-listener)。
 
 #### 手动释放任务
 
@@ -439,7 +439,7 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
 
     php artisan queue:failed-table
 
-当你运行[队列侦听器](#running-the-queue-listener)时，可以用 `queue:listen` 命令的 `--tries` 参数来指定任务的最大重试次数：
+当你运行 [队列侦听器](#running-the-queue-listener) 时，可以用 `queue:listen` 命令的 `--tries` 参数来指定任务的最大重试次数：
 
     php artisan queue:listen connection-name --tries=3
 
@@ -543,3 +543,5 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
 `queue:flush` 命令可以让你删除所有失败的任务：
 
     php artisan queue:flush
+
+

@@ -45,7 +45,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="included-routing"></a>
 ### 路由
 
-默认的，没有[路由](/docs/{{version}}/routing)指向这些认证控制器，你需要自己添加到 `app/Http/routes.php` 中。
+默认的，没有 [路由](/docs/{{version}}/routing) 指向这些认证控制器，你需要自己添加到 `app/Http/routes.php` 中。
 
     // 认证路由...
     Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -59,7 +59,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="included-views"></a>
 ### 视图
 
-虽然这些认证控制器被包含在框架中，你仍需提供[视图](/docs/{{version}}/views)给控制器渲染，而视图需要被放置在 `resources/views/auth` 文件夹中，你可以任意的自定义这些视图。登录视图应该被放在 `resources/views/auth/login.blade.php` 而注册视图则放在 `resources/views/auth/register.blade.php`。
+虽然这些认证控制器被包含在框架中，你仍需提供 [视图](/docs/{{version}}/views) 给控制器渲染，而视图需要被放置在 `resources/views/auth` 文件夹中，你可以任意的自定义这些视图。登录视图应该被放在 `resources/views/auth/login.blade.php` 而注册视图则放在 `resources/views/auth/register.blade.php`。
 
 #### 认证表单例子
 
@@ -182,12 +182,12 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
         // 这个用户已经登录...
     }
 
-不过，在允许该用户访问特定的路由或控制器之前，你可以使用中间件来确认这个用户是否认证过。要想得到更多信息，请阅读[限制路由访问](/docs/{{version}}/authentication#protecting-routes)的文档。
+不过，在允许该用户访问特定的路由或控制器之前，你可以使用中间件来确认这个用户是否认证过。要想得到更多信息，请阅读 [限制路由访问](/docs/{{version}}/authentication#protecting-routes) 的文档。
 
 <a name="protecting-routes"></a>
 ### 限制路由访问
 
-[路由中间件](/docs/{{version}}/middleware)用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中，你只需要将它应用到路由定义中：
+[路由中间件](/docs/{{version}}/middleware) 用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中，你只需要将它应用到路由定义中：
 
     // 使用路由闭包...
     Route::get('profile', ['middleware' => 'auth', function() {
@@ -200,7 +200,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
         'uses' => 'ProfileController@show'
     ]);
 
-当然，如果你正在使用[控制器类](/docs/{{version}}/controllers)，你可以在构造器中调用 `middleware` 方法，而不是在路由中直接定义它：
+当然，如果你正在使用 [控制器类](/docs/{{version}}/controllers)，你可以在构造器中调用 `middleware` 方法，而不是在路由中直接定义它：
 
     public function __construct()
     {
@@ -277,7 +277,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
     Auth::logout();
 
-> **注意：**在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，如【手机号码】，只要它在数据库的意思等同于「用户名」。
+> **注意：** 在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，如【手机号码】，只要它在数据库的意思等同于「用户名」。
 
 <a name="remembering-users"></a>
 ## 记住用户
@@ -320,7 +320,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="http-basic-authentication"></a>
 ## HTTP 基础认证
 
-[HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication)提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware)到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
+[HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication) 提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware)到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
 
     Route::get('profile', ['middleware' => 'auth.basic', function() {
         // 只有认证过的用户可进入...
@@ -338,7 +338,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="stateless-http-basic-authentication"></a>
 ### 无状态 HTTP 基础认证
 
-你可以使用 HTTP 基础认证而不用在 session 中设置用户认证用的 cookie，这个功能对 API 认证来说非常有用。为了达到这个目的，[定义一个中间件](/docs/{{version}}/middleware)并调用 `onceBasic` 方法。如果从 `onceBasic` 方法没有返回任何响应的话，这个请求会直接传进应用程序中：
+你可以使用 HTTP 基础认证而不用在 session 中设置用户认证用的 cookie，这个功能对 API 认证来说非常有用。为了达到这个目的，[定义一个中间件](/docs/{{version}}/middleware) 并调用 `onceBasic` 方法。如果从 `onceBasic` 方法没有返回任何响应的话，这个请求会直接传进应用程序中：
 
     <?php
 
@@ -489,12 +489,12 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
     protected $redirectTo = '/dashboard';
 
-> **注意：**默认情况下，密码重置令牌会在一个小时后过期，你可以更改 `config/auth.php` 的 `reminder.expire` 选项，来修改这个设置。
+> **注意：** 默认情况下，密码重置令牌会在一个小时后过期，你可以更改 `config/auth.php` 的 `reminder.expire` 选项，来修改这个设置。
 
 <a name="social-authentication"></a>
 ## 社会化认证
 
-除了传统的表单认证之外，Laravel 同样提供了简单方便的方法来认证 OAuth 提供者，这个方法使用了 [Laravel Socialite](https://github.com/laravel/socialite)。Socialite 目前支持 Facebook、Twitter、LinkedIn、Google、GitHub 跟 Bitbucket 的认证。
+除了传统的表单认证之外，Laravel 同样提供了简单方便的方法来认证 OAuth 提供者，这个方法使用了  [Laravel Socialite](https://github.com/laravel/socialite)。Socialite 目前支持 Facebook、Twitter、LinkedIn、Google、GitHub 跟 Bitbucket 的认证。
 
 开始使用 Socialite 前，请先添加依赖包至你的 `composer.json`：
 
@@ -596,7 +596,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="adding-custom-authentication-drivers"></a>
 ## 添加自定义的认证驱动
 
-如果你不是使用传统的关系型数据库来保存用户，你将需要扩充 Laravel 来添加你自己的认证驱动。我们将使用 `Auth` facade 的 `extend` 方法来定义自定义驱动。你应该将 `extend` 放置在[服务提供者](/docs/{{version}}/providers)中：
+如果你不是使用传统的关系型数据库来保存用户，你将需要扩充 Laravel 来添加你自己的认证驱动。我们将使用 `Auth` facade 的 `extend` 方法来定义自定义驱动。你应该将 `extend` 放置在 [服务提供者](/docs/{{version}}/providers) 中：
 
     <?php
 
@@ -687,7 +687,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="events"></a>
 ## 事件
 
-Laravel 提供了在认证过程中的各种[事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 为这些事件连接侦听器：
+Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 为这些事件连接侦听器：
 
     /**
      * 为你的应用程序注册任何事件。
@@ -714,3 +714,5 @@ Laravel 提供了在认证过程中的各种[事件](/docs/{{version}}/events)�
             //
         });
     }
+
+

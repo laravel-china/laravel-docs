@@ -11,7 +11,7 @@
 <a name="accessing-the-request"></a>
 ## 获取请求
 
-要通过依赖注入的方式获取 HTTP 请求的实例，就必须在控制器的构造器或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例便会自动由[服务容器](/docs/{{version}}/container)注入：
+要通过依赖注入的方式获取 HTTP 请求的实例，就必须在控制器的构造器或方法中，使用 `Illuminate\Http\Request` 类型提示。当前的请求实例便会自动由 [服务容器](/docs/{{version}}/container)注入：
 
     <?php
 
@@ -137,7 +137,7 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及响应。如果你想�
 
 #### 确认是否有输入值
 
-要判断数据是否存在于此次请求，可以使用 `has` 方法。当该数据存在**并且**字符串不为空时，`has` 方法就会传回 `true`：
+要判断数据是否存在于此次请求，可以使用 `has` 方法。当该数据存在 **并且** 字符串不为空时，`has` 方法就会传回 `true`：
 
     if ($request->has('name')) {
         //
@@ -164,7 +164,7 @@ PSR-7 标准制定的 HTTP 消息接口包含了请求及响应。如果你想�
 <a name="old-input"></a>
 ### 旧输入数据
 
-Laravel 可以让你将本次的输入数据保留到下一次请求发送前。对于在表单验证失败后重新填入表单值相当有用。当然，如果你使用 Laravel 的[验证服务](/docs/{{version}}/validation)，你就不需要再手动使用这些方法，因为 Laravel 的一些内置验证功能会自动调用它们。
+Laravel 可以让你将本次的输入数据保留到下一次请求发送前。对于在表单验证失败后重新填入表单值相当有用。当然，如果你使用 Laravel 的 [验证服务](/docs/{{version}}/validation)，你就不需要再手动使用这些方法，因为 Laravel 的一些内置验证功能会自动调用它们。
 
 #### 将输入数据闪存至 Session
 
@@ -192,7 +192,7 @@ Laravel 可以让你将本次的输入数据保留到下一次请求发送前。
 
     $username = $request->old('username');
 
-Laravel 也提供了全局辅助函数 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade)中显示旧输入数据，可以使用更加方便的 `old` 辅助函数：
+Laravel 也提供了全局辅助函数 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade) 中显示旧输入数据，可以使用更加方便的 `old` 辅助函数：
 
     {{ old('username') }}
 
@@ -256,4 +256,6 @@ Laravel 提供了全局辅助函数 `cookie`，可通过简易的工厂生成新
 
 #### 其它上传文件的方法
 
-`UploadedFile` 的实例还有许多可用的方法，可以到[该对象的 API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html)了解这些方法的详细信息。
+`UploadedFile` 的实例还有许多可用的方法，可以到 [该对象的 API 文档](http://api.symfony.com/2.7/Symfony/Component/HttpFoundation/File/UploadedFile.html) 了解这些方法的详细信息。
+
+

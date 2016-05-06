@@ -49,7 +49,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer create-project laravel/laravel --prefer-dist blog
 
-> **[Summer](http://github.com/summerblue)：**  安装 Laravel 5.1 LTS，请使用以下命令：
+> **[Summer](http://github.com/summerblue)：** 安装 Laravel 5.1 LTS，请使用以下命令：
 
     composer create-project laravel/laravel your-project-name --prefer-dist "5.1.*"
 
@@ -147,7 +147,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在本机开发时运行，因为设置选项会在应用程序的开发时经常变动。
 
-> **[Summer](http://github.com/summerblue)：** 想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
+> **[Summer](http://github.com/summerblue)：**想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 
 <a name="accessing-configuration-values"></a>
 ### 获取设置值
@@ -191,3 +191,5 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 ### 维护模式与队列
 
 当应用程序处于维护模式中时，将不会处理任何 [队列工作](/docs/{{version}}/queues)。所有的队列工作将会在应用程序离开维护模式后被继续运行。
+
+

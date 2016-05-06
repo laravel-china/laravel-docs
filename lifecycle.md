@@ -20,7 +20,7 @@
 
 `public/index.php` 这个文件是 Laravel 应用程序所有请求的进入点。所有的请求都通过你的网页服务器（Apache / Nginx）的设置导向这个文件。`index.php` 这个文件并没有太多的代码。更确切地说，它只是个起始点，用来加载框架的其它部分。
 
-`index.php` 此文件会加载由 Composer 生成的自动加载器定义，并获取由 `bootstrap/app.php` 文件中所生成的 Laravel 应用程序实例。Laravel 自身的第一个动作就是创建一个应用程序／[服务容器](/docs/{{version}}/container)的实例。
+`index.php` 此文件会加载由 Composer 生成的自动加载器定义，并获取由 `bootstrap/app.php` 文件中所生成的 Laravel 应用程序实例。Laravel 自身的第一个动作就是创建一个应用程序／ [服务容器](/docs/{{version}}/container) 的实例。
 
 ### HTTP / 终端核心
 
@@ -28,13 +28,13 @@
 
 HTTP 核心扩展了 `Illuminate\Foundation\Http\Kernel` 类，它定义了一个 `bootstrappers` 数组，在请求被运行前会先行运作。这些启动器设置了错误处理、日志记录、[侦测应用程序环境](/docs/{{version}}/installation#environment-configuration)，并运行其它需要在请求实际处理前就该被完成掉的工作。
 
-HTTP 核心也定义了一份 HTTP [中间件](/docs/{{version}}/middleware)清单，所有的请求在被应用程序处理之前都必须经过它们。这些中间件处理 [HTTP session](/docs/{{version}}/session) 的读写、[验证 CSRF 令牌](/docs/{{version}}/routing#csrf-protection)、决定应用程序是否处于维护模式，以及其它更多任务作。
+HTTP 核心也定义了一份 HTTP [中间件](/docs/{{version}}/middleware) 清单，所有的请求在被应用程序处理之前都必须经过它们。这些中间件处理 [HTTP session](/docs/{{version}}/session) 的读写、[验证 CSRF 令牌](/docs/{{version}}/routing#csrf-protection)、决定应用程序是否处于维护模式，以及其它更多任务作。
 
 HTTP 核心 `handle` 方法的方法签章相当简单：接收一个 `Request` 并返回一个 `Response`。把核心想像成一个大的黑盒子，代表你完整的应用程序。喂给它 HTTP 请求，它就会传回 HTTP 响应。
 
 #### 服务提供者
 
-最重要的核心启动加载行为之一，是加载你的应用程序的[服务提供者](/docs/{{version}}/providers)。应用程序的所有服务提供者，都在 `config/app.php` 此配置文件的 `providers` 数组中被设置。首先，所有提供者的 `register` 方法会被调用，一旦所有提供者都被注册之后，`boot` 方法就会被调用。
+最重要的核心启动加载行为之一，是加载你的应用程序的 [服务提供者](/docs/{{version}}/providers)。应用程序的所有服务提供者，都在 `config/app.php` 此配置文件的 `providers` 数组中被设置。首先，所有提供者的 `register` 方法会被调用，一旦所有提供者都被注册之后，`boot` 方法就会被调用。
 
 服务提供者负责在启动时加载框架的所有组件，例如数据库、队列、验证、以及路由组件。服务提供者启动加载并设置框架提供的各种功能，是整个 Laravel 启动加载过程中最重要的面向。
 
@@ -50,3 +50,5 @@ HTTP 核心 `handle` 方法的方法签章相当简单：接收一个 `Request` 
 真正掌握 Laravel 应用程序是如何创建并通过服务提供者启动，将是很有价值的。当然，你的应用程序默认的服务提供者存放在 `app/Providers` 此一目录下。
 
 默认情况下，`AppServiceProvider` 几乎是空的。要加入你应用程序自己的启动及服务容器绑定，此提供者是一个很好的地方。当然，对大型应用程序而言，你可能希望创建若干个服务提供者，每一个都具备更精细的启动类型。
+
+
