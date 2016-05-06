@@ -36,7 +36,7 @@
 <a name="the-app-directory"></a>
 ## App 目录
 
-应用程序的「内容」存在于 `app` 目录中。默认情况下，这个目录在 `App` 命名空间下借助 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/)自动加载。**你可以使用 `app:name` Artisan 命令修改这个命名空间**。
+应用程序的「内容」存在于 `app` 目录中。默认情况下，这个目录在 `App` 命名空间下借助 Composer 使用 [PSR-4 自动加载标准](https://phphub.org/topics/2081)自动加载。**你可以使用 `app:name` Artisan 命令修改这个命名空间**。
 
 `app` 目录附带许多个额外的目录，例如：`Console`、`Http` 和 `Providers`。可以将 `Console` 和 `Http` 目录试想为提供 API 进入应用程序的「核心」。HTTP 协定和 CLI 都是跟应用程序进行交互的机制，但实际上并不包含应用程序逻辑。换句话说，它们是两种简单地发布命令给应用程序的方法。`Console` 目录包含你全部的 Artisan 命令，而 `Http` 目录包含你的控制器、中间件和请求。
 

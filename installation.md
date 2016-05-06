@@ -163,7 +163,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 <a name="naming-your-application"></a>
 ### 命名你的应用程序
 
-在安装完 Laravel 后，你可以来「命名」你的应用程序。默认情况下，`app` 的目录的命名空间是 `App`，然后会通过 Composer 使用 [PSR-4 自动加载标准](http://www.php-fig.org/psr/psr-4/) 来自动加载。不过，你可以轻松地通过 Artisan 命令 `app:name` 来修改命名空间，以配合你的应用程序名称。
+在安装完 Laravel 后，你可以来「命名」你的应用程序。默认情况下，`app` 的目录的命名空间是 `App`，然后会通过 Composer 使用 [PSR-4 自动加载标准](https://phphub.org/topics/2081) 来自动加载。不过，你可以轻松地通过 Artisan 命令 `app:name` 来修改命名空间，以配合你的应用程序名称。
 
 举例来说，假设你的应用程序叫做「Horsefly」，则可以在安装完的根目录运行下方的命令：
 

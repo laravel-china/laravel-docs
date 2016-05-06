@@ -44,7 +44,7 @@ Laravel 5.1 是 Laravel 生态系统内 **长期支持** 的第一个版本。La
 
 ### PSR-2
 
-[PSR-2 代码风格指南](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) 已经被 Laravel 框架采用为默认的代码风格指南。此外，所以的生成器都已进行更新，以生成 PSR-2 兼容的语法。
+[PSR-2 代码风格指南](https://phphub.org/topics/2079) 已经被 Laravel 框架采用为默认的代码风格指南。此外，所以的生成器都已进行更新，以生成 PSR-2 兼容的语法。
 
 ### 文档
 
