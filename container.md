@@ -156,7 +156,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $fooBar = $this->app['FooBar'];
 
-最后，也是最重要的，你可以在类的构造器简单地对依赖使用「类型提示」，类将会从容器中进行解析，包含 [控制器](/docs/{{version}}/controllers)、[事件侦听器](/docs/{{version}}/events)、[对列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware) 等等。在实际情形中，这就是为何大部分的对象都是在容器中解析的。
+最后，也是最重要的，你可以在类的构造器简单地对依赖使用「类型提示」，类将会从容器中进行解析，包含 [控制器](/docs/{{version}}/controllers)、[事件侦听器](/docs/{{version}}/events)、[队列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware) 等等。在实际情形中，这就是为何大部分的对象都是在容器中解析的。
 
 容器会自动为类注入解析出的依赖。举个例子，你可以在控制器的构造器中对应用程序定义的保存库进行类型提示。保存库会自动被解析及注入至类中：
 
