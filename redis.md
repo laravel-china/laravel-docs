@@ -10,7 +10,7 @@
 
 [Redis](http://redis.io) 是一款开源且先进的键值对存储库。由于它可用的键包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets) 和 [有序集合](http://redis.io/topics/data-types#sorted-sets)，因此常被称作数据结构服务器。在使用 Redis 之前，你必须通过 Composer 安装 `predis/predis` 扩展包（~1.0）。
 
-> **[Summer](http://github.com/summerblue)：** 实用此命令安装：`composer require "predis/predis:~1.0"`
+> **[Summer](http://github.com/summerblue)：** 实用此命令安装：`composer require "predis/predis:~1.0"`，扩展阅读 - [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
 
 <a name="configuration"></a>
 ### 配置
@@ -30,6 +30,8 @@
     ],
 
 默认的服务器配置对于开发来说应该足够了。然而，你也可以根据使用的环境来随意更改数组。只需给每个 Redis 指定名称以及在服务器中使用的 host 和 port 即可。
+
+> **[Summer](http://github.com/summerblue)：** 关于 Redis 多连接的配置，请参阅 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://phphub.org/topics/2466)
 
 `cluster` 选项会让 Laravel 的 Redis 客户端在所有 Redis 节点间运行客户端分片（client-side sharding）来创建节点池，并因此拥有大量的可用内存。但是请注意，客户端分片的节点不能运行容错转移。因此，此选项主要适用于可从另一台主要数据存储库获取到的缓存数据。
 
