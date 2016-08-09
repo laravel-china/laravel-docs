@@ -64,7 +64,7 @@
 
 ### D
 
-- Database-Transactions  数据库交易
+- Database-Transactions  数据库事务
 - Deferred Providers 延迟提供者
 - Driver 驱动
 - Dependency Injection 依赖注入
@@ -196,5 +196,3 @@
 - Workbench (开源项目名称，不翻)
 - Webhooks (不翻)
 - Word Factor 加密系数
-
-
