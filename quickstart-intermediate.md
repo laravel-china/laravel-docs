@@ -30,7 +30,7 @@
 
 此快速入门指南为 Laravel 框架提供了高级的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、认证、授权、依赖注入、验证、视图，及 Blade 模版。如果你已经有 Laravel 框架或 PHP 的基础，那么这会是个很好的开头。
 
-要在 Laravel 功能中为样本做基本的选择，我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码 [在 GitHub 上](http://github.com/laravel/quickstart-intermediate)。
+要在 Laravel 功能中为样本做基本的选择，我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码 [在 GitHub 上](https://github.com/summerblue/laravel-quickstart-intermediate-5.1)。
 
 <a name="installation"></a>
 ## 安装
