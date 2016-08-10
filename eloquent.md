@@ -34,7 +34,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
     php artisan make:model User
 
-当你生成一个模型时想要顺便生成一个 [数据库迁移](/docs/{{version}}/schema#database-migrations)，可以使用 `--migration` 或 `-m` 选项：
+当你生成一个模型时想要顺便生成一个 [数据库迁移](/docs/{{version}}/migrations)，可以使用 `--migration` 或 `-m` 选项：
 
     php artisan make:model User --migration
 
