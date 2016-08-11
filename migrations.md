@@ -213,7 +213,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对数据表的创建�
 `$table->time('sunrise');`  |  相当于 TIME 型态。
 `$table->tinyInteger('numbers');`  |  相当于 TINYINT 型态。
 `$table->timestamp('added_on');`  |  相当于 TIMESTAMP 型态。
-`$table->timestamps();`  |  加入 `created_at` 和 `pdated_at` 字段。
+`$table->timestamps();`  |  加入 `created_at` 和 `updated_at` 字段。
 `$table->uuid('id');`  |  相当于 UUID 型态。
 
 #### 字段修饰
