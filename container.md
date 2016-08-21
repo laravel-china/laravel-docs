@@ -71,7 +71,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
 #### 绑定一个单例
 
-`singletion` 方法绑定一个只会被解析一次的类或接口至容器中，且后面的调用都会从容器中返回相同的实例：
+`singleton` 方法绑定一个只会被解析一次的类或接口至容器中，且后面的调用都会从容器中返回相同的实例：
 
     $this->app->singleton('FooBar', function ($app) {
         return new FooBar($app['SomethingElse']);
