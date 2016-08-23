@@ -1,24 +1,5 @@
+# Laravel Documentation
 
-Laravel 简体中文文档 http://laravel-china.org/docs/5.1
+## Contribution Guidelines
 
-## 翻译对应
-
-
-变更|修改
-终端机|命令行
-链结|链式调用
-扩充功能|扩展功能
-基底模型|模型基类
-覆写|重写
-串行化|序列化
-复写|重写
-多笔|多个
-例外|异常
-全域|全局
-运行档|执行文件
-暂存|缓存
-检阅|阅读
-预留值|预设值
-更多消息|更多信息
-翻修|改进
-回报|反馈
+If you are submitting documentation for the **current stable release**, submit it to the corresponding branch. For example, documentation for Laravel 5.1 would be submitted to the `5.1` branch. Documentation intended for the next release of Laravel should be submitted to the `master` branch.

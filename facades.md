@@ -1,22 +1,108 @@
 # Facades
 
-- [简介](#introduction)
-- [使用 Facades](#using-facades)
-- [Facade 类参考](#facade-class-reference)
+- [Introduction](#introduction)
+- [When To Use Facades](#when-to-use-facades)
+    - [Facades Vs. Dependency Injection](#facades-vs-dependency-injection)
+    - [Facades Vs. Helper Functions](#facades-vs-helper-functions)
+- [How Facades Work](#how-facades-work)
+- [Facade Class Reference](#facade-class-reference)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，提供了一个简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和弹性。
+Facades provide a "static" interface to classes that are available in the application's [service container](/docs/{{version}}/container). Laravel ships with many facades which provide access to almost all of Laravel's features. Laravel facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
 
-<a name="using-facades"></a>
-## 使用 Facades
+All of Laravel's facades are defined in the `Illuminate\Support\Facades` namespace. So, we can easily access a facade like so:
 
-在 Laravel 应用程序环境（Context）中，facade 是个提供从容器访问对象的类。`Facade` 类是让这个机制可以运作的原因。Laravel 的 facades，以及任何你创建的自定义 facades，会继承基底 `Illuminate\Support\Facades\Facade` 类。
+    use Illuminate\Support\Facades\Cache;
 
-facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAccessor` 方法的工作定义是从容器中解析出什么。`Facade` 基类利用 `__callStatic()` 魔术方法从你的 facade 延迟调用来解析对象。
+    Route::get('/cache', function () {
+        return Cache::get('key');
+    });
 
-在下面的例子，调用了 Laravel 的缓存系统。看了一下这个代码，或许有人认为静态方法 `get` 是被 `Cache` 类调用的：
+Throughout the Laravel documentation, many of the examples will use facades to demonstrate various features of the framework.
+
+<a name="when-to-use-facades"></a>
+## When To Use Facades
+
+Facades have many benefits. They provide a terse, memorable syntax that allows you to use Laravel's features without remembering long class names that must be injected or configured manually. Furthermore, because of their unique usage of PHP's dynamic methods, they are easy to test.
+
+However, some care must be taken when using facades. The primary danger of facades is class scope creep. Since facades are so easy to use and do not require injection, it can be easy to let your classes continue to grow and use many facades in a single class. Using dependency injection, this potential is mitigated by the visual feedback a large constructor gives you that your class is growing too large. So, when using facades, pay special attention to the size of your class so that it's scope of responsibility stays narrow.
+
+> {tip} When building a third-party package that interacts with Laravel, it's better to inject [Laravel contracts](/docs/{{version}}/contracts) instead of using facades. Since packages are built outside of Laravel itself, you will not have access to Laravel's facade testing helpers.
+
+<a name="facades-vs-dependency-injection"></a>
+### Facades Vs. Dependency Injection
+
+One of the primary benefits of dependency injection is the ability to swap implementations of the injected class. This is useful during testing since you can inject a mock or stub and assert that various methods were called on the stub.
+
+Typically, it would not be possible to mock or stub a truly static class method. However, since facades use dynamic methods to proxy method calls to objects resolved from the service container, we actually can test facades just as we would test an injected class instance. For example, given the following route:
+
+    use Illuminate\Support\Facades\Cache;
+
+    Route::get('/cache', function () {
+        return Cache::get('key');
+    });
+
+We can write the following test to verify that the `Cache::get` method was called with the argument we expected:
+
+    use Illuminate\Support\Facades\Cache;
+
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        Cache::shouldReceive('get')
+             ->with('key')
+             ->andReturn('value');
+
+        $this->visit('/cache')
+             ->see('value');
+    }
+
+<a name="facades-vs-helper-functions"></a>
+### Facades Vs. Helper Functions
+
+In addition to facades, Laravel includes a variety of "helper" functions which can perform common tasks like generating views, firing events, dispatching jobs, or sending HTTP responses. Many of these helper functions perform the same function as a corresponding facade. For example, this facade call and helper call are equivalent:
+
+    return View::make('profile');
+
+    return view('profile');
+
+There is absolutely no practical difference between facades and helper functions. When using helper functions, you may still test them exactly as you would the corresponding facade. For example, given the following route:
+
+    Route::get('/cache', function () {
+        return cache('key');
+    });
+
+Under the hood, the `cache` helper is going to call the `get` method on the class underlying the `Cache` facade. So, even though we are using the helper function, we can write the following test to verify that the method was called with the argument we expected:
+
+    use Illuminate\Support\Facades\Cache;
+
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        Cache::shouldReceive('get')
+             ->with('key')
+             ->andReturn('value');
+
+        $this->visit('/cache')
+             ->see('value');
+    }
+
+<a name="how-facades-work"></a>
+## How Facades Work
+
+In a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the `Facade` class. Laravel's facades, and any custom facades you create, will extend the base `Illuminate\Support\Facades\Facade` class.
+
+The `Facade` base class makes use of the `__callStatic()` magic-method to defer calls from your facade to an object resolved from the container. In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method `get` is being called on the `Cache` class:
 
     <?php
 
@@ -28,7 +114,7 @@ facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAcces
     class UserController extends Controller
     {
         /**
-         * 显示指定用户的个人数据。
+         * Show the profile for the given user.
          *
          * @param  int  $id
          * @return Response
@@ -41,66 +127,62 @@ facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAcces
         }
     }
 
-注意在文件的上方，我们「导入」`Cache` facade。这个 facade 做为访问底层实现 `Illuminate\Contracts\Cache\Factory` 接口的代理。我们使用 facade 的任何调用将会发送给 Laravel 缓存服务的底层实例。
+Notice that near the top of the file we are "importing" the `Cache` facade. This facade serves as a proxy to accessing the underlying implementation of the `Illuminate\Contracts\Cache\Factory` interface. Any calls we make using the facade will be passed to the underlying instance of Laravel's cache service.
 
-如果我们查看 `Illuminate\Support\Facades\Cache` 类，你会发现没有静态方法 `get`：
+If we look at that `Illuminate\Support\Facades\Cache` class, you'll see that there is no static method `get`:
 
     class Cache extends Facade
     {
         /**
-         * 获取组件的注册名称。
+         * Get the registered name of the component.
          *
          * @return string
          */
         protected static function getFacadeAccessor() { return 'cache'; }
     }
 
-相反的，`Cache` facade 继承了基底 `Facade` 类以及定义了 `getFacadeAccessor()` 方法。记住，这个方法的工作是返回服务容器绑定的名称。当用户在 `Cache` facade 上参考任何的静态方法，Laravel 会从 [服务容器](/docs/{{version}}/container) 解析被绑定的 `cache` 以及针对对象运行请求的方法（在这个例子中是 `get`）。
+Instead, the `Cache` facade extends the base `Facade` class and defines the method `getFacadeAccessor()`. This method's job is to return the name of a service container binding. When a user references any static method on the `Cache` facade, Laravel resolves the `cache` binding from the [service container](/docs/{{version}}/container) and runs the requested method (in this case, `get`) against that object.
 
 <a name="facade-class-reference"></a>
-## Facade 类参考
+## Facade Class Reference
 
-在下方你可以找到每个 facade 及其底层的类。这个工具对于通过指定 facade 的来源快速寻找 API 文档相当有用。可应用的 [服务容器绑定](/docs/{{version}}/container) 关键字也包含在里面。
+Below you will find every facade and its underlying class. This is a useful tool for quickly digging into the API documentation for a given facade root. The [service container binding](/docs/{{version}}/container) key is also included where applicable.
 
 Facade  |  Class  |  Service Container Binding
 ------------- | ------------- | -------------
-App  |  [Illuminate\Foundation\Application](http://laravel-china.org/api/{{version}}/Illuminate/Foundation/Application.html)  | `app`
-Artisan  |  [Illuminate\Contracts\Console\Kernel](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`
-Auth  |  [Illuminate\Auth\AuthManager](http://laravel-china.org/api/{{version}}/Illuminate/Auth/AuthManager.html)  |  `auth`
-Auth (Instance)  |  [Illuminate\Auth\Guard](http://laravel-china.org/api/{{version}}/Illuminate/Auth/Guard.html)  |
-Blade  |  [Illuminate\View\Compilers\BladeCompiler](http://laravel-china.org/api/{{version}}/Illuminate/View/Compilers/BladeCompiler.html)  |  `blade.compiler`
-Bus  |  [Illuminate\Contracts\Bus\Dispatcher](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Bus/Dispatcher.html)  |
-Cache  |  [Illuminate\Cache\Repository](http://laravel-china.org/api/{{version}}/Illuminate/Cache/Repository.html)  |  `cache`
-Config  |  [Illuminate\Config\Repository](http://laravel-china.org/api/{{version}}/Illuminate/Config/Repository.html)  |  `config`
-Cookie  |  [Illuminate\Cookie\CookieJar](http://laravel-china.org/api/{{version}}/Illuminate/Cookie/CookieJar.html)  |  `cookie`
-Crypt  |  [Illuminate\Encryption\Encrypter](http://laravel-china.org/api/{{version}}/Illuminate/Encryption/Encrypter.html)  |  `encrypter`
-DB  |  [Illuminate\Database\DatabaseManager](http://laravel-china.org/api/{{version}}/Illuminate/Database/DatabaseManager.html)  |  `db`
-DB (Instance)  |  [Illuminate\Database\Connection](http://laravel-china.org/api/{{version}}/Illuminate/Database/Connection.html)  |
-Event  |  [Illuminate\Events\Dispatcher](http://laravel-china.org/api/{{version}}/Illuminate/Events/Dispatcher.html)  |  `events`
-File  |  [Illuminate\Filesystem\Filesystem](http://laravel-china.org/api/{{version}}/Illuminate/Filesystem/Filesystem.html)  |  `files`
-Gate  |  [Illuminate\Contracts\Auth\Access\Gate](http://laravel-china.org/api/5.1/Illuminate/Contracts/Auth/Access/Gate.html)  |
-Hash  |  [Illuminate\Contracts\Hashing\Hasher](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Hashing/Hasher.html)  |  `hash`
-Input  |  [Illuminate\Http\Request](http://laravel-china.org/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
-Lang  |  [Illuminate\Translation\Translator](http://laravel-china.org/api/{{version}}/Illuminate/Translation/Translator.html)  |  `translator`
-Log  |  [Illuminate\Log\Writer](http://laravel-china.org/api/{{version}}/Illuminate/Log/Writer.html)  |  `log`
-Mail  |  [Illuminate\Mail\Mailer](http://laravel-china.org/api/{{version}}/Illuminate/Mail/Mailer.html)  |  `mailer`
-Password  |  [Illuminate\Auth\Passwords\PasswordBroker](http://laravel-china.org/api/{{version}}/Illuminate/Auth/Passwords/PasswordBroker.html)  |  `auth.password`
-Queue  |  [Illuminate\Queue\QueueManager](http://laravel-china.org/api/{{version}}/Illuminate/Queue/QueueManager.html)  |  `queue`
-Queue (Instance) |  [Illuminate\Queue\QueueInterface](http://laravel-china.org/api/{{version}}/Illuminate/Queue/QueueInterface.html)  |
-Queue (Base Class) |  [Illuminate\Queue\Queue](http://laravel-china.org/api/{{version}}/Illuminate/Queue/Queue.html)  |
-Redirect  |  [Illuminate\Routing\Redirector](http://laravel-china.org/api/{{version}}/Illuminate/Routing/Redirector.html)  |  `redirect`
-Redis  |  [Illuminate\Redis\Database](http://laravel-china.org/api/{{version}}/Illuminate/Redis/Database.html)  |  `redis`
-Request  |  [Illuminate\Http\Request](http://laravel-china.org/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
-Response  |  [Illuminate\Contracts\Routing\ResponseFactory](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Routing/ResponseFactory.html)  |
-Route  |  [Illuminate\Routing\Router](http://laravel-china.org/api/{{version}}/Illuminate/Routing/Router.html)  |  `router`
-Schema  |  [Illuminate\Database\Schema\Blueprint](http://laravel-china.org/api/{{version}}/Illuminate/Database/Schema/Blueprint.html)  |
-Session  |  [Illuminate\Session\SessionManager](http://laravel-china.org/api/{{version}}/Illuminate/Session/SessionManager.html)  |  `session`
-Session (Instance)  |  [Illuminate\Session\Store](http://laravel-china.org/api/{{version}}/Illuminate/Session/Store.html)  |
-Storage  |  [Illuminate\Contracts\Filesystem\Factory](http://laravel-china.org/api/{{version}}/Illuminate/Contracts/Filesystem/Factory.html)  |  `filesystem`
-URL  |  [Illuminate\Routing\UrlGenerator](http://laravel-china.org/api/{{version}}/Illuminate/Routing/UrlGenerator.html)  |  `url`
-Validator  |  [Illuminate\Validation\Factory](http://laravel-china.org/api/{{version}}/Illuminate/Validation/Factory.html)  |  `validator`
-Validator (Instance)  |  [Illuminate\Validation\Validator](http://laravel-china.org/api/{{version}}/Illuminate/Validation/Validator.html) |
-View  |  [Illuminate\View\Factory](http://laravel-china.org/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
-View (Instance)  |  [Illuminate\View\View](http://laravel-china.org/api/{{version}}/Illuminate/View/View.html)  |
-
-
+App  |  [Illuminate\Foundation\Application](http://laravel.com/api/{{version}}/Illuminate/Foundation/Application.html)  | `app`
+Artisan  |  [Illuminate\Contracts\Console\Kernel](http://laravel.com/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`
+Auth  |  [Illuminate\Auth\AuthManager](http://laravel.com/api/{{version}}/Illuminate/Auth/AuthManager.html)  |  `auth`
+Blade  |  [Illuminate\View\Compilers\BladeCompiler](http://laravel.com/api/{{version}}/Illuminate/View/Compilers/BladeCompiler.html)  |  `blade.compiler`
+Bus  |  [Illuminate\Contracts\Bus\Dispatcher](http://laravel.com/api/{{version}}/Illuminate/Contracts/Bus/Dispatcher.html)  |
+Cache  |  [Illuminate\Cache\Repository](http://laravel.com/api/{{version}}/Illuminate/Cache/Repository.html)  |  `cache`
+Config  |  [Illuminate\Config\Repository](http://laravel.com/api/{{version}}/Illuminate/Config/Repository.html)  |  `config`
+Cookie  |  [Illuminate\Cookie\CookieJar](http://laravel.com/api/{{version}}/Illuminate/Cookie/CookieJar.html)  |  `cookie`
+Crypt  |  [Illuminate\Encryption\Encrypter](http://laravel.com/api/{{version}}/Illuminate/Encryption/Encrypter.html)  |  `encrypter`
+DB  |  [Illuminate\Database\DatabaseManager](http://laravel.com/api/{{version}}/Illuminate/Database/DatabaseManager.html)  |  `db`
+DB (Instance)  |  [Illuminate\Database\Connection](http://laravel.com/api/{{version}}/Illuminate/Database/Connection.html)  |
+Event  |  [Illuminate\Events\Dispatcher](http://laravel.com/api/{{version}}/Illuminate/Events/Dispatcher.html)  |  `events`
+File  |  [Illuminate\Filesystem\Filesystem](http://laravel.com/api/{{version}}/Illuminate/Filesystem/Filesystem.html)  |  `files`
+Gate  |  [Illuminate\Contracts\Auth\Access\Gate](http://laravel.com/api/5.1/Illuminate/Contracts/Auth/Access/Gate.html)  |
+Hash  |  [Illuminate\Contracts\Hashing\Hasher](http://laravel.com/api/{{version}}/Illuminate/Contracts/Hashing/Hasher.html)  |  `hash`
+Lang  |  [Illuminate\Translation\Translator](http://laravel.com/api/{{version}}/Illuminate/Translation/Translator.html)  |  `translator`
+Log  |  [Illuminate\Log\Writer](http://laravel.com/api/{{version}}/Illuminate/Log/Writer.html)  |  `log`
+Mail  |  [Illuminate\Mail\Mailer](http://laravel.com/api/{{version}}/Illuminate/Mail/Mailer.html)  |  `mailer`
+Password  |  [Illuminate\Auth\Passwords\PasswordBroker](http://laravel.com/api/{{version}}/Illuminate/Auth/Passwords/PasswordBroker.html)  |  `auth.password`
+Queue  |  [Illuminate\Queue\QueueManager](http://laravel.com/api/{{version}}/Illuminate/Queue/QueueManager.html)  |  `queue`
+Queue (Instance)  |  [Illuminate\Contracts\Queue\Queue](http://laravel.com/api/{{version}}/Illuminate/Contracts/Queue/Queue.html)  |  `queue`
+Queue (Base Class) |  [Illuminate\Queue\Queue](http://laravel.com/api/{{version}}/Illuminate/Queue/Queue.html)  |
+Redirect  |  [Illuminate\Routing\Redirector](http://laravel.com/api/{{version}}/Illuminate/Routing/Redirector.html)  |  `redirect`
+Redis  |  [Illuminate\Redis\Database](http://laravel.com/api/{{version}}/Illuminate/Redis/Database.html)  |  `redis`
+Request  |  [Illuminate\Http\Request](http://laravel.com/api/{{version}}/Illuminate/Http/Request.html)  |  `request`
+Response  |  [Illuminate\Contracts\Routing\ResponseFactory](http://laravel.com/api/{{version}}/Illuminate/Contracts/Routing/ResponseFactory.html)  |
+Route  |  [Illuminate\Routing\Router](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html)  |  `router`
+Schema  |  [Illuminate\Database\Schema\Blueprint](http://laravel.com/api/{{version}}/Illuminate/Database/Schema/Blueprint.html)  |
+Session  |  [Illuminate\Session\SessionManager](http://laravel.com/api/{{version}}/Illuminate/Session/SessionManager.html)  |  `session`
+Session (Instance)  |  [Illuminate\Session\Store](http://laravel.com/api/{{version}}/Illuminate/Session/Store.html)  |
+Storage  |  [Illuminate\Contracts\Filesystem\Factory](http://laravel.com/api/{{version}}/Illuminate/Contracts/Filesystem/Factory.html)  |  `filesystem`
+URL  |  [Illuminate\Routing\UrlGenerator](http://laravel.com/api/{{version}}/Illuminate/Routing/UrlGenerator.html)  |  `url`
+Validator  |  [Illuminate\Validation\Factory](http://laravel.com/api/{{version}}/Illuminate/Validation/Factory.html)  |  `validator`
+Validator (Instance)  |  [Illuminate\Validation\Validator](http://laravel.com/api/{{version}}/Illuminate/Validation/Validator.html) |
+View  |  [Illuminate\View\Factory](http://laravel.com/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
+View (Instance)  |  [Illuminate\View\View](http://laravel.com/api/{{version}}/Illuminate/View/View.html)  |

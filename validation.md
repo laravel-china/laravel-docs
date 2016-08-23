@@ -1,48 +1,52 @@
-# 表单验证
+# Validation
 
-- [简介](#introduction)
-- [验证快速上手](#validation-quickstart)
-    - [定义路由](#quick-defining-the-routes)
-    - [创建控制器](#quick-creating-the-controller)
-    - [编写验证逻辑](#quick-writing-the-validation-logic)
-    - [显示验证错误](#quick-displaying-the-validation-errors)
-    - [AJAX 请求和验证](#quick-ajax-requests-and-validation)
-- [其它验证的处理](#other-validation-approaches)
-    - [手动创建验证程序](#manually-creating-validators)
-    - [表单要求验证](#form-request-validation)
-- [处理错误消息](#working-with-error-messages)
-    - [自定义错误消息](#custom-error-messages)
-- [可用的验证规则](#available-validation-rules)
-- [按条件增加规则](#conditionally-adding-rules)
-- [自定义验证规则](#custom-validation-rules)
+- [Introduction](#introduction)
+- [Validation Quickstart](#validation-quickstart)
+    - [Defining The Routes](#quick-defining-the-routes)
+    - [Creating The Controller](#quick-creating-the-controller)
+    - [Writing The Validation Logic](#quick-writing-the-validation-logic)
+    - [Displaying The Validation Errors](#quick-displaying-the-validation-errors)
+- [Form Request Validation](#form-request-validation)
+    - [Creating Form Requests](#creating-form-requests)
+    - [Authorizing Form Requests](#authorizing-form-requests)
+    - [Customizing The Error Format](#customizing-the-error-format)
+    - [Customizing The Error Messages](#customizing-the-error-messages)
+- [Manually Creating Validators](#manually-creating-validators)
+    - [Automatic Redirection](#automatic-redirection)
+    - [Named Error Bags](#named-error-bags)
+    - [After Validation Hook](#after-validation-hook)
+- [Working With Error Messages](#working-with-error-messages)
+    - [Custom Error Messages](#custom-error-messages)
+- [Available Validation Rules](#available-validation-rules)
+- [Conditionally Adding Rules](#conditionally-adding-rules)
+- [Validating Arrays](#validating-arrays)
+- [Custom Validation Rules](#custom-validation-rules)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Laravel 提供了多种不同的处理方法来对应用程序传入的数据进行验证。默认情况下，Laravel 的基底控制器类使用了 `ValidatesRequests` trait，其提供了一种便利的方法来使用各种强大的验证规则验证传入的 HTTP 请求。
+Laravel provides several different approaches to validate your application's incoming data. By default, Laravel's base controller class uses a `ValidatesRequests` trait which provides a convenient method to validate incoming HTTP request with a variety of powerful validation rules.
 
 <a name="validation-quickstart"></a>
-## 验证快速上手
+## Validation Quickstart
 
-要了解 Laravel 相关的强大验证特色，先让我们来看看一个完整的表单验证示例以及返回错误消息给用户。
+To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user.
 
 <a name="quick-defining-the-routes"></a>
-#### 定义路由
+### Defining The Routes
 
-首先，我们假设在 `app/Http/routes.php` 文件中定义了以下路由：
+First, let's assume we have the following routes defined in our `routes/web.php` file:
 
-    // 显示一个创建博客文章的表单...
     Route::get('post/create', 'PostController@create');
 
-    // 保存一个新的博客文章...
     Route::post('post', 'PostController@store');
 
-`GET` 路由会显示一个用于创建新博客文章的表单，`POST` 路由则会将新的博客文章保存到数据库。
+Of course, the `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
 
 <a name="quick-creating-the-controller"></a>
-#### 创建控制器
+### Creating The Controller
 
-接下来，让我们来看下操作这些路由的控制器。我们先让 `store` 方法空着：
+Next, let's take a look at a simple controller that handles these routes. We'll leave the `store` method empty for now:
 
     <?php
 
@@ -54,7 +58,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
     class PostController extends Controller
     {
         /**
-         * 显示创建博客文章的表单。
+         * Show the form to create a new blog post.
          *
          * @return Response
          */
@@ -64,28 +68,28 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
         }
 
         /**
-         * 保存一个新的博客文章。
+         * Store a new blog post.
          *
          * @param  Request  $request
          * @return Response
          */
         public function store(Request $request)
         {
-            // 验证以及保存博客发表文章...
+            // Validate and store the blog post...
         }
     }
 
 <a name="quick-writing-the-validation-logic"></a>
-#### 编写验证逻辑
+### Writing The Validation Logic
 
-现在我们准备开始填写我们的 `store` 逻辑方法来验证我们博客发布的新文章。检查应用程序的基底控制器 (`App\Http\Controllers\Controller`) 类你会看到这个类使用了 `ValidatesRequests` trait。这个 trait 在你所有的控制器里提供了方便的 `validate` 验证方法。
+Now we are ready to fill in our `store` method with the logic to validate the new blog post. If you examine your application's base controller (`App\Http\Controllers\Controller`) class, you will see that the class uses a `ValidatesRequests` trait. This trait provides a convenient `validate` method to all of your controllers.
 
-`validate` 方法会接收 HTTP 传入的请求以及验证的规则。如果验证通过，你的代码就可以正常的运行。若验证失败，则会抛出异常错误消息并自动将其返回给用户。在一般的 HTTP 请求下，都会生成一个重定向响应，对于 AJAX 请求则会发送 JSON 响应。
+The `validate` method accepts an incoming HTTP request and a set of validation rules. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
 
-让我们接着回到 `store` 方法来深入理解 `validate` 方法：
+To get a better understanding of the `validate` method, let's jump back into the `store` method:
 
     /**
-     * 保存一篇新的博客文章。
+     * Store a new blog post.
      *
      * @param  Request  $request
      * @return Response
@@ -97,14 +101,25 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
             'body' => 'required',
         ]);
 
-        // 博客文章成功发表，将其保存到数据库...
+        // The blog post is valid, store in database...
     }
 
-如你所见，我们将本次 HTTP 请求及所需的验证规则传递至 `validate` 方法中。另外再提醒一次，如果验证失败，将会自动生成一个对应的响应。如果验证通过，那我们的控制器将会继续正常运行。
+As you can see, we simply pass the incoming HTTP request and desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
 
-#### 对于嵌套属性的提醒
+#### Stopping On First Validation Failure
 
-如果你的 HTTP 请求中包含了「嵌套」参数，则可以在验证规则中使用「点」语法来指定他们：
+Sometimes you may wish to stop running validation rules on an attribute after the first validation failure. To do so, assign the `bail` rule to the attribute:
+
+    $this->validate($request, [
+        'title' => 'bail|required|unique:posts|max:255',
+        'body' => 'required',
+    ]);
+
+In this example, if the `required` rule on the `title` attribute fails, the `unique` rule will not be checked. Rules will be validated in the order they are assigned.
+
+#### A Note On Nested Attributes
+
+If your HTTP request contains "nested" parameters, you may specify them in your validation rules using "dot" syntax:
 
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
@@ -113,17 +128,19 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
     ]);
 
 <a name="quick-displaying-the-validation-errors"></a>
-#### 显示验证错误
+### Displaying The Validation Errors
 
-如果本次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动 [闪存至 session](/docs/{{version}}/session#flash-data)。
+So, what if the incoming request parameters do not pass the given validation rules? As mentioned previously, Laravel will automatically redirect the user back to their previous location. In addition, all of the validation errors will automatically be [flashed to the session](/docs/{{version}}/session#flash-data).
 
-请注意我们并不需要在 `GET ` 路由中明确的将错误消息绑定到视图上。这是因为 Laravel 会自动检查 session 内的错误数据，如果错误存在的话，它会自动将这些错误消息绑定到视图上。**因此需要的注意一点是 `$errors` 变量在每次请求的所有视图中都可以被使用**，你可以很方便的假设 `$errors` 变量已被定义且进行安全地使用。`$errors` 变量是 `Illuminate\Support\MessageBag` 的实例。有关此对象的详细信息，[请查阅它的文档](#working-with-error-messages)。
+Again, notice that we did not have to explicitly bind the error messages to the view in our `GET` route. This is because Laravel will check for errors in the session data, and automatically bind them to the view if they are available. The `$errors` variable will be an instance of `Illuminate\Support\MessageBag`. For more information on working with this object, [check out its documentation](#working-with-error-messages).
 
-所以，在我们的例子中，当验证失败时，用户将被重定向到我们的控制器 `create` 方法，让我们在视图中显示错误的消息：
+> {tip} The `$errors` variable is bound to the view by the `Illuminate\View\Middleware\ShareErrorsFromSession` middleware, which is provided by the `web` middleware group. **When this middleware is applied an `$errors` variable will always be available in your views**, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used.
+
+So, in our example, the user will be redirected to our controller's `create` method when validation fails, allowing us to display the error messages in the view:
 
     <!-- /resources/views/post/create.blade.php -->
 
-    <h1>创建文章</h1>
+    <h1>Create Post</h1>
 
     @if (count($errors) > 0)
         <div class="alert alert-danger">
@@ -135,12 +152,12 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
         </div>
     @endif
 
-    <!-- 创建文章的表单 -->
+    <!-- Create Post Form -->
 
 <a name="quick-customizing-the-flashed-error-format"></a>
-#### 自定义闪存的错误消息格式
+#### Customizing The Flashed Error Format
 
-当验证失败时，如果你想要在闪存上自定义验证的错误格式，则需在控制器中重写 `formatValidationErrors`。别忘了将 `Illuminate\Contracts\Validation\Validator` 类引入到文件上方：
+If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatValidationErrors` on your base controller. Don't forget to import the `Illuminate\Contracts\Validation\Validator` class at the top of the file:
 
     <?php
 
@@ -165,17 +182,120 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
     }
 
 <a name="quick-ajax-requests-and-validation"></a>
-### AJAX 请求和验证
+#### AJAX Requests & Validation
 
-在这个例子中，我们使用一种传统的方式来将数据发送到应用程序上。当我们在 AJAX 的请求中使用 `validate` 方法时，Laravel 并不会生成一个重定向响应，而是会生成一个包含所有错误验证的 JSON 响应。这个 JSON 响应会发送一个 422 HTTP 状态码。
+In this example, we used a traditional form to send data to the application. However, many applications use AJAX requests. When using the `validate` method during an AJAX request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. This JSON response will be sent with a 422 HTTP status code.
 
-<a name="other-validation-approaches"></a>
-## 其它验证的处理
+<a name="form-request-validation"></a>
+## Form Request Validation
+
+<a name="creating-form-requests"></a>
+### Creating Form Requests
+
+For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes that contain validation logic. To create a form request class, use the `make:request` Artisan CLI command:
+
+    php artisan make:request StoreBlogPost
+
+The generated class will be placed in the `app/Http/Requests` directory. If this directory does not exist, it will be created when you run the `make:request` command. Let's add a few validation rules to the `rules` method:
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'title' => 'required|unique:posts|max:255',
+            'body' => 'required',
+        ];
+    }
+
+So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
+
+    /**
+     * Store the incoming blog post.
+     *
+     * @param  StoreBlogPost  $request
+     * @return Response
+     */
+    public function store(StoreBlogPost $request)
+    {
+        // The incoming request is valid...
+    }
+
+If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors.
+
+<a name="authorizing-form-requests"></a>
+### Authorizing Form Requests
+
+The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, if a user is attempting to update a blog post comment, do they actually own that comment? For example:
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $comment = Comment::find($this->route('comment'));
+
+        return $comment && $this->user()->can('update', $comment);
+    }
+
+Since all form requests extend the base Laravel request class, we may use the `user` method to access the currently authenticated user. Also note the call to the `route` method in the example above. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below:
+
+    Route::post('comment/{comment}');
+
+If the `authorize` method returns `false`, a HTTP response with a 403 status code will automatically be returned and your controller method will not execute.
+
+If you plan to have authorization logic in another part of your application, simply return `true` from the `authorize` method:
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+<a name="customizing-the-error-format"></a>
+### Customizing The Error Format
+
+If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatErrors` on your base request (`App\Http\Requests\Request`). Don't forget to import the `Illuminate\Contracts\Validation\Validator` class at the top of the file:
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function formatErrors(Validator $validator)
+    {
+        return $validator->errors()->all();
+    }
+
+<a name="customizing-the-error-messages"></a>
+### Customizing The Error Messages
+
+You may customize the error messages used by the form request by overriding the `messages` method. This method should return an array of attribute / rule pairs and their corresponding error messages:
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'title.required' => 'A title is required',
+            'body.required'  => 'A message is required',
+        ];
+    }
 
 <a name="manually-creating-validators"></a>
-### 手动创建验证程序
+## Manually Creating Validators
 
-如果你不想要使用 `ValidatesRequests` trait 的 `validate` 方法，你可以手动创建一个 validator 实例并通过 `Validator::make` 方法在 [facade](/docs/{{version}}/facades) 生成一个新的 validator 实例：
+If you do not want to use the `ValidatesRequests` trait's `validate` method, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
 
     <?php
 
@@ -188,7 +308,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
     class PostController extends Controller
     {
         /**
-         * 保存一篇新的博客文章。
+         * Store a new blog post.
          *
          * @param  Request  $request
          * @return Response
@@ -206,28 +326,40 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
                             ->withInput();
             }
 
-            // 保存文章...
+            // Store the blog post...
         }
     }
 
-第一个传给 `make` 方法的参数是验证数据。第二个参数则是数据的验证规则。
+The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data.
 
-如果请求没有通过验证，则可以使用 `withErrors` 方法把错误消息闪存到 session。在进行重定向之后，`$errors` 变量可以在视图中自动共用，让你可以轻松地显示这些消息并返回给用户。`withErrors` 方法接收 validator、`MessageBag`，或 PHP `array`。
+After checking if the request passed validation, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
 
-#### 命名错误清单
+<a name="automatic-redirection"></a>
+### Automatic Redirection
 
-假如在一个页面中有许多表单，你可能希望为 `MessageBag` 的错误命名，这可以让你获取特定表单的所有错误消息。只需在 `withErrors` 的第二个参数设置名称即可：
+If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the `ValidatesRequest` trait, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
+
+    Validator::make($request->all(), [
+        'title' => 'required|unique:posts|max:255',
+        'body' => 'required',
+    ])->validate();
+
+<a name="named-error-bags"></a>
+### Named Error Bags
+
+If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors, allowing you to retrieve the error messages for a specific form. Simply pass a name as the second argument to `withErrors`:
 
     return redirect('register')
                 ->withErrors($validator, 'login');
 
-然后你就可以从一个 `$errors` 变量中，获取已命名的 `MessageBag` 实例：
+You may then access the named `MessageBag` instance from the `$errors` variable:
 
     {{ $errors->login->first('email') }}
 
-#### 验证后的挂勾
+<a name="after-validation-hook"></a>
+### After Validation Hook
 
-在验证完成之后，validator 可以让你附加返回消息。你可以更简单的做进一步的验证以及增加更多的错误消息到消息集合上。在 validator 实例使用 `after` 方法如下所示：
+The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation and even add more error messages to the message collection. To get started, use the `after` method on a validator instance:
 
     $validator = Validator::make(...);
 
@@ -241,195 +373,86 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
         //
     }
 
-<a name="form-request-validation"></a>
-### 表单请求验证
-
-在更复杂的验证情境中，你可能会想要创建一个「表单请求（ form request ）」。表单请求是一个自定义的请求类，里面包含着验证逻辑。要创建一个表单请求类，可使用 Artisan 命令行命令 `make:request` ：
-
-    php artisan make:request StoreBlogPostRequest
-
-新生成的类文件会被放在 `app/Http/Requests` 目录下。让我们将一些验证规则加入到 `rules` 方法中：
-
-    /**
-     * 获取适用于请求的验证规则。
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
-        ];
-    }
-
-怎样才能较好的运行验证规则呢？你所需要做的就是在控制器方法中利用类型提示传入请求。传入的请求会在控制器方法被调用前进行验证，意思就是说你不会因为验证逻辑而把控制器弄得一团糟：
-
-    /**
-     * 保存传入的博客文章。
-     *
-     * @param  StoreBlogPostRequest  $request
-     * @return Response
-     */
-    public function store(StoreBlogPostRequest $request)
-    {
-        // 传入的请求是有效的...
-    }
-
-如果验证失败，就会生成一个重定向响应把用户返回到先前的位置。这些错误会被闪存到 session，所以这些错误都可以被显示。如果进来的是 AJAX 请求的话，则会传回一个 HTTP 响应，其中包含了 422 状态码和验证错误的 JSON 数据。
-
-#### 授权表单请求
-
-表单的请求类内包含了 `authorize` 方法。在这个方法中，你可以确认用户是否真的通过了授权，以便更新指定数据。比方说，有一个用户想试图去更新一篇文章的评论，你能保证他确实是这篇评论的拥有者吗？具体代码如下：
-
-    /**
-     * 判断用户是否有权限做出此请求。
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        $commentId = $this->route('comment');
-
-        return Comment::where('id', $commentId)
-                      ->where('user_id', Auth::id())->exists();
-    }
-
-请注意，在上面例子中调用 `route` 方法。该方法可以帮助你获取路由被调用时传入的 URI 参数，如示例中的 `{comment}` 参数：
-
-    Route::post('comment/{comment}');
-
-如果 `authorize` 方法返回 `false`，则会自动返回一个 HTTP 响应，其中包含 403 状态码，而你的控制器方法也将不会被运行。
-
-如果你打算在应用程序的其它部分处理授权逻辑，只需从 `authorize` 方法返回 `true` ：
-
-    /**
-     * 判断用户是否有权限做出此请求。
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-#### 自定义闪存的错误消息格式
-
-如果你想要自定义验证失败时闪存到 session 的验证错误格式，可在你的基底请求 (`App\Http\Requests\Request`) 中重写 `formatErrors`。别忘了文件上方引入 `Illuminate\Contracts\Validation\Validator` 类：
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function formatErrors(Validator $validator)
-    {
-        return $validator->errors()->all();
-    }
-
-#### 自定义错误消息
-
-你可以通过重写表单请求的 `messages` 方法来自定义错误消息。此方法必须返回一个数组，其中含有成对的属性或规则以及对应的错误消息：
-
-    /**
-     * 获取已定义验证规则的错误消息。
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'title.required' => '标题是必填的',
-            'body.required'  => '消息是必填的',
-        ];
-    }
-
 <a name="working-with-error-messages"></a>
-## 处理错误消息
+## Working With Error Messages
 
-调用一个 `Validator` 实例的 `errors` 方法，会得到一个 `Illuminate\Support\MessageBag` 的实例，里面有许多可让你操作错误消息的便利方法。
+After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
 
-#### 查看特定字段的第一个错误消息
+#### Retrieving The First Error Message For A Field
 
-如果要查看特定字段的第一个错误消息，可以使用 `first` 方法：
+To retrieve the first error message for a given field, use the `first` method:
 
-    $messages = $validator->errors();
+    $errors = $validator->errors();
 
-    echo $messages->first('email');
+    echo $errors->first('email');
 
-#### 查看特定字段的所有错误消息
+#### Retrieving All Error Messages For A Field
 
-如果你想通过指定字段来简单的获取所有消息中的一个数组，则可以使用 `get` 方法：
+If you need to retrieve an array of all the messages for a given field, use the `get` method:
 
-    foreach ($messages->get('email') as $message) {
+    foreach ($errors->get('email') as $message) {
         //
     }
 
-#### 查看所有字段的所有错误消息
+#### Retrieving All Error Messages For All Fields
 
-如果你想要得到所有字段的消息数组，则可以使用 `all` 方法：
+To retrieve an array of all messages for all fields, use the `all` method:
 
-    foreach ($messages->all() as $message) {
+    foreach ($errors->all() as $message) {
         //
     }
 
-#### 判断特定字段是否含有错误消息
+#### Determining If Messages Exist For A Field
 
-    if ($messages->has('email')) {
-        //
-    }
+The `has` method may be used to determine if any error messages exist for a given field:
 
-#### 获取格式化后的错误消息
-
-    echo $messages->first('email', '<p>:message</p>');
-
-#### 获取所有格式化后的错误消息
-
-    foreach ($messages->all('<li>:message</li>') as $message) {
+    if ($errors->has('email')) {
         //
     }
 
 <a name="custom-error-messages"></a>
-### 自定义错误消息
+### Custom Error Messages
 
-如果有需要的话，你也可以自定义错误的验证消息来取代默认的验证消息。有几种方法可以来自定义指定的消息。首先，你需要先通过传递三个参数到 `Validator::make` 方法来自定义验证消息：
+If needed, you may use custom error messages for validation instead of the defaults. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
 
     $messages = [
-        'required' => ':attribute 的字段是必要的。',
+        'required' => 'The :attribute field is required.',
     ];
 
     $validator = Validator::make($input, $rules, $messages);
 
-在这个例子中，`:attribute` 占位符会被通过验证的字段实际名称所取代。除此之外，你还可以使用其它默认字段的验证消息。例如：
+In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. For example:
 
     $messages = [
-        'same'    => ':attribute 和 :other 必须相同。',
-        'size'    => ':attribute 必须是 :size。',
-        'between' => ':attribute 必须介于 :min - :max。',
-        'in'      => ':attribute 必须是以下的类型之一： :values。',
+        'same'    => 'The :attribute and :other must match.',
+        'size'    => 'The :attribute must be exactly :size.',
+        'between' => 'The :attribute must be between :min - :max.',
+        'in'      => 'The :attribute must be one of the following types: :values',
     ];
 
-#### 指定自定义消息到特定的属性
+#### Specifying A Custom Message For A Given Attribute
 
-有时候你可能想要对特定的字段来自定义错误消息。只需在属性名称后加上「.」符号和指定验证的规则即可：
+Sometimes you may wish to specify a custom error messages only for a specific field. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
 
     $messages = [
-        'email.required' => '我们需要知道你的 e-mail 地址！',
+        'email.required' => 'We need to know your e-mail address!',
     ];
 
 <a name="localization"></a>
-#### 在语言包中自定义指定消息
+#### Specifying Custom Messages In Language Files
 
-在许多情况下，你可能希望在语言包中被指定的特定属性自定义消息不被直接传到 `Validator ` 上。因此你可以把消息加入到 `resources/lang/xx/validation.php` 语言包中的 `custom` 数组。
+In most cases, you will probably specify your custom messages in a language file instead of passing them directly to the `Validator`. To do so, add your messages to `custom` array in the `resources/lang/xx/validation.php` language file.
 
     'custom' => [
         'email' => [
-            'required' => '我们需要知道你的 e-mail 地址！',
+            'required' => 'We need to know your e-mail address!',
         ],
     ],
 
 <a name="available-validation-rules"></a>
-## 可用的验证规则
+## Available Validation Rules
 
-以下是所有可用的验证规则清单与功能：
+Below is a list of all available validation rules and their function:
 
 <style>
     .collection-method-list > p {
@@ -443,6 +466,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 </style>
 
 <div class="collection-method-list" markdown="1">
+
 [Accepted](#rule-accepted)
 [Active URL](#rule-active-url)
 [After (Date)](#rule-after)
@@ -459,18 +483,26 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 [Different](#rule-different)
 [Digits](#rule-digits)
 [Digits Between](#rule-digits-between)
+[Dimensions (Image Files)](#rule-dimensions)
+[Distinct](#rule-distinct)
 [E-Mail](#rule-email)
 [Exists (Database)](#rule-exists)
+[File](#rule-file)
+[Filled](#rule-filled)
 [Image (File)](#rule-image)
 [In](#rule-in)
+[In Array](#rule-in-array)
 [Integer](#rule-integer)
 [IP Address](#rule-ip)
 [JSON](#rule-json)
 [Max](#rule-max)
-[MIME Types (File)](#rule-mimes)
+[MIME Types](#rule-mimetypes)
+[MIME Type By File Extension](#rule-mimes)
 [Min](#rule-min)
+[Nullable](#rule-nullable)
 [Not In](#rule-not-in)
 [Numeric](#rule-numeric)
+[Present](#rule-present)
 [Regular Expression](#rule-regex)
 [Required](#rule-required)
 [Required If](#rule-required-if)
@@ -485,336 +517,422 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 [Timezone](#rule-timezone)
 [Unique (Database)](#rule-unique)
 [URL](#rule-url)
+
 </div>
 
 <a name="rule-accepted"></a>
 #### accepted
 
-验证字段值是否为 _yes_、_on_、_1_、或 _true_。这在确认「服务条款」是否同意时相当有用。
+The field under validation must be _yes_, _on_, _1_, or _true_. This is useful for validating "Terms of Service" acceptance.
 
 <a name="rule-active-url"></a>
 #### active_url
 
-验证字段值是否为一个有效的网址，会通过 PHP 的 `checkdnsrr` 函数来验证。
+The field under validation must be a valid URL according to the `checkdnsrr` PHP function.
 
 <a name="rule-after"></a>
 #### after:_date_
 
-验证字段是否是在指定日期之后。这个日期将会通过 `strtotime` 函数来验证。
+The field under validation must be a value after a given date. The dates will be passed into the `strtotime` PHP function:
 
     'start_date' => 'required|date|after:tomorrow'
 
-作为替换 `strtotime` 传递的日期字符串，你可以指定其它的字段来比较日期：
+Instead of passing a date string to be evaluated by `strtotime`, you may specify another field to compare against the date:
 
     'finish_date' => 'required|date|after:start_date'
 
 <a name="rule-alpha"></a>
 #### alpha
 
-验证字段值是否仅包含字母字符。
+The field under validation must be entirely alphabetic characters.
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 
-验证字段值是否仅包含字母、数字、破折号（ - ）以及下划线（ _ ）。
+The field under validation may have alpha-numeric characters, as well as dashes and underscores.
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 
-验证字段值是否仅包含字母、数字。
+The field under validation must be entirely alpha-numeric characters.
 
 <a name="rule-array"></a>
 #### array
 
-验证字段必须是一个 PHP `array`。
+The field under validation must be a PHP `array`.
 
 <a name="rule-before"></a>
 #### before:_date_
 
-验证字段是否是在指定日期之前。这个日期将会使用 PHP `strtotime` 函数来验证。
+The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function.
 
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-验证字段值的大小是否介于指定的 _min_ 和 _max_ 之间。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+The field under validation must have a size between the given _min_ and _max_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
 <a name="rule-boolean"></a>
 #### boolean
 
-验证字段值是否能够转换为布尔值。可接受的参数为 `true`、`false`、`1`、`0`、`"1"` 以及 `"0"`。
+The field under validation must be able to be cast as a boolean. Accepted input are `true`, `false`, `1`, `0`, `"1"`, and `"0"`.
 
 <a name="rule-confirmed"></a>
 #### confirmed
 
-验证字段值必须和 `foo_confirmation` 的字段值一致。例如，如果要验证的字段是 `password`，就必须和输入数据里的 `password_confirmation` 的值保持一致。
+The field under validation must have a matching field of `foo_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
 
 <a name="rule-date"></a>
 #### date
 
-验证字段值是否为有效日期，会根据 PHP 的 `strtotime` 函数来做验证。
+The field under validation must be a valid date according to the `strtotime` PHP function.
 
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-验证字段值符合定义的日期_格式_，通过 PHP 的 `date_parse_from_format` 函数来验证。
+The field under validation must match the given _format_. The format will be evaluated using the PHP `date_parse_from_format` function. You should use **either** `date` or `date_format` when validating a field, not both.
 
 <a name="rule-different"></a>
 #### different:_field_
 
-验证字段值是否和指定_字段（ field ）_不同。
+The field under validation must have a different value than _field_.
 
 <a name="rule-digits"></a>
 #### digits:_value_
 
-验证字段值是否为 _numeric_ 且长度为 _value_。
+The field under validation must be _numeric_ and must have an exact length of _value_.
 
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-验证字段值的长度是否在 _min_ 和 _max_ 之间。
+The field under validation must have a length between the given _min_ and _max_.
+
+<a name="rule-dimensions"></a>
+#### dimensions
+
+The file under validation must be an image meeting the dimension constraints as specified by the rule's parameters:
+
+    'avatar' => 'dimensions:min_width=100,min_height=200'
+
+Available constraints are: _min\_width_, _max\_width_, _min\_height_, _max\_height_, _width_, _height_, _ratio_.
+
+A _ratio_ constraint should be represented as width divided by height. This can be specified either by a statement like `3/2` or a float like `1.5`:
+
+    'avatar' => 'dimensions:ratio=3/2'
+
+<a name="rule-distinct"></a>
+#### distinct
+
+When working with arrays, the field under validation must not have any duplicate values.
+
+    'foo.*.id' => 'distinct'
 
 <a name="rule-email"></a>
 #### email
 
-验证字段值是否符合 e-mail 格式。
+The field under validation must be formatted as an e-mail address.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
 
-验证字段值是否存在指定的数据表中。
+The field under validation must exist on a given database table.
 
-#### Exists 规则的基本使用方法
+#### Basic Usage Of Exists Rule
 
     'state' => 'exists:states'
 
-#### 指定一个特定的字段名称
+#### Specifying A Custom Column Name
 
     'state' => 'exists:states,abbreviation'
 
-也可以指定更多的条件，它们会被加到「where」查询语句中：
+You may also specify more conditions that will be added as "where" clauses to the query:
 
     'email' => 'exists:staff,email,account_id,1'
 
-你也可以传递 `NULL` 或 `NOT_NULL` 至「where」语句：
+These conditions may be negated using the `!` sign:
+
+    'email' => 'exists:staff,email,role,!admin'
+
+You may also pass `NULL` or `NOT_NULL` to the "where" clause:
 
     'email' => 'exists:staff,email,deleted_at,NULL'
 
     'email' => 'exists:staff,email,deleted_at,NOT_NULL'
 
+Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name using "dot" syntax:
+
+    'email' => 'exists:connection.staff,email'
+
+<a name="rule-file"></a>
+#### file
+
+The field under validation must be a successfully uploaded file.
+
+<a name="rule-filled"></a>
+#### filled
+
+The field under validation must not be empty when it is present.
+
 <a name="rule-image"></a>
 #### image
 
-验证字段文件必须为图片格式（ jpeg、png、bmp、gif、 或 svg ）。
+The file under validation must be an image (jpeg, png, bmp, gif, or svg)
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
 
-验证字段值是否有在指定的列表里面。
+The field under validation must be included in the given list of values.
+
+<a name="rule-in-array"></a>
+#### in_array:_anotherfield_
+
+The field under validation must exist in _anotherfield_'s values.
 
 <a name="rule-integer"></a>
 #### integer
 
-验证字段值是否是整数。
+The field under validation must be an integer.
 
 <a name="rule-ip"></a>
 #### ip
 
-验证字段值是否符合 IP address 的格式。
+The field under validation must be an IP address.
 
 <a name="rule-json"></a>
 #### json
 
-验证字段是否是一个有效的 JSON 字符串。
+The field under validation must be a valid JSON string.
 
 <a name="rule-max"></a>
 #### max:_value_
 
-字段值必须小于或等于 _value_ 。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+The field under validation must be less than or equal to a maximum _value_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+
+<a name="rule-mimetypes"></a>
+#### mimetypes:_text/plain_,...
+
+The file under validation must match one of the given MIME types:
+
+    'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
+
+To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client provided MIME type.
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
 
-验证字段文件的 MIME 类型是否符合列表中指定的格式。
+The file under validation must have a MIME type corresponding to one of the listed extensions.
 
-#### MIME 规则基本用法
+#### Basic Usage Of MIME Rule
 
     'photo' => 'mimes:jpeg,bmp,png'
 
-即使你可能只需要验证指定扩展名，但此规则实际上会验证文件的 MIME 类型，其通过读取文件的内容以猜测它的 MIME 类型。
+Even though you only need to specify the extensions, this rule actually validates against the MIME type of the file by reading the file's contents and guessing its MIME type.
 
-完整的 MIME 类型及对应的扩展名列表可以在下方链接找到：
-[http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+A full listing of MIME types and their corresponding extensions may be found at the following location: [http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="rule-min"></a>
 #### min:_value_
 
-字段值必须大于或等于 _value_。字符串、数值或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+The field under validation must have a minimum _value_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+
+<a name="rule-nullable"></a>
+#### nullable
+
+The field under validation may be `null`. This is particularly useful when validating primitive such as strings and integers that can contain `null` values.
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 
-验证字段值是否不在指定的列表里。
+The field under validation must not be included in the given list of values.
 
 <a name="rule-numeric"></a>
 #### numeric
 
-验证字段值是否为数值。
+The field under validation must be numeric.
+
+<a name="rule-present"></a>
+#### present
+
+The field under validation must be present in the input data but can be empty.
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
-验证字段值是否符合指定的正则表达式。
+The field under validation must match the given regular expression.
 
-**注意：**当使用 `regex` 规则时，你必须使用数组，而不是使用管道分隔规则，特别是当正则表达式含有管道符号时。
+**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
 
 <a name="rule-required"></a>
 #### required
 
-验证字段必须存在输入数据，且不为空。字段符合下方任一条件时即为「空」：
+The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
 
-- 该值为 `null`。
-- 该值为空字符串。
-- 该值为空数组或空的`可数`对象。
-- 该值为没有路径的上传文件。
+<div class="content-list" markdown="1">
+
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with no path.
+
+</div>
 
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...
 
-如果指定的_其它字段_（ anotherfield ）等于任何一个 _value_ 时，此字段为必填。
+The field under validation must be present and not empty if the _anotherfield_ field is equal to any _value_.
 
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-如果指定的_其它字段_（ anotherfield ）等于任何一个 _value_ 时，则此字段为不必填。
+The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
 
-如果指定的字段中的 _任意一个_ 有值，则此字段为必填。
+The field under validation must be present and not empty _only if_ any of the other specified fields are present.
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
 
-如果指定的 _所有_ 字段都有值，则此字段为必填。
+The field under validation must be present and not empty _only if_ all of the other specified fields are present.
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
 
-如果缺少任意一个指定的字段，则此字段为必填。
+The field under validation must be present and not empty _only when_ any of the other specified fields are not present.
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
 
-如果所有指定的字段都没有值，则此字段为必填。
+The field under validation must be present and not empty _only when_ all of the other specified fields are not present.
 
 <a name="rule-same"></a>
 #### same:_field_
 
-验证字段值和指定的 _字段（ field ）_ 值是否相同。
+The given _field_ must match the field under validation.
 
 <a name="rule-size"></a>
 #### size:_value_
 
-验证字段值的大小是否符合指定的 _value_ 值。对于字符串来说，_value_ 为字符数。对于数字来说，_value_ 为某个整数值。对文件来说，_size_ 对应的是文件大小（单位 kb ）。
+The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value. For an array, _size_ corresponds to the `count` of the array. For files, _size_ corresponds to the file size in kilobytes.
 
 <a name="rule-string"></a>
 #### string
 
-验证字段值的类型是否为字符串。
+The field under validation must be a string. If you would like to allow the field to also be `null`, you should assign the `nullable` rule to the field.
 
 <a name="rule-timezone"></a>
 #### timezone
 
-验证字段值是否是有效的时区，会根据 PHP 的 `timezone_identifiers_list` 函数来判断。
+The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function.
 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-在指定的数据表中，验证字段必须是唯一的。如果没有指定 `column`，将会使用字段本身的名称。
+The field under validation must be unique in a given database table. If the `column` option is not specified, the field name will be used.
 
-**指定一个特定的字段名称：**
+**Specifying A Custom Column Name:**
 
     'email' => 'unique:users,email_address'
 
-**自定义数据库连接**
+**Custom Database Connection**
 
-有时候你可能需要自定义一个连接，来通过 Validator 对数据库进行查找。如上面所示，设置 `unique:users` 作为验证规则，通过默认数据库连接来做数据库查找。如果要重写验证规则，可在指定的连接的表单名称后面加上「.」：
+Occasionally, you may need to set a custom connection for database queries made by the Validator. As seen above, setting `unique:users` as a validation rule will use the default database connection to query the database. To override this, specify the connection and the table name using "dot" syntax:
 
     'email' => 'unique:connection.users,email_address'
 
-**强迫 Unique 规则忽略指定 ID：**
+**Forcing A Unique Rule To Ignore A Given ID:**
 
-有时候，你希望在验证字段时对指定 ID 进行忽略。例如，在「更新个人资料」页面会包含用户名、邮箱等字段。这时你会想要验证更新的 e-mail 值是否为唯一的。如果用户仅更改了名称字段而不是 e-mail 字段，就不需要抛出验证错误，因为此用户已经是这个 e-mail 的拥有者了。假设用户提供的 e-mail 已经被其他用户使用，则需要抛出验证错误。若要用指定规则来忽略用户 ID，则应该把要发送的 ID 当作第三个参数：
+Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address. To tell the unique rule to ignore the user's ID, you may pass the ID as the third parameter:
 
     'email' => 'unique:users,email_address,'.$user->id
 
-如果你的数据表使用的主键名称不是 `id`，那么你可以在第四个参数中来指定它：
+If your table uses a primary key column name other than `id`, you may specify it as the fourth parameter:
 
     'email' => 'unique:users,email_address,'.$user->id.',user_id'
 
-**增加额外的 Where 语句：**
+**Adding Additional Where Clauses:**
 
-你也可以指定更多的条件到「where」查询语句：
+You may also specify more conditions that will be added as "where" clauses to the query:
 
     'email' => 'unique:users,email_address,NULL,id,account_id,1'
 
-上述规则中，只有 `account_id` 为 `1` 的数据列会被包含在 unique 规则的验证。
+In the rule above, only rows with an `account_id` of `1` would be included in the unique check.
 
 <a name="rule-url"></a>
 #### url
 
-根据 PHP 的 `filter_var` 函数来验证字段是否符合 URL 格式。
+The field under validation must be a valid URL.
 
 <a name="conditionally-adding-rules"></a>
-## 按条件增加规则
+## Conditionally Adding Rules
 
-在某些情况下，你可能**只想**在输入数据中有此字段时才进行验证。可通过增加 `sometimes` 规则到规则列表来实现：
+#### Validating When Present
+
+In some situations, you may wish to run validation checks against a field **only** if that field is present in the input array. To quickly accomplish this, add the `sometimes` rule to your rule list:
 
     $v = Validator::make($data, [
         'email' => 'sometimes|required|email',
     ]);
 
-在上面的例子中，`email` 字段的验证只会在 `$data` 数组有此字段时才会进行。
+In the example above, the `email` field will only be validated if it is present in the `$data` array.
 
-#### 复杂的条件验证
+#### Complex Conditional Validation
 
-有时候你可能希望增加更复杂的验证条件，例如，你可以希望某个指定字段在另一个字段的值超过 100 时才为必填。或者当某个指定字段有值时，另外两个字段要拥有符合的特定值。增加这样的验证条件并不难。首先，利用你熟悉的 _static rules_ 来创建一个 `Validator` 实例：
+Sometimes you may wish to add validation rules based on more complex conditional logic. For example, you may wish to require a given field only if another field has a greater value than 100. Or, you may need two fields to have a given value only when another field is present. Adding these validation rules doesn't have to be a pain. First, create a `Validator` instance with your _static rules_ that never change:
 
     $v = Validator::make($data, [
         'email' => 'required|email',
         'games' => 'required|numeric',
     ]);
 
-假设我们有一个专为游戏收藏家所设计的网页应用程序。如果游戏收藏家收藏超过一百款游戏，我们会希望他们来说明下为什么他们会拥有这么多游戏。比如说他们有可能经营了一家二手游戏商店，或者只是为了享受收集的乐趣。为了在特定条件下加入此验证需求，可以在 `Validator` 实例中使用 `sometimes` 方法。
+Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
 
     $v->sometimes('reason', 'required|max:500', function($input) {
         return $input->games >= 100;
     });
 
-传入 `sometimes` 方法的第一个参数是我们要用条件认证的字段名称。第二个参数是我们想使用的验证规则。`闭包` 作为第三个参数传入，如果其返回 `true`，则额外的规则就会被加入。这个方法可以轻松的创建复杂的条件式验证。你甚至可以一次对多个字段增加条件式验证：
+The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. The second argument is the rules we want to add. If the `Closure` passed as the third argument returns `true`, the rules will be added. This method makes it a breeze to build complex conditional validations. You may even add conditional validations for several fields at once:
 
     $v->sometimes(['reason', 'cost'], 'required', function($input) {
         return $input->games >= 100;
     });
 
-> **注意：**传入`闭包`的 `$input` 参数是 `Illuminate\Support\Fluent` 实例，可用来访问你的输入或文件对象。
+> {tip} The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used to access your input and files.
+
+<a name="validating-arrays"></a>
+## Validating Arrays
+
+Validating array based form input fields doesn't have to be a pain. For example, to validate that each e-mail in a given array input field is unique, you may do the following:
+
+    $validator = Validator::make($request->all(), [
+        'person.*.email' => 'email|unique:users',
+        'person.*.first_name' => 'required_with:person.*.last_name',
+    ]);
+
+Likewise, you may use the `*` character when specifying your validation messages in your language files, making it a breeze to use a single validation message for array based fields:
+
+    'custom' => [
+        'person.*.email' => [
+            'unique' => 'Each person must have a unique e-mail address',
+        ]
+    ],
 
 <a name="custom-validation-rules"></a>
-## 自定义验证规则
+## Custom Validation Rules
 
-Laravel 提供了许多有用的验证规则。但你可能想自定义一些规则。注册自定义验证规则的方法之一，就是使用 Validator [facade](/docs/{{version}}/facades) 中的 `extend` 方法，让我们在 [服务提供者](/docs/{{version}}/providers) 中使用这个方法来自定义注册的验证规则：
+Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using the `extend` method on the `Validator` [facade](/docs/{{version}}/facades). Let's use this method within a [service provider](/docs/{{version}}/providers) to register a custom validation rule:
 
     <?php
 
     namespace App\Providers;
 
-    use Validator;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Support\Facades\Validator;
 
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * 启动所有应用程序服务。
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -826,7 +944,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         }
 
         /**
-         * 注册服务提供者。
+         * Register the service provider.
          *
          * @return void
          */
@@ -836,26 +954,26 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         }
     }
 
-自定义的验证闭包接收四个参数：要被验证的属性名称 `$attribute`，属性的值 `$value`，传入验证规则的参数数组 `$parameters`，及 `Validator` 实例。
+The custom validator Closure receives four arguments: the name of the `$attribute` being validated, the `$value` of the attribute, an array of `$parameters` passed to the rule, and the `Validator` instance.
 
-除了使用闭包，你也可以传入类和方法到 `extend` 方法中：
+You may also pass a class and method to the `extend` method instead of a Closure:
 
     Validator::extend('foo', 'FooValidator@validate');
 
-#### 自定义错误消息
+#### Defining The Error Message
 
-另外你可能还需要为自定义规则来定义一个错误消息。这可以通过使用自定义内联消息数组或是在验证语言包中加入新的规则来实现。此消息应该被放在数组的第一级，而不是被放在 `custom` 数组内，这是仅针对特定属性的错误消息:
+You will also need to define an error message for your custom rule. You can do so either using an inline custom message array or by adding an entry in the validation language file. This message should be placed in the first level of the array, not within the `custom` array, which is only for attribute-specific error messages:
 
-    "foo" => "你的输入是无效的！",
+    "foo" => "Your input was invalid!",
 
-    "accepted" => ":attribute 必须被接受。",
+    "accepted" => "The :attribute must be accepted.",
 
-    // 其余的验证错误消息...
+    // The rest of the validation error messages...
 
-当你在创建自定义验证规则时，你可能需要定义保留字段来取代错误消息。你可以像上面所描述的那样通过 `Validator` facade 来使用 `replacer` 方法创建一个自定义验证器。通过 [服务提供者](/docs/{{version}}/providers) 中的 `boot` 方法可以实现：
+When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. You may do so by creating a custom Validator as described above then making a call to the `replacer` method on the `Validator` facade. You may do this within the `boot` method of a [service provider](/docs/{{version}}/providers):
 
     /**
-     * 启动所有应用程序服务。
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -868,22 +986,20 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         });
     }
 
-#### 隐式扩展功能
+#### Implicit Extensions
 
-默认情况下，若有一个类似 [`required`](#rule-required) 这样的规则，当此规则被验证的属性不存在或包含空值时，其一般的验证规则（包括自定扩展功能）都将不会被运行。例如，当 [`integer`](#rule-integer) 规则的值为 `null` 时将不会被运行：
+By default, when an attribute being validated is not present or contains an empty value as defined by the [`required`](#rule-required) rule, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against a `null` value:
 
-    $rules = ['count' => 'integer'];
+    $rules = ['name' => 'unique'];
 
-    $input = ['count' => null];
+    $input = ['name' => null];
 
     Validator::make($input, $rules)->passes(); // true
 
-如果要在属性为空时依然运行此规则，则此规则必须暗示该属性为必填。要创建一个「隐式」扩展功能，可以使用 `Validator::extendImplicit()` 方法：
+For a rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create such an "implicit" extension, use the `Validator::extendImplicit()` method:
 
     Validator::extendImplicit('foo', function($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
 
-> **注意：**一个「隐式」扩展功能只会 _暗示_ 该属性为必填。它的实际属性是否为无效属性或空属性主要取决于你。
-
-
+> {note} An "implicit" extension only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.

@@ -1,62 +1,156 @@
-# 应用程序结构
+# Directory Structure
 
-- [简介](#introduction)
-- [根目录](#the-root-directory)
-- [App 目录](#the-app-directory)
-- [为应用程序设置命名空间](#namespacing-your-application)
+- [Introduction](#introduction)
+- [The Root Directory](#the-root-directory)
+    - [The `app` Directory](#the-root-app-directory)
+    - [The `bootstrap` Directory](#the-bootstrap-directory)
+    - [The `config` Directory](#the-config-directory)
+    - [The `database` Directory](#the-database-directory)
+    - [The `public` Directory](#the-public-directory)
+    - [The `resources` Directory](#the-resources-directory)
+    - [The `routes` Directory](#the-routes-directory)
+    - [The `storage` Directory](#the-storage-directory)
+    - [The `tests` Directory](#the-tests-directory)
+    - [The `vendor` Directory](#the-vendor-directory)
+- [The App Directory](#the-app-directory)
+    - [The `Console` Directory](#the-console-directory)
+    - [The `Events` Directory](#the-events-directory)
+    - [The `Exceptions` Directory](#the-exceptions-directory)
+    - [The `Http` Directory](#the-http-directory)
+    - [The `Jobs` Directory](#the-jobs-directory)
+    - [The `Listeners` Directory](#the-listeners-directory)
+    - [The `Mail` Directory](#the-mail-directory)
+    - [The `Notifications` Directory](#the-notifications-directory)
+    - [The `Policies` Directory](#the-policies-directory)
+    - [The `Providers` Directory](#the-providers-directory)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-默认的 Laravel 应用程序结构意在给不同大小的应用程序提供一个好的起始点。当然，你也可以依照个人喜好来随意组织应用程序。Laravel 几乎没有对任何类的放置位置进行强加限制 - 只要 Composer 可以自动加载这些类即可。
+The default Laravel application structure is intended to provide a great starting point for both large and small applications. Of course, you are free to organize your application however you like. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class.
+
+#### Where Is The Models Directory?
+
+When getting started with Laravel, many developers are confused by the lack of a `models` directory. However, the lack of such a directory is intentional. We find the word "models" ambiguous since it means many different things to many different people. Some developers refer to an application's "model" as the totality of all of its business logic, while others refer to "models" as classes that interact with a relational database.
+
+For this reason, we choose to place Eloquent models in the `app` directory by default, and allow the developer to place them somewhere else if they choose.
 
 <a name="the-root-directory"></a>
-## 根目录
+## The Root Directory
 
-一个新安装的 Laravel 根目录包含许多个文件夹：
+<a name="the-root-app-directory"></a>
+#### The App Directory
 
-`app` 目录，如你所料，这里面包含应用程序的核心代码。我们之后将很快对这个目录的细节进行深入探讨。
+The `app` directory, as you might expect, contains the core code of your application. We'll explore this directory in more detail soon; however, almost all of the classes in your application will be in this directory.
 
-`bootstrap` 目录包含了几个框架启动跟自动加载设置的文件。以及在 `cache` 文件夹中包含着一些框架在启动性能优化时所生成的文件。
+<a name="the-bootstrap-directory"></a>
+#### The Bootstrap Directory
 
-`config` 目录，顾名思义，包含所有应用程序的配置文件。
+The `bootstrap` directory contains files that bootstrap the framework and configure autoloading. This directory also houses a `cache` directory which contains framework generated files for performance optimization such as the route and services cache files.
 
-`database` 目录包含数据库迁移与数据填充文件。如果你愿意的话，你也可以在此文件夹存放 SQLite 数据库。
+<a name="the-config-directory"></a>
+#### The Config Directory
 
-`public` 目录包含了前端控制器和资源文件（图片、JavaScript、CSS，等等）。
+The `config` directory, as the name implies, contains all of your application's configuration files. It's a great idea to read through all of these files and familiarize yourself with all of the options available to you.
 
-`resources` 目录包含了视图、原始的资源文件 (LESS、SASS、CoffeeScript) ，以及语言包。
+<a name="the-database-directory"></a>
+#### The Database Directory
 
-`storage` 目录包含编译后的 Blade 模板、基于文件的 session、文件缓存和其它框架生成的文件。此文件夹分格成 `app`、`framework`，及 `logs` 目录。`app` 目录可用于存储应用程序使用的任何文件。`framework` 目录被用于保存框架生成的文件及缓存。最后，`logs` 目录包含了应用程序的日志文件。
+The `database` directory contains your database migration and seeds. If you wish, you may also use this directory to hold an SQLite database.
 
-`tests` 目录包含自动化测试。这有一个现成的 [PHPUnit](https://phpunit.de/) 例子。
+<a name="the-public-directory"></a>
+#### The Public Directory
 
-`vendor` 目录包含你的 [Composer](https://getcomposer.org) 依赖模块。
+The `public` directory contains the `index.php` file, which is the entry point for all requests entering your application. This directory also houses your assets such as images, JavaScript, and CSS.
+
+<a name="the-resources-directory"></a>
+#### The Resources Directory
+
+The `resources` directory contains your views as well as your raw, un-compiled assets such as LESS, SASS, or JavaScript. This directory also houses all of your language files.
+
+<a name="the-routes-directory"></a>
+#### The Routes Directory
+
+The `routes` directory contains all of the route definitions for your application. By default, two route files are included with Laravel: `web.php` and `api.php`. The `web.php` file contains routes that the `RouteServiceProvider` places in the `web` middleware group, which provides session state, CSRF protection, and cookie encryption. If your application does not offer a stateless, RESTful API, all of your routes will most likely be defined in the `web.php` file.
+
+The `api.php` file contains routes that the `RouteServiceProvider` places in the `api` middleware group, which provides rate limiting. These routes are intended to be stateless, so requests entering the application through these routes are intended to be authenticated via tokens and will not have access to session state.
+
+<a name="the-storage-directory"></a>
+#### The Storage Directory
+
+The `storage` directory contains your compiled Blade templates, file based sessions, file caches, and other files generated by the framework. This directory is segregated into `app`, `framework`, and `logs` directories. The `app` directory may be used to store any files generated by your application. The `framework` directory is used to store framework generated files and caches. Finally, the `logs` directory contains your application's log files.
+
+The `storage/app/public` directory may be used to store user-generated files, such as profile avatars, that should be publicly accessible. You should create a symbolic link at `public/storage` which points to this directory. You may create the link using the `php artisan storage:link` command.
+
+<a name="the-tests-directory"></a>
+#### The Tests Directory
+
+The `tests` directory contains your automated tests. An example [PHPUnit](https://phpunit.de/) is provided out of the box. Each test class should be suffixed with the word `Test`. You may run your tests using the `phpunit` or `php vendor/bin/phpunit` commands.
+
+<a name="the-vendor-directory"></a>
+#### The Vendor Directory
+
+The `vendor` directory contains your [Composer](https://getcomposer.org) dependencies.
 
 <a name="the-app-directory"></a>
-## App 目录
+## The App Directory
 
-应用程序的「内容」存在于 `app` 目录中。默认情况下，这个目录在 `App` 命名空间下借助 Composer 使用 [PSR-4 自动加载标准](https://phphub.org/topics/2081)自动加载。**你可以使用 `app:name` Artisan 命令修改这个命名空间**。
+The majority of your application is housed in the `app` directory. By default, this directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/).
 
-`app` 目录附带许多个额外的目录，例如：`Console`、`Http` 和 `Providers`。可以将 `Console` 和 `Http` 目录试想为提供 API 进入应用程序的「核心」。HTTP 协定和 CLI 都是跟应用程序进行交互的机制，但实际上并不包含应用程序逻辑。换句话说，它们是两种简单地发布命令给应用程序的方法。`Console` 目录包含你全部的 Artisan 命令，而 `Http` 目录包含你的控制器、中间件和请求。
+The `app` directory contains a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the core of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are simply two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, middleware, and requests.
 
-`Jobs` 目录用于放置应用程序 [可队列的任务](/docs/{{version}}/queues)。任务可以被应用程序放到队列中，也可以在当前请求生命周期内同步运行。
+A variety of other directories will be generated inside the `app` directory as you use the `make` Artisan commands to generate classes. So, for example, the `app/Jobs` directory will not exist until you execute the `make:job` Artisan command to generate a job class.
 
-`Events` 目录，如你所料，是用来放置 [事件类](/docs/{{version}}/events) 的。事件可以被用于当指定动作发生时，通知你应用程序的其它部分，提供了很棒的灵活性及解耦。
+> {tip} Many of the classes in the `app` directory can be generated by Artisan via commands. To review the available commands, run the `php artisan list make` command in your terminal.
 
-`Listeners` 目录了包含事件的处理类。处理进程接收一个事件，并针对该事件运行逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 侦听器处理。
+<a name="the-console-directory"></a>
+#### The Console Directory
 
-`Exceptions` 目录包含应用程序的异常处理进程，同时也是个处置应用程序抛出异常的好位置。
+The `Console` directory contains all of the custom Artisan commands for your application. These commands may be generated using the `make:command` command. This directory also houses your console kernel, which is where your custom Artisan commands are registered and your [scheduled tasks](/docs/{{version}}/scheduling) are defined.
 
-> **注意：**在 `app` 目录中的许多类可以通过 Artisan 命令生成。若要查看可以使用的命令，只要在命令行运行 `php artisan list make` 命令即可。
+<a name="the-events-directory"></a>
+#### The Events Directory
 
-<a name="namespacing-your-application"></a>
-## 为应用程序设置命名空间
+This directory does not exist by default, but will be created for you by the `event:generate` and `event:make` Artisan commands. The `Events` directory, as you might expect, houses [event classes](/docs/{{version}}/events). Events may be used to alert other parts of your application that a given action has occurred, providing a great deal of flexibility and decoupling.
 
-如前面所提到的，默认的应用程序命名空间为 `App`；然而，你可以简单地借由 `app:name` Artisan 命令，将此命名空间修改成应用程序的名称。例如：如果你的应用程序叫做「SocialNet」，你可以运行下方的命令来进行更改：
+<a name="the-exceptions-directory"></a>
+#### The Exceptions Directory
 
-    php artisan app:name SocialNet
+The `Exceptions` directory contains your application's exception handler and is also a good place to place any exceptions thrown by your application. If you would like to customize how your exceptions are logged or rendered, you should modify the `Handler` class in this directory.
 
-当然，你也可以接着使用 `App` 命名空间。
+<a name="the-http-directory"></a>
+#### The Http Directory
 
+The `Http` directory contains your controllers, middleware, and form requests. Almost all of the logic to handle requests entering your application will be placed in this directory.
 
+<a name="the-jobs-directory"></a>
+#### The Jobs Directory
+
+This directory does not exist by default, but will be created for you if you execute the `make:job` Artisan command. The `Jobs` directory houses the [queueable jobs](/docs/{{version}}/queues) for your application. Jobs may be queued by your application or run synchronously within the current request lifecycle. Jobs that run synchronously during the current request are sometimes referred to as "commands" since they are an implementation of the [command pattern](https://en.wikipedia.org/wiki/Command_pattern).
+
+<a name="the-listeners-directory"></a>
+#### The Listeners Directory
+
+This directory does not exist by default, but will be created for you if you execute the `event:generate` or `make:listener` Artisan commands. The `Listeners` directory contains the classes that handle your [events](/docs/{{version}}/events). Event listeners receive an event instance and perform logic in response to the event being fired. For example, a `UserRegistered` event might be handled by a `SendWelcomeEmail` listener.
+
+<a name="the-mail-directory"></a>
+#### The Mail Directory
+
+This directory does not exist by default, but will be created for you if you execute the `make:mail` Artisan command. The `Mail` directory contains all of your classes that represent emails sent by your application. Mail objects allow you to encapsulate all of the logic of building an email in a single, simple class that may be sent using the `Mail::send` method.
+
+<a name="the-notifications-directory"></a>
+#### The Notifications Directory
+
+This directory does not exist by default, but will be created for you if you execute the `make:notification` Artisan command. The `Notifications` directory contains all of the "transactional" notifications that are sent by your application, such as simple notifications about events that happen within your application. Laravel's notification features abstracts sending notifications over a variety of drivers such as email, Slack, SMS, or stored in a database.
+
+<a name="the-policies-directory"></a>
+#### The Policies Directory
+
+This directory does not exist by default, but will be created for you if you execute the `make:policy` Artisan command. The `Policies` directory contains the authorization policy classes for your application. Policies are used to determine if a user can perform a given action against a resource. For more information, check out the [authorization documentation](/docs/{{version}}/authorization).
+
+<a name="the-providers-directory"></a>
+#### The Providers Directory
+
+The `Providers` directory contains all of the [service providers](/docs/{{version}}/providers) for your application. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
+
+In a fresh Laravel application, this directory will already contain several providers. You are free to add your own providers to this directory as needed.
