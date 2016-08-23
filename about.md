@@ -2,15 +2,15 @@
 
 ## 说明
 
-此文档由 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到他们。
+此文档主要由 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到他们。
 
-为了方便新手学习，在官方文档的基础上增加了导读备注，所有更改的地方都会特别标示出来。
+为了方便新手学习，在每篇文档的最底部增加导读内容区块。
 
 更多讨论，请前往这个帖子：[Laravel 5.1 LTS 中文文档翻译完成「精校版」](https://phphub.org/topics/2095)。
 
 ## 排版规范
 
-此文档遵守 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 规范，在此之上遵守以下：
+此文档遵循 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 规范，并在此之上遵守以下约定：
 
 * 英文的左右保持一个空白，避免中英文字黏在一起；
 * 使用全角标点符号；
@@ -196,3 +196,5 @@
 - Workbench (开源项目名称，不翻)
 - Webhooks (不翻)
 - Word Factor 加密系数
+
+

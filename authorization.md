@@ -23,7 +23,9 @@
 <a name="defining-abilities"></a>
 ## 定义权限
 
-判断一个用户是否允许运行特定行为，最简单的方式就是使用 `Illuminate\Auth\Access\Gate` 类定义「权限」。可以在 `AuthServiceProvider` 文件中定义应用程序的所有权限。举个例子，我们需要定义一个 `update-post` 的权限，需要判断目前的 `User` 及 `Post` [模型](/docs/{{version}}/eloquent) 是否有所属关系，也就是「文章」是不是「用户」发的，我们会判断用户的 `id` 与文章的 `user_id` 是否一致：
+判断一个用户是否允许执行特定行为，最简单的方式就是使用 `Illuminate\Auth\Access\Gate` 类定义「权限」。
+
+可以在 `AuthServiceProvider` 文件中定义应用程序的所有权限。举个例子，我们需要定义一个 `update-post` 的权限，需要判断目前的 `User` 及 `Post` [模型](/docs/{{version}}/eloquent) 是否有所属关系，也就是「文章」是不是「用户」发的，我们会判断用户的 `id` 与文章的 `user_id` 是否一致：
 
 	<?php
 
@@ -62,7 +64,7 @@
 <a name="intercepting-authorization-checks"></a>
 #### 拦截授权检查
 
-有时你希望赋予给指定用户赋于最高权限，如管理员拥有所有权限，可以使用 `before` 方法来定义所有授权检查前会被运行的回调：
+有时你希望赋予指定用户最高权限，如管理员拥有所有权限，可以使用 `before` 方法来定义所有授权检查前会被运行的回调：
 
     $gate->before(function ($user, $ability) {
         if ($user->isSuperAdmin()) {
@@ -72,7 +74,7 @@
 
 如果 `before` 的回调返回一个非 null 的结果，则该结果会被作为检查的结果，并中断后面的其他验证。
 
-你还可以使用 `after` 方法定义一个当所有授权检查后会被运行的回调。但是，你不应该修改 `after` 回调中授权检查的结果：
+你还可以使用 `after` 方法定义一个当所有授权检查后会被运行的回调。但是，你无法修改 `after` 回调中授权检查的结果：
 
     $gate->after(function ($user, $ability, $result, $arguments) {
         //
@@ -84,7 +86,11 @@
 <a name="via-the-gate-facade"></a>
 ### 通过 Gate Facade
 
-一旦权限被定义后，我们可以使用不同方式来做「权限检查」。首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。你 **不** 需要传递当前登录用户至该方法内，因为 `Gate` 会自动加载当前登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
+一旦权限被定义后，我们可以使用不同方式来做「权限检查」。
+
+首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。
+
+你 **不** 需要传递当前登录用户至该方法内，因为 `Gate` 会自动加载当前登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
 
     <?php
 
@@ -142,7 +148,9 @@
 <a name="via-the-user-model"></a>
 ### 通过用户模型
 
-另外，你也可以通过 `User` 模型的实例检查权限。默认情况下，Laravel 的 `App\User` 模型使用了 `Authorizable` trait，它提供了两个方法：`can` 及 `cannot`。这些方法使用起来相似于 `Gate` facade 提供的 `allows` 与 `denies` 方法。所以，沿用我们之前的例子，可以将代码改成如下：
+另外，你也可以通过 `User` 模型的实例检查权限。默认情况下，Laravel 的 `App\User` 模型使用了 `Authorizable` trait，它提供了两个方法：`can` 及 `cannot`。
+
+这些方法使用起来相似于 `Gate` facade 提供的 `allows` 与 `denies` 方法。所以，沿用我们之前的例子，可以将代码改成如下：
 
     <?php
 

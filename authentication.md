@@ -31,21 +31,23 @@ Laravel 让用户认证变得非常简单。几乎所有的认证行为都可以
 <a name="introduction-database-considerations"></a>
 ### 数据库注意事项
 
-默认的 Laravel 在你的 `app` 文件夹中会含有 `App\User` [Eloquent 模型](/docs/{{version}}/eloquent)。这个模型将使用默认的 Eloquent 认证来驱动。如果你的应用程序没有使用 Eloquent，你可以使用 Laravel 查询构造器的 `database` 认证驱动。
+默认的 Laravel 在 `app` 文件夹中会含有 `App\User` [Eloquent 模型](/docs/{{version}}/eloquent)。这个模型将使用默认的 Eloquent 认证来驱动。如果你的应用程序没有使用 Eloquent，请选择使用 Laravel 查询构造器的 `database` 认证驱动。
 
-为 `App\User` 模型创建数据库结构时，确认密码字段最少有 60 字符长。
+为 `App\User` 模型创建数据库表结构时，确认密码字段最少有 60 字符长。
 
-同时，你需要确认你的 `users` (或是相同意义的) 数据表含有 nullable 、100 字符长的 `remember_token` 字段，这个字段将会被用来保存「记住我」 session 的令牌。只要在创建迁移时，使用 `$table->rememberToken()`，即可轻松加入这个字段。
+`users` 数据表中必须含有 nullable 、100 字符长的 `remember_token` 字段，这个字段将会被用来保存「记住我」 session 的令牌。只要在创建迁移时，使用 `$table->rememberToken()`，即可轻松加入这个字段。
 
 <a name="authentication-quickstart"></a>
 ## 认证快速入门
 
-Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`AuthController` 处理用户注册及认证，而 `PasswordController` 负责处理重置用户的密码。这些控制器使用了 trait 来包含所需要的方法，对于大多数的应用程序而言，你并不需要修改这些控制器。
+Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`AuthController` 处理用户注册及认证，而 `PasswordController` 负责处理重置用户的密码。
+
+这些控制器使用了 trait 来包含所需要的方法，对于大多数的应用程序而言，你并不需要修改这些控制器。
 
 <a name="included-routing"></a>
 ### 路由
 
-默认的，没有 [路由](/docs/{{version}}/routing) 指向这些认证控制器，你需要自己添加到 `app/Http/routes.php` 中。
+默认没有 [路由](/docs/{{version}}/routing) 指向这些认证控制器，需要自己添加到 `app/Http/routes.php` 中。
 
     // 认证路由...
     Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -59,7 +61,9 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="included-views"></a>
 ### 视图
 
-虽然这些认证控制器被包含在框架中，你仍需提供 [视图](/docs/{{version}}/views) 给控制器渲染，而视图需要被放置在 `resources/views/auth` 文件夹中，你可以任意的自定义这些视图。登录视图应该被放在 `resources/views/auth/login.blade.php` 而注册视图则放在 `resources/views/auth/register.blade.php`。
+虽然这些认证控制器被包含在框架中，你仍需提供 [视图](/docs/{{version}}/views) 给控制器渲染，而视图需要被放置在 `resources/views/auth` 文件夹中，你可以任意的自定义这些视图。
+
+登录视图应该被放在 `resources/views/auth/login.blade.php` 而注册视图则放在 `resources/views/auth/register.blade.php`。
 
 #### 认证表单例子
 
@@ -122,13 +126,15 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="included-authenticating"></a>
 ### 认证
 
-现在你已经为认证控制器设置好了路由及视图，你可以在应用程序注册并认证新用户了。只需要在浏览器简单地访问定义的路由就行了，认证控制器早已包含了处理认证现有用户，及保存新用户在数据库的逻辑了（通过他们各自的 traits）。
+现在你已经为认证控制器设置好了路由及视图，你可以在应用程序注册并认证新用户了。
 
-当用户成功认证后，他们将被导向 `/home` URI，而你需要向路由注册此 URI 来处理这个请求，你也可以自定义认证后转向的 URI，只需修改 `AuthController` 的 `redirectPath` 属性即可：
+只需要在浏览器简单地访问定义的路由就行了，认证控制器早已包含了处理认证现有用户，及保存新用户在数据库的逻辑了（通过他们各自的 traits）。
+
+当用户成功认证后，他们将被重定向到 `/home` URI，而你需要向路由注册此 URI 来处理这个请求，也可以自定义认证后转向的 URI，只需修改 `AuthController` 的 `redirectPath` 属性即可：
 
     protected $redirectPath = '/dashboard';
 
-当用户认证失败后，将会被重定向到 `/auth/login` URI。你可以设置 `AuthController` 的 `loginPath` 属性来自定义认证失败后的重定向位置：
+用户认证失败后，将会被重定向到 `/auth/login` URI。你可以设置 `AuthController` 的 `loginPath` 属性来自定义认证失败后的重定向位置：
 
     protected $loginPath = '/login';
 
@@ -140,12 +146,12 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 `AuthController` 的 `validator` 方法包含了对新用户的验证规则。你可以随意的修改这个方法。
 
-`AuthController` 的 `create` 方法负责使用 [Eloquent ORM](/docs/{{version}}/eloquent) 来创建新的 `App\User` 纪录到你的数据库。你可以根据需求任意修改这个方法。
+`AuthController` 的 `create` 方法负责使用 [Eloquent ORM](/docs/{{version}}/eloquent) 来创建新的 `App\User` 纪录到数据库。你可以根据需求任意修改这个方法。
 
 <a name="retrieving-the-authenticated-user"></a>
 ### 获取已认证的用户信息
 
-你可以通过 `Auth` facade 来访问认证的用户。
+可以通过 `Auth` facade 来访问认证的用户。
 
     $user = Auth::user();
 
@@ -176,18 +182,18 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 #### 检查用户是否登录
 
-为了检查用户是否已经登录，你可以使用 `Auth` facade 的 `check` 方法，如果认证过，将会返回 `true`：
+使用 `Auth` facade 的 `check` 方法来检查用户是否登录，如果已经登录，将会返回 `true`：
 
     if (Auth::check()) {
         // 这个用户已经登录...
     }
 
-不过，在允许该用户访问特定的路由或控制器之前，你可以使用中间件来确认这个用户是否认证过。要想得到更多信息，请阅读 [限制路由访问](/docs/{{version}}/authentication#protecting-routes) 的文档。
+在允许该用户访问特定的路由或控制器之前，可以使用中间件来检查用户是否认证过。要想得到更多信息，请阅读 [限制路由访问](/docs/{{version}}/authentication#protecting-routes) 的文档。
 
 <a name="protecting-routes"></a>
 ### 限制路由访问
 
-[路由中间件](/docs/{{version}}/middleware) 用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中，你只需要将它应用到路由定义中：
+[路由中间件](/docs/{{version}}/middleware) 用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中，只需要将它应用到路由定义中：
 
     // 使用路由闭包...
     Route::get('profile', ['middleware' => 'auth', function() {
@@ -200,7 +206,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
         'uses' => 'ProfileController@show'
     ]);
 
-当然，如果你正在使用 [控制器类](/docs/{{version}}/controllers)，你可以在构造器中调用 `middleware` 方法，而不是在路由中直接定义它：
+如果使用 [控制器类](/docs/{{version}}/controllers)，可以在构造器中调用 `middleware` 方法：
 
     public function __construct()
     {
@@ -211,7 +217,9 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="authentication-throttling"></a>
 ### 错误尝试限制
 
-如果你使用了 Laravel 内置的 `AuthController` 类，则可以通过 `Illuminate\Foundation\Auth\ThrottlesLogins` trait 在你的应用程序限制登录次数。默认情况下，如果用户在进行几次尝试后仍不能提供正确的凭证，将在一分钟内无法进行登录。这个限制会特别针对用户的用户名称 / 邮件地址和他们的 IP 地址：
+Laravel 内置的 `AuthController` 类提供 `Illuminate\Foundation\Auth\ThrottlesLogins` trait 允许你在应用程序中限制登录次数。
+
+默认情况下，如果用户在进行几次尝试后仍不能提供正确的凭证，将在一分钟内无法进行登录。这个限制会特别针对用户的用户名称 / 邮件地址和他们的 IP 地址：
 
     <?php
 
@@ -233,9 +241,9 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="authenticating-users"></a>
 ## 手动认证用户
 
-当然，你不一定要使用 Laravel 内置的认证控制器，你可以选择删除这些控制器，然后创建自定义的控制器。
+当然，不一定要使用 Laravel 内置的认证控制器，你可以选择删除这些控制器，然后创建自定义的控制器。
 
-我们将通过 `Auth` [facade](/docs/{{version}}/facades) 访问 Laravel 的认证服务，所以我们需要确认是否要在类的最上面引入 `Auth` facade，接下来让我们看一下 `attempt` 方法：
+我们将通过 `Auth` [facade](/docs/{{version}}/facades) 访问 Laravel 的认证服务，接下来让我们看一下 `Auth` 的 `attempt` 方法：
 
     <?php
 
@@ -267,7 +275,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 重定向器上的 `intended` 方法将会重定向用户回原本想要进入的页面，也可以传入一个回退 URI 至这个方法，以避免要转回的页面不可使用。
 
-如果你希望，你也可以加入除用户的邮箱及密码外的额外条件进行认证查找。例如，我们要确认用户是否被标示为 `active`：
+可以加入除用户的邮箱及密码外的额外条件进行认证查找。例如，我们要确认用户是否被标示为 `active`：
 
     if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
         // 此用户是已激活的、没被停权的、且存在的用户
@@ -277,18 +285,20 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
     Auth::logout();
 
-> **注意：** 在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，如【手机号码】，只要它在数据库的意思等同于「用户名」。
+> **注意：** 在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，如「手机号码」，只要它在数据库的意义等同于「用户名」。
 
 <a name="remembering-users"></a>
 ## 记住用户
 
-如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，在用户注销前 session 值都会被一直保存。你的 `users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」令牌的。
+如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，在用户注销前 session 值都会被一直保存。
+
+`users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」令牌的。
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // 这个用户被记住了...
     }
 
-如果你是被记住的用户，你可以使用 `viaRemember` 方法来检查这个用户是否使用「记住我」 cookie 来做认证：
+可以使用 `viaRemember` 方法来检查这个用户是否使用「记住我」 cookie 来做认证：
 
     if (Auth::viaRemember()) {
         //
@@ -297,7 +307,7 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="other-authentication-methods"></a>
 ### 其它认证方法
 
-#### 用用户实例做认证
+#### 用「用户实例」做认证
 
 如果你需要使用存在的用户实例来登录，你需要调用 `login` 方法，并传入使用实例，这个对象必须是由 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts) 所实现。当然，`App/User` 模型已经实现了这个接口：
 
@@ -305,13 +315,13 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 
 #### 用用户 ID 做认证
 
-如果你需要使用用户的 ID 来登录，你需要使用 `loginUsingId` 方法，这个方法接受要登录用户的主键：
+使用 `loginUsingId` 方法来登录指定 ID 用户，这个方法接受要登录用户的主键：
 
     Auth::loginUsingId(1);
 
 #### 仅在本次认证用户
 
-你可以使用 `once` 方法来针对一次性请求来认证用户，没有任何的 session 或 cookie 会被使用，这个对于构建无状态的 API 非常的有用，`once` 方法跟 `attempt` 方法拥有同样的传入参数：
+可以使用 `once` 方法来针对一次性认证用户，没有任何的 session 或 cookie 会被使用，这个对于构建无状态的 API 非常的有用，`once` 方法跟 `attempt` 方法拥有同样的传入参数：
 
     if (Auth::once($credentials)) {
         //
@@ -375,9 +385,9 @@ Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\A
 <a name="resetting-database"></a>
 ### 重设数据库
 
-很多 Web 应用程序都会提供用户重设密码功能，Laravel 提供便利的方法来发送密码提示和实现密码重设，而避免让你重造车轮。
+很多 Web 应用程序都会提供用户重设密码功能，Laravel 提供发送重置密码邮件和实现密码重设功能，而避免让你重造车轮。
 
-开始之前，请先确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
+开始之前，请先确认 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
 
 #### 生成重置令牌的数据表迁移文件
 
@@ -401,7 +411,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="resetting-views"></a>
 ### 视图
 
-除了定义 `PasswordController` 路由，你还需要提供视图给这个控制器。不过不用担心，我们已经提供了例子视图来帮助你开始，你也可以随意的定义你自己的表单风格。
+除了定义 `PasswordController` 路由，还需要提供视图给这个控制器。不过不用担心，我们已经提供了例子视图来帮助你开始，你也可以随意的定义表单风格。
 
 #### 重置密码链接的请求表单例子
 
@@ -432,7 +442,9 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
         </div>
     </form>
 
-当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的邮箱。你将需要为邮箱创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置令牌的 `$token` 变量，这个变量含有密码重置令牌来匹配用户的密码重置请求，举例如下：
+当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的邮箱。
+
+你将需要为邮箱创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置令牌的 `$token` 变量，这个变量含有密码重置令牌来匹配用户的密码重置请求，举例如下：
 
     <!-- 文件 resources/views/emails/password.blade.php -->
 
@@ -483,7 +495,9 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="after-resetting-passwords"></a>
 ### 重设密码后
 
-在你定义好路由跟视图之后，你就可以使用浏览器访问这个路由了。Laravel 中的 `PasswordController` 已经包含了发送密码重置链接的邮箱，及更新密码到数据库的逻辑。
+在你定义好路由跟视图之后，你就可以使用浏览器访问这个路由了。
+
+`PasswordController` 已经包含了发送密码重置链接邮箱，及更新密码到数据库的逻辑。
 
 密码重置以后，这个用户会自动登录并重定向到 `/home`。要自定义重定向地址，只需定义 `PasswordController` 的 `redirectTo` 属性即可：
 
@@ -524,7 +538,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
 ### 基础应用
 
-接下来，你已经准备好开始认证用户了！你将需要两个路由: 一个用来重定向用户到 OAuth 提供者，另一个在认证后接收提供者的回调。我们将会借由 `Socialite` [facade](/docs/{{version}}/facades) 访问 Socialite：
+接下来，你已经准备好开始认证用户了！需要两个路由: 一个用来重定向用户到 OAuth 提供者，另一个在认证后接收提供者的回调。我们将会借由 `Socialite` [facade](/docs/{{version}}/facades) 访问 Socialite：
 
     <?php
 
@@ -563,7 +577,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
     return Socialite::driver('github')
                 ->scopes(['scope1', 'scope2'])->redirect();
 
-当然，你需要定义路由到你的控制器方法：
+当然，你需要指定路由到控制器方法：
 
     Route::get('auth/github', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
@@ -636,7 +650,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
 ### 用户提供者 Contract
 
-`Illuminate\Contracts\Auth\UserProvider` 的实现只负责获取 `Illuminate\Contracts\Auth\Authenticatable` 的实现， 且不受限于永久保存系统，例如 MySQL, Riak 等等。这两个接口允许 Laravel 认证机制继续作用，而不用管用户如何保存或是使用什么样类型的类表达它。
+`Illuminate\Contracts\Auth\UserProvider` 的实现只负责获取 `Illuminate\Contracts\Auth\Authenticatable` 的实现， 且不受限于永久保存系统，例如 MySQL, Riak 等等。这两个接口允许 Laravel 认证机制继续作用，而不用管用户如何保存或是使用什么样类型的类实现它。
 
 让我们来看看 `Illuminate\Contracts\Auth\UserProvider` contract：
 
@@ -687,7 +701,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="events"></a>
 ## 事件
 
-Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 为这些事件连接侦听器：
+Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 中对这些事件做监听：
 
     /**
      * 为你的应用程序注册任何事件。
