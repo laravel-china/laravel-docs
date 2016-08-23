@@ -67,7 +67,7 @@ Laravel 的事件广播机制很好的支持了此类应用的开发，广播事
 
 ### 中间件参数
 
-中间件支持接收自定义传参，例如要在运行特定操作之前，检查当前登录的用户是否具备「某角色」，可以创建 `RoleMiddleware` 来接收角色名称作为额外的传参：
+中间件支持接收自定义传参，例如要在运行特定操作之前，检查当前登录的用户是否具备「某角色」，可以创建 `RoleMiddleware` 来接收角色名称作为传参：
 
     <?php
 
@@ -121,10 +121,11 @@ Laravel 内置的测试功能已得到显著的改善，提供简明的接口与
 
 ### 模型工厂
 
-Laravel 的 [模型工厂](/docs/{{version}}/testing#model-factories) 提供一种简单的方式创建仿真 Eloquent 模型。
+Laravel 的 [模型工厂](/docs/{{version}}/testing#model-factories) 提供一种简单的方式来创建仿真 Eloquent 模型。
 
->>>> 
-模型工厂通过简单的为 Eloquent 模型定义一组「默认」填充字段，令其为测试或数据填充生成测试模型实例。另外，模型工厂支持使用 [Faker](https://github.com/fzaninotto/Faker) 来生成随机字段的数据：
+在为 Eloquent 模型定义一组「默认」填充字段后，即可为测试或数据填充生成测试模型实例。
+
+另外，模型工厂支持使用 [Faker](https://github.com/fzaninotto/Faker) 来生成随机数据：
 
     $factory->define(App\User::class, function ($faker) {
         return [
@@ -135,11 +136,13 @@ Laravel 的 [模型工厂](/docs/{{version}}/testing#model-factories) 提供一�
         ];
     });
 
-更多关于模型工厂的消息，请查阅 [它的文档](/docs/{{version}}/testing#model-factories)。
+更多关于模型工厂的信息，请查阅 [它的文档](/docs/{{version}}/testing#model-factories)。
 
 ### Artisan 的改进
 
-Artisan 命令现在可以使用简单的方式定义，类似于命名路由，提供了一个非常简单的接口来定义命令行的参数及选项。举个例子，你可以定义一个简单的命令及它的选项，如下：
+Artisan 命令现支持类似于命名路由的定义，以简单易懂的形式来定义命令行的参数及选项。
+
+举个例子，你可以定义一个简单的命令及它的参数和选项，如下：
 
     /**
      * 命令行的名字及署名。
@@ -152,7 +155,9 @@ Artisan 命令现在可以使用简单的方式定义，类似于命名路由，
 
 ### 文件夹结构
 
-为了更方便理解，`app/Commands` 目录已经被更名为 `app/Jobs`。此外，`app/Handler` 目录已经被合并成一个只包含事件侦听器的 `app/Listeners` 目录中。这不是一个重大的改变，你不必更新成新的文件夹结构也能使用 Laravel 5.1。
+为了更方便理解，`app/Commands` 目录已经被更名为 `app/Jobs`。此外，`app/Handler` 目录已经被合并成一个只包含事件侦听器的 `app/Listeners` 目录中。
+
+这不是一个重大的改变，你不必更新成新的文件夹结构也能使用 Laravel 5.1。
 
 ### 加密
 
@@ -161,7 +166,7 @@ Artisan 命令现在可以使用简单的方式定义，类似于命名路由，
 <a name="laravel-5.0"></a>
 ## Laravel 5.0
 
-Laravel 5.0 在默认的项目上引进了新的应用程序架构。新架构允许 Laravel 创建更加强健的应用程序，新架构全面采用新的自动加载标准（PSR-4）。
+Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建更加强健的应用程序，新架构全面采用新的自动加载标准（PSR-4）。
 
 以下是一些主要变化：
 
@@ -179,13 +184,15 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新架构�
 
 ### Contracts
 
-所有 Laravel 主要组件实现所用的接口都放在 `illuminate/contracts` 保存库中。这个保存库没有其它的外部依赖。这些方便、集成的接口，可以让你用来让依赖注入变得低耦合，将可以简单作为 Laravel Facades 的替代选项。
+所有 Laravel 组件实现所用的接口都放在 `illuminate/contracts` 文件夹中，他们没有其他依赖。这些方便集成的接口，让依赖注入变得低耦合，可简单作为 Laravel Facades 的替代选项。
 
 更多关于 contracts 的信息，参考 [完整文档](/docs/{{version}}/contracts)。
 
 ### 路由缓存
 
-如果你的应用程序全部都是使用控制器路由，你可以使用新的 `route:cache` Artisan 命令来大幅度地加快注册路由。这对于有 100 个以上路由规则的应用程序很有用，可以**大幅度地**加快应用程序这部分的处理速度。
+如果你的应用程序全部使用控制器路由，新的 `route:cache` Artisan 可以用来大幅度地加快路由注册寻找速度。
+
+这对于有 100 个以上路由规则的应用程序很有用，可以 **大幅度地** 加快应用程序这部分的处理速度。
 
 ### 路由中间件
 
@@ -204,11 +211,16 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新架构�
 
 ### 认证基本架构
 
-用户注册，认证，以及重设密码的控制器现在已经默认含括了，包含相对应的视图，放在 `resources/views/auth`。除此之外，「users」数据表迁移也已经默认存在框架中了。这些简单的资源，可以让你快速开发应用程序的点子，而不用陷在编写认证模板的泥淖上。认证相关的视图可以经由 `auth/login` 以及 `auth/register` 路由访问。`App\Services\Auth\Registrar` 服务会负责处理用户认证和添加的相关逻辑。
+用户注册，认证，以及重设密码的控制器现在已经默认含括了，包含相对应的视图，放在 `resources/views/auth`。
+
+除此之外，「users」数据表迁移也已经默认存在框架中了。这些简单的资源，可以让你快速开发应用程序的点子，而不用陷在编写认证模板的泥淖上。
+
+认证相关的视图可以经由 `auth/login` 以及 `auth/register` 路由访问。`App\Services\Auth\Registrar` 服务会负责处理用户认证和注册用户的相关逻辑。
 
 ### 事件对象
 
-你现在可以将事件定义成对象，而不是仅使用字符串。例如，瞧瞧以下的事件：
+你现在可以将事件定义成对象，而不是仅使用字符串。例：
+    
     <?php
 
     class PodcastWasPurchased
@@ -241,7 +253,7 @@ Laravel 5.0 在默认的项目上引进了新的应用程序架构。新架构�
 
 ### 命令及队列
 
-除了 Laravel 4 形式的队列任务，Laravel 5 以简单的命令对象作为队列任务。这些命令放在 `app/Commands` 目录下。下面是个例子的命令：
+除了 Laravel 4 形式的队列任务，Laravel 5 还支持简单的命令对象作为队列任务。这些命令放在 `app/Commands` 目录下。下面是个例子的命令：
 
     <?php
 
