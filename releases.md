@@ -22,8 +22,6 @@ Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复�
 <a name="laravel-5.3"></a>
 ## Laravel 5.3
 
-Laravel 5.3 在 5.2 的基础上继续进行优化，提供了大量新功能和新特性：基于驱动的通知系统；通过Laravel Echo提供强大的实时支持；通过Laravel Passport实现无痛的OAuth2服务器；通过Laravel Scout实现全文模型搜索；在Laravel Elixir中支持Webpack；“可邮寄”的对象；明确分离web和api路由；基于闭包的控制台命令；存储上传文件的辅助函数；支持POPO和单动作控制器；以及优化前端脚手架；等等等等。
-
 Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
 
 * [消息通知系统 Laravel Notifications](/docs/5.3/notifications)；
@@ -38,7 +36,7 @@ Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
 * 支持 POPO 和单动作控制；
 * 优化默认前端脚手架，等。
 
-### Notifications
+### 消息通知 Notifications
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9)。
 
@@ -52,7 +50,7 @@ Laravel Notifications 提供了简单、优雅的 API 支持你在不同的发�
 
 ### WebSockets / 事件广播
 
-事件广播在之前版本的 Laravel 中已经存在，Laravel 5.3 现支持对已私有和已存在的 WebSocket 频道添加频道级认证：
+事件广播在之前版本的 Laravel 中已经存在，Laravel 5.3 现支持对私有和已存在的 WebSocket 频道添加频道级认证：
 
     /*
      * 频道认证
@@ -61,9 +59,9 @@ Laravel Notifications 提供了简单、优雅的 API 支持你在不同的发�
         return $user->placedOrder($orderId);
     });
 
-Laravel Echo，可通过 NPM 安装的全新的 JavaScript 包，会和 Laravel 5.3 一起发布，为客户端 JavaScript 应用中监听服务器端事件提供了简单、优雅的 API 接口。
+Laravel Echo 是一个可通过 NPM 安装的全新的 JavaScript 包，会和 Laravel 5.3 一起发布，Echo 为客户端 JavaScript 中监听服务器端事件提供了简单、优雅的 API 接口。
 
-Echo 默认包含对 [Pusher](https://pusher.com) 和 [Socket.io](http://socket.io 的支持：
+Echo 默认包含对 [Pusher](https://pusher.com) 和 [Socket.io](http://socket.io) 的支持：
 
     Echo.channel('orders.' + orderId)
         .listen('ShippingStatusUpdated', (e) => {
@@ -111,7 +109,7 @@ Passport 还提供了方便的 API 让你定制「Token 访问域」：
 此外，Passport 还包含了一个用于检查「Token 访问域」访问权限的中间件：
 
     Route::get('/orders/{order}/status', function (Order $order) {
-        // Access token has "check-status" scope...
+        // 检查令牌是否拥有访问域 "check-status"
     })->middleware('scope:check-status');
 
 最后，Passport 还支持从 JavaScript 应用访问你的 API，而不必担心访问令牌传输。
@@ -233,7 +231,7 @@ Laravel Elixir 6.0 与 Laravel 5.3 共同发布，内置了 Webpack 和 Rollup J
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/4)。
 
-Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `make:auth` 命令生成的认证前端脚手架代码，不再从 CDN 中加载前端资源，所有依赖被定义在默认的 package.json 文件中，你可以自行修改。
+Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `make:auth` 命令生成认证相关的前端脚手架代码，不再从 CDN 中加载前端资源，所有依赖被定义在默认的 package.json 文件中，你可以自行修改。
 
 此外，支持单文件的 Vue 组件现在直接开箱即用， `resources/assets/js/components` 目录下包含了一个简单的示例 `Example.vue`，新的 `resources/assets/js/app.js` 用来配置 JavaScript 类库依赖和 Vue 子模块。
 
@@ -243,17 +241,15 @@ Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `mak
 
 ### 路由文件
 
-By default, fresh Laravel 5.3 applications contain two HTTP route files in a new top-level `routes` directory. The `web` and `api` route files provide more explicit guidance in how to split the routes for your web interface and your API. The routes in the `api` route file are automatically assigned the `api` prefix by the `RouteServiceProvider`.
-
 默认情况下，新安装的 Laravel 5.3 应用在新的顶级目录 `routes` 下包含了 `web.php` 和 `api.php` 两个 `HTTP` 路由文件，你也可以按照此方法自行扩展。
 
-API 相关的路由在 `RouteServiceProvider` 中指定了自定添加 `api` 前缀。
+API 相关的路由在 `RouteServiceProvider` 中指定了自动添加 `api` 前缀。
 
 ### 闭包控制台命令
 
 除了通过命令类定义之外，Artisan 命令现支持在 `app/Console/Kernel.php` 文件中使用简单闭包的方式定义。
 
-在新安装的 Laravel 5.3 应用中，commands 方法会加载 routes/console.php 文件，从而允许你基于闭包、以路由风格定义控制台命令：
+在新安装的 Laravel 5.3 应用中，`commands` 方法会加载 `routes/console.php` 文件，从而允许你基于闭包、以路由风格定义控制台命令：
 
     Artisan::command('build {project}', function ($project) {
         $this->info('Building project...');
@@ -265,7 +261,7 @@ API 相关的路由在 `RouteServiceProvider` 中指定了自定添加 `api` 前
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/7)。
 
-当我们在 Blade 模板中循环遍历的时候，$loop 魔术变量将会在循环中生效。通过该变量可以访问很多有用的信息，比如当前循环索引值，以及当前循环是第一个还是最后一个：
+当我们在 Blade 模板中循环遍历的时候，`$loop` 魔术变量将会在循环中生效。通过该变量可以访问很多有用的信息，比如当前循环索引值，以及当前循环是第一个还是最后一个：
 
     @foreach ($users as $user)
         @if ($loop->first)
