@@ -1,6 +1,6 @@
 # Release Notes
 
-- [Support Policy](#support-policy)
+- [支持策略](#support-policy)
 - [Laravel 5.3](#laravel-5.3)
 - [Laravel 5.2](#laravel-5.2)
 - [Laravel 5.1.11](#laravel-5.1.11)
@@ -11,44 +11,66 @@
 - [Laravel 4.1](#laravel-4.1)
 
 <a name="support-policy"></a>
-## Support Policy
+## 支持策略
 
-For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.
+Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复，LTS 版本是 Laravel 能提供的支持及维护最长时间支持的发行版。
+
+对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
+
+> [Laravel 的发布路线图](https://phphub.org/topics/2594) - by [Summer](http://github.com/summerblue)
 
 <a name="laravel-5.3"></a>
 ## Laravel 5.3
 
-Laravel 5.3 continues the improvements made in Laravel 5.2 by adding a driver based [notification system](/docs/5.3/notifications), robust realtime support via [Laravel Echo](/docs/5.3/broadcasting), painless OAuth2 servers via [Laravel Passport](/docs/5.3/passport), full-text model searching via [Laravel Scout](/docs/5.3/scout), Webpack support in Laravel Elixir, "mailable" objects, explicit separation of `web` and `api` routes, Closure based console commands, convenient helpers for storing uploaded files, support for POPO and single-action controllers, improved default frontend scaffolding, and more.
+Laravel 5.3 在 5.2 的基础上继续进行优化，提供了大量新功能和新特性：基于驱动的通知系统；通过Laravel Echo提供强大的实时支持；通过Laravel Passport实现无痛的OAuth2服务器；通过Laravel Scout实现全文模型搜索；在Laravel Elixir中支持Webpack；“可邮寄”的对象；明确分离web和api路由；基于闭包的控制台命令；存储上传文件的辅助函数；支持POPO和单动作控制器；以及优化前端脚手架；等等等等。
+
+Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
+
+* [消息通知系统 Laravel Notifications](/docs/5.3/notifications)；
+* [事件广播系统 Laravel Echo](/docs/5.3/broadcasting)；
+* [Laravel Passport 快速 OAuth2 服务器的扩展包](/docs/5.3/passport)；
+* [Laravel Scout 全文搜索引擎](/docs/5.3/scout)；
+* Laravel Elixir 开始支持 Webpack；
+* 邮件操作 Laravel Mailable；
+* `web` 和 `api` 的路由分离；
+* 基于闭包的控制台命令；
+* 上传文件存储的帮助函数；
+* 支持 POPO 和单动作控制；
+* 优化默认前端脚手架，等。
 
 ### Notifications
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9) for this feature available on Laracasts.
+> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9)。
 
-Laravel Notifications provide a simple, expressive API for sending notifications across a variety of delivery channels such as email, Slack, SMS, and more. For example, you may define a notification that an invoice has been paid and deliver that notification via email and SMS. Then, you may send the notification using a single, simple method:
+Laravel Notifications 提供了简单、优雅的 API 支持你在不同的发送媒介中发送通知，例如邮件、SMS、Slack 等等。
+
+例如，你可以定义一个单据已经支付的通知，然后通过邮件和 SMS 发送这个通知：
 
     $user->notify(new InvoicePaid($invoice));
 
-There is already a wide variety of [community written drivers](http://laravel-notification-channels.com) for notifications, including support for iOS and Android notifications. To learn more about notifications, be sure to check out the [full notification documentation](/docs/5.3/notifications).
+[Laravel 社区](http://laravel-notification-channels.com) 已经为通知系统编写了各式的驱动，甚至包括对 iOS 和 Android 通知的支持，更多关于通知系统的信息，请查看 [完整的文档](/docs/5.3/notifications)。
 
-### WebSockets / Event Broadcasting
+### WebSockets / 事件广播
 
-While event broadcasting existed in previous versions of Laravel, the Laravel 5.3 release greatly improves this feature of the framework by adding channel-level authentication for private and presence WebSocket channels:
+事件广播在之前版本的 Laravel 中已经存在，Laravel 5.3 现支持对已私有和已存在的 WebSocket 频道添加频道级认证：
 
     /*
-     * Authenticate the channel subscription...
+     * 频道认证
      */
     Broadcast::channel('orders.*', function ($user, $orderId) {
         return $user->placedOrder($orderId);
     });
 
-Laravel Echo, a new JavaScript package installable via NPM, has also been released to provide a simple, beautiful API for subscribing to channels and listening for your server-side events in your client-side JavaScript application. Echo includes support for [Pusher](https://pusher.com) and [Socket.io](http://socket.io):
+Laravel Echo，可通过 NPM 安装的全新的 JavaScript 包，会和 Laravel 5.3 一起发布，为客户端 JavaScript 应用中监听服务器端事件提供了简单、优雅的 API 接口。
+
+Echo 默认包含对 [Pusher](https://pusher.com) 和 [Socket.io](http://socket.io 的支持：
 
     Echo.channel('orders.' + orderId)
         .listen('ShippingStatusUpdated', (e) => {
             console.log(e.description);
         });
 
-In addition to subscribing to traditional channels, Laravel Echo also makes it a breeze to subscribe to presence channels which provide information about who is listening on a given channel:
+除了订阅到传统频道上，Laravel Echo 也让频道间的监听变得简单：
 
     Echo.join('chat.' + roomId)
         .here((users) => {
@@ -61,42 +83,50 @@ In addition to subscribing to traditional channels, Laravel Echo also makes it a
             console.log(user.name);
         });
 
-To learn more about Echo and event broadcasting, check out the [full documentation](/docs/5.3/broadcasting).
+更多信息请查阅 [完整文档](/docs/5.3/broadcasting).
 
-### Laravel Passport (OAuth2 Server)
+### Laravel Passport (OAuth2 认证服务)
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/13) for this feature available on Laracasts.
+> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/13)。
 
-Laravel 5.3 makes API authentication a breeze using [Laravel Passport](/docs/{{version}}/passport), which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Alex Bilbie.
+Laravel 5.3 的 Passport 让 API 认证变得简单。Laravel Passport 可以让你在几分钟内为应用程序创建一个完整的 OAuth2 认证服务，Passport 基于 Alex Bilbie 的 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 实现。
 
-Passport makes it painless to issue access tokens via OAuth2 authorization codes. You may also allow your users to create "personal access tokens" via your web UI. To get you started quickly, Passport includes [Vue components](https://vuejs.org) that can serve as a starting point for your OAuth2 dashboard, allowing users to create clients, revoke access tokens, and more:
+Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允许用户通过 Web 界面创建 `个人访问令牌`。
+
+为了方便提高开发效率，Passport 内置了一个 Vue 组件，该组件提供了 OAuth2 后台界面功能，允许用户创建客户端、撤销访问令牌，以及更多其他功能：
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
 
-If you do not want to use the Vue components, you are welcome to provide your own frontend dashboard for managing clients and access tokens. Passport exposes a simple JSON API that you may use with any JavaScript framework you choose.
+如果你不想使用 Vue 组件，你可以自由的定制用于管理客户端和访问令牌的前端、后台。Passport 提供了一个简单的 JSON API，你可以在前端使用任何 JavaScript 框架与之集成。
 
-Of course, Passport also makes it simple to define access token scopes that may be requested by application's consuming your API:
+Passport 还提供了方便的 API 让你定制「Token 访问域」：
 
     Passport::tokensCan([
         'place-orders' => 'Place new orders',
         'check-status' => 'Check order status',
     ]);
 
-In addition, Passport includes helpful middleware for verifying that an access token authenticated request contains the necessary token scopes:
+此外，Passport 还包含了一个用于检查「Token 访问域」访问权限的中间件：
 
     Route::get('/orders/{order}/status', function (Order $order) {
         // Access token has "check-status" scope...
     })->middleware('scope:check-status');
 
-Lastly, Passport includes support for consuming your own API from your JavaScript application without worrying about passing access tokens. Passport achieves this through encrypted JWT cookies and synchronized CSRF tokens, allowing you to focus on what matters: your application. For more information on Passport, be sure to check out its [full documentation](/docs/5.3/passport).
+最后，Passport 还支持从 JavaScript 应用访问你的 API，而不必担心访问令牌传输。
 
-### Search (Laravel Scout)
+Passport 通过加密 JWT cookies 和同步「CSRF 令牌」来实现此功能，让你专注于业务开发。
 
-Laravel Scout provides a simple, driver based solution for adding full-text search to your [Eloquent models](/docs/5.3/eloquent). Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records. Currently, Scout ships with an [Algolia](https://www.algolia.com/) driver; however, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
+更多关于 Passport 信息，请查看 [完整文档](/docs/5.3/passport)。
 
-Making models searchable is as simple as adding a `Searchable` trait to the model:
+### 搜索系统 (Laravel Scout)
+
+Laravel Scout 提供了一个简单的、基于驱动的、针对 [Eloquent](/docs/5.3/eloquent) 模型的全文搜索解决方案。
+
+通过模型观察者，Scout 会自动同步更新 Eloquent 的搜索索引，目前，Scout使用 [Algolia](https://www.algolia.com/) 驱动，你可以自由的编写自己驱动来扩展 Scout。
+
+你只需要添加 Searchable trait 到模型中，就能让模型支持搜索：
 
     <?php
 
@@ -110,7 +140,7 @@ Making models searchable is as simple as adding a `Searchable` trait to the mode
         use Searchable;
     }
 
-Once the trait has been added to your model, its information will be kept in sync with your search indexes by simply saving the model:
+在你在模型中添加 trait 以后，数据会在 `save` 的时候自动保持同步：
 
     $order = new Order;
 
@@ -118,19 +148,21 @@ Once the trait has been added to your model, its information will be kept in syn
 
     $order->save();
 
-Once your models have been indexed, its a breeze to perform full-text searches across all of your models. You may even paginate your search results:
+在模型被成功索引以后，可以很轻松的使用全文搜索，你甚至可以为索引的结果进行分页操作：
 
     return Order::search('Star Trek')->get();
 
     return Order::search('Star Trek')->where('user_id', 1)->paginate();
 
-Of course, Scout has many more features which are covered in the [full documentation](/docs/5.3/scout).
+更多 Scout 功能，请查阅 [Scout 的完整文档](/docs/5.3/scout)。
 
-### Mailable Objects
+### Mailable 对象
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/6) for this feature available on Laracasts.
+> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/6)。
 
-Laravel 5.3 ships with support for mailable objects. These objects allow you to represent your email messages as a simple objects instead of customizing mail messages within Closures. For example, you may define a simple mailable object for a "welcome" email:
+Laravel 5.3 Mailable 是一个崭新的 Mail 操作类，通过一种更加优雅的方式发送邮件，而不再需要在闭包中自定义邮件信息。
+
+例如，定义一个简单的邮寄对象用作发送欢迎邮件：
 
     class WelcomeMessage extends Mailable
     {
@@ -147,24 +179,26 @@ Laravel 5.3 ships with support for mailable objects. These objects allow you to 
         }
     }
 
-Once the mailable object has been defined, you can send it to a user using a simple, expressive API. Mailable objects are great for discovering the intent of your messages while scanning your code:
+Mailable 对象被创建以后，你可以使用一个简单、优雅的 API 将其发送给用户：
 
     Mail::to($user)->send(new WelcomeMessage);
 
-Of course, you may also mark mailable objects as "queueable" so that they will be sent in the background by your queue workers:
+Mailable 还支持队列操作，只需要在类声明里实现 `ShouldQueue` 即可：
 
     class WelcomeMessage extends Mailable implements ShouldQueue
     {
         //
     }
 
-For more information on mailable objects, be sure to check out the [mail documentation](/docs/5.3/mail).
+更多关于 Mailable 的信息，请查看 [完整文档](/docs/5.3/mail)。
 
-### Storing Uploaded Files
+### 存储上传文件
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/12) for this feature available on Laracasts.
+> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/12)。
 
-In web applications, one of the most common use-cases for storing files is storing user uploaded files such as profile pictures, photos, and documents. Laravel 5.3 makes it very easy to store uploaded files using the new `store` method on an uploaded file instance. Simply call the `store` method with the path at which you wish to store the uploaded file:
+存储用户上传文件，在 Web 开发中是一个很常见的任务。
+
+Laravel 5.3 提供了一个便捷的 `store` 方法，只需要对上传文件对象调用此方法，并传参准备存储的路径即可：
 
     /**
      * Update the avatar for the user.
@@ -179,47 +213,59 @@ In web applications, one of the most common use-cases for storing files is stori
         return $path;
     }
 
-For more information on storing uploaded files, check out the [full documentation](/docs/{{version}}/filesystem#file-uploads).
+更多上传文件信息，请查看 [完整文档](/docs/{{version}}/filesystem#file-uploads)。
 
 
-### Webpack & Laravel Elixir
+### Webpack 和 Laravel Elixir
 
-Along with Laravel 5.3, Laravel Elixir 6.0 has been released with baked-in support for the Webpack and Rollup JavaScript module bundlers. By default, the Laravel 5.3 `gulpfile.js` file now uses Webpack to compile your JavaScript. The [full Laravel Elixir documentation](/docs/5.3/elixir) contains more information on both of these bundlers:
+Laravel Elixir 6.0 与 Laravel 5.3 共同发布，内置了 Webpack 和 Rollup JavaScript。
+
+默认情况下，Laravel 5.3 的 `gulpfile.js` 使用 Webpack 来编译你的 JavaScript 文件：
 
     elixir(mix => {
         mix.sass('app.scss')
            .webpack('app.js');
     });
 
-### Frontend Structure
+完整文档请见 [Laravel Elixir](/docs/5.3/elixir) 。
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/4) for this feature available on Laracasts.
+### 前端架构
 
-Laravel 5.3 ships with a more modern frontend structure. This primarily affects the `make:auth` authentication scaffolding. Instead of loading frontend assets from a CDN, dependencies are specified in the default `package.json` file.
+> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/4)。
 
-In addition, support for single file [Vue components](https://vuejs.org) is now included out of the box. A sample `Example.vue` component is included in the `resources/assets/js/components` directory. In addition, the new `resources/assets/js/app.js` file bootstraps and configures your JavaScript libraries and, if applicable, Vue components.
+Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `make:auth` 命令生成的认证前端脚手架代码，不再从 CDN 中加载前端资源，所有依赖被定义在默认的 package.json 文件中，你可以自行修改。
 
-This structure provides more guidance on how to begin developing modern, robust JavaScript applications, without requiring your application use any given JavaScript or CSS framework. For more information on getting started with modern Laravel frontend development, check out the new [introductory frontend documentation](/docs/5.3/frontend).
+此外，支持单文件的 Vue 组件现在直接开箱即用， `resources/assets/js/components` 目录下包含了一个简单的示例 `Example.vue`，新的 `resources/assets/js/app.js` 用来配置 JavaScript 类库依赖和 Vue 子模块。
 
-### Routes Files
+这种架构对开始开发现代的、强大的 JavaScript 应用提供了更好的支持，而不需要要求应用使用任何特定 JavaScript 或者 CSS 框架。
+
+更多信息，请查看对应文档 [前端文档](/docs/5.3/frontend)。
+
+### 路由文件
 
 By default, fresh Laravel 5.3 applications contain two HTTP route files in a new top-level `routes` directory. The `web` and `api` route files provide more explicit guidance in how to split the routes for your web interface and your API. The routes in the `api` route file are automatically assigned the `api` prefix by the `RouteServiceProvider`.
 
-### Closure Console Commands
+默认情况下，新安装的 Laravel 5.3 应用在新的顶级目录 `routes` 下包含了 `web.php` 和 `api.php` 两个 `HTTP` 路由文件，你也可以按照此方法自行扩展。
 
-In addition to being defined as command classes, Artisan commands may now be defined as simple Closures in the `commands` method of your `app/Console/Kernel.php` file. In fresh Laravel 5.3 applications, the `commands` method loads a `routes/console.php` file which allows you to define your Console commands as route-like, Closure based entry points into your application:
+API 相关的路由在 `RouteServiceProvider` 中指定了自定添加 `api` 前缀。
+
+### 闭包控制台命令
+
+除了通过命令类定义之外，Artisan 命令现支持在 `app/Console/Kernel.php` 文件中使用简单闭包的方式定义。
+
+在新安装的 Laravel 5.3 应用中，commands 方法会加载 routes/console.php 文件，从而允许你基于闭包、以路由风格定义控制台命令：
 
     Artisan::command('build {project}', function ($project) {
         $this->info('Building project...');
     });
 
-For more information on Closure commands, check out the [full Artisan documentation](/docs/5.3/artisan#closure-commands).
+更多信息请参见 [Artisan 文档](/docs/5.3/artisan#closure-commands)。
 
-### The `$loop` Variable
+### Blade 中的 `$loop` 魔术变量
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/7) for this feature available on Laracasts.
+> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/7)。
 
-When looping within a Blade template, a `$loop` variable will be available inside of your loop. This variable provides access to some useful bits of information such as the current loop index and whether this is the first or last iteration through the loop:
+当我们在 Blade 模板中循环遍历的时候，$loop 魔术变量将会在循环中生效。通过该变量可以访问很多有用的信息，比如当前循环索引值，以及当前循环是第一个还是最后一个：
 
     @foreach ($users as $user)
         @if ($loop->first)
@@ -233,7 +279,7 @@ When looping within a Blade template, a `$loop` variable will be available insid
         <p>This is user {{ $user->id }}</p>
     @endforeach
 
-For more information, consult the [full Blade documentation](/docs/5.3/blade#the-loop-variable).
+更多信息请查看 [Blade 文档](/docs/5.3/blade#the-loop-variable).
 
 <a name="laravel-5.2"></a>
 ## Laravel 5.2
