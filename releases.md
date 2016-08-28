@@ -13,7 +13,7 @@
 <a name="support-policy"></a>
 ## 支持策略
 
-Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复，LTS 版本是 Laravel 能提供的支持及维护最长时间支持的发行版。
+Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复，LTS 版本是 Laravel 能提供的维护时间最长的发行版。
 
 对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
 
