@@ -156,7 +156,7 @@
 - Request 请求
 - Response 响应
 - Resolved 解析
-- Repository 存储库
+- Repository (不翻)
 - Redirect 重定向
 - (Database's) Rollback 还原
 

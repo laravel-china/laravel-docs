@@ -7,12 +7,14 @@
 <a name="introduction"></a>
 ## 简介
 
-Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，提供了一个简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和弹性。
+> 译者注：Facade 中文意为 - 门面，外观，包装器。专有名词的属性多一点，故不采用直译，而是直接做专有名词使用。
+
+Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 本身附带许多的 facades，甚至你可能在不知情的状况下已经在使用他们！Laravel 「facades」作为在服务容器内基类的「静态代理」，拥有简洁、易表达的语法优点，同时维持着比传统静态方法更高的可测试性和灵活性。
 
 <a name="using-facades"></a>
 ## 使用 Facades
 
-在 Laravel 应用程序环境（Context）中，facade 是个提供从容器访问对象的类。`Facade` 类是让这个机制可以运作的原因。Laravel 的 facades，以及任何你创建的自定义 facades，会继承基底 `Illuminate\Support\Facades\Facade` 类。
+在 Laravel 应用程序环境（Context）中，facade 是个提供从容器访问对象的类。`Facade` 类是这个机制运作的核心部件。Laravel 的 facades，以及任何你创建的自定义 facades，会继承基底 `Illuminate\Support\Facades\Facade` 类。
 
 facade 类只需要去实现一个方法：`getFacadeAccessor`。`getFacadeAccessor` 方法的工作定义是从容器中解析出什么。`Facade` 基类利用 `__callStatic()` 魔术方法从你的 facade 延迟调用来解析对象。
 

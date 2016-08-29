@@ -24,7 +24,9 @@
 
 指定的字符串会被框架自动转换成 HTTP 响应。
 
-但是对大部分的路由及控制器所运行的动作来说，一般需要的是返回完整的 `Illuminate\Http\Response` 实例或是一个 [视图](/docs/{{version}}/views)。返回一个完整的 `Response` 实例时，就能够自定义响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多创建 HTTP 响应的方法：
+但是对于大部分的路由及控制器所运行的动作来说，一般需要的是返回完整的 `Illuminate\Http\Response` 实例或是一个 [视图](/docs/{{version}}/views)。
+
+返回一个完整的 `Response` 实例时，就能够自定义响应的 HTTP 状态码以及标头。`Response` 实例继承了 `Symfony\Component\HttpFoundation\Response` 类，其提供了很多创建 HTTP 响应的方法：
 
     use Illuminate\Http\Response;
 
@@ -45,7 +47,7 @@
 <a name="attaching-headers-to-responses"></a>
 #### 附加标头至响应
 
-请记得，大部份的响应方法是可链式调用的，这让你可以顺畅的创建响应。举例来说，你可以在响应发送给用户之前，使用 `header` 方法增加一系列的标头至响应：
+大部份的响应方法是可链式调用的，这让你可以顺畅的创建响应。举例来说，你可以在响应发送给用户之前，使用 `header` 方法增加一系列的标头至响应：
 
     return response($content)
                 ->header('Content-Type', $type)
@@ -56,7 +58,7 @@
 <a name="attaching-cookies-to-responses"></a>
 #### 附加 Cookies 至响应
 
-通过响应实例的 `withCookie` 辅助函数可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来生成 cookie 并附加至响应实例：
+通过响应实例的 `withCookie` 辅助方法可以让你轻松的附加 cookies 至响应。举个例子，你可以使用 `withCookie` 方法来生成 cookie 并附加至响应实例：
 
     return response($content)->header('Content-Type', $type)
                      ->withCookie('name', 'value');
@@ -65,7 +67,7 @@
 
     ->withCookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
 
-默认情况下，所有 Laravel 生成的 cookies 都会被加密并加上认证标识，因此无法被用户读取及修改。如果你想在应用程序生成的 cookies 中的某个子集进行加密停用，则可以使用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性：
+默认情况下，所有 Laravel 生成的 cookies 都会被加密并加上认证标识，因此无法被用户读取及修改。如果你想停止对某个 cookies 的加密，则可以利用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性：
 
     /**
      * 无需被加密的 cookies 名称。
@@ -139,7 +141,7 @@
 
 如果你的路由有参数，则可以将参数放进 `route` 方法的第二个参数：
 
-    // For a route with the following URI: profile/{id}
+    // 重定向到以下 URI: profile/{id}
 
     return redirect()->route('profile', [1]);
 

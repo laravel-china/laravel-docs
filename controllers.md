@@ -55,9 +55,9 @@
 
 #### 控制器和命名空间
 
-有一点非常重要，那就是我们在定义控制器路由时，不需要指定完整的控制器命名空间。我们只需要定义「根」命名空间 `App\Http\Controllers` 之后的部分类名称即可。默认 `RouteServiceProvider` 会将 `routes.php` 文件里的路由规则包在根控制器命名空间的路由群组下。
+有一点非常重要，那就是我们在定义控制器路由时，不需要指定完整的控制器命名空间。我们只需要定义「根」命名空间 `App\Http\Controllers` 之后的部分类名称即可。默认 `RouteServiceProvider` 会使用路由群组，把 `routes.php` 文件里所有路由规则都配置了根控制器命名空间。
 
-若你选择在 `App\Http\Controllers` 目录内层使用 PHP 命名空间嵌套或组织控制器，只要使用相对于 `App\Http\Controllers` 根命名空间的特定类名称即可。因此，若你的控制器类全名为 `App\Http\Controllers\Photos\AdminController`，你可以像这样注册一个路由：
+若你需要在 `App\Http\Controllers` 目录内层使用 PHP 命名空间嵌套或组织控制器，只要使用相对于 `App\Http\Controllers` 根命名空间的特定类名称即可。例如控制器类全名为 `App\Http\Controllers\Photos\AdminController`，你可以像这样注册一个路由：
 
     Route::get('foo', 'Photos\AdminController@method');
 
@@ -77,7 +77,7 @@
 
     $url = action('FooController@method');
 
-你可以使用 `Route` facade 的 `currentRouteAction` 方法访问正在运行的控制器行为名称：
+你可以使用 `Route` facade 的 `currentRouteAction` 方法取到正在运行的控制器行为名称：
 
 	$action = Route::currentRouteAction();
 
@@ -91,7 +91,7 @@
         'uses' => 'UserController@showProfile'
     ]);
 
-不过，在控制器构造器中指定中间件会更为方便。在控制器构造器中使用 `middleware` 方法，你可以很容易地将中间件指定给控制器。你甚至可以对中间件作出限制，仅将它提供给控制器类中的某些方法。
+不过，在控制器构造器中指定中间件会更为灵活。在控制器构造器中使用 `middleware` 方法，你可以很容易地将中间件指定给控制器。你甚至可以对中间件作出限制，仅将它提供给控制器类中的某些方法。
 
     class UserController extends Controller
     {
@@ -123,19 +123,19 @@
 
     Route::resource('photos', 'PhotosController');
 
-这一条路由声明会创建多个路由，用来处理各式各样和相片资源相关的的 RESTful 行为。同样地，生成的控制器有着各种和这些行为绑定的方法，包含要处理的 URI 及动词的记录通知。
+这一条路由声明会创建多个路由，用来处理各式各样和相片资源相关的的 RESTful 行为。同样地，生成的控制器有着各种和这些行为绑定的方法，包含要处理的 URI 及方法对应的注释。
 
 #### 由资源控制器处理的行为
 
-| 动词      | 路径                  | 行为（方法） | 路由名称      |
+| 动词       | 路径                   | 行为（方法）   | 路由名称       |
 |:----------|:----------------------|:-------------|:--------------|
 | GET       | `/photos`              | index        | photos.index   |
 | GET       | `/photos/create`       | create       | photos.create  |
 | POST      | `/photos`              | store        | photos.store   |
-| GET       | `/photos/{id}`      | show         | photos.show    |
-| GET       | `/photos/{id}/edit` | edit         | photos.edit    |
-| PUT/PATCH | `/photos/{id}`      | update       | photos.update  |
-| DELETE    | `/photos/{id}`      | destroy      | photos.destroy |
+| GET       | `/photos/{photo}`         | show         | photos.show    |
+| GET       | `/photos/{photo}/edit`    | edit         | photos.edit    |
+| PUT/PATCH | `/photos/{photo}`         | update       | photos.update  |
+| DELETE    | `/photos/{photo}`         | destroy      | photos.destroy |
 
 <a name="restful-partial-resource-routes"></a>
 #### 部分资源路由
@@ -151,7 +151,7 @@
 <a name="restful-naming-resource-routes"></a>
 #### 命名资源路由
 
-所有的资源控制器行为默认都有一路由名称；不过你可以在选项中传递一个 `names` 数组来重写这些名称：
+所有的资源控制器行为默认都有路由名称；不过你可以在选项中传递一个 `names` 数组来重写这些名称：
 
     Route::resource('photos', 'PhotosController',
                     ['names' => ['create' => 'photo.build']]);
@@ -159,11 +159,11 @@
 <a name="restful-nested-resources"></a>
 #### 嵌套资源
 
-有时你可能会需要对「嵌套」资源定义路由。例如，相片资源可能会附带多个「评论」。要「嵌套」此资源控制器，可在路由声明中使用「点」记号：
+有时你可能会需要定义「嵌套」资源路由。例如，相片资源可能会附带多个「评论」。要「嵌套」此资源控制器，可在路由声明中使用「点」记号：
 
     Route::resource('photos.comments', 'PhotoCommentController');
 
-此路由会注册一个「嵌套」资源，可通过类似这样的 URL 来访问它：`photos/{photos}/comments/{comments}`。
+此路由会注册一个「嵌套」资源，可通过类似的 URL 来访问它：`photos/{photos}/comments/{comments}`。
 
     <?php
 
@@ -258,7 +258,7 @@ Laravel 让你能够轻易地通过定义单个路由来处理控制器类中的
 
 #### 构造器注入
 
-Laravel [服务容器](/docs/{{version}}/container) 用于解析所有的 Laravel 控制器。因此，在此构造器中，你可以对控制器需要的任何依赖使用类型提示。依赖会自动被解析并注入控制器实例之中。
+Laravel 使用 [服务容器](/docs/{{version}}/container) 来解析控制器的依赖注入。依赖会自动被解析并注入控制器实例之中。
 
     <?php
 
@@ -270,7 +270,7 @@ Laravel [服务容器](/docs/{{version}}/container) 用于解析所有的 Larave
     class UserController extends Controller
     {
         /**
-         * 用户保存库实例。
+         * 用户 Repository 实例。
          */
         protected $users;
 
@@ -290,7 +290,7 @@ Laravel [服务容器](/docs/{{version}}/container) 用于解析所有的 Larave
 
 #### 方法注入
 
-除了构造器注入之外，你也可以对控制器行为方法的依赖使用类型提示。例如，让我们对 `Illuminate\Http\Request` 实例的其中一个方法使用类型提示：
+除了构造器注入之外，你也可以对 `控制器行为方法的依赖` 使用类型提示。例如，让我们对 `Illuminate\Http\Request` 实例的其中一个方法使用类型提示：
 
     <?php
 
@@ -315,7 +315,7 @@ Laravel [服务容器](/docs/{{version}}/container) 用于解析所有的 Larave
         }
     }
 
-若你想要控制器方法能预期从路由参数获得输入值，只要在你其它的依赖之后列出路由参数即可。例如，如果你的路由被定义成这个样子：
+想要从控制器方法中获取路由参数的话，只要在其它的依赖之后列出路由参数即可。例如：
 
     Route::put('user/{id}', 'UserController@update');
 
@@ -348,7 +348,7 @@ Laravel [服务容器](/docs/{{version}}/container) 用于解析所有的 Larave
 
 > **注意：** 路由缓存并不会作用在基于闭包的路由。要使用路由缓存，你必须将所有闭包路由转换为控制器类。
 
-若你的应用程序完全通过控制器使用路由，你可以利用 Laravel 的路由缓存。使用路由缓存可以大幅降低注册你应用程序全部的路由所需的时间。在某些情况下，你的路由注册甚至可以快上一百倍！要生成路由缓存，只要运行 `route:cache` 此 Artisan 命令：
+若你的应用程序完全通过控制器使用路由，你可以利用 Laravel 的路由缓存。使用路由缓存可以大幅降低注册全部路由所需的时间。在某些情况下，你的路由注册甚至可以快上一百倍！要生成路由缓存，只要运行 `route:cache` 此 Artisan 命令：
 
     php artisan route:cache
 

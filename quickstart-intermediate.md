@@ -28,9 +28,21 @@
 <a name="introduction"></a>
 ## 简介
 
-此快速入门指南为 Laravel 框架提供了高级的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、认证、授权、依赖注入、验证、视图，及 Blade 模版。如果你已经有 Laravel 框架或 PHP 的基础，那么这会是个很好的开头。
+此快速入门指南为 Laravel 框架提供了高级的介绍，其中内容包括
 
-要在 Laravel 功能中为样本做基本的选择，我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码 [在 GitHub 上](https://github.com/summerblue/laravel-quickstart-intermediate-5.1)。
+* 数据库迁移
+* Eloquent ORM
+* 路由
+* 认证
+* 授权
+* 依赖注入
+* 验证
+* 视图
+* Blade 模版。
+
+如果你已经有 Laravel 框架或 PHP 的基础，那么这会是个很好的开头。
+
+我们会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。与「基本」快速入门教程不同，此教程会允许用户在应用程序创建帐号并认证。此项目完整的源代码 [在 GitHub 上](https://github.com/summerblue/laravel-quickstart-intermediate-5.1)。
 
 <a name="installation"></a>
 ## 安装
@@ -54,7 +66,9 @@
 <a name="database-migrations"></a>
 ### 数据库迁移
 
-首先，让我们使用迁移来定义数据表以容纳我们所有的任务。Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库副本中，你的队友就可以简单运行你推送到版本控制的迁移。
+首先，让我们使用迁移来定义数据表以容纳我们所有的任务。Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。
+
+你无需再告诉团队成员要手动增加字段至他们本机的数据库中，他们只需要运行你提交到版本控制的迁移，即可应用数据库修改。
 
 #### `users` 数据表
 
@@ -234,7 +248,7 @@
 <a name="authentication-routing"></a>
 ### 认证
 
-我们需要让用户创建并登录帐号至我们的应用程序。一般来说，为网页应用程序构建完整的认证是相当乏味的工作。不过，因为它是一个通用的需求，所以 Laravel 在试着让这个过程变得更轻松便捷。
+我们需要让用户创建并登录帐号至我们的应用程序。一般来说，为网页应用程序构建完整的认证是相当乏味的工作。不过，因为它是一个通用的需求，所以 Laravel 试着让这个过程变得更轻松便捷。
 
 首先，你会注意到在应用程序中已经包含一个 `app/Http/Controllers/Auth/AuthController`。这个控制器使用了特别的 `AuthenticatesAndRegistersUsers` trait，它包含了所有创建及认证用户的必要逻辑。
 
@@ -276,7 +290,7 @@
 
 #### 认证所有的任务路由
 
-对于此应用程序，我们希望所有的任务路由都需要一个认证的用户。换句话说，用户为了创建任务必须「登录至」应用程序中。所以，我们需要对任务路由进行限制让其仅限已认证的用户访问。Laravel 使用 [中间件](/docs/{{version}}/middleware) 让这件事变得相当容易。
+对于此应用程序，我们希望所有的任务路由都需要一个认证的用户。换句话说，用户为了创建任务必须「登录至」应用程序中。所以，我们需要对任务路由进行限制，让其仅限已认证的用户访问。Laravel 使用 [中间件](/docs/{{version}}/middleware) 让这件事变得相当容易。
 
 要让所有控制器中的行为要求已认证的用户，我们可以在控制器的构造器中增加 `middleware` 方法的调用。所以可用的路由中间件都被定义在 `app/Http/Kernel.php` 文件中。在本例中，我们希望为所有控制器的动作指派 `auth` 中间件：
 
@@ -343,7 +357,7 @@
 <a name="defining-the-child-view"></a>
 ### 定义子视图
 
-很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks/index.blade.php`，它会对应至我们 `TaskController` 的 `index` 方法。
+很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单，及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks/index.blade.php`，它会对应至我们 `TaskController` 的 `index` 方法。
 
 我们会跳过一些 Bootstrap CSS 模版，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-intermediate) 下载到应用程序的完整源代码：
 
@@ -669,7 +683,7 @@ Laravel 的 [服务容器](/docs/{{version}}/container) 是整个框架中最强
     </tr>
 
 <a name="a-note-on-method-spoofing"></a>
-#### 方法欺骗的注记
+#### 表单方法伪造
 
 注意，删除按钮的表单 `method` 被列为 `POST`，即使我们响应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单假冒一个 `DELETE` 请求。
 
@@ -729,7 +743,7 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
 
 	php artisan make:policy TaskPolicy
 
-接着，让我们给授权策略增加一个 `destroy` 方法。此方法会获取一个 `User` 实例及一个 `Task` 实例。此方法会简单的检查当用户的 ID 是否符合任务的 `user_id`。实际上，所有的授权方法都必须返回 `true` 或 `false`：
+接着，让我们给授权策略增加一个 `destroy` 方法。此方法会获取一个 `User` 实例及一个 `Task` 实例。此方法会简单的检查当用户的 ID 是否是任务的 `user_id`，也就是说是不是作者。实际上，所有的授权方法都必须返回 `true` 或 `false`：
 
 	<?php
 
@@ -766,7 +780,6 @@ Laravel 使用了「授权策略」将授权逻辑组织至简单，小型的类
     protected $policies = [
         Task::class => TaskPolicy::class,
     ];
-
 
 #### 授权行为
 

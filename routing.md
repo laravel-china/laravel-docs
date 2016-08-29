@@ -61,7 +61,7 @@
 
 #### 生成 URLs 路由
 
-你可以通过 `url` 辅助函数生成应用程序路由：
+你可以通过 `url` 辅助函数生成 URL：
 
     $url = url('foo');
 
@@ -71,7 +71,7 @@
 <a name="required-parameters"></a>
 ### 基础路由参数
 
-有时候你可能需要在你的 URI 路由中来获取一些参数。例如，从 URL 获取用户的 ID。这时可通过自定义路由参数来获取：
+有时候你可能需要从 URI 中获取一些参数。例如，从 URL 获取用户的 ID。这时可通过自定义路由参数来获取：
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
@@ -90,7 +90,7 @@
 <a name="parameters-optional-parameters"></a>
 ### 可选的路由参数
 
-有时候你可能需要指定路由参数，但是让路由参数的存在是可选的。这时可以在参数名称后面加上 `?` 来实现：
+有时候你需要指定可选的路由参数，可以在参数名称后面加上 `?` 来实现：
 
     Route::get('user/{name?}', function ($name = null) {
         return $name;
@@ -103,7 +103,7 @@
 <a name="parameters-regular-expression-constraints"></a>
 ### 正则表达式限制参数
 
-你可以在路由实例上使用 `where` 方法来限制路由参数格式。`where` 方法接受参数的名称和定义参数应该如何被限制的正则表达式：
+你可以使用 `where` 方法来限制路由参数格式。`where` 方法接受参数的名称和定义参数应该如何被限制的正则表达式：
 
     Route::get('user/{name}', function ($name) {
         //
@@ -156,7 +156,8 @@
 还可以指定路由名称到控制器动作：
 
     Route::get('user/profile', [
-        'as' => 'profile', 'uses' => 'UserController@showProfile'
+        'as' => 'profile', 
+        'uses' => 'UserController@showProfile'
     ]);
 
 除了可以在路由的数组定义中指定路由名称外，你也可以在路由定义后方链式调用 `name` 方法：
@@ -192,14 +193,14 @@
 <a name="route-groups"></a>
 ## 路由群组
 
-路由群组允许你共用路由属性，例如：中间件、命名空间，你可以利用路由群组到多个路由中套用这些属性，而不需在每个路由上都设置一次。共用属性被指定为数组格式，当作 `Route::group` 方法的第一个参数：
+路由群组允许你共用路由属性，例如：中间件、命名空间，你可以利用路由群组统一为多个路由设置共同属性，而不需在每个路由上都设置一次。共用属性被指定为数组格式，当作 `Route::group` 方法的第一个参数。
 
 为了了解更多路由群组的相关内容，我们可通过几个常用样例来熟悉这些特性。
 
 <a name="route-group-middleware"></a>
 ### 中间件
 
-要想指定中间件到所有群组内的路由中，则可以在群组属性数组里使用 `middleware` 参数。中间件将会依照列表内指定的顺序运行：
+指定中间件到所有群组内的路由中，则可以在群组属性数组里使用 `middleware` 参数。中间件将会依照列表内指定的顺序运行：
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/', function ()    {
@@ -265,13 +266,13 @@
 <a name="csrf-introduction"></a>
 ### 介绍
 
-Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，借以通过身份验证的用户身份来运行未经授权的命令。
+Laravel 提供简单的方法保护你的应用程序不受到 [跨网站请求伪造](http://en.wikipedia.org/wiki/Cross-site_request_forgery) 攻击。跨网站请求伪造是一种恶意的攻击，破坏份子伪造 `已通过身份检验的用户身份` 来运行未经授权的命令。
 
-Laravel 会自动生成一个 CSRF token 给每个受应用程序管理的活动用户的 Session。该 token 用来验证用户是否为实际发出请求的用户。若要生成一个包含 CSRF token 的 `_token` 隐藏输入字段，可以使用 `csrf_field` 辅助函数：
+Laravel 会自动生成一个 CSRF token 给每个用户的 Session。该 token 用来验证用户是否为实际发出请求的用户。可以使用 `csrf_field` 辅助函数来生成一个包含 CSRF token 的 `_token` 隐藏表单字段：
 
     <?php echo csrf_field(); ?>
 
-`csrf_field` 辅助函数生成以下的 HTML：
+`csrf_field` 辅助函数会生成以下的 HTML：
 
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
@@ -279,7 +280,7 @@ Laravel 会自动生成一个 CSRF token 给每个受应用程序管理的活动
 
     {{ csrf_field() }}
 
-你不需要手动验证 POST、PUT 或 DELETE 请求的 CSRF token。在 `VerifyCsrfToken` [HTTP 中间件](/docs/{{version}}/middleware) 将自动验证请求与 session 中的 token 是否相符。
+你不需要手动验证 POST、PUT 或 DELETE 请求的 CSRF token。`VerifyCsrfToken` [HTTP 中间件](/docs/{{version}}/middleware) 将自动验证请求与 session 中的 token 是否相符。
 
 <a name="csrf-excluding-uris"></a>
 ### 不受 CSRF 保护的 URIs
@@ -365,7 +366,7 @@ Laravel 路由模型绑定提供了一个方便的方式来注入类实例到你
     });
 
 <a name="form-method-spoofing"></a>
-## 跨站请求伪造
+## 请求方法伪造
 
 HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 表单中调用被定义的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。跟随 `_method` 字段送出的值将被作为 HTTP 的请求方法使用：
 
@@ -391,6 +392,6 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
 其次，你也可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
 
-更多有关如何操作 404 异常和自定义响应，可以到 [错误](/docs/{{version}}/errors#http-exceptions) g章节内参考文档。
+更多有关如何操作 404 异常和自定义响应，可以到 [错误](/docs/{{version}}/errors#http-exceptions) 章节内参考文档。
 
 

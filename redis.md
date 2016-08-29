@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-[Redis](http://redis.io) 是一款开源且先进的键值对存储库。由于它可用的键包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets) 和 [有序集合](http://redis.io/topics/data-types#sorted-sets)，因此常被称作数据结构服务器。在使用 Redis 之前，你必须通过 Composer 安装 `predis/predis` 扩展包（~1.0）。
+[Redis](http://redis.io) 是一款开源且先进的键值对数据库。由于它可用的键包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets) 和 [有序集合](http://redis.io/topics/data-types#sorted-sets)，因此常被称作数据结构服务器。在使用 Redis 之前，你必须通过 Composer 安装 `predis/predis` 扩展包（~1.0）。
 
 > **[Summer](http://github.com/summerblue)：** 实用此命令安装：`composer require "predis/predis:~1.0"`，扩展阅读 - [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
 

@@ -12,7 +12,7 @@ Laravel 的 Contracts 是一组定义了框架核心服务的接口（ php class
 
 框架对于每个 contract 都有提供对应的实现，例如，Laravel 提供各种驱动程序的队列实现，以及由  [SwiftMailer](http://swiftmailer.org/) 提供的 mailer 实现。
 
-Laravel 所有的 contracts 都放在 [各自的 GitHub 保存库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
+Laravel 所有的 contracts 都放在 [各自的 GitHub 代码库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
 
 ### Contracts Vs. Facades
 
@@ -67,9 +67,9 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 在此类中，程序和缓存实现之间是高耦合。因为它是依赖于扩展包的特定缓存类。一旦这个扩展包的 API 更改了，我们的代码也要跟着改变。
 
-同样的，如果想要将底层的缓存技术（比如 Memcached ）抽换成另一种（像 Redis ），又一次的我们必须修改这个 repository 类。我们的保存库不应该知道这么多关于谁提供了数据，或是如何提供等细节。
+同样的，如果想要将底层的缓存技术（比如 Memcached ）切换成另一种（像 Redis ），又一次的我们必须修改这个 `Repository` 类。我们的 `Repository` 类不应该知道这么多关于谁提供了数据，或是如何提供等细节。
 
-**比起上面的做法，我们可以改用一个简单、和扩展包无关的接口来改进代码：**
+**比起上面的做法，我们可以使用一个简单、和扩展包无关的接口来改进代码：**
 
     <?php
 
@@ -102,7 +102,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 当所有的 Laravel 服务都使用简洁的接口定义，就能够很容易决定一个服务需要提供的功能。 **可以将 contracts 视为说明框架特色的简洁文档。**
 
-除此之外，当你依赖简洁的接口时，你的代码能够被简单的了解和维护。比起搜索一个大型复杂的类里有哪些可用的方法，你有一个简单，干净的接口可以参考。
+除此之外，当依赖的接口足够简洁时，代码的可读性和可维护性大大提高。比起搜索一个大型复杂的类里有哪些可用的方法，你有一个简单，干净的接口可以参考。
 
 <a name="contract-reference"></a>
 ## Contract 参考
@@ -148,7 +148,7 @@ Contract  |  对应的 Facade
 <a name="how-to-use-contracts"></a>
 ## 如何使用 Contracts
 
-所以，要如何实现一个 contract 呢？实际上非常的简单。
+要如何使用一个 contract 呢？实际上非常的简单。
 
 很多 Laravel 的类都是经由 [服务容器](/docs/{{version}}/container) 来解析，包含控制器，事件监听，中间件，队列任务，甚至是路由闭包。所以，要实现一个 contract，你可以在类的构造器使用「类型提示」解析类。
 

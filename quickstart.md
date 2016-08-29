@@ -24,7 +24,7 @@
 
 此快速入门指南主要为 Laravel 框架提供基本的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、验证、视图，及 Blade 模版。如果你是第一次使用 Laravel 框架或 PHP，那么这会是个很好的开头。如果你已经在使用 Laravel 或者其它的框架，不仿参考我们高级的快速入门指南。
 
-为了在 Laravel 功能中给样本做基本的选择，我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码 [在 GitHub 上](http://github.com/laravel/quickstart-basic)。
+我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码 [在 GitHub 上](http://github.com/laravel/quickstart-basic)。
 
 <a name="installation"></a>
 ## 安装
@@ -48,13 +48,15 @@
 <a name="database-migrations"></a>
 ### 数据库迁移
 
-首先，让我们使用迁移来定义数据表以容纳我们所有的任务。Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库副本中，你的队友就可以简单运行你推送到版本控制的迁移。
+首先，让我们使用迁移来定义数据表以存储我们所有的任务数据。
 
-让我们来构建一张将容纳所有任务的数据表。[Artisan 命令行接口](/docs/{{version}}/artisan) 可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
+Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库中，他们只需要运行你提交到版本控制的迁移，即可应用数据库修改。
+
+[Artisan 命令行接口](/docs/{{version}}/artisan) 可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
 
 	php artisan make:migration create_tasks_table --create=tasks
 
-此迁移会被放置在你项目的 `database/migrations` 目录中。你可能已经注意到，`make:migration` 命令已经增加了自动递增的 ID 及时间戳至迁移文件。让我们编辑这个文件并为任务的名称增加额外的 `string` 字段：
+此迁移会被放置在项目的 `database/migrations` 目录中。你可能已经注意到，`make:migration` 命令已经增加了自动递增的 ID 及时间戳至迁移文件。让我们编辑这个文件并为任务的名称增加额外的 `string` 字段：
 
 	<?php
 
@@ -92,18 +94,22 @@
 
 	php artisan migrate
 
-这个命令会创建我们所有的数据表。如果你使用了数据库客户端来检查数据表，那么你应该会看到新的 `tasks` 数据表，其中包含了我们迁移中所定义的字段。接着，我们已经准备好为我们的任务定义一个 Eloquent ORM 模型了！
+这个命令会创建我们所有的数据表。如果你使用了数据库客户端来查看数据表，那么你应该会看到新的 `tasks` 数据表，其中包含了我们迁移中所定义的字段。
+
+接下来，可以为我们的任务定义一个 Eloquent ORM 模型了！
 
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
 [Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你可以很轻松的在数据库获取及保存数据。一般情况下，每个 Eloqunet 模型会直接对应一张数据表。
 
-所以，让我们定义一个对应至 `tasks` 数据表的 `Task` 模型。同样的，我们可以使用 Artisan 命令来生成此模型。在此例中，我们会使用 `make:model` 命令：
+所以，让我们定义一个对应至 `tasks` 数据表的 `Task` 模型。
+
+同样的，我们可以使用 Artisan 命令来生成此模型。在此例中，我们会使用 `make:model` 命令：
 
 	php artisan make:model Task
 
-这个模型会放置在你应用程序的 `app` 目录中。默认情况下此模型类将是空的。我们不必明确告知 Eloquent 模型要对应哪张数据表，因为它会假设数据表是模型名称的复数型态。所以，在此例中，`Task` 模型会假设对应至 `tasks` 数据表。所以我们的空模型看起来应该如下：
+这个模型会放置在你应用程序的 `app` 目录中。默认情况下此模型类将是空的。我们不必明确告知 Eloquent 模型要对应哪张数据表，因为它会假设数据表是 `模型名称` 的复数型态。所以，在此例中，`Task` 模型会假设对应至 `tasks` 数据表。所以我们的空模型看起来应该如下：
 
 	<?php
 
@@ -165,7 +171,7 @@
 		return view('tasks');
 	});
 
-当然，我们必须明确定义这些视图，所以现在开始动手做吧！
+当然，我们必须先定义这些视图，所以现在开始动手做吧！
 
 <a name="building-layouts-and-views"></a>
 ## 构建布局与视图
@@ -179,7 +185,9 @@
 
 几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局** 来让不同页面共用这些相同的功能。
 
-如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade) 渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的捷径来编写干净、简洁的模板。
+如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。
+
+`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade) 渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的方式来编写干净、简洁的模板。
 
 我们的 `app.blade.php` 视图看起来应该如下面这样：
 
@@ -209,7 +217,7 @@
 <a name="defining-the-child-view"></a>
 ### 定义子视图
 
-很好，我们的应用程序布局已经完成。接下来，我们需要定义包含创建任务的表单及列出已有任务数据库表的视图。让我们将此视图定义在 `resources/views/tasks.blade.php`。
+很好，我们的应用程序布局已经完成。接下来，我们需要定义创建任务的表单，及列出已有任务数据的视图。让我们将此视图定义在 `resources/views/tasks.blade.php`。
 
 我们会跳过一些 Bootstrap CSS 模版，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-basic) 下载到应用程序的完整源代码：
 
@@ -224,7 +232,6 @@
 		<div class="panel-body">
             <!-- 显示验证错误 -->
 			@include('common.errors')
-
 			<!-- 新任务的表单 -->
 			<form action="/task" method="POST" class="form-horizontal">
 				{{ csrf_field() }}
@@ -426,7 +433,7 @@
     </tr>
 
 <a name="a-note-on-method-spoofing"></a>
-#### 方法欺骗的注记
+#### 伪造方法
 
 注意，删除按钮的表单 `method` 被列为 `POST`，即使我们响应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单中假冒一个 `DELETE` 请求。
 
@@ -437,7 +444,7 @@
 <a name="deleting-the-task"></a>
 ### 删除该任务
 
-最后，让我们增加实际的删除逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 获取模型，当该模型不存在时则会抛出 404 异常。一旦我们成功获取到模型，我们就可以使用 `delete` 方法来删除该条记录。只要该记录被删除，我们便会把用户重定向回 `/` URL：
+最后，让我们增加实际的删除逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 来获取模型，当该模型不存在时则会抛出 404 异常。一旦我们成功获取到模型，我们就可以使用 `delete` 方法来删除该条记录。只要该记录被删除，我们便会把用户重定向回 `/` URL：
 
 	Route::delete('/task/{id}', function ($id) {
 		Task::findOrFail($id)->delete();
