@@ -39,9 +39,11 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
 请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH，只有这样系统才能找到 `laravel` 的执行文件。
 
-一旦安装完成，就可以使用 `laravel new` 命令在指定的目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
+一旦安装完成，就可以使用 `laravel new` 命令在指定目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
 
     laravel new blog
+    
+因为代码依赖是直接一起打包安装的。
 
 #### 通过 Composer Create-Project
 
@@ -59,19 +61,21 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 <a name="basic-configuration"></a>
 ### 基本配置
 
-所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，因此你可以轻松地浏览这些文档，并且熟悉这些选项配置。
+所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，请仔细阅读这些说明，并熟悉这些选项配置。
 
 #### 目录权限
 
-安装 Laravel 之后，你必须设置一些权限。`storage` 和 `bootstrap/cache` 目录必须让服务器有写入权限。如果你使用 [Homestead](/docs/{{version}}/homestead) 虚拟机，那么这些权限应该已经被设置完成。
+安装 Laravel 之后，你必须设置一些文件目录权限。`storage` 和 `bootstrap/cache` 目录必须让服务器有写入权限。如果你使用 [Homestead](/docs/{{version}}/homestead) 虚拟机，那么这些权限已经被设置好了。
 
 #### 应用程序密钥
 
-在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串到应用程序密钥。假设你是通过 Composer 或是 Laravel 安装工具安装的 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥会有 32 字符长。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你现在应该去设置下。**如果应用程序密钥没有被设置的话，你的用户 Session 和其它的加密数据都是不安全的！**
+在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串的密钥。假设你是通过 Composer 或是 Laravel 安装工具安装的 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥会有 32 字符长。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你现在应该去设置下。
+
+**如果应用程序密钥没有被设置的话，你的用户 Session 和其它的加密数据都是不安全的！**
 
 #### 其它设置
 
-Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你先浏览 `config/app.php` 文件和对应的文档，这里面包含着一些选项，如`时区`和`语言环境`，你可以根据自己的应用程序来做修改。
+Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你先浏览 `config/app.php` 文件和对应的文档，这里面包含着一些选项，如`时区`和`语言环境`，你可以根据应用程序的情况来修改。
 
 你也可以设置 Laravel 的几个附加组件，像是：
 
@@ -79,14 +83,14 @@ Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你
 - [数据库](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
 
-一旦 Laravel 安装完成，你应该立即[设置本机环境](/docs/{{version}}/installation#environment-configuration)。
+一旦 Laravel 安装完成，你应该立即 [设置本机环境](/docs/{{version}}/installation#environment-configuration)。
 
 <a name="pretty-urls"></a>
 #### 优雅链接
 
 **Apache**
 
-Laravel 框架通过 `public/.htaccess` 文件来让网址不需要 `index.php`。如果你的服务器是使用 Apache，请确认是否有开启 `mod_rewrite` 模块。
+Laravel 框架通过 `public/.htaccess` 文件来让 URL 不需要 `index.php` 即可访问。如果你的服务器是使用 Apache，请确认是否有开启 `mod_rewrite` 模块。
 
 如果 Laravel 附带的 `.htaccess` 文件在 Apache 中无法使用的话，请尝试下方的做法：
 
@@ -99,7 +103,7 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址不需要 `index.php`�
 
 **Nginx**
 
-若你使用了 Nginx，则可以在网站设置中增加以下设置，以开启「优雅链接」：
+若你使用了 Nginx，则可以在网站设置中增加以下设置来开启「优雅链接」：
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
@@ -110,15 +114,15 @@ Laravel 框架通过 `public/.htaccess` 文件来让网址不需要 `index.php`�
 <a name="environment-configuration"></a>
 ### 环境配置
 
-应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在本机开发环境上有与正式环境不同的缓存驱动。只需通过配置文件就可轻松完成。
+应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在本机开发环境上有与正式环境不同的缓存驱动。类似这种环境变量，只需通过 `.env` 配置文件就可轻松完成。
 
 Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在安装好的全新 Laravel 应用程序里，在根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，否则你只能手动更改文件名。
 
 当你的应用程序收到请求时，这个文件所有的变量都会被加载到 PHP 超级全局变量 `$_ENV` 里。你可以使用辅助函数 `env` 来获取这些变量的值。事实上，如果你阅读过 Laravel 的相关配置文件，你会注意到里面有几个选项已经在使用着这个辅助函数！
 
-根据本机服务器或者正式环境的需求的不同，可自由修改环境变量。但是，`.env` 文件不应该被提交到应用程序的版本控制系统，因为每个开发人员或服务器在使用应用程序时，可能需要不同的环境配置。
+根据本机服务器或者正式环境的需求的不同，可自由修改环境变量。但是，`.env` 文件不应该被提交到版本控制系统，因为每个开发人员或服务器在使用应用程序时，可能需要不同的环境配置。
 
-如果你是某个团队的开发者，不妨将 `.env.example` 文件放进你的应用程序。通过样本配置文件里的预设值，你团队中的其他开发人员就可以清楚地知道，在运行你的应用程序时有哪些环境变量是必须有的。
+不妨将 `.env.example` 文件放进你的应用程序，通过样本配置文件里的预设值，团队中的其他开发人员就可以清楚地知道，在运行你的应用程序时有哪些环境变量是必须有的。
 
 #### 获取目前应用程序的环境
 
@@ -145,14 +149,14 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 为了让应用程序的速度获得提升，可以使用 Artisan 命令 `config:cache` 将所有的配置文件缓存到单个文件。通过此命令将所有的设置选项合并成一个文件，让框架能够更快速的加载。
 
-你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在本机开发时运行，因为设置选项会在应用程序的开发时经常变动。
+你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在开发时运行，因为设置选项会在开发时经常变动。
 
 > **[Summer](http://github.com/summerblue)：**想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 
 <a name="accessing-configuration-values"></a>
 ### 获取设置值
 
-你可以使用 `config` 辅助函数获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。你也可以指定一个默认值，当该设置选项不存在时就会返回默认值：
+可以使用 `config` 辅助函数获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。你也可以指定一个默认值，当该设置选项不存在时就会返回默认值：
 
     $value = config('app.timezone');
 

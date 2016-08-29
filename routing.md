@@ -391,6 +391,6 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
 其次，你也可以手动抛出 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException` 的实例。
 
-更多有关如何操作 404 异常和自定义响应，可以到 [错误](/docs/{{version}}/errors#http-exceptions) 章节内参考文档。
+更多有关如何操作 404 异常和自定义响应，可以到 [错误](/docs/{{version}}/errors#http-exceptions) g章节内参考文档。
 
 

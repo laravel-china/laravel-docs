@@ -79,9 +79,9 @@ Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](h
 <a name="code-style-fixer"></a>
 ### 代码风格矫正器
 
-你可以使用 [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) 在你提交代码之前进行代码格式矫正。
+你可以使用 [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) 在提交代码之前进行代码格式矫正。
 
-你需要 [全局安装命令行](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual) ，然后在你的根目录下运行以下命令进行矫正：
+你需要 [全局安装命令行](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual) ，然后在根目录下运行以下命令进行矫正：
 
 ```sh
 php-cs-fixer fix

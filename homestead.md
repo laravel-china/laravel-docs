@@ -16,9 +16,11 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 致力于让 PHP 的开发过程变得更加轻松愉快，这其中也包含你的本地开发环境。[Vagrant](http://vagrantup.com) 提供了一个简单、优雅的方式来管理与配置虚拟机。
+Laravel 致力于让 PHP 的开发过程变得更加轻松愉快，这其中也包含你的本地开发环境。
 
 Laravel Homestead 是一个官方预封装的 Vagrant box，提供给你一个完美的开发环境，你无需在本机电脑上安装 PHP、HHVM、Web 服务器或其它服务器软件。并且不用再担心系统被搞乱！Vagrant box 为你搞定一切。如果有什么地方出错了，你也可以在几分钟内快速的销毁并重建虚拟机！
+
+> [Vagrant](http://vagrantup.com) 是一个虚拟机管理软件。提供简单、优雅的方式来管理与配置虚拟机，Homestead 构建于 Vagrant 之上。
 
 Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了 Nginx Web 服务器、PHP 5.6、MySQL、Postgres、Redis、Memcached、Node，以及所有你在使用 Laravel 开发时所需要用到的各种软件。
 
@@ -96,7 +98,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 
 #### 配置共享文件夹
 
-你可以在 `Homestead.yaml` 文件的 `folders` 属性里列出所有你想与你的 Homestead 环境共享的文件夹。这些文件夹中的文件若有更动，它们将会在你的本机电脑与 Homestead 环境自动更新同步。你可以在这里设置多个共享文件夹：
+你可以在 `Homestead.yaml` 文件的 `folders` 属性里列出所有想与 Homestead 环境共享的文件夹。这些文件夹中的文件若有变更，它们将会在你的本机电脑与 Homestead 环境自动更新同步。你可以在这里设置多个共享文件夹：
 
     folders:
         - map: ~/Code
@@ -111,7 +113,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 
 #### 配置 Nginx 网站
 
-对 Nginx 不熟悉吗？没关系。`sites` 属性可以帮助你可以轻易指定一个 `域名` 来对应到 homestead 环境中的一个目录上。在 `Homestead.yaml` 文件中已包含了一个网站设置范本。同样的，你也可以增加多个网站到你的 Homestead 环境中。Homestead 可以为你正在开发中的所有 Laravel 项目提供方便的虚拟化环境：
+对 Nginx 不熟悉吗？没关系。`sites` 属性可以帮助你可以轻易指定一个 `域名` 来对应到 homestead 环境中的一个目录上。在 `Homestead.yaml` 文件中已包含了一个网站设置范本。同样的，你也可以增加多个网站到你的 Homestead 环境中。Homestead 可以同时为多个 Laravel 应用提供虚拟化环境：
 
     sites:
         - map: homestead.app
@@ -124,45 +126,49 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
           to: /home/vagrant/Code/Laravel/public
           hhvm: true
 
-如果你在 Homestead box 配置之后更改了 `sites` 属性，那么你应该重新运行 `vagrant reload --provision` 来更新 Nginx 配置到虚拟机上。
+如果你在 Homestead box 配置之后更改了 `sites` 属性，那么应该重新运行 `vagrant reload --provision` 来更新 Nginx 配置到虚拟机上。
 
 #### 关于 Hosts 文件
 
-你必须将在 Nginx sites 中所添加的「域名」也添加到你本机电脑的 `hosts` 上。`hosts` 文件会将你所发出的请求重定向至你在 Homestead 环境中设置的本地域名。在 Mac 或 Linux 上，该文件通常会存放在 `/etc/hosts`。在 Windows 上，则存放于 `C:\Windows\System32\drivers\etc\hosts`。设置内容如下所示：
+你必须将在 Nginx sites 中所添加的「域名」也添加到你本机电脑的 `hosts` 上。`hosts` 文件会将请求重定向至 Homestead 环境中设置的本地域名。在 Mac 或 Linux 上，该文件通常会存放在 `/etc/hosts`。在 Windows 上，则存放于 `C:\Windows\System32\drivers\etc\hosts`。设置内容如下所示：
 
     192.168.10.10  homestead.app
 
-务必确认 IP 位置与 `Homestead.yaml` 文件中设置的相同。在将域名设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站啦！
+务必确认 IP 地址与 `Homestead.yaml` 文件中设置的相同。将域名设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站。
 
     http://homestead.app
 
 <a name="launching-the-vagrant-box"></a>
 ### 启动 Vagrant box
 
-在你根据自己的喜好编辑完 `Homestead.yaml` 后，在命令行里进入你的 Homestead 目录并运行 `vagrant up` 命令。Vagrant 就会自将虚拟主机启动并自动设置共享文件夹和 Nginx 网站。
+编辑完 `Homestead.yaml` 后，在命令行里进入你的 Homestead 目录并运行 `vagrant up` 命令。Vagrant 就会根据 `Homestead.yaml` 里的配置信息，为虚拟机设置共享文件夹和 Nginx 网站。
 
 如果要移除虚拟机，可以使用 `vagrant destroy --force` 命令。
 
 <a name="per-project-installation"></a>
 ### 根据项目分开安装
 
-有别于将 Homestead 安装成全局环境且让所有的项目共用同一个 Homestead box，你可以各别为每一个项目独立配置一个 Homstead。如果你希望直接在项目里传递 `Vagrantfile`，那么你可以考虑替每个项目分别安装上 Homestead，其他人通过简单的 `vagrant up` 即能开始在此项目进行工作。
+除了全局使用同一个 Homestead 环境，Homestead 还允许你为项目独立配置一个独占的 Homstead。
 
-你可以使用 Composer 将 Homestead 直接安装至你的项目中：
+通过传递 `Vagrantfile`，可以实现为每个项目分别安装上 Homestead，其他项目成员只需要通过简单的 `vagrant up` 即能跟你拥有一样的 Homestead 环境。
+
+使用 Composer 将 Homestead 直接安装至项目中：
 
     composer require laravel/homestead
 
-一旦 Homestead 安装完毕，你可以使用 `make` 命令生成 `Vagrantfile` 与 `Homestead.yaml` 文件并存放于项目的根目录。这个 `make` 命令将会自动在 `Homestead.yaml` 文件中配置 `sites` 及 `folders`：
+一旦 Homestead 安装完毕，可以使用 `make` 命令生成 `Vagrantfile` 与 `Homestead.yaml` 文件，并存放于项目的根目录。
+
+这个 `make` 命令将会自动在 `Homestead.yaml` 文件中配置 `sites` 及 `folders`：
 
 Mac / Linux:
 
-    php vendor/bin/homestead make
+	php vendor/bin/homestead make
 
 Windows:
 
-        vendor\bin\homestead make
+	vendor\bin\homestead make
 
-接着，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里设置 `homestead.app` 或其它想要使用的域名。
+接着，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒，你仍然需要在 `/etc/hosts` 里配置 `homestead.app` 或其它想要使用的域名。
 
 <a name="daily-usage"></a>
 ## 常见用法
@@ -172,23 +178,23 @@ Windows:
 
 在 Homestead 目录运行 `vagrant ssh` 命令来连接虚拟主机。
 
-你可能会经常需要使用 SSH 来连接 Homestead 主机，因此你可以在本机电脑上创建一个「别名」以便快速连接 Homestead box。在创建这个别名之后，就可以轻易地通过「vm」这个命令用 SSH 连上你的 Homestead 主机：
+你可能会经常需要使用 SSH 来连接 Homestead 主机，因此你可以在本机电脑上创建一个「别名」以便快速连接 Homestead box。在创建这个别名之后，就可以轻易地通过 `vm` 这个命令用 SSH 连上你的 Homestead 主机：
 
     alias vm="ssh vagrant@127.0.0.1 -p 2222"
 
 <a name="connecting-to-databases"></a>
 ### 连接数据库
 
-在 `Homestead` 中，已经预装了 MySQL 与 Postgres 两种数据库。为了方便使用，Laravel 在 `local` 的数据库设置值中已经默认将其设置好了。
+在 `Homestead` 中，已经预装了 MySQL 与 Postgres 两种数据库。为了方便使用，Laravel 在 `local` 的默认数据库设置中已经将其设置好了。
 
-如果想要从本机电脑上通过 Navicat 或者是 Sequel Pro 来连接 MySQL 或 Postgres 数据库，可以通过 `127.0.0.1` 来使用端口 33060 (MySQL) 或 54320 (Postgres) 连接。帐号密码分别是 `homestead` / `secret`。
+如果想要从本机电脑上通过 Navicat 或者是 Sequel Pro 来连接数据库，可以通过 `127.0.0.1` 来使用端口 33060 (MySQL) 或 54320 (Postgres) 连接。帐号密码分别是 `homestead` / `secret`。
 
-> **附注：** 在本机电脑上你应当只使用这些非标准的连接端口来连接数据库。因为当 Laravel 运行于虚拟主机时，在 Laravel 的数据库设置值中依然是设置使用默认的 3306 及 5432 连接端口。
+> **附注：** 因为虚拟机做了端口转发，所以本机电脑上你应当只使用这些非标准的连接端口，虚拟机里依然使用默认的 3306 及 5432 连接端口。
 
 <a name="adding-additional-sites"></a>
 ### 增加更多网站
 
-一旦 Homestead 环境配置完毕且成功运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单个 Homestead 环境中运行多个 Laravel 安装程序。在 `Homestead.yaml` 文件中增加另一个网站的设置后，进入 Homestead 目录并运行 `vagrant provision` 命令，即可新增一个网站。
+一旦 Homestead 环境配置完毕且成功运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单个 Homestead 环境中运行多个 Laravel 程序。在 `Homestead.yaml` 文件中增加另一个网站的设置后，进入 Homestead 目录并运行 `vagrant provision` 命令，即可新增一个网站。
 
 <a name="configuring-cron-schedules"></a>
 ### 配置 Cron 调度器
@@ -207,7 +213,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 <a name="ports"></a>
 ### 连接端口
 
-以下的连接端口将会被转发至 Homestead 环境：
+以下本地电脑连接端口将会被转发至 Homestead 环境：
 
 - **SSH：**2222 &rarr; 转发至 22
 - **HTTP：**8000 &rarr; 转发至 80
@@ -217,7 +223,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 
 #### 转发更多连接端口
 
-如果你愿意的话，也可以借助指定连接端口的通信协议来转发更多额外的连接端口给 Vagrant box：
+如果你需要的话，也可以借助指定连接端口的通信协议来转发更多额外的连接端口给 Vagrant box：
 
     ports:
         - send: 93000

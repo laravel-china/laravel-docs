@@ -12,7 +12,7 @@
 <a name="upgrade-5.1.11"></a>
 ## 升级到 5.1.11
 
-Laravel 5.1.11 包含了对于 [授权](/docs/{{version}}/authorization) 及 [授权策略](/docs/{{version}}/authorization#policies) 的支持。要将这些功能添加到你现有的 Laravel 5.1 应用程序是相当容易的。
+Laravel 5.1.11 现支持 [授权](/docs/{{version}}/authorization) 及 [授权策略](/docs/{{version}}/authorization#policies)。要将这些功能添加到现有的 Laravel 5.1 应用程序中是相当容易的。
 
 > **注意：**这些升级是 **可选的**，忽略它们并不会影响你的应用程序。
 
@@ -22,7 +22,7 @@ Laravel 5.1.11 包含了对于 [授权](/docs/{{version}}/authorization) 及 [�
 
 #### 创建并注册 AuthServiceProvider 与 Gate Facade
 
-在你的 `app/Providers` 目录创建一个 `AuthServiceProvider`。你可以 [从 GitHub](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php) 获取此文件作为默认的内容，请注意，如果你的应用程序使用自定的命名空间的话，请修改提供者的命名空间。创建完成后，请务必在你的 `app.php` 配置文件的 `providers` 数组注册它。
+在你的 `app/Providers` 目录创建一个 `AuthServiceProvider`。你可以 [从 GitHub](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php) 获取默认的内容，请注意，如果你的应用程序使用自定的命名空间的话，请修改提供者的命名空间。创建完成后，请务必在你的 `app.php` 配置文件的 `providers` 数组注册它。
 
 同样的，你必须在你的 `app.php` 配置文件的 `aliases` 数组注册 `Gate` facade：
 
@@ -87,7 +87,7 @@ Laravel 5.1.11 包含了对于 [授权](/docs/{{version}}/authorization) 及 [�
     *
     !.gitignore
 
-这个目录必须为可写入的，框架会暂时存放如 `compiled.php`、`routes.php`、`config.php` 和 `services.json` 的最佳化文件在此目录。
+这个目录必须为可写的，框架会暂时存放如 `compiled.php`、`routes.php`、`config.php` 和 `services.json` 等文件在此目录。
 
 ### 添加 `BroadcastServiceProvider` 提供者
 
@@ -95,11 +95,11 @@ Laravel 5.1.11 包含了对于 [授权](/docs/{{version}}/authorization) 及 [�
 
 ### 认证
 
-如果你有使用内置的 `AuthController`，他使用了 `AuthenticatesAndRegistersUsers` trait，你会需要对新用户如何创建跟验证做一些修改。
+如果你有使用内置的 `AuthController`，此控制器使用了 `AuthenticatesAndRegistersUsers` trait，你会需要对新用户如何创建跟验证做一些修改。
 
 首先，你不再需要传递 `Guard` 和 `Registrar` 实例到基底构造器。你可以从控制器的构造器完全移除这些依赖。
 
-第二，已经不再需要 Laravel 5.0 中使用的 `App\Services\Registrar` 类。你可以简单的从这个类直接复制你的 `validator` 和 `create` 方法粘贴至你的 `AuthController`。这些方法不需要做其它修改。然而，你必须确定有在你的 `AuthController` 顶端引入 `Validator` facade 跟你的 `User` 模型。
+第二，已经不再需要 Laravel 5.0 中使用的 `App\Services\Registrar` 类。你可以简单的从这个类直接复制你的 `validator` 和 `create` 方法粘贴至你的 `AuthController`。这些方法不需要做其它修改。你必须确定有在你的 `AuthController` 顶端引入 `Validator` facade 跟你的 `User` 模型。
 
 #### 密码控制器
 
@@ -145,7 +145,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 #### 日期格式
 
-以前，Eloquent 日期字段的保存格式可以借助重写模型上的 `getDateFormat` 方法来修改。现在仍然可以这么做。然而，为了方便起见你可以直接在模型上指定 `$dateFormat` 属性来取代重写方法。
+以前，Eloquent 日期字段的保存格式可以借助重写模型上的 `getDateFormat` 方法来修改。现在仍然可以这么做。然而，为了方便起见，你可以直接在模型上指定 `$dateFormat` 属性来取代重写方法。
 
 当序列化模型成 `array` 或 JSON 时，也会采用该日期格式。当从 Laravel 5.0 迁移到 5.1 时，这可能会改变你的 JSON 序列化的日期字段格式。要想针对序列化模型设置特定的日期格式，你需要在你的模型上重写 `serializeDate(DateTime $date)` 方法。这个方法可以让你在不改变日期字段保存格式的情况下，精细的控制 Eloquent 序列化格式。
 
@@ -237,7 +237,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 ### 全新安装，然后迁移
 
-推荐的升级方式是创建一个全新的 Laravel `5.0` 项目，然后复制你 `4.2` 网站特定的应用程序文件到此新的应用程序。其中包含控制器、路由、Eloquent 模型、Artisan 命令、资源文件，和其它专属于你的应用程序代码。
+推荐的升级方式是创建一个全新的 Laravel `5.0` 项目，然后复制你 `4.2` 网站特定的应用程序文件到此新的应用程序。其中包含控制器、路由、Eloquent 模型、Artisan 命令、资源文件，和其它专属于你的程序代码。
 
 开始前，请先在你的本地环境中 [安装一个新的 Laravel 5 应用程序](/docs/{{version}}/installation) 到一个全新的目录中。不要安装超过 5.0 的任何版本，因为我们需要先完成迁移至 5.0 的步骤。我们将会在后面详细探讨各部分的详细迁移过程。
 
@@ -257,7 +257,7 @@ Eloquent 的 `create` 方法现在可以不带任何参数调用。如果你有�
 
 复制新的 `.env.example` 文件到 `.env`，在 `5.0` 中这相当于原本的 `.env.php`。在此设置合适的值，如 `APP_ENV` 和 `APP_KEY` (你的加密密钥)、数据库凭证、缓存驱动与 session 驱动。
 
-此外，将你原本的 `.env.php` 文件中自定义的设置值都复制并移到 `.env` (本机环境的实际设置值) 和 `.env.example` (给其他团队成员的范本教程)。
+此外，将你原本的 `.env.php` 文件中自定义的设置值都复制并移到 `.env` (本机环境的实际设置值) 和 `.env.example` (给其他团队成员的范本文件)。
 
 更多关于环境配置的信息，请查看 [完整文档](/docs/{{version}}/installation#environment-configuration)。
 
@@ -303,7 +303,7 @@ Laravel 5.0 不再使用 `app/config/{environmentName}/` 目录结构来为指�
 
 ### Eloquent 模型
 
-你可以随意创建一个新的 `app/Models` 目录来放置你的 Eloquent 模型。同样地，这个目录必须添加到 `composer.json` 文件的 `classmap` 属性中。
+你可以随意创建一个新的 `app/Models` 目录来放置 Eloquent 模型。同样地，这个目录必须添加到 `composer.json` 文件的 `classmap` 属性中。
 
 将正在使用 `SoftDeletingTrait` 的模型更改为使用 `Illuminate\Database\Eloquent\SoftDeletes`。
 
@@ -353,15 +353,15 @@ use Authenticatable, CanResetPassword;
 
 ### Artisan 命令
 
-将你所有的命令类从原本的 `app/commands` 目录移到新的 `app/Console/Commands` 目录。接下来，把 `app/Console/Commands` 目录添加到 `composer.json` 文件的 `classmap` 属性中。
+将所有的命令类从原本的 `app/commands` 目录移到新的 `app/Console/Commands` 目录。接下来，把 `app/Console/Commands` 目录添加到 `composer.json` 文件的 `classmap` 属性中。
 
-然后，把你的 Artisan 命令清单从 `start/artisan.php` 复制到 `app/Console/Kernel.php` 文件里的 `command` 数组中。
+然后，把 Artisan 命令清单从 `start/artisan.php` 复制到 `app/Console/Kernel.php` 文件里的 `command` 数组中。
 
 ### 数据库迁移和数据填充
 
-因为你的数据库里应该已经有 users 表了，请删除 Laravel 5.0 内置的两个迁移文件。
+因为数据库里应该已经有 users 表了，请删除 Laravel 5.0 内置的两个迁移文件。
 
-将你所有的迁移文件从原本的 `app/database/migrations` 目录移到新的 `database/migrations`。你所有的数据填充档也应该从 `app/database/seeds` 移到 `database/seeds`。
+将所有的迁移文件从原本的 `app/database/migrations` 目录移到新的 `database/migrations`。所有的数据填充档也应该从 `app/database/seeds` 移到 `database/seeds`。
 
 ### 全局 IoC 绑定
 
@@ -371,7 +371,7 @@ use Authenticatable, CanResetPassword;
 
 ### 视图
 
-将你的视图从 `app/views` 移到新的 `resources/views` 目录。
+将旧视图从 `app/views` 移到新的 `resources/views` 目录。
 
 ### Blade 标签修改
 
@@ -391,7 +391,7 @@ use Authenticatable, CanResetPassword;
 
 将你的语言包从 `app/lang` 移到新的 `resources/lang` 目录。
 
-### 公开目录
+### `public` 目录
 
 从你的 `4.2` 应用程序的 `public` 目录内复制公开的 assets 到新应用程序的 `public` 目录内。请确定有保留 `5.0` 版本的 `index.php`。
 
