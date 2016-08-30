@@ -55,7 +55,7 @@ Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有�
 
 Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](https://phphub.org/topics/2081) 自动加载规范。
 
-> **[Summer](http://github.com/summerblue)：**扩展阅读 - [所有 PSR 的标准规范](https://psr.phphub.org/)。
+> 译者注：扩展阅读 - [所有 PSR 的标准规范](https://psr.phphub.org/)。
 
 ### 注释区块
 

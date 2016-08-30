@@ -17,7 +17,7 @@
 
 除了可以在单个的 `routes.php` 文件中定义所有的请求处理逻辑外，你可能还希望可以使用控制器类来组织此行为。控制器可将相关的 HTTP 请求处理逻辑组成一个类。控制器一般存放在 `app/Http/Controllers` 目录下。
 
-> **[Summer](http://github.com/summerblue)：**请不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
+> 译者注：请不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
 1. 因为这是最佳实践，一开始做对了，后面节省你重构代码的时间；
 2. [路由缓存](http://laravel-china.org/docs/5.1/controllers#%E8%B7%AF%E7%94%B1%E7%BC%93%E5%AD%98) 并不会作用在基于闭包的路由。
 
@@ -358,5 +358,5 @@ Laravel 使用 [服务容器](/docs/{{version}}/container) 来解析控制器的
 
     php artisan route:clear
 
-> **[Summer](http://github.com/summerblue)：** 想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
+> 译者注： 想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 

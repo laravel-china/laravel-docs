@@ -28,7 +28,7 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 
 开始之前，让我们先来创建一个 Eloquent 模型。模型通常放在 `app` 目录中，不过你可以将他们随意放在任何可通过 `composer.json` 自动加载的地方。所有的 Eloquent 模型都继承自 `Illuminate\Database\Eloquent\Model` 类。
 
-> **[Summer](http://github.com/summerblue)：**建议在 app 目录下创建 `Models` 来统一存放。
+> 译者注：建议在 app 目录下创建 `Models` 来统一存放。
 
 创建模型实例的最简单方法是使用 `make:model` [Artisan 命令](/docs/{{version}}/artisan)：
 

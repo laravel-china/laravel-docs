@@ -60,7 +60,7 @@ elixir(function(mix) {
 
     npm install --no-bin-links
 
-> **[Summer](http://github.com/summerblue)：** [优化 NPM 安装 Gulp 和 Laravel Elixir 的下载速度](https://phphub.org/topics/2102)
+> 译者注： [优化 NPM 安装 Gulp 和 Laravel Elixir 的下载速度](https://phphub.org/topics/2102)
 
 <a name="running-elixir"></a>
 ## 运行 Elixir

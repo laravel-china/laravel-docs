@@ -15,7 +15,7 @@ Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复�
 
 对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
 
-> [Laravel 的发布路线图](https://phphub.org/topics/2594) - by [Summer](http://github.com/summerblue)
+> 译者注：扩展阅读 - [Laravel 的发布路线图](https://phphub.org/topics/2594)
 
 <a name="laravel-5.1.11"></a>
 ## Laravel 5.1.11
@@ -226,7 +226,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
 ### 事件对象
 
 你现在可以将事件定义成对象，而不是仅使用字符串。例：
-    
+
     <?php
 
     class PodcastWasPurchased

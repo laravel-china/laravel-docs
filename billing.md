@@ -32,7 +32,7 @@ Laravel Cashier 给 [Stripe](https://stripe.com) 的订购交易服务提供了�
     "laravel/cashier": "~4.0" (For Stripe APIs on 2015-02-18 version and later)
     "laravel/cashier": "~3.0" (For Stripe APIs up to and including 2015-02-16 version)
 
-> **[Summer](http://github.com/summerblue)：**请使用 require 来安装扩展包，讨论请见 [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
+> 译者注：请使用 require 来安装扩展包，讨论请见 [正确的 Composer 扩展包安装方法](https://phphub.org/topics/1901)
 
 #### 服务提供者
 

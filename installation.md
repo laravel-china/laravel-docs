@@ -24,7 +24,7 @@ Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel
 - Tokenizer PHP Extension
 </div>
 
-> **[Summer](http://github.com/summerblue)：** 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和生产环境的统一。
+> 译者注： 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和生产环境的统一。
 
 <a name="install-laravel"></a>
 ### 安装 Laravel
@@ -51,7 +51,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer create-project laravel/laravel --prefer-dist blog
 
-> **[Summer](http://github.com/summerblue)：** 安装 Laravel 5.1 LTS，请使用以下命令：
+> 译者注： 安装 Laravel 5.1 LTS，请使用以下命令：
 
     composer create-project laravel/laravel your-project-name --prefer-dist "5.1.*"
 
@@ -151,7 +151,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在开发时运行，因为设置选项会在开发时经常变动。
 
-> **[Summer](http://github.com/summerblue)：**想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
+> 译者注：想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 
 <a name="accessing-configuration-values"></a>
 ### 获取设置值

@@ -74,7 +74,7 @@ HTTP 请求在实际碰触到应用程序之前，最好是可以层层通过中
         }
     }
 
-> **[Summer](http://github.com/summerblue)：** 前置中间件运行的时间点是在每一个请求处理之前，可以参阅此文章加深理解：[如何查看 Laravel 5 的所有数据库请求](https://phphub.org/topics/2018)
+> 译者注： 前置中间件运行的时间点是在每一个请求处理之前，可以参阅此文章加深理解：[如何查看 Laravel 5 的所有数据库请求](https://phphub.org/topics/2018)
 
 这个中间件会在应用程序处理请求 **后** 运行它的任务：
 
@@ -96,7 +96,7 @@ HTTP 请求在实际碰触到应用程序之前，最好是可以层层通过中
         }
     }
 
-> **[Summer](http://github.com/summerblue)：** 后置中间件运行的时间点是在请求处理之后，可以参阅此文章加深理解：[如何查看 Laravel 5 的所有数据库请求](https://phphub.org/topics/2018)
+> 译者注： 后置中间件运行的时间点是在请求处理之后，可以参阅此文章加深理解：[如何查看 Laravel 5 的所有数据库请求](https://phphub.org/topics/2018)
 
 <a name="registering-middleware"></a>
 ## 注册中间件

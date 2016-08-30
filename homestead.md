@@ -27,7 +27,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 **附注：** 如果你是 Windows 用户，你可能需要启用硬件虚拟化（VT-x）。这通常需要通过 BIOS 来启用它。
 
 
-> **[Summer](http://github.com/summerblue)：** 扩展阅读
+> 译者注： 扩展阅读
 > 
 * [Homestead 安装需要知道的一些信息](https://phphub.org/topics/2090)
 * [Homestead 2.0 安装笔记](https://phphub.org/topics/491)
@@ -51,7 +51,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 - Memcached (仅限 PHP 5.x)
 - Beanstalkd
 
-> **[Summer](http://github.com/summerblue)：** 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和生产环境的统一。
+> 译者注： 是的，Laravel 的开发中，使用 Homestead 是必须的，不论你是一个人开发项目，还是团队开发，不管你是新手，还是老手，请使用 Homestead。可参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 来实现开发环境和生产环境的统一。
 
 <a name="installation-and-setup"></a>
 ## 安装与设置

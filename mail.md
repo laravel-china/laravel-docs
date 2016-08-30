@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 基于热门的 [SwiftMailer](http://swiftmailer.org) 函数库提供了一个简洁的 API。Laravel 为 SMTP、Mailgun、Mandrill、Amazon SES、PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以快速地从所选择的本地或云端服务开始发送邮件。
+Laravel 基于热门的 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套简洁的 API。Laravel 为 SMTP、Mailgun、Mandrill、Amazon SES、PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以从本地或云端服务自由地发送邮件。
 
 ### 驱动前提
 

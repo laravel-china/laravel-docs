@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-在其它的框架中，分页是非常让人苦恼的。而在 Laravel 中却是很轻而易举的。 Laravel 可以快速生成基于当前页面链接的智能「范围」，并且生成的 HTML 兼容于 [Bootstrap CSS 框架](http://getbootstrap.com/)。
+在其它的框架中，分页是非常让人苦恼的。而在 Laravel 中却是很轻而易举的。 Laravel 可以快速生成基于当前页面链接的智能「请求范围」，并且生成兼容 [Bootstrap CSS 框架](http://getbootstrap.com/) 的 HTML。
 
 <a name="basic-usage"></a>
 ## 基本使用
