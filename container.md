@@ -1,19 +1,19 @@
-# 服务容器
+# Service Container
 
-- [简介](#introduction)
-- [绑定](#binding)
-    - [绑定接口至实现](#binding-interfaces-to-implementations)
-    - [情境绑定](#contextual-binding)
-    - [标记](#tagging)
-- [解析](#resolving)
-- [容器事件](#container-events)
+- [Introduction](#introduction)
+- [Binding](#binding)
+    - [Binding Interfaces To Implementations](#binding-interfaces-to-implementations)
+    - [Contextual Binding](#contextual-binding)
+    - [Tagging](#tagging)
+- [Resolving](#resolving)
+- [Container Events](#container-events)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依赖注入是个花俏的名词，事实上是指：类的依赖通过构造器或在某些情况下通过「setter」方法「注入」。
+The Laravel service container is a powerful tool for managing class dependencies and performing dependency injection. Dependency injection is a fancy phrase that essentially means this: class dependencies are "injected" into the class via the constructor or, in some cases, "setter" methods.
 
-让我们来看个简单例子：
+Let's look at a simple example:
 
     <?php
 
@@ -26,12 +26,12 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
     class PurchasePodcast implements SelfHandling
     {
         /**
-         * 邮件寄送器的实现。
+         * The mailer implementation.
          */
         protected $mailer;
 
         /**
-         * 创建一个新实例。
+         * Create a new instance.
          *
          * @param  Mailer  $mailer
          * @return void
@@ -42,7 +42,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         }
 
         /**
-         * 购买一个播客
+         * Purchase a podcast.
          *
          * @return void
          */
@@ -52,52 +52,52 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         }
     }
 
-在这例子中，当播客被购买时，`PurchasePodcast` 任务会需要寄送 e-mails。因此，我们将 **注入** 能寄送 e-mails 的服务。由于服务被注入，我们能容易地切换成其它实现。当测试应用程序时，我们能轻易地「mock」，或创建假的邮件寄送器实现。
+In this example, the `PurchasePodcast` job needs to send e-mails when a podcast is purchased. So, we will **inject** a service that is able to send e-mails. Since the service is injected, we are able to easily swap it out with another implementation. We are also able to easily "mock", or create a dummy implementation of the mailer when testing our application.
 
-在构建强大的应用程序，以及为 Laravel 核心贡献代码时，须深入理解 Laravel 服务容器。
+A deep understanding of the Laravel service container is essential to building a powerful, large application, as well as for contributing to the Laravel core itself.
 
 <a name="binding"></a>
-## 绑定
+## Binding
 
-几乎所有的服务容器绑定都会注册至 [服务提供者](/docs/{{version}}/providers) 中，所以下方所有的例子将示范在该情境中使用容器。不过，如果它们没有依赖任何的接口，那么就没有将类绑定至容器中的必要。并不需要为容器指定如何建构这些对象，因为它会通过 PHP 的反射服务自动解析「实际」的对象。
+Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so all of these examples will demonstrate using the container in that context. However, there is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve such "concrete" objects using PHP's reflection services.
 
-在服务提供者中，你总是可以通过 `$this->app` 实例变量访问容器。我们可以使用 `bind` 方法注册一个绑定，传递我们希望注册的类或接口名称，并连同返回该类实例的`闭包`：
+Within a service provider, you always have access to the container via the `$this->app` instance variable. We can register a binding using the `bind` method, passing the class or interface name that we wish to register along with a `Closure` that returns an instance of the class:
 
     $this->app->bind('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app['HttpClient']);
     });
 
-注意，我们获取到的容器本身作为参数传递给解析器，这样就可以使用容器来解析绑定对象的 `次要依赖`。
+Notice that we receive the container itself as an argument to the resolver. We can then use the container to resolve sub-dependencies of the object we are building.
 
-#### 绑定一个单例
+#### Binding A Singleton
 
-`singleton` 方法绑定一个只会被解析一次的类或接口至容器中，且后面的调用都会从容器中返回相同的实例：
+The `singleton` method binds a class or interface into the container that should only be resolved one time, and then that same instance will be returned on subsequent calls into the container:
 
     $this->app->singleton('FooBar', function ($app) {
         return new FooBar($app['SomethingElse']);
     });
 
-#### 绑定实例
+#### Binding Instances
 
-你也可以使用 `instance` 方法，绑定一个已经存在的对象实例至容器中。后面的调用都会从容器中返回指定的实例：
+You may also bind an existing object instance into the container using the `instance` method. The given instance will always be returned on subsequent calls into the container:
 
     $fooBar = new FooBar(new SomethingElse);
 
     $this->app->instance('FooBar', $fooBar);
 
 <a name="binding-interfaces-to-implementations"></a>
-### 绑定接口至实现
+### Binding Interfaces To Implementations
 
-服务容器有个非常强大的特色功能，就是能够将指定的实现绑定至接口。举个例子，让我们假设我们有个 `EventPusher` 接口及一个 `RedisEventPusher` 实现。一旦我们编写完该接口的 `RedisEventPusher` 实现，就可以将它注册至服务容器：
+A very powerful feature of the service container is its ability to bind an interface to a given implementation. For example, let's assume we have an `EventPusher` interface and a `RedisEventPusher` implementation. Once we have coded our `RedisEventPusher` implementation of this interface, we can register it with the service container like so:
 
     $this->app->bind('App\Contracts\EventPusher', 'App\Services\RedisEventPusher');
 
-这么做会告知容器当有个类需要 `EventPusher` 的实现时，必须注入 `RedisEventPusher`。现在我们可以在构造器中对 `EventPusher` 接口使用类型提示，或任何需要通过服务容器注入依赖的其它位置：
+This tells the container that it should inject the `RedisEventPusher` when a class needs an implementation of `EventPusher`. Now we can type-hint the `EventPusher` interface in a constructor, or any other location where dependencies are injected by the service container:
 
     use App\Contracts\EventPusher;
 
     /**
-     * 创建一个新的类实例。
+     * Create a new class instance.
      *
      * @param  EventPusher  $pusher
      * @return void
@@ -108,15 +108,15 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
     }
 
 <a name="contextual-binding"></a>
-### 情境绑定
+### Contextual Binding
 
-有时候，你可能有两个类使用到相同接口，但你希望每个类都能注入不同实现。例如，当系统收到新订单时，我们可能想通过 [PubNub](http://www.pubnub.com/) 来发送事件，而不是 Pusher。Laravel 提供一个简单流畅的接口来定义此行为：
+Sometimes you may have two classes that utilize the same interface, but you wish to inject different implementations into each class. For example, when our system receives a new Order, we may want to send an event via [PubNub](http://www.pubnub.com/) rather than Pusher. Laravel provides a simple, fluent interface for defining this behavior:
 
     $this->app->when('App\Handlers\Commands\CreateOrderHandler')
               ->needs('App\Contracts\EventPusher')
               ->give('App\Services\PubNubEventPusher');
 
-你甚至可以传递一个闭包至 `give` 方法：
+You may even pass a Closure to the `give` method:
 
     $this->app->when('App\Handlers\Commands\CreateOrderHandler')
               ->needs('App\Contracts\EventPusher')
@@ -124,10 +124,18 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
                       // Resolve dependency...
                   });
 
-<a name="tagging"></a>
-### 标记
+#### Binding Primitives
 
-有些时候，可能需要解析某个「分类」下的所有绑定。例如，你正在构建一个能接收多个不同 `Report` 接口实现数组的报表汇整器。注册完 Report 实现后，可以使用 `tag` 方法为它们赋予一个标签：
+Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
+
+    $this->app->when('App\Handlers\Commands\CreateOrderHandler')
+              ->needs('$maxOrderCount')
+              ->give(10);
+
+<a name="tagging"></a>
+### Tagging
+
+Occasionally, you may need to resolve all of a certain "category" of binding. For example, perhaps you are building a report aggregator that receives an array of many different `Report` interface implementations. After registering the `Report` implementations, you can assign them a tag using the `tag` method:
 
     $this->app->bind('SpeedReport', function () {
         //
@@ -139,43 +147,42 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
 
     $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
 
-一旦服务被标记之后，你可以通过 `tagged` 方法将它们全部解析：
+Once the services have been tagged, you may easily resolve them all via the `tagged` method:
 
     $this->app->bind('ReportAggregator', function ($app) {
         return new ReportAggregator($app->tagged('reports'));
     });
 
 <a name="resolving"></a>
-## 解析
+## Resolving
 
-有几种方式可以从容器中解析一些东西。首先，你可以使用 `make` 方法，它会接收你希望解析的类或是接口的名称：
+There are several ways to resolve something out of the container. First, you may use the `make` method, which accepts the name of the class or interface you wish to resolve:
 
     $fooBar = $this->app->make('FooBar');
 
-或者，你可以像数组一样从容器中进行访问，因为他实现了 PHP 的 `ArrayAccess` 接口：
+Secondly, you may access the container like an array, since it implements PHP's `ArrayAccess` interface:
 
     $fooBar = $this->app['FooBar'];
 
-最后，也是最重要的，你可以在类的构造器简单地对依赖使用「类型提示」，类将会从容器中进行解析，包含 [控制器](/docs/{{version}}/controllers)、[事件侦听器](/docs/{{version}}/events)、[队列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware) 等等。在实际情形中，这就是为何大部分的对象都是在容器中解析的。
+Lastly, but most importantly, you may simply "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects are resolved by the container.
 
-容器会自动为类注入解析出的依赖。举个例子，你可以在控制器的构造器中对应用程序定义的 `Repository` 进行类型提示。`Repository` 会自动被解析及注入至类中：
+The container will automatically inject dependencies for the classes it resolves. For example, you may type-hint a repository defined by your application in a controller's constructor. The repository will automatically be resolved and injected into the class:
 
     <?php
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Routing\Controller;
     use App\Users\Repository as UserRepository;
 
     class UserController extends Controller
     {
         /**
-         * 用户 Repository 的实例。
+         * The user repository instance.
          */
         protected $users;
 
         /**
-         * 创建一个新的控制器实例。
+         * Create a new controller instance.
          *
          * @param  UserRepository  $users
          * @return void
@@ -186,7 +193,7 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
         }
 
         /**
-         * 显示指定 ID 的用户。
+         * Show the user with the given ID.
          *
          * @param  int  $id
          * @return Response
@@ -198,18 +205,16 @@ Laravel 服务容器是管理类依赖与运行依赖注入的强力工具。依
     }
 
 <a name="container-events"></a>
-## 容器事件
+## Container Events
 
-每当服务容器解析一个对象时就会触发事件。你可以使用 `resolving` 方法监听这个事件：
+The service container fires an event each time it resolves an object. You may listen to this event using the `resolving` method:
 
     $this->app->resolving(function ($object, $app) {
-        // 当容器解析任何类型的对象时会被调用...
+        // Called when container resolves object of any type...
     });
 
     $this->app->resolving(FooBar::class, function (FooBar $fooBar, $app) {
-        // 当容器解析「FooBar」类型的对象时会被调用...
+        // Called when container resolves objects of type "FooBar"...
     });
 
-如你所见，被解析的对象会被传递至回调中，让你可以在传递前设置任何额外属性到对象上。
-
-
+As you can see, the object being resolved will be passed to the callback, allowing you to set any additional properties on the object before it is given to its consumer.

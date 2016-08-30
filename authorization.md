@@ -1,31 +1,27 @@
-# 用户授权
+# Authorization
 
-- [简介](#introduction)
-- [定义权限](#defining-abilities)
-- [检查权限](#checking-abilities)
-	- [通过 Gate Facade](#via-the-gate-facade)
-	- [通过用户模型](#via-the-user-model)
-	- [使用 Blade 模板](#within-blade-templates)
-    - [使用表单请求](#within-form-requests)
-- [授权策略](#policies)
-	- [创建授权策略](#creating-policies)
-	- [编写授权策略](#writing-policies)
-	- [检查授权策略](#checking-policies)
-- [控制器授权](#controller-authorization)
+- [Introduction](#introduction)
+- [Defining Abilities](#defining-abilities)
+- [Checking Abilities](#checking-abilities)
+	- [Via The Gate Facade](#via-the-gate-facade)
+	- [Via The User Model](#via-the-user-model)
+	- [Within Blade Templates](#within-blade-templates)
+    - [Within Form Requests](#within-form-requests)
+- [Policies](#policies)
+	- [Creating Policies](#creating-policies)
+	- [Writing Policies](#writing-policies)
+	- [Checking Policies](#checking-policies)
+- [Controller Authorization](#controller-authorization)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-除了内置提供的 [用户认证](/docs/{{version}}/authentication) 服务外，Laravel 还提供了用户授权和资源访问控制的方案。有很多种方法与辅助函数能帮你处理授权逻辑，在本文档中我们将会涵盖每一种方式。
-
-> **注意：**授权在 Laravel 5.1.11 被加入，请在集成这些功能前参考 [升级导引](/docs/{{version}}/upgrade)。
+In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to organize authorization logic and control access to resources. There are a variety of methods and helpers to assist you in organizing your authorization logic, and we'll cover each of them in this document.
 
 <a name="defining-abilities"></a>
-## 定义权限
+## Defining Abilities
 
-判断一个用户是否允许执行特定行为，最简单的方式就是使用 `Illuminate\Auth\Access\Gate` 类定义「权限」。
-
-可以在 `AuthServiceProvider` 文件中定义应用程序的所有权限。举个例子，我们需要定义一个 `update-post` 的权限，需要判断目前的 `User` 及 `Post` [模型](/docs/{{version}}/eloquent) 是否有所属关系，也就是「文章」是不是「用户」发的，我们会判断用户的 `id` 与文章的 `user_id` 是否一致：
+The simplest way to determine if a user may perform a given action is to define an "ability" using the `Illuminate\Auth\Access\Gate` class. The `AuthServiceProvider` which ships with Laravel serves as a convenient location to define all of the abilities for your application. For example, let's define an `update-post` ability which receives the current `User` and a `Post` [model](/docs/{{version}}/eloquent). Within our ability, we will determine if the user's `id` matches the post's `user_id`:
 
 	<?php
 
@@ -37,7 +33,7 @@
 	class AuthServiceProvider extends ServiceProvider
 	{
 	    /**
-	     * 注册应用程序的认证或授权服务。
+	     * Register any application authentication / authorization services.
 	     *
 	     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
 	     * @return void
@@ -47,24 +43,24 @@
 	        $this->registerPolicies($gate);
 
 	        $gate->define('update-post', function ($user, $post) {
-	        	return $user->id === $post->user_id;
+	        	return $user->id == $post->user_id;
 	        });
 	    }
 	}
 
-注意，我们并不会检查当指定的 `$user` 是不是 `NULL`。未登录用户或是没有用 `forUser` 方法指定的用户，`Gate` 会自动为其 **所有权限** 返回 `false`。
+Note that we did not check if the given `$user` is not `NULL`. The `Gate` will automatically return `false` for **all abilities** when there is not an authenticated user or a specific user has not been specified using the `forUser` method.
 
-#### 基于类的权限
+#### Class Based Abilities
 
-除了注册 `闭包` 作为授权的回调，你也可以通过传递包含 `类名称` 及 `方法` 的字符串来注册类方法，该类会通过 [服务容器](/docs/{{version}}/container) 被解析：
+In addition to registering `Closures` as authorization callbacks, you may register class methods by passing a string containing the class name and the method. When needed, the class will be resolved via the [service container](/docs/{{version}}/container):
 
     $gate->define('update-post', 'Class@method');
 
 <a name="intercepting-all-checks"></a>
 <a name="intercepting-authorization-checks"></a>
-#### 拦截授权检查
+#### Intercepting Authorization Checks
 
-有时你希望赋予指定用户最高权限，如管理员拥有所有权限，可以使用 `before` 方法来定义所有授权检查前会被运行的回调：
+Sometimes, you may wish to grant all abilities to a specific user. For this situation, use the `before` method to define a callback that is run before all other authorization checks:
 
     $gate->before(function ($user, $ability) {
         if ($user->isSuperAdmin()) {
@@ -72,25 +68,21 @@
         }
     });
 
-如果 `before` 的回调返回一个非 null 的结果，则该结果会被作为检查的结果，并中断后面的其他验证。
+If the `before` callback returns a non-null result that result will be considered the result of the check.
 
-你还可以使用 `after` 方法定义一个当所有授权检查后会被运行的回调。但是，你无法修改 `after` 回调中授权检查的结果：
+You may use the `after` method to define a callback to be executed after every authorization check. However, you may not modify the result of the authorization check from an `after` callback:
 
     $gate->after(function ($user, $ability, $result, $arguments) {
         //
     });
 
 <a name="checking-abilities"></a>
-## 检查权限
+## Checking Abilities
 
 <a name="via-the-gate-facade"></a>
-### 通过 Gate Facade
+### Via The Gate Facade
 
-一旦权限被定义后，我们可以使用不同方式来做「权限检查」。
-
-首先，我们可以使用 `Gate` [facade](/docs/{{version}}/facades) 的 `check`、`allows` 或 `denies` 方法。所有的这些方法会获取权限的名称及参数，并会被传递至权限的回调中。
-
-你 **不** 需要传递当前登录用户至该方法内，因为 `Gate` 会自动加载当前登录用户，所以，当通过我们前面定义的 `update-post` 权限进行检查时，只需传递一个 `Post` 实例至 `denies` 方法即可：
+Once an ability has been defined, we may "check" it in a variety of ways. First, we may use the `check`, `allows`, or `denies` methods on the `Gate` [facade](/docs/{{version}}/facades). All of these methods receive the name of the ability and the arguments that should be passed to the ability's callback. You do **not** need to pass the current user to these methods, since the `Gate` will automatically prepend the current user to the arguments passed to the callback. So, when checking the `update-post` ability we defined earlier, we only need to pass a `Post` instance to the `denies` method:
 
     <?php
 
@@ -104,7 +96,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新指定的文章。
+         * Update the given post.
          *
          * @param  int  $id
          * @return Response
@@ -117,40 +109,38 @@
         		abort(403);
         	}
 
-        	// 更新文章...
+        	// Update Post...
         }
     }
 
-`allows` 方法只是简单的将 `denies` 方法给颠倒过来，当授权成功时候会返回 `true`。`check` 方法则是 `allows` 方法的别名。
+Of course, the `allows` method is simply the inverse of the `denies` method, and returns `true` if the action is authorized. The `check` method is an alias of the `allows` method.
 
-#### 检查指定用户的权限
+#### Checking Abilities For Specific Users
 
-如果你想检查 **除了当前登录用户以外的其他用户** 是否拥有指定的权限，你可以使用 `forUser` 方法：
+If you would like to use the `Gate` facade to check if a user **other than the currently authenticated user** has a given ability, you may use the `forUser` method:
 
 	if (Gate::forUser($user)->allows('update-post', $post)) {
 		//
 	}
 
-#### 传递多个参数
+#### Passing Multiple Arguments
 
-当然，权限的回调可以传递多个参数：
+Of course, ability callbacks may receive multiple arguments:
 
 	Gate::define('delete-comment', function ($user, $post, $comment) {
 		//
 	});
 
-如果你的权限需要多个参数，只需简单的传递一个数组作为 `Gate` 方法的参数：
+If your ability needs multiple arguments, simply pass an array of arguments to the `Gate` methods:
 
 	if (Gate::allows('delete-comment', [$post, $comment])) {
 		//
 	}
 
 <a name="via-the-user-model"></a>
-### 通过用户模型
+### Via The User Model
 
-另外，你也可以通过 `User` 模型的实例检查权限。默认情况下，Laravel 的 `App\User` 模型使用了 `Authorizable` trait，它提供了两个方法：`can` 及 `cannot`。
-
-这些方法使用起来相似于 `Gate` facade 提供的 `allows` 与 `denies` 方法。所以，沿用我们之前的例子，可以将代码改成如下：
+Alternatively, you may check abilities via the `User` model instance. By default, Laravel's `App\User` model uses an `Authorizable` trait which provides two methods: `can` and `cannot`. These methods may be used similarly to the `allows` and `denies` methods present on the `Gate` facade. So, using our previous example, we may modify our code like so:
 
     <?php
 
@@ -163,7 +153,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新指定的文章。
+         * Update the given post.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  int  $id
@@ -171,48 +161,48 @@
          */
         public function update(Request $request, $id)
         {
-	        $post = Post::findOrFail($id);
+        	$post = Post::findOrFail($id);
 
-  	      	if ($request->user()->cannot('update-post', $post)) {
-  	      		abort(403);
-  	      	}
+        	if ($request->user()->cannot('update-post', $post)) {
+        		abort(403);
+        	}
 
-  	      	// 更新文章...
+        	// Update Post...
         }
     }
 
-当然，`can` 方法只是简单的将 `cannot` 方法给颠倒过来：
+Of course, the `can` method is simply the inverse of the `cannot` method:
 
 	if ($request->user()->can('update-post', $post)) {
-		// 更新文章...
+		// Update Post...
 	}
 
 <a name="within-blade-templates"></a>
-### 使用 Blade 模板
+### Within Blade Templates
 
-在 Blade 模板中，你还可以使用 `@can` 命令来快速检查当前登录用户是否有指定的权限。例如：
+For convenience, Laravel provides the `@can` Blade directive to quickly check if the currently authenticated user has a given ability. For example:
 
-	<a href="/post/{{ $post->id }}">查看文章</a>
+	<a href="/post/{{ $post->id }}">View Post</a>
 
 	@can('update-post', $post)
-		<a href="/post/{{ $post->id }}/edit">编辑文章</a>
+		<a href="/post/{{ $post->id }}/edit">Edit Post</a>
 	@endcan
 
-你也可以将 `@else` 命令配合 `@can` 命令：
+You may also combine the `@can` directive with `@else` directive:
 
 	@can('update-post', $post)
-		<!-- 当前登录用户可以更新文章 -->
+		<!-- The Current User Can Update The Post -->
 	@else
-		<!-- 当前登录用户不可以更新文章 -->
+		<!-- The Current User Can't Update The Post -->
 	@endcan
 
 <a name="within-form-requests"></a>
-### 使用表单请求
+### Within Form Requests
 
-你也可以在 [表单请求](/docs/{{version}}/validation#form-request-validation) 的 `authorize` 方法中采用你的 `Gate` 定义的权限。举个例子：
+You may also choose to utilize your `Gate` defined abilities from a [form request's](/docs/{{version}}/validation#form-request-validation) `authorize` method. For example:
 
     /**
-     * 判断当用户已被授权并发送此请求。
+     * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
@@ -224,20 +214,20 @@
     }
 
 <a name="policies"></a>
-## 授权策略
+## Policies
 
 <a name="creating-policies"></a>
-### 创建授权策略
+### Creating Policies
 
-在大型应用程序中，把你所有的授权逻辑定义在 `AuthServiceProvider` 中可能成为累赘，你可以切分你的授权逻辑至「授权策略」类。授权策略是简单的 PHP 类，并基于授权的资源将授权逻辑进行分组。
+Since defining all of your authorization logic in the `AuthServiceProvider` could become cumbersome in large applications, Laravel allows you to split your authorization logic into "Policy" classes. Policies are plain PHP classes that group authorization logic based on the resource they authorize.
 
-首先，让我们生成一个授权策略来管理 `Post` 模型的授权。你可以通过 `make:policy` [artisan 命令](/docs/{{version}}/artisan) 生成一个授权策略。生成的授权策略会被放置于 `app/Policies` 目录中：
+First, let's generate a policy to manage authorization for our `Post` model. You may generate a policy using the `make:policy` [artisan command](/docs/{{version}}/artisan). The generated policy will be placed in the `app/Policies` directory:
 
 	php artisan make:policy PostPolicy
 
-#### 注册授权策略
+#### Registering Policies
 
-一旦该授权策略存在，我们需要将它与 `Gate` 类进行注册。`AuthServiceProvider` 包含了一个 `policies` 属性，可将各种模型对应至管理它们的授权策略。所以，我们需要指定 `Post` 模型的授权策略是 `PostPilicy` 类：
+Once the policy exists, we need to register it with the `Gate` class. The `AuthServiceProvider` contains a `policies` property which maps various entities to the policies that manage them. So, we will specify that the `Post` model's policy is the `PostPolicy` class:
 
 	<?php
 
@@ -250,7 +240,7 @@
 	class AuthServiceProvider extends ServiceProvider
 	{
 	    /**
-	     * 应用程序的授权策略对应。
+	     * The policy mappings for the application.
 	     *
 	     * @var array
 	     */
@@ -259,7 +249,7 @@
 	    ];
 
 	    /**
-	     * 注册任何应用程序的认证或授权服务。
+	     * Register any application authentication / authorization services.
 	     *
 	     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
 	     * @return void
@@ -271,9 +261,9 @@
 	}
 
 <a name="writing-policies"></a>
-### 编写授权策略
+### Writing Policies
 
-一旦授权策略被生成且注册，我们就可以为每个权限的授权增加方法。例如，让我们在 `PostPolicy` 中定义一个 `update` 方法，它会判断指定的 `User` 是否可以「更新」一条 `Post`：
+Once the policy has been generated and registered, we can add methods for each ability it authorizes. For example, let's define an `update` method on our `PostPolicy`, which will determine if the given `User` can "update" a `Post`:
 
 	<?php
 
@@ -285,7 +275,7 @@
 	class PostPolicy
 	{
 		/**
-		 * 判断指定的文章是否可以被该用户更新。
+		 * Determine if the given post can be updated by the user.
 		 *
 		 * @param  \App\User  $user
 		 * @param  \App\Post  $post
@@ -297,13 +287,13 @@
 	    }
 	}
 
-你可以接着在此授权策略定义额外的方法，作为各种权限需要的授权。例如，你可以定义 `show`、`destroy` 或 `addComment` 方法来授权 `Post` 的多种行为。
+You may continue to define additional methods on the policy as needed for the various abilities it authorizes. For example, you might define `show`, `destroy`, or `addComment` methods to authorize various `Post` actions.
 
-> **注意：**所有授权策略会通过 Laravel [服务容器](/docs/{{version}}/container) 解析，意指你可以在授权策略的构造器对任何需要的依赖使用类型提示，它们将会被自动注入。
+> **Note:** All policies are resolved via the Laravel [service container](/docs/{{version}}/container), meaning you may type-hint any needed dependencies in the policy's constructor and they will be automatically injected.
 
-#### 拦截所有检查
+#### Intercepting All Checks
 
-有时，你可能希望在授权策略赋予所有权限给指定用户。对于这种情况，只要在授权策略中定义一个 `before` 方法。授权策略的此方法会在其它所有授权检查前被运行：
+Sometimes, you may wish to grant all abilities to a specific user on a policy. For this situation, define a `before` method on the policy. This method will be run before all other authorization checks on the policy:
 
     public function before($user, $ability)
     {
@@ -312,16 +302,16 @@
         }
     }
 
-如果 `before` 的回调返回一个非 null 的结果，则该结果会被作为检查的结果。
+If the `before` method returns a non-null result that result will be considered the result of the check.
 
 <a name="checking-policies"></a>
-### 检查授权策略
+### Checking Policies
 
-授权策略方法的调用方式和基于授权的回调`闭包`是完全相同的。你可以使用`Gate` facade、`User` 模型、`@can` Blade 命令或是 `policy` 辅助函数。
+Policy methods are called in exactly the same way as `Closure` based authorization callbacks. You may use the `Gate` facade, the `User` model, the `@can` Blade directive, or the `policy` helper.
 
-#### 通过 Gate Facade
+#### Via The Gate Facade
 
-`Gate` 会通过检查传递给该类方法的参数自动判断该使用哪种授权策略。所以，如果我们传递一个 `Post` 实例到 `denies` 方法，`Gate` 会采用对应的 `PostPolicy` 来授权行为：
+The `Gate` will automatically determine which policy to use by examining the class of the arguments passed to its methods. So, if we pass a `Post` instance to the `denies` method, the `Gate` will utilize the corresponding `PostPolicy` to authorize actions:
 
     <?php
 
@@ -335,7 +325,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新指定的文章。
+         * Update the given post.
          *
          * @param  int  $id
          * @return Response
@@ -348,13 +338,13 @@
         		abort(403);
         	}
 
-        	// 更新文章...
+        	// Update Post...
         }
     }
 
-#### 通过用户模型
+#### Via The User Model
 
-`User` 模型的 `can` 与 `cannot` 方法也会自动采用指定参数可用的授权策略。此方法提供一个简单的方式在应用程序中为任何获取到的 `User` 实例授权行为：
+The `User` model's `can` and `cannot` methods will also automatically utilize policies when they are available for the given arguments. These methods provide a convenient way to authorize actions for any `User` instance retrieved by your application:
 
 	if ($user->can('update', $post)) {
 		//
@@ -364,28 +354,28 @@
 		//
 	}
 
-#### 使用 Blade 模板
+#### Within Blade Templates
 
-同样的，`@can` Blade 命令会采用指定参数可用的授权。
+Likewise, the `@can` Blade directive will utilize policies when they are available for the given arguments:
 
 	@can('update', $post)
-		<!-- 目前的用户可以更新文章 -->
+		<!-- The Current User Can Update The Post -->
 	@endcan
 
-#### 通过授权策略辅助函数
+#### Via The Policy Helper
 
-全局的 `policy` 辅助函数可以被用于为指定的类实例获取 `Policy` 类。例如，我们可以传递一个 `Post` 实例至 `policy` 辅助函数，获取对应的 `PostPolicy` 类实例：
+The global `policy` helper function may be used to retrieve the `Policy` class for a given class instance. For example, we may pass a `Post` instance to the `policy` helper to get an instance of our corresponding `PostPolicy` class:
 
 	if (policy($post)->update($user, $post)) {
 		//
 	}
 
 <a name="controller-authorization"></a>
-## 控制器授权
+## Controller Authorization
 
-默认的，`App\Http\Controllers\Controller` 类包含了 Laravel 使用的 `AuthorizesRequests` trait。此 trait 提供了 `authorize` 方法，它可以被用于快速授权一个指定的行为，当无权限运行该行为时会抛出 `HttpException`。
+By default, the base `App\Http\Controllers\Controller` class included with Laravel uses the `AuthorizesRequests` trait. This trait provides the `authorize` method, which may be used to quickly authorize a given action and throw a `AuthorizationException` if the action is not authorized.
 
-`authorize` 方法与其它授权方法共用了同样的特征，像是 `Gate::allows` 与 `$user->can()`。所以，让我们使用 `authorize` 方法来快速授权一个请求以更新一条 `Post`：
+The `authorize` method shares the same signature as the various other authorization methods such as `Gate::allows` and `$user->can()`. So, let's use the `authorize` method to quickly authorize a request to update a `Post`:
 
     <?php
 
@@ -397,7 +387,7 @@
     class PostController extends Controller
     {
         /**
-         * 更新指定的文章。
+         * Update the given post.
          *
          * @param  int  $id
          * @return Response
@@ -408,24 +398,24 @@
 
         	$this->authorize('update', $post);
 
-        	// 更新文章...
+        	// Update Post...
         }
     }
 
-如果该行为被授权了，控制器将会继续正常运行；但是，如果 `authorize` 方法判断没有权限运行该行为，那么将会自动生成一个带有 `403 Not Authorized` 状态码的 HTTP 响应并抛出异常。如你所见，`authorize` 方法是进行授权行为或处理抛出异常的一个简单、快速的方法，仅使用了一行程序代码。
+If the action is authorized, the controller will continue executing normally; however, if the `authorize` method determines that the action is not authorized, a `AuthorizationException` will automatically be thrown which generates a HTTP response with a `403 Not Authorized` status code. As you can see, the `authorize` method is a convenient, fast way to authorize an action or throw an exception with a single line of code.
 
-`AuthorizesRequests` trait 也提供了 `authorizeForUser` 方法来为当前非认证用户授权行为：
+The `AuthorizesRequests` trait also provides the `authorizeForUser` method to authorize an action on a user that is not the currently authenticated user:
 
 	$this->authorizeForUser($user, 'update', $post);
 
-#### 自动判断授权策略方法
+#### Automatically Determining Policy Methods
 
-通常，一个授权策略方法会对应一个控制器方法。以下方的 `update` 方法为例，控制器方法及授权策略方法会共用相同的名称：`update`。
+Frequently, a policy's methods will correspond to the methods on a controller. For example, in the `update` method above, the controller method and the policy method share the same name: `update`.
 
-因此，Laravel 让你能够简单的传递实例参数至 `authorize` 方法，基于被调用的函数名称，自动判断出应该授权的权限。在本例中，因为 `authorize` 被控制器的 `update` 方法调用，所以也会调用 `PostPolicy` 中的 `update` 方法：
+For this reason, Laravel allows you to simply pass the instance arguments to the `authorize` method, and the ability being authorized will automatically be determined based on the name of the calling function. In this example, since `authorize` is called from the controller's `update` method, the `update` method will also be called on the `PostPolicy`:
 
     /**
-     * 更新指定的文章。
+     * Update the given post.
      *
      * @param  int  $id
      * @return Response
@@ -436,7 +426,5 @@
 
     	$this->authorize($post);
 
-    	// 更新文章...
+    	// Update Post...
     }
-
-

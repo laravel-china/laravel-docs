@@ -1,16 +1,16 @@
-# 本地化
+# Localization
 
-- [简介](#introduction)
-- [基本用法](#basic-usage)
-    - [复数](#pluralization)
-- [重写扩展包的语言包](#overriding-vendor-language-files)
+- [Introduction](#introduction)
+- [Basic Usage](#basic-usage)
+    - [Pluralization](#pluralization)
+- [Overriding Vendor Language Files](#overriding-vendor-language-files)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Laravel 的本地化功能提供方便的方法来获取多语言的字符串，让你的网站可以简单的支持多语言。
+Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application.
 
-语言包存放在 `resources/lang` 文件夹的文件里。在此文件夹内应该有网站对应支持的语言并将其对应到每一个子目录：
+Language strings are stored in files within the `resources/lang` directory. Within this directory there should be a subdirectory for each language supported by the application:
 
     /resources
         /lang
@@ -19,7 +19,7 @@ Laravel 的本地化功能提供方便的方法来获取多语言的字符串，
             /es
                 messages.php
 
-语言包简单地返回键值和字符串数组，例如：
+All language files simply return an array of keyed strings. For example:
 
     <?php
 
@@ -27,9 +27,9 @@ Laravel 的本地化功能提供方便的方法来获取多语言的字符串，
         'welcome' => 'Welcome to our application'
     ];
 
-#### 切换语言
+#### Configuring The Locale
 
-网站的默认语言保存在 `config/app.php` 配置文件。你可以在任何时候使用 `App` facade 的 `setLocale` 方法动态地更改现有语言：
+The default language for your application is stored in the `config/app.php` configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
 
     Route::get('welcome/{locale}', function ($locale) {
         App::setLocale($locale);
@@ -37,51 +37,69 @@ Laravel 的本地化功能提供方便的方法来获取多语言的字符串，
         //
     });
 
-你也可以设置 "备用语言"，它将会在当现有语言没有指定语句时被使用。就像默认语言，备用语言也可以在 `config/app.php` 配置文件设置：
+You may also configure a "fallback language", which will be used when the active language does not contain a given language line. Like the default language, the fallback language is also configured in the `config/app.php` configuration file:
 
     'fallback_locale' => 'en',
 
-<a name="basic-usage"></a>
-## 基本用法
+You may check if a given locale is currently being used by calling the `isLocale` method on the `App` [facade](/docs/{{version}}/facades):
 
-你可以使用 `trans` 辅助函数来获取语言字符串，`trans` 函数的第一个参数接受文件名和键值名称，例如，从 `resources/lang/messages.php` 语言包获取名称为 `welcome` 的句子：
+    if (App::isLocale('en')) {
+        //
+    }
+
+To retrieve the current application locale, call the `getLocale` method on the `App` [facade](/docs/{{version}}/facades):
+
+    return App::getLocale();
+
+<a name="basic-usage"></a>
+## Basic Usage
+
+You may retrieve lines from language files using the `trans` helper function. The `trans` method accepts the file and key of the language line as its first argument. For example, let's retrieve the language line `welcome` in the `resources/lang/messages.php` language file:
 
     echo trans('messages.welcome');
 
-当然，若你使用了 [Blade 模版引擎](/docs/{{version}}/blade), 则可以使用 `{{ }}` 来输出句子：
+Of course if you are using the [Blade templating engine](/docs/{{version}}/blade), you may use the `{{ }}` syntax to echo the language line or use the `@lang` directive:
 
     {{ trans('messages.welcome') }}
 
-如果句子不存在， `trans` 方法将会返回键值的名称，如上例子会返回 `messages.welcome` 。
+    @lang('messages.welcome')
 
-#### 在句子中做替代
+If the specified language line does not exist, the `trans` function will simply return the language line key. So, using the example above, the `trans` function would return `messages.welcome` if the language line does not exist.
 
-如果需要，你也可以在语言包中定义占位符，占位符使用 `:` 开头，例如，你可以自定义一则欢迎消息的占位符：
+#### Replacing Parameters In Language Lines
+
+If you wish, you may define place-holders in your language lines. All place-holders are prefixed with a `:`. For example, you may define a welcome message with a place-holder name:
 
     'welcome' => 'Welcome, :name',
 
-接着，传入替代用的第二个参数给 `trans` 方法：
+To replace the place-holders when retrieving a language line, pass an array of replacements as the second argument to the `trans` function:
 
-    echo trans('messages.welcome', ['name' => 'Dayle']);
+    echo trans('messages.welcome', ['name' => 'dayle']);
+
+If your place-holder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
+
+    'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
+    'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
+
 
 <a name="pluralization"></a>
-### 复数
+### Pluralization
 
-复数是个复杂的问题，不同语言对于复数有不同的规则，使用 「竖杆」 字符，可以区分单复数字符串格式：
+Pluralization is a complex problem, as different languages have a variety of complex rules for pluralization. By using a "pipe" character, you may distinguish a singular and plural form of a string:
 
     'apples' => 'There is one apple|There are many apples',
 
-接着，可以使用 `trans_choice` 方法来设置总数，例如，当总数大于一时将会获取复数句子：
+Then, you may use the `trans_choice` function to retrieve the line for a given "count". In this example, since the count is greater than one, the plural form of the language line is returned:
 
     echo trans_choice('messages.apples', 10);
 
-由于 Laravel 的翻译器是来自于 Symfony 的翻译扩展包，因此你甚至可以使用更复杂的复数规则：
+Since the Laravel translator is powered by the Symfony Translation component, you may create even more complex pluralization rules:
 
     'apples' => '{0} There are none|[1,19] There are some|[20,Inf] There are many',
 
 <a name="overriding-vendor-language-files"></a>
-## 重写扩展包的语言包
+## Overriding Vendor Language Files
 
-部分扩展包带有自己的语言包，你可以通过在 `resources/lang/vendor/{package}/{locale}` 放置文件来重写它们，而不是直接修改扩展包的核心文件。
+Some packages may ship with their own language files. Instead of hacking the package's core files to tweak these lines, you may override them by placing your own files in the `resources/lang/vendor/{package}/{locale}` directory.
 
-例如，你需要重写 `skyrim/hearthfire` 扩展包的英文语言包 `messages.php`，则需要把文件放置在 `resources/lang/vendor/hearthfire/en/messages.php`。所有没有重写的语句仍将会从扩展包的语言包中被加载。
+So, for example, if you need to override the English language lines in `messages.php` for a package named `skyrim/hearthfire`, you would place a language file at: `resources/lang/vendor/hearthfire/en/messages.php`. In this file you should only define the language lines you wish to override. Any language lines you don't override will still be loaded from the package's original language files.

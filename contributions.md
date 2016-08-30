@@ -1,27 +1,29 @@
-# 贡献导引
+# Contribution Guide
 
-- [错误反馈](#bug-reports)
-- [核心开发讨论](#core-development-discussion)
-- [选择分支](#which-branch)
-- [安全漏洞](#security-vulnerabilities)
-- [代码风格](#coding-style)
-    - [代码风格修复器](#code-style-fixer)
+- [Bug Reports](#bug-reports)
+- [Core Development Discussion](#core-development-discussion)
+- [Which Branch?](#which-branch)
+- [Security Vulnerabilities](#security-vulnerabilities)
+- [Coding Style](#coding-style)
+    - [PHPDoc](#phpdoc)
+    - [StyleCI](#styleci)
 
 <a name="bug-reports"></a>
-## 错误反馈
+## Bug Reports
 
-为了提倡积极协作，Laravel 强烈地鼓励使用 Pull Request，而不仅仅只是反馈错误。「错误反馈」可以以一个包含失败测试的 Pull Request 的形式发送。
+To encourage active collaboration, Laravel strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
 
-假如你提交了错误反馈，那么反馈中应该包含着标题和详尽的问题描述，并尽可能多的提供相关的信息和错误问题的代码示例。错误反馈的主要目的是让自己和其他人可以简单地重现并修复错误。
+However, if you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible and a code sample that demonstrates the issue. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
 
-请记住，错误反馈的初衷是让其它有相同问题的人可以协作解决问题。不要期望反馈错误后会很快有人会马上修复它。创建错误反馈主要是为了能帮助你自己和其他人开始着手修复问题。
+Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem.
 
-Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有自己的代码仓库：
+The Laravel source code is managed on Github, and there are repositories for each of the Laravel projects:
 
 - [Laravel Framework](https://github.com/laravel/framework)
 - [Laravel Application](https://github.com/laravel/laravel)
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [Laravel Cashier](https://github.com/laravel/cashier)
+- [Laravel Cashier for Braintree](https://github.com/laravel/cashier-braintree)
 - [Laravel Envoy](https://github.com/laravel/envoy)
 - [Laravel Homestead](https://github.com/laravel/homestead)
 - [Laravel Homestead Build Scripts](https://github.com/laravel/settler)
@@ -29,42 +31,40 @@ Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有�
 - [Laravel Art](https://github.com/laravel/art)
 
 <a name="core-development-discussion"></a>
+## Core Development Discussion
 
-## 核心开发讨论
+You may propose new features or improvements of existing Laravel behavior in the Laravel Internals [issue board](https://github.com/laravel/internals/issues). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
 
-有关错误、新功能和现有功能的实现讨论会在 Slack 的 [LaraChat](http://larachat.co) 群组上的 `#internals` 频道中进行。Laravel 的维护者 Taylor Otwell 在工作日的 8am 到 5pm（ UTC-06:00 或 America/Chicago ）通常都会出现在频道上，其它时间偶尔也会出现。
+Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
 
 <a name="which-branch"></a>
-## 选择分支
+## Which Branch?
 
-**所有的** 错误修复都应该发送到最新的稳定分支上。除非它们修复的功能只存在下一版的发布中，不然错误修复 **永远不** 应该发送到 `master` 分支。
+**All** bug fixes should be sent to the latest stable branch or to the current LTS branch (5.1). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
-**次要的** 且与现有的 Laravel 发布版本 **完全向下兼容** 的功能可以发送到最新的稳定分支。
+**Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch.
 
-**主要的** 新功能应该都发送到 `master` 分支，它包含下一版的 Laravel 发布内容。
+**Major** new features should always be sent to the `master` branch, which contains the upcoming Laravel release.
 
-如果不确定你的功能是主要的还是次要的，请在 Slack 的 [LaraChat](http://larachat.co) 群组上的 `#internals` 频道询问 Taylor Otwell。
+If you are unsure if your feature qualifies as a major or minor, please ask Taylor Otwell in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team.
 
 <a name="security-vulnerabilities"></a>
-## 安全漏洞
+## Security Vulnerabilities
 
-如果你发现 Laravel 存在安全漏洞，请发送电子邮件到 <a href="mailto:taylor@laravel.com">taylor@laravel.com</a> 给 Taylor Otwell。所有的安全漏洞将会及时予以处理。
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at <a href="mailto:taylor@laravel.com">taylor@laravel.com</a>. All security vulnerabilities will be promptly addressed.
 
 <a name="coding-style"></a>
-## 编码风格
+## Coding Style
 
-Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](https://phphub.org/topics/2081) 自动加载规范。
+Laravel follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) autoloading standard.
 
-> 译者注：扩展阅读 - [所有 PSR 的标准规范](https://psr.phphub.org/)。
+<a name="phpdoc"></a>
+### PHPDoc
 
-### 注释区块
-
-`@param` 标签应该分行显示，并且每一个参数中间需相隔 **两个空格**
-
-举个例子:
+Below is an example of a valid Laravel documentation block. Note that the `@param` attribute is followed by two spaces, the argument type, two more spaces, and finally the variable name:
 
     /**
-     * 为服务容器注册一个绑定
+     * Register a binding with the container.
      *
      * @param  string|array  $abstract
      * @param  \Closure|string|null  $concrete
@@ -76,15 +76,7 @@ Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](h
         //
     }
 
-<a name="code-style-fixer"></a>
-### 代码风格矫正器
+<a name="styleci"></a>
+### StyleCI
 
-你可以使用 [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) 在提交代码之前进行代码格式矫正。
-
-你需要 [全局安装命令行](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual) ，然后在根目录下运行以下命令进行矫正：
-
-```sh
-php-cs-fixer fix
-```
-
-
+If your code style isn't perfect, don't worry! [StyleCI](https://styleci.io/) will automatically merge any style fixes into the Laravel repository after any pull requests are merged. This allows us to focus on the content of the contribution and not the code style.
