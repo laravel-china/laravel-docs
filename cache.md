@@ -19,7 +19,7 @@ Laravel 给各种不同的缓存系统提供了统一的 API，缓存的配置�
 
 缓存配置文件还包含了其它的选项，你可以在文件中找到这些选项，请确保你都有读过这些选项上方的说明。Laravel 默认采用的缓存驱动是 `file`，这个驱动在文件系统中保存了序列化的缓存对象，对于大型应用程序而言，Laravel 比较建议你使用内存缓存，例如 Memcached 或 APC。
 
-> **[Summer](http://github.com/summerblue)：** 推荐使用 Redis 来缓存驱动，配合 Session 一起使用的话，还需要多余的配置，请参考此文章进行配置 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://phphub.org/topics/2466)
+> 译者注：推荐使用 Redis 来做缓存驱动。缓存和 Session 一起使用 Redis 的话，还需要多余的配置，请参考 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://phphub.org/topics/2466)
 
 ### 场景布置
 

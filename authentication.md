@@ -33,7 +33,7 @@ Laravel 让用户认证变得非常简单。几乎所有的认证行为都可以
 
 默认的 Laravel 在 `app` 文件夹中会含有 `App\User` [Eloquent 模型](/docs/{{version}}/eloquent)。这个模型将使用默认的 Eloquent 认证来驱动。如果你的应用程序没有使用 Eloquent，请选择使用 Laravel 查询构造器的 `database` 认证驱动。
 
-为 `App\User` 模型创建数据库表结构时，确认密码字段最少有 60 字符长。
+为 `App\User` 模型创建数据库表结构时，确认密码字段最少必须 60 字符长。
 
 `users` 数据表中必须含有 nullable 、100 字符长的 `remember_token` 字段，这个字段将会被用来保存「记住我」 session 的令牌。只要在创建迁移时，使用 `$table->rememberToken()`，即可轻松加入这个字段。
 
@@ -243,7 +243,9 @@ Laravel 内置的 `AuthController` 类提供 `Illuminate\Foundation\Auth\Throttl
 
 当然，不一定要使用 Laravel 内置的认证控制器，你可以选择删除这些控制器，然后创建自定义的控制器。
 
-我们将通过 `Auth` [facade](/docs/{{version}}/facades) 访问 Laravel 的认证服务，接下来让我们看一下 `Auth` 的 `attempt` 方法：
+我们可以利用 `Auth` [facade](/docs/{{version}}/facades) 来访问 Laravel 的认证服务，从而实现手动认证。
+
+接下来让我们看一下 `Auth` 的 `attempt` 方法：
 
     <?php
 
@@ -269,7 +271,7 @@ Laravel 内置的 `AuthController` 类提供 `Illuminate\Foundation\Auth\Throttl
         }
     }
 
-`attempt` 方法会接受一个数组来作为第一个参数，这个数组的值可用来寻找数据库里的用户数据，所以在上面的例子中，用户通过 `email` 字段被取回，如果用户被找到了，数据库里经过哈希的密码将会与数组中哈希的 `password` 值比对，如果两个值一样的话就会开启一个通过认证的 session 给用户。
+`attempt` 方法会接受一个数组来作为第一个参数，这个数组的值可用来寻找数据库里的用户数据，所以在上面的例子中，用户通过 `email` 字段被取出，如果用户被找到了，数据库里经过哈希的密码将会与数组中哈希的 `password` 值比对，如果两个值一样的话就会开启一个通过认证的 session 给用户。
 
 如果认证成功，`attempt` 方法将会返回 `true`，反之则为 `false`。
 
@@ -330,13 +332,13 @@ Laravel 内置的 `AuthController` 类提供 `Illuminate\Foundation\Auth\Throttl
 <a name="http-basic-authentication"></a>
 ## HTTP 基础认证
 
-[HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication) 提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware)到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
+[HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication) 提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware) 到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
 
     Route::get('profile', ['middleware' => 'auth.basic', function() {
         // 只有认证过的用户可进入...
     }]);
 
-一旦中间件被增加到路由上，当使用浏览器进入这个路由时，你将自动的被提示需要提供凭证。默认情况下，`auth.basic` 中间件将会使用用户的 `email` 字段当作「用户名」。
+一旦中间件被增加到路由上，当使用浏览器进入这个路由时，将自动的被提示需要提供凭证。默认情况下，`auth.basic` 中间件将会使用用户的 `email` 字段当作「用户名」。
 
 #### FastCGI 的注意事项
 
@@ -385,7 +387,7 @@ Laravel 内置的 `AuthController` 类提供 `Illuminate\Foundation\Auth\Throttl
 <a name="resetting-database"></a>
 ### 重设数据库
 
-很多 Web 应用程序都会提供用户重设密码功能，Laravel 提供发送重置密码邮件和实现密码重设功能，而避免让你重造车轮。
+很多 Web 应用程序都会提供用户重设密码功能，Laravel 提供了发送重置密码邮件和实现密码重设功能，避免让你重造车轮。
 
 开始之前，请先确认 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
 
@@ -411,7 +413,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 <a name="resetting-views"></a>
 ### 视图
 
-除了定义 `PasswordController` 路由，还需要提供视图给这个控制器。不过不用担心，我们已经提供了例子视图来帮助你开始，你也可以随意的定义表单风格。
+除了定义 `PasswordController` 路由，还需要提供视图给这个控制器。不过不用担心，我们已经提供了样例视图来帮助你开始，你也可以随意的定义表单风格。
 
 #### 重置密码链接的请求表单例子
 
@@ -442,9 +444,9 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
         </div>
     </form>
 
-当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的邮箱。
+当用户送出重置密码的请求，他们会收到一封有链接到 `PasswordController` 的 `getReset` 方法（通常是路由到 `/password/reset`）的邮件。
 
-你将需要为邮箱创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置令牌的 `$token` 变量，这个变量含有密码重置令牌来匹配用户的密码重置请求，举例如下：
+你将需要为这份邮件创造一个 `resources/views/emails/password.blade.php` 视图。这个视图会接收一个带有密码重置令牌的 `$token` 变量，用来拼接成为重置密码的 URL，这个 `$token` 变量含有密码重置令牌来匹配用户的密码重置请求，举例如下：
 
     <!-- 文件 resources/views/emails/password.blade.php -->
 
@@ -668,7 +670,7 @@ Laravel 包含了 `Auth\PasswordController`，虽然它含有所有重置用户�
 
     }
 
-`retrieveById` 函数通常获取一个代表用户的值，例如 MySQL 中自增的 ID。`Authenticatable` 的实现通过 ID 匹配的方法来取回和返回。
+`retrieveById` 函数通常获取一个代表用户的值，例如 MySQL 中自增的 ID。`Authenticatable` 的实现通过 ID 匹配的方法来取出和返回。
 
 `retrieveByToken` 函数借助用户唯一的 `$identifier` 和「记住我」`$token` 来获取用户。如同之前的方法，`Authenticatable` 的实现应该被返回。
 

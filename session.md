@@ -28,7 +28,7 @@ Session `driver` 定义数据将由什么样的方式进行存储。Laravel 附�
 
 --
 
-> **[Summer](http://github.com/summerblue)：** 推荐使用 Redis 来存储 Session，不过默认的 Redis 配置不合理，请参考此文章进行配置 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://phphub.org/topics/2466)
+> 译者注：推荐使用 Redis 来做 Session 驱动。Session 和缓存一起使用 Redis 的话，还需要多余的配置，请参考 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://phphub.org/topics/2466)
 
 ### 驱动介绍
 
