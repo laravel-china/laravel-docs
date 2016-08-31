@@ -1,64 +1,62 @@
-# Basic Task List
+# 基本任务清单
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-- [Prepping The Database](#prepping-the-database)
-	- [Database Migrations](#database-migrations)
-	- [Eloquent Models](#eloquent-models)
-- [Routing](#routing)
-	- [Stubbing The Routes](#stubbing-the-routes)
-	- [Displaying A View](#displaying-a-view)
-- [Building Layouts & Views](#building-layouts-and-views)
-	- [Defining The Layout](#defining-the-layout)
-	- [Defining The Child View](#defining-the-child-view)
-- [Adding Tasks](#adding-tasks)
-	- [Validation](#validation)
-	- [Creating The Task](#creating-the-task)
-	- [Displaying Existing Tasks](#displaying-existing-tasks)
-- [Deleting Tasks](#deleting-tasks)
-	- [Adding The Delete Button](#adding-the-delete-button)
-	- [Deleting The Task](#deleting-the-task)
+- [简介](#introduction)
+- [安装](#installation)
+- [准备数据库](#prepping-the-database)
+	- [数据库迁移](#database-migrations)
+	- [Eloquent 模型](#eloquent-models)
+- [路由](#routing)
+	- [构建路由](#stubbing-the-routes)
+	- [显示视图](#displaying-a-view)
+- [构建布局与视图](#building-layouts-and-views)
+	- [定义布局](#defining-the-layout)
+	- [定义子视图](#defining-the-child-view)
+- [增加任务](#adding-tasks)
+	- [验证](#validation)
+	- [创建任务](#creating-the-task)
+	- [显示已有的任务](#displaying-existing-tasks)
+- [删除任务](#deleting-tasks)
+	- [增加删除按钮](#adding-the-delete-button)
+	- [删除该任务](#deleting-the-task)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-This quickstart guide provides a basic introduction to the Laravel framework and includes content on database migrations, the Eloquent ORM, routing, validation, views, and Blade templates. This is a great starting point if you are brand new to the Laravel framework or PHP frameworks in general. If you have already used Laravel or other PHP frameworks, you may wish to consult one of our more advanced quickstarts.
+此快速入门指南主要为 Laravel 框架提供基本的介绍，其中内容包括数据库迁移、Eloquent ORM、路由、验证、视图，及 Blade 模版。如果你是第一次使用 Laravel 框架或 PHP，那么这会是个很好的开头。如果你已经在使用 Laravel 或者其它的框架，不仿参考我们高级的快速入门指南。
 
-To sample a basic selection of Laravel features, we will build a simple task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. The complete, finished source code for this project is [available on GitHub](https://github.com/laravel/quickstart-basic).
+我们将会构建一个简单的任务清单，可以使用它追踪所有想完成的任务（典型的「代办事项清单」例子）。此项目完整的源代码 [在 GitHub 上](http://github.com/laravel/quickstart-basic)。
 
 <a name="installation"></a>
-## Installation
+## 安装
 
-#### Installing Laravel
-
-Of course, first you will need a fresh installation of the Laravel framework. You may use the [Homestead virtual machine](/docs/{{version}}/homestead) or the local PHP environment of your choice to run the framework. Once your local environment is ready, you may install the Laravel framework using Composer:
+首先你需要安装一个全新的 Laravel 框架。你可以选择使用 [Homestead 虚拟机](/docs/{{version}}/homestead) 或是其它本机 PHP 环境来运行框架。只要你准备好了本机环境，就可以使用 Composer 安装 Laravel 框架：
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
-#### Installing The Quickstart (Optional)
-
-You're free to just read along for the remainder of this quickstart; however, if you would like to download the source code for this quickstart and run it on your local machine, you may clone its Git repository and install its dependencies:
+你可以随意阅读快速入门指南的剩余部分；不过，如果你想下载这个快速入门指南的源代码并在你的本机机器运行，那么你需要克隆它的 Git 代码仓库并安装依赖：
 
 	git clone https://github.com/laravel/quickstart-basic quickstart
 	cd quickstart
 	composer install
 	php artisan migrate
 
-For more complete documentation on building a local Laravel development environment, check out the full [Homestead](/docs/{{version}}/homestead) and [installation](/docs/{{version}}/installation) documentation.
+欲了解更多关于构建本机 Laravel 开发环境的文档，请查阅完整的 [Homestead](/docs/{{version}}/homestead) 及 [安装](/docs/{{version}}/installation) 文档。
 
 <a name="prepping-the-database"></a>
-## Prepping The Database
+## 准备数据库
 
 <a name="database-migrations"></a>
-### Database Migrations
+### 数据库迁移
 
-First, let's use a migration to define a database table to hold all of our tasks. Laravel's database migrations provide an easy way to define your database table structure and modifications using fluent, expressive PHP code. Instead of telling your team members to manually add columns to their local copy of the database, your teammates can simply run the migrations you push into source control.
+首先，让我们使用迁移来定义数据表以存储我们所有的任务数据。
 
-So, let's build a database table that will hold all of our tasks. The [Artisan CLI](/docs/{{version}}/artisan) can be used to generate a variety of classes and will save you a lot of typing as you build your Laravel projects. In this case, let's use the `make:migration` command to generate a new database migration for our `tasks` table:
+Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目了然的 PHP 代码来定义数据表的结构与修改。你无需再告诉团队成员要手动增加字段至他们本机的数据库中，他们只需要运行你提交到版本控制的迁移，即可应用数据库修改。
+
+[Artisan 命令行接口](/docs/{{version}}/artisan) 可以被用于生成各种类，为你构建 Laravel 项目时节省大量手动输入的时间。在此例中，让我们使用 `make:migration` 命令为 `tasks` 数据表生成新的数据库迁移：
 
 	php artisan make:migration create_tasks_table --create=tasks
 
-The migration will be placed in the `database/migrations` directory of your project. As you may have noticed, the `make:migration` command already added an auto-incrementing ID and timestamps to the migration file. Let's edit this file and add an additional `string` column for the name of our tasks:
+此迁移会被放置在项目的 `database/migrations` 目录中。你可能已经注意到，`make:migration` 命令已经增加了自动递增的 ID 及时间戳至迁移文件。让我们编辑这个文件并为任务的名称增加额外的 `string` 字段：
 
 	<?php
 
@@ -68,7 +66,7 @@ The migration will be placed in the `database/migrations` directory of your proj
 	class CreateTasksTable extends Migration
 	{
 	    /**
-	     * Run the migrations.
+	     * 运行迁移。
 	     *
 	     * @return void
 	     */
@@ -82,7 +80,7 @@ The migration will be placed in the `database/migrations` directory of your proj
 	    }
 
 	    /**
-	     * Reverse the migrations.
+	     * 还原迁移。
 	     *
 	     * @return void
 	     */
@@ -92,22 +90,26 @@ The migration will be placed in the `database/migrations` directory of your proj
 	    }
 	}
 
-To run our migration, we will use the `migrate` Artisan command. If you are using Homestead, you should run this command from within your virtual machine, since your host machine will not have direct access to the database:
+我们可以使用 `migrate` Artisan 命令运行迁移。如果你使用了 Homestead，则必须在虚拟机中运行这个命令，因为你的主机无法直接访问数据库：
 
 	php artisan migrate
 
-This command will create all of our database tables. If you inspect the database tables using the database client of your choice, you should see a new `tasks` table which contains the columns defined in our migration. Next, we're ready to define an Eloquent ORM model for our tasks!
+这个命令会创建我们所有的数据表。如果你使用了数据库客户端来查看数据表，那么你应该会看到新的 `tasks` 数据表，其中包含了我们迁移中所定义的字段。
+
+接下来，可以为我们的任务定义一个 Eloquent ORM 模型了！
 
 <a name="eloquent-models"></a>
-### Eloquent Models
+### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) is Laravel's default ORM (object-relational mapper). Eloquent makes it painless to retrieve and store data in your database using clearly defined "models". Usually, each Eloquent model corresponds directly with a single database table.
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你可以很轻松的在数据库获取及保存数据。一般情况下，每个 Eloqunet 模型会直接对应一张数据表。
 
-So, let's define a `Task` model that corresponds to our `tasks` database table we just created. Again, we can use an Artisan command to generate this model. In this case, we'll use the `make:model` command:
+所以，让我们定义一个对应至 `tasks` 数据表的 `Task` 模型。
+
+同样的，我们可以使用 Artisan 命令来生成此模型。在此例中，我们会使用 `make:model` 命令：
 
 	php artisan make:model Task
 
-The model will be placed in the `app` directory of your application. By default, the model class is empty. We do not have to explicitly tell the Eloquent model which table it corresponds to because it will assume the database table is the plural form of the model name. So, in this case, the `Task` model is assumed to correspond with the `tasks` database table. Here is what our empty model should look like:
+这个模型会放置在你应用程序的 `app` 目录中。默认情况下此模型类将是空的。我们不必明确告知 Eloquent 模型要对应哪张数据表，因为它会假设数据表是 `模型名称` 的复数型态。所以，在此例中，`Task` 模型会假设对应至 `tasks` 数据表。所以我们的空模型看起来应该如下：
 
 	<?php
 
@@ -120,17 +122,17 @@ The model will be placed in the `app` directory of your application. By default,
 		//
 	}
 
-We'll learn more about how to use Eloquent models as we add routes to our application. Of course, feel free to consult the [complete Eloquent documentation](/docs/{{version}}/eloquent) for more information.
+在为我们的应用程序增加路由时，我们会学习更多关于如何使用 Eloquent 模型的知识。当然，你也可以随意参考 [完整的 Eloquent 文档](/docs/{{version}}/eloquent) 来获取更多信息。
 
 <a name="routing"></a>
-## Routing
+## 路由
 
 <a name="stubbing-the-routes"></a>
-### Stubbing The Routes
+### 构建路由
 
-Next, we're ready to add a few routes to our application. Routes are used to point URLs to controllers or anonymous functions that should be executed when a user accesses a given page. By default, all Laravel routes are defined in the `app/Http/routes.php` file that is included in every new project.
+接着，我们已经在应用程序中准备好增加一些路由。这些路由会将 URLs 指向控制器或是匿名函数上，当用户进入特定页面时即会被运行。默认情况下，Laravel 所有的路由都会被定义在 `app/Http/routes.php` 文件中，每个新的 Laravel 项目都会包含此文件。
 
-For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. So, let's stub all of these routes in the `app/Http/routes.php` file:
+对于本应用程序，我们知道最后会用到三个路由：一个路由用于显示我们所有任务的清单、一个路由用于添加任务、一个路由用于删除已有的任务。所以，让我们在 `app/Http/routes.php` 中构建这所有路由：
 
 	<?php
 
@@ -138,71 +140,73 @@ For this application, we know we will need at least three routes: a route to dis
 	use Illuminate\Http\Request;
 
 	/**
-	 * Show Task Dashboard
+	 * 显示所有任务
 	 */
 	Route::get('/', function () {
 		//
 	});
 
 	/**
-	 * Add New Task
+	 * 增加新的任务
 	 */
 	Route::post('/task', function (Request $request) {
 		//
 	});
 
 	/**
-	 * Delete Task
+	 * 删除一个已有的任务
 	 */
-	Route::delete('/task/{task}', function (Task $task) {
+	Route::delete('/task/{id}', function ($id) {
 		//
 	});
 
-> **Note**: If your copy of Laravel has a `RouteServiceProvider` that already includes the default routes file within the `web` middleware group, you do not need to manually add the group to your `routes.php` file.
+> **注意**：Laravel 5.2 中，`RouteServiceProvider` 已经为 `routes.php` 里的所有路由添加了 `web` 中间件组，你不需要再次添加。
 
 <a name="displaying-a-view"></a>
-### Displaying A View
+### 显示视图
 
-Next, let's fill out our `/` route. From this route, we want to render an HTML template that contains a form to add new tasks, as well as a list of all current tasks.
+接着，让我们填写我们的 `/` 路由。在此路由中，我们想要渲染一个包含添加任务的表单，及目前所有任务清单的 HTML 模版。
 
-In Laravel, all HTML templates are stored in the `resources/views` directory, and we can use the `view` helper to return one of these templates from our route:
+在 Laravel 里，所有的 HTML 模版都保存在 `resources/views` 目录，且我们可以在路由中使用 `view` 辅助函数来返回这些模版的其中一个：
 
 	Route::get('/', function () {
 		return view('tasks');
 	});
 
-Passing `tasks` to the `view` function will create a View object instance that corresponds to the template in `resources/views/tasks.blade.php`. Of course, we need to actually define this view, so let's do that now!
+当然，我们必须先定义这些视图，所以现在开始动手做吧！
 
 <a name="building-layouts-and-views"></a>
-## Building Layouts & Views
+## 构建布局与视图
 
-This application only has a single view which contains a form for adding new tasks as well as a listing of all current tasks. To help you visualize the view, here is a screenshot of the finished application with basic Bootstrap CSS styling applied:
+这个应用程序只会有一张视图，包含添加任务的表单，及目前所有任务的清单。为了帮助你想像此视图的画面，下方是完成后应用程序的截屏，采用了基本的 Bootstrap CSS 样式：
 
-![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
+![应用程序图片](https://laravel.tw/assets/img/quickstart/basic-overview.png)
 
 <a name="defining-the-layout"></a>
-### Defining The Layout
+### 定义布局
 
-Almost all web applications share the same layout across pages. For example, this application has a top navigation bar that would be typically present on every page (if we had more than one). Laravel makes it easy to share these common features across every page using Blade **layouts**.
+几乎所有的网页应用程序都会在不同页面中共用相同的布局。举个例子，应用程序通常在每个页面（如果我们有一个以上页面）的顶部都拥有导航栏。Laravel 使用了 Blade **布局** 来让不同页面共用这些相同的功能。
 
-As we discussed earlier, all Laravel views are stored in `resources/views`. So, let's define a new layout view in `resources/views/layouts/app.blade.php`. The `.blade.php` extension instructs the framework to use the [Blade templating engine](/docs/{{version}}/blade) to render the view. Of course, you may use plain PHP templates with Laravel. However, Blade provides convenient short-cuts for writing clean, terse templates.
+如同我们前面讨论的那样，Laravel 所有的视图都被保存在 `resources/views`。所以，让我们来定义一个新的布局视图至 `resources/views/layouts/app.blade.php` 中。
 
-Our `app.blade.php` view should look like the following:
+`.blade.php` 扩展名会告知框架使用 [Blade 模板引擎](/docs/{{version}}/blade) 渲染此视图。当然，你可以在 Laravel 使用纯 PHP 的模版。不过，Blade 提供了更方便的方式来编写干净、简洁的模板。
 
-    <!-- resources/views/layouts/app.blade.php -->
+我们的 `app.blade.php` 视图看起来应该如下面这样：
+
+    // resources/views/layouts/app.blade.php
 
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
-			<title>Laravel Quickstart - Basic</title>
+			<title>Laravel 快速入门 - 基本</title>
 
-			<!-- CSS And JavaScript -->
+			<!-- CSS 及 JavaScript -->
 		</head>
 
 		<body>
 			<div class="container">
 				<nav class="navbar navbar-default">
-					<!-- Navbar Contents -->
+					<!-- Navbar 内容 -->
 				</nav>
 			</div>
 
@@ -210,32 +214,31 @@ Our `app.blade.php` view should look like the following:
 		</body>
 	</html>
 
-Note the `@yield('content')` portion of the layout. This is a special Blade directive that specifies where all child pages that extend the layout can inject their own content. Next, let's define the child view that will use this layout and provide its primary content.
+注意布局中的 `@yield('content')` 部分。这是特殊的 Blade 命令，让子页面可以在此处注入自己的内容以扩展布局。接着，让我们定义将会使用此布局并提供主要内容的子视图。
 
 <a name="defining-the-child-view"></a>
-### Defining The Child View
+### 定义子视图
 
-Next, we need to define a view that contains a form to create a new task as well as a table that lists all existing tasks. Let's define this view in `resources/views/tasks.blade.php`.
+很好，我们的应用程序布局已经完成。接下来，我们需要定义创建任务的表单，及列出已有任务数据的视图。让我们将此视图定义在 `resources/views/tasks.blade.php`。
 
-We'll skip over some of the Bootstrap CSS boilerplate and only focus on the things that matter. Remember, you can download the full source for this application on [GitHub](https://github.com/laravel/quickstart-basic):
+我们会跳过一些 Bootstrap CSS 模版，只专注在重要的事物上。你可以在 [GitHub](https://github.com/laravel/quickstart-basic) 下载到应用程序的完整源代码：
 
-    <!-- resources/views/tasks.blade.php -->
+    // resources/views/tasks.blade.php
 
 	@extends('layouts.app')
 
 	@section('content')
 
-        <!-- Bootstrap Boilerplate... -->
+        <!-- Bootstrap 模版... -->
 
 		<div class="panel-body">
-            <!-- Display Validation Errors -->
+            <!-- 显示验证错误 -->
 			@include('common.errors')
-
-			<!-- New Task Form -->
-			<form action="{{ url('task') }}" method="POST" class="form-horizontal">
+			<!-- 新任务的表单 -->
+			<form action="/task" method="POST" class="form-horizontal">
 				{{ csrf_field() }}
 
-                <!-- Task Name -->
+                <!-- 任务名称 -->
 				<div class="form-group">
 					<label for="task" class="col-sm-3 control-label">Task</label>
 
@@ -244,43 +247,43 @@ We'll skip over some of the Bootstrap CSS boilerplate and only focus on the thin
 					</div>
 				</div>
 
-                <!-- Add Task Button -->
+                <!-- 增加任务按钮-->
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-6">
 						<button type="submit" class="btn btn-default">
-							<i class="fa fa-plus"></i> Add Task
+							<i class="fa fa-plus"></i> 增加任务
 						</button>
 					</div>
 				</div>
 			</form>
 		</div>
 
-		<!-- TODO: Current Tasks -->
+		<!-- 代办：目前任务 -->
 	@endsection
 
-#### A Few Notes Of Explanation
+#### 一些注意事项的说明
 
-Before moving on, let's talk about this template a bit. First, the `@extends` directive informs Blade that we are using the layout we defined in `resources/views/layouts/app.blade.php`. All of the content between `@section('content')` and `@endsection` will be injected into the location of the `@yield('content')` directive within the `app.blade.php` layout.
+在继续开始之前，让我们先来谈谈有关模板的一些注意事项。首先 `@extends` 命令会告知 Blade，我们使用了定义于 `resources/views/layouts/app.blade.php` 的布局。所有在 `@section('content')` 及 `@endsection` 之间的内容都会被注入到 `app.blade.php` 布局中的 `@yield('content')` 位置里。
 
-The `@include('common.errors')` directive will load the template located at `resources/views/common/errors.blade.php`. We haven't defined this template, but we will soon!
-
-Now we have defined a basic layout and view for our application. Remember, we are returning this view from our `/` route like so:
+现在我们已经为我们的应用程序定义了基本的布局及视图。请记住我们在 `/` 路由中返回了此视图，就像这样：
 
 	Route::get('/', function () {
 		return view('tasks');
 	});
 
-Next, we're ready to add code to our `POST /task` route to handle the incoming form input and add a new task to the database.
+接着，我们已经准备好增加代码至我们的 `POST /task` 路由，以处理接收到的表单输入并增加新的任务至数据库中。
+
+> **注意：**`@include('common.errors')` 命令会加载位于 `resources/views/common/errors.blade.php` 的模板。我们尚未定义此模板，但是我们将会在后面定义它！
 
 <a name="adding-tasks"></a>
-## Adding Tasks
+## 增加任务
 
 <a name="validation"></a>
-### Validation
+### 验证
 
-Now that we have a form in our view, we need to add code to our `POST /task` route in `app/Http/routes.php` to validate the incoming form input and create a new task. First, let's validate the input.
+现在我们的视图中已经有一个表单，我们需要增加代码至我们的 `POST /task` 路由来验证接收到的表单输入并创建新的任务。首先，让我们先来验证表单输入。
 
-For this form, we will make the `name` field required and state that it must contain less than `255` characters. If the validation fails, we will redirect the user back to the `/` URL, as well as flash the old input and errors into the [session](/docs/{{version}}/session). Flashing the input into the session will allow us to maintain the user's input even when there are validation errors:
+对此表单来说，我们要让 `name` 字段为必填，且它必须少于 `255` 字符。如果验证失败，我们会将用户重定向回 `/` URL，并将旧的输入及错误消息闪存到 [session](/docs/{{version}}/session) 中：
 
 	Route::post('/task', function (Request $request) {
 		$validator = Validator::make($request->all(), [
@@ -293,21 +296,21 @@ For this form, we will make the `name` field required and state that it must con
 				->withErrors($validator);
 		}
 
-		// Create The Task...
+		// 创建该任务...
 	});
 
-#### The `$errors` Variable
+#### `$errors` 变量
 
-Let's take a break for a moment to talk about the `->withErrors($validator)` portion of this example. The `->withErrors($validator)` call will flash the errors from the given validator instance into the session so that they can be accessed via the `$errors` variable in our view.
+让我们休息一下说说例子中 `->withErrors($validator)` 的部分。`->withErrors($validator)` 的调用会通过指定的验证器实例将错误消息闪存至 session 中，所以我们可以在视图中通过 `$errors` 变量访问它们。
 
-Remember that we used the `@include('common.errors')` directive within our view to render the form's validation errors. The `common.errors` will allow us to easily show validation errors in the same format across all of our pages. Let's define the contents of this view now:
+我们在视图中使用了 `@include('common.errors')` 命令来渲染表单的错误验证消息。`common.errors` 让我们可以简单的在所有的页面都显示相同格式的错误验证消息。现在让我们定义此视图的内容：
 
-    <!-- resources/views/common/errors.blade.php -->
+    // resources/views/common/errors.blade.php
 
     @if (count($errors) > 0)
-        <!-- Form Error List -->
+        <!-- 表单错误清单 -->
         <div class="alert alert-danger">
-            <strong>Whoops! Something went wrong!</strong>
+            <strong>哎呀！出了些问题！</strong>
 
             <br><br>
 
@@ -320,12 +323,12 @@ Remember that we used the `@include('common.errors')` directive within our view 
     @endif
 
 
-> **Note:** The `$errors` variable is available in **every** Laravel view. It will simply be an empty instance of `ViewErrorBag` if no validation errors are present.
+> **注意：**`errors` 变量可用于 **每个** Laravel 的视图中。如果没有错误验证消息存在，那么它就会是一个空的 `ViewErrorBag` 实例。
 
 <a name="creating-the-task"></a>
-### Creating The Task
+### 创建任务
 
-Now that input validation is handled, let's actually create a new task by continuing to fill out our route. Once the new task has been created, we will redirect the user back to the `/` URL. To create the task, we may use the `save` method after creating and setting properties on a new Eloquent model:
+现在输入已经被验证处理完毕。让我们继续填写我们的路由来创建一条新的任务。一旦新的任务被创建，我们将会把用户重定向回 `/` URL。要创建该任务，我们可以在为新的 Eloquent 模型创建及设置属性后使用 `save` 方法：
 
 	Route::post('/task', function (Request $request) {
 		$validator = Validator::make($request->all(), [
@@ -345,12 +348,12 @@ Now that input validation is handled, let's actually create a new task by contin
 		return redirect('/');
 	});
 
-Great! We can now successfully create tasks. Next, let's continue adding to our view by building a list of all existing tasks.
+好极了！我们现在已经可以成功的创建任务了。接着，让我们继续构建已有的任务清单，并增加至我们的视图中。
 
 <a name="displaying-existing-tasks"></a>
-### Displaying Existing Tasks
+### 显示已有的任务
 
-First, we need to edit our `/` route to pass all of the existing tasks to the view. The `view` function accepts a second argument which is an array of data that will be made available to the view, where each key in the array will become a variable within the view:
+首先，我们需要编辑我们的 `/` 路由，以传递所有已有的任务至视图。`view` 函数接收一个能在视图中被取用的数据数组作为第二个参数，数组中的每个键都会在视图中作为变量：
 
 	Route::get('/', function () {
 		$tasks = Task::orderBy('created_at', 'asc')->get();
@@ -360,40 +363,40 @@ First, we need to edit our `/` route to pass all of the existing tasks to the vi
 		]);
 	});
 
-Once the data is passed, we can spin through the tasks in our `tasks.blade.php` view and display them in a table. The `@foreach` Blade construct allows us to write concise loops that compile down into blazing fast plain PHP code:
+一旦数据被传递，我们便可以在 `tasks.blade.php` 视图中将任务切分并将它们显示至数据库表中。`@foreach` 命令结构让我们可以编写简洁的循环的语句，并编译成快速的纯 PHP 代码：
 
 	@extends('layouts.app')
 
 	@section('content')
-        <!-- Create Task Form... -->
+        <!-- 创建任务表单... -->
 
-        <!-- Current Tasks -->
+        <!-- 目前任务 -->
         @if (count($tasks) > 0)
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Current Tasks
+                    目前任务
                 </div>
 
                 <div class="panel-body">
                     <table class="table table-striped task-table">
 
-                        <!-- Table Headings -->
+                        <!-- 表头 -->
                         <thead>
                             <th>Task</th>
                             <th>&nbsp;</th>
                         </thead>
 
-                        <!-- Table Body -->
+                        <!-- 表身 -->
                         <tbody>
                             @foreach ($tasks as $task)
                                 <tr>
-                                    <!-- Task Name -->
+                                    <!-- 任务名称 -->
                                     <td class="table-text">
                                         <div>{{ $task->name }}</div>
                                     </td>
 
                                     <td>
-                                        <!-- TODO: Delete Button -->
+                                        <!-- 待办：删除按钮 -->
                                     </td>
                                 </tr>
                             @endforeach
@@ -404,53 +407,51 @@ Once the data is passed, we can spin through the tasks in our `tasks.blade.php` 
         @endif
 	@endsection
 
-Our task application is almost complete. But, we have no way to delete our existing tasks when they're done. Let's add that next!
+我们任务应用程序大部分都完成了。但是，当我们完成已有的任务后，还没有任何方式可以删除它们。接着让我们增加此功能！
 
 <a name="deleting-tasks"></a>
-## Deleting Tasks
+## 删除任务
 
 <a name="adding-the-delete-button"></a>
-### Adding The Delete Button
+### 增加删除按钮
 
-We left a "TODO" note in our code where our delete button is supposed to be. So, let's add a delete button to each row of our task listing within the `tasks.blade.php` view. We'll create a small single-button form for each task in the list. When the button is clicked, a `DELETE /task` request will be sent to the application:
+我们在我们的代码中应该放删除按钮的地方放了「待办」的注释。所以，让我们在 `tasks.blade.php` 视图中列出任务的每一行并增加一个删除按钮。我们会为列表中的每个任务创建一个只有单个按钮的小表单。当按钮被按下时，一个 `DELETE /task` 的请求将会被发送到应用程序：
 
     <tr>
-        <!-- Task Name -->
+        <!-- 任务名称 -->
         <td class="table-text">
             <div>{{ $task->name }}</div>
         </td>
 
-        <!-- Delete Button -->
+        <!-- 删除按钮 -->
         <td>
-            <form action="{{ url('task/'.$task->id) }}" method="POST">
+            <form action="/task/{{ $task->id }}" method="POST">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
 
-                <button type="submit" class="btn btn-danger">
-                    <i class="fa fa-trash"></i> Delete
-                </button>
+                <button>删除任务</button>
             </form>
         </td>
     </tr>
 
 <a name="a-note-on-method-spoofing"></a>
-#### A Note On Method Spoofing
+#### 伪造方法
 
-Note that the delete button's form `method` is listed as `POST`, even though we are responding to the request using a `Route::delete` route. HTML forms only allow the `GET` and `POST` HTTP verbs, so we need a way to spoof a `DELETE` request from the form.
+注意，删除按钮的表单 `method` 被列为 `POST`，即使我们响应的请求使用了 `Route::delete` 路由。HTML 表单只允许 `GET` 及 `POST` HTTP 动词，所以我们需要有个方式在表单中假冒一个 `DELETE` 请求。
 
-We can spoof a `DELETE` request by outputting the results of the `method_field('DELETE')` function within our form. This function generates a hidden form input that Laravel recognizes and will use to override the actual HTTP request method. The generated field will look like the following:
+我们可以在表单中通过 `method_field('DELETE')` 函数输出的结果假冒一个 `DELETE` 请求。此函数会生成一个隐藏的表单输入，Laravel 会辨识并覆盖掉实际使用的 HTTP 请求方法。生成的字段看起来如下：
 
 	<input type="hidden" name="_method" value="DELETE">
 
 <a name="deleting-the-task"></a>
-### Deleting The Task
+### 删除该任务
 
-Finally, let's add logic to our route to actually delete the given task. We can use [implicit model binding](/docs/{{version}}/routing#route-model-binding) to automatically retrieve the `Task` model that corresponds to the `{task}` route parameter.
+最后，让我们增加实际的删除逻辑。我们可以使用 Eloquent 的 `findOrFail` 方法通过 ID 来获取模型，当该模型不存在时则会抛出 404 异常。一旦我们成功获取到模型，我们就可以使用 `delete` 方法来删除该条记录。只要该记录被删除，我们便会把用户重定向回 `/` URL：
 
-In our route callback, we will use the `delete` method to delete the record. Once the record is deleted, we will redirect the user back to the `/` URL:
-
-	Route::delete('/task/{task}', function (Task $task) {
-		$task->delete();
+	Route::delete('/task/{id}', function ($id) {
+		Task::findOrFail($id)->delete();
 
 		return redirect('/');
 	});
+
+
