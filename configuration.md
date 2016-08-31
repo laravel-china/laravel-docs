@@ -8,7 +8,7 @@
 - [维护模式](#maintenance-mode)
 
 <a name="introduction"></a>
-## Introduction
+## 基础介绍
 
 所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，请仔细阅读这些说明，并熟悉这些选项配置。
 
