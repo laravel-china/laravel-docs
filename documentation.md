@@ -19,7 +19,7 @@
     - [初级任务清单](/docs/{{version}}/quickstart)
     - [中级任务清单](/docs/{{version}}/quickstart-intermediate)
 - 系统架构
-    - [请求的生命周期](/docs/{{version}}/lifecycle)
+    - [请求生命周期](/docs/{{version}}/lifecycle)
     - [应用程序结构](/docs/{{version}}/structure)
     - [服务提供者](/docs/{{version}}/providers)
     - [服务容器](/docs/{{version}}/container)

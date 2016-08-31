@@ -72,7 +72,7 @@ Laravel 5.1.11 现支持 [授权](/docs/{{version}}/authorization) 及 [授权�
 <a name="upgrade-5.1.0"></a>
 ## 升级到 5.1.0
 
-#### 估计升级需时：少于 1 小时
+#### 估计升级需耗时：少于 1 小时
 
 ### 更新 `bootstrap/autoload.php`
 
