@@ -41,13 +41,13 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 不妨将 `.env.example` 文件放进你的应用程序，通过样本配置文件里的预设值，团队中的其他开发人员就可以清楚地知道，在运行你的应用程序时有哪些环境变量是必须有的。
 
 <a name="determining-the-current-environment"></a>
-### Determining The Current Environment
+### 获取目前应用程序的环境
 
-The current application environment is determined via the `APP_ENV` variable from your `.env` file. You may access this value via the `environment` method on the `App` [facade](/docs/{{version}}/facades):
+应用程序的当前环境是由 `.env` 文件中的 `APP_ENV` 变量所决定的。你可以通过 `App` [facade](/docs/{{version}}/facades) 的 `environment` 方法来获取该值：
 
     $environment = App::environment();
 
-You may also pass arguments to the `environment` method to check if the environment matches a given value. If necessary, you may even pass multiple values to the `environment` method. If the environment matches any of the given values, the method will return `true`:
+你也可以传递参数至 `environment` 方法来确认当前环境是否与参数相符合：
 
     if (App::environment('local')) {
         // The environment is local
@@ -57,38 +57,41 @@ You may also pass arguments to the `environment` method to check if the environm
         // The environment is either local OR staging...
     }
 
-An application instance may also be accessed via the `app` helper method:
+也可通过 `app` 辅助函数获取应用程序实例：
 
     $environment = app()->environment();
 
 <a name="configuration-caching"></a>
-## Configuration Caching
+## 缓存配置信息
 
-To give your application a speed boost, you should cache all of your configuration files into a single file using the `config:cache` Artisan command. This will combine all of the configuration options for your application into a single file which will be loaded quickly by the framework.
+为了让应用程序的速度获得提升，可以使用 Artisan 命令 `config:cache` 将所有的配置文件缓存到单个文件。通过此命令将所有的设置选项合并成一个文件，让框架能够更快速的加载。
 
-You should typically run the `php artisan config:cache` command as part of your production deployment routine. The command should not be run during local development as configuration options will frequently need to be changed during the course of your application's development.
+你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在开发时运行，因为设置选项会在开发时经常变动。
+
+> 译者注：想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 
 <a name="maintenance-mode"></a>
-## Maintenance Mode
+## 维护模式
 
-When your application is in maintenance mode, a custom view will be displayed for all requests into your application. This makes it easy to "disable" your application while it is updating or when you are performing maintenance. A maintenance mode check is included in the default middleware stack for your application. If the application is in maintenance mode, an `HttpException` will be thrown with a status code of 503.
+当你的应用程序处于维护模式时，所有传递至应用程序的请求都会显示出一个自定义视图。在你更新应用或进行性能维护时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的中间件堆栈。如果应用程序处于维护模式，则 `HttpException` 会抛出 503 的状态码。
 
-To enable maintenance mode, simply execute the `down` Artisan command:
+启用维护模式，只需要运行 Artisan 命令 `down`：
 
     php artisan down
 
-To disable maintenance mode, use the `up` command:
+关闭维护模式，请使用 Artisan 命令 `up`：
 
     php artisan up
 
-#### Maintenance Mode Response Template
+#### 维护模式的响应模板
 
-The default template for maintenance mode responses is located in `resources/views/errors/503.blade.php`. You are free to modify this view as needed for your application.
+维护模式的默认模板放在 `resources/views/errors/503.blade.php`。
 
-#### Maintenance Mode & Queues
+#### 维护模式与队列
 
-While your application is in maintenance mode, no [queued jobs](/docs/{{version}}/queues) will be handled. The jobs will continue to be handled as normal once the application is out of maintenance mode.
+当应用程序处于维护模式中时，将不会处理任何 [队列工作](/docs/{{version}}/queues)。所有的队列工作将会在应用程序离开维护模式后被继续运行。
 
-#### Alternatives To Maintenance Mode
+#### 维护模式的替代方案
 
-Since maintenance mode requires your application to have several seconds of downtime, you may consider alternatives like [Envoyer](https://envoyer.io) to accomplish zero-downtime deployment with Laravel.
+维护模式有几秒钟的服务器不可用时间，如果你想做到平滑迁移的话，推荐使用 [Envoyer](https://envoyer.io) 服务。
+
