@@ -1,41 +1,28 @@
-# Testing
+# 测试
 
-- [Introduction](#introduction)
-- [Application Testing](#application-testing)
-    - [Interacting With Your Application](#interacting-with-your-application)
-    - [Testing JSON APIs](#testing-json-apis)
-    - [Sessions / Authentication](#sessions-and-authentication)
-    - [Disabling Middleware](#disabling-middleware)
-    - [Custom HTTP Requests](#custom-http-requests)
-    - [PHPUnit Assertions](#phpunit-assertions)
-- [Working With Databases](#working-with-databases)
-    - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
-    - [Model Factories](#model-factories)
-- [Mocking](#mocking)
-    - [Mocking Events](#mocking-events)
-    - [Mocking Jobs](#mocking-jobs)
-    - [Mocking Facades](#mocking-facades)
+- [简介](#introduction)
+- [测试应用程序](#application-testing)
+    - [与你的应用程序进行交互](#interacting-with-your-application)
+    - [测试 JSON APIs](#testing-json-apis)
+    - [Sessions 和认证](#sessions-and-authentication)
+    - [停用中间件](#disabling-middleware)
+    - [自定义 HTTP 请求](#custom-http-requests)
+    - [PHPUnit 断言](#phpunit-assertions)
+- [使用数据库](#working-with-databases)
+    - [每次测试结束后重置数据库](#resetting-the-database-after-each-test)
+    - [模型工厂](#model-factories)
+- [模拟](#mocking)
+    - [模拟事件](#mocking-events)
+    - [模拟任务](#mocking-jobs)
+    - [模拟 Facades](#mocking-facades)
 
-<a name="introduction"></a>
-## Introduction
+### 定义并运行测试
 
-Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box, and a `phpunit.xml` file is already setup for your application. The framework also ships with convenient helper methods allowing you to expressively test your applications.
-
-An `ExampleTest.php` file is provided in the `tests` directory. After installing a new Laravel application, simply run `phpunit` on the command line to run your tests.
-
-### Test Environment
-
-When running tests, Laravel will automatically set the configuration environment to `testing`. Laravel automatically configures the session and cache to the `array` driver while testing, meaning no session or cache data will be persisted while testing.
-
-You are free to create other testing environment configurations as necessary. The `testing` environment variables may be configured in the `phpunit.xml` file, but make sure to clear your configuration cache using the `config:clear` Artisan command before running your tests!
-
-### Defining & Running Tests
-
-To create a new test case, use the `make:test` Artisan command:
+要创建一个测试案例，可使用 `make:test` Artisan 命令：
 
     php artisan make:test UserTest
 
-This command will place a new `UserTest` class within your `tests` directory. You may then define test methods as you normally would using PHPUnit. To run your tests, simply execute the `phpunit` command from your terminal:
+此命令会放置一个新的 `UserTest` 类至你的 `tests` 目录。接着就可以像平常使用 PHPUnit 一样来定义测试方法。要运行测试只需要在命令行上运行 `phpunit` 命令即可：
 
     <?php
 
@@ -46,7 +33,7 @@ This command will place a new `UserTest` class within your `tests` directory. Yo
     class UserTest extends TestCase
     {
         /**
-         * A basic test example.
+         * 一个基本的测试样例。
          *
          * @return void
          */
@@ -56,12 +43,12 @@ This command will place a new `UserTest` class within your `tests` directory. Yo
         }
     }
 
-> **Note:** If you define your own `setUp` method within a test class, be sure to call `parent::setUp`.
+> **注意：** 如果要在你的类自定义自己的 `setUp` 方法，请确保调用了 `parent::setUp`。
 
 <a name="application-testing"></a>
-## Application Testing
+## 测试应用程序
 
-Laravel provides a very fluent API for making HTTP requests to your application, examining the output, and even filling out forms. For example, take a look at the `ExampleTest.php` file included in your `tests` directory:
+Laravel 为 HTTP 请求的生成和发送操作、输出的检查，甚至表单的填写都提供了非常流利的 API。 举例来说，你可以看看 `tests` 目录中的 `ExampleTest.php` 文件：
 
     <?php
 
@@ -71,7 +58,7 @@ Laravel provides a very fluent API for making HTTP requests to your application,
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试样例。
          *
          * @return void
          */
@@ -83,20 +70,20 @@ Laravel provides a very fluent API for making HTTP requests to your application,
         }
     }
 
-The `visit` method makes a `GET` request into the application. The `see` method asserts that we should see the given text in the response returned by the application. The `dontSee` method asserts that the given text is not returned in the application response. This is the most basic application test available in Laravel.
+`visit` 方法会创建一个 `GET` 请求，`see` 方法则断言在返回的响应中会有指定的文本，`dontSee` 方法断言在返回的响应中不会有指定的文本。这是 Laravel 所提供的最基本的应用程序测试。
 
 <a name="interacting-with-your-application"></a>
-### Interacting With Your Application
+### 与你的应用程序进行交互
 
-Of course, you can do much more than simply assert that text appears in a given response. Let's take a look at some examples of clicking links and filling out forms:
+当然，除了断言文本是否存在于一个指定的响应中，你还可以做更多的交互。让我们来看看点击链接及填写表单的例子：
 
-#### Clicking Links
+#### 点击链接
 
-In this test, we will make a request to the application, "click" a link in the returned response, and then assert that we landed on a given URI. For example, let's assume there is a link in our response that has a text value of "About Us":
+在这个测试中，我们会生成一个请求并「点击」返回响应中的链接，接着断言我们会停留在指定的 URI 上。举个例子，假设在响应中有个链接，并写着「About Us」：
 
     <a href="/about-us">About Us</a>
 
-Now, let's write a test that clicks the link and asserts the user lands on the correct page:
+现在，我们编写一个测试，点击链接并断言用户会停留在正确的页面：
 
     public function testBasicExample()
     {
@@ -105,12 +92,12 @@ Now, let's write a test that clicks the link and asserts the user lands on the c
              ->seePageIs('/about-us');
     }
 
-#### Working With Forms
+#### 使用表单
 
-Laravel also provides several methods for testing forms. The `type`, `select`, `check`, `attach`, and `press` methods allow you to interact with all of your form's inputs. For example, let's imagine this form exists on the application's registration page:
+Laravel 还提供了几种用于测试表单的方法。通过 `type`、`select`、`check`、`attach` 及 `press` 方法让你与表单的所有输入框进行交互。举个例子，让我们想像一下有个在应用程序注册页面的表单：
 
     <form action="/register" method="POST">
-        {{ csrf_field() }}
+        {!! csrf_field() !!}
 
         <div>
             Name: <input type="text" name="name">
@@ -125,7 +112,7 @@ Laravel also provides several methods for testing forms. The `type`, `select`, `
         </div>
     </form>
 
-We can write a test to complete this form and inspect the result:
+我们可以编写一个测试来填写此表单，并检查结果：
 
     public function testNewUserRegistration()
     {
@@ -136,9 +123,9 @@ We can write a test to complete this form and inspect the result:
              ->seePageIs('/dashboard');
     }
 
-Of course, if your form contains other inputs such as radio buttons or drop-down boxes, you may easily fill out those types of fields as well. Here is a list of each form manipulation method:
+当然，如果你的表单中包含了类似单选框或下拉式菜单的其它输入框，也可以很轻松的填入这些类型的区域。以下是每个表单的方法操作列表：
 
-Method  | Description
+方法  | 说明
 ------------- | -------------
 `$this->type($text, $elementName)`  |  "Type" text into a given field.
 `$this->select($value, $elementName)`  |  "Select" a radio button or drop-down field.
@@ -147,61 +134,60 @@ Method  | Description
 `$this->attach($pathToFile, $elementName)`  |  "Attach" a file to the form.
 `$this->press($buttonTextOrElementName)`  |  "Press" a button with the given text or name.
 
-#### Working With Attachments
+#### 使用附件
 
-If your form contains `file` input types, you may attach files to the form using the `attach` method:
+如果你的表单包含 `file` 的输入框类型，则可以使用 `attach` 方法来附加文件：
 
     public function testPhotoCanBeUploaded()
     {
         $this->visit('/upload')
-             ->type('File Name', 'name')
+             ->name('File Name', 'name')
              ->attach($absolutePathToFile, 'photo')
              ->press('Upload')
              ->see('Upload Successful!');
     }
 
 <a name="testing-json-apis"></a>
-### Testing JSON APIs
+### 测试 JSON APIs
 
-Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `get`, `post`, `put`, `patch`, and `delete` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that a given array was returned in JSON format:
+Laravel 也提供了几个辅助函数来测试 JSON API 及其响应。举例来说，`get`、`post`、`put`、`patch` 及 `delete` 方法可以用于发出各种 HTTP 动作的请求。你也可以轻松的传入数据或标头到这些方法上。首先，让我们来编写一个测试，将 `POST` 请求发送至 `/user` ，并断言其会返回 JSON 格式的指定数组：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
         public function testBasicExample()
         {
-            $this->json('POST', '/user', ['name' => 'Sally'])
+            $this->post('/user', ['name' => 'Sally'])
                  ->seeJson([
                      'created' => true,
                  ]);
         }
     }
 
-The `seeJson` method converts the given array into JSON, and then verifies that the JSON fragment occurs **anywhere** within the entire JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
+`seeJson` 方法会将传入的数组转换成 JSON，并验证该 JSON 片段是否存在于应用程序返回的 JSON 响应中的 **任何位置**。也就是说，即使有其它的属性存在于该 JSON 响应中，但是只要指定的片段存在，此测试便会通过。
 
-<a name="verify-exact-json-match"></a>
-#### Verify Exact JSON Match
+#### 验证完全匹配的 JSON
 
-If you would like to verify that the given array is an **exact** match for the JSON returned by the application, you should use the `seeJsonEquals` method:
+如果你想验证传入的数组是否与应用程序返回的 JSON **完全** 匹配，则可以使用 `seeJsonEquals` 方法：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
         public function testBasicExample()
         {
-            $this->json('POST', '/user', ['name' => 'Sally'])
+            $this->post('/user', ['name' => 'Sally'])
                  ->seeJsonEquals([
                      'created' => true,
                  ]);
@@ -209,16 +195,16 @@ If you would like to verify that the given array is an **exact** match for the J
     }
 
 <a name="verify-structural-json-match"></a>
-#### Verify Structural JSON Match
+#### 验证 JSON 的结构一致
 
-It is also possible to verify that a JSON response adheres to a specific structure. For this, you should use the `seeJsonStructure` method and pass it a list of (nested) keys:
+你可以使用 `seeJsonStructure` 来验证 JSON 结构是否一致：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
@@ -234,22 +220,22 @@ It is also possible to verify that a JSON response adheres to a specific structu
         }
     }
 
-The above example illustrates an expectation of receiving a `name` and a nested `pet` object with its own `name` and `age`. `seeJsonStructure` will not fail if additional keys are present in the response. For example, the test would still pass if the `pet` had a `weight` attribute.
+需要注意的是如果验证数据里存在多余的字段，`seeJsonStructure` 不会报错。
 
-You may use the `*` to assert that the returned JSON structure has a list where each list item contains at least the attributes found in the set of values:
+你可以使用 `*` 来假设所有的列表内容都包含至少数组里面的内容：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
         public function testBasicExample()
         {
-            // Assert that each user in the list has at least an id, name and email attribute.
+            // 每一个列表里至少拥有 id, name 和 email 属性
             $this->get('/users')
                  ->seeJsonStructure([
                      '*' => [
@@ -259,7 +245,7 @@ You may use the `*` to assert that the returned JSON structure has a list where 
         }
     }
 
-You may also nest the `*` notation. In this case, we will assert that each user in the JSON response contains a given set of attributes and that each pet on each user also contains a given set of attributes:
+你也可以灵活的使用 `*` 做嵌套：
 
     $this->get('/users')
          ->seeJsonStructure([
@@ -273,9 +259,9 @@ You may also nest the `*` notation. In this case, we will assert that each user 
          ]);
 
 <a name="sessions-and-authentication"></a>
-### Sessions / Authentication
+### Sessions 和认证
 
-Laravel provides several helpers for working with the session during testing. First, you may set the session data to a given array using the `withSession` method. This is useful for loading the session with data before testing a request to your application:
+Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，你需要设置 Session 数据至指定的数组中，并使用 `withSession` 方法。在应用程序的测试请求发送之前，可先给数据加载 session：
 
     <?php
 
@@ -288,7 +274,7 @@ Laravel provides several helpers for working with the session during testing. Fi
         }
     }
 
-Of course, one common use of the session is for maintaining user state, such as the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](#model-factories) to generate and authenticate a user:
+当然，一般使用 Session 时都是用于维持用户的状态，如认证用户。`actingAs` 辅助函数提供了简单的方式来让指定的用户认证为当前的用户。举个例子，我们可以使用 [模型工厂](#model-factories) 来生成并认证用户：
 
     <?php
 
@@ -305,14 +291,14 @@ Of course, one common use of the session is for maintaining user state, such as 
         }
     }
 
-You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the `actingAs` method:
+你也可以使用 `actingAs` 来指定用户使用哪个 guard：
 
     $this->actingAs($user, 'backend')
 
 <a name="disabling-middleware"></a>
-### Disabling Middleware
+### 停用中间件
 
-When testing your application, you may find it convenient to disable [middleware](/docs/{{version}}/middleware) for some of your tests. This will allow you to test your routes and controller in isolation from any middleware concerns. Laravel includes a simple `WithoutMiddleware` trait that you can use to automatically disable all middleware for the test class:
+测试应用程序时，你会发现，在某些测试中停用 [中间件](/docs/{{version}}/middleware) 是很方便的。这让你可以隔离任何中间件的所有影响，以便更好的测试路由及控制器。Laravel 包含了一个简洁的 `WithoutMiddleware` trait，你能在测试类中使用它来自动停用所有的中间件：
 
     <?php
 
@@ -326,14 +312,14 @@ When testing your application, you may find it convenient to disable [middleware
         //
     }
 
-If you would like to only disable middleware for a few test methods, you may call the `withoutMiddleware` method from within the test methods:
+如果你只想要在某几个测试方法中停用中间件，则可以在测试方法中调用 `withoutMiddleware` 方法：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
@@ -347,9 +333,9 @@ If you would like to only disable middleware for a few test methods, you may cal
     }
 
 <a name="custom-http-requests"></a>
-### Custom HTTP Requests
+### 自定义 HTTP 请求
 
-If you would like to make a custom HTTP request into your application and get the full `Illuminate\Http\Response` object, you may use the `call` method:
+如果你想要创建一个自定义的 HTTP 请求到应用程序上，并获取完整的 `Illuminate\Http\Response` 对象，则可以使用 `call` 方法：
 
     public function testApplication()
     {
@@ -358,53 +344,53 @@ If you would like to make a custom HTTP request into your application and get th
         $this->assertEquals(200, $response->status());
     }
 
-If you are making `POST`, `PUT`, or `PATCH` requests you may pass an array of input data with the request. Of course, this data will be available in your routes and controller via the [Request instance](/docs/{{version}}/requests):
+如果你创建的是 `POST`、`PUT`、或是 `PATCH` 请求，则可以在请求时传入一个数组作为输入数据。当然，你也可以在路由及控制器中通过 [请求实例](/docs/{{version}}/requests) 取用这些数据：
 
        $response = $this->call('POST', '/user', ['name' => 'Taylor']);
 
 <a name="phpunit-assertions"></a>
-### PHPUnit Assertions
+### PHPUnit 断言
 
-Laravel provides several additional assertion methods for [PHPUnit](https://phpunit.de/) tests:
+Laravel 为 [PHPUnit](https://phpunit.de/) 测试提供了一些额外的断言方法：
 
-Method  | Description
+方法  | 描述
 ------------- | -------------
-`->assertResponseOk();`  |  Assert that the client response has an OK status code.
-`->assertResponseStatus($code);`  |  Assert that the client response has a given code.
-`->assertViewHas($key, $value = null);`  |  Assert that the response view has a given piece of bound data.
+`->assertResponseOk();`  |  断言客户端的响应拥有 OK 状态码。
+`->assertResponseStatus($code);`  | 断言客户端的响应拥有指定的状态码。
+`->assertViewHas($key, $value = null);`  |  断言响应视图拥有指定的部分绑定数据。
 `->assertViewHasAll(array $bindings);`  |  Assert that the view has a given list of bound data.
-`->assertViewMissing($key);`  |  Assert that the response view is missing a piece of bound data.
-`->assertRedirectedTo($uri, $with = []);`  |  Assert whether the client was redirected to a given URI.
-`->assertRedirectedToRoute($name, $parameters = [], $with = []);`  |  Assert whether the client was redirected to a given route.
-`->assertRedirectedToAction($name, $parameters = [], $with = []);`  |  Assert whether the client was redirected to a given action.
-`->assertSessionHas($key, $value = null);`  |  Assert that the session has a given value.
-`->assertSessionHasAll(array $bindings);`  |  Assert that the session has a given list of values.
-`->assertSessionHasErrors($bindings = [], $format = null);`  |  Assert that the session has errors bound.
-`->assertHasOldInput();`  |  Assert that the session has old input.
-`->assertSessionMissing($key);`  |  Assert that the session is missing a given key.
+`->assertViewMissing($key);`  |  断言响应视图拥有指定的绑定数据列表。
+`->assertRedirectedTo($uri, $with = []);`  |  断言客户端是否被重定向至指定的 URI。
+`->assertRedirectedToRoute($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向到指定的路由。
+`->assertRedirectedToAction($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向到指定的行为。
+`->assertSessionHas($key, $value = null);`  |  断言 session 中有指定的值。
+`->assertSessionHasAll(array $bindings);`  |  断言 session 中有指定的列表值。
+`->assertSessionHasErrors($bindings = [], $format = null);`  |  断言 session 有错误的绑定。
+`->assertHasOldInput();`  | 断言 session 有旧的输入数据。
+`->assertSessionMissing($key);`  | 断言 session 中没有指定的值。
 
 <a name="working-with-databases"></a>
-## Working With Databases
+## 使用数据库
 
-Laravel also provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `seeInDatabase` helper to assert that data exists in the database matching a given set of criteria. For example, if we would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, we can do the following:
+Laravel 也提供了多种有用的工具来让你更容易的测试使用数据库的应用程序。首先，你可以使用 `seeInDatabase` 辅助函数，来断言数据库中是否存在与指定条件互相匹配的数据。举例来说，如果我们想验证 `users` 数据表中是否存在 `email` 值为 `sally@example.com` 的数据，我们可以按照以下的方式来做测试：
 
     public function testDatabase()
     {
-        // Make call to application...
+        // 创建调用至应用程序...
 
         $this->seeInDatabase('users', ['email' => 'sally@example.com']);
     }
 
-Of course, the `seeInDatabase` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
+当然，使用 `seeInDatabase` 方法及其它的辅助函数只是为了方便。你也可以随意使用 PHPUnit 内置的所有断言方法来扩充测试。
 
 <a name="resetting-the-database-after-each-test"></a>
-### Resetting The Database After Each Test
+### 每次测试结束后重置数据库
 
-It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests.
+在每次测试结束后都需要对数据进行重置，这样前面的测试数据就不会干扰到后面的测试。
 
-#### Using Migrations
+#### 使用迁移
 
-One option is to rollback the database after each test and migrate it before the next test. Laravel provides a simple `DatabaseMigrations` trait that will automatically handle this for you. Simply use the trait on your test class:
+其中有一种方式就是在每次测试后都还原数据库，并在下次测试前运行迁移。Laravel 提供了简洁的 `DatabaseMigrations` trait，它会自动帮你处理好这些操作。你只需在测试类中使用此 trait 即可：
 
     <?php
 
@@ -417,7 +403,7 @@ One option is to rollback the database after each test and migrate it before the
         use DatabaseMigrations;
 
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
@@ -428,9 +414,9 @@ One option is to rollback the database after each test and migrate it before the
         }
     }
 
-#### Using Transactions
+#### 使用事务
 
-Another option is to wrap every test case in a database transaction. Again, Laravel provides a convenient `DatabaseTransactions` trait that will automatically handle this:
+另一个方式，就是将每个测试案例都包含在数据库事务中。Laravel 提供了一个简洁的 `DatabaseTransactions` trait 来自动帮你处理好这些操作：
 
     <?php
 
@@ -443,7 +429,7 @@ Another option is to wrap every test case in a database transaction. Again, Lara
         use DatabaseTransactions;
 
         /**
-         * A basic functional test example.
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
@@ -454,12 +440,12 @@ Another option is to wrap every test case in a database transaction. Again, Lara
         }
     }
 
-> **Note:** This trait will only wrap the default database connection in a transaction.
+> **注意：**此 trait 的事务只包含默认的数据库连接。
 
 <a name="model-factories"></a>
-### Model Factories
+### 模型工厂
 
-When testing, it is common to need to insert a few records into your database before executing your test. Instead of manually specifying the value of each column when you create this test data, Laravel allows you to define a default set of attributes for each of your [Eloquent models](/docs/{{version}}/eloquent) using "factories". To get started, take a look at the `database/factories/ModelFactory.php` file in your application. Out of the box, this file contains one factory definition:
+测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/ModelFactory.php` 文件。此文件包含一个现成的工厂定义：
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         return [
@@ -470,13 +456,13 @@ When testing, it is common to need to insert a few records into your database be
         ];
     });
 
-Within the Closure, which serves as the factory definition, you may return the default test values of all attributes on the model. The Closure will receive an instance of the [Faker](https://github.com/fzaninotto/Faker) PHP library, which allows you to conveniently generate various kinds of random data for testing.
+闭包内为工厂的定义，你可以返回模型中所有属性的默认测试值。在该闭包内会接收到 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库的实例，它可以让你很方便的生成各种随机数据以进行测试。
 
-Of course, you are free to add your own additional factories to the `ModelFactory.php` file. You may also create additional factory files for each model for better organization. For example, you could create `UserFactory.php` and `CommentFactory.php` files within your `database/factories` directory.
+当然，你也可以随意将自己额外的工厂增加至 `ModelFactory.php` 文件。你也可以在 `database/factories` 里为每一个数据模型创建对应的工厂模型类，如 `UserFactory.php` 和 `CommentFactory.php`。
 
-#### Multiple Factory Types
+#### 多个工厂类型
 
-Sometimes you may wish to have multiple factories for the same Eloquent model class. For example, perhaps you would like to have a factory for "Administrator" users in addition to normal users. You may define these factories using the `defineAs` method:
+有时你可能希望针对同一个 Eloquent 模型类来创建多个工厂。例如，除了一般用户的工厂之外，还有「管理员」工厂。你可以使用 `defineAs` 方法来定义这个工厂：
 
     $factory->defineAs(App\User::class, 'admin', function ($faker) {
         return [
@@ -488,7 +474,7 @@ Sometimes you may wish to have multiple factories for the same Eloquent model cl
         ];
     });
 
-Instead of duplicating all of the attributes from your base user factory, you may use the `raw` method to retrieve the base attributes. Once you have the attributes, simply supplement them with any additional values you require:
+除了从一般用户工厂复制所有基本属性，你也可以使用 `raw` 方法来获取所有基本属性。一旦你获取到这些属性，就可以轻松的为其增加任何额外值：
 
     $factory->defineAs(App\User::class, 'admin', function ($faker) use ($factory) {
         $user = $factory->raw(App\User::class);
@@ -496,64 +482,64 @@ Instead of duplicating all of the attributes from your base user factory, you ma
         return array_merge($user, ['admin' => true]);
     });
 
-#### Using Factories In Tests
+#### 在测试中使用工厂
 
-Once you have defined your factories, you may use them in your tests or database seed files to generate model instances using the global `factory` function. So, let's take a look at a few examples of creating models. First, we'll use the `make` method, which creates models but does not save them to the database:
+在工厂定义后，就可以在测试或是数据库的填充文件中，通过全局的 `factory` 函数来生成模型实例。接着让我们先来看看几个创建模型的例子。首先我们会使用 `make` 方法创建模型，但不将它们保存至数据库：
 
     public function testDatabase()
     {
         $user = factory(App\User::class)->make();
 
-        // Use model in tests...
+        // 在测试中使用模型...
     }
 
-If you would like to override some of the default values of your models, you may pass an array of values to the `make` method. Only the specified values will be replaced while the rest of the values remain set to their default values as specified by the factory:
+如果你想重写模型中的某些默认值，则可以传递一个包含数值的数组至 `make` 方法。只有指定的数值会被替换，其它剩余的数值则会按照工厂指定的默认值来设置：
 
     $user = factory(App\User::class)->make([
         'name' => 'Abigail',
        ]);
 
-You may also create a Collection of many models or create models of a given type:
+你也可以创建一个含有多个模型的集合，或创建一个指定类型的模型：
 
-    // Create three App\User instances...
+    // 创建三个 App\User 实例...
     $users = factory(App\User::class, 3)->make();
 
-    // Create an App\User "admin" instance...
+    // 创建一个 App\User「管理员」实例...
     $user = factory(App\User::class, 'admin')->make();
 
-    // Create three App\User "admin" instances...
+    // 创建三个 App\User「管理员」实例...
     $users = factory(App\User::class, 'admin', 3)->make();
 
-#### Persisting Factory Models
+#### 保存工厂模型
 
-The `create` method not only creates the model instances, but also saves them to the database using Eloquent's `save` method:
+你不仅可使用 `create` 方法来创建模型实例，而且也可以使用 Eloquent 的 `save` 方法来将它们保存至数据库：
 
     public function testDatabase()
     {
         $user = factory(App\User::class)->create();
 
-        // Use model in tests...
+        // 在测试中使用模型...
     }
 
-Again, you may override attributes on the model by passing an array to the `create` method:
+同样的，你可以在数组传递至 `create` 方法时重写模型的属性：
 
     $user = factory(App\User::class)->create([
         'name' => 'Abigail',
        ]);
 
-#### Adding Relations To Models
+#### 增加关联至模型
 
-You may even persist multiple models to the database. In this example, we'll even attach a relation to the created models. When using the `create` method to create multiple models, an Eloquent [collection instance](/docs/{{version}}/eloquent-collections) is returned, allowing you to use any of the convenient functions provided by the collection, such as `each`:
+你甚至可以保存多个模型到数据库上。在本例中，我们还会增加关联至我们所创建的模型。当使用 `create` 方法创建多个模型时，它会返回一个 Eloquent [集合实例](/docs/{{version}}/eloquent-collections)，让你能够使用集合所提供的便利函数，像是 `each`：
 
     $users = factory(App\User::class, 3)
                ->create()
-               ->each(function ($u) {
+               ->each(function($u) {
                     $u->posts()->save(factory(App\Post::class)->make());
                 });
 
-#### Relations & Attribute Closures
+#### 关联和属性闭包
 
-You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
+你可以使用闭包参数来创建模型关联。例如如果你想在创建一个 `Post` 的顺便创建一个 `User` 实例：
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -565,7 +551,7 @@ You may also attach relationships to models using Closure attributes in your fac
         ];
     });
 
-These Closures also receive the evaluated attribute array of the factory that contains them:
+这些闭包也可以获取到生成的工厂包含的属性数组：
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -581,14 +567,14 @@ These Closures also receive the evaluated attribute array of the factory that co
     });
 
 <a name="mocking"></a>
-## Mocking
+## 模拟
 
 <a name="mocking-events"></a>
-### Mocking Events
+### 模拟事件
 
-If you are making heavy use of Laravel's event system, you may wish to silence or mock certain events while testing. For example, if you are testing user registration, you probably do not want all of a `UserRegistered` event's handlers firing, since these may send "welcome" e-mails, etc.
+如果你正在频繁地使用 Laravel 的事件系统，你可能希望在测试时停止或是模拟某些事件。举例来说，如果你正在测试用户注册功能，你可能不希望所有 `UserRegistered` 事件的处理进程都被运行，因为它们会触发「欢迎」邮件的发送。
 
-Laravel provides a convenient `expectsEvents` method that verifies the expected events are fired, but prevents any handlers for those events from running:
+Laravel 提供了简洁的 `expectsEvents` 方法，以验证预期的事件有被运行，可防止该事件的任何处理进程被运行：
 
     <?php
 
@@ -602,7 +588,7 @@ Laravel provides a convenient `expectsEvents` method that verifies the expected 
         }
     }
 
-You may use the `doesntExpectEvents` method to verify that the given events are **not** fired:
+你可以使用 `doesntExpectEvents` 来验证某个事件 **没被** 触发：
 
     <?php
 
@@ -614,11 +600,11 @@ You may use the `doesntExpectEvents` method to verify that the given events are 
 
             $this->doesntExpectEvents(App\Events\PaymentWasDeclined::class);
 
-            // Test purchasing podcast...
+            // 测试购买博客
         }
     }
 
-If you would like to prevent all event handlers from running, you may use the `withoutEvents` method:
+如果你希望防止所有事件的处理进程被运行，则可以使用 `withoutEvents` 方法：
 
     <?php
 
@@ -628,16 +614,16 @@ If you would like to prevent all event handlers from running, you may use the `w
         {
             $this->withoutEvents();
 
-            // Test user registration code...
+            // 测试用户注册的代码...
         }
     }
 
 <a name="mocking-jobs"></a>
-### Mocking Jobs
+### 模拟任务
 
-Sometimes, you may wish to simply test that specific jobs are dispatched by your controllers when making requests to your application. This allows you to test your routes / controllers in isolation - set apart from your job's logic. Of course, you can then test the job itself in a separate test class.
+有时你可能希望当请求发送至应用程序时，简单的对控制器所派送的任务进行测试。这么做能够让你隔离测试路由或控制器，设置除了任务以外的逻辑。当然，在此之后你也可以在一个单独的测试案例中来测试该任务。
 
-Laravel provides a convenient `expectsJobs` method that will verify that the expected jobs are dispatched, but the job itself will not be executed:
+Laravel 提供了一个简洁的 `expectsJobs` 方法，以验证预期的任务有被派送，但任务本身不会被运行：
 
     <?php
 
@@ -647,27 +633,28 @@ Laravel provides a convenient `expectsJobs` method that will verify that the exp
         {
             $this->expectsJobs(App\Jobs\PurchasePodcast::class);
 
-            // Test purchase podcast code...
+            // 测试购买 podcast 的代码...
         }
     }
 
-> **Note:** This method only detects jobs that are dispatched via the `DispatchesJobs` trait's dispatch methods or the `dispatch` helper function. It does not detect jobs that are sent directly to `Queue::push`.
+> **注意：** 此方法只检测 `DispatchesJobs` trait 的派送方法所派送出的任务。它并不会检测直接发送到 `Queue::push` 的任务。
 
 <a name="mocking-facades"></a>
-### Mocking Facades
+### 模拟 Facades
 
-When testing, you may often want to mock a call to a Laravel [facade](/docs/{{version}}/facades). For example, consider the following controller action:
+测试时，你可能时常需要模拟调用一个 Laravel [facade](/docs/{{version}}/facades)。可参考下方的控制器行为：
 
     <?php
 
     namespace App\Http\Controllers;
 
     use Cache;
+    use Illuminate\Routing\Controller;
 
     class UserController extends Controller
     {
         /**
-         * Show a list of all users of the application.
+         * 显示应用程序所有用户的列表。
          *
          * @return Response
          */
@@ -679,7 +666,7 @@ When testing, you may often want to mock a call to a Laravel [facade](/docs/{{ve
         }
     }
 
-We can mock the call to the `Cache` facade by using the `shouldReceive` method, which will return an instance of a [Mockery](https://github.com/padraic/mockery) mock. Since facades are actually resolved and managed by the Laravel [service container](/docs/{{version}}/container), they have much more testability than a typical static class. For example, let's mock our call to the `Cache` facade:
+我们可以通过 `shouldReceive` 方法模拟调用 `Cache` facade，它会返回一个 [Mockery](https://github.com/padraic/mockery) 模拟的实例。因为 facades 实际上已经被 Laravel 的 [服务容器](/docs/{{version}}/container) 解决并管理着，它们比起一般的静态类更有可测性。举个例子，让我们来模拟调用 `Cache` facade：
 
     <?php
 
@@ -696,4 +683,6 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
         }
     }
 
-> **Note:** You should not mock the `Request` facade. Instead, pass the input you desire into the HTTP helper methods such as `call` and `post` when running your test.
+> **注意：** 你不应该模拟 `Request` facade。应该在测试时使用如 `call` 及 `post` 这样的 HTTP 辅助函数来传递你想要的数据。
+
+
