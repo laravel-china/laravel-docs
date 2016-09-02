@@ -42,7 +42,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 一旦安装完成，就可以使用 `laravel new` 命令在指定目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
 
     laravel new blog
-    
+
 因为代码依赖是直接一起打包安装的。
 
 #### 通过 Composer Create-Project
@@ -75,7 +75,7 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
 #### 其它设置
 
-Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你先浏览 `config/app.php` 文件和对应的文档，这里面包含着一些选项，如`时区`和`语言环境`，你可以根据应用程序的情况来修改。
+Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你先浏览 `config/app.php` 文件和对应的文档，这里面包含着一些选项，如 `时区` 和 `语言环境`，你可以根据应用程序的情况来修改。
 
 你也可以设置 Laravel 的几个附加组件，像是：
 

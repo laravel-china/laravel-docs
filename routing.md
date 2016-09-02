@@ -156,7 +156,7 @@
 还可以指定路由名称到控制器动作：
 
     Route::get('user/profile', [
-        'as' => 'profile', 
+        'as' => 'profile',
         'uses' => 'UserController@showProfile'
     ]);
 
