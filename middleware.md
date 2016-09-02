@@ -53,7 +53,7 @@ Laravel 框架已经内置了一些中间件，包括维护、身份验证、CSR
 
     }
 
-如你所见，若是 age 小于 200，中间件将会返回 HTTP 重定位给用户端，否则，请求将会进一步传递到应用程序。只需调用带有 `$request` 的 `$next` 方法，即可将请求传递到更深层的应用程序（相当于允许通过中间件）。
+如你所见，若是 age 小于 200，中间件将会返回 HTTP 重定向给用户端，否则，请求将会进一步传递到应用程序。只需调用带有 `$request` 的 `$next` 方法，即可将请求传递到更深层的应用程序（相当于允许通过中间件）。
 
 HTTP 请求在实际碰触到应用程序之前，最好是可以层层通过中间件。每一层都可以对请求进行检查，甚至完全拒绝请求。
 
@@ -103,10 +103,12 @@ HTTP 请求在实际碰触到应用程序之前，最好是可以层层通过中
 <a name="registering-middleware"></a>
 ## 注册中间件
 
+<a name="global-middleware"></a>
 ### 全局中间件
 
 若是希望每个 HTTP 请求都经过一个中间件，只要将中间件的类加入到 `app/Http/Kernel.php` 的 `$middleware` 属性清单列表中。
 
+<a name="assigning-middleware-to-routes"></a>
 ### 为路由指派中间件
 
 如果你要指派中间件给特定路由，你得先在 `app/Http/Kernel.php` 给中间件设置一个好记的 `键`，默认情况下，这个文件内的 `$routeMiddleware` 属性已包含了 Laravel 目前设置的中间件，你只需要在清单列表中加上一组自定义的键即可。
@@ -207,7 +209,7 @@ Laravel 自带了开箱即用的 `web` 和 `api` 两个中间件组以包含可�
         public function handle($request, Closure $next, $role)
         {
             if (! $request->user()->hasRole($role)) {
-                // Redirect...
+                // 重定向...
             }
 
             return $next($request);
