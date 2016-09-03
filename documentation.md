@@ -2,14 +2,14 @@
     - [翻译说明](/docs/{{version}}/about)
     - [发行说明](/docs/{{version}}/releases)
     - [升级说明](/docs/{{version}}/upgrade)
-    - [贡献指南](/docs/{{version}}/contributions)
+    - [贡献导引](/docs/{{version}}/contributions)
     - [API 文档](/api/{{version}})
-- 快速上手
+- 入门指南
     - [安装](/docs/{{version}}/installation)
-    - [配置](/docs/{{version}}/configuration)
-    - [目录结构](/docs/{{version}}/structure)
-    - [错误和日志](/docs/{{version}}/errors)
-- 开发环境
+    - [配置信息](/docs/{{version}}/configuration)
+    - [文件夹结构](/docs/{{version}}/structure)
+    - [错误与日志](/docs/{{version}}/errors)
+- 开发环境部署
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
 - 核心概念
@@ -17,7 +17,7 @@
     - [服务提供者](/docs/{{version}}/providers)
     - [Facades](/docs/{{version}}/facades)
     - [Contracts](/docs/{{version}}/contracts)
-- HTTP 传输层
+- HTTP 层
     - [路由](/docs/{{version}}/routing)
     - [中间件](/docs/{{version}}/middleware)
     - [CSRF 保护](/docs/{{version}}/csrf)
@@ -25,57 +25,57 @@
     - [请求](/docs/{{version}}/requests)
     - [响应](/docs/{{version}}/responses)
     - [Session](/docs/{{version}}/session)
-    - [数据验证](/docs/{{version}}/validation)
+    - [表单验证](/docs/{{version}}/validation)
 - 视图和模板
     - [视图](/docs/{{version}}/views)
     - [Blade 模板](/docs/{{version}}/blade)
-    - [国际化](/docs/{{version}}/localization)
-- JavaScript 和 CSS
-    - [快速上手](/docs/{{version}}/frontend)
+    - [本地化](/docs/{{version}}/localization)
+- JavaScript 与 CSS
+    - [入门指南](/docs/{{version}}/frontend)
     - [Elixir](/docs/{{version}}/elixir)
 - 安全
     - [用户认证](/docs/{{version}}/authentication)
     - [用户授权](/docs/{{version}}/authorization)
-    - [密码重置](/docs/{{version}}/passwords)
+    - [重置密码](/docs/{{version}}/passwords)
     - [API 认证](/docs/{{version}}/passport)
     - [加密解密](/docs/{{version}}/encryption)
     - [哈希](/docs/{{version}}/hashing)
-- 通用话题
-    - [广播](/docs/{{version}}/broadcasting)
-    - [缓存](/docs/{{version}}/cache)
-    - [事件](/docs/{{version}}/events)
+- 综合话题
+    - [广播系统](/docs/{{version}}/broadcasting)
+    - [缓存系统](/docs/{{version}}/cache)
+    - [事件系统](/docs/{{version}}/events)
     - [文件存储](/docs/{{version}}/filesystem)
-    - [邮件](/docs/{{version}}/mail)
+    - [邮件发送](/docs/{{version}}/mail)
     - [消息通知](/docs/{{version}}/notifications)
     - [队列](/docs/{{version}}/queues)
 - 数据库
-    - [数据库入门](/docs/{{version}}/database)
+    - [快速入门](/docs/{{version}}/database)
     - [查询构造器](/docs/{{version}}/queries)
     - [分页](/docs/{{version}}/pagination)
     - [数据库迁移](/docs/{{version}}/migrations)
     - [数据填充](/docs/{{version}}/seeding)
     - [Redis](/docs/{{version}}/redis)
 - Eloquent ORM
-    - [Eloquent 入门](/docs/{{version}}/eloquent)
+    - [快速入门](/docs/{{version}}/eloquent)
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
     - [Getter/Setter](/docs/{{version}}/eloquent-mutators)
     - [序列化](/docs/{{version}}/eloquent-serialization)
-- Artisan 命令
-    - [命令列表](/docs/{{version}}/artisan)
-    - [计划任务](/docs/{{version}}/scheduling)
+- Artisan 控制台
+    - [Artisan 命令行](/docs/{{version}}/artisan)
+    - [任务调度](/docs/{{version}}/scheduling)
 - 测试
-    - [测试入门](/docs/{{version}}/testing)
+    - [快速入门](/docs/{{version}}/testing)
     - [应用程序测试](/docs/{{version}}/application-testing)
-    - [数据库测试](/docs/{{version}}/database-testing)
-    - [Mocking](/docs/{{version}}/mocking)
+    - [数据库](/docs/{{version}}/database-testing)
+    - [Mocking 取模](/docs/{{version}}/mocking)
 - 官方扩展包
-    - [Cashier 交易](/docs/{{version}}/billing)
-    - [Envoy 部署](/docs/{{version}}/envoy)
-    - [Passport 认证](/docs/{{version}}/passport)
-    - [Scout 搜索](/docs/{{version}}/scout)
-    - [Socialite 第三方登录](https://github.com/laravel/socialite)
+    - [Cashier 交易工具包](/docs/{{version}}/billing)
+    - [Envoy 部署工具](/docs/{{version}}/envoy)
+    - [Passport OAuth 认证](/docs/{{version}}/passport)
+    - [Scout 全文搜索](/docs/{{version}}/scout)
+    - [Socialite 社会化登录](https://github.com/laravel/socialite)
 - 附录
     - [集合](/docs/{{version}}/collections)
-    - [辅助方法](/docs/{{version}}/helpers)
+    - [辅助函数](/docs/{{version}}/helpers)
     - [扩展包开发](/docs/{{version}}/packages)
