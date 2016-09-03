@@ -1,4 +1,5 @@
 - 前言
+    - [翻译说明](/docs/{{version}}/about)
     - [发行说明](/docs/{{version}}/releases)
     - [升级说明](/docs/{{version}}/upgrade)
     - [贡献导引](/docs/{{version}}/contributions)
