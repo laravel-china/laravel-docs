@@ -1,17 +1,17 @@
-# Errors & Logging
+# 错误与日志
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    - [Error Detail](#error-detail)
+- [简介](#introduction)
+- [设置](#configuration)
+    - [错误细节](#error-detail)
     - [Log Storage](#log-storage)
     - [Log Severity Levels](#log-severity-levels)
     - [Custom Monolog Configuration](#custom-monolog-configuration)
-- [The Exception Handler](#the-exception-handler)
-    - [Report Method](#report-method)
-    - [Render Method](#render-method)
-- [HTTP Exceptions](#http-exceptions)
-    - [Custom HTTP Error Pages](#custom-http-error-pages)
-- [Logging](#logging)
+- [错误处理](#the-exception-handler)
+    - [报告方法](#report-method)
+    - [呈现方法](#render-method)
+- [HTTP 异常](#http-exceptions)
+    - [自定义 HTTP 错误页面](#custom-http-error-pages)
+- [日志](#logging)
 
 <a name="introduction"></a>
 ## Introduction
@@ -21,30 +21,30 @@ When you start a new Laravel project, error and exception handling is already co
 For logging, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel configures several of these handlers for you, allowing you to choose between a single log file, rotating log files, or writing error information to the system log.
 
 <a name="configuration"></a>
-## Configuration
+## 设置
 
 <a name="error-detail"></a>
-### Error Detail
+#### 错误细节
 
-The `debug` option in your `config/app.php` configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the `APP_DEBUG` environment variable, which is stored in your `.env` file.
+你的应用程序通过 `config/app.php` 配置文件中的 `debug` 设置选项来控制浏览器对错误的细节显示。默认情况下，此设置选项是参照于保存在 `.env` 文件的 `APP_DEBUG` 环境变量。
 
-For local development, you should set the `APP_DEBUG` environment variable to `true`. In your production environment, this value should always be `false`. If the value is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.
+在开发的时候，你应该将 `APP_DEBUG` 环境变量设置为 `true`。在你的上线环境中，这个值应该永远为 `false`。 If the value is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.
 
 <a name="log-storage"></a>
-### Log Storage
+### 日志存储
 
-Out of the box, Laravel supports writing log information to `single` files, `daily` files, the `syslog`, and the `errorlog`. To configure which storage mechanism Laravel uses, you should modify the `log` option in your `config/app.php` configuration file. For example, if you wish to use daily log files instead of a single file, you should set the `log` value in your `app` configuration file to `daily`:
+Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` 日志模式。例如，如果你想要每天保存一个日志文件，而不是单个文件，则可以在 `config/app.php` 配置文件内设置 `log` 变量：
 
     'log' => 'daily'
 
-#### Maximum Daily Log Files
+#### 日志保存天数限制
 
-When using the `daily` log mode, Laravel will only retain five days of log files by default. If you want to adjust the number of retained files, you may add a `log_max_files` configuration value to your `app` configuration file:
+当使用「日志模式」时，默认情况下会保存 5 天的日志，你可通过 `app.php` 配置文件里的配置项 `log_max_files` 来定制日志保存天数：
 
     'log_max_files' => 30
 
 <a name="log-severity-levels"></a>
-### Log Severity Levels
+### 日志记录级别
 
 When using Monolog, log messages may have different levels of severity. By default, Laravel writes all log levels to storage. However, in your production environment, you may wish to configure the minimum severity that should be logged by adding the `log_level` option to your `app.php` configuration file.
 
@@ -55,9 +55,9 @@ Once this option has been configured, Laravel will log all levels greater than o
 > {tip} Monolog recognizes the following severity levels - from least severe to most severe: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency`.
 
 <a name="custom-monolog-configuration"></a>
-### Custom Monolog Configuration
+### 自定义 Monolog 设置
 
-If you would like to have complete control over how Monolog is configured for your application, you may use the application's `configureMonologUsing` method. You should place a call to this method in your `bootstrap/app.php` file right before the `$app` variable is returned by the file:
+如果你想要完全控制 Monolog，则使用应用程序的 `configureMonologUsing` 方法。此方法应该在 `bootstrap/app.php` 文件返回 `$app` 变量之前被调用：
 
     $app->configureMonologUsing(function($monolog) {
         $monolog->pushHandler(...);
