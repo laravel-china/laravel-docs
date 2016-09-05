@@ -3,7 +3,7 @@
 - [基础介绍](#introduction)
 - [获取设置值](#accessing-configuration-values)
 - [环境配置](#environment-configuration)
-    - [获取目前应用程序的环境](#determining-the-current-environment)
+    - [判定目前使用的环境](#determining-the-current-environment)
 - [缓存配置信息](#configuration-caching)
 - [维护模式](#maintenance-mode)
 
@@ -41,7 +41,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 不妨将 `.env.example` 文件放进你的应用程序，通过样本配置文件里的预设值，团队中的其他开发人员就可以清楚地知道，在运行你的应用程序时有哪些环境变量是必须有的。
 
 <a name="determining-the-current-environment"></a>
-### 获取目前应用程序的环境
+### 判定目前使用的环境
 
 应用程序的当前环境是由 `.env` 文件中的 `APP_ENV` 变量所决定的。你可以通过 `App` [facade](/docs/{{version}}/facades) 的 `environment` 方法来获取该值：
 
@@ -50,11 +50,11 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 你也可以传递参数至 `environment` 方法来确认当前环境是否与参数相符合：
 
     if (App::environment('local')) {
-        // The environment is local
+        // 当前正处于本地开发环境
     }
 
     if (App::environment('local', 'staging')) {
-        // The environment is either local OR staging...
+        // 当前环境处于 `local` 或者 `staging`
     }
 
 也可通过 `app` 辅助函数获取应用程序实例：
@@ -68,7 +68,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在开发时运行，因为设置选项会在开发时经常变动。
 
-> 译者注：想知道更多 Laravel 程序调优的技巧？请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
+> 译者注：更多 Laravel 程序调优技巧请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 
 <a name="maintenance-mode"></a>
 ## 维护模式

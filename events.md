@@ -13,6 +13,7 @@
     - [自定义事件广播](#event-broadcasting-customizations)
     - [消耗事件广播](#consuming-event-broadcasts)
 - [事件订阅器](#event-subscribers)
+
 ## 简介
 
 Laravel 事件提供了简单的侦听器实现，允许你订阅和监听事件，事件类通常被保存在 `app/Events` 目录下，而它们的侦听器被保存在 `app/Listeners` 目录下。
