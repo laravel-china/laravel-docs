@@ -4,7 +4,7 @@
 - [何时使用 Facades](#when-to-use-facades)
     - [Facades 对比依赖注入](#facades-vs-dependency-injection)
     - [Facades 对比辅助函数](#facades-vs-helper-functions)
-- [Facades 如何工作](#how-facades-work)
+- [Facades 工作原理](#how-facades-work)
 - [Facade 类参考](#facade-class-reference)
 
 <a name="introduction"></a>
@@ -97,7 +97,7 @@ Facade 和辅助函数其实没有本质区别，当使用辅助函数时，你�
     }
 
 <a name="how-facades-work"></a>
-## Facades 如何工作
+## Facades 工作原理
 
 在 Laravel 应用中，一个 facade 其实就是一个提供访问容器中对象功能的类。其中最核心的部件就是 `Facade` 类。不管是 Laravel 自带的，还是用户自定义的 Facades，都是继承了 `Illuminate\Support\Facades\Facade` 这个类。
 
@@ -149,7 +149,7 @@ Facade 和辅助函数其实没有本质区别，当使用辅助函数时，你�
 
 Facade  |  Class  |  Service Container Binding
 ------------- | ------------- | -------------
-App  |  [Illuminate\Foundation\Application](http://laravel.com/api/{{version}}/Illuminate/Foundationon/Application.html)  | `app`
+App  |  [Illuminate\Foundation\Application](http://laravel.com/api/{{version}}/Illuminate/Foundation/Application.html)  | `app`
 Artisan  |  [Illuminate\Contracts\Console\Kernel](http://laravel.com/api/{{version}}/Illuminate/Contracts/Console/Kernel.html)  |  `artisan`
 Auth  |  [Illuminate\Auth\AuthManager](http://laravel.com/api/{{version}}/Illuminate/Auth/AuthManager.html)  |  `auth`
 Blade  |  [Illuminate\View\Compilers\BladeCompiler](http://laravel.com/api/{{version}}/Illuminate/View/Compilers/BladeCompiler.html)  |  `blade.compiler`
