@@ -246,7 +246,7 @@ Laravel 会自动解析定义在路由或控制器动作（变量名匹配路由
     });
 
 <a name="form-method-spoofing"></a>
-## 表单方法伪造
+## 模拟 HTTP 请求方法
 
 HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 表单中调用被定义的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。 `_method` 字段送出的值将被作为 HTTP 的请求方法使用：
 
