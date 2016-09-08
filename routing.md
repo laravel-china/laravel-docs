@@ -13,7 +13,7 @@
 - [路由模型绑定](#route-model-binding)
     - [隐式绑定](#implicit-binding)
     - [显式绑定](#explicit-binding)
-- [跨站请求伪造](#form-method-spoofing)
+- [模拟 HTTP 请求方法](#form-method-spoofing)
 - [获取当前路由信息](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
