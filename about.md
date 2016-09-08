@@ -169,6 +169,7 @@
 - Session (不翻)
 - Seed 数据填充
 - Scheduler 计划器
+- Scout (不翻)
 
 ### T
 
