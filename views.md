@@ -32,7 +32,7 @@
 
 #### 判断视图文件是否存在
 
-如果需要测试一个视图文件是否存在，你可以使用视图（`View`） Facade 上的 `exists` 方法来判定，如果测试的视图文件存在，则返回值为 `true` .
+如果需要测试一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果测试的视图文件存在，则返回值为 `true` .
 
     use Illuminate\Support\Facades\View;
 
@@ -54,7 +54,7 @@
 <a name="sharing-data-with-all-views"></a>
 #### 把数据共享给所有视图
 
-有时候可能需要共享特定的数据给应用程序中所有的视图，那这时候你需要视图 Facade 的 `share` 方法。通常需要将所有 `share` 方法的调用代码放到 [服务提供者](/docs/{{version}}/providers) 的 `boot` 方法中，此时你可以选择使用 `AppServiceProvider` 或创建独立的 [服务提供者](/docs/{{version}}/providers) 。示例代码如下：
+有时候可能需要共享特定的数据给应用程序中所有的视图，那这时候你需要 `View` Facade 的 `share` 方法。通常需要将所有 `share` 方法的调用代码放到 [服务提供者](/docs/{{version}}/providers) 的 `boot` 方法中，此时你可以选择使用 `AppServiceProvider` 或创建独立的 [服务提供者](/docs/{{version}}/providers) 。示例代码如下：
 
     <?php
 
@@ -90,7 +90,7 @@
 
 视图组件是在视图渲染时调用的一些回调或者类方法。如果你需要在某些视图渲染时绑定一些数据上去，那么视图组件就是你的的不二之选，另外他还可以帮你将这些绑定逻辑整理到特定的位置。
 
-下面例子中，我们会在一个 [服务提供者](/docs/{{version}}/providers) 中注册一些视图组件。同时使用视图 Facade 来取用对底层 `Illuminate\Contracts\View\Factory` 的实现。注意：Laravel 没有存放视图组件的默认目录，但你可以根据自己的喜好来重新组织，例如：`App\Http\ViewComposers`。
+下面例子中，我们会在一个 [服务提供者](/docs/{{version}}/providers) 中注册一些视图组件。同时使用 `View` Facade 来访问 `Illuminate\Contracts\View\Factory` contract 的底层实现。注意：Laravel 没有存放视图组件的默认目录，但你可以根据自己的喜好来重新组织，例如：`App\Http\ViewComposers`。
 
     <?php
 
