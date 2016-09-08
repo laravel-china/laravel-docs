@@ -13,7 +13,7 @@
 - [路由模型绑定](#route-model-binding)
     - [隐式绑定](#implicit-binding)
     - [显式绑定](#explicit-binding)
-- [模拟 HTTP 请求方法](#form-method-spoofing)
+- [表单方法伪造](#form-method-spoofing)
 - [获取当前路由信息](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
@@ -73,7 +73,7 @@
         return 'User '.$id;
     });
 
-也可以在路由中定义多个参数:
+也可以在路由中定义多个参数：
 
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
@@ -246,7 +246,7 @@ Laravel 会自动解析定义在路由或控制器动作（变量名匹配路由
     });
 
 <a name="form-method-spoofing"></a>
-## 模拟 HTTP 请求方法
+## 表单方法伪造
 
 HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 表单中调用被定义的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。 `_method` 字段送出的值将被作为 HTTP 的请求方法使用：
 
