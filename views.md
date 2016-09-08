@@ -24,7 +24,7 @@
         return view('greeting', ['name' => 'James']);
     });
 
-如你所见，`view` 函数中，第一个参数即 `resources/views` 目录中视图文件的文件名，第二个参数是一个数组，数组中的数据可以直接在视图文件中使用。在上面示例中，我们将 `name` 变量传递到了视图中，并在视图中使用 [Blade syntax](/docs/{{version}}/blade) 模板语言打印出来。
+如你所见，`view` 函数中，第一个参数即 `resources/views` 目录中视图文件的文件名，第二个参数是一个数组，数组中的数据可以直接在视图文件中使用。在上面示例中，我们将 `name` 变量传递到了视图中，并在视图中使用 [Blade 模板语言](/docs/{{version}}/blade) 打印出来。
 
 当然，视图文件也可能存放在 `resources/views` 的子目录中，你可以使用英文句点 `.` 来引用深层子目录中的视图文件。例如，一个视图的位置为 `resources/views/admin/profile.php` ，使用示例如下：
 
