@@ -112,7 +112,7 @@
 
 #### 为命名路由生成 URLs
 
-为路由指定了名称后，我们可以使用全局方法 `route` 来在生成 URLs 或者重定向到该条路由：  
+为路由指定了名称后，我们可以使用全局辅助函数 `route` 来在生成 URLs 或者重定向到该条路由：  
 
     // Generating URLs...
     $url = route('profile');
@@ -120,7 +120,7 @@
     // Generating Redirects...
     return redirect()->route('profile');
 
-如果是有定义参数的命名路由，可以把参数作为 `route` 方法的第二个参数传入，指定的参数将会自动插入到 URL 中对应的位置：
+如果是有定义参数的命名路由，可以把参数作为 `route` 函数的第二个参数传入，指定的参数将会自动插入到 URL 中对应的位置：
 
     Route::get('user/{id}/profile', function ($id) {
         //
@@ -151,7 +151,7 @@
 <a name="route-group-namespaces"></a>
 ### 命名空间
 
-另一个常见的例子是，指定相同的 PHP 命名空间给控制器组。可以使用 namespace 参数来指定组内所有控制器的公共命名空间：
+另一个常见的例子是，指定相同的 PHP 命名空间给控制器组。可以使用 `namespace` 参数来指定组内所有控制器的公共命名空间：
 
     Route::group(['namespace' => 'Admin'], function() {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
