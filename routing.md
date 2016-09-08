@@ -27,7 +27,7 @@
 
 #### 默认路由文件
 
-所有的 Laravel 路由定义都在 `routes` 目录。路由文件是框架自动加载的。 `routes/web.php` 文件定义了所有的 web 界面的路由。这些路由分配 给`web` 中间件，而这个中间件提供了像 `Session` 和 `CSRF` 保护之类的特性。 `routes/api.php` 中的路由是没有状态的，它分配给了 `api` 中间件。
+所有的 Laravel 路由都在 `routes` 目录中的路由文件中定义，这些文件都由框架自动加载。 `routes/web.php` 文件中定义你的 web 页面路由。这些路由都会应用 `web` 中间件组，其提供了诸如 `Session` 和 `CSRF` 保护等特性。定义在 `routes/api.php` 中的路由都是无状态的，并且会应用 `api` 中间件组。
 
 大多数的应用，都是从 `routes/web.php` 文件开始定义路由。
 
@@ -54,7 +54,7 @@
 
 #### CSRF 保护
 
-任何指向 `web` 中 `POST`, `PUT` 或 `DELETE` 路由的 HTML 表单请求都应该包含一个 CSRF 令牌，否则，这个请求将会被拒绝。更多的关于 CSRF 的说明在 [CSRF documentation](/docs/{{version}}/csrf):
+任何指向 `web` 中 `POST`, `PUT` 或 `DELETE` 路由的 HTML 表单请求都应该包含一个 CSRF 令牌，否则，这个请求将会被拒绝。更多的关于 CSRF 的说明在 [CSRF documentation](/docs/{{version}}/csrf)：
 
     <form method="POST" action="/profile">
         {{ csrf_field() }}
@@ -67,7 +67,7 @@
 <a name="required-parameters"></a>
 ### 必选路由参数
 
-当然，有时我们需要在路由中捕获一些  URL 片段。例如，我们需要从 URL 中捕获 用户的 ID ，我们可以这样定义路由参数：
+当然，有时我们需要在路由中捕获一些 URL 片段。例如，我们需要从 URL 中捕获用户的 ID ，我们可以这样定义路由参数：
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
@@ -131,7 +131,6 @@
 <a name="route-groups"></a>
 ## 路由组
 
-
 路由组允许共享路由属性，例如中间件和命名空间等，我们没有必要为每个路由单独设置共有属性，共有属性会以数组的形式放到 `Route::group` 方法的第一个参数中。
 
 <a name="route-group-middleware"></a>
@@ -158,12 +157,12 @@
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
     });
 
-请记住，默认 `RouteServiceProvider` 会在命名空间群组中引入你的路由文件，让你不用指定完整的 `App\Http\Controllers` 命名空间前缀就能注册控制器路由，因此，我们在定义的时候只需要指定命名空间 `App\Http\Controllers` 以后的部分。
+请记住，默认 `RouteServiceProvider` 会在命名空间组中引入你的路由文件，让你不用指定完整的 `App\Http\Controllers` 命名空间前缀就能注册控制器路由，因此，我们在定义的时候只需要指定命名空间 `App\Http\Controllers` 以后的部分。
 
 <a name="route-group-sub-domain-routing"></a>
 ### 子域名路由
 
-路由组也可以用作子域名的通配符，子域名可以像 URIs 一样当作路由群组的参数，因此允许把捕获的子域名一部分用于我们的路由或控制器。路由组中子域名的属性可以使用组属性的 `domain` 键。
+路由组也可以用作子域名的通配符，子域名可以像 URIs 一样当作路由组的参数，因此允许把捕获的子域名一部分用于我们的路由或控制器。路由组中子域名的属性可以使用路由组属性的 `domain` 键。
 
     Route::group(['domain' => '{account}.myapp.com'], function () {
         Route::get('user/{id}', function ($account, $id) {
@@ -174,7 +173,7 @@
 <a name="route-group-prefixes"></a>
 ### 路由前缀
 
-通过路由群组数组属性中的 `prefix` 键可以给每个路由群组的中路由加上指定的  URI 前缀，例如，我们可以给路由群组中所有的 URIs 加上路由前缀 `admin` :
+通过路由组数组属性中的 `prefix` 键可以给每个路由组中的路由加上指定的 URI 前缀，例如，我们可以给路由组中所有的 URIs 加上路由前缀 `admin` :
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('users', function ()    {
@@ -196,7 +195,7 @@ Laravel 会自动解析定义在路由或控制器动作（变量名匹配路由
         return $user->email;
     });
 
- 在这个例子中，由于类型声明了 Eloquent 模型 `App\User`，对应的变量名 `$user` 会匹配路由片段中的 `{user}`，这样，Laravel 会自动注入与请求 URI 中传入的 ID 对应的用户模型实例。
+在这个例子中，由于类型声明了 Eloquent 模型 `App\User`，对应的变量名 `$user` 会匹配路由片段中的 `{user}`，这样，Laravel 会自动注入与请求 URI 中传入的 ID 对应的用户模型实例。
 
 如果数据库中找不到对应的模型实例，将会自动生成产生一个 404 HTTP 响应。
 
@@ -255,7 +254,7 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
     </form>
 
-你也可以使用辅助函 `methid_field` 数来生成隐藏的输入字段 `_method`：
+你也可以使用辅助函数 `methid_field` 来生成隐藏的输入字段 `_method`：
 
     {{ method_field('PUT') }}
 
@@ -270,4 +269,4 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
     $action = Route::currentRouteAction();
 
-更多 API 请参考 [underlying class of the Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
+更多 API 请参考 [underlying class of the Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route instance](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
