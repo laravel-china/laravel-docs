@@ -198,3 +198,10 @@
 视图 **塑造器** 和视图合成器非常相似。不同之处在于：视图塑造器在视图实例化时执行，而视图合成器在视图渲染时执行。如下，可以使用 `creator` 方法来注册一个视图塑造器：
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  |   |
+| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
+| [@NauxLiu](https://github.com/NauxLiu)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9570112?v=3&s=100">  |  Review  |   |
