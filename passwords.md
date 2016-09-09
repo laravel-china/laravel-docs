@@ -15,7 +15,7 @@
 大部分的 web 应用都为用户提供重置密码的功能。Laravel 提供了一种方便的方法用于发送密码提示及执行密码重置，而不需要在每个应用中重新实现。
 
 
-> ｛注意｝ 在使用 Laravel 密码重置功能之前, 你必须 use 这个 `Illuminate\Notifications\Notifiable` `trait` 。
+> ｛注意｝ 在使用 Laravel 密码重置功能之前, 你必须 `use` 这个 `Illuminate\Notifications\Notifiable` `trait` 。
 
 <a name="resetting-database"></a>
 ## 数据库注意事项
