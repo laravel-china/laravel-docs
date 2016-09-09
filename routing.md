@@ -216,7 +216,7 @@ Laravel 会自动解析定义在路由或控制器动作（变量名匹配路由
 <a name="explicit-binding"></a>
 ### 显式绑定
 
-要注册显式绑定，你需要在 RouteServiceProvider::boot 方法中使用路由的 model 方法来为给定参数指定绑定类：
+可以使用 `router` 的 `model` 方法来注册显式绑定。你应该在 `RouteServiceProvider` 类中的 `boot` 方法内定义这些显式绑定：
 
 #### 绑定参数至模型
     public function boot()
@@ -269,4 +269,4 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
     $action = Route::currentRouteAction();
 
-完整的方法列表请参考考 [Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
+完整的方法列表请参考 [Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
