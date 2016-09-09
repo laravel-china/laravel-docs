@@ -20,7 +20,7 @@ Valet 是一个 MAC 上的 Laravel 极简主义开发环境。不需要安装 Va
 
 Laravel Valet 安装到你的 MAC 中时，当你启动你的机器时在后台总是运行 [Caddy](https://caddyserver.com) web 服务器。 然后，使用 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq) 轻量级DNS转发服务器，Valet 将所有请求代理到 `*.dev` 域名并指向你本地机器安装的站点。
 
-换句话说，一个极速的 Laravel 开发环境大概只需要 7 MB 左右内存。Valet 不是一个完整的想替换 Vagrant 或者 Homestead 的方案，仅仅是提供一个好的替换选择在你想要一个更加灵活的基础开发环境，或者是喜欢极致快速，亦或者是工作在一台内存有限的机器上。
+换句话说，一个极速的 Laravel 开发环境大概只需要 7 MB 左右内存。Valet 不是一个完整的想替换 Vagrant 或者 Homestead 的方案，仅仅是提供一个好的替换选择 —— 在你想要一个更加灵活的基础开发环境，或者是喜欢极致快速，亦或者是工作在一台内存有限的机器上。
 
 开箱即用，Valet 提供以下框架或项目的支持，但不仅限于此:
 
@@ -63,7 +63,7 @@ Valet 和 Homestead 两者都是配置本地 Laravel 开发环境的非常好的
 
 一旦 Valet 安装完成, 尝试在命令终端 ping 任何 `*.dev` 域名，例如 `ping foobar.dev`。 如果 Valet 是安装正确的你应该看到这个域名返回响应 `127.0.0.1`。
 
-Valet 将会在你的机器每次启动时自动启动后台进程。没必要每次手动使用 `valet start` 或 `valet install` 命令。
+Valet 将会在你的机器每次启动时自动启动守护进程。没必要每次手动使用 `valet start` 或 `valet install` 命令。
 
 #### 使用另一个域名
 
@@ -73,7 +73,7 @@ Valet 将会在你的机器每次启动时自动启动后台进程。没必要�
 
 #### 数据库
 
-如果你需要一个数据库，尝试一下 MariaDB ，使用命令 `brew install mariadb` 安装。使用 `root` 用户名和空密码你可以连接这个运行在 `127.0.0.1` 本地的数据库。
+如果你需要一个数据库，尝试一下 MariaDB ，使用命令 `brew install mariadb` 安装。使用 `root` 用户名和空密码你可以连接这个运行在 `127.0.0.1` 的本地数据库。
 
 <a name="upgrading"></a>
 ### 升级
@@ -102,7 +102,7 @@ Valet 将会在你的机器每次启动时自动启动后台进程。没必要�
  `link` 命令也可以用于服务你的 Laravel 站点。 这个命令在你想要在一个目录提供单个站点而不是整个目录时很有用。
 
 <div class="content-list" markdown="1">
-- 进入你的某个项目并在你的终端中运行 `valet link app-name` 。 Valet 将会创建一个符号链接在 `~/.valet/Sites` 中，指向当前工作目录。
+- 在你的终端中进入你的某个项目并运行 `valet link app-name` 。 Valet 将会创建一个符号链接在 `~/.valet/Sites` 目录中，且指向当前工作目录。
 - 之后运行 `link` 命令，你可以在浏览器中访问 `http://app-name.dev`。
 </div>
 
@@ -131,7 +131,7 @@ Valet 甚至包含一个命令将你的本地站点分享给其他人。不需�
 <a name="viewing-logs"></a>
 ## 查看日志
 
-如果你想在终端查看所有的站点日志流，运行 `valet logs` 命令。新的日志将会显示在你的终端。这是一个极好的方法保持你的日志文件而不必离开你的终端。
+如果你想在终端查看所有的站点日志流，运行 `valet logs` 命令。新的日志将会显示在你的终端。这是一个极好的方法 —— 保持你的日志文件而不必离开你的终端。
 
 <a name="custom-valet-drivers"></a>
 ## 自定义 Valet 驱动
