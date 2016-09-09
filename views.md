@@ -3,7 +3,7 @@
 - [创建视图](#creating-views)
 - [传递数据到视图](#passing-data-to-views)
     - [把数据共享给所有视图](#sharing-data-with-all-views)
-- [视图组件](#view-composers)
+- [视图合成器](#view-composers)
 
 <a name="creating-views"></a>
 ## 创建视图
@@ -32,7 +32,7 @@
 
 #### 判断视图文件是否存在
 
-如果需要测试一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果测试的视图文件存在，则返回值为 `true` .
+如果需要测试一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果测试的视图文件存在，则返回值为 `true` ：
 
     use Illuminate\Support\Facades\View;
 
@@ -86,11 +86,11 @@
     }
 
 <a name="view-composers"></a>
-## 视图组件
+## 视图合成器
 
-视图组件是在视图渲染时调用的一些回调或者类方法。如果你需要在某些视图渲染时绑定一些数据上去，那么视图组件就是你的的不二之选，另外他还可以帮你将这些绑定逻辑整理到特定的位置。
+视图合成器是在视图渲染时调用的一些回调或者类方法。如果你需要在某些视图渲染时绑定一些数据上去，那么视图合成器就是你的的不二之选，另外他还可以帮你将这些绑定逻辑整理到特定的位置。
 
-下面例子中，我们会在一个 [服务提供者](/docs/{{version}}/providers) 中注册一些视图组件。同时使用 `View` Facade 来访问 `Illuminate\Contracts\View\Factory` contract 的底层实现。注意：Laravel 没有存放视图组件的默认目录，但你可以根据自己的喜好来重新组织，例如：`App\Http\ViewComposers`。
+下面例子中，我们会在一个 [服务提供者](/docs/{{version}}/providers) 中注册一些视图合成器。同时使用 `View` Facade 来访问 `Illuminate\Contracts\View\Factory` contract 的底层实现。注意：Laravel 没有存放视图合成器的默认目录，但你可以根据自己的喜好来重新组织，例如：`App\Http\ViewComposers`。
 
     <?php
 
@@ -130,9 +130,9 @@
         }
     }
 
-> {note} 注意，如果你创建了新的一个 [服务提供者](/docs/{{version}}/providers) 来存放你视图组件的注册项，那么你需要将这个 [服务提供者](/docs/{{version}}/providers) 添加到配置文件 `config/app.php` 的 `providers` 数组中。
+> {note} 注意，如果你创建了新的一个 [服务提供者](/docs/{{version}}/providers) 来存放你视图合成器的注册项，那么你需要将这个 [服务提供者](/docs/{{version}}/providers) 添加到配置文件 `config/app.php` 的 `providers` 数组中。
 
-到此我们已经注册了上面的视图组件，效果是每次 `profile` 视图渲染时，都会执行 `ProfileComposer@compose` 方法。那么下面我们来定义这个组件类吧。
+到此我们已经注册了上面的视图合成器，效果是每次 `profile` 视图渲染时，都会执行 `ProfileComposer@compose` 方法。那么下面我们来定义这个合成器类吧。
 
     <?php
 
@@ -174,27 +174,27 @@
         }
     }
 
-每当视图渲染时，该组件的 `compose` 方法都会被调用，并且传入一个 `Illuminate\View\View` 实例作为参数，在这个过程中，你可以使用 `with` 方法绑定数据到目标视图。
+每当视图渲染时，该合成器的 `compose` 方法都会被调用，并且传入一个 `Illuminate\View\View` 实例作为参数，在这个过程中，你可以使用 `with` 方法绑定数据到目标视图。
 
-> {tip} 所有的视图组件都会由 [服务容器](/docs/{{version}}/container) 来解析，所以你可以在组件的构造函数中使用类型提示来注入需要的任何依赖。
+> {tip} 所有的视图合成器都会由 [服务容器](/docs/{{version}}/container) 来解析，所以你可以在合成器的构造函数中使用类型提示来注入需要的任何依赖。
 
-#### 将视图组件附加到多个视图
+#### 将视图合成器附加到多个视图
 
-通过将目标视图文件数组作为第一个参数传入 `composer` 方法，你可以把一个视图组件同时附加到多个视图。
+通过将目标视图文件数组作为第一个参数传入 `composer` 方法，你可以把一个视图合成器同时附加到多个视图。
 
     View::composer(
         ['profile', 'dashboard'],
         'App\Http\ViewComposers\MyViewComposer'
     );
 
-`composer` 方法同时也接受通配符 `*` ，可以让你将一个视图组件一次性绑定到所有的视图：
+`composer` 方法同时也接受通配符 `*` ，可以让你将一个视图合成器一次性绑定到所有的视图：
 
     View::composer('*', function ($view) {
         //
     });
 
-#### 视图创建者
+#### 视图塑造器
 
-视图 **创建者** 和视图组件非常相似。不同之处在于：视图创建者在视图实例化时执行，而视图组件在视图渲染时执行。如下，可以使用 `creator` 方法来注册一个视图创建者：
+视图 **塑造器** 和视图合成器非常相似。不同之处在于：视图塑造器在视图实例化时执行，而视图合成器在视图渲染时执行。如下，可以使用 `creator` 方法来注册一个视图塑造器：
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
