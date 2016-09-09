@@ -1,10 +1,10 @@
 # API Authentication (Passport)
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-    - [Frontend Quickstart](#frontend-quickstart)
-- [Configuration](#configuration)
-    - [Token Lifetimes](#token-lifetimes)
+- [介绍](#introduction)
+- [安装](#installation)
+    - [前端使用说明](#frontend-quickstart)
+- [配置](#configuration)
+    - [令牌的使用期限](#token-lifetimes)
     - [Pruning Revoked Tokens](#pruning-revoked-tokens)
 - [Issuing Access Tokens](#issuing-access-tokens)
     - [Managing Clients](#managing-clients)
@@ -27,32 +27,32 @@
 - [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Laravel already makes it easy to perform authentication via traditional login forms, but what about APIs? APIs typically use tokens to authenticate users and do not maintain session state between requests. Laravel makes API authentication a breeze using Laravel Passport, which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Alex Bilbie.
+在 Laravel 中，可以非常简单得实现基于传统表单的登陆以及授权，但是如何满足 API 场景下的授权需求呢？在 API 场景中通常通过令牌来实现用户授权，而不是通过维护请求之间的 Session 状态。现在可以使用 Passport 在 Laravel 项目中轻而易举地实现 API 授权过程，通过 Passport 可以在几分钟之内为你的 Laravel 应用程序添加完整的 OAuth2 服务端实现。 Passport 基于 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 实现，该项目的维护人是 [Alex Bilbie](https://github.com/alexbilbie) 。
 
-> {note} This documentation assumes you are already familiar with OAuth2. If you do not know anything about OAuth2, consider familiarizing yourself with the general terminology and features of OAuth2 before continuing.
+> {note} 本文档假定你已熟悉 OAuth2 。如果你对 OAuth2 一无所知，阅读之前请考虑先熟悉下 OAuth2 的常用术语和基本特征。
 
 <a name="installation"></a>
-## Installation
+## 安装
 
-To get started, install Passport via the Composer package manager:
+使用 Composer 依赖包管理器安装 Passport ：
 
     composer require laravel/passport
 
-Next, register the Passport service provider in the `providers` array of your `config/app.php` configuration file:
+接下来，将 Passport 的服务提供者注册到配置文件 `config/app.php` 的 `providers` 数组中：
 
     Laravel\Passport\PassportServiceProvider::class,
 
-The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
+Passport 将通过服务提供者注册自己内部的数据库迁移脚本目录，所以在上一步添加注册者之后，你需要更新你的数据库结构。Passport 的迁移脚本会自动创建应用程序需要的客户端数据表和令牌数据表：
 
     php artisan migrate
 
-Next, you should run the `passport:install` command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
+接下来，你需要运行 `passport:install` 命令。此命令将创建用来生成安全接入令牌的加密密钥，另外，这条命令会创建用于生成接入令牌的「私人接入」客户端和「密码授权」客户端：
 
     php artisan passport:install
 
-After running this command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
+上面命令执行后，请将 `Laravel\Passport\HasApiTokens` Trait 添加到 `App\User` 模型中，这个 Trait 会给你的模型提供一些用于检查已认证用户令牌和使用范围的辅助函数：
 
     <?php
 
@@ -67,7 +67,7 @@ After running this command, add the `Laravel\Passport\HasApiTokens` trait to you
         use HasApiTokens, Notifiable;
     }
 
-Next, you should call the `Passport::routes` method within the `boot` method of your `AuthServiceProvider`. This method will register the routes necessary to issue access tokens and revoke access tokens, clients, and personal access tokens:
+接下来，需要在 `AuthServiceProvider` 的 `boot` 方法中调用 `Passport::routes` 函数。这个函数会注册一些在接入令牌、客户端、私人接入令牌的发放和吊销过程中会用到的必要路由：
 
     <?php
 
@@ -101,7 +101,7 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
         }
     }
 
-Finally, in your `config/auth.php` configuration file, you should set the `driver` option of the `api` authentication guard to `passport`. This will instruct your application to use Passport's `TokenGuard` when authenticating incoming API requests:
+最后，需要将配置文件 `config/auth.php` 中 `api` 部分的授权保护项（ `driver` ）改为 `passport` 。此调整会让你的应用程序在接收到 API 的授权请求时，使用 Passport 的 `TokenGuard` 来处理：
 
     'guards' => [
         'web' => [
@@ -116,17 +116,17 @@ Finally, in your `config/auth.php` configuration file, you should set the `drive
     ],
 
 <a name="frontend-quickstart"></a>
-### Frontend Quickstart
+### 前端使用说明
 
-> {note} In order to use the Passport Vue components, you must be using the [Vue](https://vuejs.org) JavaScript framework. These components also use the Bootstrap CSS framework. However, even if you are not using these tools, the components serve as a valuable reference for your own frontend implementation.
+> {note} 为了使用 Passport 的 Vue 组件，那么你必须使用 [Vue](https://vuejs.org) Javascript 框架，另外这些组件还用到了 Bootstrap CSS 框架。然而，就算你不使用刚刚提到的这些工具，在实现你自己的前端部分时，这些组件仍旧有很高的参考价值。
 
-Passport ships with a JSON API that you may use to allow your users to create clients and personal access tokens. However, it can be time consuming to code a frontend to interact with these APIs. So, Passport also includes pre-built [Vue](https://vuejs.org) components you may use as an example implementation or starting point for your own implementation.
+Passport 配备了一些可以让你的用户自行创建客户端和私人接入令牌的 JSON API。所以，你可以自己花费时间来编写一些前端代码来使用这些 API。但是在 Passport 中也已经预制了一些 [Vue](https://vuejs.org) 组件，你可以直接使用这些示例代码，也可以基于这些代码实现自己的前端部分。
 
-To publish the Passport Vue components, use the `vendor:publish` Artisan command:
+使用 Artisan 命令 `vendor:publish` 来发布 Passport 的 Vue 组件：
 
     php artisan vendor:publish --tag=passport-components
 
-The published components will be placed in your `resources/assets/js/components` directory. Once the components have been published, you should register them in your `resources/assets/js/app.js` file:
+已发布的组件将被放置在 `resources/assets/js/components` 目录中，可以在 `resources/assets/js/app.js` 文件中注册这些已发布的组件：
 
     Vue.component(
         'passport-clients',
@@ -143,7 +143,7 @@ The published components will be placed in your `resources/assets/js/components`
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-Once the components have been registered, you may drop them into one of your application's templates to get started creating clients and personal access tokens:
+这些组件注册后，你可以直接将这些组件直接放入应用程序的模板中，用于创建客户端和私人接入令牌：
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
