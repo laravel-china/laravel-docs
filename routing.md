@@ -270,3 +270,10 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
     $action = Route::currentRouteAction();
 
 完整的方法列表请参考 [Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/200/h/200">  |  翻译  | 努力学习PHP  |
+| [@overtrue](https://github.com/overtrue)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/76_1451276555.png?imageView2/1/w/100/h/100">    |  Review | 大家可以  [加我微博](http://weibo.com/joychaocc) 保持联系 |
+| [@JobsLong](https://github.com/JobsLong)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/200/h/200">    |  Review | |
