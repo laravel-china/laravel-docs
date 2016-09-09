@@ -247,7 +247,7 @@ Laravel 会自动解析定义在路由或控制器动作（变量名匹配路由
 <a name="form-method-spoofing"></a>
 ## 表单方法伪造
 
-HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 表单中调用被定义的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。 `_method` 字段送出的值将被作为 HTTP 的请求方法使用：
+HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 表单中调用被定义的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。 `_method` 字段的值将被作为 HTTP 的请求方法使用：
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">
@@ -269,4 +269,4 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在从 HTML 
 
     $action = Route::currentRouteAction();
 
-更多 API 请参考 [underlying class of the Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route instance](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
+完整的方法列表请参考考 [Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
