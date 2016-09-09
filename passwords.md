@@ -10,7 +10,7 @@
 <a name="introduction"></a>
 ## 重置密码说明
 
-> ｛提示｝ **马上开始？** 只需要在 Laravel 应用下运行 `php artisan make:auth` 然后使用你的浏览器打开 `http://your-app.dev/register` 或者任何一个你使用 Laravel 应用。这个命令将会帮你生成整个认证系统，包括密码重置。
+> ｛提示｝ **马上开始？** 首先在 Laravel 应用下运行 `php artisan make:auth` 命令，然后使用浏览器打开 `http://your-app.dev/register` ，或者任意一个你配的 URL 。这个命令将会生成包括密码重置在内的整个认证系统。
 
 大部分的 web 应用都为用户提供重置密码的功能。Laravel 提供了一种方便的方法用于发送密码提示及执行密码重置，而不需要在每个应用中重新实现。
 
