@@ -16,7 +16,7 @@ Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel
 系统要求为以下：
 
 <div class="content-list" markdown="1">
-- PHP >= 5.5.9
+- PHP >= 5.6.4
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
