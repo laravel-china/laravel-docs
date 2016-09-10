@@ -101,7 +101,7 @@ Passport 将通过服务提供者注册自己内部的数据库迁移脚本目�
         }
     }
 
-最后，需要将配置文件 `config/auth.php` 中 `api` 部分的授权保护项（ `driver` ）改为 `passport` 。此调整会让你的应用程序在接收到 API 的授权请求时，使用 Passport 的 `TokenGuard` 来处理：
+最后，需要将配置文件 `config/auth.php` 中 `api` 部分的授权保护项（ `driver` ）改为 `passport` 。此调整会让你的应用程序在接收到 API 的授权请求时使用 Passport 的 `TokenGuard` 来处理：
 
     'guards' => [
         'web' => [
@@ -150,12 +150,12 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人接�
     <passport-personal-access-tokens></passport-personal-access-tokens>
 
 <a name="configuration"></a>
-## Configuration
+## 配置
 
 <a name="token-lifetimes"></a>
-### Token Lifetimes
+### 令牌的有效期
 
-By default, Passport issues long-lived access tokens that never need to be refreshed. If you would like to configure a shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
+默认情况下，Passport 发放的接入令牌是永久有效的，不需要刷新。但是如果你想给接入令牌配置一个短一些的有效期，那你就需要用到 `tokensExpireIn` 和 `refreshTokensExpireIn` 方法了，上述两个方法同样需要在 `AuthServiceProvider` 的 `boot` 方法中调用：
 
     /**
      * Register any authentication / authorization services.
@@ -174,43 +174,43 @@ By default, Passport issues long-lived access tokens that never need to be refre
     }
 
 <a name="pruning-revoked-tokens"></a>
-### Pruning Revoked Tokens
+### 清理已失效的令牌
 
-By default, Passport does not delete your revoked access tokens from the database. Over time, a large number of these tokens can accumulate in your database. If you would like Passport to automatically delete your revoked tokens, you should call the `pruneRevokedTokens` method from the `boot` method of your `AuthServiceProvider`:
+默认情况下，Passport 不会从数据库中删除已失效的令牌。随着时间增长，数据库中会积累大量已失效的令牌。如果你希望 Passport 自动删除它们，你可以在  `AuthServiceProvider` 的 `boot` 方法中调用 `pruneRevokedTokens` 方法：
 
     use Laravel\Passport\Passport;
 
     Passport::pruneRevokedTokens();
 
-This method will not delete all revoked tokens immediately. Instead, revoked tokens will be deleted when a user requests a new access token or refreshes an existing token.
+这个方法的效果是在用户请求到新的接入令牌或刷新已存在令牌时删除老的已失效令牌，而不是每次调用时立即删除所有的失效令牌。
 
 <a name="issuing-access-tokens"></a>
-## Issuing Access Tokens
+## 发放令牌
 
-Using OAuth2 with authorization codes is how most developers are familiar with OAuth2. When using authorization codes, a client application will redirect a user to your server where they will either approve or deny the request to issue an access token to the client.
+熟悉 OAuth2 的开发者都知道，OAuth2 中必不可少的部分就是授权码。在获取授权码时，应用客户端会重定向一个用户到你的服务端，用户可以选择允许或拒绝向这个客户端发放接入令牌。
 
 <a name="managing-clients"></a>
-### Managing Clients
+### 管理客户端
 
-First, developers building applications that need to interact with your application's API will need to register their application with yours by creating a "client". Typically, this consists of providing the name of their application and a URL that your application can redirect to after users approve their request for authorization.
+首先，开发者的客户端如果想要与你应用程序的 API 进行交互，必须先在你的应用程序中注册一个「客户端」。一般来说，这个注册过程需要开发者提供两部分信息，一部分是他的应用程序名称，另一部分是用户允许授权后的跳转链接。
 
-#### The `passport:client` Command
+#### 命令 `passport:client`
 
-The simplest way to create a client is using the `passport:client` Artisan command. This command may be used to create your own clients for testing your OAuth2 functionality. When you run the `client` command, Passport will prompt you for more information about your client and will provide you with a client ID and secret:
+最简单的创建客户端方式是使用 Artisan 命令 `passport:client` ，你可以使用此命令创建自己的客户端，用于测试 OAuth2 的功能。在你执行 `client` 命令时，Passport 会提示输入更多关于你的客户端的信息，最终会提供给你生成的客户端的 ID 和 密钥：
 
     php artisan passport:client
 
 #### JSON API
 
-Since your users will not be able to utilize the `client` command, Passport provides a JSON API that you may use to create clients. This saves you the trouble of having to manually code controllers for creating, updating, and deleting clients.
+考虑到你的用户们应该没有办法使用 `client` 命令，Passport 同时提供了用户创建客户端的 JSON API 。这样你就不用再花时间编码来实现客户端创建、更新和删除的相关控制器了。
 
-However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Vue](https://vuejs.org) to demonstrate making HTTP requests to the endpoints.
+然而，你仍旧需要基于 Passport 的 JSON API 开发一套前端界面，方便你的用户管理他们自己的客户端。下面我们会列出所有用于管理客户端的 API，方便起见，我们使用 [Vue](https://vuejs.org) 展示对 API 的 HTTP 请求。
 
-> {tip} If you don't want to implement the entire client management frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
+> {tip} 如果你不想自己重写整个客户端管理系统的前端界面，可以根据 [前端使用说明](#frontend-quickstart) 在几分钟内组建一套功能完备的前端界面。
 
 #### `GET /oauth/clients`
 
-This route returns all of the clients for the authenticated user. This is primarily useful for listing all of the user's clients so that they may edit or delete them:
+此接口会返回当前认证用户的所有客户端。主要用途是列出当前用户所有客户端，方便用户修改或删除：
 
     this.$http.get('/oauth/clients')
         .then(response => {
@@ -219,9 +219,9 @@ This route returns all of the clients for the authenticated user. This is primar
 
 #### `POST /oauth/clients`
 
-This route is used to create new clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization.
+此接口用户创建新的客户端。它需要两部分数据：客户端的名称、客户端的 `redirect` 链接。当用户允许或拒绝授权请求后，用户都会被重定向到这个 `redirect` 链接。
 
-When a client is created, it will be issued a client ID and client secret. These values will be used when requesting access tokens from your application. The client creation route will return the new client instance:
+当客户端创建完成后，会生成此客户端的 ID 和密钥，客户端会使用这两个值从你的应用程序请求接入令牌。此接口会返回新建客户端的实例信息：
 
     const data = {
         name: 'Client Name',
@@ -238,7 +238,7 @@ When a client is created, it will be issued a client ID and client secret. These
 
 #### `PUT /oauth/clients/{client-id}`
 
-This route is used to update clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization. The route will return the updated client instance:
+此接口用于更新客户端信息。它需要两部分数据：客户端的名称、客户端的 `redirect` 链接。当用户允许或拒绝授权请求后，用户都会被重定向到这个 `redirect` 链接。此接口会返回被更新客户端的实例信息：
 
     const data = {
         name: 'New Client Name',
@@ -255,7 +255,7 @@ This route is used to update clients. It requires two pieces of data: the client
 
 #### `DELETE /oauth/clients/{client-id}`
 
-This route is used to delete clients:
+此接口用于删除客户端：
 
     this.$http.delete('/oauth/clients/' + clientId)
         .then(response => {
@@ -263,11 +263,11 @@ This route is used to delete clients:
         });
 
 <a name="requesting-tokens"></a>
-### Requesting Tokens
+### 请求令牌
 
-#### Redirecting For Authorization
+#### 授权时的重定向
 
-Once a client has been created, developer's may use their client ID and secret to request an authorization code and access token from your application. First, the consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
+客户端创建之后，开发者会使用此客户端的 ID 和密钥向你的应用程序请求一个授权码和接入令牌。首先，使用者的应用程序会将用户重定向到你应用程序的 `/oauth/authorize` 路由上，示例如下：
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -280,19 +280,19 @@ Once a client has been created, developer's may use their client ID and secret t
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
-> {tip} Remember, the `/oauth/authorize` route is already defined by the `Passport::routes` method. You do not need to manually define this route.
+> {tip} 注意，路由 `/oauth/authorize` 已经在 `Passport::routes` 方法中定义，所以无需再次定义。
 
-#### Approving The Request
+#### 确认授权请求
 
-When receiving authorization requests, Passport will automatically display a template to the user allowing them to approve or deny the authorization request. If they approve the request, they will be redirected back to the `redirect_uri` that was specified by the consuming application. The `redirect_uri` must match the `redirect` URL that was specified when the client was created.
+接收到授权请求后，Passport 会显示默认的授权确认页面，用户可以通过或拒绝本次授权请求。用户确认后会被重定向回消费应用程序请求中指定的 `redirect_uri` 链接。`redirect_uri` 必须和客户端创建时提供的 `redirect` 完全一致。
 
-If you would like to customize the authorization approval screen, you may publish Passport's views using the `vendor:publish` Artisan command. The published views will be placed in `resources/views/vendor/passport`:
+如果你想自定义授权确认页面，可以使用 Artisan 命令 `vendor:publish` 发布 Passport 的视图文件。发布后的视图文件存放路径为 `resources/views/vendor/passport` ：
 
     php artisan vendor:publish --tag=passport-views
 
-#### Converting Authorization Codes To Access Tokens
+#### 将授权码转换为接入令牌
 
-If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should then issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
+如果用户通过授权请求后，用户将会被重定向会消费应用程序，然后消费应用程序将通过 `POST` 请求向你的应用程序申请接入令牌，此次请求需要携带用户通过授权时产生的授权码。在下面的例子中，我们使用 Guzzle HTTP 库来实现这次 `POST` 请求：
 
     Route::get('/callback', function (Request $request) {
         $http = new GuzzleHttp\Client;
@@ -310,12 +310,12 @@ If the user approves the authorization request, they will be redirected back to 
         return json_decode((string) $response->getBody(), true);
     });
 
-This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
+接口 `/oauth/token` 的 JSON 相应中会包含 `access_token` 、`refresh_token` 和 `expires_in` 属性。`expires_in` 的值即当前接入令牌的有效期（单位：秒）。
 
-> {tip} Like the `/oauth/authorize` route, the `/oauth/token` route is defined for you by the `Passport::routes` method. There is no need to manually define this route.
+> {tip} 如上 `/oauth/authorize` 路由，`/oauth/token` 已经在 `Passport::routes` 方法中定义，所以无需再次定义。
 
 <a name="refreshing-tokens"></a>
-### Refreshing Tokens
+### 刷新令牌
 
 If your application issues short-lived access tokens, users will need to refresh their access tokens via the refresh token that was provided to them when the access token was issued. In this example, we'll use the Guzzle HTTP library to refresh the token:
 
