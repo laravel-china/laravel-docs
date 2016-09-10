@@ -251,5 +251,5 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@yangjingqzp](https://phphub.org/users/5742)  |  <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5742_1473308107.jpeg?imageView2/1/w/200/h/200"> |  翻译  | 大神们请多多指教，[@yangjingqzp](https://github.com/yangjingqzp) at Github  |
+| [@yangjingqzp](https://phphub.org/users/5742)  |  <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5742_1473308107.jpeg?imageView2/1/w/100/h/100"> |  翻译  | 大神们请多多指教，[@yangjingqzp](https://github.com/yangjingqzp) at Github  |
 
