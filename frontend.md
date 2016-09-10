@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 并没有规定你使用哪个 JavaScript 或 CSS 预处理器，它使用 [Bootstrap](http://getbootstrap.com) 和 [Vue](https://vuejs.org) 来提供一个基本的起点，这对很多程序来说还是蛮有用的。 Laravel 默认使用 [NPM](https://npmjs.org) 来管理安装这些前端的依赖包。
+Laravel 并没有规定你使用哪个 JavaScript 或 CSS 预处理器，它使用 [Bootstrap](http://getbootstrap.com) 和 [Vue](https://vuejs.org) 来提供一个基本的起点，这对很多程序来说还是蛮有用的。 Laravel 默认使用 [NPM](https://npmjs.org) 安装这些前端的依赖。
 
 #### CSS
 
@@ -18,9 +18,7 @@ Laravel 并没有规定你使用哪个 JavaScript 或 CSS 预处理器，它使�
 
 #### JavaScript
 
-Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components.
-
-Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用程序。事实上，你也可以完全不用 JavaScript。不过，Laravel 自带了用 [Vue](https://vuejs.org) 实现的基本脚手架代码来帮你更轻松的开始写 modern JavaScript。Vue 提供了强大的 API 来组件化的搭建强健的 JavaScript 应用程序。
+Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用程序。事实上，你也可以完全不用 JavaScript。不过，Laravel 自带了用 [Vue](https://vuejs.org) 实现的基本脚手架代码来帮你更轻松的开始写 modern JavaScript。Vue 提供了强大的 API 以组件化的搭建强健的 JavaScript 应用程序。
 
 <a name="writing-css"></a>
 ## 编写 CSS
@@ -40,8 +38,7 @@ Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用
 <a name="writing-javascript"></a>
 ## 编写 JavaScript
 
-在项目根目录中的 `package.json` 可以找到应用程序的所有 JavaScript 依赖。它和 `composer.json` 文件类似，不同的是它指定的是 JavaScript 的依赖。使用 
-[Node 包管理器 (NPM)](https://npmjs.org) 来安装这些依赖包：
+在项目根目录中的 `package.json` 可以找到应用程序的所有 JavaScript 依赖。它和 `composer.json` 文件类似，不同的是它指定的是 JavaScript 的依赖而不是 PHP 的依赖。使用 [Node 包管理器 (NPM)](https://npmjs.org) 来安装这些依赖包：
 
     npm install
 
@@ -73,3 +70,8 @@ Laravel `package.json` 文件默认会包含一些依赖包来帮助你开始建
 > {提示} 谨记，你需要在每次修改 Vue 组件后都需要运行 `gulp` 命令。或者，你可以使用 `gulp watch` 命令来监控并在每次文件被修改时自动重新编译组件。
 
 当然，如果你对学习更多编写 Vue 组件的内容感兴趣，你可以读一下 [Vue 官方引导文档](http://vuejs.org/guide/)，它提供了一个透彻、易懂的文档让你一览 Vue 框架的概貌。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@JobsLong](https://phphub.org/users/56)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 我的个人主页：[http://jobslong.com](http://jobslong.com)  |
