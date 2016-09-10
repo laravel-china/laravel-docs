@@ -2,8 +2,8 @@
 
 - [简介](#introduction)
 - [绑定](#binding)
-    - [基础绑定](#binding-basics)
-    - [通过接口绑定实现](#binding-interfaces-to-implementations)
+    - [绑定基础](#binding-basics)
+    - [绑定接口至实现](#binding-interfaces-to-implementations)
     - [环境绑定](#contextual-binding)
     - [标记](#tagging)
 - [解析](#resolving)
@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。依赖注入是一个花俏的名词，它实质上是指：类的依赖通过构造器或在某些情况下通过「setter」方法「注入」。
+Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。依赖注入是一个花俏的名词，它实质上是指：类的依赖通过构造器或在某些情况下通过「setter」方法进行「注入」。
 
 来看一个简单的例子：
 
@@ -60,7 +60,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
         }
     }
 
-在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们将 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 最有可能通过使用 [Eloquent](/docs/5.3/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，我们可以容易地切换成其他实现。当测试应用程序时，我们以可以轻松地 「mock」 ，或创建假的 `UserRepository` 实现。
+在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 最有可能通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，我们可以容易地切换成其他实现。当测试应用程序时，我们以可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
 
 在构建强大的应用程序，以及为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
 
@@ -68,15 +68,15 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 ## 绑定
 
 <a name="binding-basics"></a>
-### 基础绑定
+### 绑定基础
 
-几乎所有服务容器的绑定都是通过 [服务提供者](/docs/{{version}}/providers) 进行的，所以下面的例子将示范在该情景中使用容器。
+几乎所有服务容器的绑定都是在 [服务提供者](/docs/{{version}}/providers) 中进行的，所以下面的例子将示范在该情景中使用容器。
 
-> {tip} 不过，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中的。在容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动实例化对象。
+> {tip} 不过，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
 
 #### 简单绑定
 
-在服务提供者中，你总是可以通过 `$this->app` 属性访问服务容器。我们可以通过 `bind` 方法注册一个绑定，在方法的参数中，传递需要注册的类或接口名称、返回该实例的 `Closure` ：
+在服务提供者中，你经常可以通过 `$this->app` 属性访问容器。我们可以通过 `bind` 方法注册一个绑定，通过传递注册的类或接口名称、及返回该实例的 `Closure` 作为参数：
 
     $this->app->bind('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
@@ -86,7 +86,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 
 #### 绑定一个单例
 
-`singleton` 方法绑定一个只会被解析一次的类或接口到容器中。且后面的调用都会从容器中返回相同的实例：
+通过 `singleton` 方法可以绑定一个只会被解析一次的类或接口到容器中。且后面的调用都会从容器中返回相同的实例：
 
     $this->app->singleton('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
@@ -94,7 +94,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 
 #### 绑定实例
 
-你也可以使用 `instance` 方法绑定一个已经实例化的对象到容器中。后面的调用都会从容器中返回指定的实例：
+你也可以使用 `instance` 方法绑定一个已经存在的对象至容器中。后面的调用都会从容器中返回指定的实例：
 
     $api = new HelpSpot\API(new HttpClient);
 
@@ -102,23 +102,23 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 
 #### 绑定初始数据
 
-有时，类初始化时，不仅需要注入类，还需要注入一些原始数据，如一个整数。这时，你可以通过情景绑定容易地注入任何需要的任何值：
+有时，你的类不仅需要注入类，还需要注入一些原始数据，如一个整数。此时，你可以容易地通过情景绑定注入需要的任何值：
 
     $this->app->when('App\Http\Controllers\UserController')
               ->needs('$variableName')
               ->give($value);
 
 <a name="binding-interfaces-to-implementations"></a>
-### 通过接口绑定实现
+### 绑定接口至实现
 
-服务容器有一个强大的功能，就是将一个给定的实例绑定到接口上。例如，如果我们有一个 `EventPusher` 接口和一个 `RedisEventPusher` 类的实例。一旦我们将类 `RedisEventPusher` 编写实现 `EventPusher` 接口，我们就可以像下面方式绑定实例：
+服务容器有一个强大的功能，就是将一个指定的实例绑定到接口上。例如，如果我们有一个 `EventPusher` 接口和一个 `RedisEventPusher` 类的实例。一旦类 `RedisEventPusher` 编写实现 `EventPusher` 接口，我们就可以在服务容器中像下面例子一样注册它：
 
     $this->app->bind(
         'App\Contracts\EventPusher',
         'App\Services\RedisEventPusher'
     );
 
-这么做会告诉容器当一个类需要 `EventPusher` 的实例时， `RedisEventPusher` 的实例将会被容器注入。现在我们就可以在构造函数中，使用 `EventPusher` 接口的类型提示，或者任何其他需要通过容器注入依赖的地方：
+这么做会告诉容器当一个类需要 `EventPusher` 的实例时， `RedisEventPusher` 的实例将会被容器注入。现在我们就可以在构造函数中，或者任何其他需要通过容器注入依赖的地方，使用 `EventPusher` 接口的类型提示：
 
     use App\Contracts\EventPusher;
 
@@ -136,7 +136,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 <a name="contextual-binding"></a>
 ### 情景绑定
 
-Sometimes you may have two classes that utilize the same interface, but you wish to inject different implementations into each class. For example, two controllers may depend on different implementations of the `Illuminate\Contracts\Filesystem\Filesystem` [contract](/docs/{{version}}/contracts). Laravel provides a simple, fluent interface for defining this behavior:
+有时候，你可能有两个类使用到相同的接口，但你希望每个类都能注入不同的实现。例如，两个控制器可能需要依赖不同的 `Illuminate\Contracts\Filesystem\Filesystem` [契约](/docs/{{version}}/contracts) 的实现类。 Laravel 提供了一种简单、流畅的接口来定义这种行为：
 
     use Illuminate\Support\Facades\Storage;
     use App\Http\Controllers\PhotoController;
@@ -156,9 +156,9 @@ Sometimes you may have two classes that utilize the same interface, but you wish
               });
 
 <a name="tagging"></a>
-### Tagging
+### 标记
 
-Occasionally, you may need to resolve all of a certain "category" of binding. For example, perhaps you are building a report aggregator that receives an array of many different `Report` interface implementations. After registering the `Report` implementations, you can assign them a tag using the `tag` method:
+有时候，你可能需要解析某个「分类」下的所有绑定。例如，你正在构建一个报表的聚合器，它需要接受不同 `Report` 接口的实例。分别注册了 `Report` 实例后，你可以使用 `tag` 方法为他们赋予一个标签：
 
     $this->app->bind('SpeedReport', function () {
         //
@@ -170,32 +170,32 @@ Occasionally, you may need to resolve all of a certain "category" of binding. Fo
 
     $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
 
-Once the services have been tagged, you may easily resolve them all via the `tagged` method:
+一旦服务被标记后，你可以通过 `tagged` 方法轻松地将它们全部解析：
 
     $this->app->bind('ReportAggregator', function ($app) {
         return new ReportAggregator($app->tagged('reports'));
     });
 
 <a name="resolving"></a>
-## Resolving
+## 解析
 
 <a name="the-make-method"></a>
-#### The `make` Method
+####  `make` 方法
 
-You may use the `make` method to resolve a class instance out of the container. The `make` method accepts the name of the class or interface you wish to resolve:
+你可以在服务容器外使用 `make` 方法来获得一个实例化的类。它接受你希望解析的类或是接口名称作为参数：
 
     $api = $this->app->make('HelpSpot\API');
 
-If you are in a location of your code that does not have access to the `$app` variable, you may use the global `resolve` helper:
+如果你的代码不能直接使用 `$app` 变量，你可以使用全局的 `resolve` 助手：
 
     $api = resolve('HelpSpot\API');
 
 <a name="automatic-injection"></a>
-#### Automatic Injection
+#### 自动注入
 
-Alternatively, and importantly, you may simply "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
+另外，并且也是重要的，你可以在类的构造函数中对依赖使用“类型提示”，依赖的类将会被容器自动进行解析，包括在 [控制器](/docs/{{version}}/controllers) ， [事件监听器](/docs/{{version}}/events) ， [队列任务](/docs/{{version}}/queues) ， [中间件](/docs/{{version}}/middleware)， 等地方。 事实上，这也是大部分类被容器解析的方式。
 
-For example, you may type-hint a repository defined by your application in a controller's constructor. The repository will automatically be resolved and injected into the class:
+例如，你可以在控制器的构造函数中对应用程序定义的 `Repository` 使用类型提示。这样 `Repository` 实例会被自动解析并注入到类中：
 
     <?php
 
@@ -234,9 +234,9 @@ For example, you may type-hint a repository defined by your application in a con
     }
 
 <a name="container-events"></a>
-## Container Events
+## 容器事件
 
-The service container fires an event each time it resolves an object. You may listen to this event using the `resolving` method:
+每当服务容器解析一个对象时就会触发一个事件。你可以使用 `resolving` 方法监听这个事件：
 
     $this->app->resolving(function ($object, $app) {
         // Called when container resolves object of any type...
@@ -246,4 +246,4 @@ The service container fires an event each time it resolves an object. You may li
         // Called when container resolves objects of type "HelpSpot\API"...
     });
 
-As you can see, the object being resolved will be passed to the callback, allowing you to set any additional properties on the object before it is given to its consumer.
+如你所见，被解析的对象会被传递至回调中，让你在对象被传递到消费者前可以设置任何额外属性到对象上。
