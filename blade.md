@@ -56,7 +56,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 <a name="extending-a-layout"></a>
 ### 继承页面布局
 
-当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所『 继承 』的页面布局。 当视图 `@section` Blade 的布局之后，即可使用 `@section` 命令将内容注入于布局的区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
+当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所 「继承」 的页面布局。 当视图 `@section` Blade 的布局之后，即可使用 `@section` 命令将内容注入于布局的区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
 
     <!-- Stored in resources/views/child.blade.php -->
 
@@ -85,7 +85,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 <a name="displaying-data"></a>
 ## 显示数据
 
-你可以使用 『 中括号 』包住变量以显示传递至 Blade 视图的数据。如下面的路由设置：
+你可以使用 「中括号」 包住变量以显示传递至 Blade 视图的数据。如下面的路由设置：
 
     Route::get('greeting', function () {
         return view('welcome', ['name' => 'Samantha']);
