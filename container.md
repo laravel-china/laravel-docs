@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。依赖注入是一个花俏的名词，它实质上是指：类的依赖通过构造器或在某些情况下通过「setter」方法进行「注入」。
+Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依赖注入是一个花俏的名词，它实质上是指：类的依赖通过构造器或在某些情况下通过「setter」方法进行「注入」。
 
 来看一个简单的例子：
 
@@ -60,9 +60,9 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
         }
     }
 
-在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 最有可能通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，我们可以容易地切换成其他实现。当测试应用程序时，我们以可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
+在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 最有可能通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，所以我们可以容易地切换成其他实现。当测试应用程序时，我们以可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
 
-在构建强大的应用程序，以及为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
+在构建强大的应用程序，和为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
 
 <a name="binding"></a>
 ## 绑定
@@ -72,11 +72,11 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 
 几乎所有服务容器的绑定都是在 [服务提供者](/docs/{{version}}/providers) 中进行的，所以下面的例子将示范在该情景中使用容器。
 
-> {tip} 不过，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
+> {提示} 但是，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
 
 #### 简单绑定
 
-在服务提供者中，你经常可以通过 `$this->app` 属性访问容器。我们可以通过 `bind` 方法注册一个绑定，通过传递注册的类或接口名称、及返回该实例的 `Closure` 作为参数：
+在服务提供者中，你经常可以通过 `$this->app` 属性访问容器。我们可以通过 `bind` 方法注册一个绑定，通过传递注册类或接口的名称、及返回该实例的 `Closure` 作为参数：
 
     $this->app->bind('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
@@ -193,7 +193,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力的工具。
 <a name="automatic-injection"></a>
 #### 自动注入
 
-另外，并且也是重要的，你可以在类的构造函数中对依赖使用“类型提示”，依赖的类将会被容器自动进行解析，包括在 [控制器](/docs/{{version}}/controllers) ， [事件监听器](/docs/{{version}}/events) ， [队列任务](/docs/{{version}}/queues) ， [中间件](/docs/{{version}}/middleware)， 等地方。 事实上，这也是大部分类被容器解析的方式。
+另外，并且也是重要的，你可以在类的构造函数中对依赖使用“类型提示”，依赖的类将会被容器自动进行解析，包括在 [控制器](/docs/{{version}}/controllers) ， [事件监听器](/docs/{{version}}/events) ， [队列任务](/docs/{{version}}/queues) ， [中间件](/docs/{{version}}/middleware) 等地方。 事实上，这也是大部分类被容器解析的方式。
 
 例如，你可以在控制器的构造函数中对应用程序定义的 `Repository` 使用类型提示。这样 `Repository` 实例会被自动解析并注入到类中：
 
