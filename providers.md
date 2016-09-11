@@ -21,7 +21,7 @@
 <a name="writing-service-providers"></a>
 ## 编写服务提供者
 
-所有的服务提供者都继承了 `Illuminate\Support\ServiceProvider` 类。这个抽象类要求你在你的提供者上定义至少一个方法：`register`。在 `register` 方法中，你应该 **只将事物绑定至 [服务容器](/docs/{{version}}/container) 之中**。永远不要试图在 `register` 方法中注册任何事件侦听器、路由或任何其它功能。
+所有的服务提供者都继承了 `Illuminate\Support\ServiceProvider` 类。大多数服务提供者包含一个 `register` 方法和一个 `boot` 方法，在 `register` 方法中，你应该 **只将事物绑定至 [服务容器](/docs/{{version}}/container) 之中**。永远不要试图在 `register` 方法中注册任何事件侦听器、路由或任何其它功能。
 
 Artisan 命令行接口可以很容易地通过 `make:provider` 命令生成新的提供者：
 
@@ -32,7 +32,7 @@ Artisan 命令行接口可以很容易地通过 `make:provider` 命令生成新�
 
 如同之前提到的，在 `register` 方法中，你应该只将事物绑定至 [服务容器](/docs/{{version}}/container) 中。永远不要尝试在 `register` 方法中注册任何事件侦听器、路由或任何其它功能。否则的话，你可能会意外地使用到由尚未加载的服务提供者所提供的服务。
 
-现在，让我们来看看基本的服务提供者：
+现在，让我们来看看基本的服务提供者。在你的任意一个服务提供者方法中，你总是可以通过访问 `$app` 属性它提供了访问服务容器。
 
     <?php
 
@@ -50,7 +50,7 @@ Artisan 命令行接口可以很容易地通过 `make:provider` 命令生成新�
          */
         public function register()
         {
-            $this->app->singleton('Riak\Contracts\Connection', function ($app) {
+            $this->app->singleton(Connection::class, function ($app) {
                 return new Connection(config('riak'));
             });
         }
