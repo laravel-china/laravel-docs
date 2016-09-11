@@ -11,6 +11,7 @@
 ## 译者
 
 <div style="width:300px">
+
 | 用户名 | 头像 | 
 |---|---|
 | [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/200/h/200">  | 
@@ -19,6 +20,7 @@
 | [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |
 | [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  | 
 | [@NauxLiu](https://github.com/NauxLiu)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9570112?v=3&s=100">  | 
+
 </div>
 
 ## 排版规范
