@@ -159,4 +159,7 @@ Laravel 编译并保存了一份清单，包括所有由延缓服务提供者所
 
     }
 
-
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@rang9527](https://github.com/rang9527)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1489_1473577231.jpg?imageView2/1/w/100/h/100">  |  翻译  | 进城务工人员，[@rang9527](https://github.com/rang9527/) at Github  |
