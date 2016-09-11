@@ -24,7 +24,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 不像 facades 那样，contracts 需要你为你的类显示的定义依赖关系。有些开发者喜欢这种显示的依赖定义，所以他们喜欢使用 contracts，而其他开发者更喜欢方便的 facades。
 
-> {提示} 大多数应用不管你是使用 facades 还是 contracts 都可以很好的工作，但是如果你打算构建扩展包的话，强烈建议使用 contracts，因为它们在扩展包的环境下更容易被测试。
+> {tip} 大多数应用不管你是使用 facades 还是 contracts 都可以很好的工作，但是如果你打算构建扩展包的话，强烈建议使用 contracts，因为它们在扩展包的环境下更容易被测试。
 
 <a name="when-to-use-contracts"></a>
 ## 何时使用 Contracts
