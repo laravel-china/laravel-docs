@@ -26,7 +26,7 @@ Laravel 会为每个活跃用户自动生成一个 CSRF "token" 。该 token 用
 
 有时候你可能会希望一组 URIs 不要被 CSRF 保护。你如果使用 [Stripe](https://stripe.com) 处理付款，并且利用他们的 webhook 系统，你需要从 CSRF 保护中排除 webhook 的处理路由，因为 Stripe 不会知道传递什么 CSRF token 给你的路由。
 
-由于 `RouteServiceProvider` 会把 `web` 中间件组应用到 `routes/web.php` 文件中的所有路由上，通常来讲，你不应该把这种路由放置在其中。然而，你也可以通过在 `VerifyCsrfToken` 中间件里增加 `$except` 属性来排除这种路由：
+一般的，你不应该把这种类型的路由写在  `routes/web.php` 文件中，因为此文件的所有路由在 `RouteServiceProvider` 中被绑定到 `web` 中间件组中（`web` 中间件组下的所有路由默认会进行 `VerifyCsrfToken` 过滤）。不过如果一定要这么做，你也可以通过在 `VerifyCsrfToken` 中间件中增加 `$except` 属性来排除这种路由：
 
     <?php
 
