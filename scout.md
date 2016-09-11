@@ -23,7 +23,7 @@
 
 Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的基于驱动的全文检索系统。使用模型观察者时 Scout 会自动保持你的检索索引与你的 Eloquent 记录同步
 
-现在，Scout 带着一个 [Algolia](https://www.algolia.com/) 驱动；然而，想要写自定义的驱动也是简单的，并且你可以用你自己想要的检索效果去自由的扩展 Scout。
+现在，Scout 带着一个 [Algolia](https://www.algolia.com/) 驱动；然而，扩展 Scout 并不难，你可以通过自定义驱动来自由的扩展 Scout。
 
 <a name="installation"></a>
 ## 安装
@@ -36,7 +36,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
     Laravel\Scout\ScoutServiceProvider::class,
 
-注册好 Scout 的服务提供者之后，你可以使用 `vendor:publish` Artisan 命令生成 Scout 的配置文件。这个命令会在你的 config 目录下生成 `scout.php` 配置文件：
+注册好 Scout 的服务提供者之后，你可以使用 `vendor:publish` Artisan 命令生成 Scout 的配置文件。这个命令会在你的 `config` 目录下生成 `scout.php` 配置文件：
 
     php artisan vendor:publish
 
@@ -57,7 +57,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="queueing"></a>
 ### 队列
 
-虽然不严格要求使用 Scort，在使用库之前你应该认真考虑一下配置一个 [队列驱动](/docs/{{version}}/queues)。运行一个 queue worker 将 Scout 的所有操作加在队列中来同步你的模型的数据在检索的索引里，给你的 web 接口提供更快的反应速度。
+虽然 Scort 没有限制你必须使用队列，但是建议你为 Scort 配置一个 [队列驱动](/docs/{{version}}/queues)。使用队列来对处理 Scout 对数据模型的索引，将会极大的提高你的页面响应时间。
 
 一旦你配置了队列驱动，在你的 `config/scout.php` 配置文件中设置 `queue` 的值为 `true`：
 
