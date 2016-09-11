@@ -134,12 +134,12 @@ Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/contai
     class CacheOrderInformation
     {
         /**
-         * The Redis database implementation.
+         * Redis 数据库实现。
          */
         protected $redis;
 
         /**
-         * Create a new event handler instance.
+         * 创建事件处理器实例。
          *
          * @param  Database  $redis
          * @return void
@@ -150,7 +150,7 @@ Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/contai
         }
 
         /**
-         * Handle the event.
+         * 处理事件。
          *
          * @param  OrderWasPlaced  $event
          * @return void
