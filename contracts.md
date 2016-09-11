@@ -1,10 +1,10 @@
 # Contracts
 
 - [简介](#introduction)
-    - [Contracts 对比 Facades](#contracts-vs-facades)
+    - [Contracts Vs. Facades](#contracts-vs-facades)
 - [何时使用 Contracts](#when-to-use-contracts)
     - [低耦合](#loose-coupling)
-    - [简洁性](#simplicity)
+    - [简单性](#simplicity)
 - [如何使用 Contracts](#how-to-use-contracts)
 - [Contract 参考](#contract-reference)
 
@@ -18,7 +18,7 @@ Laravel 的 Contracts 是一组定义了框架核心服务的接口。例如，`
 Laravel 所有的 contracts 都放在各自的 [GitHub 代码库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
 
 <a name="contracts-vs-facades"></a>
-### Contracts 对比 Facades
+### Contracts Vs. Facades
 
 Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来使用服务，而不需要使用类型提示和在服务容器之外解析 contracts。大多数情况下，每个 facade 都有一个相应的 contract。
 
@@ -31,12 +31,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 正如我们所说，到底是选择 facade 还是 contracts 取决于你或你的团队的喜好。不管是 facade 还是 contracts，都可以创建出健壮的，易测试的应用。随着你长期关注于类的功能层面，你会发现其实 facades 和 contracts 之间并没有太大的区别。
 
-但是，你一定还是有些疑惑。比如，为什么总是使用接口？使用接口不是更复杂吗？让我们来提炼一下这样做的原因：松耦合和简洁性。
+你可能有很多关于 contracts 的问题。像是为什么要使用接口？使用接口会不会变的更复杂？让我们来提炼一下这样做的原因：松耦合和简洁性。
 
 <a name="loose-coupling"></a>
-### 松耦合
+### 低耦合
 
-首先，让我们来看一下关于缓存的一个紧耦合的实现方式，请阅读下面的代码并好好思考：
+首先，让我们来查看这一段和缓存功能有高耦合的代码，如下：
 
     <?php
 
@@ -45,12 +45,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
     class Repository
     {
         /**
-         * The cache instance.
+         * 缓存实例。
          */
         protected $cache;
 
         /**
-         * Create a new repository instance.
+         * 创建一个新的仓库实例。
          *
          * @param  \SomePackage\Cache\Memcached  $cache
          * @return void
@@ -61,7 +61,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
 
         /**
-         * Retrieve an Order by ID.
+         * 借由 ID 获取订单信息。
          *
          * @param  int  $id
          * @return Order
@@ -74,11 +74,11 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
     }
 
-在上面的类中，我们的代码和一个具体的缓存的实现是紧耦合的。之所以这样说，是因为我们依赖一个来自扩展包里的特定的 Cache 类。如果那个扩展包的 API 改变了，我们的代码就要随之修改。
+在此类中，程序和缓存实现之间是高耦合。因为它是依赖于扩展包的特定缓存类。一旦这个扩展包的 API 更改了，我们的代码也要跟着改变。
 
-同样的，如果我们想要把底层的缓存驱动（Memcached）换成另一个（Redis），也需要修改代码。我们的代码其实不需要考虑数据是谁提供的以及是怎样提供的。
+同样的，如果想要将底层的缓存技术（比如 Memcached ）切换成另一种（像 Redis ），又一次的我们必须修改这个 `Repository` 类。我们的 `Repository` 类不应该知道这么多关于谁提供了数据，或是如何提供等细节。
 
-**相比于这种方法, 使用简单的，不依赖具体实现的接口就可以改进我们的代码:**
+**比起上面的做法，我们可以使用一个简单、和扩展包无关的接口来改进代码:**
 
     <?php
 
@@ -89,12 +89,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
     class Repository
     {
         /**
-         * The cache instance.
+         * 缓存实例。
          */
         protected $cache;
 
         /**
-         * Create a new repository instance.
+         * 创建一个新的仓库实例。
          *
          * @param  Cache  $cache
          * @return void
@@ -105,14 +105,14 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
     }
 
-现在代码不依赖任何特殊的扩展包，甚至是 Laravel。因为 contracts 只定义了接口，并不包含任何的依赖和实现，所以你可以很简单的去实现任何给定的 contracts，你只需要根据 contracts 编写另外一个缓存的实现就可以轻松的进行替换，而并不用修改之前写过的代码。
+现在上面的代码没有跟任何扩展包耦合，甚至是 Laravel。既然 contracts 扩展包没有包含实现和任何依赖，你就可以很简单的对任何 contract 进行实现，你可以很简单的写一个替换的实现，甚至是替换 contracts，让你可以替换缓存实现而不用修改任何用到缓存的代码。
 
 <a name="simplicity"></a>
-### 简洁性
+### 简单性
 
-当所有的 Laravel 的服务都通过简单整洁的接口进行定义，那么很容易就可以判断某个服务具有哪些功能。**因此 contracts 可以被看做是框架功能的简单文档。**
+当所有的 Laravel 服务都使用简洁的接口定义，就能够很容易决定一个服务需要提供的功能。 **可以将 contracts 视为说明框架特色的简洁文档。**
 
-除此之外，当你只依赖于简单的接口，代码就非常易于阅读和维护。相比于在一个又长又复杂的类里寻找哪些方法是可用的，你可以直接参考简单又整洁的接口。
+除此之外，当依赖的接口足够简洁时，代码的可读性和可维护性大大提高。比起搜索一个大型复杂的类里有哪些可用的方法，你有一个简单，干净的接口可以参考。
 
 <a name="how-to-use-contracts"></a>
 ## 如何使用 Contracts
