@@ -20,7 +20,7 @@ Laravel 所有的 contracts 都放在各自的 [GitHub 代码库](https://github
 <a name="contracts-vs-facades"></a>
 ### Contracts Vs. Facades
 
-Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来使用服务，而不需要使用类型提示和在服务容器之外解析 contracts。大多数情况下，每个 facade 都有一个相应的 contract。
+Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来使用服务，而不需要使用类型约束和在服务容器之外解析 contracts。大多数情况下，每个 facade 都有一个相应的 contract。
 
 不像 facades 那样，contracts 需要你为你的类显示的定义依赖关系。有些开发者喜欢这种显示的依赖定义，所以他们喜欢使用 contracts，而其他开发者更喜欢方便的 facades。
 
@@ -31,7 +31,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 正如我们所说，到底是选择 facade 还是 contracts 取决于你或你的团队的喜好。不管是 facade 还是 contracts，都可以创建出健壮的，易测试的应用。随着你长期关注于类的功能层面，你会发现其实 facades 和 contracts 之间并没有太大的区别。
 
-你可能有很多关于 contracts 的问题。像是为什么要使用接口？使用接口会不会变的更复杂？让我们来提炼一下这样做的原因：松耦合和简洁性。
+你可能有很多关于 contracts 的问题。像是为什么要使用接口？使用接口会不会变的更复杂？让我们来提炼一下这样做的原因：低耦合和简单性。
 
 <a name="loose-coupling"></a>
 ### 低耦合
@@ -76,7 +76,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 在此类中，程序和缓存实现之间是高耦合。因为它是依赖于扩展包的特定缓存类。一旦这个扩展包的 API 更改了，我们的代码也要跟着改变。
 
-同样的，如果想要将底层的缓存技术（比如 Memcached ）切换成另一种（像 Redis ），又一次的我们必须修改这个 `Repository` 类。我们的 `Repository` 类不应该知道这么多关于谁提供了数据，或是如何提供等细节。
+同样的，如果想要将底层的缓存实现（比如 Memcached ）切换成另一种（像 Redis ），又一次的我们必须修改这个 `Repository` 类。我们的 `Repository` 类不应该知道这么多关于谁提供了数据，或是如何提供等细节。
 
 **比起上面的做法，我们可以使用一个简单、和扩展包无关的接口来改进代码:**
 
@@ -119,7 +119,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
 
 那么，如何获取一个 contract 的实现呢？其实真的非常简单。
 
-Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/container)解析出来的。包括控制器，事件监听器，中间件，任务队列，甚至是路由的闭包。所以说，想要获得一个 contract 的实现，你只需要在类的构造函数里添加相应的类型提示就好了。
+Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/container)解析出来的。包括控制器，事件监听器，中间件，任务队列，甚至是路由的闭包。所以说，想要获得一个 contract 的实现，你只需要在类的构造函数里添加相应的类型约束就好了。
 
 举个例子，看一下这个事件监听器：
 
@@ -161,7 +161,7 @@ Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/contai
         }
     }
 
-当事件监听器被解析式，服务容器会从构造函数里读取到类型提示，并且注入合适的类。想了解如何注册绑定到容器，请参考[这篇文档](/docs/{{version}}/container)。
+当事件监听器被解析时，服务容器会从构造函数里读取到类型约束，并且注入合适的类。想了解如何注册绑定到容器，请参考[这篇文档](/docs/{{version}}/container)。
 
 
 <a name="contract-reference"></a>
