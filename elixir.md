@@ -20,7 +20,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序中定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScrtip 预处理器，例如 [Sass](http://sass-lang.com) 和 [Webpack](https://webpack.github.io/)。使用链式调用，Elixir 让你流畅地定义开发流程，例如：
+Laravel Elixir 提供了简洁流畅的 API，让你能够在你的 Laravel 应用程序中定义基本的 [Gulp](http://gulpjs.com) 任务。Elixir 支持许多常见的 CSS 与 JavaScript 预处理器，例如 [Sass](http://sass-lang.com) 和 [Webpack](https://webpack.github.io/)。使用链式调用，Elixir 让你流畅地定义开发流程，例如：
 
 ```javascript
 elixir(function(mix) {
@@ -36,12 +36,12 @@ elixir(function(mix) {
 
 #### 安装 Node
 
-在开始使用 Elixir 之前，你必须先确定你的机器上有安装 Node.js 和 npm。
+在开始使用 Elixir 之前，你必须先确保你的机器上有安装 Node.js 和 npm。
 
     node -v
     npm -v
 
-默认情况下，Laravel Homestead 会包含你所需的一切；如果你没有使用 Vagrant，那么你可以简单的浏览 Node 的[下载页面](http://nodejs.org/en/download/)进行安装。
+默认情况下，Laravel Homestead 包含了你所需的一切；如果你没有使用 Vagrant，那么你可以从[Node 的官方下载页面](http://nodejs.org/en/download/) 下载可视化安装工具来安装 Node 与 NPM 的最新版本。
 
 #### Gulp
 接着，你需要全局安装 [Gulp](http://gulpjs.com) 的 NPM 扩展包：
@@ -73,14 +73,14 @@ Elixir 是创建于 [Gulp](http://gulpjs.com) 之上，所以要运行你的 Eli
 
 #### 监控资源文件修改
 
-`gulp watch` 会在你的终端里持续运行，弄监控资源文件是否有发生改变。在 `watch` 命令运行的情况下，一旦资源文件发生变化，Gulp 会自动重新编译：
+`gulp watch` 会在你的终端里持续运行，监控资源文件是否有发生改变。在 `watch` 命令运行的情况下，一旦资源文件发生变化，Gulp 会自动重新编译：
 
     gulp watch
 
 <a name="working-with-stylesheets"></a>
 ## 使用样式
 
-项目根目录的 `gulpfile.js` 包含你所有的 Elixir 任务。Elixir 任务可以被链式调用起来，以定义你的资源文件该如何进行编译。
+项目根目录的 `gulpfile.js` 包含你所有的 Elixir 任务。Elixir 任务可以使用链式调用的写法来定义你的资源文件该如何进行编译。
 
 <a name="less"></a>
 ### Less
