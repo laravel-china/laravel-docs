@@ -434,3 +434,7 @@
     $this->callSilent('email:send', [
         'user' => 1, '--queue' => 'default'
     ]);
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 努力学习PHP  |
