@@ -204,3 +204,9 @@ Contract  |  References Facade
 [Illuminate\Contracts\Validation\Validator](https://github.com/illuminate/contracts/blob/master/Validation/Validator.php) | &nbsp;
 [Illuminate\Contracts\View\Factory](https://github.com/illuminate/contracts/blob/master/View/Factory.php) | View::make()
 [Illuminate\Contracts\View\View](https://github.com/illuminate/contracts/blob/master/View/View.php) | &nbsp;
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@dinghua](https://phphub.org/users/294)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/294_1473147991.png?imageView2/1/w/100/h/100">  |  翻译  | 专注于 PHP 和 Laravel |
+
