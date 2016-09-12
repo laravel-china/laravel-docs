@@ -46,9 +46,9 @@
 
 命令生成以后，应先填写类的 `signature` 和 `description` 属性，之后可以在使用 `list` 命令是显示出来。执行命令是调用 `handle` 方法，可以把你的命令逻辑放到这个方法中。
 
-> ｛提示｝ 大部分的代码复用，保持你的代码轻量并让它们延迟到应用服务中完成任务是个不错的实践。在下面这个例子中，我们注入了一个服务类去执行发送邮件的繁重任务。
+> {tip} 大部分的代码复用，保持你的代码轻量并让它们延迟到应用服务中完成任务是个不错的实践。在下面这个例子中，我们注入了一个服务类去执行发送邮件的繁重任务。
 
-让我们看这个简单的命令例子，`Command` 类构造器允许注入需要的依赖，Laravel 的[服务容器](/docs/{{version}}/container) 将会自动把功能类 `DripEmailer` 解析到构造器中：
+让我们看这个简单的命令例子，`Command` 类构造器允许注入需要的依赖，Laravel 的[服务容器](/docs/{{version}}/container) 将会自动注入构造函数中所有带类型约束的依赖：
 
     <?php
 
@@ -108,7 +108,7 @@
 <a name="closure-commands"></a>
 ### 闭包命令
 
-闭包命令提供一个替代定义命令方法的类。同样的路由闭包是控制器的一种替代方法，这种命令闭包可以替换命令类。使用 `app/Console/Kernel.php` 文件的 `commands` 方法，需要 Laravel 在 `routes/console.php` 加载：
+闭包命令提供一个替代定义命令方法的类。同样的路由闭包是控制器的一种替代方法，这种命令闭包可以替换命令类。使用 `app/Console/Kernel.php` 文件的 `commands` 方法，需要 Laravel 在 `routes/console.php` 注册：
 
 
     /**
@@ -131,7 +131,7 @@
 
 #### 类型提示依赖
 
-除了接收命令的参数和选项，命令闭包也可以类型提示附加依赖关系为你想要解决的 [服务容器](/docs/{{version}}/container)：
+除了接收命令的参数和选项外，命令闭包也可以使用类型提示来指定 [服务容器](/docs/{{version}}/container) 之外的额外依赖：
 
     use App\User;
     use App\DripEmailer;
@@ -251,9 +251,9 @@
 ## Command I/O
 
 <a name="retrieving-input"></a>
-### 检索输入
+### 获取输入
 
-在命令执行的时，你可以访问命令获取的参数和选项的值。像这样，你可以使用 `argument` 和 `option` 方法：
+在命令执行的时，你可以像下面这样使用 `argument` 和 `option` 方法获取参数和选项：
 
     /**
      * Execute the console command.
@@ -267,11 +267,11 @@
         //
     }
 
-如果您需要检索所有的参数作为一个 `array`，调用 `arguments` 方法：
+如果您需要获取所有参数作为一个 `array`，调用 `arguments` 方法：
 
     $arguments = $this->arguments();
 
-选项可以像参数一样使用 `option` 方法检索， 检索所有的选项作为一个 `array` ，调用 `options` 方法：
+选项可以像参数一样使用 `option` 方法检索， 获取所有的选项作为一个 `array` ，调用 `options` 方法：
 
     // Retrieve a specific option...
     $queueName = $this->option('queue');
@@ -282,7 +282,7 @@
 如果参数或选项不存在，将会返回 `null` 。
 
 <a name="prompting-for-input"></a>
-### 输入提示
+### 交互式输入
 
 除了显示输出，您还可以要求用户在您的命令执行过程中提供输入。`ask` 方法将会使用给定问题提示用户，接收输入，然后返回用户输入到命令：
 
