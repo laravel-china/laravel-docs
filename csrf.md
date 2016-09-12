@@ -1,7 +1,7 @@
 # CSRF 保护
 
 - [介绍](#csrf-introduction)
-- [不受 CSRF 保护的 URIs](#csrf-excluding-uris)
+- [CSRF 白名单](#csrf-excluding-uris)
 - [X-CSRF-Token](#csrf-x-csrf-token)
 - [X-XSRF-Token](#csrf-x-xsrf-token)
 
@@ -22,7 +22,7 @@ Laravel 会为每个活跃用户自动生成一个 CSRF "token" 。该 token 用
 `VerifyCsrfToken` [中间件](/docs/{{version}}/middleware)，是包含在 `web`中间件组中的，它会自动验证请求中的 token 是否与 session 中的相匹配。
 
 <a name="csrf-excluding-uris"></a>
-## 不受 CSRF 保护的 URIs
+## CSRF 白名单
 
 有时候你可能会希望一组 URIs 不要被 CSRF 保护。你如果使用 [Stripe](https://stripe.com) 处理付款，并且利用他们的 webhook 系统，你需要从 CSRF 保护中排除 webhook 的处理路由，因为 Stripe 不会知道传递什么 CSRF token 给你的路由。
 
@@ -53,7 +53,7 @@ Laravel 会为每个活跃用户自动生成一个 CSRF "token" 。该 token 用
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-一旦你创建了 `meta` 标签，你就可以使用 jQuery 之类的函数库将 token 加入到所有的请求标头。基于 AJAX 的应用，提供了简单、方便的 CSRF 保护：
+一旦你创建了 `meta` 标签，你就可以使用 jQuery 之类的函数库将 token 自动地添加到所有的请求头中。这简单、方便的为你的应用的 AJAX 提供了 CSRF 保护：
 
     $.ajaxSetup({
         headers: {
