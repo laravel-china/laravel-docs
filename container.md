@@ -4,7 +4,7 @@
 - [绑定](#binding)
     - [绑定基础](#binding-basics)
     - [绑定接口至实现](#binding-interfaces-to-implementations)
-    - [环境绑定](#contextual-binding)
+    - [情境绑定](#contextual-binding)
     - [标记](#tagging)
 - [解析](#resolving)
     - [Make 方法](#the-make-method)
@@ -60,7 +60,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
         }
     }
 
-在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 最有可能通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，所以我们可以容易地切换成其他实现。当测试应用程序时，我们以可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
+在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 可能是通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，所以我们可以容易地切换为其他实现。当测试应用程序时，我们还可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
 
 在构建强大的应用程序，和为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
 
@@ -72,7 +72,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 
 几乎所有服务容器的绑定都是在 [服务提供者](/docs/{{version}}/providers) 中进行的，所以下面的例子将示范在该情景中使用容器。
 
-> {提示} 但是，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
+> {tips} 但是，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
 
 #### 简单绑定
 
@@ -111,14 +111,14 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="binding-interfaces-to-implementations"></a>
 ### 绑定接口至实现
 
-服务容器有一个强大的功能，就是将一个指定的实例绑定到接口上。例如，如果我们有一个 `EventPusher` 接口和一个 `RedisEventPusher` 类的实例。一旦类 `RedisEventPusher` 编写实现 `EventPusher` 接口，我们就可以在服务容器中像下面例子一样注册它：
+服务容器有一个强大的功能，就是将一个指定接口的实现绑定到接口上。例如，如果我们有一个 `EventPusher` 接口和一个它的实现类 `RedisEventPusher` 。编写完接口的 `RedisEventPusher` 实现类后，我们就可以在服务容器中像下面例子一样注册它：
 
     $this->app->bind(
         'App\Contracts\EventPusher',
         'App\Services\RedisEventPusher'
     );
 
-这么做会告诉容器当一个类需要 `EventPusher` 的实例时， `RedisEventPusher` 的实例将会被容器注入。现在我们就可以在构造函数中，或者任何其他需要通过容器注入依赖的地方，使用 `EventPusher` 接口的类型提示：
+这么做会告诉容器当一个类需要 `EventPusher` 接口的实例时， `RedisEventPusher` 的实例将会被容器注入。现在我们就可以在构造函数中，或者任何其他需要通过容器注入依赖的地方，使用 `EventPusher` 接口的类型提示：
 
     use App\Contracts\EventPusher;
 
@@ -134,9 +134,9 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     }
 
 <a name="contextual-binding"></a>
-### 情景绑定
+### 情境绑定
 
-有时候，你可能有两个类使用到相同的接口，但你希望每个类都能注入不同的实现。例如，两个控制器可能需要依赖不同的 `Illuminate\Contracts\Filesystem\Filesystem` [契约](/docs/{{version}}/contracts) 的实现类。 Laravel 提供了一种简单、流畅的接口来定义这种行为：
+有时候，你可能有两个类使用到相同的接口，但你希望每个类都能注入不同的实现。例如，两个控制器可能需要依赖不同的 `Illuminate\Contracts\Filesystem\Filesystem` [契约](/docs/{{version}}/contracts) 的实现类。 Laravel 为此定义了一种简单、平滑的接口：
 
     use Illuminate\Support\Facades\Storage;
     use App\Http\Controllers\PhotoController;
