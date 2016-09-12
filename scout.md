@@ -78,7 +78,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="configuring-model-indexes"></a>
 ### 配置模型索引
 
-每个 Eloquent 模型同步到给定的检索「索引」它包含了该模型所有可检索的数据。换句话说，你可以把它想象成 MySQL 的数据表，它存放在你的 Algolia 账户下。默认情况下每个索引都要匹配一个典型模型的「数据表」名。标准的数据表名是模型的复数形式；但是，你也可以覆盖模型里的 `searchableAs` 方法去自定义模型的索引：
+每一个 Eloquent 模型都会同步到对应的一个检索「索引」中，「索引」里包含了此模型的所有可检索的记录。你可以把每一个「索引」设想为 MySQL 数据表。默认情况下，「索引」的名称与模型对应的数据库表名称一致，也就是说，是模型的复数形式。当然，你也可以在模型类使用 `searchableAs` 方法来重写「索引」名称：
 
     <?php
 
@@ -105,7 +105,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="configuring-searchable-data"></a>
 ### 配置可检索的数据
 
-一个模型的整个 `toArray` 后的形式默认是持久保存在模型索引中的，但你通过覆盖模型上的 `toSearchableArray` 方法也可以自定义同步到索引中的数据：
+默认情况下，「索引」会从模型的 `toArray` 方法中读取数据来做数据持久化。你也可以通过重写 `toSearchableArray` 方法来自定义数据到「索引」的同步：
 
     <?php
 
@@ -139,7 +139,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="batch-import"></a>
 ### 批量导入
 
-如果你想要将 Scout 安装到已经存在的项目里，那你也需要将已经在数据库里的数据导入到搜索引擎里。你可以使用 Scout 提供的 `import` Artisan 命令来导入该模型对应数据表里所有的数据到 Algolia 的检索索引里：
+如果你想要将 Scout 安装到已经存在的项目里，那你也需要将已经在数据库里的数据导入到搜索引擎里。你可以使用 Scout 提供的 `import` Artisan 命令把现有的模型数据导入到「索引」里：
 
     php artisan scout:import "App\Post"
 
