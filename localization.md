@@ -105,3 +105,9 @@ Laravel 的本地化功能提供方便的方法来获取多语言的字符串，
 部分扩展包带有自己的语言包，你可以通过在 `resources/lang/vendor/{package}/{locale}` 放置文件来重写它们，而不是直接修改扩展包的核心文件。
 
 例如，你需要重写 `skyrim/hearthfire` 扩展包的英文语言包 `messages.php` ，则需要把文件放置在 `resources/lang/vendor/hearthfire/en/messages.php` 。所有没有重写的语句仍将会从扩展包的语言包中被加载。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@江边望海](http://blog.jiangbianwanghai.com)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5306_1470714129.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 郑州悉知资深技术经理、讲师，10多年软件产品研发、测试、咨询及管理工作经验。Follow me [@jiangbianwanghai](https://github.com/jiangbianwanghai/) at Github |
+| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
