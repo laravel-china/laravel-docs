@@ -16,12 +16,12 @@
     - [编写输出](#writing-output)
 - [注册命令](#registering-commands)
 - [程序内部调用命令](#programatically-executing-commands)
-    - [其他命令调用命令](#calling-commands-from-other-commands)
+    - [命令中调用其它命令](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
 ## 介绍
 
-Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的命令来帮助你开发 Laravel 应用， 要查看所有的 Artisan 命令列表，可以使用 `list` 命令：
+`Artisan` 是 Laravel 的命令行接口的名称， 它提供了许多实用的命令来帮助你开发 Laravel 应用， 要查看所有的 `Artisan` 命令列表，可以使用 `list` 命令：
 
     php artisan list
 
@@ -32,23 +32,23 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
 <a name="writing-commands"></a>
 ## 编写命令
 
-除了Artisan提供的命令之外，还可以自己创建自定义命令。自定义命令默认存储在 `app/Console/Commands` 目录，当然，你也可以修改 `composer.json` 配置来指定你想要存放的目录。
+除了 `Artisan` 提供的命令之外，还可以创建自定义命令。自定义命令默认存储在 `app/Console/Commands` 目录，当然，你也可以修改 `composer.json` 配置来指定你想要存放的目录。
 
 <a name="generating-commands"></a>
 ### 生成命令
 
-要创建一个新的命令，可以使用 `make:command` 命令。这个命令会创建一个命令类存放在 `app/Console/Commands` 目录。 不要担心不存在这个目录， 运行 `make:command` 命令时会首先创建这个目录。生成的命令将会包括所有默认存在的属性和方法：
+要创建一个新的命令，可以使用 `make:command` 命令。这个命令会创建一个命令类并存放在 `app/Console/Commands` 目录。 不必担心不存在这个目录，运行 `make:command` 命令时会首先创建这个目录。生成的命令将会包括所有默认存在的属性和方法：
 
     php artisan make:command SendEmails
 
 <a name="command-structure"></a>
 ### 命令结构
 
-命令生成以后，需要填写这个类的 `signature` 和 `description` 属性，这样在可以在使用 `list` 命令是可以显示出来。命令执行是调用 `handle` 方法，可以把你的命令逻辑放到这个方法中。
+命令生成以后，应先填写类的 `signature` 和 `description` 属性，之后可以在使用 `list` 命令是显示出来。执行命令是调用 `handle` 方法，可以把你的命令逻辑放到这个方法中。
 
 > ｛提示｝ 大部分的代码复用，保持你的代码轻量并让它们延迟到应用服务中完成任务是个不错的实践。在下面这个例子中，我们注入了一个服务类去执行发送邮件的繁重任务。
 
-让我们看这个简单的命令例子，Command 类构造器允许注入需要的依赖，Laravel 的[服务容器](/docs/{{version}}/container) 将会在构造函数中自动注入所有依赖类型提示：
+让我们看这个简单的命令例子，`Command` 类构造器允许注入需要的依赖，Laravel 的[服务容器](/docs/{{version}}/container) 将会自动把功能类 `DripEmailer` 解析到构造器中：
 
     <?php
 
@@ -108,7 +108,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
 <a name="closure-commands"></a>
 ### 闭包命令
 
-闭包命令提供一个替代定义命令方法的类。同样的路由闭包是控制器的一种替代方法，这种命令闭包可以替换命令类。使用 `app/Console/Kernel.php` 文件的 `commands`方法，需要 Laravel 在 `routes/console.php` 加载：
+闭包命令提供一个替代定义命令方法的类。同样的路由闭包是控制器的一种替代方法，这种命令闭包可以替换命令类。使用 `app/Console/Kernel.php` 文件的 `commands` 方法，需要 Laravel 在 `routes/console.php` 加载：
 
 
     /**
@@ -121,7 +121,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
         require base_path('routes/console.php');
     }
 
-虽然这个文件没有定义 HTTP 路由，它定义了基于控制台的入口点 （路由）到你的应用中，在这个文件中，你可以使用 `Artisan::command` 方法定义所有基于路由的闭包，`command` 方法接收两个参数：[命令签名](#defining-input-expectations)和一个接收命令参数和选项的闭包：
+虽然这个文件没有定义 HTTP 路由，它定义了基于控制台的入口点（路由）到你的应用中，在这个文件中，你可以使用 `Artisan::command` 方法定义所有基于路由的闭包，`command` 方法接收两个参数：[命令签名](#defining-input-expectations)和一个接收命令参数和选项的闭包：
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -129,7 +129,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
 
 闭包绑定下面的命令实例，因此你可以访问所有的辅助方法，您也可以访问一个完整的命令类。
 
-####类型提示依赖
+#### 类型提示依赖
 
 除了接收命令的参数和选项，命令闭包也可以类型提示附加依赖关系为你想要解决的 [服务容器](/docs/{{version}}/container)：
 
@@ -142,7 +142,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
 
 #### 闭包命令描述
 
-当定义一个基于命令的闭包时，你可以使用 `describe` 方法来为命令添加描述。这个描述将会在你执行  `php artisan list` 或 `php artisan help` 命令时显示：
+当定义一个基于命令的闭包时，你可以使用 `describe` 方法来为命令添加描述。这个描述将会在你执行 `php artisan list` 或 `php artisan help` 命令时显示：
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -151,7 +151,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
 <a name="defining-input-expectations"></a>
 ## 定义预期的输入
 
-在你编写控制台命令时，通常通过参数和选项收集用户输入， Laravel 使这项操作变得很方便，你可以在命令里使用 `signature` 属性。 `signature` 属性通过一个类似路由风格的语法让用户为命令定义名称，参数和选项。
+在你编写控制台命令时，通常通过参数和选项收集用户输入，Laravel 使这项操作变得很方便，你可以在命令里使用 `signature` 属性。 `signature` 属性通过一个类似路由风格的语法让用户为命令定义名称，参数和选项。
 
 <a name="arguments"></a>
 ### 参数
@@ -176,7 +176,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
 <a name="options"></a>
 ### 选项
 
-选项，和参数一样，也是用户输入的一种格式，不过当使用选项时，需要在命令前加两个连字符号 (`--`) 的前缀，有两种类型的选项：接收一个值和不接受值。选项不接收一个值作为布尔值的 ”switch” 。让我们看一个选项的例子：
+选项，和参数一样，也是用户输入的一种格式，不过当使用选项时，需要在命令前加两个连字符号 (`--`) 的前缀，有两种类型的选项：接收一个值和不接受值。选项不接收一个值作为布尔值的 `switch` 。让我们看一个选项的例子：
 
     /**
      * The name and signature of the console command.
@@ -185,7 +185,7 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
      */
     protected $signature = 'email:send {user} {--queue}';
 
-在这个例子中,当调用 Artisan 命令时，`--queue` 这个选项可以被明确的指定。如果 `--queue` 被当成输入时，这个选项的的值为  `true` ，否则这个值为 `false` ：
+在这个例子中,当调用 `Artisan` 命令时，`--queue` 这个选项可以被明确的指定。如果 `--queue` 被当成输入时，这个选项的的值为  `true` ，否则这个值为 `false` ：
 
     php artisan email:send 1 --queue
 
@@ -268,7 +268,6 @@ Artisan 是 Laravel 的命令行接口的名称， 它提供了许多实用的�
     }
 
 如果您需要检索所有的参数作为一个 `array`，调用 `arguments` 方法：
-If you need to retrieve all of the arguments as an `array`, call the `arguments` method:
 
     $arguments = $this->arguments();
 
@@ -385,7 +384,7 @@ If you need to retrieve all of the arguments as an `array`, call the `arguments`
 <a name="programatically-executing-commands"></a>
 ## 程序内部调用命令
 
-有时候你可能希望在 CLI 之外执行 Artisan 命令，例如，你可能希望在路由或控制器中触发Artisan命令，你可以使用 `Artisan` facade 上的 `call` 方法来完成。`call` 方法接收被执行的命令名称作为第一个参数，命令参数数组作为第二个参数，退出代码被返回：
+有时候你可能希望在 CLI 之外执行 Artisan 命令，例如，你可能希望在路由或控制器中触发 Artisan 命令，你可以使用 `Artisan` facade 上的 `call` 方法来完成。`call` 方法接收被执行的命令名称作为第一个参数，命令参数数组作为第二个参数，退出代码被返回：
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
