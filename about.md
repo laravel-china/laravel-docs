@@ -2,7 +2,7 @@
 
 ## 说明
 
-此文档主要由 [PHPHub](https://phphub.org)  维护。
+此文档主要由 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到他们。
 
 为了方便新手学习，在每篇文档的最底部增加导读内容区块。
 
