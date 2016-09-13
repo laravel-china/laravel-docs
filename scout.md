@@ -23,7 +23,7 @@
 
 Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的基于驱动的全文检索系统。使用模型观察者时 Scout 会自动保持你的检索索引与你的 Eloquent 记录同步
 
-现在，Scout 带着一个 [Algolia](https://www.algolia.com/) 驱动；然而，扩展 Scout 并不难，你可以通过自定义驱动来自由的扩展 Scout。
+目前，Scout 带着一个 [Algolia](https://www.algolia.com/) 驱动；然而，扩展 Scout 并不难，你可以通过自定义驱动来自由的扩展 Scout。
 
 <a name="installation"></a>
 ## 安装
@@ -32,7 +32,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
     composer require laravel/scout
 
-下一步，你需要将 `ScoutServiceProvider` 加到你的 `config/app.php` 配置文件的 `providers` 数组中
+接下来，你需要将 `ScoutServiceProvider` 添加到你的 `config/app.php` 配置文件的 `providers` 数组中：
 
     Laravel\Scout\ScoutServiceProvider::class,
 
@@ -40,7 +40,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
     php artisan vendor:publish
 
-最终，将 `Laravel\Scout\Searchable` trait 加到你想要做检索的模型，这个 trait 会注册一个模型观察者来保持模型同步到检索的驱动：
+最后，将 `Laravel\Scout\Searchable` trait 加到你想要做检索的模型，这个 trait 会注册一个模型观察者来保持模型同步到检索的驱动：
 
     <?php
 
@@ -68,7 +68,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
 #### Algolia
 
-当你使用 Algolia 驱动时，你需要在你的 `config/scout.php` 配置文件配置你的 Algolia `id` 和 `secret` 认证资料。配置好认证资料以后， 你还需要使用 composer 包管理器安装 Algolia PHP的 SDK ：
+当你使用 Algolia 驱动时，你需要在你的 `config/scout.php` 配置文件配置你的 Algolia `id` 和 `secret` 认证资料。配置好认证资料以后， 你还需要使用 composer 包管理器安装 Algolia PHP SDK ：
 
     composer require algolia/algoliasearch-client-php
 
@@ -78,7 +78,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="configuring-model-indexes"></a>
 ### 配置模型索引
 
-每一个 Eloquent 模型都会同步到对应的一个检索「索引」中，「索引」里包含了此模型的所有可检索的记录。你可以把每一个「索引」设想为 MySQL 数据表。默认情况下，「索引」的名称与模型对应的数据库表名称一致，也就是说，是模型的复数形式。当然，你也可以在模型类使用 `searchableAs` 方法来重写「索引」名称：
+每一个 Eloquent 模型都会同步到对应的一个检索「索引」中，「索引」里包含了此模型的所有可检索的记录。你可以把每一个「索引」设想为一张 MySQL 数据表。默认情况下，「索引」的名称与模型对应数据表名称一致，也就是说，是模型名称的复数形式。当然，你也可以在模型类使用 `searchableAs` 方法来重写「索引」名称：
 
     <?php
 
@@ -92,7 +92,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
         use Searchable;
 
         /**
-         * Get the index name for the model.
+         * 得到该模型索引的名称。
          *
          * @return string
          */
@@ -119,7 +119,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
         use Searchable;
 
         /**
-         * Get the indexable data array for the model.
+         * 得到该模型可索引数据的数组。
          *
          * @return array
          */
@@ -127,7 +127,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
         {
             $array = $this->toArray();
 
-            // Customize array...
+            // 自定义数组数据...
 
             return $array;
         }
@@ -156,15 +156,15 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
 #### 使用队列添加
 
-如果你想使用 Eloquent 构造器添加模型的集合到你的检索索引里，你也可以在 Eloquent 构造器上链式调用 `searchable` 方法。`searchable` 会把构造器的 [结果分组](/docs/{{version}}/eloquent#chunking-results) 并且将记录添加到你的检索索引里。同样的，如果你配置 Scout 使用队列，所有的分组将会在后台由你的 queue workers 添加：
+如果你想使用 Eloquent 构造器添加模型的集合到你的检索索引里，你也可以在 Eloquent 构造器上链式调用 `searchable` 方法。`searchable` 会把构造器的查询 [结果分块](/docs/{{version}}/eloquent#chunking-results) 并且将记录添加到你的检索索引里。同样的，如果你配置 Scout 使用队列，所有的数据块将会在后台由你的 queue workers 添加：
 
-    // Adding via Eloquent query...
+    // 使用 Eloquent 查询语句增加...
     App\Order::where('price', '>', 100)->searchable();
 
-    // You may also add records via relationships...
+    // 你也可以使用模型关系增加记录...
     $user->orders()->searchable();
 
-    // You may also add records via collections...
+    // 你也可以使用集合增加记录...
     $orders->searchable();
 
 `searchable` 方法可以被看做是「增量更新」的操作。换句话说，如果一个模型的记录已经在你的索引里了，它就会被更新，如果不在，就会被插入。
@@ -176,19 +176,19 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
     $order = App\Order::find(1);
 
-    // Update the order...
+    // 更新 order...
 
     $order->save();
 
-你也可以在 Eloquent query 上使用 `searchable` 方法来更新一个模型的集合。如果这个模型不存在你检索的索引里，就会被创建：
+你也可以在 Eloquent 查询语句上使用 `searchable` 方法来更新一个模型的集合。如果这个模型不存在你检索的索引里，就会被创建：
 
-    // Updating via Eloquent query...
+    // 使用 Eloquent 查询语句更新...
     App\Order::where('price', '>', 100)->searchable();
 
-    // You may also update via relationships...
+    // 你也可以使用模型关系更新...
     $user->orders()->searchable();
 
-    // You may also update via collections...
+    // 你也可以使用集合更新...
     $orders->searchable();
 
 <a name="removing-records"></a>
@@ -200,15 +200,15 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 
     $order->delete();
 
-或者说是你不想在删除记录之前检索模型，你也可以在 Eloquent query 实例或集合上使用 `unsearchable` 方法：
+或者说是你不想在删除记录之前检索模型，你也可以在 Eloquent 查询语句的实例或集合上使用 `unsearchable` 方法：
 
-    // Removing via Eloquent query...
+    // 使用 Eloquent 查询语句移除索引...
     App\Order::where('price', '>', 100)->unsearchable();
 
-    // You may also remove via relationships...
+    // 你也可以使用模型关系移除索引...
     $user->orders()->unsearchable();
 
-    // You may also remove via collections...
+    // 你也可以使用集合移除索引...
     $orders->unsearchable();
 
 <a name="pausing-indexing"></a>
@@ -217,17 +217,17 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 当你想要对 Eloquent 模型完成一系列的操作并且不想将它们的数据同步到检索的索引里时，你也可以使用 `withoutSyncingToSearch` 方法。这个方法接受一个立即执行的回调函数。函数内部所有的操作都不会被同步到模型的索引里：
 
     App\Order::withoutSyncingToSearch(function () {
-        // Perform model actions...
+        // 对模型进行操作...
     });
 
 <a name="searching"></a>
 ## 检索
 
-你可以对一个模型使用 `search` 方法来检索。这个 search 方法接受一个将要在模型里检索的简单的字符串。之后你可以在 search query 上 链式调用 `get` 方法得到匹配的 Eloquent 模型：
+你可以对一个模型使用 `search` 方法来检索。这个 search 方法接受一个将要在模型里检索的简单的字符串。之后你可以在搜索语句上链式调用 `get` 方法得到匹配的 Eloquent 模型：
 
     $orders = App\Order::search('Star Trek')->get();
 
-当 Scout 检索到数据后，会返回一个 Eloquent 模型的集合，你也可以在路由或控制器上直接返回数据，这样它会被自动解析成JSON：
+当 Scout 检索到数据后，会返回一个 Eloquent 模型的集合，你也可以在路由或控制器上直接返回数据，这样它会被自动解析成 JSON 格式：
 
     use Illuminate\Http\Request;
 
@@ -238,14 +238,14 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="where-clauses"></a>
 ### Where 语句
 
-Scout 允许你增加一个简单的「where」语句到 search queries。目前，这些语句只支持简单的数字相等检查，并且主要用来查询范围内的拥有者的 ID。由于检索索引是非关系型数据库，更高级的「where」暂时不支持：
+Scout 允许你增加一个简单的「where」语句链接到搜索语句上。目前，这些语句只支持简单的数字相等检查，并且主要用来查询范围内的拥有者的 ID。由于检索索引是非关系型数据库，更高级的「where」暂时不支持：
 
     $orders = App\Order::search('Star Trek')->where('user_id', 1)->get();
 
 <a name="pagination"></a>
 ### 分页
 
-除了检索模型的集合，你也可以使用 `paginate` 方法对检索结果进行分页。这个方法会返回一个 `Paginator` 实例就像你 [对传统的 Eloquent query 进行分页](/docs/{{version}}/pagination):
+除了检索模型的集合，你也可以使用 `paginate` 方法对检索结果进行分页。这个方法会返回一个 `Paginator` 实例就像你 [对传统的 Eloquent 查询语句进行分页](/docs/{{version}}/pagination):
 
     $orders = App\Order::search('Star Trek')->paginate();
 
@@ -253,7 +253,7 @@ Scout 允许你增加一个简单的「where」语句到 search queries。目前
 
     $orders = App\Order::search('Star Trek')->paginate(15);
 
-一旦你获取到结果，就可以对结果进行显示，就像你对传统的 Eloquent query 进行分页一样，使用 [Blade](/docs/{{version}}/blade) 来渲染页面的链接：
+一旦你获取到结果，就可以对结果进行显示，就像你对传统的 Eloquent 查询语句进行分页一样，使用 [Blade](/docs/{{version}}/blade) 来渲染页面的链接：
 
     <div class="container">
         @foreach ($orders as $order)
@@ -278,7 +278,7 @@ Scout 允许你增加一个简单的「where」语句到 search queries。目前
     abstract public function paginate(Builder $builder, $perPage, $page);
     abstract public function map($results, $model);
 
-在 `Laravel\Scout\Engines\AlgoliaEngine`　类里回顾这些方法会对你有较大的帮助。这个类将为你提供一个良好的学习起点，学习如何在你自己的引擎中实现这里每一个方法。
+在 `Laravel\Scout\Engines\AlgoliaEngine`　类里回顾这些方法会对你有较大的帮助。这个类将为你提供一个良好的学习起点，学习如何在你自己的引擎中实现这些方法。
 
 #### 注册引擎
 
