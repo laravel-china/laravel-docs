@@ -59,7 +59,7 @@
 > **提示：** 控制器不是 **必须** 要继承基础类. 只不过，你将不能使用一些便捷的特性，如 `middleware`，`validate`，和 `dispatch` 等方法.
 
 <a name="controllers-and-namespaces"></a>
-### Controllers & Namespaces
+### 控制器与命名空间
 
 有一点非常重要，那就是我们在定义控制器路由时，不需要指定完整的控制器命名空间。我们只需要定义「根」命名空间 `App\Http\Controllers` 之后的部分类名称即可。默认 `RouteServiceProvider` 会使用路由群组，把 `routes.php` 文件里所有路由规则都配置了根控制器命名空间。
 
@@ -152,7 +152,7 @@ Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由施加�
 | PUT/PATCH | `/photos/{photo}`         | update       | photos.update  |
 | DELETE    | `/photos/{photo}`         | destroy      | photos.destroy |
 
-#### Spoofing Form Methods
+#### 模拟表单方法
 
 因为 HTML 表单不能发送 `PUT`，`PATCH`，或 `DELETE` 请求, 你需要使用隐藏的 `_method` 表单字段来模拟这些 HTTP 动词. 你可以使用辅助函数 `method_field` 生成该表单字段:
 
@@ -292,7 +292,7 @@ Laravel 使用 [服务容器](/docs/{{version}}/container) 来解析所有的控
     }
 
 <a name="route-caching"></a>
-## Route Caching
+## 路由缓存
 
 > **注意：** 路由缓存并不会作用在基于闭包的路由。要使用路由缓存，你必须将所有闭包路由转换为控制器类。
 
