@@ -14,6 +14,440 @@
 <a name="upgrade-5.3.0"></a>
 ## 从 5.2 升级到 5.3
 
+#### 预计升级耗时：2~3小时
+
+> 注意：我们尽可能地罗列出每一个可能导致不兼容的变更。由于其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
+
+### PHP & HHVM
+
+Laravel 5.3 需要 PHP 5.6.4 或者更高的版本。由于不包含和 PHP 5.6+ 相同的语言特性，HHVM 不再受到官方支持。
+
+### 弃用的功能
+所有被列在 [Laravel 5.2 升级指南](#废弃清单) 内的废弃项都已经从框架中彻底移除。你应该回顾下该列表来确认你没有继续使用这些废弃的特性。
+
+### 应用服务提供者
+
+你可以从 `EventServiceProvider`，`RouteSerivceProvider` 和 `AuthServiceProvider` 类的 `boot` 方法上移除参数。任何给定参数的调用都可以被转化为等效的 [facade](https://laravel-china.org/docs/5.3/facades)。
+所以，举个栗子，除了在 `$dispatcher` 参数上调用方法，你可以直接调用 `Event` facade。同样，除了在 `$router` 参数上调用方法，你可以直接调用 `Route` facade，`$gate` 亦然
+（可直接调用 `Gate` facade）。
+注意：当把方法调用转化为 facades 时，请确保 facade 类已经被导入到服务提供者。
+
+### 数组
+
+#### 键/值 顺序变更
+
+`Arr` 类中的 `first`，`last` 和 `where` 方法现在会将「值」作为第一个参数传递给给定闭包。例如：
+
+```php
+Arr::first($array, function ($value, $key) {
+    return ! is_null($value);
+});
+```
+在 Laravel 之前的版本中，`$key` 作为第一个参数。由于大多数情况下只需要用到 `$value`，所以
+现在它被作为第一个参数。你应该在应用程序中做一次「全局搜索」，以确保 `$value` 是第一个被传递到闭包的参数。
+
+### Artisan
+
+#### `make:console` 命令
+
+`make:console` 命令已被重命名为 `make:command`。
+
+### 用户认证
+
+#### 认证脚手架
+
+框架默认提供的两个认证控制器现在被拆分成了4个更小的控制器。这使得每一个小的认证控制器职责更加明晰。升级认证控制器最简单的方法就是直接从 [GitHub 上复制一份新的认证控制器](https://github.com/laravel/laravel/tree/master/app/Http/Controllers/Auth) 到你自己的项目。
+
+同时，你需要确认在 `routes/web.php` 文件中调用了 `Auth::routes()` 方法。该方法会注册相应的路由到新的认证控制器。
+
+如果你曾对认证控制器进行过自定义设置，那么在升级到新的之后别忘了重新设置一遍。例如，你曾自定义过用户认证中的 `guard`，那么你就需要重写新控制器中的 `guard` 方法。你可以检查每个认证控制器的特性来决定哪些方法需要被重写。
+
+> 如果你没有自定义过用户认证控制器，则无需重新设置。
+
+#### 密码重置邮件
+
+密码重置邮件现在使用了新的 Laravel 消息通知特性。如果你想自定义在发送密码重置链接时被发送的消息，你可以重写 `Illuminate\Auth\Passwords\CanResetPassword` trait 的 `sendPasswordResetNotification` 方法。
+
+`User` 模型 **必须** 使用新的 `Illuminate\Notifications\Notifiable` trait，否则密码重置邮件无法成功发送。
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+}
+```
+
+> 注意：不要忘记在 `config/app.php` 配置文件中注册 `Illuminate\Notifications\NotificationServiceProvider` 到 `providers` 数组。
+
+#### 以 POST 方式登出
+
+`Auth::routes` 方法现在注册 `POST` 路由到 `/logout`，取代之前的 `GET` 路由。这可以阻止其他网页应用将你的用户从你的应用中登出。要正确升级到 5.3，这里有两个方案，要么将所有登出请求都转为使用 `POST` 动词，要么注册你自己的 `GET` 路由到 `/logout`：
+
+```php
+Route::get('/logout', 'Auth\LoginController@logout');
+```
+
+### 用户授权
+
+#### 带类名的策略调用
+
+一些策略方法只接收当前被认证的用户，而不需要被授权的模型实例。这种情况在授权 `create` 行为时是最常见的。例如，如果你正在创建一个博客，你可能希望检查一个用户是否被授权新建文章。
+
+当定义不需要接受模型实例的策略方法时，比如 `create` 方法，类名将不再作为第二个参数被传递到这些方法。你的方法只需要接收被认证的用户实例：
+
+```php
+/**
+ * Determine if the given user can create posts.
+ *
+ * @param  \App\User  $user
+ * @return bool
+ */
+public function create(User $user)
+{
+    //
+}
+```
+
+#### `AuthorizesResources` Trait
+
+`AuthorizesResources` trait 已经被合并到 `AuthorizesRequests` trait。你需要从 `app/Http/Controllers/Controller.php` 文件中移除 `AuthorizesResources` trait。
+
+### Blade
+
+#### 自定义指令
+
+在 Laravel 之前的版本中，当使用 `directive` 方法出册自定义 Blade 指令时，被传递到指令回调的 `$expression` 包含最外层的括号。在 Laravel 5.3 中，这些最外层的括号将不再被包含在表达式中。 请移步 [Blade 扩展](https://laravel-china.org/docs/5.3/blade) 并确保你的自定义 Blade 指令仍然能正常工作。
+
+### 广播
+
+#### 服务提供者
+
+Laravel 5.3 对事件广播进行了很多改进。你需要从 [Github](https://raw.githubusercontent.com/laravel/laravel/develop/app/Providers/BroadcastServiceProvider.php) 上复制一份新的 `BroadcastServiceProvider` 到你的 `app/Providers` 目录，并将它注册到 `config/app.php` 配置文件的 `providers` 数组里。
+
+### 缓存
+
+#### 扩展壁报绑定 & `$this`
+
+当在闭包中调用 `Cache::extend` 方法时，`$this` 将会被绑定到 `CacheManager` 实例，这允许你从扩展闭包里调用 `Cahche` 的所有方法：
+
+```php
+Cache::extend('memcached', function ($app, $config) {
+    try {
+        return $this->createMemcachedDriver($config);
+    } catch (Exception $e) {
+        return $this->createNullDriver($config);
+    }
+});
+```
+
+### Cashier
+
+如果正在使用 Cashier 交易工具包，你需要升级你的 `laravel/cashier` 包到 ~7.0 版本（>=7.0 并且 <8.0）。这一版的 Cashier 直更新了内部方法以兼容 Laravel 5.3，没有不兼容的变更。
+
+### 集合
+
+#### 键/值 顺序变更
+
+集合中的 `first`，`last` 和 `contains` 方法现在会将「值」作为第一个参数传递给给定闭包。例如：
+
+```php
+$collection->first(function ($value, $key) {
+    return ! is_null($value);
+});
+```
+
+在 Laravel 之前的版本中，`$key` 作为第一个参数。由于大多数情况下只需要用到 `$value`，所以
+现在它被作为第一个参数。你应该在应用程序中做一次「全局搜索」，以确保 `$value` 是第一个被传递到闭包的参数。
+
+#### 默认情况下集合的 `where` 匹配方式为「宽松」模式
+
+集合的 `where` 方法由默认的严格匹配改为了「宽松」匹配。如果你想要执行严格匹配，你可以使用 `whereStrict` 方法。
+
+同时，`where` 方法不再接收用于指明「严格」匹配的第三个参数。你应该根据需要明确地调用 `where` 或 `whereStrict` 方法。
+
+### 控制器
+
+#### 类构造器中的 Session
+
+在 Laravel 之前的版本中，尽管你能够在控制器的类构造器中访问 session 变量和被认证的用户实例，但我们从未把它设计为这个框架的特性。在 Laravel 5.3 中，你无法再这样使用了，因为这个时候中间件还没有运行。
+
+作为一种替代方案，你可以在你的控制器类构造方法中定义一个基于中间件的闭包。为了使用这一特性，请先确认你的 Laravel 版本大于等于 5.3.4：
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+
+class ProjectController extends Controller
+{
+    /**
+     * All of the current user's projects.
+     */
+    protected $projects;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->projects = Auth::user()->projects;
+
+            return $next($request);
+        });
+    }
+}
+```
+
+当然，你也可以选择在控制器行为中访问请求的 session 数据或被认证的用户实例，这可以通过类型提示 `Illuminate\Http\Request` 类来实现：
+
+```php
+/**
+ * Show all of the projects for the current user.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return Response
+ */
+public function index(Request $request)
+{
+    $projects = $request->user()->projects;
+
+    $value = $request->session()->get('key');
+
+    //
+}
+```
+
+### 数据库
+
+#### 集合
+
+现在，[查询构造器](https://laravel-china.org/docs/5.3/queries) 返回 `Illuminate\Support\Collection` 实例，而不是简单的数组。这使得通过查询构造器和 Eloquent 方式返回的数据类型保持一致。
+
+如果你想继续返回简单的 PHP 数组来保持向后兼容，你可以在查询构造器的 `get` 方法后面跟上 `all` 方法。
+
+```php
+$users = DB::table('users')->get()->all();
+```
+
+#### Eloquent 的 `$morphClass` 属性
+
+Eloquent 中的 `$morphClass` 属性现已被移除，取而代之的是定义一个「morph map」。定义一个 morph map 能够提供对预加载和解析多态关联额外问题的支持。如果你之前依赖于 `$morphClass` 属性，你应该用下面的语句迁移到 `morphMap`：
+
+```php
+Relation::morphMap([
+    'YourCustomMorphName' => YourModel::class,
+]);
+```
+
+例如，你之前定义了如下 `$morphClass`：
+
+```php
+class User extends Model
+{
+    protected $morphClass = 'user'
+}
+```
+
+你现在应该在你的 `AppServiceProvider` 的 `boot` 方法中定义如下 `morphMap`：
+
+```php
+use Illuminate\Database\Eloquent\Relations\Relation;
+
+Relation::morphMap([
+    'user' => User::class,
+]);
+```
+
+#### Eloquent `save` 方法
+
+如果模型自上一次被取得或保存后没有任何修改，Eloquent 的 `save` 方法将返回 `false`。
+
+#### Eloquent Scopes
+
+现在，Eloquent scopes 将遵守 scope 限制中的前导布尔值。例如，如果你用一个 `orWhere` 限制开始你的 scope，它将不再被转成正常的 `where`。如果你依赖于这一特性（比如在一个循环中添加多个 `orWhere` 限制），你需要确保第一个条件是正常的 `where` 来避免任何布尔值逻辑问题。
+
+如果你的 scopes 使用 `where` 条件开始，不需要做任何修改。你可以用查询的 `toSql` 方法来验证你的查询语句。
+
+```php
+User::where('foo', 'bar')->toSql();
+```
+
+#### Join 闭包
+`JoinClause` 类已经被通过重写来和查询构造器保持一致的语法。`on` 闭包中可选的 `$where` 参数已经被移除。如果要添加一个「where」条件，你必须明确地使用 [查询构造器](https://laravel-china.org/docs/5.3/queries#Where-Clauses) 提供的 `where` 方法：
+
+```php
+$query->join('table', function ($join) {
+    $join->on('foo', 'bar')->where('bar', 'baz');
+});
+```
+
+现在，`on` 字句的操作符将会被验证并且不能再包含非法的值。如果你之前依赖于这一特性（比如 `$join->on('foo', 'in', DB::raw('("bar")'))`），你现在需要用适当的 where 字句重写条件：
+
+```php
+$join->whereIn('foo', ['bar']);
+```
+
+`$bindings` 属性同样被移除了。你可以用 `addBinding` 方法来直接操作 join 绑定：
+
+```php
+$query->join(DB::raw('('.$subquery->toSql().') table'), function ($join) use ($subquery) {
+    $join->addBinding($subquery->getBindings(), 'join');
+});
+```
+
+### 加密
+
+#### Mcrypt 加密器已被移除
+
+Mycrypt 加密器已经在发行于 2015 年 6 月的 Laravel 5.1.0 中被弃用了。它在 Laravel 5.3.0 中被彻底移除，取而代之的是新的基于 OpenSSL 的加密方案，该方案从 Laravel 5.1.0 开始就已经是默认的加密方案了。
+
+如果你仍然在 `config/app.php` 配置文件中使用基于 `cipher` 的 Mycrypt，你需要升级 cipher 到 `AES-256-CBC` 并且设置你的密钥为 32 字符长的随机字符串，你可以通过 `php artisan key:generate` 来生成。
+
+如果你在数据库中使用 Mcrypt 加密器来存储加密后的数据，你可以通过安装 `laravel/leagacy-encrypter` [包](https://github.com/laravel/legacy-encrypter) 来保留 Mcrypt 加密器。你应当使用这个包来解密你的数据，并用新的 OpenSSL 加密器来重新加密。例如，你可以执行像下面的 [自定义 Artisan 命令](https://laravel-china.org/docs/5.3/artisan)：
+
+```php
+$legacy = new McryptEncrypter($encryptionKey);
+
+foreach ($records as $record) {
+    $record->encrypted = encrypt(
+        $legacy->decrypt($record->encrypted)
+    );
+
+    $record->save();
+}
+```
+
+### 异常处理器
+
+#### 类构造器
+
+现在，异常处理器的基类需要一个 `Illuminate\Container\Container` 实例来传递它的构造器。只有当你在 `app/Exceptions/Handler.php` 文件中自定义了 `__construct` 方法时，这个变更才会影响你的应用程序。如果你有这么做过的话，你需要传递一个容器实例到 `parent::__construct` 方法：
+
+```php
+parent::__construct(app());
+```
+
+#### 未认证的方法
+
+你应该添加 `unauthenticated` 方法到你的 `App\Exceptions\Handler` 类中。这个方法会将用户认证异常转成 HTTP 响应：
+
+```php
+/**
+ * Convert an authentication exception into an unauthenticated response.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \Illuminate\Auth\AuthenticationException  $exception
+ * @return \Illuminate\Http\Response
+ */
+protected function unauthenticated($request, AuthenticationException $exception)
+{
+    if ($request->expectsJson()) {
+        return response()->json(['error' => 'Unauthenticated.'], 401);
+    }
+
+    return redirect()->guest('login');
+}
+```
+
+### 中间件
+
+#### `can` 中间件命名空间变更
+
+被列在 HTTP Kernel 文件的 `$routeMiddleware` 属性中的 `can` 中间件，应该被更新为下面的类：
+
+```php
+'can' => \Illuminate\Auth\Middleware\Authorize::class,
+```
+
+#### `can` 中间件认证异常
+
+现在，如果用户未被认证 `can` 中间件会抛出一个 `Illuminate\Auth\AuthenticationException` 实例。如果你之前是手动去捕获一个其他类型的异常的话，你现在需要更新为捕获该异常。大多数情况下，这个变更不会影响你的应用程序。
+
+#### 绑定替代中间件
+
+现在，路由模型绑定使用中间件来实现。所有的应用程序应该添加 `Illuminate\Routing\Middleware\SubstituteBindings` 到 `app/Http/Kernel.php` 的 `web` 中间件组：
+
+```php
+\Illuminate\Routing\Middleware\SubstituteBindings::class,
+```
+
+同时，你应该在 HTTP kernel 文件的 `$routeMiddleware` 属性中为绑定替代注册路由中间件：
+
+```php
+'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+```
+
+完成路由中间件注册后，你需要把它添加到 `api` 中间件组：
+
+```php
+'api' => [
+    'throttle:60,1',
+    'bindings',
+],
+```
+
+### 消息通知
+
+#### 安装
+
+Laravel 5.3 包含了一个新的、基于驱动的消息通知系统。首先，你应该向 `config/app.php` 配置文件的 `providers` 数组注册 `Illuminate\Notifications\NotificationServiceProvider`。
+
+然后，向 `config/app.php` 配置文件的 `aliases` 数组添加 `Illuminate\Support\Facades\Notification` facade。
+
+最后，在你期望接受消息通知的模型里使用 `Illuminate\Notifications\Notifiable` trait。
+
+### 分页
+
+#### 自定义
+
+与之前的 Laravel 5.x 相比，在 Laravel 5.3 中自定义分页器生成的 HTML 变得更加容易。不再需要定义一个「Presenter」,你只要定义一个简单的 Blade 模板。自定义分页视图最简单的方法是使用 `vendor:publish` 命令来导出分页视图到你的 `resources/views/vendor` 目录下：
+
+```php
+php artisan vendor:publish --tag=laravel-pagination
+```
+
+该命令会把试图放到 `resources/views/vendor/pagination` 目录下。目录下的 `default.balde.php` 文件对应默认的分页视图。只需编辑该文件就能修改分页 HTML。
+
+请移步 [分页](https://laravel-china.org/docs/5.3/pagination) 获取更多信息。
+
+### 队列
+
+#### 配置
+
+在你的队列配置中，所有的 `expire` 配置项应该被重命名为 `retry_after`。同样，Beanstalk 配置文件的 `ttr` 项应该被重命名为 `retry_after`。这一名字的变更让我们更容易理解这个配置项的作用。
+
+#### 闭包
+
+队列闭包不再被支持。如果你正在你的应用程序中使用队列闭包，你应该把壁报转成一个类，然后对类的实例进行队列：
+
+```php
+dispatch(new ProcessPodcast($podcast));
+```
+
+#### 集合序列化
+
+现在，`Illuminate\Queue\SerializesModels` trait 能够正确地序列化 `Illuminate\Database\Eloquent\Collection` 实例。对于绝大多数应用，这个变更不会造成兼容性问题。然而，如果你的应用程序完全依赖于那些不是通过队列任务从数据库重新检索出来的集合的话，你应该验证这一变更不会对你的应用程序造成负面影响。
+
+
+
+
+
+## 从 5.2 升级到 5.3
+
 #### 预计升级耗时：2-3 小时
 
 > {note} 这里我们会把所有框架中的破坏性变更罗列出来，但并不代表所有的这些变更都会危及你的应用程序。
