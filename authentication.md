@@ -218,11 +218,9 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
 #### 访问指定 Guard 实例
 
-可以通过 `Auth` facade 的 `guard` 方法来指定使用特定的 guard 实例。这样可以实现在应用不同部分管理用户认证时使用完全不同的
+可以通过 `Auth` facade 的 `guard` 方法来指定使用特定的 guard 实例。这样可以实现在应用不同部分管理用户认证时使用完全不同的认证模型或者用户表。
 
-You may specify which guard instance you would like to utilize using the `guard` method on the `Auth` facade. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.
-
-The guard name passed to the `guard` method should correspond to one of the guards configured in your `auth.php` configuration file:
+传递给 `guard` 方法 guard 名称必须是 `auth.php` 配置文件中 guards 的值之一：
 
     if (Auth::guard('admin')->attempt($credentials)) {
         //
@@ -237,13 +235,13 @@ The guard name passed to the `guard` method should correspond to one of the guar
 <a name="remembering-users"></a>
 ## 记住用户
 
-如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，在用户注销前 session 值都会被一直保存。
-
-`users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」令牌的。
+如果你想要提供「记住我」的功能，你需要传入一个布尔值到 `attempt` 方法的第二个参数，在用户注销前 session 值都会被一直保存。`users` 数据表一定要包含一个 `remember_token` 字段，这是用来保存「记住我」令牌的。
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // 这个用户被记住了...
     }
+
+> {提示} 如果使用 Laravel 内置的 `LoginController`，合适的「记住我」逻辑已经通过 traits 实现。
 
 可以使用 `viaRemember` 方法来检查这个用户是否使用「记住我」 cookie 来做认证：
 
@@ -289,9 +287,9 @@ The guard name passed to the `guard` method should correspond to one of the guar
 
 [HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication) 提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware) 到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
 
-    Route::get('profile', ['middleware' => 'auth.basic', function() {
+    Route::get('profile', function() {
         // 只有认证过的用户可进入...
-    }]);
+    })->middleware('auth.basic');
 
 一旦中间件被增加到路由上，当使用浏览器进入这个路由时，将自动的被提示需要提供凭证。默认情况下，`auth.basic` 中间件将会使用用户的 `email` 字段当作「用户名」。
 
@@ -311,19 +309,18 @@ The guard name passed to the `guard` method should correspond to one of the guar
 
     namespace Illuminate\Auth\Middleware;
 
-    use Auth;
-    use Closure;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthenticateOnceWithBasicAuth
     {
         /**
-         * 处理请求
+         * Handle an incoming request.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
          * @return mixed
          */
-        public function handle($request, Closure $next)
+        public function handle($request, $next)
         {
             return Auth::onceBasic() ?: $next($request);
         }
@@ -332,119 +329,42 @@ The guard name passed to the `guard` method should correspond to one of the guar
 
 接着，[注册这个路由中间件](/docs/{{version}}/middleware#registering-middleware)，然后将它增加在一个路由上：
 
-    Route::get('api/user', ['middleware' => 'auth.basic.once', function() {
+    Route::get('api/user', function() {
         // 只有认证过的用户可以进入...
-    }]);
+    })->middleware('auth.basic.once');
 
-<a name="resetting-passwords"></a>
-## 重设密码
-
-<a name="resetting-database"></a>
-### 重设数据库
-
-很多 Web 应用程序都会提供用户重设密码功能，Laravel 提供了发送重置密码邮件和实现密码重设功能，避免让你重造车轮。
-
-开始之前，请先确认 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` contract。当然，原有的 `App\User` 早已实现了这个接口，并且使用 `Illuminate\Auth\Passwords\CanResetPassword` trait 引入实现这个接口所需要的方法。
-
-#### 生成重置令牌的数据表迁移文件
-
-接下来，必须要创建一个用来保存密码重置令牌的数据表，而这个数据表的迁移已经包含在 Laravel 中了，就在 `database/migrations` 文件夹里。所以，你要做的就是做一次迁移：
-
-    php artisan migrate
-
-<a name="resetting-routing"></a>
-### 路由
-
-Laravel 自带了 `Auth\PasswordController`，其中包含了重置用户密码的相应逻辑。重置密码所需的路由都已经通过 `make:auth` 命令自动生成了：
-
-    php artisan make:auth
-
-<a name="resetting-views"></a>
-### 视图
-
-和路由一样，重置密码所需的视图文件也通过 `make:auth` 命令一并生成了，这些视图文件位于 `resources/views/auth/passwords` 目录下，你可以按照所需对生成的文件进行相应修改。
-
-<a name="after-resetting-passwords"></a>
-### 重设密码后
-
-在你定义好路由跟视图之后，你就可以使用浏览器访问这个路由了 - `/password/reset`。
-
-`PasswordController` 已经包含了发送密码重置链接邮箱，及更新密码到数据库的逻辑。
-
-密码重置以后，这个用户会自动登录并重定向到 `/home`。要自定义重定向地址，只需定义 `PasswordController` 的 `redirectTo` 属性即可：
-
-    protected $redirectTo = '/dashboard';
-
-> **注意：** 默认情况下，密码重置令牌会在一个小时后过期，你可以更改 `config/auth.php` 的 `expire` 选项，来修改这个设置。
-
-<a name="password-customization"></a>
-### 自定义
-
-#### 自定义认证 Guard
-
-在配置文件 `auth.php` 中，可以配置多个「guards」，以便用于实现多用户表独立认证，你可以通过添加 `$guard` 属性到自带的 `PasswordController` 控制器的方法来使用你选择的 guard：
-
-    /**
-     * 应该使用的认证 Guard
-     *
-     * @var string
-     */
-    protected $guard = 'admins';
-
-#### 自定义密码 broker
-
-在配置文件 `auth.php` 中，可以配置多个密码，以便用于重置多个用户表的密码 「broker」，同样，可以通过在自带的 `PasswordController` 控制器中添加 `$broker` 属性来使用你选择的 broker：
-
-    /**
-     * 应该使用的密码 broker
-     *
-     * @var string
-     */
-    protected $broker = 'admins';
-
-<a name="adding-custom-guards"></a>
 ## 增加自定义的 Guard
 
-你可以使用 `Auth` 的 `extend` 方法来自定义认证 Guard，你需要在 [服务提供者](/docs/{{version}}/providers) 中放置此代码调用：
+你可以使用 `Auth` 的 `extend` 方法来自定义认证 Guard，你需要在 [服务提供者](/docs/{{version}}/providers) 中放置此代码调用。因为 Laravel 已经提供 `AuthServiceProvider`，可以把代码放入其中：
 
     <?php
 
     namespace App\Providers;
 
-    use Auth;
     use App\Services\Auth\JwtGuard;
+    use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {
         /**
-         * 运行服务注册后的启动进程。
+         * Register any application authentication / authorization services.
          *
          * @return void
          */
         public function boot()
         {
+            $this->registerPolicies();
+
             Auth::extend('jwt', function($app, $name, array $config) {
                 // Return an instance of Illuminate\Contracts\Auth\Guard...
 
                 return new JwtGuard(Auth::createUserProvider($config['provider']));
             });
         }
-
-        /**
-         * 在容器注册绑定。
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
-        }
     }
 
-正如上面的代码所示，`extend` 方法传参进去的回调需要返回 `Illuminate\Contracts\Auth\Guard` 的实现，这个接口类有几个方法你需要实现。
-
-定制好 Guard 以后，你需要在配置信息中开启使用：
+正如上面的代码所示，`extend` 方法传参进去的回调需要返回 `Illuminate\Contracts\Auth\Guard` 的实现，这个接口类有几个方法你需要实现。定制好 Guard 以后，你需要在配置信息中开启使用：
 
     'guards' => [
         'api' => [
@@ -456,39 +376,32 @@ Laravel 自带了 `Auth\PasswordController`，其中包含了重置用户密码�
 <a name="adding-custom-user-providers"></a>
 ## 添加自定义用户提供者
 
-如果你没有使用传统的关系型数据库存储用户信息，则需要使用自己的认证用户提供者来扩展 Laravel。我们使用 `Auth` facade 上的 `provider` 方法定义自定义该提供者，在 [服务提供者](/docs/{{version}}/providers) 调用 `provider` 方法如下：
+如果你没有使用传统的关系型数据库存储用户信息，则需要使用自己的认证用户提供者来扩展 Laravel。我们使用 `Auth` facade 上的 `provider` 方法定义自定义该提供者：
 
     <?php
 
     namespace App\Providers;
 
-    use Auth;
+    use Illuminate\Support\Facades\Auth;
     use App\Extensions\RiakUserProvider;
     use Illuminate\Support\ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {
         /**
-         * 运行服务注册后的启动进程。
+         * Register any application authentication / authorization services.
          *
          * @return void
          */
         public function boot()
         {
+            $this->registerPolicies();
+
             Auth::provider('riak', function($app, array $config) {
                 // Return an instance of Illuminate\Contracts\Auth\UserProvider...
-                return new RiakUserProvider($app['riak.connection']);
-            });
-        }
 
-        /**
-         * 在容器注册绑定。
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
+                return new RiakUserProvider($app->make('riak.connection'));
+            });
         }
     }
 
@@ -567,13 +480,17 @@ Laravel 自带了 `Auth\PasswordController`，其中包含了重置用户密码�
 Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 中对这些事件做监听：
 
     /**
-     * 为你的应用程序注册任何事件。
+     * 为应用程序的事件监听器的映射
      *
      * @var array
      */
     protected $listen = [
         'Illuminate\Auth\Events\Attempting' => [
             'App\Listeners\LogAuthenticationAttempt',
+        ],
+
+        'Illuminate\Auth\Events\Authenticated' => [
+            'App\Listeners\LogAuthenticated',
         ],
 
         'Illuminate\Auth\Events\Login' => [
