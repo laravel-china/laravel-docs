@@ -3,7 +3,7 @@
 - [简介](#introduction)
 - [Gates](#gates)
     - [编写 Gates](#writing-gates)
-    - [认证动作](#authorizing-actions-via-gates)
+    - [通过 Gates 认证动作](#authorizing-actions-via-gates)
 - [创建策略](#creating-policies)
     - [生成策略](#generating-policies)
     - [注册策略](#registering-policies)
@@ -22,7 +22,7 @@
 
 除了内置提供的 [用户认证](/docs/{{version}}/authentication) 服务外，Laravel 还提供一种更简单的方式来处理用户授权动作。类似用户认证，Laravel 有 2 种主要方式来实现用户授权：gates 和策略。
 
-可以把 gates 和策略类比于路由和控制器。Gates 提供一个简单、基于闭包的方式来授权认证。策略则和控制器类似，在特定的模型或者资源中通过分组来实现授权认证的逻辑。我们先来看看 gates，然后再看策略。
+可以把 gates 和策略类比于路由和控制器。Gates 提供了一个简单、基于闭包的方式来授权认证。策略则和控制器类似，在特定的模型或者资源中通过分组来实现授权认证的逻辑。我们先来看看 gates，然后再看策略。
 
 在你的应用中，不要将 gates 和策略当作相互排斥的方式。大部分应用很可能同时包含 gates 和策略，并且能很好的工作。Gates 大部分应用在模型和资源无关的地方，比如查看管理员的面板。与此相比，策略应该用在特定的模型或者资源中。
 
@@ -30,7 +30,7 @@
 ## Gates
 
 <a name="writing-gates"></a>
-### Writing Gates
+### 编写 Gates
 
 Gates 是用来决定用户是否授权访问给定的动作的闭包函数，并且典型的做法是在 `App\Providers\AuthServiceProvider` 类中使用 `Gate` facade 定义。Gates 接受一个用户实例作为第一个参数，接受可选参数，比如相关的 Eloquent 模型：
 
@@ -49,9 +49,9 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
     }
 
 <a name="authorizing-actions-via-gates"></a>
-### 授权动作
+### 使用 gates 授权动作
 
-使用 gates 来授权动作，应当使用 `allows` 方法。注意你并不需要传递当前认证通过的用户给 `allows` 方法。Laravel 会自动处理好传入的用户，然后传递给 gate 闭包函数：
+使用 gates 来授权动作时，应当使用 `allows` 方法。注意你并不需要传递当前认证通过的用户给 `allows` 方法。Laravel 会自动处理好传入的用户，然后传递给 gate 闭包函数：
 
     if (Gate::allows('update-post', $post)) {
         // 当前用户可以更新 post
@@ -60,7 +60,7 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
 如果需要指定一个特定的用户可以访问某个动作，可以使用 `Gate` facade 中的 `forUser` 方法：
 
     if (Gate::forUser($user)->allows('update-post', $post)) {
-        // 指定用户可以更新 post
+        // 指定用户可以更新博客...
     }
 
 <a name="creating-policies"></a>
@@ -71,7 +71,7 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
 
 策略是在特定模型或者资源中组织授权逻辑的类。例如，如果应用是一个博客，会有一个 `Post` 模型和一个相应的 `PostPolicy` 来授权用户动作，比如创建或者更新博客。
 
-可以使用 `make:policy` [artisan 命令](/docs/{{version}}/artisan) 来生成策略。生成的策略将放置在 `app/Policies` 目录。如果在你的应用中不存在这个目录，Laravel 会自动创建：
+可以使用 `make:policy` [artisan 命令](/docs/{{version}}/artisan) 来生成策略。生成的策略将放置在 `app/Policies` 目录。如果在你的应用中不存在这个目录，那么 Laravel 会自动创建：
 
     php artisan make:policy PostPolicy
 
@@ -79,7 +79,7 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
 
     php artisan make:policy PostPolicy --model=Post
 
-> **注意：**所有授权策略会通过 Laravel [服务容器](/docs/{{version}}/container) 解析，意指你可以在授权策略的构造器对任何需要的依赖使用类型提示，它们将会被自动注入。
+> {tip} 所有授权策略会通过 Laravel [服务容器](/docs/{{version}}/container) 解析，意指你可以在授权策略的构造器对任何需要的依赖使用类型提示，它们将会被自动注入。
 
 <a name="registering-policies"></a>
 ### 注册策略
@@ -139,7 +139,7 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
     class PostPolicy
     {
         /**
-         * Determine if the given post can be updated by the user.
+         * 判断给定博客能否被用户更新
          *
          * @param  \App\User  $user
          * @param  \App\Post  $post
@@ -153,9 +153,7 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
 
 你可以接着在此授权策略定义额外的方法，作为各种权限需要的授权。例如，你可以定义 `view` 或 `delete` 方法来授权 `Post` 的多种行为。可以为自定义策略方法使用自己喜欢的名字。
 
-You may continue to define additional methods on the policy as needed for the various actions it authorizes. For example, you might define `view` or `delete` methods to authorize various `Post` actions, but remember you are free to give your policy methods any name you like.
-
-> **注意：**如果在 Artisan 控制台生成策略使用 `--model` 选项，会自动包含
+> {tip} 如果在 Artisan 控制台生成策略使用 `--model` 选项，会自动包含
  `view`、`create`、`update` 和 `delete` 动作。
 
 <a name="methods-without-models"></a>
@@ -176,7 +174,7 @@ You may continue to define additional methods on the policy as needed for the va
         //
     }
 
-> **注意：**如果在 Artisan 控制台生成策略使用 `--model` 选项，所有相关的「CRUD」策略方法已经定义好了。
+> {tip} 如果在 Artisan 控制台生成策略使用 `--model` 选项，所有相关的「CRUD」策略方法已经定义好了。
 
 <a name="policy-filters"></a>
 ### 策略过滤器
@@ -191,7 +189,7 @@ You may continue to define additional methods on the policy as needed for the va
     }
 
 <a name="authorizing-actions-using-policies"></a>
-## 实用策略授权动作
+## 使用策略授权动作
 
 <a name="via-the-user-model"></a>
 ### 通过用户模型
@@ -222,7 +220,7 @@ Laravel 包含一个可以在请求到达路由或控制器之前就进行动作
     use App\Post;
 
     Route::put('/post/{post}', function (Post $post) {
-        // The current user may update the post...
+        // 当前用户可以更新博客...
     })->middleware('can:update,post');
 
 在这个例子中，我们传递给 `can` 中间件 2 个参数。第一个是需要授权的动作的名称，第二个是我们希望传递给策略方法的路由参数。这里因为使用了 [隐式模型绑定](/docs/{{version}}/routing#implicit-binding)，一个 `Post` 会被传递给策略方法。如果用户不被授权访问指定的动作，这个中间件会生成带有 `403` 状态码的 HTTP 响应。

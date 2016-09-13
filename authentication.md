@@ -23,7 +23,7 @@
 <a name="introduction"></a>
 ## 介绍
 
-> {提示} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 命令，然后用可以浏览器访问 `http://your-app.dev/register` 或者其他你在程序中定义的 url。这个简单的命令就可以搭建好整个认证系统的脚手架。
+> {tip} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 命令，然后用可以浏览器访问 `http://your-app.dev/register` 或者其他你在程序中定义的 url。这个简单的命令就可以搭建好整个认证系统的脚手架。
 
 Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已经为你配置好了。配置文件位于 `config/auth.php`，其中包含了用于调整认证服务行为的、标注好注释的选项配置。
 
@@ -139,7 +139,7 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
         // 这个用户已经登录...
     }
 
-> {提示} 尽管可以使用 `check` 方法来检查用户是否登录，在允许该用户访问特定的路由或控制器之前，可以使用中间件来检查用户是否认证过。要想得到更多信息，请阅读 [限制路由访问](/docs/{{version}}/authentication#protecting-routes) 的文档。
+> {tip} 尽管可以使用 `check` 方法来检查用户是否登录，在允许该用户访问特定的路由或控制器之前，可以使用中间件来检查用户是否认证过。要想得到更多信息，请阅读 [限制路由访问](/docs/{{version}}/authentication#protecting-routes) 的文档。
 
 <a name="protecting-routes"></a>
 ### 限制路由访问
@@ -214,7 +214,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
         // The user is active, not suspended, and exists.
     }
 
-> **注意：** 在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，只要它在数据库的意义等同于「用户名」。
+> {note} 在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，只要它在数据库的意义等同于「用户名」。
 
 #### 访问指定 Guard 实例
 
@@ -241,7 +241,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
         // 这个用户被记住了...
     }
 
-> {提示} 如果使用 Laravel 内置的 `LoginController`，合适的「记住我」逻辑已经通过 traits 实现。
+> {tip} 如果使用 Laravel 内置的 `LoginController`，合适的「记住我」逻辑已经通过 traits 实现。
 
 可以使用 `viaRemember` 方法来检查这个用户是否使用「记住我」 cookie 来做认证：
 
