@@ -196,7 +196,7 @@ Old  | New
 
 你可以去检查每个事件对象类去查看它们的公有属性。
 
-### Exception Handling
+### 异常处理
 
 `App\Exceptions\Handler` 类的 `$dontReport` 属性应该被更新为至少包含以下异常：
 
