@@ -11,14 +11,12 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 对主流数据库系统连接和查询都提供了很好的支持，尤其是：流畅的 [查询语句构造器](/docs/{{version}}/queries) ， Laravel 支持四种类型的数据库
+Laravel 对主流数据库系统连接和查询都提供了很好的支持，尤其是：流畅的 [查询语句构造器](/docs/{{version}}/queries) ， Laravel 支持四种类型的数据库。
 
-<div class="content-list" markdown="1">
 - MySQL
 - Postgres
 - SQLite
 - SQL Server
-</div>
 
 <a name="configuration"></a>
 ### 配置信息
@@ -220,3 +218,8 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
     DB::commit();
 
 > {tip} 使用 `DB` facade 的事务方法也适用于 [查询语句构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 努力学习PHP  |
