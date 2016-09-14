@@ -56,7 +56,7 @@
 
 现在，当请求和此特定路由的 URI 相匹配时，`UserController` 类的 `showProfile` 方法就会被运行。当然，路由的参数也会被传递至该方法。
 
-> **提示：** 控制器不是 **必须** 要继承基础类. 只不过，你将不能使用一些便捷的特性，如 `middleware`，`validate`，和 `dispatch` 等方法.
+> **提示：** 控制器不是 **必须** 要继承基础类。只不过，你将不能使用一些便捷的特性，如 `middleware`，`validate`，和 `dispatch` 等方法。
 
 <a name="controllers-and-namespaces"></a>
 ### 控制器与命名空间
@@ -154,7 +154,7 @@ Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由施加�
 
 #### 模拟表单方法
 
-因为 HTML 表单不能发送 `PUT`，`PATCH`，或 `DELETE` 请求, 你需要使用隐藏的 `_method` 表单字段来模拟这些 HTTP 动词. 你可以使用辅助函数 `method_field` 生成该表单字段:
+因为 HTML 表单不能发送 `PUT`，`PATCH`，或 `DELETE` 请求, 你需要使用隐藏的 `_method` 表单字段来模拟这些 HTTP 动词。 你可以使用辅助函数 `method_field` 生成该表单字段:
 
     {{ method_field('PUT') }}
 
@@ -279,7 +279,7 @@ Laravel 使用 [服务容器](/docs/{{version}}/container) 来解析所有的控
     class UserController extends Controller
     {
         /**
-         * Update the given user.
+         * 更新指定用户。
          *
          * @param  Request  $request
          * @param  string  $id
