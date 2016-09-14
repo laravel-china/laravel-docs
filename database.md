@@ -103,7 +103,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
     class UserController extends Controller
     {
         /**
-         * Show a list of all of the application's users.
+         *在应用用户中查询出已激活的用户列表。
          *
          * @return Response
          */
