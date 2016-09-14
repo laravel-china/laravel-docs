@@ -3,7 +3,7 @@
 - [简介](#introduction)
 - [Gates](#gates)
     - [编写 Gates](#writing-gates)
-    - [通过 Gates 认证动作](#authorizing-actions-via-gates)
+    - [通过 Gates 授权动作](#authorizing-actions-via-gates)
 - [创建策略](#creating-policies)
     - [生成策略](#generating-policies)
     - [注册策略](#registering-policies)
@@ -286,11 +286,11 @@ Laravel 包含一个可以在请求到达路由或控制器之前就进行动作
 当编写 Blade 模板时，你可能希望页面的指定部分只展示给允许授权访问给定动作的用户。例如，你可能希望只展示更新表单给有权更新博客的用户。这种情况下，你可以直接使用 `@can` 和 `@cannot` 指令。
 
     @can('update', $post)
-        <!-- The Current User Can Update The Post -->
+        <!-- 当前用户可以更新博客 -->
     @endcan
 
     @cannot('update', $post)
-        <!-- The Current User Can't Update The Post -->
+        <!-- 当前用户不可以更新博客 -->
     @endcannot
 
 这些指令在编写 `@if` 和 `@unless` 时提供了方便的缩写。`@can` 和 `@cannot` 各自转化为如下声明：
