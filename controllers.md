@@ -54,9 +54,9 @@
 
     Route::get('user/{id}', 'UserController@show');
 
-现在，当请求和此特定路由的 URI 相匹配时，`UserController` 类的 `showProfile` 方法就会被运行。当然，路由的参数也会被传递至该方法。
+现在，当请求和此特定路由的 URI 相匹配时，`UserController` 类的 `show` 方法就会被运行。当然，路由的参数也会被传递至该方法。
 
-> **提示：** 控制器不是 **必须** 要继承基础类。只不过，你将不能使用一些便捷的特性，如 `middleware`，`validate`，和 `dispatch` 等方法。
+> {tip} 控制器不是 **必须** 要继承基础类。只不过，你将不能使用一些便捷的特性，如 `middleware`，`validate`，和 `dispatch` 等方法。
 
 <a name="controllers-and-namespaces"></a>
 ### 控制器与命名空间
@@ -100,7 +100,7 @@
 <a name="controller-middleware"></a>
 ## 控制器中间件
 
-[中间件](/docs/{{version}}/middleware) 可以施加到路由文件中的控制器路由上：
+[中间件](/docs/{{version}}/middleware) 可以指定到路由文件中的控制器路由上：
 
     Route::get('profile', 'UserController@show')->middleware('auth');
 
@@ -123,16 +123,16 @@
         }
     }
 
-> **提示：** 你可以将某个中间件施加到一部分控制器行为上，然而，那可能意味着你的控制器过于臃肿。反而，你可以考虑将控制器分解成多个较小的控制器。
+> {tip} 你可以将某个中间件指定到一部分控制器行为上，然而，那可能意味着你的控制器过于臃肿。反而，你可以考虑将控制器分解成多个较小的控制器。
 
 <a name="resource-controllers"></a>
 ## RESTful 资源控制器
 
-Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由施加到一个控制器上。例如，你可能想要创建一个用来处理应用程序保存「相片」时发送 HTTP 请求的控制器。使用 `make:controller` Artisan 命令，我们可以快速地创建一个像这样的控制器：
+Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由指定到一个控制器上。例如，你可能想要创建一个用来处理应用程序保存「相片」时发送 HTTP 请求的控制器。使用 `make:controller` Artisan 命令，我们可以快速地创建一个像这样的控制器：
 
     php artisan make:controller PhotoController --resource
 
-此命令会生成 `app/Http/Controllers/PhotosController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
+此命令会生成 `app/Http/Controllers/PhotosController.php` 控制器文件。该控制器会包含各种资源操作的方法。
 
 接下来，你可以在控制器中注册资源化路由：
 
@@ -174,7 +174,7 @@ Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由施加�
 <a name="restful-naming-resource-routes"></a>
 ### 命名资源路由
 
-所有的资源控制器行为默认都有路由名称；不过你可以在选项中传递一个 `names` 数组来重写这些名称：
+所有的资源控制器行为默认都有路由名称；不过你可以在`选项`参数数组中传递一个 `names` 数组来重写这些名称：
 
     Route::resource('photo', 'PhotoController', ['names' => [
         'create' => 'photo.build'
@@ -189,7 +189,7 @@ Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由施加�
         'user' => 'admin_user'
     ]]);
 
- 上面的代码，产生以下的资源路由器 `show` 路由：
+ 上面的示例代码，会为资源的 `show` 路由生成以下的 URIs：
 
     /user/{admin_user}
 
@@ -202,7 +202,7 @@ Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由施加�
 
     Route::resource('photos', 'PhotoController');
 
-> **提示：** 记住要保持控制器的专注性。如果你发现控制器需要典型资源化行为之外的一些方法，就可以考虑将其分解为两个较小的控制器了。
+> {tip} 记住要保持控制器的专注性。如果你发现控制器需要典型资源化行为之外的一些方法，就可以考虑将其分解为两个较小的控制器了。
 
 <a name="dependency-injection-and-controllers"></a>
 ## 依赖注入与控制器
@@ -294,9 +294,9 @@ Laravel 使用 [服务容器](/docs/{{version}}/container) 来解析所有的控
 <a name="route-caching"></a>
 ## 路由缓存
 
-> **注意：** 路由缓存并不会作用在基于闭包的路由。要使用路由缓存，你必须将所有闭包路由转换为控制器类。
+> {note} 路由缓存并不会作用在基于闭包的路由。要使用路由缓存，你必须将所有闭包路由转换为控制器类。
 
-若你的应用程序完全通过控制器使用路由，你可以利用 Laravel 的路由缓存。使用路由缓存可以大幅降低注册全部路由所需的时间。在某些情况下，你的路由注册甚至可以快上一百倍！要生成路由缓存，只要运行 `route:cache` 此 Artisan 命令：
+若你的应用程序完全通过控制器使用路由，你应该充分利用 Laravel 路由缓存。使用路由缓存可以大幅降低注册全部路由所需的时间。在某些情况下，你的路由注册甚至可以快上一百倍！要生成路由缓存，只要运行 `route:cache` 此 Artisan 命令：
 
     php artisan route:cache
 
