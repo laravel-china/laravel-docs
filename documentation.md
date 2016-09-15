@@ -59,7 +59,7 @@
     - [快速入门](/docs/{{version}}/eloquent)
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
-    - [Getter/Setter](/docs/{{version}}/eloquent-mutators)
+    - [修改器](/docs/{{version}}/eloquent-mutators)
     - [序列化](/docs/{{version}}/eloquent-serialization)
 - Artisan 控制台
     - [Artisan 命令行](/docs/{{version}}/artisan)
