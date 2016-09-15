@@ -36,7 +36,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
         $table->integer('expiration');
     });
 
-> {Tip} 你也可以使用 `php artisan cache:table` 这个 Artisan 命令生成一个有合适数据表结构的 migration 。
+> {tip} 你也可以使用 `php artisan cache:table` 这个 Artisan 命令生成一个有合适数据表结构的 migration 。
 
 #### Memcached
 
@@ -192,10 +192,12 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 > {note} 清空缓存并不会遵从缓存的前缀，并且会将缓存中所有的缓存项删除。在清除与其它应用程序共享的缓存时应谨慎考虑这一点。
 <a name="cache-tags"></a>
+
 ## 缓存标签
 
 > {note} 缓存标签并不支持使用 `file` 或 `dababase` 的缓存驱动。此外，当在缓存使用多个标签并「永久」写入时，类似 `memcached` 的驱动性能会是最佳的，且会自动清除旧的纪录。
 <a name="storing-tagged-cache-items"></a>
+
 ### 写入被标记的缓存项
 
 缓存标签允许你在缓存中标记关联的项目，并清空所有已分配指定标签的缓存值。你可以通过传入一组标签名称的有序数组，以访问被标记的缓存。举例来说，让我们访问一个被标记的缓存并 `put` 值给它：
@@ -328,3 +330,8 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
             'App\Listeners\LogKeyWritten',
         ],
     ];
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@houfei](https://github.com/houfei)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3472_1452945992.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 玩咖啡 & 铲屎奴 & 努力回头做码农 [@houfei](https://github.com/houfei) at Github |
