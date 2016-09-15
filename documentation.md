@@ -59,7 +59,7 @@
     - [数据填充](/docs/{{version}}/seeding)
 - Eloquent ORM
     - [入门](/docs/{{version}}/eloquent)
-    - [模型广联](/docs/{{version}}/eloquent-relationships)
+    - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Elequent 集合](/docs/{{version}}/eloquent-collections)
     - [Getter/Setter](/docs/{{version}}/eloquent-mutators)
     - [序列化](/docs/{{version}}/eloquent-serialization)
