@@ -146,13 +146,13 @@ Laravel 也提供了多种有用的工具来让你更容易的测试使用数据
 
 你也可以创建一个含有多个模型的集合，或创建一个指定类型的模型：
 
-    // Create three App\User instances...
+    // 创建一个 App\User 实例
     $users = factory(App\User::class, 3)->make();
 
-    // Create an "admin" App\User instance...
+    // 创建一个 「admin」 类型的 App\User 实例
     $user = factory(App\User::class, 'admin')->make();
 
-    // Create three "admin" App\User instances...
+    // 创建 3 个 「admin」 类型的 App\User 实例
     $users = factory(App\User::class, 'admin', 3)->make();
 
 #### 重写模型属性

@@ -106,17 +106,17 @@ Laravel 还提供了几种用于测试表单的方法。通过 `type`、`select`
 
 方法  | 说明
 ------------- | -------------
-`$this->type($text, $elementName)`  |  "Type" text into a given field.
-`$this->select($value, $elementName)`  |  "Select" a radio button or drop-down field.
-`$this->check($elementName)`  |  "Check" a checkbox field.
-`$this->uncheck($elementName)`  |  "Uncheck" a checkbox field.
-`$this->attach($pathToFile, $elementName)`  |  "Attach" a file to the form.
-`$this->press($buttonTextOrElementName)`  |  "Press" a button with the given text or name.
+`$this->type($text, $elementName)`  |  「输入（type）」文本在一个指定的区域
+`$this->select($value, $elementName)`  |  「选择（select）」一个单选框或下拉式菜单的区域
+`$this->check($elementName)`  |  「勾选（check）」一个复选框的区域
+`$this->uncheck($elementName)`  |  「取消勾选（uncheck）」一个复选框的区域
+`$this->attach($pathToFile, $elementName)`  |  「附加（attach）」一个文件至表单
+`$this->press($buttonTextOrElementName)`  |  「按下（press）」一个指定文本或名称的按钮 text or name.
 
 <a name="file-inputs"></a>
 #### 文件上传
 
-如果你的表单包含 `file` 的输入框类型，则可以使用 `attach` 方法来附加文件：
+如果你的表单包含 `上传文件` 的输入框类型，则可以使用 `attach` 方法来附加文件：
 
     public function testPhotoCanBeUploaded()
     {
@@ -337,7 +337,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，
 `->assertResponseOk();`  |  断言客户端的响应拥有 OK 状态码。
 `->assertResponseStatus($code);`  | 断言客户端的响应拥有指定的状态码。
 `->assertViewHas($key, $value = null);`  |  断言响应视图拥有指定的部分绑定数据。
-`->assertViewHasAll(array $bindings);`  |  Assert that the view has a given list of bound data.
+`->assertViewHasAll(array $bindings);`  |  断言响应视图里存在传参数组里的所有数据
 `->assertViewMissing($key);`  |  断言响应视图拥有指定的绑定数据列表。
 `->assertRedirectedTo($uri, $with = []);`  |  断言客户端是否被重定向至指定的 URI。
 `->assertRedirectedToRoute($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向到指定的路由。
