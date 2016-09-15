@@ -317,7 +317,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人接�
 <a name="refreshing-tokens"></a>
 ### 刷新令牌
 
-If your application issues short-lived access tokens, users will need to refresh their access tokens via the refresh token that was provided to them when the access token was issued. In this example, we'll use the Guzzle HTTP library to refresh the token:
+如果你的应用程序发放了短期接入令牌，用户需要刷新接入令牌时，需要提供与接入令牌同时发放的刷新令牌。在下面的例子中，我们使用 Guzzle HTTP 库来刷新令牌：
 
     $http = new GuzzleHttp\Client;
 
@@ -333,24 +333,24 @@ If your application issues short-lived access tokens, users will need to refresh
 
     return json_decode((string) $response->getBody(), true);
 
-This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
+接口 `/oauth/token` 会返回一个 JSON 响应，会包含 `access_token` 、`refresh_token` 和 `expires_in` 属性。`expires_in` 属性值即当前接入令牌的有效时间（单位：秒）。
 
 <a name="password-grant-tokens"></a>
-## Password Grant Tokens
+## Password Grant 令牌
 
-The OAuth2 password grant allows your other first-party clients, such as a mobile application, to obtain an access token using an e-mail address / username and password. This allows you to issue access tokens securely to your first-party clients without requiring your users to go through the entire OAuth2 authorization code redirect flow.
+OAuth2 Password Grant 可以让自有应用基于邮箱地址（用户名）和密码获取接入令牌，自有应用比如你的手机客户端。这样就允许自由应用无需跳转步骤即可通过整个 OAuth2 的授权过程。
 
 <a name="creating-a-password-grant-client"></a>
-### Creating A Password Grant Client
+### 创建 Password Grant 客户端
 
-Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` command with the `--password` option. If you have already run the `passport:install` command, you do not need to run this command:
+如果想要通过 Password Grant 来授予令牌，首先你需要创建一个 Password Grant 客户端。你可以使用带有 `--password` 参数的 `passport:client` 命令。如果你已经运行了 xx 命令，那无需再单独运行此命令：
 
     php artisan passport:client --password
 
 <a name="requesting-password-grant-tokens"></a>
-### Requesting Tokens
+### 请求接入令牌
 
-Once you have created a password grant client, you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's email address and password. Remember, this route is already registered by the `Passport::routes` method so there is no need to define it manually. If the request is successful, you will receive an `access_token` and `refresh_token` in the JSON response from the server:
+当你创建 Password Grant 客户端后，你可以向 `/oauth/token` 接口发起 `POST` 请求来获取接入令牌，请求时需要带有用户的邮箱地址和密码信息。注意，该接口已经在 `Passport::routes` 方法中定义，所以无需再次手动定义。请求成功后，服务端返回的 JSON 响应数据中会带有 `access_token` 和 `refresh_token` 属性：
 
     $http = new GuzzleHttp\Client;
 
@@ -367,12 +367,12 @@ Once you have created a password grant client, you may request an access token b
 
     return json_decode((string) $response->getBody(), true);
 
-> {tip} Remember, access tokens are long-lived by default. However, you are free to [configure your maximum access token lifetime](#configuration) if needed.
+> {tip} 注意：接入令牌默认是长期有效的。但是如果需要你可以 [配置你应用程序的接入令牌有效时间](#configuration)。
 
 <a name="requesting-all-scopes"></a>
-### Requesting All Scopes
+### 请求所有权限范围
 
-When using the password grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` grant:
+使用 Password Grant 时，你可以通过请求权限范围 `*` 让你的令牌获取应用程序中定义的所有权限范围。如果你请求了所有权限范围，使用此令牌发起的请求处理中，`can` 函数会始终返回 `true` ，这种权限范围的授权最好只应用在使用 `password` 授权时发放的令牌中：
 
     $response = $http->post('http://your-app.com/oauth/token', [
         'form_params' => [
@@ -385,23 +385,23 @@ When using the password grant, you may wish to authorize the token for all of th
     ]);
 
 <a name="personal-access-tokens"></a>
-## Personal Access Tokens
+## 私人接入令牌
 
-Sometimes, your users may want to issue access tokens to themselves without going through the typical authorization code redirect flow. Allowing users to issue tokens to themselves via your application's UI can be useful for allowing users to experiment with your API or may serve as a simpler approach to issuing access tokens in general.
+有时候，你的用户可能想发布一个接入令牌自己使用，又不想经历典型的授权跳转流程，这时候如果用户能够在你的应用程序中通过界面来操作，可能会是一个更好的解决方案。
 
-> {note} Personal access tokens are always long-lived. Their lifetime is not modified when using the `tokensExpireIn` or `refreshTokensExpireIn` methods.
+> {note} 私人接入令牌总是长期有效的，`tokensExpireIn` 和 `refreshTokensExpireIn` 方法不会影响他的有效期。
 
 <a name="creating-a-personal-access-client"></a>
-### Creating A Personal Access Client
+### 创建使用私人接入令牌的客户端
 
-Before your application can issue personal access tokens, you will need to create a personal access client. You may do this using the `passport:client` command with the `--personal` option. If you have already run the `passport:install` command, you do not need to run this command:
+发布私人接入令牌之前，你需要先创建对应的客户端。你可以使用带 `--personal` 参数的 `passport:client` 命令来创建，如果你已经运行了 `passport:install` 命令，那无需再单独运行此命令：
 
     php artisan passport:client --personal
 
 <a name="managing-personal-access-tokens"></a>
-### Managing Personal Access Tokens
+### 管理私人接入令牌
 
-Once you have created a personal access client, you may issue tokens for a given user using the `createToken` method on the `User` model instance. The `createToken` method accepts the name of the token as its first argument and an optional array of [scopes](#token-scopes) as its second argument:
+创建私人接入客户端后，你可以使用 xx 模型实例上的 xx 方法来为给定用户发布令牌，xx 方法的第一个参数为令牌名称，第二个参数（可选）是 [权限范围](#token-scopes) 的列表：
 
     $user = App\User::find(1);
 
