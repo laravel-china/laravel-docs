@@ -28,7 +28,7 @@
         return $user->name;
     });
 
-> **注意：** 大部分的 Eloquent 集合会返回新的「Eloquent 集合」实例，但是 `pluck`, `keys`, `zip`, `collapse`, `flatten` 和 `flip` 方法会返回 [基础集合](/docs/{{version}}/collections) 实例。
+> {note} 大部分的 Eloquent 集合会返回新的「Eloquent 集合」实例，但是 `pluck`, `keys`, `zip`, `collapse`, `flatten` 和 `flip` 方法会返回 [基础集合](/docs/{{version}}/collections) 实例。
 > 
 > 相应的，如果一个 `map` 操作返回一个不包含任何 Eloquent 模型的集合，那么它将会自动转换成基础集合。
 
