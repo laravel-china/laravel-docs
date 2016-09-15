@@ -372,7 +372,7 @@ Laravel 为 [PHPUnit](https://phpunit.de/) 测试提供了一些额外的断言�
 `->assertResponseOk();`  |  断言客户端的响应拥有 OK 状态码。
 `->assertResponseStatus($code);`  | 断言客户端的响应拥有指定的状态码。
 `->assertViewHas($key, $value = null);`  |  断言响应视图拥有指定的部分绑定数据。
-`->assertViewHasAll(array $bindings);`  |  Assert that the view has a given list of bound data.
+`->assertViewHasAll(array $bindings);`  |  断言响应视图里存在传参数组里的所有数据。
 `->assertViewMissing($key);`  |  断言响应视图拥有指定的绑定数据列表。
 `->assertRedirectedTo($uri, $with = []);`  |  断言客户端是否被重定向至指定的 URI。
 `->assertRedirectedToRoute($name, $parameters = [], $with = []);`  |  断言客户端是否被重定向到指定的路由。
