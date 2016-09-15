@@ -18,7 +18,7 @@
 
 > 译者注：请不要在 `routes.php` 文件里面写逻辑代码，逻辑处理代码请在 Controller 里书写。
 1. 因为这是最佳实践，一开始做对了，后面节省你重构代码的时间；
-2. [路由缓存](http://laravel-china.org/docs/5.1/controllers#%E8%B7%AF%E7%94%B1%E7%BC%93%E5%AD%98) 并不会作用在基于闭包的路由。
+2. [路由缓存](https://doc.laravel-china.org/docs/5.1/controllers#%E8%B7%AF%E7%94%B1%E7%BC%93%E5%AD%98) 并不会作用在基于闭包的路由。
 
 <a name="basic-controllers"></a>
 ## 基础控制器
