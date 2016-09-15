@@ -287,7 +287,7 @@ Relation::morphMap([
 User::where('foo', 'bar')->toSql();
 ```
 
-#### Join 闭包
+#### Join 子句
 
 `JoinClause` 类已经被通过重写来和查询构造器保持一致的语法。`on` 闭包中可选的 `$where` 参数现已被移除。如果要添加一个「where」条件，你必须显示地调用 [查询构造器](https://laravel-china.org/docs/5.3/queries#Where-Clauses) 提供的 `where` 方法：
 
