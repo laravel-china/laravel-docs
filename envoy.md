@@ -22,7 +22,7 @@
 
 因为 Composer 的全局库有时会导致包的版本冲突，所以你可以考虑使用 `cgr`，它是 `composer global require` 命令的一种替代实现。`cgr` 库的安装指导可以在 [GitHub上找到](https://github.com/consolidation-org/cgr)。
 
-> {注意} 一定要确保 `~/.composer/vendor/bin` 目录加入到了你的 PATH 中，这样才能在命令行运行 `envoy`。
+> {note} 一定要确保 `~/.composer/vendor/bin` 目录加入到了你的 PATH 中，这样才能在命令行运行 `envoy`。
 
 #### 更新 Envoy
 
@@ -59,7 +59,7 @@
         $environment = isset($env) ? $env : "testing";
     @endsetup
 
-如果你想在任务执行前引入其他PHP文件，可以直接在 `Envoy.blade.php` 文件起始位置使用 `@include`：
+如果你想在任务执行前引入其他 PHP 文件，可以直接在 `Envoy.blade.php` 文件起始位置使用 `@include`：
 
     @include('vendor/autoload.php')
 
