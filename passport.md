@@ -2,29 +2,29 @@
 
 - [介绍](#introduction)
 - [安装](#installation)
-    - [前端使用说明](#frontend-quickstart)
+    - [前端快速上手](#frontend-quickstart)
 - [配置](#configuration)
     - [令牌的使用期限](#token-lifetimes)
-    - [Pruning Revoked Tokens](#pruning-revoked-tokens)
-- [Issuing Access Tokens](#issuing-access-tokens)
-    - [Managing Clients](#managing-clients)
-    - [Requesting Tokens](#requesting-tokens)
-    - [Refreshing Tokens](#refreshing-tokens)
-- [Password Grant Tokens](#password-grant-tokens)
-    - [Creating A Password Grant Client](#creating-a-password-grant-client)
-    - [Requesting Tokens](#requesting-password-grant-tokens)
-    - [Requesting All Scopes](#requesting-all-scopes)
-- [Personal Access Tokens](#personal-access-tokens)
-    - [Creating A Personal Access Client](#creating-a-personal-access-client)
-    - [Managing Personal Access Tokens](#managing-personal-access-tokens)
-- [Protecting Routes](#protecting-routes)
-    - [Via Middleware](#via-middleware)
-    - [Passing The Access Token](#passing-the-access-token)
-- [Token Scopes](#token-scopes)
-    - [Defining Scopes](#defining-scopes)
-    - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
-    - [Checking Scopes](#checking-scopes)
-- [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
+    - [清理已失效的令牌](#pruning-revoked-tokens)
+- [发放访问令牌](#issuing-access-tokens)
+    - [管理客户端](#managing-clients)
+    - [请求令牌](#requesting-tokens)
+    - [刷新令牌](#refreshing-tokens)
+- [Password Grant 令牌](#password-grant-tokens)
+    - [创建 Password Grant 客户端](#creating-a-password-grant-client)
+    - [请求 Password Grant 令牌](#requesting-password-grant-tokens)
+    - [请求所有作用域](#requesting-all-scopes)
+- [私人访问令牌](#personal-access-tokens)
+    - [创建私人访问令牌的客户端](#creating-a-personal-access-client)
+    - [管理私人访问令牌](#managing-personal-access-tokens)
+- [路由保护](#protecting-routes)
+    - [通过中间件](#via-middleware)
+    - [传递访问令牌](#passing-the-access-token)
+- [令牌作用域](#token-scopes)
+    - [定义作用域](#defining-scopes)
+    - [给令牌分派作用域](#assigning-scopes-to-tokens)
+    - [检查作用域](#checking-scopes)
+- [使用 JavaScript 接入 API](#consuming-your-api-with-javascript)
 
 <a name="introduction"></a>
 ## 介绍
@@ -116,7 +116,7 @@ Passport 将通过服务提供者注册自己内部的数据库迁移脚本目�
     ],
 
 <a name="frontend-quickstart"></a>
-### 前端使用说明
+### 前端快速上手
 
 > {note} 为了使用 Passport 的 Vue 组件，那么你必须使用 [Vue](https://vuejs.org) Javascript 框架，另外这些组件还用到了 Bootstrap CSS 框架。然而，就算你不使用刚刚提到的这些工具，在实现你自己的前端部分时，这些组件仍旧有很高的参考价值。
 
@@ -185,7 +185,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 这个方法的效果是在用户请求到新的访问令牌或刷新已存在令牌时删除老的已失效令牌，而不是每次调用时立即删除所有的失效令牌。
 
 <a name="issuing-access-tokens"></a>
-## 发放令牌
+## 发放访问令牌
 
 熟悉 OAuth2 的开发者都知道，OAuth2 中必不可少的部分就是授权码。在获取授权码时，应用客户端会重定向一个用户到你的服务端，用户可以选择允许或拒绝向这个客户端发放访问令牌。
 
@@ -206,7 +206,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 
 然而，你仍旧需要基于 Passport 的 JSON API 开发一套前端界面，方便你的用户管理他们自己的客户端。下面我们会列出所有用于管理客户端的 API，方便起见，我们使用 [Vue](https://vuejs.org) 展示对 API 的 HTTP 请求。
 
-> {tip} 如果你不想自己重写整个客户端管理系统的前端界面，可以根据 [前端使用说明](#frontend-quickstart) 在几分钟内组建一套功能完备的前端界面。
+> {tip} 如果你不想自己重写整个客户端管理系统的前端界面，可以根据 [前端快速上手](#frontend-quickstart) 在几分钟内组建一套功能完备的前端界面。
 
 #### `GET /oauth/clients`
 
@@ -348,7 +348,7 @@ OAuth2 Password Grant 可以让自有应用基于邮箱地址（用户名）和�
     php artisan passport:client --password
 
 <a name="requesting-password-grant-tokens"></a>
-### 请求访问令牌
+### 请求 Password Grant 令牌
 
 当你创建 Password Grant 客户端后，你可以向 `/oauth/token` 接口发起 `POST` 请求来获取访问令牌，请求时需要带有用户的邮箱地址和密码信息。注意，该接口已经在 `Passport::routes` 方法中定义，所以无需再次手动定义。请求成功后，服务端返回的 JSON 响应数据中会带有 `access_token` 和 `refresh_token` 属性：
 
@@ -392,7 +392,7 @@ OAuth2 Password Grant 可以让自有应用基于邮箱地址（用户名）和�
 > {note} 私人访问令牌总是长期有效的，`tokensExpireIn` 和 `refreshTokensExpireIn` 方法不会影响他的有效期。
 
 <a name="creating-a-personal-access-client"></a>
-### 创建使用私人访问令牌的客户端
+### 创建私人访问令牌的客户端
 
 发布私人访问令牌之前，你需要先创建对应的客户端。你可以使用带 `--personal` 参数的 `passport:client` 命令来创建，如果你已经运行了 `passport:install` 命令，那无需再单独运行此命令：
 
@@ -415,7 +415,7 @@ OAuth2 Password Grant 可以让自有应用基于邮箱地址（用户名）和�
 
 Passport 中也有用来管理私人访问令牌的 JSON API，你可以基于这些 API 开发一套前端操作界面供给用户管理自己的私人访问令牌。下面我们会列出所有管理私人访问令牌的 API。方便起见，我们使用 [Vue](https://vuejs.org) 展示对 API 的 HTTP 请求。
 
-> {tip} 如果你不想自己重写整个客户端管理系统的前端界面，可以根据 [前端使用说明](#frontend-quickstart) 在几分钟内组建一套功能完备的前端界面。
+> {tip} 如果你不想自己重写整个客户端管理系统的前端界面，可以根据 [前端快速上手](#frontend-quickstart) 在几分钟内组建一套功能完备的前端界面。
 
 #### `GET /oauth/scopes`
 
@@ -460,7 +460,7 @@ Passport 中也有用来管理私人访问令牌的 JSON API，你可以基于�
 
 <a name="protecting-routes"></a>
 ## 路由保护
-
+Il
 <a name="via-middleware"></a>
 ### 通过中间件
 
@@ -471,7 +471,6 @@ Passport 包含一个 [验证保护机制](/docs/{{version}}/authentication#addi
     })->middleware('auth:api');
 
 <a name="passing-the-access-token"></a>
-### Passing The Access Token
 ### 传递访问令牌
 
 你应用程序的使用者在调用 Passport 保护下的路由时，需要将访问令牌作为 `Bearer` 令牌放在请求头 `Authorization` 中。在下面的例子中，我们使用 Guzzle HTTP 库来实现这次 `POST` 请求：
@@ -541,7 +540,7 @@ Passport 包含两个检查作用域的中间件，通过访问令牌请求时�
         // Access token has both "check-status" and "place-orders" scopes...
     })->middleware('scopes:check-status,place-orders');
 
-#### 检查任意所用于
+#### 检查任意作用域
 
 路由可以使用 `scope` 中间件来检查当前请求是否拥有指定的 *任意* 作用域：
 
@@ -549,7 +548,7 @@ Passport 包含两个检查作用域的中间件，通过访问令牌请求时�
         // Access token has either "check-status" or "place-orders" scope...
     })->middleware('scope:check-status,place-orders');
 
-#### Checking Scopes On A Token Instance
+#### 检查特定令牌实例的作用域
 
 接入应用使用访问令牌通过你应用程序的验证后，你仍然可以使用当前授权 `User` 实例上的 `tokenCan` 方法来验证此令牌是否拥有指定的作用域：
 
