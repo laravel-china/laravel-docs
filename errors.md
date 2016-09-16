@@ -197,3 +197,8 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
 Monolog 有一个多样的日志处理器，如果你需要，你可以访问 Laravel 底层的 Monolog 实例：
 
     $monolog = Log::getMonolog();
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@麦索](https://github.com/dongm2ez)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9032795?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 程序界的小学生，目前生活在北京，希望能够多结交大牛。Follow me [@dongm2ez](https://github.com/dongm2ez) at Github
