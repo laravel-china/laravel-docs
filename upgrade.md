@@ -14,165 +14,239 @@
 <a name="upgrade-5.3.0"></a>
 ## 从 5.2 升级到 5.3
 
-#### 预计升级耗时：2-3 小时
+#### 预计升级耗时：2~3 小时
 
-> {note} 这里我们会把所有框架中的破坏性变更罗列出来，但并不代表所有的这些变更都会危及你的应用程序。
+> {note} 我们尽量罗列出每一个不兼容的变更。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
 
 ### PHP & HHVM
 
-Laravel 5.3 需要 PHP 版本大于 5.6.4 的支持。官方不再支持 HHVM 的运行环境，因为其无法提供 PHP 5.6+ 提供的语言特性。
+Laravel 5.3 需要 PHP 5.6.4 或者更高的版本。由于不包含和 PHP 5.6+ 相同的语言特性，HHVM 不再受到官方支持。
 
-### 关于弃用功能
+### 弃用的功能
 
-所有 [Laravel 5.2 弃用功能清单](#5.2-deprecations) 里的功能已被框架移除。你需要提前确定你是否不再需要这些功能。
+所有被列在 [Laravel 5.2 升级指南](#废弃清单) 内的废弃项都已经从框架中彻底移除。请回顾该列表以确保你没有继续使用这些废弃的特性。
 
-### 应用程序服务提供者
+### 应用服务提供者
 
-你需要把 `boot` 方法从 `EventServiceProvider` 和 `RouteServiceProvider` 类中移除。请把这些参数调用替换为使用 [facade](/docs/5.3/facades) 方法来调用. 例如，你可以使用 `Event` facade 来替代 `$dispatcher` 参数，使用 `Route` facade 来替换 `$router` 参数。
+你可以从 `EventServiceProvider`，`RouteSerivceProvider` 和 `AuthServiceProvider` 类的 `boot` 方法上移除参数。任何给定参数的调用都可以被转化为等效的 [facade](https://laravel-china.org/docs/5.3/facades)。所以，举个栗子，除了在 `$dispatcher` 参数上调用方法，你可以直接调用 `Event` facade。同样，除了在 `$router` 参数上调用方法，你可以直接调用 `Route` facade，`$gate` 亦然（可直接调用 `Gate` facade）。
 
-> {note} 在你调用 facade 类之前，请记得在服务提供者的顶部引用这些 facade。
+> {note} 当把方法调用转化为 facades 时，请先在服务提供者顶部引入 facade 类。
 
 ### 数组
 
-#### 键 / 值 顺序更改
+#### 键/值 顺序变更
 
-Arr类上的 `first`、`last`、以及 `contains` 方法现在会将「值」作为第一个参数传递给给定闭包，例如：
+现在，`Arr` 类中的 `first`，`last` 和 `where` 方法将「值」作为第一个参数传递给闭包。例如：
 
-    Arr::first(function ($value, $key) {
-        return ! is_null($value);
-    });
+```php
+Arr::first($array, function ($value, $key) {
+    return ! is_null($value);
+});
+```
 
-
-在 Laravel 之前版本中，`$key` 是作为第一个参数，但是由于大多数使用场景中只对 `$value` 感兴趣，所以我们将其放到第一位。你可以在应用中进行一次全局搜索，来验证是否你在应用中通过旧的方式使用了这个函数。
+在 Laravel 之前的版本中，`$key` 被作为第一个参数。由于大多数情况下只需要用到 `$value`，所以
+现在我们把它作为第一个参数。你应该在应用程序中做一次「全局搜索」，以确保 `$value` 是第一个被传递到闭包的参数。
 
 ### Artisan
 
-##### `make:console` 命令
+#### `make:console` 命令
 
-`make:console` 重命名为 `make:command`.
+`make:console` 命令已被重命名为 `make:command`。
 
-### 认证系统
+### 用户认证
 
 #### 认证脚手架
 
-The two default authentication controllers provided with the framework have been split into four smaller controllers. This change provides cleaner, more focused authentication controllers by default. The easiest way to upgrade your application to the new authentication controllers is to [grab a fresh copy of each controller from GitHub](https://github.com/laravel/laravel/tree/master/app/Http/Controllers/Auth) and place them into your application.
+框架默认提供的两个认证控制器现在被拆分成了 4 个更小的控制器。这使得每一个控制器职责更加明晰。升级认证控制器最简单的方法就是直接从 [GitHub 上复制一份新的认证控制器](https://github.com/laravel/laravel/tree/master/app/Http/Controllers/Auth) 到你自己的项目。
 
-You should also make sure that you are calling the `Auth::routes()` method in your `routes.php` file. This method will register the proper routes for the new authentication controllers.
+同时，你需要在 `routes/web.php` 文件中调用 `Auth::routes()` 方法。该方法会注册相应的路由到新的认证控制器。
 
-Once these controllers have been placed into your application, you may need to re-implement any customizations you made to these controllers. For example, if you are customizing the authentication guard that is used for authentication, you may need to override the controller's `guard` method. You can examine each authentication controller's trait to determine which methods to override.
+如果你曾对认证控制器进行过编辑修改，那么在升级后别忘了重新设置一遍。例如，你曾修改过用户认证中的 `guard`，那么你就需要重写新控制器中的 `guard` 方法。你可以检查每个认证控制器的特性来决定哪些方法需要被重写。
 
-> {tip} If you were not customizing the authentication controllers, you should just be able to drop in fresh copies of the controllers from GitHub and verify that you are calling the `Auth::routes` method in your `routes.php` file.
+> {tip} 如果你没有自定义过用户认证控制器，则无需重新设置。
 
-#### Password Reset Emails
+#### 密码重置邮件
 
-Password reset emails now use the new Laravel notifications feature. If you would like to customize the notification sent when sending password reset links, you should override the `sendPasswordResetNotification` method of the `Illuminate\Auth\Passwords\CanResetPassword` trait.
+密码重置邮件现在使用了新的 Laravel 消息通知特性。如果你想自定义在发送密码重置链接时被发送的消息，你可以重写 `Illuminate\Auth\Passwords\CanResetPassword` trait 的 `sendPasswordResetNotification` 方法。
 
-Your `User` model **must** use the new `Illuminate\Notifications\Notifiable` trait in order for password reset link emails to be delivered:
+`User` 模型 **必须** 使用新的 `Illuminate\Notifications\Notifiable` trait，否则密码重置邮件无法成功发送。
 
-    <?php
+```php
+<?php
 
-    namespace App;
+namespace App;
 
-    use Illuminate\Notifications\Notifiable;
-    use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-    class User extends Authenticatable
-    {
-        use Notifiable;
-    }
+class User extends Authenticatable
+{
+    use Notifiable;
+}
+```
 
-> {note} Don't forget to register the `Illuminate\Notifications\NotificationServiceProvider` in the `providers` array of your `config/app.php` configuration file.
+> {note} 不要忘记注册 `Illuminate\Notifications\NotificationServiceProvider` 到 `config/app.php` 配置文件中的 `providers` 数组。
 
-#### POST To Logout
+#### 以 POST 方式登出
 
-The `Auth::routes` method now registers a `POST` route for `/logout` instead of a `GET` route. This prevents other web applications from logging your users out of your application. To upgrade, you should either convert your logout requests to use the `POST` verb or register your own `GET` route for the `/logout` URI:
+`Auth::routes` 方法现在注册 `POST` 路由到 `/logout`，取代之前的 `GET` 路由。这可以阻止其他网页应用将你的用户从你的应用中登出。这里有两个方案能让你正确升级到 5.3，要么将所有登出请求都转为使用 `POST` 动词，要么注册你自己的 `GET` 路由到 `/logout`：
 
-    Route::get('/logout', 'Auth\LoginController@logout');
+```php
+Route::get('/logout', 'Auth\LoginController@logout');
+```
 
-### Authorization
+### 用户授权
 
-#### Calling Policy Methods With Class Names
+#### 带类名的策略调用
 
-Some policy methods only receive the currently authenticated user and not an instance of the model they authorize. This situation is most common when authorizing `create` actions. For example, if you are creating a blog, you may wish to check if a user is authorized to create any posts at all.
+一些策略方法只接收当前被认证的用户，而不需要被授权的模型实例。这种情况在授权 `create` 行为时是最常见的。例如，如果你正在创建一个博客，你可能希望检查一个用户是否被授权了新建文章的权限。
 
-When defining policy methods that will not receive a model instance, such as a `create` method, the class name will no longer be passed as the second argument to the method. Your method should just expect the authenticated user instance:
+当定义不需要接受模型实例的策略方法时，比如 `create` 方法，类名将不再作为第二个参数被传递到这些方法。你的方法只需要接收被认证的用户实例：
 
-    /**
-     * Determine if the given user can create posts.
-     *
-     * @param  \App\User  $user
-     * @return bool
-     */
-    public function create(User $user)
-    {
-        //
-    }
+```php
+/**
+ * Determine if the given user can create posts.
+ *
+ * @param  \App\User  $user
+ * @return bool
+ */
+public function create(User $user)
+{
+    //
+}
+```
 
-#### The `AuthorizesResources` Trait
+#### `AuthorizesResources` Trait
 
-The `AuthorizesResources` trait has been merged with the `AuthorizesRequests` trait. You should remove the `AuthorizesResources` trait from your `app/Http/Controllers/Controller.php` file.
+`AuthorizesResources` trait 现已被合并到 `AuthorizesRequests` trait。你需要从 `app/Http/Controllers/Controller.php` 文件中移除 `AuthorizesResources` trait。
 
 ### Blade
 
-#### Custom Directives
+#### 自定义指令
 
-In prior versions of Laravel, when registering custom Blade directives using the `directive` method, the `$expression` passed to your directive callback contained the outer-most parenthesis. In Laravel 5.3, these outer-most parenthesis are not included in the expression passed to your directive callback. Be sure to review the [Blade extension](/docs/5.3/blade#extending-blade) documentation and verify your custom Blade directives are still working properly.
+在 Laravel 之前的版本中，当使用 `directive` 方法注册自定义 Blade 指令时，被传递到指令回调的 `$expression` 包含最外层的括号。在 Laravel 5.3 中，这些最外层的括号将不再被包含在表达式中。请移步 [Blade 扩展](https://laravel-china.org/docs/5.3/blade) 并确保你的自定义 Blade 指令仍然能正常工作。
 
-### Broadcasting
+### 广播
 
-#### Service Provider
+#### 服务提供者
 
-Laravel 5.3 includes significant improvements to [event broadcasting](/docs/{{version}}/broadcasting). You should add the new `BroadcastServiceProvider` to your `app/Providers` directory by [grabbing a fresh copy of the source from GitHub](https://raw.githubusercontent.com/laravel/laravel/develop/app/Providers/BroadcastServiceProvider.php). Once you have defined the new service provider, you should add it to the `providers` array of your `config/app.php` configuration file.
+Laravel 5.3 对事件广播进行了很多改进。你需要从 [Github](https://raw.githubusercontent.com/laravel/laravel/develop/app/Providers/BroadcastServiceProvider.php) 上复制一份新的 `BroadcastServiceProvider` 到你的 `app/Providers` 目录，并将它注册到 `config/app.php` 配置文件的 `providers` 数组里。
 
-### Cache
+### 缓存
 
-#### Extension Closure Binding & `$this`
+#### 扩展闭包绑定 & `$this`
 
-When calling the `Cache::extend` method with a Closure, `$this` will be bound to the `CacheManager` instance, allowing you to call its methods from within your extension Closure:
+当在闭包中调用 `Cache::extend` 方法时，`$this` 将会被绑定到 `CacheManager` 实例，这允许你从扩展闭包里调用 `Cahche` 的所有方法：
 
-    Cache::extend('memcached', function ($app, $config) {
-        try {
-            return $this->createMemcachedDriver($config);
-        } catch (Exception $e) {
-            return $this->createNullDriver($config);
-        }
-    });
+```php
+Cache::extend('memcached', function ($app, $config) {
+    try {
+        return $this->createMemcachedDriver($config);
+    } catch (Exception $e) {
+        return $this->createNullDriver($config);
+    }
+});
+```
 
 ### Cashier
 
-If you are using Cashier, you should upgrade your `laravel/cashier` package to the `~7.0` release. This release of Cashier only upgrades a few internal methods to be compatible with Laravel 5.3 and is not a breaking change.
+如果正在使用 Cashier 交易工具包，你需要升级你的 `laravel/cashier` 包到 ~7.0 版本（>=7.0 并且 <8.0）。这一版的 Cashier 只更新了内部方法以兼容 Laravel 5.3，请放心使用。
 
-### Collections
+### 集合
 
-#### Key / Value Order Change
+#### 键/值 顺序变更
 
-The `first`, `last`, and `contains` collection methods all pass the "value" as the first parameter to their given callback Closure. For example:
+集合中的 `first`，`last` 和 `contains` 方法现在将「值」作为第一个参数传递给给定闭包。例如：
 
-    $collection->first(function ($value, $key) {
-        return ! is_null($value);
-    });
+```php
+$collection->first(function ($value, $key) {
+    return ! is_null($value);
+});
+```
 
-In previous versions of Laravel, the `$key` was passed first. Since most use cases are only interested in the `$value` it is now passed first. You should do a "global find" in your application for these methods to verify that you are expecting the `$value` to be passed as the first argument to your Closure.
+在 Laravel 之前的版本中，`$key` 被作为第一个参数。由于大多数情况下只需要用到 `$value`，所以
+现在我们把它作为第一个参数。你应该在应用程序中做一次「全局搜索」，以确保 `$value` 是第一个被传递到闭包的参数。
 
-#### `where` Comparison Now "Loose" By Default
+#### 默认情况下集合的 `where` 匹配方式为「宽松」模式
 
-The `where` method now performs a "loose" comparison by default instead of a strict comparison. If you would like to perform a strict comparison, you may use the `whereStrict` method.
+集合的 `where` 方法由默认的严格匹配改为了「宽松」匹配。如果你想要执行严格匹配，可以使用 `whereStrict` 方法。
 
-The `where` method also no longer accepts a third parameter to indicate "strictness". You should explicit call either `where` or `whereStrict` depending on your application's needs.
+同时，`where` 方法不再接收用于指明「严格」匹配的第三个参数。你应该根据需要显示地调用 `where` 或 `whereStrict` 方法。
 
-### Database
+### 控制器
 
-#### Collections
+#### 类构造器中的 Session
 
-The [fluent query builder](/docs/{{version}}/queries) now returns `Illuminate\Support\Collection` instances instead of plain arrays. This brings consistency to the result types returned by the fluent query builder and Eloquent.
+在 Laravel 之前的版本中，尽管你能够在控制器的类构造器中访问 session 变量和被认证的用户实例，但我们从未把这设计为框架的特性。在 Laravel 5.3 中，你无法再这样使用了，因为这个时候中间件还没有运行。
 
-If you do not want to migrate your query builder results to `Collection` instances, you may chain the `all` method onto your calls to the query builder's `get` method. This will return a plain PHP array of the results, allowing you to maintain backwards compatibility:
+作为一种替代方案，你可以在你的控制器类构造方法中定义一个基于中间件的闭包。为了使用这一特性，请先确认你的 Laravel 版本大于等于 5.3.4：
 
-    $users = DB::table('users')->get()->all();
+```php
+<?php
 
-#### Eloquent `$morphClass` Property
+namespace App\Http\Controllers;
 
-The `$morphClass` property that could be defined on Eloquent models has been removed in favor of defining a "morph map". Defining a morph map provides support for eager loading and resolves additional bugs with polymorphic relations. If you were previously relying on the `$morphClass` property, you should migrate to `morphMap` using the following syntax:
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+
+class ProjectController extends Controller
+{
+    /**
+     * All of the current user's projects.
+     */
+    protected $projects;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->projects = Auth::user()->projects;
+
+            return $next($request);
+        });
+    }
+}
+```
+
+当然，你也可以选择在控制器行为中访问请求的 session 数据或被认证的用户实例，这可以通过类型提示 `Illuminate\Http\Request` 类来实现：
+
+```php
+/**
+ * Show all of the projects for the current user.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return Response
+ */
+public function index(Request $request)
+{
+    $projects = $request->user()->projects;
+
+    $value = $request->session()->get('key');
+
+    //
+}
+```
+
+### 数据库
+
+#### 集合
+
+现在，[查询构造器](https://laravel-china.org/docs/5.3/queries) 将返回 `Illuminate\Support\Collection` 实例，而不再是简单的数组。这使得通过查询构造器和 Eloquent 方式返回的数据类型保持一致。
+
+如果你想继续返回简单的 PHP 数组来保持向后兼容，可以在查询构造器的 `get` 方法后面跟上 `all` 方法。
+
+```php
+$users = DB::table('users')->get()->all();
+```
+
+#### Eloquent 的 `$morphClass` 属性
+
+Eloquent 中的 `$morphClass` 属性现已被移除，取而代之的是定义一个「morph map」。定义一个 morph map 能够提供对预加载和解析多态关联额外问题的支持。如果你之前使用了 `$morphClass` 属性，请用下面的语句迁移到 `morphMap`：
 
 ```php
 Relation::morphMap([
@@ -180,7 +254,7 @@ Relation::morphMap([
 ]);
 ```
 
-For example, if you previously defined the following `$morphClass`:
+例如，你之前定义了如下 `$morphClass`：
 
 ```php
 class User extends Model
@@ -189,7 +263,7 @@ class User extends Model
 }
 ```
 
-You should define the following `morphMap` in the `boot` method of your `AppServiceProvider`:
+现在，你应该在 `AppServiceProvider` 的 `boot` 方法中定义如下 `morphMap`：
 
 ```php
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -199,200 +273,276 @@ Relation::morphMap([
 ]);
 ```
 
-#### Eloquent `save` Method
+#### Eloquent `save` 方法
 
-The Eloquent `save` method now returns `false` if the model has not been changed since the last time it was retrieved or saved.
+如果模型自上一次被取得或保存后没有被做过任何修改，Eloquent 的 `save` 方法将返回 `false`。
 
 #### Eloquent Scopes
 
-Eloquent scopes now respect the leading boolean of scope constraints. For example, if you are starting your scope with an `orWhere` constraint it will no longer be converted to normal `where`. If you were relying on this feature (e.g. adding multiple `orWhere` constraints within a loop), you should verify that the first condition is a normal `where` to avoid any boolean logic issues.
+现在，Eloquent scopes 将遵守 scope 条件中的前导布尔值。例如，如果你用一个 `orWhere` 条件开始你的 scope，它将不再被转成正常的 `where`。如果你使用了这一特性（比如在一个循环中添加多个 `orWhere` 条件），你需要确保第一个条件是正常的 `where` 来避免布尔值导致的逻辑问题。
 
-If your scopes begin with `where` constraints no action is required. Remember, you can verify your query SQL using the `toSql` method of a query:
+如果你的 scopes 使用的第一个条件是 `where`，不需要做任何修改。你可以用查询构造器的 `toSql` 方法来验证你的查询语句。
 
-    User::where('foo', 'bar')->toSql();
+```php
+User::where('foo', 'bar')->toSql();
+```
 
-#### Join Clause
+#### Join 子句
 
-The `JoinClause` class has been rewritten to unify its syntax with the query builder. The optional `$where` parameter of the `on` clause has been removed. To add a "where" conditions you should explicitly use one of the `where` methods offered by the [query builder](/docs/{{version}}/queries#where-clauses):
+`JoinClause` 类已经被通过重写来和查询构造器保持一致的语法。`on` 闭包中可选的 `$where` 参数现已被移除。如果要添加一个「where」条件，你必须显示地调用 [查询构造器](https://laravel-china.org/docs/5.3/queries#Where-Clauses) 提供的 `where` 方法：
 
-    $query->join('table', function ($join) {
-        $join->on('foo', 'bar')->where('bar', 'baz');
-    });
+```php
+$query->join('table', function ($join) {
+    $join->on('foo', 'bar')->where('bar', 'baz');
+});
+```
 
-The `$bindings` property was also removed. To manipulate join bindings directly you may use the `addBinding` method:
+现在，`on` 子句的操作符将会被验证并且不能再包含非法值。如果你之前使用了这一特性（比如 `$join->on('foo', 'in', DB::raw('("bar")'))`），现在需要用适当的 where 子句重写条件：
 
-    $query->join(DB::raw('('.$subquery->toSql().') table'), function ($join) use ($subquery) {
-        $join->addBinding($subquery->getBindings(), 'join');
-    });
+```php
+$join->whereIn('foo', ['bar']);
+```
 
-### Encryption
+`$bindings` 属性同样被移除了。可以用 `addBinding` 方法来直接操作 join 绑定：
 
-#### Mcrypt Encrypter Has Been Removed
+```php
+$query->join(DB::raw('('.$subquery->toSql().') table'), function ($join) use ($subquery) {
+    $join->addBinding($subquery->getBindings(), 'join');
+});
+```
 
-The Mcrypt encrypter was deprecated during the Laravel 5.1.0 release in June 2015. This encrypter has been totally removed in the 5.3.0 release in favor of the newer encryption implementation based on OpenSSL, which has been the default encryption scheme for all releases since Laravel 5.1.0.
+### 加密
 
-If you are still using an Mcrypt based `cipher` in your `config/app.php` configuration file, you should update the cipher to `AES-256-CBC` and set your key to a random 32 byte string which may be securely generated using `php artisan key:generate`.
+#### Mcrypt 加密器已被移除
 
-If you are storing encrypted data in your database using the Mcrypt encrypter, you may install the `laravel/legacy-encrypter` [package](https://github.com/laravel/legacy-encrypter) which includes the legacy Mcrypt encrypter implementation. You should use this package to decrypt your encrypted data and re-encrypt it using the new OpenSSL encrypter. For example, you may do something like the following in a [custom Artisan command](/docs/{{version}}/artisan):
+Mycrypt 加密器已经在发行于 2015 年 6 月的 Laravel 5.1.0 中被弃用了。它在 Laravel 5.3.0 中被彻底移除，取而代之的是新的基于 OpenSSL 的加密方案，该方案从 Laravel 5.1.0 开始就已经是默认的加密方案了。
 
-    $legacy = new McryptEncrypter($encryptionKey);
+如果你仍然在 `config/app.php` 配置文件中使用基于 `cipher` 的 Mycrypt，你需要升级 cipher 到 `AES-256-CBC` 并且设置你的密钥为 32 字符长的随机字符串，你可以通过 `php artisan key:generate` 帮你自动生成。
 
-    foreach ($records as $record) {
-        $record->encrypted = encrypt(
-            $legacy->decrypt($record->encrypted)
-        );
+如果你在数据库中使用 Mcrypt 加密器来存储加密后的数据，你可以通过安装 `laravel/leagacy-encrypter` [包](https://github.com/laravel/legacy-encrypter) 来保留 Mcrypt 加密器。你应该使用这个包来解密你的数据，并用新的 OpenSSL 加密器来重新加密。例如，你可以执行像下面的 [自定义 Artisan 命令](https://laravel-china.org/docs/5.3/artisan)：
 
-        $record->save();
+```php
+$legacy = new McryptEncrypter($encryptionKey);
+
+foreach ($records as $record) {
+    $record->encrypted = encrypt(
+        $legacy->decrypt($record->encrypted)
+    );
+
+    $record->save();
+}
+```
+
+### 异常处理器
+
+#### 类构造器
+
+现在，异常处理器的基类需要一个 `Illuminate\Container\Container` 实例来传递它的构造器。只有当你在 `app/Exceptions/Handler.php` 文件中使用了 `__construct` 方法时，这个变更才会影响你的应用程序。如果你使用了该方法，现在需要传递一个容器实例到 `parent::__construct` 方法：
+
+```php
+parent::__construct(app());
+```
+
+#### 未认证的方法
+
+你应该添加 `unauthenticated` 方法到你的 `App\Exceptions\Handler` 类中。这个方法会将用户认证异常转成 HTTP 响应：
+
+```php
+/**
+ * Convert an authentication exception into an unauthenticated response.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \Illuminate\Auth\AuthenticationException  $exception
+ * @return \Illuminate\Http\Response
+ */
+protected function unauthenticated($request, AuthenticationException $exception)
+{
+    if ($request->expectsJson()) {
+        return response()->json(['error' => 'Unauthenticated.'], 401);
     }
 
-### Exception Handler
+    return redirect()->guest('login');
+}
+```
 
-#### Constructor
+### 中间件
 
-The base exception handler class now requires a `Illuminate\Container\Container` instance to be passed to its constructor. This change will only affect your application if you have defined a custom `__construct` method in your `app/Exception/Handler.php` file. If you have done this, you should pass a container instance into the `parent::__construct` method:
+#### `can` 中间件命名空间变更
 
-    parent::__construct(app());
+HTTP Kernel 文件的 `$routeMiddleware` 属性中的 `can` 中间件，应该被更新为下面的类：
 
-### Middleware
+```php
+'can' => \Illuminate\Auth\Middleware\Authorize::class,
+```
 
-#### `can` Middleware Namespace Change
+#### `can` 中间件认证异常
 
-The `can` middleware listed in the `$routeMiddleware` property of your HTTP kernel should be updated to the following class:
+现在，如果用户未被认证 `can` 中间件会抛出一个 `Illuminate\Auth\AuthenticationException` 实例。如果你之前是手动去捕获一个其他类型的异常的话，现在需要更新为捕获该异常。大多数情况下，这个变更不会影响你的应用程序。
 
-    'can' => \Illuminate\Auth\Middleware\Authorize::class,
+#### 绑定替代中间件
 
-#### `can` Middleware Authentication Exception
+现在，路由模型绑定使用中间件来实现。所有的应用程序应该添加 `Illuminate\Routing\Middleware\SubstituteBindings` 到 `app/Http/Kernel.php` 的 `web` 中间件组：
 
-The `can` middleware will now throw an instance of `Illuminate\Auth\AuthenticationException` if the user is not authenticated. If you were manually catching a different exception type, you should update your application to catch this exception. In most cases, this change will not affect your application.
+```php
+\Illuminate\Routing\Middleware\SubstituteBindings::class,
+```
 
-#### Binding Substitution Middleware
+同时，你应该为绑定替代注册路由中间件到 HTTP kernel 文件的 `$routeMiddleware` 属性中：
 
-Route model binding is now accomplished using middleware. All applications should add the `Illuminate\Routing\Middleware\SubstituteBindings` to your `web` middleware group in your `app/Http/Kernel.php` file:
+```php
+'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+```
 
-    \Illuminate\Routing\Middleware\SubstituteBindings::class,
+完成路由中间件注册后，还需把它添加到 `api` 中间件组：
 
-You should also register a route middleware for binding substitution in the `$routeMiddleware` property of your HTTP kernel:
+```php
+'api' => [
+    'throttle:60,1',
+    'bindings',
+],
+```
 
-    'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+### 消息通知
 
-Once this route middleware has been registered, you should add it to the `api` middleware group:
+#### 安装
 
-    'api' => [
-        'throttle:60,1',
-        'bindings',
-    ],
+Laravel 5.3 包含了一个新的、基于驱动的消息通知系统。首先，你应该向 `config/app.php` 配置文件的 `providers` 数组注册 `Illuminate\Notifications\NotificationServiceProvider`。
 
-### Notifications
+然后，向 `config/app.php` 配置文件的 `aliases` 数组添加 `Illuminate\Support\Facades\Notification` facade。
 
-#### Installation
+最后，在你期望接受消息通知的模型里使用 `Illuminate\Notifications\Notifiable` trait。
 
-Laravel 5.3 includes a new, driver based notification system. You should register the `Illuminate\Notifications\NotificationServiceProvider` in the `providers` array of your `config/app.php` configuration file.
+### 分页
 
-You should also add the `Illuminate\Support\Facades\Notification` facade to the `aliases` array of your `config/app.php` configuration file.
+#### 自定义
 
-Finally, you may use the `Illuminate\Notifications\Notifiable` trait on your `User` model or any other model you wish to receive notifications.
+与之前的 Laravel 5.x 相比，在 Laravel 5.3 中自定义分页器生成的 HTML 变得更加容易。不再需要定义一个「Presenter」，现在你只要定义一个简单的 Blade 模板。自定义分页视图最简单的方法是使用 `vendor:publish` 命令来导出分页视图到 `resources/views/vendor` 目录下：
 
-### Pagination
+```php
+php artisan vendor:publish --tag=laravel-pagination
+```
 
-#### Customization
+该命令会把视图放到 `resources/views/vendor/pagination` 目录下。目录下的 `default.balde.php` 文件对应默认的分页视图。只需编辑该文件就能修改分页 HTML。
 
-Customizing the paginator's generated HTML is much easier in Laravel 5.3 compared to previous Laravel 5.x releases. Instead of defining a "Presenter" class, you only need to define a simple Blade template. The easiest way to customize the pagination views is by exporting them to your `resources/views/vendor` directory using the `vendor:publish` command:
+请移步 [分页](https://laravel-china.org/docs/5.3/pagination) 获取更多信息。
 
-    php artisan vendor:publish --tag=laravel-pagination
+### 队列
 
-This command will place the views in the `resources/views/vendor/pagination` directory. The `default.blade.php` file within this directory corresponds to the default pagination view. Simply edit this file to modify the pagination HTML.
+#### 配置
 
-Be sure to review the full [pagination documentation](/docs/{{version}}/pagination) for more information.
+在你的队列配置中，所有的 `expire` 配置项应该被重命名为 `retry_after`。同样，Beanstalk 配置文件的 `ttr` 项也应该被重命名为 `retry_after`。这一名字的变更让我们更容易理解这个配置项的作用。
 
-### Queue
+#### 闭包
 
-#### Configuration
+队列闭包不再被支持。如果你正在你的应用程序中使用队列闭包，请把闭包转成一个类，然后把类的实例添加到队列：
 
-In your queue configuration, all `expire` configuration items should be renamed to `retry_after`. Likewise, the Beanstalk configuration's `ttr` item should be renamed to `retry_after`. This name change provides more clarity on the purpose of this configuration option.
+```php
+dispatch(new ProcessPodcast($podcast));
+```
 
-#### Closures
+#### 集合序列化
 
-Queueing closures is no longer supported. If you are queueing a Closure in your application, you should convert the Closure to a class and queue an instance of the class instead.
+现在，`Illuminate\Queue\SerializesModels` trait 能够正确地序列化 `Illuminate\Database\Eloquent\Collection` 实例。对于绝大多数应用，这个变更不会造成兼容性问题。然而，如果你的应用程序完全依赖于那些不是通过队列任务从数据库重新检索出来的集合的话，你应该验证这一变更不会对你的应用程序造成负面影响。
 
-#### Collection Serialization
 
-The `Illuminate\Queue\SerializesModels` trait now properly serializes instances of `Illuminate\Database\Eloquent\Collection`. This will most likely not be a breaking change for the vast majority of applications; however, if your application is absolutely dependent on collections not being re-retrieved from the database by queued jobs, you should verify that this change does not negatively affect your application.
+#### 守护进程
 
-#### Daemon Workers
+调用 Artisan `queue:work` 命令时不再需要指定 `--daemon` 选项。`php artisan queue:work` 命令默认以守护模式运行。如果你希望任务只被执行一次，可以在命令后面指定 `--once` 选项：
 
-It is no longer necessary to specify the `--daemon` option when calling the `queue:work` Artisan command. Running the `php artisan queue:work` command will automatically assume that you want to run the worker in daemon mode. If you would like to process a single job, you may use the `--once` option on the command:
+```php
+// Start a daemon queue worker...
+php artisan queue:work
 
-    // Start a daemon queue worker...
-    php artisan queue:work
+// Process a single job...
+php artisan queue:work --once
+```
 
-    // Process a single job...
-    php artisan queue:work --once
+#### 事件数据变更
 
-#### Event Data Changes
+像 `JobProccessing` 和 `JobProcessed` 这类的队列任务事件不再包含 `$data` 属性。你应该用 `$event->job->payload()` 方法来获取事件的数据。
 
-Various queue job events such as `JobProcessing` and `JobProcessed` no longer contain the `$data` property. You should update your application to call `$event->job->payload()` to get the equivalent data.
+#### 任务表
 
-#### Jobs Table
+如果你在 `config/queue.php` 中使用 `database` 驱动来存储队列任务，你需要在 `jobs` 表中删除 `jobs_queue_reserved_reserved_at_index` 索引，并删除 `reserved` 列，然后对 `queue` 和 `reserved_at` 列添加一个复合索引。
 
-If you are using the `database` driver, you should drop the `jobs_queue_reserved_reserved_at_index` index then drop the `reserved` column from your `jobs` table. This column is no longer required when using the `database` driver. Once you have completed these changes, you should add a new compound index on the `queue` and `reserved_at` column.
+#### 执行失败的任务表
 
-#### Failed Jobs Table
+同上，如果使用了 `database` 驱动，需要在 `failed_jobs` 表中增加 `exception` 列，类型为 `LONGTEXT`。顾名思义，该列将会被用来保存导致任务失败的异常。
 
-If your application has a `failed_jobs` table, you should add an `exception` column to the table. The `exception` column should be a `TEXT` type column and will be used to store a string representation of the exception that caused the job to fail.
+#### 序列化模型
 
-#### Serializing Models On Legacy Style Queue Jobs
+通常来说，Laravel 中的队列任务是通过传递一个新的任务实例到 `Queue::push` 方法来实现的。然而，有些应用可能使用了下面的老旧语法：
 
-Typically, jobs in Laravel are queued by passing a new job instance to the `Queue::push` method. However, some applications may be queuing jobs using the following legacy syntax:
+```php
+Queue::push('ClassName@method');
+```
 
-    Queue::push('ClassName@method');
+如果你使用了该语法，队列将不会再自动序列和反序列化 Eloquent 模型。如果你希望 Eloquent 模型仍能被队列自动序列化，那么请添加 `Illuminate\Queue\SerializesModels` trait 到你的任务类，并使用新的 `push` 语法：
 
-If you are queueing jobs using this syntax, Eloquent models will no longer be automatically serialized and re-retrieved by the queue. If you would like your Eloquent models to be automatically serialized by the queue, you should use the `Illuminate\Queue\SerializesModels` trait on your job class and queue the job using the new `push` syntax:
+```php
+Queue::push(new ClassName);
+```
 
-    Queue::push(new ClassName);
+### 路由
 
-### Routing
+#### 资源参数默认为单数形式
 
-#### Resource Parameters Are Singular By Default
+在之前的版本中，使用 `Route::resource` 注册的路由参数未被「单数化」。这会在注册路由模型绑定时导致一些不可预期的行为。例如，给定以下 `Route::resource` 调用：
 
-In previous versions of Laravel, route parameters registered using `Route::resource` were not "singularized". This could lead to some unexpected behavior when registering route model bindings. For example, given the following `Route::resource` call:
+```php
+Route::resource('photos', 'PhotoController');
+```
 
-    Route::resource('photos', 'PhotoController');
+该 URI 的 `show` 路由将被定义为：
 
-The URI for the `show` route would be defined as follows:
+```php
+/photos/{photos}
+```
 
-    /photos/{photos}
+在 Laravel 5.3 中，所有的资源路由参数默认都被单数化了。所以，当我们调用 `Route::resource` 时将注册如下的 URI：
 
-In Laravel 5.3, all resource route parameters are singularized by default. So, the same call to `Route::resource` would register the following URI:
+```php
+/photos/{photo}
 
-    /photos/{photo}
+```
 
-If you would like to maintain the previous behavior instead of automatically singularizing resource route parameters, you may make the following call to the `singularResourceParameters` method in your `AppServiceProvider`:
+如果你想保持之前的形式，请在 `AppServiceProvider` 中调用 `singularResourceParameters` 方法：
 
-    use Illuminate\Support\Facades\Route;
+```php
+use Illuminate\Support\Facades\Route;
 
-    Route::singularResourceParameters(false);
+Route::singularResourceParameters(false);
+```
 
-#### Resource Route Names No Longer Affected By Prefixes
+#### 资源路由名称不再受前缀影响
 
-URL prefixes no longer affect the route names assigned to routes when using `Route::resource`, since this behavior defeated the entire purpose of using route names in the first place.
+对于那些绑定到 `Route::resource` 的路由名称，URL 前缀不再对其产生影响，因为这一行为违反了优先使用路由名称的目的。
 
-If your application is using `Route::resource` within a `Route::group` call that specified a `prefix` option, you should examine all of your calls to the `route` helper and verify that you are no longer appending the URI `prefix` to the route name.
+如果你在一个指定 `prefix` 选项的 `Route::group` 里使用了 `Route::resource`，请检查所有的 `route` helper 和 `UrlGenerator::route` 调用，确保没有在路由名称前添加 URI 前缀。
 
-If this change causes you to have two routes with the same name, you may use the `names` option when calling `Route::resource` to specify a custom name for a given route. Refer to the [resource routing documentation](/docs/5.3/controllers#resource-controllers) for more information.
+如果这一变更导致产生两个相同名称的路由，你有两个选择。要么，在调用 `Route::resource` 时用 `names` 选项为路由指定自定义名称。请移步 [资源路由文档](https://doc.laravel-china.org/docs/5.3/controllers#resource-controllers) 或取更多信息。或者，你可以添加 `as` 选项到路由组：
 
-### Validation
+```php
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+    //
+});
+```
 
-#### Form Request Exceptions
+### 验证
 
-If a form request's validation fails, Laravel will now throw an instance of `Illuminate\Validation\ValidationException` instead of an instance of `HttpException`. If you are manually catching the `HttpException` instance thrown by a form request, you should update your `catch` blocks to catch the `ValidationException` instead.
+#### 表单请求异常
 
-#### Nullable Primitives
+现在，当表单请求验证失败时，Laravel 将抛出一个 `Illuminate\Validation\ValidationException` 实例来取代之前的 `HttpException`。如果你曾在代码中手动捕获 `HttpException` 实例，你现在需要在 `catch` 语句块中将其更新为 `ValidationException`。
 
-When validating arrays, booleans, integers, numerics, and strings, `null` will no longer be considered a valid value unless the rule set contains the new `nullable` rule:
+#### Nullable
 
-    Validate::make($request->all(), [
-        'string' => 'nullable|max:5',
-    ]);
+当验证数组、布尔值、整形、数字和字符串时，`null` 将不再被认为是一个合法值，除非规则集里包含了新的 `nullable` 规则：
+
+```php
+Validate::make($request->all(), [
+    'field' => 'nullable|max:5',
+]);
+```
 
 <a name="upgrade-5.2.0"></a>
 ## 从 5.1 升级到 5.2.0
