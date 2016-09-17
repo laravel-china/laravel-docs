@@ -72,20 +72,20 @@ Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听
 
     namespace App\Events;
 
-    use App\Podcast;
+    use App\Order;
     use App\Events\Event;
     use Illuminate\Queue\SerializesModels;
 
-    class PodcastWasPurchased extends Event
+    class OrderShipped extends Event
     {
         use SerializesModels;
 
-        public $podcast;
+        public $order;
 
         /**
-         * 创建一个新的事件实例。
+         * 创建一个事件实例
          *
-         * @param  Podcast  $podcast
+         * @param  Order  $order
          * @return void
          */
         public function __construct(Order $order)
@@ -200,7 +200,7 @@ Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听
     class OrderController extends Controller
     {
         /**
-         * Ship the given order.
+         * 将传递过来的订单发货
          *
          * @param  int  $orderId
          * @return Response
@@ -209,7 +209,7 @@ Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听
         {
             $order = Order::findOrFail($orderId);
 
-            // Order shipment logic...
+            // 订单的发货逻辑...
 
             event(new OrderShipped($order));
         }
