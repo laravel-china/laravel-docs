@@ -147,7 +147,7 @@
 
     $name = $request->input('name');
 
-你可以给 `input` 方法的第二个参数传入一个默认值。当请求的输入数据不存在与此请求时：
+你可以给 `input` 方法的第二个参数传入一个默认值。当请求的输入数据不存在于此请求时，返回该默认值：
 
     $name = $request->input('name', 'Sally');
 
@@ -163,11 +163,11 @@
 
     $name = $request->name;
 
-Laravel 在处理动态属性的优先级是，从请求的数据中查找，没有的话再到路由参数中找。
+Laravel 在处理动态属性的优先级是，先从请求的数据中查找，没有的话再到路由参数中找。
 
 #### 获取 JSON 输入信息
 
-当你发送 JSON 请求到应用时，只要请求表头中设置了 `Content-Type` 为　`application/json`，你就可以直接从 `Input` 方法中获取 JSON 数据。你甚至可以通过「点」语法来读取数组：
+当你发送 JSON 请求到应用时，只要请求表头中设置了 `Content-Type` 为　`application/json`，你就可以直接从 `Input` 方法中获取 JSON 数据。你也可以通过 「点」语法来读取 JSON 数组：
 
     $name = $request->input('user.name');
 
@@ -194,7 +194,7 @@ Laravel 在处理动态属性的优先级是，从请求的数据中查找，没
 <a name="old-input"></a>
 ### 旧输入数据
 
-Laravel 允许你将本次的输入数据保留到下一次请求发送前。这个特性在表单验证错误后重新填写表单相当有用。但是，如果你使用了 Laravel 的 [验证特性](/docs/{{version}}/validation)，你就不需要在手动实现这些方法，因为Laravel 内置的验证工具会自动调用他们。
+Laravel 允许你将本次的输入数据保留到下一次请求发送前。这个特性在表单验证错误后重新填写表单相当有用。但是，如果你使用了 Laravel 的 [验证特性](/docs/{{version}}/validation)，你就不需要在手动实现这些方法，因为 Laravel 内置的验证工具会自动调用他们。
 
 #### 将输入数据闪存至 Session
 
@@ -202,13 +202,13 @@ Laravel 允许你将本次的输入数据保留到下一次请求发送前。这
 
     $request->flash();
 
-你也可以使用 `flashOnly` 和 `flashExcept` 方法将当前请求数据的子集保存到 session。这些方法对如密码等敏感信息的保持非常有用：
+你也可以使用 `flashOnly` 和 `flashExcept` 方法将当前请求数据的子集保存到 session。这些方法对敏感信息的保护非常有用：
 
     $request->flashOnly(['username', 'email']);
 
     $request->flashExcept('password');
 
-#### 缓存输入数据到 Session 后重定向
+#### 闪存输入数据到 Session 后重定向
 
 
 你可能需要把输入数据闪存到 session 并重定向到前一个页面，这时只需要在重定向方法后加上 `withInput` 即可：
@@ -225,7 +225,7 @@ Laravel 允许你将本次的输入数据保留到下一次请求发送前。这
 
     $username = $request->old('username');
 
-Laravel 也提供了全局辅助函数 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade) 中显示旧输入数据，可以使用更加方便的 `old` 辅助函数。如果指定字段不存在旧数据，则返回 `null`：
+Laravel 也提供了全局辅助函数 `old`。如果你要在 [Blade 模板](/docs/{{version}}/blade) 中显示旧输入数据，可以使用更加方便的 `old` 辅助函数。如果旧数据不存在，则返回 `null`：
 
     <input type="text" name="username" value="{{ old('username') }}">
 
@@ -240,7 +240,7 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 
 #### 将 Cookies 附加到响应
 
-你可以使用 `cookie` 方法附加一个 cookie 到 `Illuminate\Http\Response` 实例。有效 cookie 应该传递字段名称，字段值和分钟数给这个方法：
+你可以使用 `cookie` 方法附加一个 cookie 到 `Illuminate\Http\Response` 实例。有效 cookie 应该传递字段名称，字段值和过期时间给这个方法：
 
     return response('Hello World')->cookie(
         'name', 'value', $minutes
@@ -254,7 +254,7 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 
 #### 生成 Cookie 实例
 
-如果你想要在一段时间以后生成一个可以给定 `Symfony\Component\HttpFoundation\Cookie` 的响应实例，你可以使用 `cookie` 这个全局互助函数。除非它可以连接到响应实例，否则这个 cookie 不会被发送回客户端：
+如果你想要在一段时间以后生成一个可以给定 `Symfony\Component\HttpFoundation\Cookie` 的响应实例，你可以先生成 $cookie 实例，然后再指定给 response 实例，否则这个 cookie 不会被发送回客户端：
 
     $cookie = cookie('name', 'value', $minutes);
 
@@ -304,9 +304,9 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 ### 储存上传文件
 
 
-你通常会使用一个储存位置去储存上传的文件 [文件系统](/docs/{{version}}/filesystem)。`UploadedFile` 的 `store` 方法可以把上传文件储存到你的本地磁盘，也可以储存到亚马逊 S3 云存储上。
+在设置好 [文件系统](/docs/{{version}}/filesystem) 的配置信息后，你可以使用 `UploadedFile` 的 `store` 方法把上传文件储存到本地磁盘，或者是亚马逊 S3 云存储上。
 
-`store` 方法允许存储文件到相对于文件系统根目录配置的路径。这个路径不能包含文件名，名称将使用MD5散列文件内容自动生成。
+`store` 方法允许存储文件到相对于文件系统根目录配置的路径。这个路径不能包含文件名，名称将使用 MD5 散列文件内容自动生成。
 
 `store` 方法还接受一个可选的第二个参数，用于文件存储到磁盘的名称。这个方法会返回文件相对于磁盘根目录的路径：
 
