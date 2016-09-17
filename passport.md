@@ -1,4 +1,4 @@
-# API Authentication (Passport)
+# API 授权 (Passport)
 
 - [介绍](#introduction)
 - [安装](#installation)
