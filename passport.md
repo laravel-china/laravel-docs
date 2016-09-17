@@ -587,3 +587,14 @@ Passport 的这个中间件将会在你所有的对外请求中添加一个 `lar
     });
 
 > {note} 如果你用了其他 JavaScript 框架，需要确保每次对外请求都会带有此请求头。
+
+## 参考链接
+
+1. 部分关键字翻译参考 [学院君的翻译](http://laravelacademy.org/post/5993.html)
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  |   |
+| [@JobsLong](https://phphub.org/users/56)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/100/h/100">  |  Review  | 我的个人主页：[http://jobslong.com](http://jobslong.com)  |
+| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
