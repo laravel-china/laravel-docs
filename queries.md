@@ -90,9 +90,9 @@
 
 #### 获取字段值列表
 
-若你想要获取一个包含单个字段值的数组，你可以使用 `lists` 方法。在这个例子中，我们将取出 role 数据表 title 字段的数组：
+若你想要获取一个包含单个字段值的数组，你可以使用 `pluck` 方法。在这个例子中，我们将取出 roles 数据表 title 字段的数组：
 
-    $titles = DB::table('roles')->lists('title');
+    $titles = DB::table('roles')->pluck('title');
 
     foreach ($titles as $title) {
         echo $title;
@@ -100,7 +100,7 @@
 
 你也可以在返回的数组中指定自定义的键值字段：
 
-    $roles = DB::table('roles')->lists('title', 'name');
+    $roles = DB::table('roles')->pluck('title', 'name');
 
     foreach ($roles as $name => $title) {
         echo $title;
@@ -169,6 +169,14 @@
 
     $users = DB::table('users')
                 ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+                ->get();
+
+#### Cross Join 语法
+
+使用 `crossJoin` 方法和你想要交叉连接的表名来做「交叉连接」。交叉连接通过第一个表和连接表生成一个笛卡尔积：
+
+    $users = DB::table('sizes')
+                ->crossJoin('colours')
                 ->get();
 
 #### 高级的 Join 语法
