@@ -7,12 +7,12 @@
 <a name="introduction"></a>
 ## 介绍
 
-laravel是利用OpenSSL去提供AES-256和AES-128的加密。你完全可以使用laravel自带的加密机制，而不用再另外去创建加密算法。laravel所有加密之后的结果都会使用消息认证码（MAC）去签署，所以一旦被加密就无法再改变。
+Laravel 是利用 OpenSSL 去提供 ES-256 和 AES-128 的加密。你完全可以使用 Laravel 自带的加密机制，而不用再另外去创建加密算法。Laravel 所有加密之后的结果都会使用消息认证码 (MAC) 去签署，所以一旦被加密就无法再改变。
 
 <a name="configuration"></a>
 ## 设置
 
-在使用 Laravel 的加密器前，你应该先设置 `config/app.php` 配置文件中的 `key` 选项。由于Artisan控制台会使用PHP的安全机制为你随机生成key，你可以直接使用 `php artisan key:generate` 命令去生成key。如果没有适当地设置这个值，所有被 Laravel 加密的值都将是不安全的。
+在使用 Laravel 的加密器前，你应该先设置 `config/app.php` 配置文件中的 `key` 选项。由于 Artisan 控制台会使用 PHP 的安全机制为你随机生成 key，你可以直接使用 `php artisan key:generate` 命令去生成 key。如果没有适当地设置这个值，所有被 Laravel 加密的值都将是不安全的。
 
 <a name="basic-usage"></a>
 ## 基本用法
