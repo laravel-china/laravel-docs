@@ -67,14 +67,14 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套简
 <a name="writing-mailables"></a>
 ## 编写 mailables
 
-完成全部的 mailables 类的配置是在 `build` 方法中。在这个方法内，你可以调用其他各种方法，如 `from`，`subject`，`view` 和 `attach` 来配置完成邮件的详情。
+所有的 「mailables」类都在其 `build` 方法中完成配置。在这个方法内，你可以调用其他各种方法，如 `from`，`subject`，`view` 和 `attach` 来配置完成邮件的详情。
 
 <a name="configuring-the-sender"></a>
 ### 配置发送者
 
 #### 使用 `from` 方法
 
-首先，演示配置邮件的发送者，也就是邮件的参数 「from」，既谁发送了邮件。有两种方式配置。第一种是你可以在 `build` 方法中使用 `from` 方法：
+首先，演示配置邮件的发送者，也就是邮件的参数 「from」，既谁发送了邮件。有两种方法配置发送者。第一种是你可以在 `build` 方法中使用 `from` 方法：
 
     /**
      * Build the message.
@@ -108,7 +108,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套简
         return $this->view('emails.orders.shipped');
     }
 
-> {小建议} 你可以创建一个 `resources/views/emails` 目录来存放所有的邮件模板；然而，这不是强制要求，你可以在有的将邮件模板放在 `resources/views` 目录的任意位置。
+> {tip} 你可以创建一个 `resources/views/emails` 目录来存放所有的邮件模板；然而，这不是强制要求，你可以在有的将邮件模板放在 `resources/views` 目录的任意位置。
 
 #### 纯文本邮件
 
@@ -181,7 +181,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套简
 
 #### 通过 `with` 方法：
 
-如果想要在发送前定制邮件的数据格式，你可以使用 `with` 方法手动传递数据。通常，仍然可以通过 mailable 类的构造函数传递数据；然而，你应该会设置这些数据为 `protected` 或 `private` 的属性，那么这些数据不会自动加载到模板中。 那么，应该使用 `with` 方法，传递一个数组数据到模板：
+你可以使用 `with` 方法来传递数据给模板。一般情况下，你仍然是使用 mailable 类的构造函数来接受数据传参。然而你需要为这些数据属性设置 `protected` 或 `private`  声明，否则这些数据会被自动加载到模板中。接下来你可以使用 `with` 方法接受键值数组传参来传递数据给模板，就如控制器里为视图传参一样：
 
     <?php
 
@@ -337,7 +337,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套简
         }
     }
 
-当然，不局限于使用「to」给收件人发送邮件，你可以自由的设置 「to」，「cc」和 「bcc」而不是同一个人，进行链式方法调用：
+当然，不局限于只使用「to」给收件人发送邮件，你可以通过一个单一的链式调用来自由的设置 「to」，「cc」和 「bcc」接收者：
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -371,7 +371,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套简
 
 #### 推送到特定队列
 
-因为所有 mailable 类是通过 `make:mail` 命令生成并使用 `Illuminate\Bus\Queueable` trait ，你可以在任何 mailable 类实现中调用 `onQueue` 和 `onConnection` 方法，允许为此邮件消息你指定 connection 和 queue 名：
+因为所有 mailable 类是通过 `make:mail` 命令生成并使用 `Illuminate\Bus\Queueable` trait ，你可以在任何 mailable 类实现中调用 `onQueue` 来指定队列名称，还有 `onConnection` 方法来指定队列链接名称：
 
     $message = (new OrderShipped($order))
                     ->onConnection('sqs')
