@@ -552,3 +552,8 @@ Laravel 支持 MySQL 5.7 以上版本和 Postgres 数据库的 JSON 类型的字
 此外，你也可以使用 `lockForUpdate` 方法。「用以更新」锁可避免数据列被其它共享锁修改或选取：
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@贺钧威](https://phphub.org/users/5711)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5711_1473489317.jpg?imageView2/1/w/100/h/100">  |  翻译  | 感谢[BlueStone](http://bluestoneapp.thexrverge.com/)翻译支持，[@贺钧威](https://github.com/HejunweiCoder/) at Github  |
