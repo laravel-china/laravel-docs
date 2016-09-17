@@ -16,7 +16,7 @@
 
 #### 预计升级耗时：2~3 小时
 
-> 注意：我们尽量罗列出每一个不兼容的变更。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
+> {note} 我们尽量罗列出每一个不兼容的变更。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
 
 ### PHP & HHVM
 
@@ -30,7 +30,7 @@ Laravel 5.3 需要 PHP 5.6.4 或者更高的版本。由于不包含和 PHP 5.6+
 
 你可以从 `EventServiceProvider`，`RouteSerivceProvider` 和 `AuthServiceProvider` 类的 `boot` 方法上移除参数。任何给定参数的调用都可以被转化为等效的 [facade](https://laravel-china.org/docs/5.3/facades)。所以，举个栗子，除了在 `$dispatcher` 参数上调用方法，你可以直接调用 `Event` facade。同样，除了在 `$router` 参数上调用方法，你可以直接调用 `Route` facade，`$gate` 亦然（可直接调用 `Gate` facade）。
 
-> 注意：当把方法调用转化为 facades 时，请先在服务提供者顶部引入 facade 类。
+> {note} 当把方法调用转化为 facades 时，请先在服务提供者顶部引入 facade 类。
 
 ### 数组
 
@@ -85,7 +85,7 @@ class User extends Authenticatable
 }
 ```
 
-> 注意：不要忘记注册 `Illuminate\Notifications\NotificationServiceProvider` 到 `config/app.php` 配置文件中的 `providers` 数组。
+> {note} 不要忘记注册 `Illuminate\Notifications\NotificationServiceProvider` 到 `config/app.php` 配置文件中的 `providers` 数组。
 
 #### 以 POST 方式登出
 
