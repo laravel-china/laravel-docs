@@ -543,7 +543,7 @@ Laravel 支持 MySQL 5.7 以上版本和 Postgres 数据库的 JSON 类型的字
     DB::table('users')->truncate();
 
 <a name="pessimistic-locking"></a>
-## Pessimistic Locking
+## 悲观锁定
 
 查询语句构造器也包含一些可用以协助你在 `select` 语法上作「悲观锁定」的函数。若要以「共享锁」来运行语句，则可在查找上使用 `sharedLock` 方法。共享锁可避免选择的数据列被更改，直到事务被提交为止：
 
