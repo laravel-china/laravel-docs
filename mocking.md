@@ -1,12 +1,14 @@
-# Mocking
+# 模拟器
 
-- [Introduction](#introduction)
-- [Events](#mocking-events)
-- [Jobs](#mocking-jobs)
+- [介绍](#introduction)
+- [事件](#mocking-events)
+- [任务](#mocking-jobs)
 - [Facades](#mocking-facades)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
+
+测试 Laravel 应用时，有时候你可能想要「模拟」应用程序的部分功能，从而避免其在测试过程中执行。例如，一个控制器执行过程中会触发一个事件（ Events ），你想要模拟这个事件的监听器，从而避免该事件在测试这个控制器时真正执行。如上描述的过程可以让你放心得测试控制器的 HTTP 响应值，不用去担心事件监听器运行。
 
 When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that fires an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners, since the event listeners can be tested in their own test case.
 
