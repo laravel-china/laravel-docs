@@ -18,7 +18,7 @@
 
 Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听在应用中出现的各种事件，事件类通常被保存在 `app/Events` 目录下，而它们的监听器被保存在 `app/Listeners` 目录下。如果你在应用中看不到这些文件夹也不要担心，当你用 Artisan 命令来生成事件和监听器的时候他们就会被创建了。
 
-事件机制是种很好的对应用各方面进行解耦的一种方式，因为一个事件可以拥有多个互不依赖的监听器。举例来说，每次你把用户的订单发完货后都会希望给他发个 Slack 通知。这时候你就可以发起一个 `OrderShipped` 事件，它会被对应的监听器接收到再传递给 Slack 通知模块，这样你就不用把订单处理的代码跟 Slack 通知的代码耦合在一起了。
+事件机制是一种很好的应用解耦方式，因为一个事件可以拥有多个互不依赖的监听器。举例来说，每次你把用户的订单发完货后都会希望给他发个 Slack 通知。这时候你就可以发起一个 `OrderShipped` 事件，它会被对应的监听器接收到再传递给 Slack 通知模块，这样你就不用把订单处理的代码跟 Slack 通知的代码耦合在一起了。
 
 <a name="registering-events-and-listeners"></a>
 ## 注册事件和监听器
@@ -72,20 +72,20 @@ Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听
 
     namespace App\Events;
 
-    use App\Podcast;
+    use App\Order;
     use App\Events\Event;
     use Illuminate\Queue\SerializesModels;
 
-    class PodcastWasPurchased extends Event
+    class OrderShipped extends Event
     {
         use SerializesModels;
 
-        public $podcast;
+        public $order;
 
         /**
-         * 创建一个新的事件实例。
+         * 创建一个事件实例
          *
-         * @param  Podcast  $podcast
+         * @param  Order  $order
          * @return void
          */
         public function __construct(Order $order)
@@ -200,7 +200,7 @@ Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听
     class OrderController extends Controller
     {
         /**
-         * Ship the given order.
+         * 将传递过来的订单发货
          *
          * @param  int  $orderId
          * @return Response
@@ -209,7 +209,7 @@ Laravel 事件机制实现了一个简单的观察者模式，来订阅和监听
         {
             $order = Order::findOrFail($orderId);
 
-            // Order shipment logic...
+            // 订单的发货逻辑...
 
             event(new OrderShipped($order));
         }
