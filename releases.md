@@ -93,7 +93,7 @@ Echo 提供的支持包括 [Pusher](https://pusher.com) 以及 [Socket.io](http:
 
 Laravel 5.3 的 Passport 让 API 认证变得简单。Laravel Passport 可以让你在几分钟内为应用程序创建一个完整的 OAuth2 认证服务，Passport 基于 Alex Bilbie 的 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 实现。
 
-Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允许用户通过 Web 界面创建 `个人访问令牌 (personal access tokens)`。
+Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允许用户通过 Web 界面创建 `个人访问令牌`。
 
 为了方便提高开发效率，Passport 内置了一个 Vue 组件，该组件提供了 OAuth2 后台界面功能，允许用户创建客户端、撤销访问令牌，以及更多其他功能：
 
@@ -103,7 +103,7 @@ Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允
 
 如果你不想使用 Vue 组件，你可以自由的定制用于管理客户端和访问令牌的前端及后台。Passport 提供了一个简单的 JSON API，你可以在前端使用任何 JavaScript 框架与之集成。
 
-当然，Passport 还提供了方便的 API 让你定制「Token 访问域」：
+Passport 还提供了方便的 API 让你定制「Token 访问域」：
 
     Passport::tokensCan([
         'place-orders' => 'Place new orders',
@@ -113,7 +113,7 @@ Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允
 此外，Passport 还包含了一个用于检查「Token 访问域」访问权限的中间件：
 
     Route::get('/orders/{order}/status', function (Order $order) {
-        // Access token has "check-status" scope...
+        // 检查令牌是否拥有 "check-status" 访问域
     })->middleware('scope:check-status');
 
 最后，Passport 还支持从 JavaScript 应用访问你的 API，而不必担心访问令牌传输。Passport 通过加密 JWT cookies 和同步「CSRF 令牌」来实现此功能，让你专注于业务开发。
@@ -126,7 +126,7 @@ Laravel Scout 提供了一个简单的、基于驱动的、针对 [Eloquent](/do
 
 通过模型观察者，Scout 会自动同步更新 Eloquent 的搜索索引，目前，Scout使用 [Algolia](https://www.algolia.com/) 驱动，你可以自由的编写自己驱动来扩展 Scout。
 
-你只需要添加 `Searchable trait` 到模型中，就能让模型支持搜索：
+你只需要添加 Searchable trait 到模型中，就能让模型支持搜索：
 
     <?php
 
@@ -256,7 +256,7 @@ API 相关的路由在 `RouteServiceProvider` 中指定了自动添加 `api` 前
 
 更多信息请参见 [Artisan 文档](/docs/5.3/artisan#closure-commands)。
 
-### Blade 中的 `$loop` 变量
+### Blade 中的 `$loop` 魔术变量
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/7)。
 
@@ -307,7 +307,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
 
 >  {note} 该功能特性只能用于新创建的应用，不能用于升级后的应用。
 
-### 隐式模型绑定
+### 隐式数据模型绑定
 
 隐式模型绑定使得在路由和控制器中注入模型实例更加便捷。例如，假设你定义了一个如下的路由：
 
@@ -460,10 +460,10 @@ Laravel 的事件广播机制很好的支持了此类应用的开发，广播事
             if (! $request->user()->hasRole($role)) {
                 // 重定向...
             }
-    
+
             return $next($request);
         }
-    
+
     }
 
 在路由中使用冒号 `:` 来区隔中间件名称与参数，多个参数可使用逗号作为分隔：
@@ -602,7 +602,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
     class PodcastWasPurchased
     {
         public $podcast;
-    
+
         public function __construct(Podcast $podcast)
         {
             $this->podcast = $podcast;
@@ -635,9 +635,9 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
 
     class PurchasePodcast extends Command implements SelfHandling, ShouldBeQueued
     {
-    
+
         use SerializesModels;
-    
+
         protected $user, $podcast;
     
         /**
@@ -650,7 +650,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
             $this->user = $user;
             $this->podcast = $podcast;
         }
-    
+
         /**
          * Execute the command.
          *
@@ -659,7 +659,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
         public function handle()
         {
             // Handle the logic to purchase the podcast...
-    
+
             event(new PodcastWasPurchased($this->user, $this->podcast));
         }
     }
@@ -674,7 +674,7 @@ Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可
 
 `database` 队列驱动现在已经包含在 Laravel 中了，提供了简单的本地端队列驱动，除了数据库相关软件外不需安装其它扩展包，完全开箱即用。
 
-### Laravel 调度器 (Laravel Scheduler)
+### Laravel 调度器
 
 在过去，开发者是在 crontab 里配置任务调度的。然而，这是件很头痛的事情，因为你的命令行调度不在版本控制中，并且必须登录到服务器里才能添加新的 Cron 设置。
 
@@ -753,7 +753,7 @@ Laravel 5.0 引进了 **form requests**，是继承自 `Illuminate\Foundation\Ht
                 'password' => 'required|confirmed|min:8',
             ];
         }
-    
+
         public function authorize()
         {
             return true;
@@ -771,7 +771,7 @@ Laravel 5.0 引进了 **form requests**，是继承自 `Illuminate\Foundation\Ht
 
 甚至，若这个请求验证不通过，一个 HTTP 重定向（可以自定义），会自动发出，错误消息可以被闪存到 session 中或是转换成 JSON 返回。**表单验证再简单不过了。** 更多关于 `FormRequest` 验证，请参考 [文档](/docs/{{version}}/validation#form-request-validation)。
 
-### 简易控制器请求验证 (Simple Controller Request Validation)
+### 简易控制器请求验证
 
 Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait 包含了一个简单的 `validate` 方法可以验证请求。如果对你的应用程序来说 `FormRequests` 太复杂了，可以考虑使用手动验证方法：
 
@@ -852,7 +852,7 @@ PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作�
 
 更多关于软删除的文档请见: [Eloquent documentation](/docs/eloquent#soft-deleting)。
 
-### Convenient Auth & Remindable Traits
+### 更为方便的 认证(auth) & Remindable Traits
 
 得益于 PHP 5.4 traits，我们有了一个更简洁的用户认证和密码提醒接口，这也让 `User` 模型文档更加精简。
 
@@ -887,7 +887,7 @@ Eloquent 添加了新的 `hasManyThrough` 关系链。想要了解更多，请�
 
 一个新的 `whereHas` 方法也同时登场，他将允许 [检索基于关系模型](/docs/eloquent#querying-relations)。
 
-### 数据库读写分离 (Database Read / Write Connections)
+### 数据库读写分离
 
 Query Builder 和 Eloquent 目前通过数据库层，已经可以自动做到读写分离。更多的信息，请参考 [文档](/docs/database#read-write-connections)。
 
@@ -895,7 +895,7 @@ Query Builder 和 Eloquent 目前通过数据库层，已经可以自动做到�
 
 队列排序已经被支持，只要在 `queue:listen` 命令后将队列以逗号分隔送出。
 
-### 失败队列作业处理 ( Failed Queue Job Handling)
+### 失败队列作业处理
 
 现在队列将会自动处理失败的作业，只要在 `queue:listen` 后加上 `--tries` 即可。更多的失败作业处理可以参见 [队列文档](/docs/queues#failed-jobs)。
 
