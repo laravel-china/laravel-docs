@@ -50,8 +50,6 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
     Storage::disk('local')->put('file.txt', 'Contents');
 
 <a name="driver-prerequisites"></a>
-### Driver Prerequisites
-
 #### 其它驱动的预先需求
 
 在使用 S3 或 Rackspace 驱动之前，你需要通过 Composer 安装适当扩展包：
