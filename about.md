@@ -10,14 +10,14 @@
 
 ## 译者
 
-| 用户名 | 头像 | 
+| 用户名 | 头像 |
 |---|---|
-| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/200/h/200">  | 
-| [@overtrue](https://github.com/overtrue)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/76_1451276555.png?imageView2/1/w/100/h/100">    | 
+| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/200/h/200">  |
+| [@overtrue](https://github.com/overtrue)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/76_1451276555.png?imageView2/1/w/100/h/100">    |
 | [@JobsLong](https://github.com/JobsLong)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/200/h/200">    |
 | [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |
-| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  | 
-| [@NauxLiu](https://github.com/NauxLiu)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9570112?v=3&s=100">  | 
+| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |
+| [@NauxLiu](https://github.com/NauxLiu)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9570112?v=3&s=100">  |
 
 
 ## 排版规范
@@ -88,6 +88,8 @@
 - Extension 扩展
 - Eloquent (不翻)
 - Exception 异常
+- Echo (不翻)
+- Elixir (不翻)
 
 ### F
 
@@ -155,6 +157,7 @@
 - Presenter (不翻)
 - Pipeline 管道
 - Policies 策略
+- Passport（不翻）
 
 ### Q
 
@@ -209,5 +212,6 @@
 - Workbench (开源项目名称，不翻)
 - Webhooks (不翻)
 - Word Factor 加密系数
+- Webpack (不翻)
 
 
