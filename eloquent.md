@@ -1,5 +1,4 @@
-# Eloquent: Getting Started
-Eloquent: 入门
+# Eloquent: 入门
 - [简介](#introduction)
 - [定义模型](#defining-models)
     - [Eloquent 模型约定](#eloquent-model-conventions)
@@ -15,7 +14,7 @@ Eloquent: 入门
     - [其他创建方法](#other-creation-methods)
 - [删除模型](#deleting-models)
     - [软删除](#soft-deleting)
-    - [查找被软删除的模型](#querying-soft-deleted-models)
+    - [查询被软删除的模型](#querying-soft-deleted-models)
 - [查询作用域](#query-scopes)
     - [全局作用域](#global-scopes)
     - [本地作用域](#local-scopes)
@@ -27,7 +26,7 @@ Eloquent: 入门
 ## 简介
 
 
-Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和数据库进行交互。每个数据库表都有一个对应的「模型」可用来跟数据表进行交互。你可以通过模型查找数据表内的数据，以及将记录添加到数据表中。
+Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和数据库进行交互。每个数据库表都有一个对应的「模型」可用来跟数据表进行交互。你可以通过模型查询数据表内的数据，以及将记录添加到数据表中。
 
 在开始之前，请确认你已在 `config/database.php` 文件中设置好了数据库连接。更多数据库的设置信息请查看 [数据库设置](/docs/{{version}}/database#configuration) 文档。
 
@@ -88,11 +87,11 @@ Laravel 的 Eloquent ORM 提供了漂亮、简洁的 ActiveRecord 实现来和�
 Eloquent 也会假设每个数据表都有一个叫做 `id` 的主键字段。你也可以定义一个 `$primaryKey` 属性来重写这个约定。
 
 
-此外，Eloquent 假定主键是一个递增的整数值，这意味着在默认情况下主键将自动的被强制转换为 `int`。 如果你想使用非递增或者非数字的主键，你必须在你的模型 public `$ incrementing`属性设置为`false`。
+此外，Eloquent 假定主键是一个递增的整数值，这意味着在默认情况下主键将自动的被强制转换为 `int`。 如果你想使用非递增或者非数字的主键，你必须在你的模型 public `$incrementing` 属性设置为`false`。
 
 #### 时间戳
 
-默认情况下，Eloquent 会预计你的数据表中有 `created_at` 和 `updated_at` 字段。如果你不希望让 Eloquent 来自动维护这两个字段，可在模型内将 `$timestamps` 属性设置为 `false`：
+默认情况下，Eloquent 会认为在你的数据库表有 `created_at` 和 `updated_at` 字段。如果你不希望让 Eloquent 来自动维护这两个字段，可在模型内将 `$timestamps` 属性设置为 `false`：
 
     <?php
 
@@ -103,14 +102,14 @@ Eloquent 也会假设每个数据表都有一个叫做 `id` 的主键字段。�
     class Flight extends Model
     {
         /**
-         * 指定是否模型应该被戳记时间。
+         * 该模型是否被自动维护时间戳
          *
          * @var bool
          */
         public $timestamps = false;
     }
 
-如果你需要自定义自己的时间戳格式，可在模型内设置 `$dateFormat` 属性。这个属性决定了日期应如何在数据库中存储，以及当模型被序列化成数组或 JSON 时的格式：
+如果你需要自定义自己的时间戳格式，可在模型内设置 `$dateFormat` 属性。这个属性决定了日期应如何在数据库中存储，以及当模型被序列化成数组或 JSON 格式：
 
     <?php
 
@@ -152,7 +151,7 @@ Eloquent 也会假设每个数据表都有一个叫做 `id` 的主键字段。�
 <a name="retrieving-models"></a>
 ## 取回多个模型
 
-一旦你创建并 [关联了一个模型到数据表](/docs/{{version}}/schema) 上，那么你就可以从数据库中获取数据。可把每个 Eloquent 模型想像成强大的 [查询构造器](/docs/{{version}}/queries)，它让你可以流畅地查找与模型关联的数据表。例如：
+一旦你创建并 [关联了一个模型到数据表](/docs/{{version}}/schema) 上，那么你就可以从数据库中获取数据。可把每个 Eloquent 模型想像成强大的 [查询构造器](/docs/{{version}}/queries)，它让你可以流畅地查询与模型关联的数据表。例如：
 
 
     <?php
@@ -167,18 +166,18 @@ Eloquent 也会假设每个数据表都有一个叫做 `id` 的主键字段。�
 
 #### 增加额外的限制
 
-Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于每个 Eloquent 模型都可以当作一个 [查询构造器](/docs/{{version}}/queries)，所以你可以在查找中增加规则，然后使用 `get` 方法来获取结果：
+Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于每个 Eloquent 模型都可以当作一个 [查询构造器](/docs/{{version}}/queries)，所以你可以在查询中增加规则，然后使用 `get` 方法来获取结果：
 
     $flights = App\Flight::where('active', 1)
                    ->orderBy('name', 'desc')
                    ->take(10)
                    ->get();
 
-> **注意：** 由于 Eloquent 模型是查询构造器，因此你应当去阅读所有 [查询构造器](/docs/{{version}}/queries) 中可用的方法。你可在 Eloquent 查找中使用这其中的任何方法。
+> {tip} 由于 Eloquent 模型是查询构造器，因此你应当去阅读所有 [查询构造器](/docs/{{version}}/queries) 中可用的方法。你可在 Eloquent 查询中使用这其中的任何方法。
 <a name="collections"></a>
 ### 集合
 
-像是 `all` 以及 `get` 之类的可以取回多个结果的 Eloquent 方法，将会返回一个 `Illuminate\Database\Eloquent\Collection` 实例。`Collection` 类提供 [多种辅助函数](/docs/{{version}}/eloquent-collections#available-methods) 来处理你的 Eloquent 结果。
+类似 `all` 以及 `get` 之类的可以取回多个结果的 Eloquent 方法，将会返回一个 `Illuminate\Database\Eloquent\Collection` 实例。`Collection` 类提供 [多种辅助函数](/docs/{{version}}/eloquent-collections#available-methods) 来处理你的 Eloquent 结果。
 
 
     $flights = $flights->reject(function ($flight) {
@@ -194,7 +193,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 <a name="chunking-results"></a>
 ### 分块结果
 
-如果你需要处理上千笔 Eloquent 查找结果，则可以使用 `chunk` 命令。`chunk` 方法将会获取一个 Eloquent 模型的「分块」，并将它们送到指定的 `闭包 (Closure)` 中进行处理。当你在处理大量结果时，使用 `chunk` 方法可节省内存：
+如果你需要处理数以千计的 Eloquent 查找结果，则可以使用 `chunk` 命令。`chunk` 方法将会获取一个 Eloquent 模型的「分块」，并将它们送到指定的 `闭包 (Closure)` 中进行处理。当你在处理大量结果时，使用 `chunk` 方法可节省内存：
 
 
     Flight::chunk(200, function ($flights) {
@@ -223,7 +222,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
     // 通过主键取回一个模型...
     $flight = App\Flight::find(1);
 
-    // 取回符合查找限制的第一个模型 ...
+    // 取回符合查询限制的第一个模型 ...
     $flight = App\Flight::where('active', 1)->first();
 
 你也可以用主键的集合为参数调用`find`方法，它将返回符合条件的集合：
@@ -232,13 +231,13 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
 #### 「未找到」异常
 
-有时候你可能希望在找不到模型时抛出一个异常，这在路由或是控制器内特别有用。`findOrFail` 以及 `firstOrFail` 方法会取回查找的第一个结果。如果没有找到相应结果，则会抛出一个 `Illuminate\Database\Eloquent\ModelNotFoundException`：
+有时候你可能希望在找不到模型时抛出一个异常，这在路由或是控制器内特别有用。`findOrFail` 以及 `firstOrFail` 方法会取回查询的第一个结果。如果没有找到相应结果，则会抛出一个 `Illuminate\Database\Eloquent\ModelNotFoundException`：
 
     $model = App\Flight::findOrFail(1);
 
     $model = App\Flight::where('legs', '>', 100)->firstOrFail();
 
-如果没有捕捉到异常，则会自动地送回 HTTP `404` 响应给用户，因此当使用这些方法时，你没有必要明确的编写检查来返回 `404` 响应：
+如果该异常没有被捕获，则会自动返回 HTTP `404` 响应给用户，因此当使用这些方法时，你没有必要明确的编写检查来返回 `404` 响应：
 
     Route::get('/api/flights/{id}', function ($id) {
         return App\Flight::findOrFail($id);
@@ -288,7 +287,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
             $flight->save();
         }
     }
-在这个例子中，我们把进来的 HTTP 请求的 `name` 参数简单地指定给 `App\Flight` 模型实例的 `name` 属性。当我们调用 `save` 方法，就会添加一条记录到数据库中。当 `save` 方法被调用时，`created_at` 以及 `updated_at` 时间戳将会被自动设置，因此我们不需要去手动设置它们。
+在这个例子中，我们把来自 HTTP 请求中的 `name` 参数简单地指定给 `App\Flight` 模型实例的 `name` 属性。当我们调用 `save` 方法，就会添加一条记录到数据库中。当 `save` 方法被调用时，`created_at` 以及 `updated_at` 时间戳将会被自动设置，因此我们不需要去手动设置它们。
 
 <a name="updates"></a>
 ### 基本更新
@@ -304,23 +303,24 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
 #### 批量更新
 
-也可以针对符合指定查找的任意数量模型进行更新。在这个例子中，所有 `active` 并且 `destination` 为 `San Diego` 的航班，都将会被标识为延迟：
+也可以针对符合指定查询的任意数量模型进行更新。在这个例子中，所有 `active` 并且 `destination` 为 `San Diego` 的航班，都将会被标识为延迟：
 
     App\Flight::where('active', 1)
               ->where('destination', 'San Diego')
               ->update(['delayed' => 1]);
 
-`update` 方法会预计收到一个字段与值成对的数组，来代表应该被更新的字段。
+`update` 方法会期望收到一个含有字段与值对应的数组，而这些字段的内容将会被更新。
 
+> {note} 当通过“Eloquent”批量更新时，`saved`和`updated`模型事件将不会被更新后的模型代替。这是因为批量更新时，模型从来没有被取回。
 
 <a name="mass-assignment"></a>
 ### 批量赋值
 
-你也可以使用 `create` 方法在一行代码上保存一个新模型。被添加的模型实例将会从你的方法中返回。然而，在这样做之前，你需要先在你的模型上指定一个 `fillable` 或 `guarded` 属性，因为所有的 Eloquent 模型都有针对批量赋值（Mass-Assignment）做保护。
+你也可以使用 `create` 方法通过一行代码来保存一个新模型。被插入数据库的模型实例将会返回给你。不过，在这样做之前，你需要先在你的模型上定义一个 `fillable` 或 `guarded` 属性，因为所有的 Eloquent 模型都针对批量赋值（Mass-Assignment）做了保护。
 
 当用户通过 HTTP 请求传入了非预期的参数，并借助这些参数更改了数据库中你并不打算要更改的字段，这时就会出现批量赋值（Mass-Assignment）漏洞。例如，恶意用户可能会通过 HTTP 请求发送 `is_admin` 参数，然后对应到你模型的 `create` 方法，此操作能让该用户把自己升级为一个管理者。
 
-所以，在开始之前，你应该定义好哪些模型属性是可以被批量赋值的。你可以在模型上使用 `$fillable` 属性来实现。例如，让我们使 `Flight` 模型的 `name` 属性可以被批量赋值：
+所以，在开始之前，你应该定义好哪些模型属性是可以被批量赋值的。你可以在模型上使用 `$fillable` 属性来实现。例如，让我们让 `Flight` 模型的 `name` 属性可以被批量赋值：
 
     <?php
 
@@ -338,13 +338,13 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
         protected $fillable = ['name'];
     }
 
-一旦我们已经设置好可以被批量赋值的属性，便能通过 `create` 方法来添加一条新记录到数据库。`create` 方法返回已经被保存的模型实例：
+一旦我们已经设置好可以被批量赋值的属性，便能通过 `create` 方法来添加一条新记录到数据库。`create` 方法将返回已经被保存的模型实例：
 
     $flight = App\Flight::create(['name' => 'Flight 10']);
 
 #### Guarding Attributes
 
-`$fillable` 作为一个可以被批量赋值的属性「白名单」。另外你也可以选择使用 `$guarded`。`$guarded` 属性应该包含一个你不想要被批量赋值的属性数组。所有不在数组里面的其它属性都可以被批量赋值。因此，`$guarded` 的功能更像是一个「黑名单」。使用的时候应该只选择 `$fillable` 或 `$guarded` 中的其中一个。 下面这个例子中，**除了 `price`** 所有的属性都可以被批量赋值：
+`$fillable` 作为一个可以被批量赋值的属性「白名单」。另外你也可以选择使用 `$guarded`。`$guarded` 属性应该包含一个你不想要被批量赋值的属性数组。所有不在数组里面的其它属性都可以被批量赋值。因此，`$guarded` 的功能更类似一个「黑名单」。使用的时候应该只选择 `$fillable` 或 `$guarded` 中的其中一个。 下面这个例子中，**除了 `price`** 所有的属性都可以被批量赋值：
 
 
     <?php
@@ -396,7 +396,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
 #### 通过键来删除现有的模型
 
-在上面的例子中，我们在调用 `delete` 方法之前会先从数据库中取回模型。然而，如果你已知道了模型中的主键，则可以不用取回模型就能直接删除它。若要这么做，请调用 `destroy` 方法：
+在上面的例子中，我们在调用 `delete` 方法之前会先从数据库中取回模型。不过，如果你已知道了模型中的主键，则可以不用取回模型就能直接删除它。若要直接删除，请调用 `destroy` 方法：
 
     App\Flight::destroy(1);
 
@@ -404,9 +404,9 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
     App\Flight::destroy(1, 2, 3);
 
-#### 通过查找来删除模型
+#### 通过查询来删除模型
 
-当然，你也可以在一组模型上运行删除查找。在这个例子中，我们将会删除所有被标示为不活跃的航班：
+当然，你也可以在一组模型上运行删除查询。在这个例子中，我们将会删除所有被标示为不活跃的航班：
 
     $deletedRows = App\Flight::where('active', 0)->delete();
 
@@ -445,7 +445,7 @@ In this example, we will delete all flights that are marked as inactive. Like ma
         $table->softDeletes();
     });
 
-现在，当你在模型上调用 `delete` 方法时，`deleted_at` 字段将会被设置成目前的日期和时间。而且，当查找有启用软删除的模型时，被软删除的模型将会自动从所有查找结果中排除。
+现在，当你在模型上调用 `delete` 方法时，`deleted_at` 字段将会被设置成目前的日期和时间。而且，当查询有启用软删除的模型时，被软删除的模型将会自动从所有查询结果中排除。
 
 要确认指定的模型实例是否已经被软删除，可以使用 `trashed` 方法：
 
@@ -455,17 +455,17 @@ In this example, we will delete all flights that are marked as inactive. Like ma
 
 
 <a name="querying-soft-deleted-models"></a>
-### 查找被软删除的模型
+### 查询被软删除的模型
 
 #### 包含被软删除的模型
 
-如上所述，被软删除的模型将会自动从所有的查找结果中排除。然而，你可以通过在查找中调用 `withTrashed` 方法来强制查找已被软删除的模型：
+如上所述，被软删除的模型将会自动从所有的查询结果中排除。不过，你可以通过在查询中调用 `withTrashed` 方法来强制查询已被软删除的模型：
 
     $flights = App\Flight::withTrashed()
                     ->where('account_id', 1)
                     ->get();
 
-`withTrashed` 方法也可以被用在 [关联](/docs/{{version}}/eloquent-relationships) 查找：
+`withTrashed` 方法也可以被用在 [关联](/docs/{{version}}/eloquent-relationships) 查询：
 
     $flight->history()->withTrashed()->get();
 
@@ -483,13 +483,13 @@ In this example, we will delete all flights that are marked as inactive. Like ma
 
     $flight->restore();
 
-你也可以在查找上使用 `restore` 方法来快速地恢复多个模型：
+你也可以在查询上使用 `restore` 方法来快速地恢复多个模型：
 
     App\Flight::withTrashed()
             ->where('airline_id', 1)
             ->restore();
 
-与 `withTrashed` 方法类似，`restore` 方法也可以被用在 [关联](/docs/{{version}}/eloquent-relationships) 查找上:
+与 `withTrashed` 方法类似，`restore` 方法也可以被用在 [关联](/docs/{{version}}/eloquent-relationships) 查询上:
 
     $flight->history()->restore();
 
@@ -629,7 +629,7 @@ Eloquent 还允许我们使用闭包定义全局作用域，这在实现简单�
     class User extends Model
     {
         /**
-         * 限制查找只包括受欢迎的用户。
+         * 限制查询只包括受欢迎的用户。
          *
          * @return \Illuminate\Database\Eloquent\Builder
          */
@@ -639,7 +639,7 @@ Eloquent 还允许我们使用闭包定义全局作用域，这在实现简单�
         }
 
         /**
-         * 限制查找只包括活跃的用户。
+         * 限制查询只包括活跃的用户。
          *
          * @return \Illuminate\Database\Eloquent\Builder
          */
@@ -649,9 +649,9 @@ Eloquent 还允许我们使用闭包定义全局作用域，这在实现简单�
         }
     }
 
-#### 利用查找范围
+#### 利用查询范围
 
-一旦定义了范围，则可以在查找模型时调用范围方法。在进行方法调用时不需要加上 `scope` 前缀。你甚至可以链式调用不同的范围，如：
+一旦定义了范围，则可以在查询模型时调用范围方法。在进行方法调用时不需要加上 `scope` 前缀。你甚至可以链式调用不同的范围，如：
 
     $users = App\User::popular()->active()->orderBy('created_at')->get();
 
@@ -668,7 +668,7 @@ Eloquent 还允许我们使用闭包定义全局作用域，这在实现简单�
     class User extends Model
     {
         /**
-         * 限制查找只包括指定类型的用户。
+         * 限制查询只包括指定类型的用户。
          *
          * @return \Illuminate\Database\Eloquent\Builder
          */
@@ -692,7 +692,7 @@ Eloquent 模型会触发许多事件，让你可以借助以下的方法在模�
 
 当一个新模型被初次保存将会触发 `creating` 以及 `created` 事件。如果一个模型已经存在于数据库且调用了 `save` 方法，将会触发 `updating` 和 `updated` 事件。在这两种情况下都会触发 `saving` 和 `saved` 事件。
 
-让我们在 [服务提供者](/docs/{{version}}/providers) 中定义一个 Eloquent 事件侦听器来作为示例。在我们的事件侦听器中，我们会在指定的模型上调用 `isValid` 方法，并在模型无效时返回 `false`。从 Eloquent 事件侦听器中返回 `false` 的话会取消 `save` 和 `update` 的操作
+让我们在 [服务提供者](/docs/{{version}}/providers) 中定义一个 Eloquent 事件监听器来作为示例。在我们的事件监听器中，我们会在指定的模型上调用 `isValid` 方法，并在模型无效时返回 `false`。从 Eloquent 事件监听器中返回 `false` 的话会取消 `save` 和 `update` 的操作
 
 
     <?php
