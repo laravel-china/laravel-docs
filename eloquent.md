@@ -174,6 +174,7 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
                    ->get();
 
 > {tip} 由于 Eloquent 模型是查询构造器，因此你应当去阅读所有 [查询构造器](/docs/{{version}}/queries) 中可用的方法。你可在 Eloquent 查询中使用这其中的任何方法。
+
 <a name="collections"></a>
 ### 集合
 
