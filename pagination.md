@@ -13,9 +13,7 @@
 <a name="introduction"></a>
 ## 简介
 
-在其他框架中，分页是非常让人苦恼的， Laravel 为 [查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 集成提供了方便，使用数据库分页更容易。
-
-In other frameworks, pagination can be very painful. Laravel's paginator is integrated with the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent) and provides convenient, easy-to-use pagination of database results out of the box. 生成的分页样式兼容 [Bootstrap CSS 框架](http://getbootstrap.com/).
+在其他框架中，分页是非常让人苦恼的， Laravel 为 [查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 集成提供了方便，使用数据库分页更容易。生成的分页样式兼容 [Bootstrap CSS 框架](http://getbootstrap.com/).
 
 <a name="basic-usage"></a>
 ## 基本使用
