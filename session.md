@@ -1,50 +1,46 @@
 # HTTP Session
 
-- [简介](#introduction)
-    - [配置](#configuration)
-    - [session 驱动介绍](#driver-prerequisites)
-- [使用 Session](#using-the-session)
-    - [检索数据](#retrieving-data)
-    - [存储数据](#storing-data)
-    - [闪存数据](#flash-data)
-    - [删除数据](#deleting-data)
-    - [回收 Session ID](#regenerating-the-session-id)
-- [添加自定义 Session 驱动](#adding-custom-session-drivers)
-    - [实现驱动](#implementing-the-driver)
-    - [注册驱动](#registering-the-driver)
+- [Introduction](#introduction)
+    - [Configuration](#configuration)
+    - [Driver Prerequisites](#driver-prerequisites)
+- [Using The Session](#using-the-session)
+    - [Retrieving Data](#retrieving-data)
+    - [Storing Data](#storing-data)
+    - [Flash Data](#flash-data)
+    - [Deleting Data](#deleting-data)
+    - [Regenerating The Session ID](#regenerating-the-session-id)
+- [Adding Custom Session Drivers](#adding-custom-session-drivers)
+    - [Implementing The Driver](#implementing-the-driver)
+    - [Registering The Driver](#registering-the-driver)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-由于 HTTP 协议是无状态的，所以 session 提供了一种存储用户多个请求数据的方法。Laravel 附带支持了多种 session 后端驱动，并通过统一的 API 进行使用。也内置支持 [Memcached](http://memcached.org)、[Redis](http://redis.io) 和数据库这些热门的后端驱动。
+Since HTTP driven applications are stateless, sessions provide a way to store information about the user across multiple requests. Laravel ships with a variety of session backends that are accessed through an expressive, unified API. Support for popular backends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box.
 
 <a name="configuration"></a>
-### 配置
+### Configuration
 
-Session 的配置文件在 `config/session.php`。请确认一下此配置文件中可用的设置选项。Laravel 默认使用 `file` 的 session 驱动，它在大多数应用中可以良好运作。在上线的应用程序中，你可能会考虑使用更快的 `memcached ` 或 `redis` 来驱动。
+The session configuration file is stored at `config/session.php`. Be sure to review the options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications. In production applications, you may consider using the `memcached` or `redis` drivers for even faster session performance.
 
-Session `driver` 定义每次请求的 session 数据，会使用怎样的方式进行存储。Laravel 附带了几个不错且可开箱即用的驱动：
+The session `driver` configuration option defines where session data will be stored for each request. Laravel ships with several great drivers out of the box:
 
 <div class="content-list" markdown="1">
-- `file` - 将 sessions 保存在 `storage/framework/sessions` 中。
-- `cookie` - 将 sessions 安全的保存在加密后的 cookies 中。
-- `database` - 将 sessions 保存在应用程序使用的数据库中。
-- `memcached` / `redis` - 将 sessions 保存在其中一个快速且基于缓存的存储系统中。
-- `array` - 将 sessions 保存在简单的 PHP 数组中，并只存在于本次请求。
+- `file` - sessions are stored in `storage/framework/sessions`.
+- `cookie` - sessions are stored in secure, encrypted cookies.
+- `database` - sessions are stored in a relational database.
+- `memcached` / `redis` - sessions are stored in one of these fast, cache based stores.
+- `array` - sessions are stored in a PHP array and will not be persisted.
 </div>
 
-> {tip} 数组驱动一般应在 [测试](/docs/{{version}}/testing) 环境下使用，以防止存储在 session 中的数据持续存在。
-
---
-
-> 译者注：推荐使用 Redis 来做 Session 驱动。Session 和缓存一起使用 Redis 的话，还需要多余的配置，请参考 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://phphub.org/topics/2466)
+> {tip} The array driver is used during [testing](/docs/{{version}}/testing) and prevents the data stored in the session from being persisted.
 
 <a name="driver-prerequisites"></a>
-### session 驱动介绍
+### Driver Prerequisites
 
-#### 数据库
+#### Database
 
-当使用 `database` session 驱动时，你必需先构建保存 session 项目的数据表。以下例子使用 `Schema` 语法建表：
+When using the `database` session driver, you will need to create a table to contain the session items. Below is an example `Schema` declaration for the table:
 
     Schema::create('sessions', function ($table) {
         $table->string('id')->unique();
@@ -55,7 +51,7 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
         $table->integer('last_activity');
     });
 
-你也可使用 `session:table` Artisan 命令生成迁移文件！
+You may use the `session:table` Artisan command to generate this migration:
 
     php artisan session:table
 
@@ -63,19 +59,15 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
 
 #### Redis
 
-在 Laravel 使用 Redis Session 之前，你需要先通过 Composer 安装 `predis/predis`(~1.0) 扩展包。
-
-你可能还需要在 `database` 配置文件中配置连接参数，其中的 `connection` 选项允许你指定使用哪个 Redis 来连接。
+Before using Redis sessions with Laravel, you will need to install the `predis/predis` package (~1.0) via Composer. You may configure your Redis connections in the `database` configuration file. In the `session` configuration file, the `connection` option may be used to specify which Redis connection is used by the session.
 
 <a name="using-the-session"></a>
-## 使用 Session
+## Using The Session
 
 <a name="retrieving-data"></a>
-### 访问 Session 数据
+### Retrieving Data
 
-在 Laravel 中有两种方式使用 session 数据，一是使用全局 `session` 辅助函数，二是通过 HTTP 请求实例。
-
-首先我们看一下第二种方式，在控制器方法内，我们是通过 HTTP 请求的类型提示，访问 session 的。请记住，控制器方法的依赖是通过 Laravel 的 [服务容器](/docs/{{version}}/container) 注入的：
+There are two primary ways of working with session data in Laravel: the global `session` helper and via a `Request` instance. First, let's look at accessing the session via a `Request` instance, which can be type-hinted on a controller method. Remember, controller method dependencies are automatically injected via the Laravel [service container](/docs/{{version}}/container):
 
     <?php
 
@@ -87,7 +79,7 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
     class UserController extends Controller
     {
         /**
-         * 显示指定用户的个人文件。
+         * Show the profile for the given user.
          *
          * @param  Request  $request
          * @param  int  $id
@@ -101,7 +93,7 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
         }
     }
 
-当你需要获取 session 是的某个值时，你可以在 `get` 方法中的第二个参数内设置一个默认值，当指定的键名不存在时，将会返回设置的默认值。如果你传入一个 `闭包` 作为 `get` 方法的默认值，该 `闭包` 将被运行并返回它的结果：
+When you retrieve a value from the session, you may also pass a default value as the second argument to the `get` method. This default value will be returned if the specified key does not exist in the session. If you pass a `Closure` as the default value to the `get` method and the requested key does not exist, the `Closure` will be executed and its result returned:
 
     $value = $request->session()->get('key', 'default');
 
@@ -109,26 +101,22 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
         return 'default';
     });
 
-#### 全局 Session 辅助函数
+#### The Global Session Helper
 
-你也可使用全局的 `session` PHP 函数来获取 session 中保存的数据。
-
-当调用 `session` 辅助函数的`行参`是单一字符串时，则返回该 session key 的值。
-
-当调用 `session` 辅助函数的`行参`是数组时，则按 'key / value' 这种格式，将数据存储到 session 中。
+You may also use the global `session` PHP function to retrieve and store data in the session. When the `session` helper is called with a single, string argument, it will return the value of that session key. When the helper is called with an array of key / value pairs, those values will be stored in the session:
 
     Route::get('home', function () {
-        // 获取 session 中的一条数据...
+        // Retrieve a piece of data from the session...
         $value = session('key');
 
-        // 指定一个默认值...
+        // Specifying a default value...
         $value = session('key', 'default');
 
-        // 存储一条数据至 session 中...
+        // Store a piece of data in the session...
         session(['key' => 'value']);
     });
 
-> {tip} 使用全局 `session` 辅助函数与通过 HTTP 请求实例来使用 `session` 两者实际效果差异不大。你可以通过 `assertSessionHas` 方法来进行测试。关于测试的更多信息，请阅读文档 [testable](/docs/{{version}}/testing)。
+> {tip} There is little practical difference between using the session via an HTTP request instance versus using the global `session` helper. Both methods are [testable](/docs/{{version}}/testing) via the `assertSessionHas` method which is available in all of your test cases.
 
 #### Retrieving All Session Data
 
