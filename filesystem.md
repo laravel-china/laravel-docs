@@ -134,7 +134,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 > {注意}： 当使用 `local` 驱动的时候，请确定 [创建符号链接到 `public/storage`](#the-public-disk) 来指向 `storage/app/public` 文件夹。
 
 <a name="file-metadata"></a>
-### File Metadata
+### 文件元数据
 
 除了读取和写入文件，Laravel还可以提供有关文件本身的信息。例如，`size`方法可被用于获得以字节的文件的大小：
 
@@ -150,6 +150,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 ## 保存文件
 
 `put` 方法保存单个文件于磁盘上。你能同时传递 PHP 的 `resource` 给 `put` 方法，它将使用文件系统底层的 stream 支持。强烈建议使用 stream 处理大型文件。
+
     use Illuminate\Support\Facades\Storage;
 
     Storage::put('file.jpg', $contents);
