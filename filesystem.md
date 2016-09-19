@@ -50,8 +50,9 @@ Laravel 强大的文件抽象层得力于 Frank de Jonge 的 [Flysystem](https:/
     Storage::disk('local')->put('file.txt', 'Contents');
 
 <a name="driver-prerequisites"></a>
-#### 其它驱动的预先需求
+### 驱动的预先需求
 
+#### Composer 包
 在使用 S3 或 Rackspace 驱动之前，你需要通过 Composer 安装适当扩展包：
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
@@ -122,14 +123,14 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 <a name="file-urls"></a>
 ### 文件 URLs
 
-当使用 `local` 或者 `s3` 驱动的时候，你可以使用 `url` 方法来获取文件的 URL。如果你使用 `local` 驱动，一般会在传参的路径前面加上 `/storage`。如果是 `s3` 的话，会返回完整的 S3 文件系统 URL:
+当使用 `local` 或者 `s3` 驱动的时候，你可以使用 `url` 方法来获取文件的 URL。如果你使用 `local` 驱动，一般会在传参的路径前面加上 `/storage`。如果是 `s3` 的话，会返回完整的 S3 文件系统的URL:
 
 
     use Illuminate\Support\Facades\Storage;
 
     $url = Storage::url('file1.jpg');
 
-> {注意}： 当使用 `local` 驱动的时候，请确定 [创建符号链接到 `public/storage`](#the-public-disk) 来指向 `storage/app/public` 文件夹。
+> {note} 当使用 `local` 驱动的时候，请确定 [创建符号链接到 `public/storage`](#the-public-disk) 来指向 `storage/app/public` 文件夹。
 
 <a name="file-metadata"></a>
 ### 文件元数据
@@ -140,14 +141,14 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
     $size = Storage::size('file1.jpg');
 
-`lastModified`方法返回的最后一次文件被修改的UNIX时间戳：、
+`lastModified`方法返回的最后一次文件被修改的UNIX时间戳：
 
     $time = Storage::lastModified('file1.jpg');
 
 <a name="storing-files"></a>
 ## 保存文件
 
-`put` 方法保存单个文件于磁盘上。你能同时传递 PHP 的 `resource` 给 `put` 方法，它将使用文件系统底层的 stream 支持。强烈建议使用 stream 处理大型文件。
+`put` 方法保存单个文件于磁盘上。你能同时传递 PHP 的 `resource` 给 `put` 方法，它将使用文件系统底层的 stream 支持。强烈建议使用 stream 处理大型文件：
 
     use Illuminate\Support\Facades\Storage;
 
@@ -157,7 +158,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
 #### 自动流
 
-如果您想Laravel自动管理给定文件流传输到您想要的存储位置，你可以使用`putFile`或`putFileAs`方法。这个方法可以接受一个`Illuminate\ HTTP \ File`或`Illuminate\ HTTP \ UploadedFile`实例，并自动将文件传输到你想要的位置：
+如果您想Laravel自动管理指定文件流传输到您想要的存储位置，你可以使用`putFile`或`putFileAs`方法。这个方法可以接受一个`Illuminate\ HTTP \ File`或`Illuminate\ HTTP \ UploadedFile`实例，并自动将文件传输到你想要的位置：
 
     use Illuminate\Http\File;
 
@@ -221,12 +222,12 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
 需要注意这个例子中一些重要的事情。我们只指定一个目录名，而不是文件名。默认情况下，`store`方法将自动生成基于自动基于该文件的内容而生成。这是通过的文件内容的MD5哈希来完成的。该文件的路径将被`store`方法被退回，因此您可以在数据库中存储路径和包括生成的文件名。
 
-您也可以调用在`Storage`门面`putFile`方法来执行和上面例子相同的文件操作：
+您也可以调用在`Storage` facade `putFile`方法来执行和上面例子相同的文件操作：
 
 
     $path = Storage::putFile('avatars', $request->file('avatar'));
 
-> {注意} 如果您要上传非常大的文件，你不妨手动指定文件名。计算大的文件文件的MD5哈希需要占用大量内存。
+> {note} 如果您要上传非常大的文件，你不妨手动指定文件名。计算大的文件文件的MD5哈希需要占用大量内存。
 
 #### 指定文件名
 
