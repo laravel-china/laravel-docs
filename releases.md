@@ -1,4 +1,4 @@
-# 版本说明 (Release Notes)
+# 发行说明
 
 - [支持政策](#support-policy)
 - [Laravel 5.3](#laravel-5.3)
@@ -11,7 +11,7 @@
 - [Laravel 4.1](#laravel-4.1)
 
 <a name="support-policy"></a>
-## 支持政策 (Support Policy)
+## 支持政策
 
 对于 LTS 版本，比如 Laravel 5.1，会提供为期两年的 bug 修复和三年的安全修复支持。LTS 版本是 Laravel 能提供的维护时间最长的发行版。
 
@@ -24,25 +24,25 @@
 
 Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
 
-* [消息通知系统 (Laravel Notifications)](/docs/5.3/notifications)；
-* [事件广播系统 (Laravel Echo)](/docs/5.3/broadcasting)；
-* [OAuth2 授权认证系统 (Laravel Passport)](/docs/5.3/passport)；
-* [全文搜索引擎 (Laravel Scout)](/docs/5.3/scout)；
+* [消息通知系统](/docs/5.3/notifications)；
+* [事件广播系统](/docs/5.3/broadcasting)；
+* [OAuth2 授权认证系统](/docs/5.3/passport)；
+* [全文搜索引擎](/docs/5.3/scout)；
 * Laravel Elixir 开始支持 Webpack；
 * 新的 Mail 操作类「mailable」；
 * `web` 和 `api` 的路由分离；
 * 基于闭包的控制台命令；
-* 更加易用的辅助函数 (helpers)，用于存储上传的文件；
+* 更加易用的辅助函数，用于存储上传的文件；
 * 支持 POPO 和单动作控制；
-* 优化默认的前端脚手架 (scaffold)，等等。
+* 优化默认的前端脚手架，等等。
 
-### 消息通知 (Notifications)
+### 消息通知
 
 > {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9)。
 
 Laravel Notifications 提供了简单、优雅的 API 支持你通过不同的渠道发送通知，例如电子邮件、Slack、手机短信等等。
 
-例如，你可以定义一个订单 (invoice)，当该订单被付款后，则通过邮件和手机短信发送提醒通知：
+例如，你可以定义一个订单，当该订单被付款后，则通过邮件和手机短信发送提醒通知：
 
 你可用通过下面这个简单的方法来实现：
 
@@ -51,12 +51,12 @@ Laravel Notifications 提供了简单、优雅的 API 支持你通过不同的�
 [Laravel 社区](http://laravel-notification-channels.com) 已经为通知系统编写了各式的驱动，甚至包括对 iOS 和 Android 通知的支持，更多关于通知系统的信息，请查看 [完整的文档](/docs/5.3/notifications)。
 
 
-### WebSockets / 事件广播 (Event Broadcasting)
+### WebSockets / 事件广播
 
 事件广播在之前版本的 Laravel 中已经存在，Laravel 5.3 现支持对私有和已存在的 WebSocket 频道添加频道级认证：
 
     /*
-     * Authenticate the channel subscription...
+     * 频道认证
      */
     Broadcast::channel('orders.*', function ($user, $orderId) {
         return $user->placedOrder($orderId);
@@ -101,16 +101,16 @@ Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
 
-如果你不想使用 Vue 组件，你可以自由的定制用于管理客户端和访问令牌(access tokens)的前端及后台。Passport 提供了一个简单的 JSON API，你可以在前端使用任何 JavaScript 框架与之集成。
+如果你不想使用 Vue 组件，你可以自由的定制用于管理客户端和访问令牌的前端及后台。Passport 提供了一个简单的 JSON API，你可以在前端使用任何 JavaScript 框架与之集成。
 
-当然，Passport 还提供了方便的 API 让你定制「Token 访问域 (access token scopes)」：
+当然，Passport 还提供了方便的 API 让你定制「Token 访问域」：
 
     Passport::tokensCan([
         'place-orders' => 'Place new orders',
         'check-status' => 'Check order status',
     ]);
 
-此外，Passport 还包含了一个用于检查「Token 访问域 (access token scopes)」访问权限的中间件：
+此外，Passport 还包含了一个用于检查「Token 访问域」访问权限的中间件：
 
     Route::get('/orders/{order}/status', function (Order $order) {
         // Access token has "check-status" scope...
@@ -120,11 +120,11 @@ Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允
 
 更多关于 Passport 信息，请查看 [完整文档](/docs/5.3/passport)。
 
-### 搜索系统 (Laravel Scout)
+### 搜索系统
 
 Laravel Scout 提供了一个简单的、基于驱动的、针对 [Eloquent](/docs/5.3/eloquent) 模型的全文搜索解决方案。
 
-通过模型观察者(model observers)，Scout 会自动同步更新 Eloquent 的搜索索引，目前，Scout使用 [Algolia](https://www.algolia.com/) 驱动，你可以自由的编写自己驱动来扩展 Scout。
+通过模型观察者，Scout 会自动同步更新 Eloquent 的搜索索引，目前，Scout使用 [Algolia](https://www.algolia.com/) 驱动，你可以自由的编写自己驱动来扩展 Scout。
 
 你只需要添加 `Searchable trait` 到模型中，就能让模型支持搜索：
 
@@ -169,7 +169,7 @@ Laravel 5.3 Mailable 是一个崭新的 Mail 操作类，通过一种更加优�
         use Queueable, SerializesModels;
 
         /**
-         * Build the message.
+         * 新建消息
          *
          * @return $this
          */
@@ -192,14 +192,14 @@ Mailable 还支持队列操作，只需要在类声明里实现 `ShouldQueue` �
 
 更多关于 Mailable 的信息，请查看 [完整文档](/docs/5.3/mail)。
 
-### 存储上传文件 (Storing Uploaded Files)
+### 存储上传文件
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/12)。
 
 存储用户上传文件，在 Web 开发中是一个很常见的任务。Laravel 5.3 提供了一个便捷的 `store` 方法，只需要对上传文件对象调用此方法，并传参准备存储的路径即可：
 
     /**
-     * Update the avatar for the user.
+     * 更新用户头像
      *
      * @param  Request  $request
      * @return Response
@@ -226,11 +226,11 @@ Laravel Elixir 6.0 与 Laravel 5.3 共同发布，内置了 Webpack 和 Rollup J
 
 完整文档请见 [Laravel Elixir](/docs/5.3/elixir) 。
 
-### 前端架构 (Frontend Structure)
+### 前端架构
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/4)。
 
-Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `make:auth` 命令生成认证相关的前端脚手架(scaffolding)代码，不再从 CDN 中加载前端资源，所有依赖被定义在默认的 package.json 文件中，你可以自行修改。
+Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `make:auth` 命令生成认证相关的前端脚手架代码，不再从 CDN 中加载前端资源，所有依赖被定义在默认的 package.json 文件中，你可以自行修改。
 
 此外，支持单文件的 [Vue 组件](https://vuejs.org) 现在直接开箱即用， `resources/assets/js/components` 目录下包含了一个简单的示例 `Example.vue`，新的 `resources/assets/js/app.js` 用来配置 JavaScript 类库依赖和 Vue 子模块。
 
@@ -238,13 +238,13 @@ Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `mak
 
 更多信息，请查看对应文档 [前端文档](/docs/5.3/frontend)。
 
-### 路由文件 (Routes Files)
+### 路由文件
 
 默认情况下，新安装的 Laravel 5.3 应用在新的顶级目录 `routes` 下包含了 `web.php` 和 `api.php` 两个 `HTTP` 路由文件，你也可以按照此方法自行扩展。
 
 API 相关的路由在 `RouteServiceProvider` 中指定了自动添加 `api` 前缀。
 
-### 闭包控制台命令 (Closure Console Commands)
+### 闭包控制台命令
 
 除了通过命令类定义之外，Artisan 命令现支持在 `app/Console/Kernel.php` 文件中使用简单闭包的方式定义。
 
@@ -289,7 +289,7 @@ Laravel 5.2 在 Laravel 5.1 的基础上进行了优化，新特性包括以下�
 * 访问频率限制中间件；
 * 数组认证的优化等
 
-### 用户认证驱动 / "多认证系统 (Multi-Auth)"
+### 用户认证驱动 / "多认证系统"
 
 在之前的 Laravel 版本中，框架只支持默认的、基于 session 的认证驱动，且在单个应用中只能拥有一个认证模型类。
 
@@ -297,7 +297,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
 
 例如，如果你的应用中有一张「admin」数据库用户表，一张「student」数据库用户表（一个后台管理员用户表和一个前台学生用户表），现在你可以使用  `Auth` 方法来实现后台用户和学生用户的独立登录而不相互影响。
 
-### 用户认证脚手架 (Authentication Scaffolding)
+### 用户认证脚手架
 
 此前 Laravel 后端认证处理已经是相当容易了，现在 Laravel 5.2 提供了一个更加便捷、快速的方法来创建前台认证视图，只需要简单的在终端执行 `make:auth` 命令即可。
 
@@ -307,7 +307,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
 
 >  {note} 该功能特性只能用于新创建的应用，不能用于升级后的应用。
 
-### 隐式模型绑定 (Implicit Model Binding)
+### 隐式模型绑定
 
 隐式模型绑定使得在路由和控制器中注入模型实例更加便捷。例如，假设你定义了一个如下的路由：
 
@@ -325,14 +325,14 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
 
 更多隐式模型绑定信息，请查看 [HTTP 路由模型绑定部分](/docs/{{version}}/routing#Route-Model-Binding)。
 
-### 中间件群组 (Middleware Groups)
+### 中间件群组
 
 中间件群组允许你将多个路由中间件组织到单一、方便的键 （即群组名称）下面，从而可以为某个路由一次指派多个中间件。例如，在同一个应用中构建 Web UI 或 API 时，这一特性很有用。例如，你可以將 session 及 CSRF 路由組合成一個 `web` 群組，并将访问频率限制分组到 `api`群组。
 
 实际上，默认的 Laravel 5.2 应用结构采用的正是这种方法。例如，在默认的 `App\Http\Kernel.php`  文件中你会看到如下内容：
 
     /**
-     * The application's route middleware groups.
+     * 路由中间件群组
      *
      * @var array
      */
@@ -358,7 +358,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
 
 默认的，所有的 `app/Http/routes.php` 中的路由 **已经** 在 `RouteServiceProvider` 的 `mapWebRoutes` 方法中指定了 `web` 中间件组，所以你不必重复指定。
 
-### 访问频率限制 (Rate Limiting)
+### 访问频率限制
 
 框架现在内置了一个新的访问频率限制中间件，允许你轻松控制给定 IP 地址在指定时间内对某个路由发起请求的数目。
 
@@ -368,7 +368,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
         //
     }]);
 
-### 数组输入验证 (Array Validation)
+### 数组输入验证
 
 在 Laravel 5.2 中，可轻松验证表单中的每一个数组输入字段。例如，要验证指定数组输入字段中每一个 email 是否唯一，可以这么实现：
 
@@ -384,7 +384,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
         ]
     ],
 
-### Bail 认证规则 (Bail Validation Rule)
+### Bail 认证规则
 
 Laravel 5.2 新添加了一个 `bail` 认证规则，此规则会在第一个失败认证后停止后面的其他认证检查。例如：你想在 `integer` 数值检查失败后停止对 `unique` 唯一性的检查：
 
@@ -392,11 +392,11 @@ Laravel 5.2 新添加了一个 `bail` 认证规则，此规则会在第一个失
         'user_id' => 'bail|integer|unique:users'
     ]);
 
-### Eloquent 全局作用域优化 (Eloquent Global Scope Improvements)
+### Eloquent 全局作用域优化
 
 在之前的 Laravel 版本，Eloquent 全局作用域的实现是复杂且容易出错的，但在 Laravel 5.2 中，全局查询作用域只需实现一个简单的方法 `apply` 即可。
 
-更多关于全局作用域(global scopes)的信息请查阅完整的 [Eloquent 文件](https://www.laravel.com/docs/5.2/eloquent#global-scopes)
+更多关于全局作用域的信息请查阅完整的 [Eloquent 文件](https://www.laravel.com/docs/5.2/eloquent#global-scopes)
 
 
 <a name="laravel-5.1"></a>
@@ -423,11 +423,11 @@ Laravel 5.1 是 Laravel 生态系统中第一个 **长期支持** 版本。Larav
 
 [PSR-2 代码风格指南](https://phphub.org/topics/2079) 已经被 Laravel 框架采用为默认的代码风格指南。此外，所有的生成器都已进行更新，生成的文件将兼容 PSR-2 规范。
 
-### 文档 (Documentation)
+### 文档
 
 Laravel 文档的每一页已被精心审阅，并得到显著的改善。所有的代码例子也进行了严密检查，使其有更高的上下文关联性。
 
-### 事件广播 (Event Broadcasting)
+### 事件广播
 
 WebSockets 技术越来越多的被现代 Web 应用使用，当服务器上一些数据更新，WebSocket 会实时发送一个消息给客户端，实现即时更新用户状态功能。
 
@@ -435,7 +435,7 @@ Laravel 的事件广播机制很好的支持了此类应用的开发，广播事
 
 了解更多关于事件广播，请查阅 [事件的文档](/docs/{{version}}/events#broadcasting-events)。
 
-### 中间件参数 (Middleware Parameters)
+### 中间件参数
 
 中间件支持接收自定义传参，例如要在运行特定操作之前，检查当前登录的用户是否具备「某角色」，可以创建 `RoleMiddleware` 来接收角色名称作为传参：
 
@@ -474,7 +474,7 @@ Laravel 的事件广播机制很好的支持了此类应用的开发，广播事
 
 关于中间件的更多信息，请查阅 [中间件的文档](/docs/{{version}}/middleware)。
 
-### 测试改进 (Testing Overhaul)
+### 测试改进
 
 Laravel 内置的测试功能已得到显著的改善，新版本提供了简明的接口与应用程序进行交互，响应检查也变得更加轻松。
 
@@ -491,7 +491,7 @@ Laravel 内置的测试功能已得到显著的改善，新版本提供了简明
 
 关于测试的更多信息，请查阅 [测试的文档](/docs/{{version}}/testing)。
 
-### 模型工厂 (Model Factories)
+### 模型工厂
 
 Laravel 的 [模型工厂](/docs/{{version}}/testing#model-factories) 提供一种简单的方式来创建仿真 Eloquent 模型。
 
@@ -510,7 +510,7 @@ Laravel 的 [模型工厂](/docs/{{version}}/testing#model-factories) 提供一�
 
 更多关于模型工厂的信息，请查阅 [它的文档](/docs/{{version}}/testing#model-factories)。
 
-### Artisan 的改进 (Artisan Improvements)
+### Artisan 的改进
 
 Artisan 命令现支持类似于命名路由的定义，以简单易懂的形式来定义命令行的参数及选项。
 
@@ -525,7 +525,7 @@ Artisan 命令现支持类似于命名路由的定义，以简单易懂的形式
 
 更多关于定义 Artisan 命令的消息，请参考 [Artisan 的文档](/docs/{{version}}/artisan)。
 
-### 文件夹结构 (Folder Structure)
+### 文件夹结构
 
 为了更方便理解，`app/Commands` 目录已经被更名为 `app/Jobs`。
 
@@ -533,7 +533,7 @@ Artisan 命令现支持类似于命名路由的定义，以简单易懂的形式
 
 这不是一个重大的改变，你不必更新成新的文件夹结构也能使用 Laravel 5.1。
 
-### 加密 (Encryption)
+### 加密
 
 在 Laravel 之前的版本，加密是通过 `mcrypt` PHP 扩展进行处理。不过，从 Laravel 5.1 起，加密将采用更积极维护的 `openssl` 扩展进行处理。
 
@@ -544,7 +544,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
 
 以下是一些主要变化：
 
-### 新的目录结构 (New Folder Structure)
+### 新的目录结构
 
 旧的 `app/models` 目录已经完全被移除。对应的，你所有的代码都放在 `app` 目录下。
 
@@ -562,19 +562,19 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
 
 更多关于 contracts 的信息，参考 [完整文档](/docs/{{version}}/contracts)。
 
-### 路由缓存 (Route Cache)
+### 路由缓存
 
 如果你的应用程序全部使用控制器路由，新的 `route:cache` Artisan 命令可大幅度地优化路由注册寻找速度。
 
 这对于拥有 100 个以上路由规则的应用程序来说很有用，可以 **大幅度地** 加快应用程序路由部分的处理速度。
 
-### 路由中间件 (Route Middleware)
+### 路由中间件
 
 除了像 Laravel 4 风格的路由「过滤器」，Laravel 5 现在有 HTTP 中间件，而原本的认证和 CSRF 「过滤器」已经改写成中间件。中间件提供了单个、一致的接口取代了各种过滤器，让你在请求进到应用程序前，可以简单地检查甚至拒绝请求。
 
 更多关于中间件的信息，参考 [完整文档](/docs/{{version}}/middleware)。
 
-### 控制器方法注入 (Controller Method Injection)
+### 控制器方法注入
 
 除了之前有的类的构造函数注入外，你现在可以在控制器方法中使用依赖注入。[服务容器](/docs/{{version}}/container) 会自动注入依赖，即使路由包含了其它参数也不成问题：
 
@@ -583,7 +583,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
         //
     }
 
-### 认证基本架构 (Authentication Scaffolding)
+### 认证基本架构
 
 认证系统默认包含了用户注册，认证，以及重设密码的控制器，还有对应的视图，视图文件存放在 `resources/views/auth`。
 
@@ -593,7 +593,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
 
 `App\Services\Auth\Registrar` 会负责处理用户认证和注册用户的相关逻辑。
 
-### 事件对象 (Event Objects)
+### 事件对象
 
 你现在可以将事件定义成对象，而不是仅使用字符串。例：
 
@@ -627,7 +627,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
 
 更多关于使用事件的信息，参考 [完整文档](/docs/{{version}}/events)。
 
-### 命令及队列 (Commands / Queueing)
+### 命令及队列
 
 除了 Laravel 4 形式的队列任务，Laravel 5 还支持命令对象直接作为队列任务。这些命令放在 `app/Commands` 目录下。下面是个例子的命令：
 
@@ -670,7 +670,7 @@ Laravel 的基底控制器使用了新的 `DispatchesCommands` trait，让你可
 
 当然，你也可以将命令视为同步运行（而不会被放到队列里）的任务。事实上，「命令总线」是个不错的设计模式，可以封装应用程序需要运行的复杂任务。更多相关的信息，参考 [command bus](/docs/{{version}}/bus) 文档。
 
-### 数据库队列 (Database Queue)
+### 数据库队列
 
 `database` 队列驱动现在已经包含在 Laravel 中了，提供了简单的本地端队列驱动，除了数据库相关软件外不需安装其它扩展包，完全开箱即用。
 
@@ -724,7 +724,7 @@ Laravel Socialite 是可选的，兼容 Laravel 5.0 以上的 OAuth 认证扩展
 
 不再需要花上数小时编写 OAuth 的认证流程，只要几分钟！查看 [完整文档](/docs/{{version}}/authentication#social-authentication) 里有所有的细节。
 
-### 文件系统集成 (Flysystem Integration)
+### 文件系统集成
 
 Laravel 现在包含了强大的 [Flysystem 文件系统](https://github.com/thephpleague/flysystem)（一个文件系统的抽象函数库）。
 
@@ -787,11 +787,11 @@ Laravel 5 基底控制器包含一个 `ValidatesRequests` trait。这个 trait �
 
 更多关于这个新方法的信息，参考 [这个文档](/docs/{{version}}/validation#controller-validation)。
 
-### 新的生成器 (New Generators)
+### 新的生成器
 
 为了响应新的应用程序默认架构，框架新增了许多 Artisan generator 命令。使用 `php artisan list` 查看完整的命令列表。
 
-### 配置文件缓存 (Configuration Cache)
+### 配置文件缓存
 
 你现在可以通过 `config:cache` 命令将所有的配置文件缓存在单个文件中，这样在一定程度上会加快框架的启动效率。
 
@@ -832,11 +832,11 @@ Homestead 包含 Nginx 1.6、PHP 5.5.12、MySQL、Postres、Redis、Memcached、
 
 官方文档已经更新并包含在 [Homestead 文档](/docs/homestead) 中。
 
-### Laravel 收银台 (Laravel Cashier)
+### Laravel 收银台
 
 Laravel 收银台是一个简单、具表达性的资源库，用来管理 Stripe 的订阅服务。虽然安装此组件是可选的，我们仍然将收银台文档包含在主要 Laravel 文档中。新版本的收银台带来了数个错误修正、多货币支持还有支持了最新的 Stripe API。
 
-### 常驻程序 (Daemon Queue Workers)
+### 常驻程序
 
 Artisan `queue:work` 命令现在支持 `--daemon` 参数让 worker 可以作为「常驻程序」启用。代表 worker 可以持续的处理队列工作，而不需要重启框架。这让一个复杂的应用程序对 CPU 的使用率有显著的降低。
 
@@ -846,7 +846,7 @@ Artisan `queue:work` 命令现在支持 `--daemon` 参数让 worker 可以作为
 
 Laravel 4.2 为 `Mail` 类采用了新的 Mailgun 和 Mandrill API 驱动。对许多应用程序而言，他提供了比 SMTP 更快也更可靠的方法来递送邮件。新的驱动使用了 Guzzle 4 HTTP 资源库。
 
-### 软删除 Traits (Soft Deleting Traits)
+### 软删除 Traits
 
 PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作用域，这些新架构为框架提供了更有扩展性的功能，并且让框架更加简洁。
 
@@ -856,22 +856,22 @@ PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作�
 
 得益于 PHP 5.4 traits，我们有了一个更简洁的用户认证和密码提醒接口，这也让 `User` 模型文档更加精简。
 
-### "简易分页 (Simple Paginate)"
+### "简易分页"
 
 一个新的 `simplePaginate` 方法已被加入到查找以及 Eloquent 查找器中。让你在分页视图中，使用简单的「上一页」和「下一页」链接查找更为高效。
 
-### 迁移确认 (Migration Confirmation)
+### 迁移确认
 
 在正式环境中，破坏性的迁移动作将会被再次确认。如果希望取消提示字符确认请使用 `--force` 参数。
 
 <a name="laravel-4.1"></a>
 ## Laravel 4.1
 
-### 完整更动列表 (Full Change List)
+### 完整更动列表
 
 此发行版本的完整更动列表，可以在版本 4.1 的安装中命令行运行 `php artisan changes` 获取，或者浏览 [Github 更新文件中](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json) 中了解。其中只记录了该版本比较主要的强化功能和更动。
 
-### 新的 SSH 组件 (New SSH Component)
+### 新的 SSH 组件
 
 一个全新的 `SSH` 组件在此发行版本中登场。此功能让你可以轻易的 SSH 至远程服务器并运行命令。更多信息，可以参阅 [SSH 组件文档](/docs/ssh)。
 
@@ -881,7 +881,7 @@ PHP 5.4 的 `traits` 提供了一个更加简洁的软删除架构和全局作�
 
 如果你的系统支持 [Boris REPL](https://github.com/d11wtq/boris)，`php artisan thinker` 命令将会使用到它。系统中也必须先行安装好 `readline` 和 `pcntl` 两个 PHP 扩展包。如果你没这些扩展包，从 4.0 之后将会使用到它。
 
-### Eloquent 强化 (Eloquent Improvements)
+### Eloquent 强化
 
 Eloquent 添加了新的 `hasManyThrough` 关系链。想要了解更多，请参见 [Eloquent 文档](/docs/eloquent#has-many-through)。
 
@@ -891,7 +891,7 @@ Eloquent 添加了新的 `hasManyThrough` 关系链。想要了解更多，请�
 
 Query Builder 和 Eloquent 目前通过数据库层，已经可以自动做到读写分离。更多的信息，请参考 [文档](/docs/database#read-write-connections)。
 
-### 队列排序 (Queue Priority)
+### 队列排序
 
 队列排序已经被支持，只要在 `queue:listen` 命令后将队列以逗号分隔送出。
 
@@ -899,19 +899,19 @@ Query Builder 和 Eloquent 目前通过数据库层，已经可以自动做到�
 
 现在队列将会自动处理失败的作业，只要在 `queue:listen` 后加上 `--tries` 即可。更多的失败作业处理可以参见 [队列文档](/docs/queues#failed-jobs)。
 
-### 缓存标签 (Cache Tags)
+### 缓存标签
 
 缓存「区块」已经被「标签」取代。缓存标签允许你将多个「标签」指向同一个缓存对象，而且可以清空所有被指定某个标签的所有对象。更多使用缓存标签信息请见 [缓存文档](/docs/cache#cache-tags)。
 
-### 更具弹性的密码提醒 (Flexible Password Reminders)
+### 更具弹性的密码提醒
 
 密码提醒引擎已经可以提供更强大的开发弹性，如：认证密码、显示状态消息等等。使用强化的密码提醒引擎，更多的信息 [请参阅文档](/docs/security#password-reminders-and-reset)。
 
-### 强化路由引擎 (Improved Routing Engine)
+### 强化路由引擎
 
 Laravel 4.1 拥有一个完全重新编写的路由层。API 一样不变。然而与 4.0 相比，速度快上 100%。整个引擎大幅的简化，且路由表达式大大减少对 Symfony Routing 的依赖。
 
-### 强化 Session 引擎 (Improved Session Engine)
+### 强化 Session 引擎
 
 此发行版本中，我们亦发布了全新的 Session 引擎。如同路由增进的部分，新的 Session 层更加简化且更快速。我们不再使用 Symfony 的 Session 处理工具，并且使用更简单、更容易维护的自定义解法。
 
