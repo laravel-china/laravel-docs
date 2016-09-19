@@ -180,6 +180,6 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  | 部分关键字翻译参考 [学院君的翻译](http://laravelacademy.org/post/5993.html)  |
+| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  | ^_^ |
 | [@JobsLong](https://phphub.org/users/56)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/100/h/100">  |  Review  | 我的个人主页：[http://jobslong.com](http://jobslong.com)  |
 | [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
