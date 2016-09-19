@@ -2,9 +2,9 @@
 
 - [简介](#introduction)
 - [设置](#configuration)
-    - [The Public Disk](#the-public-disk)
-    - [The Local Driver](#the-local-driver)
-    - [Driver Prerequisites](#driver-prerequisites)
+    - [公开磁盘](#the-public-disk)
+    - [本地端驱动](#the-local-driver)
+    - [驱动的预先需求](#driver-prerequisites)
 - [获取磁盘实例](#obtaining-disk-instances)
 - [提取文件](#retrieving-files)
     - [文件 URLs](#file-urls)
