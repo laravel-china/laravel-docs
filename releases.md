@@ -1,6 +1,6 @@
 # 发行说明
 
-- [支持政策](#support-policy)
+- [支持策略](#support-policy)
 - [Laravel 5.3](#laravel-5.3)
 - [Laravel 5.2](#laravel-5.2)
 - [Laravel 5.1.11](#laravel-5.1.11)
@@ -11,7 +11,7 @@
 - [Laravel 4.1](#laravel-4.1)
 
 <a name="support-policy"></a>
-## 支持政策
+## 支持策略
 
 对于 LTS 版本，比如 Laravel 5.1，会提供为期两年的 bug 修复和三年的安全修复支持。LTS 版本是 Laravel 能提供的维护时间最长的发行版。
 
@@ -24,12 +24,12 @@
 
 Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
 
-* [消息通知系统](/docs/5.3/notifications)；
-* [事件广播系统](/docs/5.3/broadcasting)；
-* [OAuth2 授权认证系统](/docs/5.3/passport)；
-* [全文搜索引擎](/docs/5.3/scout)；
+* [消息通知 Laravel Notifications](/docs/5.3/notifications)；
+* [事件广播 Laravel Echo](/docs/5.3/broadcasting)；
+* [OAuth2 授权认证 Laravel Passport](/docs/5.3/passport)；
+* [全文搜索引擎 Laravel Scout](/docs/5.3/scout)；
 * Laravel Elixir 开始支持 Webpack；
-* 新的 Mail 操作类「mailable」；
+* Mail 操作类 Laravel Mailable；
 * `web` 和 `api` 的路由分离；
 * 基于闭包的控制台命令；
 * 更加易用的辅助函数，用于存储上传的文件；
@@ -42,7 +42,7 @@ Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
 
 Laravel Notifications 提供了简单、优雅的 API 支持你通过不同的渠道发送通知，例如电子邮件、Slack、手机短信等等。
 
-例如，你可以定义一个订单，当该订单被付款后，则通过邮件和手机短信发送提醒通知：
+例如，你可以定义一个单据，当该单据被付款后，则通过邮件和手机短信发送提醒通知：
 
 你可用通过下面这个简单的方法来实现：
 
@@ -85,7 +85,7 @@ Echo 提供的支持包括 [Pusher](https://pusher.com) 以及 [Socket.io](http:
             console.log(user.name);
         });
 
-了解更多关于 Echo 和 event broadcasting 的信息，请查阅 [完整文档](/docs/5.3/broadcasting).
+了解更多关于 Echo 和事件广播的信息，请查阅 [完整文档](/docs/5.3/broadcasting).
 
 ### Laravel Passport (OAuth2 认证服务)
 
@@ -116,11 +116,13 @@ Passport 还提供了方便的 API 让你定制「Token 访问域」：
         // 检查令牌是否拥有 "check-status" 访问域
     })->middleware('scope:check-status');
 
-最后，Passport 还支持从 JavaScript 应用访问你的 API，而不必担心访问令牌传输。Passport 通过加密 JWT cookies 和同步「CSRF 令牌」来实现此功能，让你专注于业务开发。
+最后，Passport 还支持从 JavaScript 应用访问你的 API，而不必担心访问令牌传输。
+
+Passport 通过加密 JWT cookies 和同步「CSRF 令牌」来实现此功能，让你专注于业务开发。
 
 更多关于 Passport 信息，请查看 [完整文档](/docs/5.3/passport)。
 
-### 搜索系统
+### 搜索系统 Laravel Scout
 
 Laravel Scout 提供了一个简单的、基于驱动的、针对 [Eloquent](/docs/5.3/eloquent) 模型的全文搜索解决方案。
 
@@ -196,7 +198,9 @@ Mailable 还支持队列操作，只需要在类声明里实现 `ShouldQueue` �
 
 > {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/12)。
 
-存储用户上传文件，在 Web 开发中是一个很常见的任务。Laravel 5.3 提供了一个便捷的 `store` 方法，只需要对上传文件对象调用此方法，并传参准备存储的路径即可：
+存储用户上传文件，在 Web 开发中是一个很常见的任务。
+
+Laravel 5.3 提供了一个便捷的 `store` 方法，只需要对上传文件对象调用此方法，并传参准备存储的路径即可：
 
     /**
      * 更新用户头像
@@ -380,7 +384,7 @@ Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支�
 
     'custom' => [
         'person.*.email' => [
-            'unique' => 'Each person must have a unique e-mail address',
+            'unique' => '用户的 Email 必须是唯一的',
         ]
     ],
 
@@ -394,10 +398,21 @@ Laravel 5.2 新添加了一个 `bail` 认证规则，此规则会在第一个失
 
 ### Eloquent 全局作用域优化
 
-在之前的 Laravel 版本，Eloquent 全局作用域的实现是复杂且容易出错的，但在 Laravel 5.2 中，全局查询作用域只需实现一个简单的方法 `apply` 即可。
+在之前的 Laravel 版本中，Eloquent 全局作用域的实现复杂且容易出错，但在 Laravel 5.2 中，全局查询作用域只需实现一个简单的 `apply` 方法即可。
 
-更多关于全局作用域的信息请查阅完整的 [Eloquent 文件](https://www.laravel.com/docs/5.2/eloquent#global-scopes)
+更多关于全局作用域的使用，请查阅 [Eloquent 文档](/docs/{{version}}/eloquent#global-scopes).
 
+<a name="laravel-5.1.11"></a>
+## Laravel 5.1.11
+
+Laravel 5.1.11 推出了内置的 [授权](/docs/{{version}}/authorization) 功能！利用回调和授权策略类，能更方便的组织应用程序的授权逻辑。
+
+更多的信息请参考 [授权的文档](/docs/{{version}}/authorization)。
+
+<a name="laravel-5.1.4"></a>
+## Laravel 5.1.4
+
+Laravel 5.1.4 增加了简单的登录限制功能。查阅 [认证的文档](/docs/{{version}}/authentication#authentication-throttling) 以获取更多信息。
 
 <a name="laravel-5.1"></a>
 ## Laravel 5.1
@@ -639,7 +654,7 @@ Laravel 5.0 引进了新的应用程序架构。新架构允许 Laravel 创建�
         use SerializesModels;
 
         protected $user, $podcast;
-    
+
         /**
          * Create a new command instance.
          *
@@ -716,7 +731,7 @@ Laravel Socialite 是可选的，兼容 Laravel 5.0 以上的 OAuth 认证扩展
     {
         return Socialize::with('twitter')->redirect();
     }
-    
+
     public function getUserFromProvider()
     {
         $user = Socialize::with('twitter')->user();
@@ -836,7 +851,7 @@ Homestead 包含 Nginx 1.6、PHP 5.5.12、MySQL、Postres、Redis、Memcached、
 
 Laravel 收银台是一个简单、具表达性的资源库，用来管理 Stripe 的订阅服务。虽然安装此组件是可选的，我们仍然将收银台文档包含在主要 Laravel 文档中。新版本的收银台带来了数个错误修正、多货币支持还有支持了最新的 Stripe API。
 
-### 常驻程序
+### Queue Workers 常驻程序
 
 Artisan `queue:work` 命令现在支持 `--daemon` 参数让 worker 可以作为「常驻程序」启用。代表 worker 可以持续的处理队列工作，而不需要重启框架。这让一个复杂的应用程序对 CPU 的使用率有显著的降低。
 
