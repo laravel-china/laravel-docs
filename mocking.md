@@ -26,7 +26,7 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
     class ExampleTest extends TestCase
     {
         /**
-         * Test new user registration.
+         * 测试用户注册
          */
         public function testUserRegistration()
         {
@@ -46,14 +46,14 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
     class ExampleTest extends TestCase
     {
         /**
-         * Test order shipping.
+         * 测试订单发货
          */
         public function testOrderShipping()
         {
             $this->expectsEvents(OrderShipped::class);
             $this->doesntExpectEvents(OrderFailedToShip::class);
 
-            // Test order shipping...
+            // 测试订单发货...
         }
     }
 
@@ -67,7 +67,7 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
         {
             $this->withoutEvents();
 
-            // Test user registration code...
+            // 测试用户注册的代码...
         }
     }
 
@@ -88,7 +88,7 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
         {
             $this->expectsJobs(ShipOrder::class);
 
-            // Test order shipping...
+            // 订单发货的测试...
         }
     }
 
@@ -103,13 +103,13 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     class ExampleTest extends TestCase
     {
         /**
-         * Test order cancellation.
+         * 测试订单取消操作
          */
         public function testOrderCancellation()
         {
             $this->doesntExpectJobs(ShipOrder::class);
 
-            // Test order cancellation...
+            // 测试订单取消操作...
         }
     }
 
@@ -122,13 +122,13 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     class ExampleTest extends TestCase
     {
         /**
-         * Test order cancellation.
+         * 测试订单取消操作
          */
         public function testOrderCancellation()
         {
             $this->withoutJobs();
 
-            // Test order cancellation...
+            // 测试订单取消操作...
         }
     }
 
@@ -146,7 +146,7 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     class UserController extends Controller
     {
         /**
-         * Show a list of all users of the application.
+         * 显示网站的所有用户
          *
          * @return Response
          */
@@ -176,3 +176,10 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     }
 
 > {note} 不可以模拟 `Request` facade ，测试时，如果需要定制传递的数据请使用 HTTP 辅助函数，例如 `call` 和 `post`。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  | 部分关键字翻译参考 [学院君的翻译](http://laravelacademy.org/post/5993.html)  |
+| [@JobsLong](https://phphub.org/users/56)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/100/h/100">  |  Review  | 我的个人主页：[http://jobslong.com](http://jobslong.com)  |
+| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
