@@ -13,7 +13,7 @@
 <a name="introduction"></a>
 ## 简介
 
-在其他框架中，分页是非常让人苦恼的， Laravel 为 [查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 集成提供了方便，使用数据库分页更容易。生成的分页样式兼容 [Bootstrap CSS 框架](http://getbootstrap.com/).
+在其他框架中，分页是非常让人苦恼的， Laravel 为 [查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 集成提供了方便，使用数据库分页更容易。生成的分页样式兼容 [Bootstrap CSS 框架](http://getbootstrap.com/)。
 
 <a name="basic-usage"></a>
 ## 基本使用
@@ -23,7 +23,7 @@
 
 有几种方法可以对项目进行分页。最简单的是在 [查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 中使用 `paginate` 方法。 `paginate` 方法能够自动判定当前页面正确的数量限制和偏移数。默认情况下，当前页数由 HTTP 请求所带的  `?page` 参数来决定。当然，该值由 Laravel 自动检测，并自动插入由分页器生成的链接。
 
-让我们先来看看如何在查询上调用 `paginate` 方法。，传递给 `paginate` 的唯一参数就是你每页想要显示的数目，这个参数规定每页显示多少条数据。在下面这个例子中，我们就是要在每页显示15条数据:
+让我们先来看看如何在查询上调用 `paginate` 方法。，传递给 `paginate` 的唯一参数就是你每页想要显示的数目，这个参数规定每页显示多少条数据。在下面这个例子中，我们就是要在每页显示15条数据：
 
 
     <?php
@@ -115,7 +115,7 @@
 
     {{ $users->appends(['sort' => 'votes'])->links() }}
 
-如果你想加入一个有 "hash fragment" 的分页链接网址, 则可以使用  `fragment` 方法。例如，要在每个分页链接的最后加入 `#foo` , 应该像这样使用 `fragment` 方法：
+如果你想加入一个有 “hash fragment” 的分页链接网址, 则可以使用  `fragment` 方法。例如，要在每个分页链接的最后加入 `#foo` , 应该像这样使用 `fragment` 方法：
 
     {{ $users->fragment('foo')->links() }}
 
@@ -152,7 +152,7 @@ T分页器的 JSON 将包括分页相关的信息，如 `total`, `current_page`,
 <a name="customizing-the-pagination-view"></a>
 ## 在视图中显示分页结果
 
-默认情况下，渲染显示分页链接使用Bootstrap CSS框架。不过，如果你不使用 Bootstrap 你可以自由定义您自己的视图来呈现这些链接，当我们在分页实例中调用  `links` 方法，将视图名称传递给方法的第一个参数：
+默认情况下，渲染显示分页链接使用 Bootstrap CSS 框架。不过，如果你不使用 Bootstrap 你可以自由定义您自己的视图来呈现这些链接，当我们在分页实例中调用 `links` 方法，将视图名称传递给方法的第一个参数：
 
     {{ $paginator->links('view.name') }}
 
@@ -160,12 +160,12 @@ T分页器的 JSON 将包括分页相关的信息，如 `total`, `current_page`,
 
     php artisan vendor:publish --tag=laravel-pagination
 
-这个名令将会在 `resources/views/vendor/pagination` 目录中创建视图。`default.blade.php` 文件为默认的分页模板，你可以编辑这个模板修改分页的 HTML 样式。
+这个名令将会在 `resources/views/vendor/pagination` 目录中创建视图。`default.blade.php` 文件为默认的分页模板，你可以编辑这个模板以修改分页的 HTML 样式。
 
 <a name="paginator-instance-methods"></a>
 ## 分页实例方法
 
-每个分页实例方法通过一下方法提供了额外的分页信息：
+每个分页实例通过以下方法提供了额外的分页信息：
 
 - `$results->count()`
 - `$results->currentPage()`
