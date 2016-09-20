@@ -65,9 +65,9 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
 
 #### Redis
 
-在 Laravel 使用 Redis Session 之前，你需要先通过 Composer 安装 `predis/predis`(~1.0) 扩展包。
+在 Laravel 使用 Redis Session 之前，你需要先通过 Composer 安装 `predis/predis`(~1.0) 扩展包，然后在 `database` 配置文件中配置 Redis 连接参数。
 
-你可能还需要在 `database` 配置文件中配置连接参数，其中的 `connection` 选项允许你指定使用哪个 Redis 来连接。
+你还可以在 session 配置文件中的 connection 选项，指定使用的 Redis 连接。
 
 <a name="using-the-session"></a>
 ## 使用 Session
@@ -115,9 +115,9 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
 
 你也可使用全局的 `session` PHP 函数来获取 session 中保存的数据。
 
-当调用 `session` 辅助函数的`行参`是单一字符串时，则返回该 session key 的值。
+当传递给 `session` 辅助函数的参数是单一字符串时，则返回该 session key 对应的值。
 
-当调用 `session` 辅助函数的`行参`是数组时，则按 'key / value' 这种格式，将数据存储到 session 中。
+当传递给 `session` 辅助函数的参数是 'key / value' 数组时，则将数据存储到 session 中。
 
     Route::get('home', function () {
         // 获取 session 中的一条数据...
@@ -130,7 +130,7 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
         session(['key' => 'value']);
     });
 
-> {tip} 使用全局 `session` 辅助函数与通过 HTTP 请求实例来使用 `session` 两者实际效果差异不大。你可以通过 `assertSessionHas` 方法来进行测试。关于测试的更多信息，请阅读文档 [testable](/docs/{{version}}/testing)。
+> {tip} 使用全局 `session` 辅助函数与通过 HTTP 请求实例来使用 `session` 两者并无实质性差别。你可以通过 `assertSessionHas` 方法来进行测试。关于测试的更多信息，请阅读文档 [测试](/docs/{{version}}/testing)。
 
 #### 获取所有 Session 数据
 
@@ -228,19 +228,17 @@ Session `driver` 定义每次请求的 session 数据，会使用怎样的方式
         public function gc($lifetime) {}
     }
 
-> {tip} 并不要求你将扩展放在指定目录，你可以把它放在你喜欢的任何地方。在下面这个例子中，我们为这个 `扩展` 创建了一个 ` mongohandler `目录。 
+> {tip} Laravel 默认没有附带扩展目录，你可以把它放在你喜欢的目录内。在下面这个例子中，我们创建了一个 Extensions 目录放置自定义的 MongoHandler 扩展。
 
 接口中的这些方法不太容易容易理解。让我们来快速了解每个方法的作用：
 
 <div class="content-list" markdown="1">
-
-- `open` 方法通常用在基于文件的 session 存储系统中。像 Larvel 就附带了一个 `file` 的驱动，所以你不用把任何东西放到这个方法内。你可以把这方法看做是空的也没关系。主要是因为其接口设计不佳（我们将在后面讨论），所以 PHP 要求必需要有这个方法的实现。
-- `close` 方法跟 `open` 方法很相似，通常也被忽略了。对大多数的驱动而言，此方法并不是需要的。
-- `read` 方法必须根据给予的 `$sessionId` 返回关联的 session 数据的字符串版本。这在驱动中并不需要做任何的编码跟序列化动作，在 Laravel 内已经会自动运行。
-- `write` 方法必须在大部分存储系统内写入 `$data` 字符串时关联至 `$sessionId`，如 MongoDB、Dynamo 等等。
-- `destroy` 方法能删除与 `$sessionId` 相关联的数据。
-- `gc` 方法能删除 `$lifetime` 之前的所有数据，`$lifetime` 是一个 UNIX 的时间戳。但在一些如 Memcached 和 Redis 这样的系统中，使用这个方法可能会留下一段空白的存储数据。
-
+- `open`  方法通常用于基于文件的 session 存储系统。因为 Larvel 已经附带了一个 `file` 的驱动，所以在该方法中不需要放置任何代码。PHP 要求必需要有这个方法的实现，但你可以把这方法置空也没关系。
+- `close` 方法跟 `open` 方法很相似，通常也可以被忽略。对大多数的驱动而言，此方法并不是需要的。
+- `read`  方法应当返回与给定的 $sessionId 相匹配的 session 数据的字符串版本。从这个自定义的驱动中获取或存储 session 数据不需要做任何序列化或其它编码，因为 Laravel 已经为我们做了序列化。
+- `write` 将与 `$sessionId` 关联的特定 `$data` 字符串，写入到持久化存储系统，如 MongoDB、Dynamo 等等。再次重申，你不需要做任何序列化或其它编码，因为 Laravel 会自动处理这些事情。
+- `destroy` 方法从持久化存储中移除 $sessionId 对应的数据。
+- `gc`    方法能销毁 `$lifetime` 之前的所有数据，`$lifetime` 是一个 UNIX 的时间戳。对本身拥有过期机制的系统如 Memcached 和 Redis 而言，该方法可以留空。
 </div>
 
 <a name="registering-the-driver"></a>
