@@ -105,7 +105,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
     Storage::put('avatars/1', $fileContents);
 
-当使用多个磁盘时，你可以通过 `Storage` facade 的 `disk` 方法访问特定磁盘。当然，你也可以使用链式调用（chain methods）对磁盘使用各种执行方法。
+当使用多个磁盘时，你可以通过 `Storage` facade 的 `disk` 方法访问指定磁盘。当然，你也可以使用链式调用（chain methods）对磁盘使用各种执行方法。
 
     Storage::disk('s3')->put('avatars/1', $fileContents);
 
@@ -123,7 +123,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 <a name="file-urls"></a>
 ### 文件 URLs
 
-当使用 `local` 或者 `s3` 驱动的时候，你可以使用 `url` 方法来获取文件的 URL。如果你使用 `local` 驱动，一般会在传参的路径前面加上 `/storage`。如果是 `s3` 的话，会返回完整的 S3 文件系统的URL:
+当使用 `local` 或者 `s3` 驱动的时候，你可以使用 `url` 方法来获取文件的 URL。如果你使用 `local` 驱动，一般会在传参的路径前面加上 `/storage`。如果是 `s3` 的话，会返回完整的 S3 文件系统的 URL:
 
 
     use Illuminate\Support\Facades\Storage;
@@ -141,7 +141,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
     $size = Storage::size('file1.jpg');
 
-`lastModified` 方法返回的最后一次文件被修改的UNIX时间戳：
+`lastModified` 方法返回的最后一次文件被修改的 UNIX 时间戳：
 
     $time = Storage::lastModified('file1.jpg');
 
@@ -158,7 +158,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
 #### 自动流
 
-如果您想Laravel自动管理指定文件流传输到您想要的存储位置，你可以使用 `putFile` 或 `putFileAs` 方法。这个方法可以接受一个`Illuminate\ HTTP \ File` 或 `Illuminate\ HTTP \ UploadedFile`实例，并自动将文件传输到你想要的位置：
+如果您想Laravel自动管理指定文件流传输到您想要的存储位置，你可以使用 `putFile` 或 `putFileAs` 方法。这个方法可以接受一个 `Illuminate\ HTTP \ File` 或 `Illuminate\ HTTP \ UploadedFile` 实例，并自动将文件传输到你想要的位置：
 
     use Illuminate\Http\File;
 
@@ -168,9 +168,9 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
     // 手动指定一个文件名...
     Storage::putFile('photos', new File('/path/to/photo'), 'photo.jpg');
 
-还有要注意的有关 `putFile` 方法的一些重要的事情。请注意，我们只指定一个目录名，而不是文件名。默认情况下，该 `putFile` 方法将自动基于该文件的内容而生成。这是通过的文件内容的MD5哈希来完成的。该文件的路径将被 `putFile` 方法被返回，因此您可以在数据库中存储路径和包括生成的文件名。
+还有要注意的有关 `putFile` 方法的一些重要的事情。请注意，我们只指定一个目录名，而不是文件名。默认情况下，该 `putFile` 方法将自动基于该文件的内容而生成。这是通过的文件内容的 MD5 哈希来完成的。该文件的路径将被 `putFile` 方法被返回，因此您可以在数据库中存储路径和包括生成的文件名。
 
-该 `putFile` 和 `putFileAs` 方法也接受一个参数来保存制定文件的“可见性”。如果正在使用云存储磁盘，如S3，并希望该文件可以被公开访问，这将非常有用：
+该 `putFile` 和 `putFileAs` 方法也接受一个参数来保存制定文件的“可见性”。如果正在使用云存储磁盘，如 S3 ，并希望该文件可以被公开访问，这将非常有用：
 
     Storage::putFile('photos', new File('/path/to/photo'), 'public');
 
@@ -194,7 +194,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 <a name="file-uploads"></a>
 ### 文件上传
 
-在Web应用程序中，最常见的例子之一就是存储文件是存储用户上传的文件，如个人资料图片，照片和文档。Laravel 通过使用 `store` 方法，使得它在上传文件的实例中非常容易的存储上传了的文件。只需使用你想存储的路径来调用 `store` 方法即可：
+在 Web 应用程序中，最常见的例子之一就是存储文件是存储用户上传的文件，如个人资料图片，照片和文档。 Laravel 通过使用 `store` 方法，使得它在上传文件的实例中非常容易的存储上传了的文件。只需使用你想存储的路径来调用 `store` 方法即可：
 
 
     <?php
