@@ -4,7 +4,7 @@
 - [定义关联](#defining-relationships)
     - [一对一](#one-to-one)
     - [一对多](#one-to-many)
-    - [一对多 (反向关联)](#one-to-many-inverse)
+    - [一对多（反向关联）](#one-to-many-inverse)
     - [多对多](#many-to-many)
     - [远层一对多](#has-many-through)
     - [多态关联](#polymorphic-relations)
@@ -38,7 +38,7 @@
 <a name="defining-relationships"></a>
 ## 定义关联
 
-你可在 Eloquent 模型类内中，把 Eloquent 关联定义成函数(functions)。因为，关联就像 Eloquent 模型一样，也可以作为强大的 [查询语句构造器](/docs/{{version}}/queries)，定义关联为函数，因为其提供了强而有力的链式调用及查找功能。例如，我们可以在 `posts` 关联的链式调用中附加一个约束条件：
+你可在 Eloquent 模型类内中，把 Eloquent 关联定义成函数（functions）。因为，关联就像 Eloquent 模型一样，也可以作为强大的 [查询语句构造器](/docs/{{version}}/queries)，定义关联为函数，因为其提供了强而有力的链式调用及查找功能。例如，我们可以在 `posts` 关联的链式调用中附加一个约束条件：
 
     $user->posts()->where('active', 1)->get();
 
@@ -74,7 +74,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
 
     return $this->hasOne('App\Phone', 'foreign_key');
 
-此外，Eloquent 假设外键会和上层模型的 `id` 字段(或者自定义的 `$primaryKey`)的值相匹配。换句话说，Eloquent 会寻找用户的 `id` 字段与 `Phone` 模型的 `user_id` 字段的值相同的纪录。如果你想让关联使用 `id` 以外的值，则可以传递第三个参数至 `hasOne` 方法来指定你自定义的键：
+此外，Eloquent 假设外键会和上层模型的 `id` 字段（或者自定义的 `$primaryKey`）的值相匹配。换句话说，Eloquent 会寻找用户的 `id` 字段与 `Phone` 模型的 `user_id` 字段的值相同的纪录。如果你想让关联使用 `id` 以外的值，则可以传递第三个参数至 `hasOne` 方法来指定你自定义的键：
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
 
@@ -162,7 +162,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
     return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
 
 <a name="one-to-many-inverse"></a>
-### 一对多 (反向关联)
+### 一对多（反向关联）
 
 现在我们已经能访问到所有文章的评论，让我们来接着定义一个通过评论访问所属文章的关联。若要定义相对于 `hasMany` 的关联，可在子级模型定义一个叫做 `belongsTo` 方法的关联函数：
 
