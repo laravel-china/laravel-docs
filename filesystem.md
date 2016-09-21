@@ -165,7 +165,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
     // Automatically calculate MD5 hash for file name...
     Storage::putFile('photos', new File('/path/to/photo'));
 
-    // Manually specify a file name...
+    // 手动指定一个文件名...
     Storage::putFile('photos', new File('/path/to/photo'), 'photo.jpg');
 
 还有要注意的有关 `putFile` 方法的一些重要的事情。请注意，我们只指定一个目录名，而不是文件名。默认情况下，该 `putFile` 方法将自动基于该文件的内容而生成。这是通过的文件内容的MD5哈希来完成的。该文件的路径将被 `putFile` 方法被返回，因此您可以在数据库中存储路径和包括生成的文件名。
@@ -299,7 +299,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
     $directories = Storage::directories($directory);
 
-    // Recursive...
+    // 递归...
     $directories = Storage::allDirectories($directory);
 
 #### 创建目录
