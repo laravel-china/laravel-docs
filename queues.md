@@ -193,11 +193,11 @@ Laravel 的队列服务为不同的队列后端系统，比如 Beanstalk，Amazo
 > {note} Amazon SQS 队列服务最大延迟 15 分钟。
 
 <a name="customizing-the-queue-and-connection"></a>
-### 自定义队列&连接
+### 自定义队列 & 连接
 
 #### 分发任务到指定队列
 
-通过推送任务到不同的队列，你可以给队列任务分类，甚至可以控制给不同的队列分配多少任务。记住，这个并不是要推送任务到队列配置文件中不同的「connections」里，而是推送到一个连接中不同的队列里。要指定队列的话，就调用任务实例的 ｀onQueue｀ 方法：
+通过推送任务到不同的队列，你可以给队列任务分类，甚至可以控制给不同的队列分配多少任务。记住，这个并不是要推送任务到队列配置文件中不同的「connections」里，而是推送到一个连接中不同的队列里。要指定队列的话，就调用任务实例的 `onQueue` 方法：
 
     <?php
 
@@ -275,7 +275,7 @@ Laravel 包含一个队列处理器，当新任务被推到队列中时它能处
 
 > {tip} 要让 `queue:work` 进程永久在后台运行，你应该使用进程监控工具，比如 [Supervisor](#supervisor-configuration) 来保证队列处理器没有停止运行。
 
-记住，队列处理器是长时间运行的进程，并在内存里保存着已经启动的应用状态。这样的结果就是，处理器运行后如果你修改代码那这些改变是不会应用到处理器中的。所以在你重新部署过程中，一定要 [重启队列处理器](#queue-workers-and-deployment)。
+一定要记得，队列处理器是长时间运行的进程，并在内存里保存着已经启动的应用状态。这样的结果就是，处理器运行后如果你修改代码那这些改变是不会应用到处理器中的。所以在你重新部署过程中，一定要 [重启队列处理器](#queue-workers-and-deployment)。
 
 #### 指定连接 & 队列
 
@@ -301,7 +301,7 @@ Laravel 包含一个队列处理器，当新任务被推到队列中时它能处
 <a name="queue-workers-and-deployment"></a>
 ### 队列处理器 & 部署
 
-应为队列处理器都是用时很长的进程，如果代码改变而队列处理器没有重启，他们是不能应用新代码的。所以最简单的方式就是重新部署过程中要重启队列处理器。你可以很优雅地只输入 `queue:restart` 来重启所有队列处理器。
+因为队列处理器都是用时很长的进程，如果代码改变而队列处理器没有重启，他们是不能应用新代码的。所以最简单的方式就是重新部署过程中要重启队列处理器。你可以很优雅地只输入 `queue:restart` 来重启所有队列处理器。
 
     php artisan queue:restart
 
@@ -318,11 +318,11 @@ Laravel 包含一个队列处理器，当新任务被推到队列中时它能处
 
 #### 队列处理器超时
 
-`queue:work` Artisan 命令对外有一个 `--timeout` 选项。这个选项指定了 Laravel 队列处理器最多执行多长时间后就应该被关闭掉。有时候一个队列的子进程会因为很多原因僵死，比如一个外部的 没有响应的 HTTP 请求。这个 `--timeout` 选项会移除超出指定事件限制的僵死进程。
+`queue:work` Artisan 命令对外有一个 `--timeout` 选项。这个选项指定了 Laravel 队列处理器最多执行多长时间后就应该被关闭掉。有时候一个队列的子进程会因为很多原因僵死，比如一个外部的 HTTP 请求没有响应。这个 `--timeout` 选项会移除超出指定事件限制的僵死进程。
 
     php artisan queue:work --timeout=60
 
-`retry_after` 配置选项和 `--timeout` 命令行选项是不一样的，但是可以同时工作来保证任务没有丢失并且任务只能成功执行一次。
+`retry_after` 配置选项和 `--timeout` 命令行选项是不一样的，但是可以同时工作来保证任务不会丢失并且不会重复执行。
 
 > {note} `--timeout` 应该永远都要比 `retry_after` 短至少几秒钟的时间。这样就能保证任务进程总能在失败重试前就被杀死了。如果你的 `--timeout` 选项大于 `retry_after` 配置选项，你的任务可能被执行两次。
 
@@ -335,7 +335,7 @@ Supervisor 是一个 Linux 操作系统上的进程监控软件，它会在 `que
 
     sudo apt-get install supervisor
 
-> {tip} 如果自己手动配置 Supervisor 听起来有点难以应付，可以考虑使用 [Laravel Forge](https://forge.laravel.com)，它能给你的 Laravel 项目自动安装与配置Supervisor。
+> {tip} 如果自己手动配置 Supervisor 听起来有点难以应付，可以考虑使用 [Laravel Forge](https://forge.laravel.com)，它能给你的 Laravel 项目自动安装与配置 Supervisor。
 
 #### 配置 Supervisor
 
