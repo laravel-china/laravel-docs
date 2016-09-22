@@ -9,7 +9,7 @@
     - [AJAX 请求和验证](#quick-ajax-requests-and-validation)
 - [其它验证的处理](#other-validation-approaches)
     - [手动创建验证程序](#manually-creating-validators)
-    - [表单要求验证](#form-request-validation)
+    - [表单请求验证](#form-request-validation)
 - [处理错误消息](#working-with-error-messages)
     - [自定义错误消息](#custom-error-messages)
 - [可用的验证规则](#available-validation-rules)
