@@ -16,7 +16,7 @@
         return empty($name);
     });
 
-如你所见，`Collection` 类支持链式调用，一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
+如上面的代码示例，`Collection` 类支持链式调用，一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
 
 <a name="creating-collections"></a>
 ### 创建集合
@@ -25,12 +25,12 @@
 
     $collection = collect([1, 2, 3]);
 
-> {tip} 默认 [Eloquent](/docs/{{version}}/eloquent) 模型的集合总是以 `Collection` 实例返回。
+> {tip} 默认 [Eloquent](/docs/{{version}}/eloquent) 模型的查询结果总是以 `Collection` 实例返回。
 
 <a name="available-methods"></a>
 ## 可用的方法
 
-在这份文档剩余的部份，我们将会探讨 `Collection` 类的所有方法。要记得的是，所有方法都支持链式调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
+接下来，我们将会探讨 `Collection` 类的所有方法。要记得的是，所有方法都支持链式调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
 
 <style>
     #collection-method-list > p {
@@ -599,7 +599,7 @@
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
-以指定键的值作为集合项目的键：
+以指定键的值作为集合项目的键。如果几个数据项有相同的键，那在新集合中只显示最后一项：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'desk'],
@@ -833,7 +833,7 @@
 <a name="method-prepend"></a>
 #### `prepend()` {#collection-method}
 
-在集合前面增加一项：
+在集合前面增加一项数组的值：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -845,7 +845,7 @@
 
 你可以传递第二个参数来设置新增加项的键：
 
-    $collection = collect(['one' => 1, 'two', => 2]);
+    $collection = collect(['one' => 1, 'two' => 2]);
 
     $collection->prepend(0, 'zero');
 
