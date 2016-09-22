@@ -975,7 +975,7 @@
 
     // 1
 
-搜索是用「宽松」比对来进行，也就是说如果字符串值是整数那它就跟这个整数是相等的。要使用严格比对的话，就传入 `true` 为该方法的第二个参数：
+搜索是用「宽松」匹配来进行，也就是说如果字符串值是整数那它就跟这个整数是相等的。要使用严格匹配的话，就传入 `true` 为该方法的第二个参数：
 
     $collection->search('4', true);
 
@@ -1361,12 +1361,12 @@
     ]
     */
 
-比较数值的时候用了「宽松」比较方式，查看 [`whereStrict`](#method-wherestrict) method来用严格比较的方式过滤。
+比较数值的时候用了「宽松」匹配方式，查看 [`whereStrict`](#method-wherestrict) method来用严格比较的方式过滤。
 
 <a name="method-wherestrict"></a>
 #### `whereStrict()` {#collection-method}
 
-这个方法与 [`where`](#method-where) 方法有着一样的形式；但是会以「严格」比对来比对数值：
+这个方法与 [`where`](#method-where) 方法有着一样的形式；但是会以「严格」匹配来匹配数值：
 
 <a name="method-wherein"></a>
 #### `whereIn()` {#collection-method}
@@ -1391,7 +1391,7 @@
     ]
     */
 
-此方法是用严格的比较，你可以使用 [`whereInLoose`](#method-whereinloose) 做比较 `宽松` 的比较。
+此方法是用严格的匹配，你可以使用 [`whereInLoose`](#method-whereinloose) 做比较 `宽松` 的匹配。
 
 <a name="method-whereinloose"></a>
 #### `whereInLoose()` {#collection-method}
