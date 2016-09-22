@@ -2,11 +2,11 @@
 
 ## 说明
 
-此文档主要由 [Summer](https://github.com/summerblue) 和 [Aufree](https://github.com/aufree) 维护，你可以在 [PHPHub](https://phphub.org) 上面找到他们。
+此文档由 [Laravel China](https://laravel-china.org) 组织翻译和维护。
 
 为了方便新手学习，在每篇文档的最底部增加导读内容区块。
 
-更多讨论，请前往这个帖子：[Laravel 5.1 LTS 中文文档翻译完成「精校版」](https://phphub.org/topics/2095)。
+更多讨论，请前往这个帖子：[Laravel China 文档导读](https://laravel-china.org/topics/2095)。
 
 ## 排版规范
 
