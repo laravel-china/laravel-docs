@@ -68,7 +68,7 @@
     - [快速入门](/docs/{{version}}/testing)
     - [应用程序测试](/docs/{{version}}/application-testing)
     - [数据库](/docs/{{version}}/database-testing)
-    - [Mocking 取模](/docs/{{version}}/mocking)
+    - [模拟器](/docs/{{version}}/mocking)
 - 官方扩展包
     - [Cashier 交易工具包](/docs/{{version}}/billing)
     - [Envoy 部署工具](/docs/{{version}}/envoy)
