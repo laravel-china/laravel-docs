@@ -23,7 +23,7 @@
 
 有几种方法可以对项目进行分页。最简单的是在 [查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 中使用 `paginate` 方法。 `paginate` 方法能够自动判定当前页面正确的数量限制和偏移数。默认情况下，当前页数由 HTTP 请求所带的  `?page` 参数来决定。当然，该值由 Laravel 自动检测，并自动插入由分页器生成的链接。
 
-让我们先来看看如何在查询上调用 `paginate` 方法。，传递给 `paginate` 的唯一参数就是你每页想要显示的数目，这个参数规定每页显示多少条数据。在下面这个例子中，我们就是要在每页显示15条数据：
+让我们先来看看如何在查询上调用 `paginate` 方法。，传递给 `paginate` 的唯一参数就是你每页想要显示的数目，这个参数规定每页显示多少条数据。在下面这个例子中，我们就是要在每页显示 15 条数据：
 
 
     <?php
@@ -48,7 +48,7 @@
         }
     }
 
-> {note} 目前，使用 `groupBy` 的分页操作不能被Laravel有效执行，如果你需要在分页结果中使用 `groupBy` ，推荐你手动查询数据库然后创建分页器。
+> {note} 目前，使用 `groupBy` 的分页操作不能被 Laravel 有效执行，如果你需要在分页结果中使用 `groupBy` ，推荐你手动查询数据库然后创建分页器。
 
 #### 简单分页
 
@@ -85,7 +85,7 @@
 <a name="displaying-pagination-results"></a>
 ## 显示分页结果
 
-当你调用查询构建器或 Eloquent 查询上的 `simplePaginate` 或 `paginate`方法时,你将会获取一个分页实例,当调用 `paginate` 方法时，你将获取 `Illuminate\Pagination\LengthAwarePaginator` ，而调用方法 `simplePaginate` 方法时，将会获取 `Illuminate\Pagination\Paginator` 实例。这些对象提供相关方法描述这些结果集，除了这些帮助函数外，分页器实例本身就是迭代器，可以像数组一样对其进行循环调用。总之，一旦你获取到结果，就可以对结果进行显示，并使用  [Blade](/docs/{{version}}/blade) 渲染页面的链接：
+当你调用查询构建器或 Eloquent 查询上的 `simplePaginate` 或 `paginate`方法时,你将会获取一个分页实例，当调用 `paginate` 方法时，你将获取 `Illuminate\Pagination\LengthAwarePaginator` ，而调用方法 `simplePaginate` 方法时，将会获取 `Illuminate\Pagination\Paginator` 实例。这些对象提供相关方法描述这些结果集，除了这些帮助函数外，分页器实例本身就是迭代器，可以像数组一样对其进行循环调用。总之，一旦你获取到结果，就可以对结果进行显示，并使用  [Blade](/docs/{{version}}/blade) 渲染页面的链接：
 
     <div class="container">
         @foreach ($users as $user)
@@ -128,7 +128,7 @@ Laravel 的分页类实现了 `Illuminate\Contracts\Support\Jsonable` 的 `toJso
         return App\User::paginate();
     });
 
-T分页器的 JSON 将包括分页相关的信息，如 `total`, `current_page`, `last_page` 等等。 该实例数据可通过 JSON 数组中的 `data` 键来获取。下方是从路由返回的分页实例转换成 JSON 的一个例子：
+分页器的 JSON 将包括分页相关的信息，如 `total`, `current_page`, `last_page` 等等。 该实例数据可通过 JSON 数组中的 `data` 键来获取。下方是从路由返回的分页实例转换成 JSON 的一个例子：
 
     {
        "total": 50,
