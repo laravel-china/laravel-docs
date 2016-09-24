@@ -18,7 +18,7 @@
 
 当你创建一个新的 Laravel 项目时，Laravel 已经将错误和异常处理帮你配置好了。 `App\Exceptions\Handler` 类会将触发异常记入日志并返回给用户。本文会深入的对这个类进行探讨。
 
-日志记录，Laravel 利用 [Monolog](https://github.com/Seldaek/monolog) 函数库提供多样而强大的日志处理。 Laravel 配置了几个处理处理程序给你，允许你选择单个日志文件或多个来系统记录错误信息。
+日志记录，Laravel 利用 [Monolog](https://github.com/Seldaek/monolog) 函数库提供多样而强大的日志处理。 Laravel 配置了几个处理程序给你，允许你选择单个日志文件或多个来系统记录错误信息。
 
 <a name="configuration"></a>
 ## 设置
