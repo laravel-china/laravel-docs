@@ -2,7 +2,7 @@
 
 - [介绍](#introduction)
     - [配置](#configuration)
-    - [对驱动的要求](#driver-prerequisites)
+    - [对驱动器的要求](#driver-prerequisites)
 - [概念综素](#concept-overview)
     - [使用示例程序](#using-example-application)
 - [定义广播事件](#defining-broadcast-events)
@@ -26,7 +26,7 @@
 <a name="introduction"></a>
 ## 介绍
 
-在现代的 web 应用程序中，WebSockets 被用来实现需要实时、即时更新的接口。当服务器上的数据被更新后，更新信息将通过 WebSocket 连接被发送到客户端等待处理。相比于不停地轮询应用程序，WebSocket 是一种可靠和高效的选择。
+在现代的 web 应用程序中，WebSockets 被用来实现需要实时、即时更新的接口。当服务器上的数据被更新后，更新信息将通过 WebSocket 连接被发送到客户端等待处理。相比于不停地轮询应用程序，WebSocket 是一种更加可靠和高效的选择。
 
 为了帮助你建立这类应用，Laravel 将通过 WebSocket 连接「广播」[事件](/docs/{{version}}/events) 变得容易。广播事件允许你在服务端代码和客户端 JavaScript 应用之间共享相同的事件名。
 
@@ -50,7 +50,7 @@
 ```
 
 <a name="driver-prerequisites"></a>
-### 对驱动的要求
+### 对驱动器的要求
 
 #### Pusher
 
@@ -87,7 +87,7 @@ Redis 广播器会使用 Redis 的「生产者/消费者」特性来广播消息
 
 #### Socket.IO
 
-如果你想将 Redis 广播器和 Socket.IO 服务器一起使用，你需要将 Socket.IO JavaScript 客户端库文件包含到应用程序的 `head` HTML 元素中：
+如果你想把 Redis 广播器和 Socket.IO 服务器一起使用，你需要将 Socket.IO JavaScript 客户端库文件包含到应用程序的 `head` HTML 元素中：
 
 ```js
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
@@ -104,7 +104,7 @@ window.Echo = new Echo({
 });
 ```
 
-最后，你需要运行一个与 Laravel 兼容的 Socket.IO 服务器。Laravel 官方没有实现 Socket.IO 服务器；但是，一个由社区驱动的 Socket.IO 服务器当前正维护在 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) GitHub 仓库中。
+最后，你需要运行一个与 Laravel 兼容的 Socket.IO 服务器。Laravel 官方并没有实现 Socket.IO 服务器；但是，一个由社区驱动的 Socket.IO 服务器当前正维护在 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) GitHub 仓库中。
 
 #### 对队列的要求
 
@@ -470,7 +470,7 @@ Echo.join('chat.' + roomId)
 <a name="broadcasting-to-presence-channels"></a>
 ### 广播到 Presence 频道
 
-Presence 频道可以像公开和私有频道一样接收事件。使用一个聊天室的例子，我们想要广播 `NewMessage` 事件到聊天室的 presence 频道。要实现它，我们将从事件的 `broadcastOn` 方法中返回一个 `PresenceChannel` 实例：
+Presence 频道可以像公开和私有频道一样接收事件。使用一个聊天室的例子，我们要把 `NewMessage` 事件广播到聊天室的 presence 频道。要实现它，我们将从事件的 `broadcastOn` 方法中返回一个 `PresenceChannel` 实例：
 
 ```php
 /**
@@ -484,7 +484,7 @@ public function broadcastOn()
 }
 ```
 
-和公开或私有事件一样，presence 频道事件也能使用 `broadcast` 函数来广播。同样的，你还能用 `toOthers` 方法来把当前用户从广播接收者中排除：
+和公开或私有事件一样，presence 频道事件也能使用 `broadcast` 函数来广播。同样的，你还能用 `toOthers` 方法将当前用户从广播接收者中排除：
 
 ```php
 broadcast(new NewMessage($message));
