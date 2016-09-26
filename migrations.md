@@ -391,3 +391,7 @@ Laravel 也为创建外键约束提供了支持，用于在数据库层中的强
     Schema::enableForeignKeyConstraints();
 
     Schema::disableForeignKeyConstraints();
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@lijinma](https://laravel-china.org/users/77)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/77_1474611480.jpg?imageView2/1/w/200/h/200">  |  翻译  | 喜欢折腾，[@ lijinma](https://github.com/lijinma/) at Github  |
