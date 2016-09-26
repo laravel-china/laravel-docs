@@ -797,3 +797,8 @@ Eloquent 模型会触发许多事件，让你可以借助以下的方法在模�
         }
     }
 
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@LXY](https://github.com/dongli0)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5832_1473813539.jpeg?imageView2/1/w/380/h/380">  |  翻译  | PHP 小学生。 |
