@@ -1,9 +1,9 @@
 # 事件广播
 
-- [介绍](#introduction)
+- [简介](#introduction)
     - [配置](#configuration)
     - [对驱动器的要求](#driver-prerequisites)
-- [概念综素](#concept-overview)
+- [概念综述](#concept-overview)
     - [使用示例程序](#using-example-application)
 - [定义广播事件](#defining-broadcast-events)
     - [广播数据](#broadcast-data)
@@ -28,7 +28,7 @@
 
 在现代的 web 应用程序中，WebSockets 被用来实现需要实时、即时更新的接口。当服务器上的数据被更新后，更新信息将通过 WebSocket 连接被发送到客户端等待处理。相比于不停地轮询应用程序，WebSocket 是一种更加可靠和高效的选择。
 
-为了帮助你建立这类应用，Laravel 将通过 WebSocket 连接「广播」[事件](/docs/{{version}}/events) 变得容易。广播事件允许你在服务端代码和客户端 JavaScript 应用之间共享相同的事件名。
+为了帮助你建立这类应用，Laravel 将通过 WebSocket 连接来使「广播」[事件](/docs/{{version}}/events) 变得更加轻松。广播事件允许你在服务端代码和客户端 JavaScript 应用之间共享相同的事件名。
 
 > {tip} 在深入了解事件广播之前，请确认你已阅读所有关于 Laravel [事件和侦听器](/docs/{{version}}/events) 的文档。
 
@@ -60,7 +60,7 @@
 composer require pusher/pusher-php-server
 ```
 
-然后，你需要在 `config/broadcasting.php` 配置文件中填写你的 Pusher 证书。该文件中已经包含了一个 Pusher 示例配置，你只需指定自定的 Pusher key、secret 和 application ID 即可。
+然后，你需要在 `config/broadcasting.php` 配置文件中填写你的 Pusher 证书。该文件中已经包含了一个 Pusher 示例配置，你只需指定 Pusher key、secret 和 application ID 即可。
 
 当把 Pusher 与 [Laravel Echo](#installing-laravel-echo) 一起使用时，你应该在实例化 Echo 对象时指定 broadcaster 为 `pusher`：
 
@@ -104,7 +104,7 @@ window.Echo = new Echo({
 });
 ```
 
-最后，你需要运行一个与 Laravel 兼容的 Socket.IO 服务器。Laravel 官方并没有实现 Socket.IO 服务器；但是，一个由社区驱动的 Socket.IO 服务器当前正维护在 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) GitHub 仓库中。
+最后，你需要运行一个与 Laravel 兼容的 Socket.IO 服务器。Laravel 官方并没有实现 Socket.IO 服务器；不过，可以选择一个由社区驱动维护的项目 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server)，目前托管在 GitHub。
 
 #### 对队列的要求
 
@@ -120,7 +120,7 @@ Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的
 <a name="using-example-application"></a>
 ### 使用示例程序
 
-在开始深入了解事件广播的每一个组件之前，让我们先用一个电子商务网站作为例子，使我们有一个总的概念。我们不会讨论如何配置 [Pusher](http://pusher.com) 和 [Laravel Echo](#echo) 的细节，因为这些会在本文档的其他章节被详细介绍。
+让我们先用一个电子商务网站作为例子来概览一下事件广播。我们不会讨论如何配置 [Pusher](http://pusher.com) 和 [Laravel Echo](#echo) 的细节，因为这些会在本文档的其他章节被详细介绍。
 
 在我们的应用程序中，让我们假设有一个允许用户查看订单配送状态的页面。有一个 `ShippingStatusUpdated` 事件会在配送状态更新时被触发：
 
@@ -153,7 +153,7 @@ class ShippingStatusUpdated implements ShouldBroadcast
 
 ```php
 /**
- * Get the channels the event should broadcast on.
+ * 指定事件在哪些频道上进行广播
  *
  * @return array
  */
@@ -214,7 +214,7 @@ class ServerCreated implements ShouldBroadcast
     public $user;
 
     /**
-     * Create a new event instance.
+     * 创建一个新的事件实例
      *
      * @return void
      */
@@ -224,7 +224,7 @@ class ServerCreated implements ShouldBroadcast
     }
 
     /**
-     * Get the channels the event should broadcast on.
+     * 指定事件在哪些频道上进行广播
      *
      * @return Channel|array
      */
@@ -256,7 +256,7 @@ class ServerCreated implements ShouldBroadcast
 
 ```php
   /**
-   * Get the data to broadcast.
+   * 指定广播数据
    *
    * @return array
    */
@@ -273,7 +273,7 @@ class ServerCreated implements ShouldBroadcast
 
 ```php
 /**
- * The name of the queue on which to place the event.
+ * 指定事件被放置在哪个队列上
  *
  * @var string
  */
@@ -288,7 +288,7 @@ public $broadcastQueue = 'your-queue-name';
 <a name="defining-authorization-routes"></a>
 ### 定义授权路由
 
-值得庆幸的是，我们可以在 Laravel 里很容易地定义路由来响应频道授权请求。在 `BroadcastServiceProvider` 中，你会看到一个对 `Broadcast::routes` 方法的调用。该方法会注册 `/broadcasting/auth` 路由来处理授权请求：
+幸运的是，我们可以在 Laravel 里很容易地定义路由来响应频道授权请求。在 `BroadcastServiceProvider` 中，你会看到一个对 `Broadcast::routes` 方法的调用。该方法会注册 `/broadcasting/auth` 路由来处理授权请求：
 
 ```php
 Broadcast::routes();
@@ -408,7 +408,7 @@ Echo.private('orders')
 <a name="namespaces"></a>
 ### 命名空间
 
-你可能注意到了在上面的例子中我们没有为事件类指定完全限定的命名空间。这是因为 Echo 会自动认为事件在 `App\Events` 命名空间下。你可以在实例化 Echo 的时候传递一个 `namespace` 配置选项来指定根命名空间：
+你可能注意到了在上面的例子中我们没有为事件类指定完整的命名空间。这是因为 Echo 会自动认为事件在 `App\Events` 命名空间下。你可以在实例化 Echo 的时候传递一个 `namespace` 配置选项来指定根命名空间：
 
 ```js
 window.Echo = new Echo({
@@ -474,7 +474,7 @@ Presence 频道可以像公开和私有频道一样接收事件。使用一个�
 
 ```php
 /**
- * Get the channels the event should broadcast on.
+ * 指定事件在哪些频道上进行广播
  *
  * @return Channel|array
  */
