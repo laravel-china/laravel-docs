@@ -1,31 +1,31 @@
-# Task Scheduling
+# 任务调度
 
 - [简介](#introduction)
 - [定义调度](#defining-schedules)
     - [调度频率设置](#schedule-frequency-options)
     - [避免任务重复](#preventing-task-overlaps)
 - [任务输出](#task-output)
-- [任务挂勾](#task-hooks)
+- [任务钩子](#task-hooks)
 
 <a name="introduction"></a>
 ## 简介
 
-在过去，开发者必须为每个需要调度的任务生成单独的 Cron 项目。然而令人头疼的是任务调度不受版本控制，并且需要 SSH 到服务器上来增加 Cron 项目。
+在过去，开发者必须为每个需要调度的任务生成单独的 Cron 项目。然而令人头疼的是任务调度不受版本控制，并且需要 SSH 到服务器上来增加 Cron 条目。
 
 Laravel 命令调度器允许你在 Laravel 中对命令调度进行清晰流畅的定义，并且仅需要在服务器上增加一条 Cron 项目即可。你的调度已经定义在 `app/Console/Kernel.php` 文件的 `schedule` 方法中。为了方便你开始，在该方法内包含了一个简单的例子。你可以随意增加调度到 `Schedule` 对象中。
 
 ### 启动调度器
 
-使用调度器时，你只需要把 Cron 添加到你的服务器，如果你不知道如何添加到服务器，你可以使用一个 [Laravel Forge](https://forge.laravel.com) 服务来管理你的 Cron 。
+使用调度器时，你只需要把 Cron 添加到你的服务器，如果你不知道如何添加到服务器，你可以使用 [Laravel Forge](https://forge.laravel.com) 服务来管理你的 Cron 。
 
     * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
 
-该 Cron 将于每分钟调用一次 Laravel 命令调度器，当 `schedule:run` 命令执行时， Laravel 会评判你的计划任务并运行预定任务。
+该 Cron 将于每分钟调用一次 Laravel 命令调度器，当 `schedule:run` 命令执行时， Laravel 会评估你的计划任务并运行预定任务。
 
 <a name="defining-schedules"></a>
 ## 定义调度
 
-你可以将所有的计划任务定义在 `App\Console\Kernel` 类的 `schedule` 方法中。在开始之前，先让我们来看看一个任务的调度示例。在该例子中，我们计划了一个会在午夜被调用的 `闭包`。该 `闭包` 将运行清除某个数据表的数据库查找：
+你可以将所有的计划任务定义在 `App\Console\Kernel` 类的 `schedule` 方法中。在开始之前，先让我们来看看一个任务的调度示例。在该例子中，我们计划了一个会在每天午夜被调用的 `闭包`。该 `闭包` 将运行数据库查询语句来清除某个数据表：
 
     <?php
 
@@ -147,7 +147,7 @@ Laravel 命令调度器允许你在 Laravel 中对命令调度进行清晰流畅
 在这个例子中，如果没有其它  `emails:send` [Artisan 命令](/docs/{{version}}/artisan) 在运行的话，此任务将于每分钟被运行一次。当你有些任务运行时间过长，且无法预测出具体所需时间时， `withoutOverlapping` 方法将会特别有帮助。
 
 <a name="task-output"></a>
-## Task Output
+## 任务输出
 
 Laravel 调度器为任务调度输出提供多种便捷方法。首先，通过 `sendOutputTo` 你可以发送输出到单个文件上以便后续检查：
 
@@ -161,7 +161,7 @@ Laravel 调度器为任务调度输出提供多种便捷方法。首先，通过
              ->daily()
              ->appendOutputTo($filePath);
 
-通过 `emailOutputTo` 方法， y你可以发送输出到你所指定的电子邮件上。注意，你必须先通过 `sendOutputTo` 方法将其输出到一个文件。同时，在邮件发出之前，你需要先设置 Laravel 的 [电子邮件服务](/docs/{{version}}/mail):
+通过 `emailOutputTo` 方法，你可以发送输出到你所指定的电子邮件上。注意，你必须先通过 `sendOutputTo` 方法将其输出到一个文件。同时，在邮件发出之前，你需要先设置 Laravel 的 [电子邮件服务](/docs/{{version}}/mail):
 
     $schedule->command('foo')
              ->daily()
