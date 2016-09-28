@@ -520,3 +520,8 @@ Echo.private('App.User.' + userId)
 ```
 
 在本例中，所有通过 `broadcast` 频道发送到 `App\User` 实例的消息通知都会被该回调接收到。一个针对 `App.User.*` 频道的授权回调函数已经被包含在 Laravel 的 `BroadcastServiceProvider` 中了。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@鱼肚](http://yudu.tech) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/2613_1473692997.jpg?imageView2/1/w/100/h/100"> | 翻译 | PHPer of [微贝](http://www.webei.cn/)
