@@ -147,7 +147,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class ShippingStatusUpdated implements ShouldBroadcast
 {
     //
-}```
+}
+```
 
 `ShouldBroadcast` 接口要求事件实现 `broadcastOn` 方法。该方法负责指定事件被广播到哪些频道。在通过 Artisan 命令生成的事件类中，一个空的 `broadcastOn` 方法已经被预定义好了，所以我们要做的仅仅是指定频道。我们希望只有订单的创建者能够看到状态更新，所以我们要把该事件广播到与这个订单绑定的私有频道上去：
 
