@@ -24,7 +24,7 @@
 - [消息通知](#notifications)
 
 <a name="introduction"></a>
-## 介绍
+## 简介
 
 在现代的 web 应用程序中，WebSockets 被用来实现需要实时、即时更新的接口。当服务器上的数据被更新后，更新信息将通过 WebSocket 连接被发送到客户端等待处理。相比于不停地轮询应用程序，WebSocket 是一种更加可靠和高效的选择。
 
