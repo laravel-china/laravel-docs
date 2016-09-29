@@ -4,7 +4,7 @@
 - [生成迁移](#generating-migrations)
 - [迁移结构](#migration-structure)
 - [运行迁移](#running-migrations)
-    - [还原迁移](#rolling-back-migrations)
+    - [回滚迁移](#rolling-back-migrations)
 - [数据表](#tables)
     - [创建数据表](#creating-tables)
     - [重命名与删除数据表](#renaming-and-dropping-tables)
@@ -45,9 +45,9 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 <a name="migration-structure"></a>
 ## 迁移结构
 
-一个迁移类会包含两个方法：`up` 和 `down`。`up` 方法可为数据库添加新的数据表、字段或索引，而 `down` 方法则是 `up` 方法的逆操作。
+一个迁移类会包含两个方法： `up` 和 `down` 。 `up` 方法可为数据库添加新的数据表、字段或索引，而 `down` 方法则是 `up` 方法的逆操作。
 
-你可以在这两个方法中使用 Laravel 数据库结构构造器来创建以及修改数据表。若要了解`数据库结构`构造器中的所有可用方法，[可查阅它的文档](#creating-tables)。以下的迁移实例会创建一张 `flights` 数据表：
+你可以在这两个方法中使用 Laravel 数据库结构构造器来创建以及修改数据表。若要了解 `数据库结构` 构造器中的所有可用方法，[可查阅它的文档](#creating-tables)。以下的迁移实例会创建一张 `flights` 数据表：
 
     <?php
 
@@ -99,30 +99,30 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
     php artisan migrate --force
 
 <a name="rolling-back-migrations"></a>
-### 还原迁移
+### 回滚迁移
 
-若要还原最后一次迁移，则可以使用 `rollback` 命令。此命令是对上一次执行的「批量」迁移进行还原，其中可能包括多个迁移文件：
+若要回滚最后一次迁移，则可以使用 `rollback` 命令。此命令是对上一次执行的「批量」迁移进行回滚，其中可能包括多个迁移文件：
 
     php artisan migrate:rollback
 
-在 `rollback` 命令后加上 `step` 参数，你可以限制还原迁移的个数。例如，下面的命令将会还原最后的 5 个迁移。
+在 `rollback` 命令后加上 `step` 参数，你可以限制回滚迁移的个数。例如，下面的命令将会回滚最后的 5 个迁移。
 
     php artisan migrate:rollback --step=5
 
-`migrate:reset` 命令可以还原应用程序中的所有迁移：
+`migrate:reset` 命令可以回滚应用程序中的所有迁移：
 
     php artisan migrate:reset
 
-#### 使用单个命令来执行还原或迁移
+#### 使用单个命令来执行回滚和迁移
 
-`migrate:refresh` 命令不仅会还原数据库的所有迁移还会接着运行 `migrate` 命令。所以此命令可以有效的重新创建整个数据库：
+`migrate:refresh` 命令不仅会回滚数据库的所有迁移还会接着运行 `migrate` 命令。所以此命令可以有效的重新创建整个数据库：
 
     php artisan migrate:refresh
 
-    // Refresh the database and run all database seeds...
+    // 刷新数据库结构并执行数据填充
     php artisan migrate:refresh --seed
 
-使用 `refresh` 命令并加上 `step` 参数，你也可以限制执行还原和再迁移的个数。比如，下面的命令会还原并再迁移最后的 5 个迁移：
+使用 `refresh` 命令并加上 `step` 参数，你也可以限制执行回滚和再迁移的个数。比如，下面的命令会回滚并再迁移最后的 5 个迁移：
 
     php artisan migrate:refresh --step=5
 
@@ -191,7 +191,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 <a name="creating-columns"></a>
 ### 创建字段
 
-使用 `Schema` facade 的 `table` 方法可以更新已有的数据表。如同 `create` 方法，`table` 方法会接收两个参数：一个是数据表的名称，另一个则是接收 `Blueprint` 实例的`闭包`。我们可以使用它来为数据表新增字段：
+使用 `Schema` facade 的 `table` 方法可以更新已有的数据表。如同 `create` 方法， `table` 方法会接收两个参数：一个是数据表的名称，另一个则是接收 `Blueprint` 实例的 `闭包` 。我们可以使用它来为数据表新增字段：
 
     Schema::table('users', function ($table) {
         $table->string('email');
@@ -286,7 +286,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} 数据表的 `enum`，`json` 或者 `jsonb`字段暂时不支持修改字段属性。
+> {note} 数据表的 `enum`，`json` 或者 `jsonb` 字段暂时不支持修改字段属性。
 
 <a name="renaming-columns"></a>
 #### 重命名字段
@@ -297,7 +297,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
         $table->renameColumn('from', 'to');
     });
 
-> {note} 数据表的 `enum`，`json` 或者 `jsonb`字段暂时不支持修改字段属性。
+> {note} 数据表的 `enum`，`json` 或者 `jsonb` 字段暂时不支持修改字段属性。
 
 <a name="dropping-columns"></a>
 ### 移除字段
@@ -358,7 +358,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 如果你对 `dropIndex` 传参索引数组，默认的约定是索引名称由数据库表名字和键名拼接而成：
 
     Schema::table('geo', function ($table) {
-        $table->dropIndex(['state']); // Drops index 'geo_state_index'
+        $table->dropIndex(['state']); // 移除索引 'geo_state_index'
     });
 
 <a name="foreign-key-constraints"></a>
@@ -382,7 +382,7 @@ Laravel 也为创建外键约束提供了支持，用于在数据库层中的强
 
     $table->dropForeign('posts_user_id_foreign');
 
-你也通过传递一个自动使用传统约束名称的数组值来移除外键：
+你也可以传递一个包含字段的数组，在移除的时候字段会按照惯例被自动转换为对应的外键名称：
 
     $table->dropForeign(['user_id']);
 
