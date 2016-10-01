@@ -16,7 +16,7 @@
         return empty($name);
     });
 
-如你所见，`Collection` 类支持链式调用，一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
+如上面的代码示例，`Collection` 类支持链式调用，一般来说，每一个 `Collection` 方法会返回一个全新的 `Collection` 实例，你可以放心地进行链接调用。
 
 <a name="creating-collections"></a>
 ### 创建集合
@@ -25,12 +25,12 @@
 
     $collection = collect([1, 2, 3]);
 
-> {tip} 默认 [Eloquent](/docs/{{version}}/eloquent) 模型的集合总是以 `Collection` 实例返回。
+> {tip} 默认 [Eloquent](/docs/{{version}}/eloquent) 模型的查询结果总是以 `Collection` 实例返回。
 
 <a name="available-methods"></a>
 ## 可用的方法
 
-在这份文档剩余的部份，我们将会探讨 `Collection` 类的所有方法。要记得的是，所有方法都支持链式调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
+接下来，我们将会探讨 `Collection` 类的所有方法。要记得的是，所有方法都支持链式调用，几乎所有的方法都会返回新的 `Collection` 实例，让你保留原版的集合以备不时之需。
 
 <style>
     #collection-method-list > p {
@@ -599,7 +599,7 @@
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
-以指定键的值作为集合项目的键：
+以指定键的值作为集合项目的键。如果几个数据项有相同的键，那在新集合中只显示最后一项：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'desk'],
@@ -833,7 +833,7 @@
 <a name="method-prepend"></a>
 #### `prepend()` {#collection-method}
 
-在集合前面增加一项：
+在集合前面增加一项数组的值：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -845,7 +845,7 @@
 
 你可以传递第二个参数来设置新增加项的键：
 
-    $collection = collect(['one' => 1, 'two', => 2]);
+    $collection = collect(['one' => 1, 'two' => 2]);
 
     $collection->prepend(0, 'zero');
 
@@ -975,7 +975,7 @@
 
     // 1
 
-搜索是用「宽松」比对来进行，也就是说如果字符串值是整数那它就跟这个整数是相等的。要使用严格比对的话，就传入 `true` 为该方法的第二个参数：
+搜索是用「宽松」匹配来进行，也就是说如果字符串值是整数那它就跟这个整数是相等的。要使用严格匹配的话，就传入 `true` 为该方法的第二个参数：
 
     $collection->search('4', true);
 
@@ -1361,12 +1361,12 @@
     ]
     */
 
-比较数值的时候用了「宽松」比较方式，查看 [`whereStrict`](#method-wherestrict) method来用严格比较的方式过滤。
+比较数值的时候用了「宽松」匹配方式，查看 [`whereStrict`](#method-wherestrict) method来用严格比较的方式过滤。
 
 <a name="method-wherestrict"></a>
 #### `whereStrict()` {#collection-method}
 
-这个方法与 [`where`](#method-where) 方法有着一样的形式；但是会以「严格」比对来比对数值：
+这个方法与 [`where`](#method-where) 方法有着一样的形式；但是会以「严格」匹配来匹配数值：
 
 <a name="method-wherein"></a>
 #### `whereIn()` {#collection-method}
@@ -1391,7 +1391,7 @@
     ]
     */
 
-此方法是用严格的比较，你可以使用 [`whereInLoose`](#method-whereinloose) 做比较 `宽松` 的比较。
+此方法是用严格的匹配，你可以使用 [`whereInLoose`](#method-whereinloose) 做比较 `宽松` 的匹配。
 
 <a name="method-whereinloose"></a>
 #### `whereInLoose()` {#collection-method}
