@@ -37,7 +37,7 @@
 <a name="introduction"></a>
 ## 简介
 
-除了 [发送邮件](/docs/{{version}}/mail)，Laravel 还支持通过多种渠道发送通知，包括邮件，短信（通过 [Nexmo](https://www.nexmo.com/)），以及 [Slack](https://slack.com)。通知还能存到数据库，这样就能在网页界面上显示了。
+除了 [发送邮件](/docs/{{version}}/mail)，Laravel 还支持通过多种渠道发送通知，包括邮件、短信（通过 [Nexmo](https://www.nexmo.com/)）以及 [Slack](https://slack.com)。通知还能存到数据库，这样就能在网页界面上显示了。
 
 通常情况下，通知应该是简短、有信息量的消息来通知用户你的应用发生了什么。举例来说，如果你在编写一个在线交易应用，你应该会通过邮件和短信渠道来给用户发送一条 “账单已付” 的通知。
 
@@ -48,7 +48,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
     php artisan make:notification InvoicePaid
 
-这个命令会在 `app/Notifications` 目录下生成一个新的通知类。每个通知类包含一个 `via` 方法和好几个构造消息的方法（比如 `toMail` 或 `toDatabase`），这几个构造消息的方法是专门用来针对特定渠道将通知转换成消息的。
+这个命令会在 `app/Notifications` 目录下生成一个新的通知类。每个通知类包含一个 `via` 方法和好几个构造消息的方法（比如 `toMail` 或 `toDatabase`），这几个构造消息的方法是专门针对某个特定渠道的，他们会把通知转换成消息。
 
 <a name="sending-notifications"></a>
 ## 发送通知
@@ -56,7 +56,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="using-the-notifiable-trait"></a>
 ### 使用 Notifiable Trait
 
-通知可以通过两种方法发送： `Notifiable` trait 的 `notify` 方法或 `Notification` [facade](/docs/{{version}}/facades)。首先，我们检查下 `Notifiable` trait 。默认的 `App\User` 模型中使用了这个 trait，它包含着一个可以用来发通知的方法：`notify`。它需要一个通知实例做参数：
+通知可以通过两种方法发送： `Notifiable` trait 的 `notify` 方法或 `Notification` [facade](/docs/{{version}}/facades)。首先，我们看下 `Notifiable` trait 。默认的 `App\User` 模型中使用了这个 trait，它包含着一个可以用来发通知的方法：`notify`。它需要一个通知实例做参数：
 
     use App\Notifications\InvoicePaid;
 
@@ -149,7 +149,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
 > {tip} 注意我们在方法中用了 `$this->invoice->id` ，其实你可以传递应用所需要的任何数据来传递给通知的构造器。
 
-在这个例子中，我们注册了一行文本，引导链接 ，然后又是一行文本。`MailMessage` 提供的这些方法简化了对小的XXX邮件的格式化操作。邮件渠道将会把这些消息组件转换成漂亮的响应式的 HTML 邮件模板并附上文本。下面是个 `mail` 渠道生成的邮件示例：
+在这个例子中，我们注册了一行文本，引导链接 ，然后又是一行文本。`MailMessage` 提供的这些方法简化了对小的事务性的邮件进行格式化操作。邮件渠道将会把这些消息组件转换成漂亮的响应式的 HTML 邮件模板并附上文本。下面是个 `mail` 渠道生成的邮件示例：
 
 <img src="https://laravel.com/assets/img/notification-example.png" width="551" height="596">
 
@@ -264,8 +264,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="accessing-the-notifications"></a>
 ### 访问通知
 
-一旦通知被存到数据库中，你需要一种方便的方式来从通知实体中访问它们。 `Illuminate\Notifications\Notifiable` trait 
-Once notifications are stored in the database, you need a convenient way to access them from your notifiable entities. The `Illuminate\Notifications\Notifiable` trait, which is included on Laravel's default `App\User` model, includes a `notifications` Eloquent relationship that returns the notifications for the entity. To fetch notifications, you may access this method like any other Eloquent relationship. By default, notifications will be sorted by the `created_at` timestamp:
+一旦通知被存到数据库中，你需要一种方便的方式来从通知实体中访问它们。 `Illuminate\Notifications\Notifiable` trait 包含一个可以返回这个实体所有通知的 `notifications` Eloquent 关联。要获取这些通知，你可以像用其他 Eloquent 关联一样来使用这个方法。默认情况下，通知将会以 `created_at` 时间戳来排序：
 
     $user = App\User::find(1);
 
@@ -273,7 +272,7 @@ Once notifications are stored in the database, you need a convenient way to acce
         echo $notification->type;
     }
 
-If you want to retrieve only the "unread" notifications, you may use the `unreadNotifications` relationship. Again, these notifications will be sorted by the `created_at` timestamp:
+如果你只想检索未读通知，你可以使用 `unreadNotifications` 关联。检索出来的通知也是以 `created_at` 时间戳来排序的：
 
     $user = App\User::find(1);
 
@@ -281,12 +280,12 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
         echo $notification->type;
     }
 
-> {tip} To access your notifications from your JavaScript client, you should define a notification controller for your application which returns the notifications for a notifiable entity, such as the current user. You may then make an HTTP request to that controller's URI from your JavaScript client.
+> {tip} 要从 JavaScript 客户端来访问通知的话，你应该定义一个通知控制器来给可通知的实体返回通知，比如给当前用户返回通知。然后你就可以在 JavaScript 客户端来发起对应 URI 的 HTTP 请求了。
 
 <a name="marking-notifications-as-read"></a>
-### Marking Notifications As Read
+### 标为已读
 
-Typically, you will want to mark a notification as "read" when a user views it. The `Illuminate\Notifications\Notifiable` trait provides a `markAsRead` method, which updates the `read_at` column on the notification's database record:
+通常情况下，当用户查看了通知时，你就希望把通知标为已读。`Illuminate\Notifications\Notifiable` trait 提供了一个 `markAsRead` 方法，它能在对应的数据库记录里更新 `read_at` 列：
 
     $user = App\User::find(1);
 
@@ -294,35 +293,35 @@ Typically, you will want to mark a notification as "read" when a user views it. 
         $notification->markAsRead();
     }
 
-However, instead of looping through each notification, you may use the `markAsRead` method directly on a collection of notifications:
+你可以使用 `markAsRead` 方法直接操作一个通知集合，而不是一条条遍历每个通知：
 
     $user->unreadNotifications->markAsRead();
 
-You may also use a mass-update query to mark all of the notifications as read without retrieving them from the database:
+你可以用块更新的方式来把所有通知标为已读，而不用在数据库里检索：
 
     $user = App\User::find(1);
 
     $user->unreadNotifications()->update(['read_at' => Carbon::now()]);
 
-Of course, you may `delete` the notifications to remove them from the table entirely:
+当然，你可以通过 `delete` 通知来把它们从数据库删除：
 
     $user->notifications()->delete();
 
 <a name="broadcast-notifications"></a>
-## Broadcast Notifications
+## 广播通知
 
 <a name="broadcast-prerequisites"></a>
-### Prerequisites
+### 依赖
 
-Before broadcasting notifications, you should configure and be familiar with Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services. Event broadcasting provides a way to react to server-side fired Laravel events from your JavaScript client.
+在广播通知前，你应该配置并熟悉 Laravel [事件广播](/docs/{{version}}/broadcasting) 服务。事件广播提供了一种 JavaScript 客户端响应服务端 Laravel 事件的机制。
 
 <a name="formatting-broadcast-notifications"></a>
-### Formatting Broadcast Notifications
+### 格式化广播通知
 
-The `broadcast` channel broadcasts notifications using Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services, allowing your JavaScript client to catch notifications in realtime. If a notification supports broadcasting, you should define a `toBroadcast` or `toArray` method on the notification class. This method will receive a `$notifiable` entity and should return a plain PHP array. The returned array will be encoded as JSON and broadcast to your JavaScript client. Let's take a look at an example `toArray` method:
+`broadcast` 渠道使用 Laravel  [事件广播](/docs/{{version}}/broadcasting) 服务来广播通知，它使得 JavaScript 客户端可以实时捕捉通知。如果一条通知支持广播，你应该在通知类里定义一个 `toBroadcast` 或 `toArray` 方法。这个方法将收到一个 `$notifiable` 实体并返回一个 PHP 一维数组。返回的数组会被编码成 JSON 格式并广播给你的 JavaScript 客户端。我们来看个 `toArray` 方法的例子：
 
     /**
-     * Get the array representation of the notification.
+     * 获取通知的数组展示方式
      *
      * @param  mixed  $notifiable
      * @return array
@@ -335,16 +334,16 @@ The `broadcast` channel broadcasts notifications using Laravel's [event broadcas
         ];
     }
 
-> {tip} In addition to the data you specify, broadcast notifications will also contain a `type` field containing the class name of the notification.
+> {tip} 除了你指定的数据外，广播通知也包含一个 `type` 字段，这个字段包含了通知类的类名。
 
 #### `toBroadcast` Vs. `toArray`
 
-The `toArray` method is also used by the `database` channel to determine which data to store in your database table. If you would like to have two different array representations for the `database` and `broadcast` channels, you should define a `toBroadcast` method instead of a `toArray` method.
+`toArray` 方法在 `database` 渠道中也用到了，这时它决定了哪些数据会存到你的数据表里。如果你想在 `database` 和 `broadcast` 渠道中采用两种不同的数组展示方式，你应该定义 `toDatabase` 方法而非 `toArray` 方法。
 
 <a name="listening-for-notifications"></a>
-### Listening For Notifications
+### 监听通知
 
-Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to a `App\User` instance with an ID of `1`, the notification will be broadcast on the `App.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting), you may easily listen for notifications on a channel using the `notification` helper method:
+通知将会在一个私有渠道里进行广播，渠道格式为 `{notifiable}.{id}`。所以，如果你给 ID 为 `1` 的 `App\User` 实例发送通知，这个通知就在 `App.User.1` 私有渠道里被发送。当你使用 [Laravel Echo](/docs/{{version}}/broadcasting) 的时候，你可以很简单地使用 `notification` 辅助函数来监听一个渠道的通知：
 
     Echo.private('App.User.' + userId)
         .notification((notification) => {
@@ -463,9 +462,9 @@ Notifications will broadcast on a private channel formatted using a `{notifiable
 
 <img src="https://laravel.com/assets/img/basic-slack-notification.png">
 
-#### Slack 附件
+#### Slack 附加项 (Attachments)
 
-你可以给 Slack 消息添加 "attachments"。XXX（Attachments）提供了比简单文本消息更丰富的格式化选项。在这个例子中，我们将发送一条有关应用中异常的错误通知，它包含了一个可以查看这个异常更多详情的链接：
+你可以给 Slack 消息添加 "附加项"。附加项提供了比简单文本消息更丰富的格式化选项。在这个例子中，我们将发送一条有关应用中异常的错误通知，它里面有个可以查看这个异常更多详情的链接：
 
     /**
      * 获取通知的 Slack 展示方式。
@@ -490,7 +489,7 @@ Notifications will broadcast on a private channel formatted using a `{notifiable
 
 <img src="https://laravel.com/assets/img/basic-slack-attachment.png">
 
-XXX 也允许你指定一个应该被展示给用户的数据的数组。给定的数据将会以表格样式展示出来，这能方便阅读：
+附加项也允许你指定一个应该被展示给用户的数据的数组。给定的数据将会以表格样式展示出来，这能方便阅读：
 
     /**
      * 获取通知的 Slack 展示方式
