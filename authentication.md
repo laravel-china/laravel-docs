@@ -45,7 +45,7 @@ Provider 定义了如何从持久化存储中获取用户信息，Laravel 底层
 <a name="authentication-quickstart"></a>
 ## 认证快速入门
 
-Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`RegisterController` 处理用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理充值密码的 e-mail 链接，`ResetPasswordController` 包含重置密码的逻辑。每个控制器都使用 trait 来包含必要的方法。对于大部分应用，都不必去修改这些控制器。
+Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`RegisterController` 处理用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理重置密码的 e-mail 链接，`ResetPasswordController` 包含重置密码的逻辑。每个控制器都使用 trait 来包含必要的方法。对于大部分应用，都不必去修改这些控制器。
 这些控制器使用了 trait 来包含所需要的方法，对于大多数的应用程序而言，你并不需要修改这些控制器。
 
 <a name="included-routing"></a>
