@@ -5,7 +5,7 @@
 - [发送通知](#sending-notifications)
     - [使用 Notifiable Trait](#using-the-notifiable-trait)
     - [使用 Notification Facade](#using-the-notification-facade)
-    - [指定发送渠道](#specifying-delivery-channels)
+    - [指定发送频道](#specifying-delivery-channels)
     - [队列化通知](#queueing-notifications)
 - [邮件通知](#mail-notifications)
     - [格式化邮件消息](#formatting-mail-messages)
@@ -14,32 +14,32 @@
     - [自定义模板](#customizing-the-templates)
     - [错误消息](#error-messages)
 - [数据库通知](#database-notifications)
-    - [数据库依赖](#database-prerequisites)
+    - [先决条件](#database-prerequisites)
     - [格式化数据库通知](#formatting-database-notifications)
     - [访问通知](#accessing-the-notifications)
     - [标为已读](#marking-notifications-as-read)
 - [广播通知](#broadcast-notifications)
-    - [依赖](#broadcast-prerequisites)
+    - [先决条件](#broadcast-prerequisites)
     - [格式化广播通知](#formatting-broadcast-notifications)
     - [监听通知](#listening-for-notifications)
 - [短信通知](#sms-notifications)
-    - [依赖](#sms-prerequisites)
+    - [先决条件](#sms-prerequisites)
     - [格式化短信通知](#formatting-sms-notifications)
     - [自定义 `From`](#customizing-the-from-number)
     - [路由短信通知](#routing-sms-notifications)
 - [Slack 通知](#slack-notifications)
-    - [依赖](#slack-prerequisites)
+    - [先决条件](#slack-prerequisites)
     - [格式化 Slack 通知](#formatting-slack-notifications)
     - [路由 Slack 通知](#routing-slack-notifications)
 - [通知事件](#notification-events)
-- [自定义发送渠道](#custom-channels)
+- [自定义发送频道](#custom-channels)
 
 <a name="introduction"></a>
 ## 简介
 
-除了 [发送邮件](/docs/{{version}}/mail)，Laravel 还支持通过多种渠道发送通知，包括邮件、短信（通过 [Nexmo](https://www.nexmo.com/)）以及 [Slack](https://slack.com)。通知还能存到数据库，这样就能在网页界面上显示了。
+除了 [发送邮件](/docs/{{version}}/mail)，Laravel 还支持通过多种频道发送通知，包括邮件、短信（通过 [Nexmo](https://www.nexmo.com/)）以及 [Slack](https://slack.com)。通知还能存到数据库，这样就能在网页界面上显示了。
 
-通常情况下，通知应该是简短、有信息量的消息来通知用户你的应用发生了什么。举例来说，如果你在编写一个在线交易应用，你应该会通过邮件和短信渠道来给用户发送一条 “ 账单已付 ” 的通知。
+通常情况下，通知应该是简短、有信息量的消息来通知用户你的应用发生了什么。举例来说，如果你在编写一个在线交易应用，你应该会通过邮件和短信频道来给用户发送一条「账单已付」的通知。
 
 <a name="creating-notifications"></a>
 ## 创建通知
@@ -48,7 +48,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
     php artisan make:notification InvoicePaid
 
-这个命令会在 `app/Notifications` 目录下生成一个新的通知类。每个通知类包含一个 `via` 方法和好几个构造消息的方法（比如 `toMail` 或 `toDatabase`），这几个构造消息的方法是专门针对某个特定渠道的，他们会把通知转换成消息。
+这个命令会在 `app/Notifications` 目录下生成一个新的通知类。via 方法和几个消息构建方法（比如 toMail 或 toDatabase），它们会针对指定的渠道把通知转换过为对应的消息。
 
 <a name="sending-notifications"></a>
 ## 发送通知
@@ -72,16 +72,16 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
     Notification::send($users, new InvoicePaid($invoice));
 
 <a name="specifying-delivery-channels"></a>
-### 指定发送渠道
+### 指定发送频道
 
-每个通知类都有个 `via` 方法，它决定了通知在哪个渠道上发送。开箱即用的通知渠道有 `mail`, `database`, `broadcast`, `nexmo`, 和 `slack`。
+每个通知类都有个 `via` 方法，它决定了通知在哪个频道上发送。开箱即用的通知频道有 `mail`, `database`, `broadcast`, `nexmo`, 和 `slack`。
 
-> {tip} 如果你想用其他的渠道比如电报或者推送服务，可以去看下社区驱动的 [Laravel 通知渠道网站](http://laravel-notification-channels.com)
+> {tip} 如果你想用其他的频道比如 Telegram 或者 Pusher ，可以去看下社区驱动的 [Laravel 通知频道网站](http://laravel-notification-channels.com)
 
-`via` 方法受到一个`$notifiable` 实例，它是接收通知的类实例。你可以用 `$notifiable` 来决定通知用哪个渠道来发送：
+`via` 方法受到一个`$notifiable` 实例，它是接收通知的类实例。你可以用 `$notifiable` 来决定通知用哪个频道来发送：
 
     /**
-     * 获取通知发送渠道
+     * 获取通知发送频道
      *
      * @param  mixed  $notifiable
      * @return array
@@ -94,9 +94,9 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="queueing-notifications"></a>
 ### 队列化通知
 
-> {note} 在队列化通知前你需要配置队列，并 [启动处理器](/docs/{{version}}/queues)。
+> {note} 在队列化通知前你需要配置队列，并 [运行队列处理器](/docs/{{version}}/queues)。
 
-发送通知可能会花很长时间，尤其是发送渠道需要调用外部 API 的时候。要加速应用响应的话，可以通过添加 `ShouldQueue` 接口和 `Queueable` trait 把通知加入队列。它们两个在使用 `make:notification` 命令来生成通知文件的时候就已经被导入了，所以你只需要添加到你的通知类就行了：
+发送通知可能会花很长时间，尤其是发送频道需要调用外部 API 的时候。要加速应用响应的话，可以通过添加 `ShouldQueue` 接口和 `Queueable` trait 把通知加入队列。它们两个在使用 `make:notification` 命令来生成通知文件的时候就已经被导入了，所以你只需要添加到你的通知类就行了：
 
     <?php
 
@@ -149,14 +149,14 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
 > {tip} 注意我们在方法中用了 `$this->invoice->id` ，其实你可以传递应用所需要的任何数据来传递给通知的构造器。
 
-在这个例子中，我们注册了一行文本，引导链接 ，然后又是一行文本。`MailMessage` 提供的这些方法简化了对小的事务性的邮件进行格式化操作。邮件渠道将会把这些消息组件转换成漂亮的响应式的 HTML 邮件模板并附上文本。下面是个 `mail` 渠道生成的邮件示例：
+在这个例子中，我们注册了一行文本，引导链接 ，然后又是一行文本。`MailMessage` 提供的这些方法简化了对小的事务性的邮件进行格式化操作。邮件频道将会把这些消息组件转换成漂亮的响应式的 HTML 邮件模板并附上文本。下面是个 `mail` 频道生成的邮件示例：
 
 <img src="https://laravel.com/assets/img/notification-example.png" width="551" height="596">
 
 <a name="customizing-the-recipient"></a>
 ### 自定义接收者
 
-当通过 `mail` 渠道来发送通知的时候，通知系统将会自动寻找你的 notifiable 实体中的邮件属性。你可以通过在实体中定义 `routeNotificationForMail` 方法来自定义邮件地址。
+当通过 `mail` 频道来发送通知的时候，通知系统将会自动寻找你的 notifiable 实体中的邮件属性。你可以通过在实体中定义 `routeNotificationForMail` 方法来自定义邮件地址。
 
     <?php
 
@@ -170,7 +170,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
         use Notifiable;
 
         /**
-         * 邮件渠道的路由
+         * 邮件频道的路由
          *
          * @return string
          */
@@ -228,9 +228,9 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 ## 数据库通知
 
 <a name="database-prerequisites"></a>
-### 依赖
+### 先决条件
 
-数据库通知渠道在一张数据表里存储通知信息。这张表包含了比如通知类型、JSON 格式数据等描述通知的信息。
+数据库通知频道在一张数据表里存储通知信息。这张表包含了比如通知类型、JSON 格式数据等描述通知的信息。
 
 你可以查询这张表的内容在应用界面上展示通知。但是在这之前，你需要先创建一个数据表来保存通知。你可以用 `notifications:table` 命令来生成迁移表。
 
@@ -241,7 +241,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="formatting-database-notifications"></a>
 ### 格式化数据库通知
 
-如果通知支持被存储到数据表中，你应该在通知类中定义一个 `toDatabase` 或 `toArray` 方法。这个方法接收 `$notifiable` 实体参数并返回一个 PHP 一维数组。这个返回的数组将被转成 JSON 格式并存储到通知数据表的 `data` 列。我们来看一个 `toArray` 的例子：
+如果通知支持被存储到数据表中，你应该在通知类中定义一个 `toDatabase` 或 `toArray` 方法。这个方法接收 `$notifiable` 实体参数并返回一个普通的 PHP 数组。这个返回的数组将被转成 JSON 格式并存储到通知数据表的 `data` 列。我们来看一个 `toArray` 的例子：
 
     /**
      * 获取通知的数组展示方式
@@ -259,7 +259,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
 #### `toDatabase` Vs. `toArray`
 
-`toArray` 方法在 `broadcast` 渠道也用到了，它用来决定广播给 JavaScript 客户端的数据。如果你想在 `database` 和 `broadcast` 渠道中采用两种不同的数组展示方式，你应该定义 `toDatabase` 方法而非 `toArray` 方法。
+`toArray` 方法在 `broadcast` 频道也用到了，它用来决定广播给 JavaScript 客户端的数据。如果你想在 `database` 和 `broadcast` 频道中采用两种不同的数组展示方式，你应该定义 `toDatabase` 方法而非 `toArray` 方法。
 
 <a name="accessing-the-notifications"></a>
 ### 访问通知
@@ -297,7 +297,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
     $user->unreadNotifications->markAsRead();
 
-你可以用块更新的方式来把所有通知标为已读，而不用在数据库里检索：
+你可以用批量更新的方式来把所有通知标为已读，而不用在数据库里检索：
 
     $user = App\User::find(1);
 
@@ -311,14 +311,14 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 ## 广播通知
 
 <a name="broadcast-prerequisites"></a>
-### 依赖
+### 先决条件
 
 在广播通知前，你应该配置并熟悉 Laravel [事件广播](/docs/{{version}}/broadcasting) 服务。事件广播提供了一种 JavaScript 客户端响应服务端 Laravel 事件的机制。
 
 <a name="formatting-broadcast-notifications"></a>
 ### 格式化广播通知
 
-`broadcast` 渠道使用 Laravel  [事件广播](/docs/{{version}}/broadcasting) 服务来广播通知，它使得 JavaScript 客户端可以实时捕捉通知。如果一条通知支持广播，你应该在通知类里定义一个 `toBroadcast` 或 `toArray` 方法。这个方法将收到一个 `$notifiable` 实体并返回一个 PHP 一维数组。返回的数组会被编码成 JSON 格式并广播给你的 JavaScript 客户端。我们来看个 `toArray` 方法的例子：
+`broadcast` 频道使用 Laravel  [事件广播](/docs/{{version}}/broadcasting) 服务来广播通知，它使得 JavaScript 客户端可以实时捕捉通知。如果一条通知支持广播，你应该在通知类里定义一个 `toBroadcast` 或 `toArray` 方法。这个方法将收到一个 `$notifiable` 实体并返回一个普通的 PHP 数组。返回的数组会被编码成 JSON 格式并广播给你的 JavaScript 客户端。我们来看个 `toArray` 方法的例子：
 
     /**
      * 获取通知的数组展示方式
@@ -338,12 +338,12 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
 #### `toBroadcast` Vs. `toArray`
 
-`toArray` 方法在 `database` 渠道中也用到了，这时它决定了哪些数据会存到你的数据表里。如果你想在 `database` 和 `broadcast` 渠道中采用两种不同的数组展示方式，你应该定义 `toDatabase` 方法而非 `toArray` 方法。
+`toArray` 方法在 `database` 频道中也用到了，这时它决定了哪些数据会存到你的数据表里。如果你想在 `database` 和 `broadcast` 频道中采用两种不同的数组展示方式，你应该定义 `toBroadcast` 方法而非 `toArray` 方法。
 
 <a name="listening-for-notifications"></a>
 ### 监听通知
 
-通知将会在一个私有渠道里进行广播，渠道格式为 `{notifiable}.{id}`。所以，如果你给 ID 为 `1` 的 `App\User` 实例发送通知，这个通知就在 `App.User.1` 私有渠道里被发送。当你使用 [Laravel Echo](/docs/{{version}}/broadcasting) 的时候，你可以很简单地使用 `notification` 辅助函数来监听一个渠道的通知：
+通知将会在一个私有频道里进行广播，频道格式为 `{notifiable}.{id}`。所以，如果你给 ID 为 `1` 的 `App\User` 实例发送通知，这个通知就在 `App.User.1` 私有频道里被发送。当你使用 [Laravel Echo](/docs/{{version}}/broadcasting) 的时候，你可以很简单地使用 `notification` 辅助函数来监听一个频道的通知：
 
     Echo.private('App.User.' + userId)
         .notification((notification) => {
@@ -354,7 +354,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 ## 短信通知
 
 <a name="sms-prerequisites"></a>
-### 依赖
+### 先决条件
 
 在 Laravel 中发送短信通知是基于 [Nexmo](https://www.nexmo.com/)服务的。在通过 Nexmo 发送短信通知前，你需要安装 `nexmo/client` Composer 包并在 `config/services.php` 配置文件中添加几个配置选项。你可以复制下面的配置示例来开始使用：
 
@@ -384,7 +384,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
     }
 
 <a name="customizing-the-from-number"></a>
-### 自定义 “From” 数字
+### 自定义 “From” 号码
 
 如果你想通过一个手机号来发送某些通知，而这个手机号不同于配置文件中指定的话，你可以在 `NexmoMessage` 实例中使用 `from`：
 
@@ -404,7 +404,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="routing-sms-notifications"></a>
 ### 路由短信通知
 
-当通过 `nexmo` 渠道来发送通知的时候，通知系统会自动寻找通知实体的 `phone_number` 属性。如果你想自定义通知被发送的手机号码，你要在通知实体里定义一个 `routeNotificationForNexmo`
+当通过 `nexmo` 频道来发送通知的时候，通知系统会自动寻找通知实体的 `phone_number` 属性。如果你想自定义通知被发送的手机号码，你要在通知实体里定义一个 `routeNotificationForNexmo`
 方法。
 
     <?php
@@ -419,7 +419,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
         use Notifiable;
 
         /**
-         * Nexmo 渠道的路由通知
+         * Nexmo 频道的路由通知
          *
          * @return string
          */
@@ -433,7 +433,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 ## Slack 通知
 
 <a name="slack-prerequisites"></a>
-### 依赖
+### 先决条件
 
 通过 Slack 发送通知前，你必须通过 Composer 安装 Guzzle HTTP 库：
 
@@ -536,7 +536,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
         use Notifiable;
 
         /**
-         * Slack 渠道的通知路由
+         * Slack 频道的通知路由
          *
          * @return string
          */
@@ -580,9 +580,9 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
     }
 
 <a name="custom-channels"></a>
-## 自定义渠道
+## 自定义频道
 
-Laravel 提供了开箱即用的通知渠道，但是你可能会想编写自己的驱动来通过其他渠道发送通知。Laravel 很容易实现。首先，定义一个包含 `send` 方法的类。这个方法应该收到两个参数：`$notifiable` 和 `$notification`:
+Laravel 提供了开箱即用的通知频道，但是你可能会想编写自己的驱动来通过其他频道发送通知。Laravel 很容易实现。首先，定义一个包含 `send` 方法的类。这个方法应该收到两个参数：`$notifiable` 和 `$notification`:
 
     <?php
 
@@ -607,7 +607,7 @@ Laravel 提供了开箱即用的通知渠道，但是你可能会想编写自己
         }
     }
 
-一旦定义了通知渠道类，你应该在所有通知里通过 `via` 方法来简单地返回这个渠道的类名。
+一旦定义了通知频道类，你应该在所有通知里通过 `via` 方法来简单地返回这个频道的类名。
 
     <?php
 
@@ -624,7 +624,7 @@ Laravel 提供了开箱即用的通知渠道，但是你可能会想编写自己
         use Queueable;
 
         /**
-         * 获取通知渠道
+         * 获取通知频道
          *
          * @param  mixed  $notifiable
          * @return array|string
