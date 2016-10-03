@@ -30,7 +30,7 @@
 - Argument 参数
 - Assets 资源文件
 - Authorization 用户授权
-- Adapter 接口
+- Adapter 适配器
 
 ### B
 
