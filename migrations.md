@@ -334,6 +334,10 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 
     $table->index(['account_id', 'created_at']);
 
+Laravel 会自动生成一个索引名称，但你也可以使用第二个参数来自定义索引名称。
+
+    $table->index('email', 'my_index_name');
+
 #### 可用的索引类型
 
 命令  | 描述
