@@ -124,7 +124,7 @@ In this example, if the `required` rule on the `title` attribute fails, the `uni
 
 #### 嵌套属性的注解
 
-如果你的HTTP请求包含一个 「嵌套的」 参数，你可以在验证规则中通过 「点」 语法来指定这些参数。
+如果你的 HTTP 请求包含一个 「嵌套的」 参数，你可以在验证规则中通过 「点」 语法来指定这些参数。
 
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
@@ -137,9 +137,9 @@ In this example, if the `required` rule on the `title` attribute fails, the `uni
 
 如果本次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动 [闪存至 session](/docs/{{version}}/session#flash-data)。
 
-再者，请注意在 `GET` 路由中，我们无需显式的将错误信息和视图绑定起来。这是因为Lavarel会检查在 session 数据中的错误信息，然后如果对应的视图存在的话，自动将它们绑定起来。变量 `$errors` 会成为 `Illuminate\Support\MessageBag` 的一个实例对象。要获取关于这个对象的更多信息， [请查阅这个文档](#working-with-error-messages) 。
+再者，请注意在 `GET` 路由中，我们无需显式的将错误信息和视图绑定起来。这是因为 Lavarel 会检查在 session 数据中的错误信息，然后如果对应的视图存在的话，自动将它们绑定起来。变量 `$errors` 会成为 `Illuminate\Support\MessageBag` 的一个实例对象。要获取关于这个对象的更多信息， [请查阅这个文档](#working-with-error-messages) 。
 
-> **提示**  `$error` 变量被 `Illuminate\View\Middleware\ShareErrorsFromSession` 中间件绑定到视图，该中间件由 `web` 中间件组提供。**当这个中间件被应用后，在你的视图中就可以获取到 `$error` 变量**，使得你方便的假设 `$error` 变量总是已经被定义好并且可以安全的使用。
+> {tip} `$errors` 变量被 `Illuminate\View\Middleware\ShareErrorsFromSession` 中间件绑定到视图，该中间件由 `web` 中间件组提供。**当这个中间件被应用后，在你的视图中就可以获取到 `$error` 变量**，使得你方便的假设 `$errors` 变量总是已经被定义好并且可以安全的使用。
 
 所以，在我们的例子中，当验证失败的时候，用户将会被重定向到 `create` 方法，让我们在视图中显示错误信息：
 
@@ -201,7 +201,7 @@ In this example, if the `required` rule on the `title` attribute fails, the `uni
 
     php artisan make:request StoreBlogPost
 
-新生成的类保存在 `app/Http/Requests` 目录下。如果这个目录不存在，那么将会在你运行 `make:request` 命令时创建出来。让我们添加一些验证规则到 `rule` 方法中：
+新生成的类保存在 `app/Http/Requests` 目录下。如果这个目录不存在，那么将会在你运行 `make:request` 命令时创建出来。让我们添加一些验证规则到 `rules` 方法中：
 
     /**
      *  获取适用于请求的验证规则。
@@ -945,7 +945,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * 启动所有应用程序服务。
+         * 启动任意应用程序服务。
          *
          * @return void
          */
@@ -986,7 +986,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
 当你在创建自定义验证规则时，你可能需要定义占位符来取代错误消息。你可以像上面所描述的那样通过 `Validator` facade 来使用 `replacer` 方法创建一个自定义验证器。通过 [服务提供者](/docs/{{version}}/providers) 中的 `boot` 方法可以实现：
 
     /**
-     * 启动所有应用程序服务。
+     * 启动任意应用程序服务。
      *
      * @return void
      */
@@ -1015,4 +1015,4 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         return $value == 'foo';
     });
 
->  **注意：**一个「隐式」扩展功能只会 _暗示_ 该属性为必填。它的实际属性是否为无效属性或空属性主要取决于你。
+> {note} 一个「隐式」扩展功能只会 _暗示_ 该属性为必填。它的实际属性是否为无效属性或空属性主要取决于你。
