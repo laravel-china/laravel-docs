@@ -59,7 +59,7 @@
     - [快速入门](/docs/{{version}}/eloquent)
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
-    - [Getter/Setter](/docs/{{version}}/eloquent-mutators)
+    - [修改器](/docs/{{version}}/eloquent-mutators)
     - [序列化](/docs/{{version}}/eloquent-serialization)
 - Artisan 控制台
     - [Artisan 命令行](/docs/{{version}}/artisan)
@@ -68,7 +68,7 @@
     - [快速入门](/docs/{{version}}/testing)
     - [应用程序测试](/docs/{{version}}/application-testing)
     - [数据库](/docs/{{version}}/database-testing)
-    - [Mocking 取模](/docs/{{version}}/mocking)
+    - [模拟器](/docs/{{version}}/mocking)
 - 官方扩展包
     - [Cashier 交易工具包](/docs/{{version}}/billing)
     - [Envoy 部署工具](/docs/{{version}}/envoy)

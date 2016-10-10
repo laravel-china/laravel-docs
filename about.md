@@ -2,11 +2,15 @@
 
 ## 说明
 
-此文档主要由 [PHPHub](https://phphub.org)  维护。
+此文档由 [Laravel China](https://laravel-china.org) 组织翻译和维护。
 
 为了方便新手学习，在每篇文档的最底部增加导读内容区块。
 
-更多讨论，请前往这个帖子：[Laravel 中文文档导读](https://phphub.org/topics/2095)。
+更多讨论，请前往这个帖子：[Laravel China 文档导读](https://laravel-china.org/topics/2095)。
+
+## 译者
+
+。。。 等待补充
 
 ## 排版规范
 
@@ -76,6 +80,8 @@
 - Extension 扩展
 - Eloquent (不翻)
 - Exception 异常
+- Echo (不翻)
+- Elixir (不翻)
 
 ### F
 
@@ -143,6 +149,7 @@
 - Presenter (不翻)
 - Pipeline 管道
 - Policies 策略
+- Passport（不翻）
 
 ### Q
 
@@ -197,5 +204,6 @@
 - Workbench (开源项目名称，不翻)
 - Webhooks (不翻)
 - Word Factor 加密系数
+- Webpack (不翻)
 
 
