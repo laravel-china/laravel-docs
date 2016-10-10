@@ -58,7 +58,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 
 #### 安装 Homestead Vagrant box
 
-当 VirtualBox / VMware 以及 Vagrant 安装完成后，你使用以下命令将 'laravel/homestead' 这个 box 安装进你的 Vagrant 程序中。box 的下载会花费你一点时间，具体的下载时长由网络速度决定：
+当 VirtualBox / VMware 以及 Vagrant 安装完成后，你使用以下命令将 `laravel/homestead` 这个 box 安装进你的 Vagrant 程序中。box 的下载会花费你一点时间，具体的下载时长由网络速度决定：
 
     vagrant box add laravel/homestead
 

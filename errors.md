@@ -39,7 +39,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 
 #### 日志保存天数限制
 
-当使用「日志模式」时，默认情况下会保存 5 天的日志，你可通过 `app.php` 配置文件里的配置项 `log_max_files` 来定制日志保存天数：
+当使用 `daily` 日志模式时，默认情况下会保存 5 天的日志，你可通过 `app.php` 配置文件里的配置项 `log_max_files` 来定制日志保存天数：
 
     'log_max_files' => 30
 
@@ -78,7 +78,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
     /**
      * 报告或记录异常。
      *
-     * 这是一个很棒的异常发送到 Sentry ，Bugsnag ，etc 。
+     * 这是一个很棒的位置将异常发送到 Sentry ，Bugsnag ，etc 。
      *
      * @param  \Exception  $exception
      * @return void
@@ -97,7 +97,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
  `$dontReport` 属性包含一个不会被记录的异常类型数组。例如，404 异常以及其他几个类型异常不会被写到你的日志文件中，如果需要你可以添加其他异常类型这个数组：
 
     /**
-     * A list of the exception types that should not be reported.
+     * 不需要报告的异常类型列表。
      *
      * @var array
      */
@@ -115,7 +115,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 `render` 方法负责将异常转换成 HTTP 响应发送给浏览器。默认，异常传递给生成响应的基类，然而你也可以自由的想检查异常类型或返回自定义响应：
 
     /**
-     * Render an exception into an HTTP response.
+     * 渲染异常并添加到响应中。
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
@@ -149,7 +149,7 @@ Laravel 制作自定义的 HTTP 错误显示页面很简单。例如，如果你
 <a name="logging"></a>
 ## 日志
 
-Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提供一个简单日志抽象层。默认，Laravel 被配置为每天为应用在 `storage/logs` 目录下创建一个日志文件。你可以使用 `Log` [facade](/docs/{{version}}/facades) 写入信息：
+Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提供一个简单日志抽象层。默认，Laravel 会在 `storage/logs` 目录下创建一个日志文件。你可以使用 `Log` [facade](/docs/{{version}}/facades) 写入信息：
 
     <?php
 
@@ -162,7 +162,7 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
     class UserController extends Controller
     {
         /**
-         * Show the profile for the given user.
+         * 显示指定用户的详情。
          *
          * @param  int  $id
          * @return Response
@@ -186,9 +186,9 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
     Log::info($message);
     Log::debug($message);
 
-#### 上下午信息
+#### 上下文信息
 
-一个数组上下午信息数据也会传递给日志方法，上下文信息数据也会被格式化记录在日志信息中：
+一个数组上下文信息数据也会传递给日志方法，上下文信息数据也会被格式化记录在日志信息中：
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
