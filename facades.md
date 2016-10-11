@@ -2,8 +2,8 @@
 
 - [简介](#introduction)
 - [何时使用 Facades](#when-to-use-facades)
-    - [Facades 对比依赖注入](#facades-vs-dependency-injection)
-    - [Facades 对比辅助函数](#facades-vs-helper-functions)
+    - [Facades Vs. 依赖注入](#facades-vs-dependency-injection)
+    - [Facades Vs. 辅助函数](#facades-vs-helper-functions)
 - [Facades 工作原理](#how-facades-work)
 - [Facade 类参考](#facade-class-reference)
 
@@ -28,10 +28,10 @@ Facades 有很多的好处，它们提供了简单易记的语法让你使用 La
 
 但是，在使用 facades 时，有些地方还是需要特别注意。使用 facades 最主要的风险就是会引起类的体积的膨胀。由于 facades 使用起来非常简单而且不需要注入，我们会不经意间在单个类中大量使用。不像是使用依赖注入，用得越多，构造方法会越长，在视觉上就会引起注意，提醒你这个类有点太庞大了。所以，在使用 facades 时，要特别注意把类的体积控制在一个合理的范围。
 
-> {提示} 在开发需要和 Laravel 交互的扩展包时，最好是注入 [Laravel contracts](/docs/{{version}}/contracts) 而不是使用 facades，因为扩展包不是在 Laravel 内部编译的，无法使用 Laravel 的 facades 的测试辅助函数。
+> {tip} 在开发第三方扩展包时，如果需要使用和 Laravel 交互的扩展包，最好是注入 [Laravel contracts](/docs/{{version}}/contracts) 而不是使用 facades，因为扩展包不是在 Laravel 内部使用的，无法使用 Laravel 的 facades 的测试辅助函数。
 
 <a name="facades-vs-dependency-injection"></a>
-### Facades 对比依赖注入
+### Facades Vs. 依赖注入
 
 依赖注入一个主要的好处就是可以切换注入的类的具体实现。这在测试时很有用，因为你可以注入一个 mock 或者 stub 方法并且断言一些方法在 stub 中被调用。
 
@@ -63,7 +63,7 @@ Facades 有很多的好处，它们提供了简单易记的语法让你使用 La
     }
 
 <a name="facades-vs-helper-functions"></a>
-### Facades 对比辅助函数
+### Facades Vs. 辅助函数
 
 除了 facades，Laravel 还引入了一些「辅助函数」来实现一些常用的功能，比如生成视图，触发事件，调度任务或者发送 HTTP 响应。许多辅助函数的功能其实和对应的 facades 一样。举例来说，这个 facede 和辅助函数是一样的：
 

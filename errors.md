@@ -52,7 +52,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 
     'log_level' => env('APP_LOG_LEVEL', 'error'),
 
-> {tips} Monolog 辨识以下严重级别 - 最低到高为： `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency` 。
+> {tip} Monolog 辨识以下严重级别 - 最低到高为： `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency` 。
 
 <a name="custom-monolog-configuration"></a>
 ### 自定义 Monolog 设置
