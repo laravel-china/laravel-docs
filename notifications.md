@@ -25,7 +25,7 @@
 - [短信通知](#sms-notifications)
     - [先决条件](#sms-prerequisites)
     - [格式化短信通知](#formatting-sms-notifications)
-    - [自定义 `From`](#customizing-the-from-number)
+    - [自定义 `From` 号码](#customizing-the-from-number)
     - [路由短信通知](#routing-sms-notifications)
 - [Slack 通知](#slack-notifications)
     - [先决条件](#slack-prerequisites)
@@ -48,7 +48,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
     php artisan make:notification InvoicePaid
 
-这个命令会在 `app/Notifications` 目录下生成一个新的通知类。via 方法和几个消息构建方法（比如 toMail 或 toDatabase），它们会针对指定的渠道把通知转换过为对应的消息。
+这个命令会在 `app/Notifications` 目录下生成一个新的通知类。这个类包含 `via` 方法和几个消息构建方法（比如 `toMail` 或 `toDatabase`），它们会针对指定的渠道把通知转换过为对应的消息。
 
 <a name="sending-notifications"></a>
 ## 发送通知
@@ -156,7 +156,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="customizing-the-recipient"></a>
 ### 自定义接收者
 
-当通过 `mail` 频道来发送通知的时候，通知系统将会自动寻找你的 notifiable 实体中的邮件属性。你可以通过在实体中定义 `routeNotificationForMail` 方法来自定义邮件地址。
+当通过 `mail` 频道来发送通知的时候，通知系统将会自动寻找你的 notifiable 实体中的 `email` 属性。你可以通过在实体中定义 `routeNotificationForMail` 方法来自定义邮件地址。
 
     <?php
 
