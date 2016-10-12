@@ -21,6 +21,7 @@ Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel
 - PDO PHP Extension
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
+- XML PHP Extension
 </div>
 
 > 译者注：强烈推荐使用 Homestead 作为开发环境，尤其是新手，可以避免很多不必要的麻烦。线上环境可以参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 进行部署。
@@ -50,15 +51,24 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer create-project --prefer-dist laravel/laravel blog
 
+#### 本地开发服务器
+
+如果你在本地安装了 PHP，你可能希望像运行 PHP 内置的开发服务器一样来访问自己的应用程序，你可以使用 `serve` Artisan 命令来启动一个本地开发服务器，这样你就可以在 `http://localhost:8000` 来访问它。
+
+
+	php artisan serve
+
+不过有更健壮的本地开发选项可用，比如 [Homestead](/doc/{{version}}/homestead) 和 [Valet](/doc/{{version}}/valet)。
+
 
 <a name="configuration"></a>
-### Configuration
+### 配置信息
 
 #### Public 目录
 
 安装完成后，你应该指定 Web 服务器的网站根目录到 `public` 文件夹上。`index.php` 文件是 Laravel 的主要入口文件。
 
-#### Configuration Files
+#### 配置文件
 
 所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，请仔细阅读这些说明，并熟悉这些选项配置。
 

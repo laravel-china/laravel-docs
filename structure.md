@@ -1,4 +1,4 @@
-# Directory Structure
+# 应用程序目录结构
 
 - [简介](#introduction)
 - [根目录](#the-root-directory)
