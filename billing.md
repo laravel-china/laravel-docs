@@ -32,7 +32,7 @@
 
 Laravel Cashier 提供了直观、流畅的接口来接入 [Stripe's](https://stripe.com) 和 [Braintree's](https://braintreepayments.com) 订阅付费服务。它可以处理几乎所有你写起来非常头疼付费订阅代码。除了提供基本的订阅管理之外，Cashier 还可以帮你处理优惠券，更改订阅计划, 按量计费订阅, 已取消订阅宽限期管理, 甚至生成发票的 PDF 文件。
 
-> {note} 如果你只是需要提供一次性的收费服务，直接使用 Stripe 和 Braintree 的 SDK，而不是 Cashier 是更好的方案。
+> {note} 如果你只是需要提供一次性的收费服务，建议直接使用 Stripe 和 Braintree 的 SDK，而无需使用 Cashier。
 
 <a name="configuration"></a>
 ## 配置
@@ -338,7 +338,7 @@ If you would like to swap plans and cancel any trial period the user is currentl
 
     $user->subscription('main')->cancel();
 
-当订阅呗取消之后，Cashier 自动会填充数据库中的 `ends_at` 列。这列用来指定 `subscribed` 方法什么时候应该返回 `false`。比如，如果一个客户在 3 月 1 号取消了订阅，但是订阅并不会结束直到 3 月 5 号才到期，所以 `subscribed` 方法会继续返回 `true` 直到 3 月 5 号。
+当订阅被取消之后，Cashier 自动会填充数据库中的 `ends_at` 列。这列用来指定 `subscribed` 方法什么时候应该返回 `false`。比如，如果一个客户在 3 月 1 号取消了订阅，但是订阅并不会结束直到 3 月 5 号才到期，所以 `subscribed` 方法会继续返回 `true` 直到 3 月 5 号。
 
 你也可以使用 `onGracePeriod` 方法来判断用户是否已经取消了订阅，但是还在一个「宽限期」：
 
