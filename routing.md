@@ -201,7 +201,7 @@ Laravel 会自动解析定义在路由或控制器动作（变量名匹配路由
 
 #### 自定义键名
 
-如果你想要隐式模型绑定除 `id` 以为的数据库字段，你可以重写 Eloquent 模型类的 `getRouteKeyName` 方法：
+如果你想要隐式模型绑定除 `id` 以外的数据库字段，你可以重写 Eloquent 模型类的 `getRouteKeyName` 方法：
 
     /**
      * Get the route key for the model.
