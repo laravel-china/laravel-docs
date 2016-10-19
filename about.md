@@ -10,7 +10,7 @@
 
 ## 译者
 
-。。。 等待补充
+> [Laravel 5.3 译者](https://laravel-china.org/roles/7)
 
 ## 排版规范
 
