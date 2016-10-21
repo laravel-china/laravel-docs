@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 对主流数据库系统连接和查询都提供了很好的支持，尤其是：流畅的 [查询语句构造器](/docs/{{version}}/queries) ， Laravel 支持四种类型的数据库。
+Laravel 对主流数据库系统连接和查询都提供了很好的支持，尤其是流畅的 [查询语句构造器](/docs/{{version}}/queries) ， Laravel 支持四种类型的数据库：
 
 - MySQL
 - Postgres

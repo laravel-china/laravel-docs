@@ -57,7 +57,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
     class CreateFlightsTable extends Migration
     {
         /**
-         * Run the migrations.
+         * 运行数据库迁移。
          *
          * @return void
          */
@@ -72,7 +72,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
         }
 
         /**
-         * Reverse the migrations.
+         * 回滚数据库迁移。
          *
          * @return void
          */
@@ -152,7 +152,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
         //
     }
 
-####数据库连接与存储引擎
+#### 数据库连接与存储引擎
 
 如果你想要在一个非默认的数据库连接中进行数据库结构操作，则可以使用 `connection` 方法：
 
@@ -395,6 +395,7 @@ Laravel 也为创建外键约束提供了支持，用于在数据库层中的强
     Schema::enableForeignKeyConstraints();
 
     Schema::disableForeignKeyConstraints();
+    
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
