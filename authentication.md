@@ -1,6 +1,6 @@
 # 用户认证
 
-- [介绍](#introduction)
+- [简介](#introduction)
     - [数据库注意事项](#introduction-database-considerations)
 - [认证快速入门](#authentication-quickstart)
     - [路由](#included-routing)
@@ -21,13 +21,13 @@
 - [事件](#events)
 
 <a name="introduction"></a>
-## 介绍
+## 简介
 
 > {tip} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 命令，然后用可以浏览器访问 `http://your-app.dev/register` 或者其他你在程序中定义的 url。这个简单的命令就可以搭建好整个认证系统的脚手架。
 
 Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已经为你配置好了。配置文件位于 `config/auth.php`，其中包含了用于调整认证服务行为的、标注好注释的选项配置。
 
-在其核心代码中，Laravel 的认证组件由 `guards` 和 `providers` 组成，Guard 定义了用户在每个请求中如何实现认证，例如，Laravel 通过 `session` guard 来维护 Session 存储的状态和Cookie。
+在其核心代码中，Laravel 的认证组件由 `guards` 和 `providers` 组成，Guard 定义了用户在每个请求中如何实现认证，例如，Laravel 通过 `session` guard 来维护 Session 存储的状态和 Cookie。
 
 Provider 定义了如何从持久化存储中获取用户信息，Laravel 底层支持通过 Eloquent 和数据库查询构建器两种方式来获取用户，如果需要的话，你还可以定义额外的 Provider。
 
