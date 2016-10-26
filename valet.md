@@ -184,7 +184,7 @@ Valet 还提供一个命令将本地站点分享给其他人，这不需要任�
         return false;
     }
 
-> {注意} `isStaticFile` 方法只有在 `serves` 方法返回 `true` 并且请求 URI 不是 `/` 才会被调用。
+> {note} `isStaticFile` 方法只有在 `serves` 方法返回 `true` 并且请求 URI 不是 `/` 才会被调用。
 
 ####  `frontControllerPath` 方法
 
