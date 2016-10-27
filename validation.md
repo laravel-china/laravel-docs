@@ -120,8 +120,6 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 
 在这个例子中，如果 `title` 属性中的 `required` 规则没有得到满足，那么将不会再去检查   `unique` 规则。规则的检验顺序根据规则的添加顺序执行。
 
-In this example, if the `required` rule on the `title` attribute fails, the `unique` rule will not be checked. Rules will be validated in the order they are assigned.
-
 #### 嵌套属性的注解
 
 如果你的 HTTP 请求包含一个 「嵌套的」 参数，你可以在验证规则中通过 「点」 语法来指定这些参数。
