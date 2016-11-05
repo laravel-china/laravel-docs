@@ -99,7 +99,7 @@ Valet 将会在每次系统启动时自动启动，而不需要你每次运行 `
 <a name="the-link-command"></a>
 **`link` 命令**
 
- `link` 命令可以可以用于你的本地 Laravel 站点。这个命令在你想要在目录中提供单个站点是很有用。
+ `link` 命令~可以~可以用于你的本地 Laravel 站点。这个命令在你想要在目录中提供单个站点是很有用。
 
 <div class="content-list" markdown="1">
 - 要使用这个命令，在你的终端中切换到你的某个项目并运行 `valet link app-name`。 Valet 将会在  `~/.valet/Sites` 中创建一个符号链接并指向当前工作目录。
