@@ -15,7 +15,7 @@ Laravel 的 Contracts 是一组定义了框架核心服务的接口。例如，`
 
 框架对于每个 contract 都有提供对应的实现，例如，Laravel 提供各种驱动程序的队列实现，以及由 [SwiftMailer](http://swiftmailer.org/) 提供的 mailer 实现。
 
-Laravel 所有的 contracts 都放在各自的 [GitHub 代码库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
+Laravel 所有的 contracts 放在一个单独的 [GitHub 代码库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
 
 <a name="contracts-vs-facades"></a>
 ### Contracts Vs. Facades
