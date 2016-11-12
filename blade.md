@@ -56,7 +56,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 <a name="extending-a-layout"></a>
 ### 继承页面布局
 
-当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所 「继承」 的页面布局。 当视图 `@section` Blade 的布局之后，即可使用 `@section` 命令将内容注入于布局的区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
+当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所 「继承」 的页面布局。 当子页面继承布局之后，即可使用 `@section` 命令将内容注入于布局的 `@section` 区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
 
     <!-- Stored in resources/views/child.blade.php -->
 
