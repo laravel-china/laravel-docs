@@ -74,7 +74,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
         <p>This is my body content.</p>
     @endsection
 
-在上面的例子里，`sidebar` 区块利用了 `@parent` 命令追加布局中的 sidebar 区块中的内容，如果不使用则会覆盖掉布局中的这部分内容。 `@parent` 命令会在视图被渲染时替换为布局中的内容。
+在上面的例子里，`sidebar` 区块利用了 `@@parent` 命令追加布局中的 sidebar 区块中的内容，如果不使用则会覆盖掉布局中的这部分内容。 `@@parent` 命令会在视图被渲染时替换为布局中的内容。
 
 当然，可以通过在路由中使用全局辅助函数 `view` 来返回 Blade 视图：
 
