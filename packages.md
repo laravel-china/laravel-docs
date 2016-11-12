@@ -26,7 +26,7 @@
 
 服务提供者继承了 `Illuminate\Support\ServiceProvider` 类并包含了两个方法：`register` 及 `boot`。基底的 `ServiceProvider` 类被放置在 Composer 的 `illuminate/support` 扩展包，你必须将它加入至你自己的扩展包依赖中。
 
-若要了解更多关于服务提供者的结构与用途，请查阅 [它的文档](/docs/{{version}}/provider)。
+若要了解更多关于服务提供者的结构与用途，请查阅 [它的文档](/docs/{{version}}/providers)。
 
 <a name="routing"></a>
 ## 路由
