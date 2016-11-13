@@ -112,8 +112,12 @@ public function username()
 
     use Illuminate\Support\Facades\Auth;
 
+    // 获取当前已通过认证的用户...
     $user = Auth::user();
 
+    // 获取当前已通过认证的用户id...
+    $id = Auth::id();
+    
 也有另外一种方法可以访问认证过的用户，就是通过 `Illuminate\Http\Request` 实例，请注意类型提示的类会被自动注入：
 
     <?php
@@ -130,7 +134,7 @@ public function username()
          * @param  Request  $request
          * @return Response
          */
-        public function updateProfile(Request $request)
+        public function update(Request $request)
         {
             if ($request->user()) {
                 // $request->user() 返回认证过的用户的实例...
