@@ -23,7 +23,7 @@
 <a name="introduction"></a>
 ## 简介
 
-> {tip} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 命令，然后用可以浏览器访问 `http://your-app.dev/register` 或者其他你在程序中定义的 url。这个简单的命令就可以搭建好整个认证系统的脚手架。
+> {tip} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 命令，然后可以用浏览器访问 `http://your-app.dev/register` 或者你在程序中定义的其他 url。这个简单的命令就可以搭建好整个认证系统的脚手架。
 
 Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已经为你配置好了。配置文件位于 `config/auth.php`，其中包含了用于调整认证服务行为的、标注好注释的选项配置。
 
@@ -55,7 +55,7 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
 
     php artisan make:auth
 
-运行该命令会生成注册和登录视图，以及所有的认证路由，同时生成 `HomeController` ，因为登录成功后会跳转到该控制器下的动作。
+该命令应该在新安装的应用下使用，它会生成 layout 布局视图，注册和登录视图，以及所有的认证路由，同时生成 `HomeController` ，用来处理登录成功后会跳转到该控制器下的请求。
 
 <a name="included-views"></a>
 ### 视图
@@ -76,6 +76,15 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
     protected $redirectTo = '/';
 
 当一个用户登录认证失败后，默认将会自动跳转回登录表单对应的页面。
+
+#### 自定义用户名
+
+Laravel默认使用 `email` 字段来认证。如果你想用其他字段认证，可以在 `LoginController` 里面定义一个 `username` 方法
+
+public function username()
+{
+    return 'username';
+}
 
 #### 自定义 Guard
 
