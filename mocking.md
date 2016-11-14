@@ -7,6 +7,8 @@
 - [任务](#mocking-jobs)
     - [使用Mocks](#using-job-mocks)
     - [使用Fakes](#using-job-fakes)
+- [邮件Fakes](#mail-fakes)
+- [通知Fakes](#notification-fakes)
 - [Facades](#mocking-facades)
 
 <a name="introduction"></a>
