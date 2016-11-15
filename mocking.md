@@ -22,7 +22,7 @@ Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助
 ## 事件
 
 <a name="using-event-mocks"></a>
-### 使用Mocks
+### 使用 Mocks
 
 如果在你的项目中大量使用了 Laravel 的事件系统，那你可能经常会希望在测试过程中禁用特定的事件。比如，测试用户注册时并不想触发 `UserRegistered` 事件，此类事件的常见行为包括发送「欢迎」邮件等。
 
@@ -58,7 +58,7 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
          * 测试订单发货
          */
         public function testOrderShipping()
-        {
+         {
             $this->expectsEvents(OrderShipped::class);
             $this->doesntExpectEvents(OrderFailedToShip::class);
 
@@ -81,7 +81,7 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
     }
 
 <a name="using-event-fakes"></a>
-### 使用Fakes
+### 使用 Fakes
 
 另外一个模拟的方式是使用 `Event` facade 的 `fake` 方法，测试的时候不会触发事件监听器运行。然后你就可以断言事件运行了，甚至可以检查它们收到的数据。使用fakes的时候，断言一般出现在测试代码的后面。
 
@@ -115,7 +115,7 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
 ## 任务
 
 <a name="using-job-mocks"></a>
-### 使用Mocks
+### 使用 Mocks
 
 有些时候，在测试应用程序的一些请求时，可能会希望测试指定任务是否已经发送。上述做法可以对你的控制器进行隔离测试，无需在意任务处理器的逻辑。当然，你可以在单独的测试中测试这个任务处理器。
 
@@ -176,9 +176,9 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     }
     
 <a name="using-job-fakes"></a>
-### 使用Fakes
+### 使用 Fakes
 
-另外一种模拟的方法是使用 `Queue` facade 的 `fake` 方法，测试的时候并不会任务放入队列。你可以断言任务被放进了队列，甚至可以检查它们收到的数据。使用fakes的时候，断言一般出现在测试代码的后面。
+另外一种模拟的方法是使用 `Queue` facade 的 `fake` 方法，测试的时候并不会任务放入队列。你可以断言任务被放进了队列，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面。
 
     <?php
 
@@ -206,9 +206,9 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     }
 
 <a name="mail-fakes"></a>
-## 邮件Fakes
+## 邮件 Fakes
 
-可以使用 `Mail` facade 的 `fake` 方法，测试时不会真的发送邮件。然后你可以断言 `mailables` 发送给了用户, 甚至可以检查他们收到的数据. 使用fakes时, 断言一般在测试代码的后面.
+可以使用 `Mail` facade 的 `fake` 方法，测试时不会真的发送邮件。然后你可以断言 `mailables` 发送给了用户, 甚至可以检查他们收到的数据. 使用 fakes 时, 断言一般在测试代码的后面.
 
     <?php
 
@@ -236,9 +236,9 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
     }
 
 <a name="notification-fakes"></a>
-## 通知Fakes
+## 通知 Fakes
 
-可以使用 `Notification` facade 的 `fake` 方法, 测试的时候并不会真的发送通知. 然后可以断言通知发送给你用户, 甚至可以检查他们收到的数据. 使用fakes时, 断言一般出现在测试代码的后面.
+可以使用 `Notification` facade 的 `fake` 方法, 测试的时候并不会真的发送通知. 然后可以断言通知发送给你用户, 甚至可以检查他们收到的数据. 使用 fakes 时, 断言一般出现在测试代码的后面.
 
     <?php
 
