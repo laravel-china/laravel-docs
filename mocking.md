@@ -2,13 +2,13 @@
 
 - [介绍](#introduction)
 - [事件](#mocking-events)
-    - [使用Mocks](#using-event-mocks)
-    - [使用Fakes](#using-event-fakes)
+    - [使用 Mocks](#using-event-mocks)
+    - [使用 Fakes](#using-event-fakes)
 - [任务](#mocking-jobs)
-    - [使用Mocks](#using-job-mocks)
-    - [使用Fakes](#using-job-fakes)
-- [邮件Fakes](#mail-fakes)
-- [通知Fakes](#notification-fakes)
+    - [使用 Mocks](#using-job-mocks)
+    - [使用 Fakes](#using-job-fakes)
+- [邮件 Fakes](#mail-fakes)
+- [通知 Fakes](#notification-fakes)
 - [Facades](#mocking-facades)
 
 <a name="introduction"></a>
@@ -58,7 +58,7 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
          * 测试订单发货
          */
         public function testOrderShipping()
-         {
+        {
             $this->expectsEvents(OrderShipped::class);
             $this->doesntExpectEvents(OrderFailedToShip::class);
 
