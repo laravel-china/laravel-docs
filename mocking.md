@@ -2,7 +2,13 @@
 
 - [介绍](#introduction)
 - [事件](#mocking-events)
+    - [使用 Mocks](#using-event-mocks)
+    - [使用 Fakes](#using-event-fakes)
 - [任务](#mocking-jobs)
+    - [使用 Mocks](#using-job-mocks)
+    - [使用 Fakes](#using-job-fakes)
+- [邮件 Fakes](#mail-fakes)
+- [通知 Fakes](#notification-fakes)
 - [Facades](#mocking-facades)
 
 <a name="introduction"></a>
@@ -14,6 +20,9 @@ Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助
 
 <a name="mocking-events"></a>
 ## 事件
+
+<a name="using-event-mocks"></a>
+### 使用 Mocks
 
 如果在你的项目中大量使用了 Laravel 的事件系统，那你可能经常会希望在测试过程中禁用特定的事件。比如，测试用户注册时并不想触发 `UserRegistered` 事件，此类事件的常见行为包括发送「欢迎」邮件等。
 
@@ -71,8 +80,42 @@ Laravel 提供了一个非常方便的方法 `expectsEvents` ，可以用来阻�
         }
     }
 
+<a name="using-event-fakes"></a>
+### 使用 Fakes
+
+另外一个模拟的方式是使用 `Event` facade 的 `fake` 方法，测试的时候不会触发事件监听器运行。然后你就可以断言事件运行了，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面。
+
+    <?php
+
+    use App\Events\OrderShipped;
+    use App\Events\OrderFailedToShip;
+    use Illuminate\Support\Facades\Event;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * Test order shipping.
+         */
+        public function testOrderShipping()
+        {
+            Event::fake();
+
+            // 处理订单的运送。。。
+
+            Event::assertFired(OrderShipped::class, function ($e) use ($order) {
+                return $e->order->id === $order->id;
+            });
+
+            Event::assertNotFired(OrderFailedToShip::class);
+        }
+    }
+    
+    
 <a name="mocking-jobs"></a>
 ## 任务
+
+<a name="using-job-mocks"></a>
+### 使用 Mocks
 
 有些时候，在测试应用程序的一些请求时，可能会希望测试指定任务是否已经发送。上述做法可以对你的控制器进行隔离测试，无需在意任务处理器的逻辑。当然，你可以在单独的测试中测试这个任务处理器。
 
@@ -131,6 +174,106 @@ Laravel 提供了一个非常方便的方法 `expectsJobs` ，可以用来验证
             // 测试订单取消操作...
         }
     }
+    
+<a name="using-job-fakes"></a>
+### 使用 Fakes
+
+另外一种模拟的方法是使用 `Queue` facade 的 `fake` 方法，测试的时候并不会任务放入队列。你可以断言任务被放进了队列，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面。
+
+    <?php
+
+    use App\Jobs\ShipOrder;
+    use Illuminate\Support\Facades\Queue;
+
+    class ExampleTest extends TestCase
+    {
+        public function testOrderShipping()
+        {
+            Queue::fake();
+
+            // 处理订单的运送。。。
+
+            Queue::assertPushed(ShipOrder::class, function ($job) use ($order) {
+                return $job->order->id === $order->id;
+            });
+
+            // 断言任务进入的队列
+            Queue::assertPushedOn('queue-name', ShipOrder::class);
+
+            // 断言任务没有进入队列
+            Queue::assertNotPushed(AnotherJob::class);
+        }
+    }
+
+<a name="mail-fakes"></a>
+## 邮件 Fakes
+
+可以使用 `Mail` facade 的 `fake` 方法，测试时不会真的发送邮件。然后你可以断言 `mailables` 发送给了用户, 甚至可以检查他们收到的数据. 使用 fakes 时, 断言一般在测试代码的后面.
+
+    <?php
+
+    use App\Mail\OrderShipped;
+    use Illuminate\Support\Facades\Mail;
+
+    class ExampleTest extends TestCase
+    {
+        public function testOrderShipping()
+        {
+            Mail::fake();
+
+            // 处理订单的运送
+
+            Mail::assertSent(OrderShipped::class, function ($mail) use ($order) {
+                return $mail->order->id === $order->id;
+            });
+
+            // 断言邮件发送给了指定用户
+            Mail::assertSentTo([$user], OrderShipped::class);
+
+            // 断言mailable没有发送
+            Mail::assertNotSent(AnotherMailable::class);
+        }
+    }
+
+<a name="notification-fakes"></a>
+## 通知 Fakes
+
+可以使用 `Notification` facade 的 `fake` 方法, 测试的时候并不会真的发送通知. 然后可以断言通知发送给你用户, 甚至可以检查他们收到的数据. 使用 fakes 时, 断言一般出现在测试代码的后面.
+
+    <?php
+
+    use App\Notifications\OrderShipped;
+    use Illuminate\Support\Facades\Notification;
+
+    class ExampleTest extends TestCase
+    {
+        public function testOrderShipping()
+        {
+            Notification::fake();
+
+            // 处理订单运送
+
+            Notification::assertSentTo(
+                $user,
+                OrderShipped::class,
+                function ($notification, $channels) use ($order) {
+                    return $notification->order->id === $order->id;
+                }
+            );
+
+            // 断言通知发送给了用户
+            Notification::assertSentTo(
+                [$user], OrderShipped::class
+            );
+
+            // 断言通知没有发送
+            Notification::assertNotSentTo(
+                [$user], AnotherNotification::class
+            );
+        }
+    }
+
+
 
 <a name="mocking-facades"></a>
 ## Facades
