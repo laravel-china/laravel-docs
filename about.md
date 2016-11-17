@@ -12,6 +12,11 @@
 
 > [Laravel 5.3 译者](https://laravel-china.org/roles/7)
 
+## 相关讨论
+
+* [Laravel 5.3 文档翻译召集](https://laravel-china.org/topics/2752)
+* [Laravel 5.3 中文文档翻译完成](https://laravel-china.org/topics/3084)
+
 ## 排版规范
 
 此文档遵循 [中文排版指南](https://github.com/sparanoid/chinese-copywriting-guidelines) 规范，并在此之上遵守以下约定：
