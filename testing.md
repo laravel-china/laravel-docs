@@ -526,7 +526,7 @@ Laravel 也提供了多种有用的工具来让你更容易的测试使用数据
 
 #### 保存工厂模型
 
-你不仅可使用 `create` 方法来创建模型实例，而且也可以使用 Eloquent 的 `save` 方法来将它们保存至数据库：
+`create` 方法不仅会创建模型实例, 同时也会将模型实例(通过调用 Eloquent 的 `save` 方法)保存至数据库. 
 
     public function testDatabase()
     {
