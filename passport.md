@@ -156,7 +156,9 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 ### 令牌的有效期
 
 默认情况下，Passport 发放的访问令牌是永久有效的，不需要刷新。但是如果你想给访问令牌配置一个短一些的有效期，那你就需要用到 `tokensExpireIn` 和 `refreshTokensExpireIn` 方法了，上述两个方法同样需要在 `AuthServiceProvider` 的 `boot` 方法中调用：
-
+    
+    use Carbon\Carbon;
+    
     /**
      * Register any authentication / authorization services.
      *
