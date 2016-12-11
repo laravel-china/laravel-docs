@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-访问器和修改器可以让你修改 Eloquent 模型中的属性或者设置它们的值，例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption)) 来加密一个被保存在数据库中的值，当你从 Eloquent 模型访问该属性时该值将被自动解密。
+访问器和修改器可以让你修改 Eloquent 模型中的属性或者设置它们的值，例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption) 来加密一个被保存在数据库中的值，当你从 Eloquent 模型访问该属性时该值将被自动解密。
 
 除了自定义访问器和修改器之外，Eloquent 也会自动将日期字段类型转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例或将 [文本字段类型转换成 JSON](#attribute-casting)。
 
