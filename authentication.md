@@ -81,10 +81,10 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
 
 Laravel默认使用 `email` 字段来认证。如果你想用其他字段认证，可以在 `LoginController` 里面定义一个 `username` 方法
 
-public function username()
-{
-    return 'username';
-}
+    public function username()
+    {
+        return 'username';
+    }
 
 #### 自定义 Guard
 
