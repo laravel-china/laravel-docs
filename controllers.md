@@ -114,13 +114,13 @@
 
 资源控制器让你可以轻松地创建与资源相关的 RESTful 控制器。例如，你可能想要创建一个用来处理应用程序保存「相片」时发送 HTTP 请求的控制器。使用 `make:controller` Artisan 命令，我们可以快速地创建一个像这样的控制器：
 
-    php artisan make:controller PhotosController
+    php artisan make:controller PhotoController --resource
 
-此 Artisan 命令会生成 `app/Http/Controllers/PhotosController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
+此 Artisan 命令会生成 `app/Http/Controllers/PhotoController.php` 控制器文件。此控制器会包含用来操作可获取到的各种资源的方法。
 
 接下来，你可以在控制器中注册资源化路由：
 
-    Route::resource('photos', 'PhotosController');
+    Route::resource('photo', 'PhotoController');
 
 这一条路由声明会创建多个路由，用来处理各式各样和相片资源相关的的 RESTful 行为。同样地，生成的控制器有着各种和这些行为绑定的方法，包含要处理的 URI 及方法对应的注释。
 
@@ -128,13 +128,13 @@
 
 | 动词       | 路径                   | 行为（方法）   | 路由名称       |
 |:----------|:----------------------|:-------------|:--------------|
-| GET       | `/photos`              | index        | photos.index   |
-| GET       | `/photos/create`       | create       | photos.create  |
-| POST      | `/photos`              | store        | photos.store   |
-| GET       | `/photos/{photo}`         | show         | photos.show    |
-| GET       | `/photos/{photo}/edit`    | edit         | photos.edit    |
-| PUT/PATCH | `/photos/{photo}`         | update       | photos.update  |
-| DELETE    | `/photos/{photo}`         | destroy      | photos.destroy |
+| GET       | `/photo`              | index        | photo.index   |
+| GET       | `/photo/create`       | create       | photo.create  |
+| POST      | `/photo`              | store        | photo.store   |
+| GET       | `/photo/{photo}`         | show         | photo.show    |
+| GET       | `/photo/{photo}/edit`    | edit         | photo.edit    |
+| PUT/PATCH | `/photo/{photo}`         | update       | photo.update  |
+| DELETE    | `/photo/{photo}`         | destroy      | photo.destroy |
 
 <a name="restful-partial-resource-routes"></a>
 #### 部分资源路由
