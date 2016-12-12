@@ -518,3 +518,4 @@ Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)�
             'App\Listeners\LogLockout',
         ],
     ];
+    
