@@ -132,7 +132,7 @@ Laravel 资源路由只需一行代码就可以将典型的 "CRUD" 路由指定�
 
     php artisan make:controller PhotoController --resource
 
-此命令会生成 `app/Http/Controllers/PhotosController.php` 控制器文件。该控制器会包含各种资源操作的方法。
+此命令会生成 `app/Http/Controllers/PhotoController.php` 控制器文件。该控制器会包含各种资源操作的方法。
 
 接下来，你可以在控制器中注册资源化路由：
 
