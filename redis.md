@@ -37,10 +37,19 @@ composer require predis/predis
 
 `cluster` 选项会让 Laravel 的 Redis 客户端在所有 Redis 节点间运行客户端分片（client-side sharding）来创建节点池，并因此拥有大量的可用内存。但是请注意，客户端分片的节点不能运行容错转移。因此，此选项主要适用于可从另一台主要数据存储库获取到的缓存数据。
 
-此外，你可以在你的 Redis 连接中定义一个 options 数组值，让你指定一套 Predis [客户端选项](https://github.com/nrk/predis/wiki/Client-Options)。
-
 如果你的 Redis 服务器需要认证，你可以在 Redis 服务器的设置数组里加入 `password` 设置作为提供的密码。
 
+##Predis
+除了默认的`Host`,`port`,`database`,和`password`服务配置之外，Predis还可以为每个redis定义其他的[连接参数](https://github.com/nrk/predis/wiki/Connection-Parameters)。要使用这些额外的配置选项，只需将它们添加到您的`config/database.php`配置文件的Redis配置项中即可：
+```php
+'default' => [
+    'host' => env('REDIS_HOST', 'localhost'),
+    'password' => env('REDIS_PASSWORD', null),
+    'port' => env('REDIS_PORT', 6379),
+    'database' => 0,
+    'read_write_timeout' => 60,
+],
+```
 > **注意**：如果你是通过 PECL 安装 Redis PHP 扩展，则需要重命名 `config/app.php` 文件里的 Redis 别名。
 
 
