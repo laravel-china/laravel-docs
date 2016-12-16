@@ -56,7 +56,7 @@ Artisan 命令行接口可以很容易地通过 `make:provider` 命令生成新�
         }
     }
 
-此服务提供者只定义了一个 `register` 方法，并在服务容器中使用此方法定义了一份 `Riak\Contracts\Connection` 的实现。若你不了解服务容器是如何运作的，可查阅[其文档](/docs/{{version}}/container)。
+此服务提供者只定义了一个 `register` 方法，并在服务容器中使用此方法定义了一份 `Riak\Connection` 的实现。若你不了解服务容器是如何运作的，可查阅[其文档](/docs/{{version}}/container)。
 
 <a name="the-boot-method"></a>
 ### 启动方法
