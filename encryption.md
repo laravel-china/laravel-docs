@@ -7,7 +7,7 @@
 <a name="introduction"></a>
 ## 介绍
 
-Laravel 是利用 OpenSSL 去提供 ES-256 和 AES-128 的加密。你完全可以使用 Laravel 自带的加密机制，而不用再另外去创建加密算法。Laravel 所有加密之后的结果都会使用消息认证码 (MAC) 去签署，所以一旦被加密就无法再改变。
+Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。你完全可以使用 Laravel 自带的加密机制，而不用再另外去创建加密算法。Laravel 所有加密之后的结果都会使用消息认证码 (MAC) 去签署，所以一旦被加密就无法再改变。
 
 <a name="configuration"></a>
 ## 设置
