@@ -250,11 +250,11 @@ Laravel 内置的 `AuthController` 类提供 `Illuminate\Foundation\Auth\Throttl
 
 > **注意：** 在这些例子中，`email` 不是一个一定要有的选项，它仅仅是被用来当作例子，你可以用任何字段，如「手机号码」，只要它在数据库的意义等同于「用户名」。
 
-#### Accessing Specific Guard Instances
+#### 访问指定 Guard 实例
 
-You may specify which guard instance you would like to utilize using the `guard` method on the `Auth` facade. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.
+可以通过 `Auth` facade 的 `guard` 方法来指定使用特定的 guard 实例。这样可以在管理应用不同部分的用户认证时使用完全不同的认证模型或者用户表。
 
-The guard name passed to the `guard` method should correspond to one of the guards configured in your `auth.php` configuration file:
+传递给 `guard` 方法 guard 名称必须是 `auth.php` 配置文件中 guards 的值之一：
 
     if (Auth::guard('admin')->attempt($credentials)) {
         //
