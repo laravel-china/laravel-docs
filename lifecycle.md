@@ -51,6 +51,7 @@ HTTP 核心的 `handle` 方法的语法相当简单： 获取一个 `Request` �
 
 默认情况下， `AppServiceProvider` 几乎是空的。 这个提供者是添加你自己的启动和服务容器绑定的好地方。 当然，对于大型应用，你可能希望创建多个服务提供者, 每个都有更精细的启动类型。
 
- | 用户名 | 头像 | 职能 | 签名 |
-  |---|---|---|---|
-  | [@aiddroid](https://weibo.com/aiddroid)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/3241146?v=3&s=100">  |  翻译  | 专注 WEB 开发 [博客](https://aiddroid.com)  |
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@aiddroid](https://weibo.com/aiddroid) | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/3241146?v=3&s=100">  |  翻译  | 专注 WEB 开发 [博客](https://aiddroid.com) |
