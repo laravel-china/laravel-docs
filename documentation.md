@@ -60,6 +60,6 @@
 - Eloquent ORM
     - [入门](/docs/{{version}}/eloquent)
     - [模型关联](/docs/{{version}}/eloquent-relationships)
-    - [Elequent 集合](/docs/{{version}}/eloquent-collections)
+    - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
     - [修改器](/docs/{{version}}/eloquent-mutators)
     - [序列化](/docs/{{version}}/eloquent-serialization)
