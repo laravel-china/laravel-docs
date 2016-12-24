@@ -124,7 +124,7 @@
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你可以轻松的在数据库获取及保存数据。一般情况下，每个 Eloqunet 模型会直接对应一张数据表。
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloquent 通过明确的定义「模型」，让你可以轻松的在数据库获取及保存数据。一般情况下，每个 Eloquent 模型会直接对应一张数据表。
 
 #### `User` 模型
 
