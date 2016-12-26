@@ -158,7 +158,7 @@ Laravel 强大的文件系统能很好的支持 Rackspace，不过 Rackspace 的
 
 #### 自动流
 
-如果您想Laravel自动管理指定文件流传输到您想要的存储位置，你可以使用 `putFile` 或 `putFileAs` 方法。这个方法可以接受一个 `Illuminate\ HTTP \ File` 或 `Illuminate\ HTTP \ UploadedFile` 实例，并自动将文件传输到你想要的位置：
+如果您想 Laravel 自动管理指定文件流传输到您想要的存储位置，你可以使用 `putFile` 或 `putFileAs` 方法。这个方法可以接受一个 `Illuminate\HTTP\File` 或 `Illuminate\HTTP\UploadedFile` 实例，并自动将文件传输到你想要的位置：
 
     use Illuminate\Http\File;
 
