@@ -23,9 +23,9 @@ Laravel 框架已经内置了一些中间件，包括维护、身份验证、CSR
 
 要创建一个新的中间件，则可以使用 `make:middleware` 这个 Artisan 命令：
 
-    php artisan make:middleware OldMiddleware
+    php artisan make:middleware AgeMiddleware
 
-此命令将会在 `app/Http/Middleware` 目录内设定一个名称为 `OldMiddleware` 的类。在这个中间件内我们只允许请求的年龄 `age` 变量大于 200 时才能访问路由，否则，我们会将用户重定向到首页「home」这个 URI 上。
+此命令将会在 `app/Http/Middleware` 目录内设定一个名称为 `AgeMiddleware` 的类。在这个中间件内我们只允许请求的年龄 `age` 变量大于 200 时才能访问路由，否则，我们会将用户重定向到首页「home」这个 URI 上。
 
     <?php
 
