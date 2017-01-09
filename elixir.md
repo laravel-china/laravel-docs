@@ -226,7 +226,7 @@ elixir(function(mix) {
 ```javascript
 elixir(function(mix) {
     mix.webpack(
-        './resources/assets/js/app.js',
+        './app/assets/js/app.js',
         './public/dist'
     );
 });
