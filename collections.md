@@ -937,7 +937,7 @@
 <a name="method-reject"></a>
 #### `reject()` {#collection-method}
 
-`reject` 方法以指定的回调函数筛选集合。该回调函数应该对希望从最终集合移除掉的项目返回 `true`：
+`reject` 方法以指定的回调函数筛选集合。会移除掉那些通过判断测试（即结果返回 `true`）的项目：
 
     $collection = collect([1, 2, 3, 4]);
 
