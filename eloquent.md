@@ -407,14 +407,11 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
 #### 通过查询来删除模型
 
-当然，你也可以在一组模型上运行删除查询。在这个例子中，我们将会删除所有被标示为不活跃的航班：
-
-    $deletedRows = App\Flight::where('active', 0)->delete();
-
-In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not fire any model events for the models that are deleted:
 当然，你也可以运行在一组模型删除查询。在这个例子中，我们会删除被标记为不活跃的所有航班。 像批量更新那样，批量删除不会删除的任何被删除的模型的事件：
 
     $deletedRows = App\Flight::where('active', 0)->delete();
+
+>{note} 当使用 Eloquent 批量删除语句时，`deleting` 和 `deleted` 模型事件不会在被删除模型实例上触发。因为删除语句执行时，不会检索回模型实例。
 
 <a name="soft-deleting"></a>
 ### 软删除
