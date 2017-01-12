@@ -156,13 +156,13 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 
 如果你想要在一个非默认的数据库连接中进行数据库结构操作，则可以使用 `connection` 方法：
 
-    Schema::connection('foo')->create('users', function ($table) {
+    Schema::connection('foo')->create('users', function (Blueprint $table) {
         $table->increments('id');
     });
 
 你可以在数据库结构构造器上设置 `engine` 属性来设置数据表的存储引擎：
 
-    Schema::create('users', function ($table) {
+    Schema::create('users', function (Blueprint $table) {
         $table->engine = 'InnoDB';
 
         $table->increments('id');
