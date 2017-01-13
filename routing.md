@@ -139,7 +139,7 @@
 要给路由组中给所有定义的路由分配中间件，可以在路由组中使用 `middleware` 键，中间件将会依照列表内指定的顺序运行：
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/', function ()    {
+        Route::get('/', function () {
             // Uses Auth Middleware
         });
 
