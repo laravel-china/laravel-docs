@@ -1,4 +1,4 @@
-# 本土化
+# 本地化
 
 - [简介](#introduction)
 - [提取语句](#retrieving-language-lines)
