@@ -35,7 +35,7 @@
 <a name="configuration"></a>
 ### 配置
 
-所有关于事件广播的配置都被保存在 `config/broadcasting.php` 文件中。Larevel 自带了几个广播驱动器：[Pusher](https://pusher.com)， [Redis](/docs/{{version}}/redis)， 和一个用于本地开发与调试的 `log` 驱动器。另外，还有一个 `null` 驱动器可以让你完全关闭广播功能。每一个驱动的示例配置都可以在 `config/broadcasting.php` 文件中被找到。
+所有关于事件广播的配置都被保存在 `config/broadcasting.php` 文件中。Laravel 自带了几个广播驱动器：[Pusher](https://pusher.com)， [Redis](/docs/{{version}}/redis)， 和一个用于本地开发与调试的 `log` 驱动器。另外，还有一个 `null` 驱动器可以让你完全关闭广播功能。每一个驱动的示例配置都可以在 `config/broadcasting.php` 文件中被找到。
 
 #### 广播服务提供者
 
