@@ -71,7 +71,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 <a name="report-method"></a>
 ### Report 方法
 
-所有异常处理都由 `App\Exceptions\Handler` 类进行。这个类包含两个方法：`report` 和 `render`。 我们将研究这些方法的细节。`report` 方法方法用于记录异常或将异常寄给外部服务如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。默认， `report` 方法简单地通过传递异常到基类进行处理，然而，你可以自由选择任何方式进行处理。
+所有异常处理都由 `App\Exceptions\Handler` 类进行。这个类包含两个方法：`report` 和 `render`。 我们将研究这些方法的细节。`report` 方法用于记录异常或将异常寄给外部服务如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。默认， `report` 方法简单地通过传递异常到基类进行处理，然而，你可以自由选择任何方式进行处理。
 
 例如，如果你需要将不同的异常类型报告给不同的方法，你可以使用 PHP `instanceof` 比较操作符：
 
