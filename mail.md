@@ -1,4 +1,4 @@
-# Mail
+# 邮件
 
 - [简介](#introduction)
     - [驱动前提](#driver-prerequisites)
