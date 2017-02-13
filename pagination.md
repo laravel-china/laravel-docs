@@ -180,3 +180,8 @@ Laravel 分页器结果类实现了 `Illuminate\Contracts\Support\Jsonable` 接�
 - `$results->previousPageUrl()`
 - `$results->total() (当使用 simplePagination 时无效)`
 - `$results->url($page)`
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@cjjian](https://laravel-china.org/users/3848)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3848_1477641871.png?imageView2/1/w/100/h/100">  |  翻译  | Nothing is impossible. [@Jiajian Chan](https://github.com/jcc/) at Github  |
