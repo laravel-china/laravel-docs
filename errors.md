@@ -1,84 +1,84 @@
-# 错误与日志
+# Errors & Logging
 
-- [简介](#introduction)
-- [设置](#configuration)
-    - [错误细节](#error-detail)
-    - [日志储存](#log-storage)
-    - [日志严重级别](#log-severity-levels)
-    - [自定义 Monolog 配置](#custom-monolog-configuration)
-- [异常处理](#the-exception-handler)
-    - [Report 方法](#report-method)
-    - [render 方法](#render-method)
-- [HTTP 异常](#http-exceptions)
-    - [自定义 HTTP 错误页面](#custom-http-error-pages)
-- [日志](#logging)
+- [Introduction](#introduction)
+- [Configuration](#configuration)
+    - [Error Detail](#error-detail)
+    - [Log Storage](#log-storage)
+    - [Log Severity Levels](#log-severity-levels)
+    - [Custom Monolog Configuration](#custom-monolog-configuration)
+- [The Exception Handler](#the-exception-handler)
+    - [Report Method](#report-method)
+    - [Render Method](#render-method)
+- [HTTP Exceptions](#http-exceptions)
+    - [Custom HTTP Error Pages](#custom-http-error-pages)
+- [Logging](#logging)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-当你创建一个新的 Laravel 项目时，Laravel 已经将错误和异常处理帮你配置好了。 `App\Exceptions\Handler` 类会将触发异常记入日志并返回给用户。本文会深入的对这个类进行探讨。
+When you start a new Laravel project, error and exception handling is already configured for you. The `App\Exceptions\Handler` class is where all exceptions triggered by your application are logged and then rendered back to the user. We'll dive deeper into this class throughout this documentation.
 
-日志记录，Laravel 利用 [Monolog](https://github.com/Seldaek/monolog) 函数库提供多样而强大的日志处理。 Laravel 配置了几个处理程序给你，允许你选择单个日志文件或多个来系统记录错误信息。
+For logging, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel configures several of these handlers for you, allowing you to choose between a single log file, rotating log files, or writing error information to the system log.
 
 <a name="configuration"></a>
-## 设置
+## Configuration
 
 <a name="error-detail"></a>
-#### 错误细节
+### Error Detail
 
-你的应用程序通过 `config/app.php` 配置文件中的 `debug` 设置选项来控制浏览器对错误的细节显示。默认情况下，此设置选项是参照于保存在 `.env` 文件的 `APP_DEBUG` 环境变量。
+The `debug` option in your `config/app.php` configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the `APP_DEBUG` environment variable, which is stored in your `.env` file.
 
-在开发的时候，你应该将 `APP_DEBUG` 环境变量设置为 `true`。在你的上线环境中，这个值应该永远为 `false`。 如果在生产环境中将这个值设置为 `true`，你将冒风险将一些敏感配置信息暴露个最终用户。
+For local development, you should set the `APP_DEBUG` environment variable to `true`. In your production environment, this value should always be `false`. If the value is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.
 
 <a name="log-storage"></a>
-### 日志存储
+### Log Storage
 
-Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` 日志模式。例如，如果你想要每天保存一个日志文件，而不是单个文件，则可以在 `config/app.php` 配置文件内设置 `log` 变量：
+Out of the box, Laravel supports writing log information to `single` files, `daily` files, the `syslog`, and the `errorlog`. To configure which storage mechanism Laravel uses, you should modify the `log` option in your `config/app.php` configuration file. For example, if you wish to use daily log files instead of a single file, you should set the `log` value in your `app` configuration file to `daily`:
 
     'log' => 'daily'
 
-#### 日志保存天数限制
+#### Maximum Daily Log Files
 
-当使用 `daily` 日志模式时，默认情况下会保存 5 天的日志，你可通过 `app.php` 配置文件里的配置项 `log_max_files` 来定制日志保存天数：
+When using the `daily` log mode, Laravel will only retain five days of log files by default. If you want to adjust the number of retained files, you may add a `log_max_files` configuration value to your `app` configuration file:
 
     'log_max_files' => 30
 
 <a name="log-severity-levels"></a>
-### 日志记录级别
+### Log Severity Levels
 
-使用 Monolog 时, log 信息可以有不同的严重级别。默认，Laravel 将所有级别日志写到 storage ，然而在你的生产环境中，你可能希望配置一个最小严重级别，那么你应该添加 `log_level` 选项到你的 `app.php` 配置文件。
+When using Monolog, log messages may have different levels of severity. By default, Laravel writes all log levels to storage. However, in your production environment, you may wish to configure the minimum severity that should be logged by adding the `log_level` option to your `app.php` configuration file.
 
-一旦该选项被配置，Laravel 会记录所有大于或等于这个级别的日志。例如，一个默认 `log_level` 是 `error` 那么将会记录 **error**, **critical**, **alert** 和 **emergency** 信息：
+Once this option has been configured, Laravel will log all levels greater than or equal to the specified severity. For example, a default `log_level` of `error` will log **error**, **critical**, **alert**, and **emergency** messages:
 
     'log_level' => env('APP_LOG_LEVEL', 'error'),
 
-> {tip} Monolog 辨识以下严重级别 - 最低到高为： `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency` 。
+> {tip} Monolog recognizes the following severity levels - from least severe to most severe: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency`.
 
 <a name="custom-monolog-configuration"></a>
-### 自定义 Monolog 设置
+### Custom Monolog Configuration
 
-如果你想要完全控制 Monolog，则使用应用程序的 `configureMonologUsing` 方法。此方法应该在 `bootstrap/app.php` 文件返回 `$app` 变量之前被调用：
+If you would like to have complete control over how Monolog is configured for your application, you may use the application's `configureMonologUsing` method. You should place a call to this method in your `bootstrap/app.php` file right before the `$app` variable is returned by the file:
 
-    $app->configureMonologUsing(function($monolog) {
+    $app->configureMonologUsing(function ($monolog) {
         $monolog->pushHandler(...);
     });
 
     return $app;
 
 <a name="the-exception-handler"></a>
-## 异常处理
+## The Exception Handler
 
 <a name="report-method"></a>
-### Report 方法
+### The Report Method
 
-所有异常处理都由 `App\Exceptions\Handler` 类进行。这个类包含两个方法：`report` 和 `render`。 我们将研究这些方法的细节。`report` 方法用于记录异常或将异常寄给外部服务如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。默认， `report` 方法简单地通过传递异常到基类进行处理，然而，你可以自由选择任何方式进行处理。
+All exceptions are handled by the `App\Exceptions\Handler` class. This class contains two methods: `report` and `render`. We'll examine each of these methods in detail. The `report` method is used to log exceptions or send them to an external service like [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method simply passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
 
-例如，如果你需要将不同的异常类型报告给不同的方法，你可以使用 PHP `instanceof` 比较操作符：
+For example, if you need to report different types of exceptions in different ways, you may use the PHP `instanceof` comparison operator:
 
     /**
-     * 报告或记录异常。
+     * Report or log an exception.
      *
-     * 这是一个很棒的位置将异常发送到 Sentry ，Bugsnag ，etc 。
+     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param  \Exception  $exception
      * @return void
@@ -92,12 +92,12 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
         return parent::report($exception);
     }
 
-#### 通过类型忽略异常
+#### Ignoring Exceptions By Type
 
- `$dontReport` 属性包含一个不会被记录的异常类型数组。例如，404 异常以及其他几个类型异常不会被写到你的日志文件中，如果需要你可以添加其他异常类型这个数组：
+The `$dontReport` property of the exception handler contains an array of exception types that will not be logged. For example, exceptions resulting from 404 errors, as well as several other types of errors, are not written to your log files. You may add other exception types to this array as needed:
 
     /**
-     * 不需要报告的异常类型列表。
+     * A list of the exception types that should not be reported.
      *
      * @var array
      */
@@ -110,12 +110,12 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
     ];
 
 <a name="render-method"></a>
-### Render 方法
+### The Render Method
 
-`render` 方法负责将异常转换成 HTTP 响应发送给浏览器。默认，异常传递给生成响应的基类，然而你也可以自由的想检查异常类型或返回自定义响应：
+The `render` method is responsible for converting a given exception into an HTTP response that should be sent back to the browser. By default, the exception is passed to the base class which generates a response for you. However, you are free to check the exception type or return your own custom response:
 
     /**
-     * 渲染异常并添加到响应中。
+     * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
@@ -131,25 +131,25 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
     }
 
 <a name="http-exceptions"></a>
-## HTTP 异常
+## HTTP Exceptions
 
-一些异常描述来自服务器的 HTTP 错误码。例如这个方法可以是一个「页面未找到」 错误 (404)，一个 「认证失败错误」 (401) 或者一个开发人员生成的 500 错误。为了在应用中生成一个这样的响应，你可以使用 `abort` 辅助函数：
+Some exceptions describe HTTP error codes from the server. For example, this may be a "page not found" error (404), an "unauthorized error" (401) or even a developer generated 500 error. In order to generate such a response from anywhere in your application, you may use the `abort` helper:
 
     abort(404);
 
- `abort` 辅助函数将会立即引发一个被异常处理器渲染的异常。此外，你还可以提供响应文本：
+The `abort` helper will immediately raise an exception which will be rendered by the exception handler. Optionally, you may provide the response text:
 
     abort(403, 'Unauthorized action.');
 
 <a name="custom-http-error-pages"></a>
-### 自定义 HTTP 错误页面
+### Custom HTTP Error Pages
 
-Laravel 制作自定义的 HTTP 错误显示页面很简单。例如，如果你想定义一个 404 页面，创建一个 `resources/views/errors/404.blade.php` 。这个文件将会用于渲染所有的 404 错误。这个视图目录中的视图命名应该和·对于的 HTTP 状态码相匹配。 `HttpException` 实例会将 `abort` 函数传递到视图作为 `$exception` 变量.
+Laravel makes it easy to display custom error pages for various HTTP status codes. For example, if you wish to customize the error page for 404 HTTP status codes, create a `resources/views/errors/404.blade.php`. This file will be served on all 404 errors generated by your application. The views within this directory should be named to match the HTTP status code they correspond to. The `HttpException` instance raised by the `abort` function will be passed to the view as an `$exception` variable.
 
 <a name="logging"></a>
-## 日志
+## Logging
 
-Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提供一个简单日志抽象层。默认，Laravel 会在 `storage/logs` 目录下创建一个日志文件。你可以使用 `Log` [facade](/docs/{{version}}/facades) 写入信息：
+Laravel provides a simple abstraction layer on top of the powerful [Monolog](https://github.com/seldaek/monolog) library. By default, Laravel is configured to create a log file for your application in the `storage/logs` directory. You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades):
 
     <?php
 
@@ -162,7 +162,7 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
     class UserController extends Controller
     {
         /**
-         * 显示指定用户的详情。
+         * Show the profile for the given user.
          *
          * @param  int  $id
          * @return Response
@@ -175,7 +175,7 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
         }
     }
 
-该日志记录器提供八种 [RFC 5424](http://tools.ietf.org/html/rfc5424) 定义的日志级别: **emergency** ，**alert** ，**critical**, **error** ，**warning** ，**notice** ，**info** 和 **debug** 。
+The logger provides the eight logging levels defined in [RFC 5424](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**.
 
     Log::emergency($message);
     Log::alert($message);
@@ -186,19 +186,14 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
     Log::info($message);
     Log::debug($message);
 
-#### 上下文信息
+#### Contextual Information
 
-一个数组上下文信息数据也会传递给日志方法，上下文信息数据也会被格式化记录在日志信息中：
+An array of contextual data may also be passed to the log methods. This contextual data will be formatted and displayed with the log message:
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
-#### 访问底层 Monolog 实例
+#### Accessing The Underlying Monolog Instance
 
-Monolog 有一个多样的日志处理器，如果你需要，你可以访问 Laravel 底层的 Monolog 实例：
+Monolog has a variety of additional handlers you may use for logging. If needed, you may access the underlying Monolog instance being used by Laravel:
 
     $monolog = Log::getMonolog();
-
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@麦索](https://github.com/dongm2ez)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9032795?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 程序界的小学生，目前生活在北京，希望能够多结交大牛。Follow me [@dongm2ez](https://github.com/dongm2ez) at Github

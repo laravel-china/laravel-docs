@@ -1,15 +1,15 @@
-# 辅助函数
+# Helper Functions
 
-- [简介](#introduction)
-- [可用方法](#available-methods)
+- [Introduction](#introduction)
+- [Available Methods](#available-methods)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身框架中使用到。如果你觉得实用，也可以在你自己的应用中使用它们。
+Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
 
 <a name="available-methods"></a>
-## 可用方法
+## Available Methods
 
 <style>
     .collection-method-list > p {
@@ -22,7 +22,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
     }
 </style>
 
-### 数组
+### Arrays
 
 <div class="collection-method-list" markdown="1">
 
@@ -49,7 +49,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 [last](#method-last)
 </div>
 
-### 路径
+### Paths
 
 <div class="collection-method-list" markdown="1">
 
@@ -57,14 +57,14 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 [base_path](#method-base-path)
 [config_path](#method-config-path)
 [database_path](#method-database-path)
-[elixir](#method-elixir)
+[mix](#method-mix)
 [public_path](#method-public-path)
 [resource_path](#method-resource-path)
 [storage_path](#method-storage-path)
 
 </div>
 
-### 字符串
+### Strings
 
 <div class="collection-method-list" markdown="1">
 
@@ -97,11 +97,12 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 [asset](#method-asset)
 [secure_asset](#method-secure-asset)
 [route](#method-route)
+[secure_url](#method-secure-url)
 [url](#method-url)
 
 </div>
 
-### 其他
+### Miscellaneous
 
 <div class="collection-method-list" markdown="1">
 
@@ -111,6 +112,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
+[cache](#method-cache)
 [collect](#method-collect)
 [config](#method-config)
 [csrf_field](#method-csrf-field)
@@ -120,11 +122,14 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
+[info](#method-info)
+[logger](#method-logger)
 [method_field](#method-method-field)
 [old](#method-old)
 [redirect](#method-redirect)
 [request](#method-request)
 [response](#method-response)
+[retry](#method-retry)
 [session](#method-session)
 [value](#method-value)
 [view](#method-view)
@@ -132,7 +137,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 </div>
 
 <a name="method-listing"></a>
-## 方法列表
+## Method Listing
 
 <style>
     #collection-method code {
@@ -145,12 +150,12 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 </style>
 
 <a name="arrays"></a>
-## 数组
+## Arrays
 
 <a name="method-array-add"></a>
 #### `array_add()` {#collection-method .first-collection-method}
 
-如果指定的键不存在于该数组中，`array_add` 函数就会将指定的键值对加到数组中：
+The `array_add` function adds a given key / value pair to the array if the given key doesn't already exist in the array:
 
     $array = array_add(['name' => 'Desk'], 'price', 100);
 
@@ -159,7 +164,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-collapse"></a>
 #### `array_collapse()` {#collection-method}
 
-`array_collapse` 函数把数组里的每一个数组合并成单个数组：
+The `array_collapse` function collapses an array of arrays into a single array:
 
     $array = array_collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -168,7 +173,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-divide"></a>
 #### `array_divide()` {#collection-method}
 
-`array_divide` 函数返回两个数组，一个包含原本数组的键，另一个包含原本数组的值：
+The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the original array:
 
     list($keys, $values) = array_divide(['name' => 'Desk']);
 
@@ -179,7 +184,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-dot"></a>
 #### `array_dot()` {#collection-method}
 
-`array_dot` 函数把多维数组压制成一维数组，并用「点」式语法表示深度：
+The `array_dot` function flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
 
     $array = array_dot(['foo' => ['bar' => 'baz']]);
 
@@ -188,7 +193,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-except"></a>
 #### `array_except()` {#collection-method}
 
-`array_except` 函数从数组移除指定的键值对：
+The `array_except` function removes the given key / value pairs from the array:
 
     $array = ['name' => 'Desk', 'price' => 100];
 
@@ -199,7 +204,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-first"></a>
 #### `array_first()` {#collection-method}
 
-`array_first` 函数返回数组中第一个通过指定测试的元素：
+The `array_first` function returns the first element of an array passing a given truth test:
 
     $array = [100, 200, 300];
 
@@ -209,14 +214,14 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 
     // 200
 
-可传递第三个参数作为默认值。当没有元素通过测试时，将会返回该默认值：
+A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
 
     $value = array_first($array, $callback, $default);
 
 <a name="method-array-flatten"></a>
 #### `array_flatten()` {#collection-method}
 
-`array_flatten` 函数将多维数组压制成一维数组：
+The `array_flatten` function will flatten a multi-dimensional array into a single level.
 
     $array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
 
@@ -227,7 +232,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-forget"></a>
 #### `array_forget()` {#collection-method}
 
-`array_forget` 函数以「点」式语法从深度嵌套的数组中移除指定的键值对：
+The `array_forget` function removes a given key / value pair from a deeply nested array using "dot" notation:
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -238,7 +243,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-get"></a>
 #### `array_get()` {#collection-method}
 
-`array_get` 函数使用「点」式语法从深度嵌套的数组中获取指定的值：
+The `array_get` function retrieves a value from a deeply nested array using "dot" notation:
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -246,25 +251,29 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 
     // ['price' => 100]
 
-`array_get` 函数同样也接受默认值，如果指定的键找不到时，则返回该默认值：
+The `array_get` function also accepts a default value, which will be returned if the specific key is not found:
 
     $value = array_get($array, 'names.john', 'default');
 
 <a name="method-array-has"></a>
 #### `array_has()` {#collection-method}
 
-`array_has` 函数使用「点」式语法检查指定的项目是否存在于数组中：
+The `array_has` function checks that a given item or items exists in an array using "dot" notation:
 
-    $array = ['products' => ['desk' => ['price' => 100]]];
+    $array = ['product' => ['name' => 'desk', 'price' => 100]];
 
-    $hasDesk = array_has($array, 'products.desk');
+    $hasItem = array_has($array, 'product.name');
 
     // true
+
+    $hasItems = array_has($array, ['product.price', 'product.discount']);
+
+    // false
 
 <a name="method-array-last"></a>
 #### `array_last()` {#collection-method}
 
-`array_last` 函数返回数组中最后一个通过指定测试的元素：
+The `array_last` function returns the last element of an array passing a given truth test:
 
     $array = [100, 200, 300, 110];
 
@@ -277,7 +286,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-only"></a>
 #### `array_only()` {#collection-method}
 
-`array_only` 函数从数组返回指定的键值对：
+The `array_only` function will return only the specified key / value pairs from the given array:
 
     $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
 
@@ -288,7 +297,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-pluck"></a>
 #### `array_pluck()` {#collection-method}
 
-`array_pluck` 函数从数组拉出一列指定的键值对：
+The `array_pluck` function will pluck a list of the given key / value pairs from the array:
 
     $array = [
         ['developer' => ['id' => 1, 'name' => 'Taylor']],
@@ -299,7 +308,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 
     // ['Taylor', 'Abigail'];
 
-你也可以指定要以什么作为结果列的键名：
+You may also specify how you wish the resulting list to be keyed:
 
     $array = array_pluck($array, 'developer.name', 'developer.id');
 
@@ -308,7 +317,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-prepend"></a>
 #### `array_prepend()` {#collection-method}
 
-`array_prepend` 函数将元素加到数组的头部：
+The `array_prepend` function will push an item onto the beginning of an array:
 
     $array = ['one', 'two', 'three', 'four'];
 
@@ -319,7 +328,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-pull"></a>
 #### `array_pull()` {#collection-method}
 
-`array_pull` 函数从数组移除指定键值对并返回该键值对：
+The `array_pull` function returns and removes a key / value pair from the array:
 
     $array = ['name' => 'Desk', 'price' => 100];
 
@@ -332,7 +341,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-set"></a>
 #### `array_set()` {#collection-method}
 
-`array_set` 函数使用「点」式语法在深度嵌套的数组中写入值：
+The `array_set` function sets a value within a deeply nested array using "dot" notation:
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -343,7 +352,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-sort"></a>
 #### `array_sort()` {#collection-method}
 
-`array_sort` 函数根据指定闭包的结果排序数组：
+The `array_sort` function sorts the array by the results of the given Closure:
 
     $array = [
         ['name' => 'Desk'],
@@ -364,7 +373,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-sort-recursive"></a>
 #### `array_sort_recursive()` {#collection-method}
 
-`array_sort_recursive` 函数使用 `sort` 函数递归排序数组：
+The `array_sort_recursive` function recursively sorts the array using the `sort` function:
 
     $array = [
         [
@@ -399,7 +408,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-array-where"></a>
 #### `array_where()` {#collection-method}
 
-`array_where` 函数使用指定的闭包过滤数组：
+The `array_where` function filters the array using the given Closure:
 
     $array = [100, '200', 300, '400', 500];
 
@@ -412,7 +421,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-head"></a>
 #### `head()` {#collection-method}
 
-`head` 函数返回指定数组的第一个元素：
+The `head` function simply returns the first element in the given array:
 
     $array = [100, 200, 300];
 
@@ -423,7 +432,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-last"></a>
 #### `last()` {#collection-method}
 
-`last` 函数返回指定数组的最后一个元素：
+The `last` function returns the last element in the given array:
 
     $array = [100, 200, 300];
 
@@ -432,12 +441,12 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
     // 300
 
 <a name="paths"></a>
-## 路径
+## Paths
 
 <a name="method-app-path"></a>
 #### `app_path()` {#collection-method}
 
-`app_path` 函数返回 `app` 文件夹的完整路径。你也可以使用 `app_path` 函数生成针对指定文件相对于 app 目录的完整路径：
+The `app_path` function returns the fully qualified path to the `app` directory. You may also use the `app_path` function to generate a fully qualified path to a file relative to the application directory:
 
     $path = app_path();
 
@@ -446,7 +455,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-base-path"></a>
 #### `base_path()` {#collection-method}
 
-`base_path` 函数返回项目根目录的完整路径。你也可以使用 `base_path` 函数生成针对指定文件相对于项目根目录的完整路径：
+The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
 
     $path = base_path();
 
@@ -455,35 +464,35 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-config-path"></a>
 #### `config_path()` {#collection-method}
 
-`config_path` 函数返回 `config` 目录的完整路径：
+The `config_path` function returns the fully qualified path to the application configuration directory:
 
     $path = config_path();
 
 <a name="method-database-path"></a>
 #### `database_path()` {#collection-method}
 
-`database_path` 函数返回 `database` 目录的完整路径：
+The `database_path` function returns the fully qualified path to the application's database directory:
 
     $path = database_path();
 
-<a name="method-elixir"></a>
-#### `elixir()` {#collection-method}
+<a name="method-mix"></a>
+#### `mix()` {#collection-method}
 
-`elixir` 函数获取带有版本号的 [Elixir](/docs/{{version}}/elixir) 文件路径：
+The `mix` function gets the path to a [versioned Mix file](/docs/{{version}}/mix):
 
-    elixir($file);
+    mix($file);
 
 <a name="method-public-path"></a>
 #### `public_path()` {#collection-method}
 
-`public_path` 函数返回 `public` 目录的完整路径：
+The `public_path` function returns the fully qualified path to the `public` directory:
 
     $path = public_path();
 
 <a name="method-resource-path"></a>
 #### `resource_path()` {#collection-method}
 
-`resource_path` 函数返回 `resource` 目录的完整路径。你也可以使用 `resource_path` 函数生成针对指定文件相对于 `resource` 目录的完整路径：
+The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file relative to the storage directory:
 
     $path = resource_path();
 
@@ -492,19 +501,19 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-storage-path"></a>
 #### `storage_path()` {#collection-method}
 
-`storage_path` 函数返回 `storage` 目录的完整路径。你也可以使用 `resource_path` 函数生成针对指定文件相对于 `storage` 目录的完整路径：
+The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file relative to the storage directory:
 
     $path = storage_path();
 
     $path = storage_path('app/file.txt');
 
 <a name="strings"></a>
-## 字符串
+## Strings
 
 <a name="method-camel-case"></a>
 #### `camel_case()` {#collection-method}
 
-`camel_case` 函数将指定的字符串转换成 `驼峰式命名`：
+The `camel_case` function converts the given string to `camelCase`:
 
     $camel = camel_case('foo_bar');
 
@@ -513,7 +522,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
-`class_basename` 返回不包含命名空间的类名称：
+The `class_basename` returns the class name of the given class with the class' namespace removed:
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -522,7 +531,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-`e` 函数对指定字符串进行 `htmlentities`：
+The `e` function runs `htmlspecialchars` over the given string:
 
     echo e('<html>foo</html>');
 
@@ -531,7 +540,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-ends-with"></a>
 #### `ends_with()` {#collection-method}
 
-`ends_with` 函数判断指定字符串结尾是否为指定内容：
+The `ends_with` function determines if the given string ends with the given value:
 
     $value = ends_with('This is my name', 'name');
 
@@ -540,7 +549,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-snake-case"></a>
 #### `snake_case()` {#collection-method}
 
-`snake_case` 函数将指定的字符串转换成 `蛇形命名` ：
+The `snake_case` function converts the given string to `snake_case`:
 
     $snake = snake_case('fooBar');
 
@@ -549,7 +558,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-str-limit"></a>
 #### `str_limit()` {#collection-method}
 
-`str_limit` 函数限制字符串的字符个数，该函数接受一个字符串作为第一个参数，第二个参数为允许的最大字符个数：
+The `str_limit` function limits the number of characters in a string. The function accepts a string as its first argument and the maximum number of resulting characters as its second argument:
 
     $value = str_limit('The PHP framework for web artisans.', 7);
 
@@ -558,7 +567,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-starts-with"></a>
 #### `starts_with()` {#collection-method}
 
-`starts_with` 函数判断字符串开头是否为指定内容：
+The `starts_with` function determines if the given string begins with the given value:
 
     $value = starts_with('This is my name', 'This');
 
@@ -567,16 +576,22 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}
 
-`str_contains` 函数判断字符串是否包含有指定内容：
+The `str_contains` function determines if the given string contains the given value:
 
     $value = str_contains('This is my name', 'my');
+
+    // true
+
+You may also pass an array of values to determine if the given string contains any of the values:
+
+    $value = str_contains('This is my name', ['my', 'foo']);
 
     // true
 
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-`str_finish` 函数添加指定内容到字符串末尾：
+The `str_finish` function adds a single instance of the given value to a string:
 
     $string = str_finish('this/string', '/');
 
@@ -585,7 +600,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-str-is"></a>
 #### `str_is()` {#collection-method}
 
-`str_is` 函数判断指定的字符串是否匹配指定的格式，星号可作为通配符使用：
+The `str_is` function determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
     $value = str_is('foo*', 'foobar');
 
@@ -598,7 +613,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-str-plural"></a>
 #### `str_plural()` {#collection-method}
 
-`str_plural` 函数把字符串转换成复数形式。该函数目前只支持英文：
+The `str_plural` function converts a string to its plural form. This function currently only supports the English language:
 
     $plural = str_plural('car');
 
@@ -608,7 +623,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 
     // children
 
-你可以传入一个整数作为第二个参数，来获取字符串的单数或复数形式：
+You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
 
     $plural = str_plural('child', 2);
 
@@ -621,14 +636,14 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-str-random"></a>
 #### `str_random()` {#collection-method}
 
-`str_random` 函数生成指定长度的随机字符串。该函数使用了 PHP 自带的 `random_bytes` 函数：
+The `str_random` function generates a random string of the specified length. This function uses PHP's `random_bytes` function:
 
     $string = str_random(40);
 
 <a name="method-str-singular"></a>
 #### `str_singular()` {#collection-method}
 
-`str_singular` 函数把字符串转换成单数形式。该函数目前只支持英文：
+The `str_singular` function converts a string to its singular form. This function currently only supports the English language:
 
     $singular = str_singular('cars');
 
@@ -637,7 +652,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-str-slug"></a>
 #### `str_slug()` {#collection-method}
 
-`str_slug` 函数根据指定字符串生成 URL 友好的「slug」：
+The `str_slug` function generates a URL friendly "slug" from the given string:
 
     $title = str_slug('Laravel 5 Framework', '-');
 
@@ -646,7 +661,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-studly-case"></a>
 #### `studly_case()` {#collection-method}
 
-`studly_case` 函数把指定字符串转换成 `首字母大写`：
+The `studly_case` function converts the given string to `StudlyCase`:
 
     $value = studly_case('foo_bar');
 
@@ -655,7 +670,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-title-case"></a>
 #### `title_case()` {#collection-method}
 
-`title_case` 函数把指定字符串转换成 `每个单词首字母大写`：
+The `title_case` function converts the given string to `Title Case`:
 
     $title = title_case('a nice title uses the correct case');
 
@@ -664,14 +679,14 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
-`trans` 函数根据你的 [本地化文件](/docs/{{version}}/localization) 翻译指定的语句：
+The `trans` function translates the given language line using your [localization files](/docs/{{version}}/localization):
 
     echo trans('validation.required'):
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
-`trans_choice` 函数根据数量翻译指定的语句：
+The `trans_choice` function translates the given language line with inflection:
 
     $value = trans_choice('foo.bar', $count);
 
@@ -681,185 +696,235 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-`action` 函数根据指定控制器的方法生成 URL，你不需要传入该控制器的完整命名空间。只需要传入相对于 `App\Http\Controllers` 命名空间的控制器类名：
+The `action` function generates a URL for the given controller action. You do not need to pass the full namespace to the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
 
     $url = action('HomeController@getIndex');
 
-如果该方法接受路由参数，可以作为第二个参数传入：
+If the method accepts route parameters, you may pass them as the second argument to the method:
 
     $url = action('UserController@profile', ['id' => 1]);
 
 <a name="method-asset"></a>
 #### `asset()` {#collection-method}
 
-根据当前请求的协议（HTTP 或 HTTPS）生成资源文件的 URL：
+Generate a URL for an asset using the current scheme of the request (HTTP or HTTPS):
 
-	$url = asset('img/photo.jpg');
+    $url = asset('img/photo.jpg');
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}
 
-使用 HTTPS 协议生成资源文件的 URL：
+Generate a URL for an asset using HTTPS:
 
-	echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip', $title, $attributes = []);
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
 
-`route` 函数生成指定路由名称的 URL：
+The `route` function generates a URL for the given named route:
 
     $url = route('routeName');
 
-如果该路由接受参数，可以作为第二个参数传入：
+If the route accepts parameters, you may pass them as the second argument to the method:
 
     $url = route('routeName', ['id' => 1]);
+
+<a name="method-secure-url"></a>
+#### `secure_url()` {#collection-method}
+
+The `secure_url` function generates a fully qualified HTTPS URL to the given path:
+
+    echo secure_url('user/profile');
+
+    echo secure_url('user/profile', [1]);
 
 <a name="method-url"></a>
 #### `url()` {#collection-method}
 
-`url` 函数生成指定路径的完整 URL：
+The `url` function generates a fully qualified URL to the given path:
 
     echo url('user/profile');
 
     echo url('user/profile', [1]);
 
-如果没有提供路径参数，将会返回一个 `Illuminate\Routing\UrlGenerator` 实例： 
+If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned:
 
     echo url()->current();
     echo url()->full();
     echo url()->previous();
 
 <a name="miscellaneous"></a>
-## 其他
+## Miscellaneous
 
 <a name="method-abort"></a>
 #### `abort()` {#collection-method}
 
-`abort` 函数抛出一个将被异常处理句柄渲染的 HTTP 异常：
+The `abort` function throws a HTTP exception which will be rendered by the exception handler:
 
     abort(401);
 
-你也可以传入异常的响应消息：
+You may also provide the exception's response text:
 
     abort(401, 'Unauthorized.');
 
 <a name="method-abort-if"></a>
 #### `abort_if()` {#collection-method}
 
-`abort_if` 函数如果指定的布尔表达式值为 `true` 则抛出一个 HTTP 异常：
+The `abort_if` function throws an HTTP exception if a given boolean expression evaluates to `true`:
 
     abort_if(! Auth::user()->isAdmin(), 403);
 
 <a name="method-abort-unless"></a>
 #### `abort_unless()` {#collection-method}
 
-`abort_unless` 函数如果指定的布尔表达式值为 `false` 则抛出一个 HTTP 异常：
+The `abort_unless` function throws an HTTP exception if a given boolean expression evaluates to `false`:
 
     abort_unless(Auth::user()->isAdmin(), 403);
 
 <a name="method-auth"></a>
 #### `auth()` {#collection-method}
 
-`auth` 函数返回一个 authenticator 实例，可以使用它来代替 `Auth` facade。
+The `auth` function returns an authenticator instance. You may use it instead of the `Auth` facade for convenience:
 
     $user = auth()->user();
 
 <a name="method-back"></a>
 #### `back()` {#collection-method}
 
-`back` 函数生成一个重定向响应让用户返回到之前的位置：
+The `back()` function generates a redirect response to the user's previous location:
 
     return back();
 
 <a name="method-bcrypt"></a>
 #### `bcrypt()` {#collection-method}
 
-`bcrypt` 函数使用 Bcrypt 算法哈希指定的数值。你可以使用它代替 `Hash` facade：
+The `bcrypt` function hashes the given value using Bcrypt. You may use it as an alternative to the `Hash` facade:
 
     $password = bcrypt('my-secret-password');
+
+<a name="method-cache"></a>
+#### `cache()` {#collection-method}
+
+The `cache` function may be used to get values from the cache. If the given key does not exist in the cache, an optional default value will be returned:
+
+    $value = cache('key');
+
+    $value = cache('key', 'default');
+
+You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of minutes or duration the cached value should be considered valid:
+
+    cache(['key' => 'value'], 5);
+
+    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
-`collect` 函数根据指定的数组生成 [集合](/docs/{{version}}/collections) 实例：
+The `collect` function creates a [collection](/docs/{{version}}/collections) instance from the given array:
 
     $collection = collect(['taylor', 'abigail']);
 
 <a name="method-config"></a>
 #### `config()` {#collection-method}
 
-`config` 函数用于获取配置信息的值，配置信息的值可通过「点」式语法访问，其中包含要访问的文件名以及选项名。可传递一个默认值作为第二参数，当配置信息不存在时，则返回该默认值：
+The `config` function gets the value of a configuration variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
 
     $value = config('app.timezone');
 
     $value = config('app.timezone', $default);
 
-`config` 辅助函数也可以在运行期间，根据指定的键值对设置指定的配置信息
+The `config` helper may also be used to set configuration variables at runtime by passing an array of key / value pairs:
 
     config(['app.debug' => true]);
 
 <a name="method-csrf-field"></a>
 #### `csrf_field()` {#collection-method}
 
-`csrf_field` 函数生成包含 CSRF 令牌内容的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
+The `csrf_field` function generates an HTML `hidden` input field containing the value of the CSRF token. For example, using [Blade syntax](/docs/{{version}}/blade):
 
     {{ csrf_field() }}
 
 <a name="method-csrf-token"></a>
 #### `csrf_token()` {#collection-method}
 
-`csrf_token` 函数获取当前 CSRF 令牌的内容：
+The `csrf_token` function retrieves the value of the current CSRF token:
 
     $token = csrf_token();
 
 <a name="method-dd"></a>
 #### `dd()` {#collection-method}
 
-`dd` 函数输出指定变量的值并终止脚本运行：
+The `dd` function dumps the given variables and ends execution of the script:
 
     dd($value);
 
     dd($value1, $value2, $value3, ...);
 
-如果你不想终止脚本运行，使用 `dump` 函数代替：
+If you do not want to halt the execution of your script, use the `dump` function instead:
 
     dump($value);
 
 <a name="method-dispatch"></a>
 #### `dispatch()` {#collection-method}
 
-`dispatch` 函数把一个新任务推送到 Laravel 的 [任务队列](/docs/{{version}}/queues) 中：
+The `dispatch` function pushes a new job onto the Laravel [job queue](/docs/{{version}}/queues):
 
     dispatch(new App\Jobs\SendEmails);
 
 <a name="method-env"></a>
 #### `env()` {#collection-method}
 
-`env` 函数获取环境变量值或返回默认值：
+The `env` function gets the value of an environment variable or returns a default value:
 
     $env = env('APP_ENV');
 
-    // 当变量不存在时返回一个默认值...
+    // Return a default value if the variable doesn't exist...
     $env = env('APP_ENV', 'production');
 
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
-`event` 函数发派指定的 [事件](/docs/{{version}}/events) 到所属的侦听器：
+The `event` function dispatches the given [event](/docs/{{version}}/events) to its listeners:
 
     event(new UserRegistered($user));
 
 <a name="method-factory"></a>
 #### `factory()` {#collection-method}
 
-`factory` 函数根据指定类、名称以及数量生成模型工厂构造器（model factory builder）。可用于 [测试](/docs/{{version}}/testing#model-factories) 或 [数据填充](/docs/{{version}}/seeding#using-model-factories)：
+The `factory` function creates a model factory builder for a given class, name, and amount. It can be used while [testing](/docs/{{version}}/database-testing#writing-factories) or [seeding](/docs/{{version}}/seeding#using-model-factories):
 
     $user = factory(App\User::class)->make();
+
+<a name="method-info"></a>
+#### `info()` {#collection-method}
+
+The `info` function will write information to the log:
+
+    info('Some helpful information!');
+
+An array of contextual data may also be passed to the function:
+
+    info('User login attempt failed.', ['id' => $user->id]);
+
+<a name="method-logger"></a>
+#### `logger()` {#collection-method}
+
+The `logger` function can be used to write a `debug` level message to the log:
+
+    logger('Debug message');
+
+An array of contextual data may also be passed to the function:
+
+    logger('User has logged in.', ['id' => $user->id]);
+
+A [logger](/docs/{{version}}/errors#logging) instance will be returned if no value is passed to the function:
+
+    logger()->error('You are not allowed here.');
 
 <a name="method-method-field"></a>
 #### `method_field()` {#collection-method}
 
-`method_field` 函数生成模拟表单 HTTP 动词的 HTML 表单隐藏字段。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
+The `method_field` function generates an HTML `hidden` input field containing the spoofed value of the form's HTTP verb. For example, using [Blade syntax](/docs/{{version}}/blade):
 
     <form method="POST">
         {{ method_field('DELETE') }}
@@ -868,7 +933,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
-`old` 函数 [获取](/docs/{{version}}/requests#retrieving-input) session 内一次性的旧有输入值：
+The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an old input value flashed into the session:
 
     $value = old('value');
 
@@ -877,7 +942,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
 
-`redirect` 函数返回一个 HTTP 重定向响应，如果调用时没有传入参数则返回 redirector 实例：
+The `redirect` function returns a redirect HTTP response, or returns the redirector instance if called with no arguments:
 
     return redirect('/home');
 
@@ -886,7 +951,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
-`request` 函数返回当前 [请求](/docs/{{version}}/requests) 实例或获取输入的项目： 
+The `request` function returns the current [request](/docs/{{version}}/requests) instance or obtains an input item:
 
     $request = request();
 
@@ -895,24 +960,33 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-response"></a>
 #### `response()` {#collection-method}
 
-`response` 函数创建一个 [响应](/docs/{{version}}/responses) 实例或获取一个 response 工厂实例：
+The `response` function creates a [response](/docs/{{version}}/responses) instance or obtains an instance of the response factory:
 
     return response('Hello World', 200, $headers);
 
     return response()->json(['foo' => 'bar'], 200, $headers);
 
+<a name="method-retry"></a>
+#### `retry()` {#collection-method}
+
+The `retry` function attempts to execute the given callback until the given maximum attempt threshold is met. If the callback does not throw an exception, it's return value will be returned. If the callback throws an exception, it will automatically be retried. If the maximum attempt count is exceeded, the exception will be thrown:
+
+    return retry(5, function () {
+        // Attempt 5 times while resting 100ms in between attempts...
+    }, 100);
+
 <a name="method-session"></a>
 #### `session()` {#collection-method}
 
-`session` 函数可用于获取或设置单个 session 项：
+The `session` function may be used to get or set session values:
 
     $value = session('key');
 
-你可以通过传递键值对数组给该函数设置 session 项：
+You may set values by passing an array of key / value pairs to the function:
 
     session(['chairs' => 7, 'instruments' => 3]);
 
-该函数在没有传递参数时，将返回 session 实例：
+The session store will be returned if no value is passed to the function:
 
     $value = session()->get('key');
 
@@ -921,18 +995,15 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 <a name="method-value"></a>
 #### `value()` {#collection-method}
 
-`value` 函数返回指定数值。而当你传递一个 `闭包` 给该函数时，该 `闭包` 将被运行并返回该 `闭包` 的运行结果：
+The `value` function's behavior will simply return the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
 
-    $value = value(function() { return 'bar'; });
+    $value = value(function () {
+        return 'bar';
+    });
 
 <a name="method-view"></a>
 #### `view()` {#collection-method}
 
-`view` 函数获取 [视图](/docs/{{version}}/views) 实例：
+The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 
     return view('auth.login');
-
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@zjien](https://laravel-china.org/users/2554)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/2554_1445051146.png?imageView2/1/w/200/h/200">  |  翻译  | 专注于PHP，Laravel并学习设计模式中，[@zjien](https://github.com/zjien/) at Github  |

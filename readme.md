@@ -1,1 +1,5 @@
-此文档由 [Laravel China 社区](https://laravel-china.org/) 翻译整理，翻译权由 [Laravel China 社区](https://laravel-china.org/) 享有，转载必须保留出处 https://laravel-china.org/docs 。
+# Laravel Documentation
+
+## Contribution Guidelines
+
+If you are submitting documentation for the **current stable release**, submit it to the corresponding branch. For example, documentation for Laravel 5.1 would be submitted to the `5.1` branch. Documentation intended for the next release of Laravel should be submitted to the `master` branch.

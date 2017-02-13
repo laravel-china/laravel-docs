@@ -1,42 +1,42 @@
 # Contracts
 
-- [简介](#introduction)
+- [Introduction](#introduction)
     - [Contracts Vs. Facades](#contracts-vs-facades)
-- [何时使用 Contracts](#when-to-use-contracts)
-    - [低耦合](#loose-coupling)
-    - [简单性](#simplicity)
-- [如何使用 Contracts](#how-to-use-contracts)
-- [Contract 参考](#contract-reference)
+- [When To Use Contracts](#when-to-use-contracts)
+    - [Loose Coupling](#loose-coupling)
+    - [Simplicity](#simplicity)
+- [How To Use Contracts](#how-to-use-contracts)
+- [Contract Reference](#contract-reference)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Laravel 的 Contracts 是一组定义了框架核心服务的接口。例如，`Illuminate\Contracts\Queue\Queue` contract 定义了队列任务所需要的方法，而 `Illuminate\Contracts\Mail\Mailer` contract 定义了寄送 e-mail 需要的方法。
+Laravel's Contracts are a set of interfaces that define the core services provided by the framework. For example, a `Illuminate\Contracts\Queue\Queue` contract defines the methods needed for queueing jobs, while the `Illuminate\Contracts\Mail\Mailer` contract defines the methods needed for sending e-mail.
 
-框架对于每个 contract 都有提供对应的实现，例如，Laravel 提供各种驱动程序的队列实现，以及由 [SwiftMailer](http://swiftmailer.org/) 提供的 mailer 实现。
+Each contract has a corresponding implementation provided by the framework. For example, Laravel provides a queue implementation with a variety of drivers, and a mailer implementation that is powered by [SwiftMailer](http://swiftmailer.org/).
 
-Laravel 所有的 contracts 放在一个单独的 [GitHub 代码库](https://github.com/illuminate/contracts)。除了提供给所有可用的 contracts 一个快速的参考，也可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
+All of the Laravel contracts live in [their own GitHub repository](https://github.com/illuminate/contracts). This provides a quick reference point for all available contracts, as well as a single, decoupled package that may be utilized by package developers.
 
 <a name="contracts-vs-facades"></a>
 ### Contracts Vs. Facades
 
-Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来使用服务，而不需要使用类型约束和在服务容器之外解析 contracts。大多数情况下，每个 facade 都有一个相应的 contract。
+Laravel's [facades](/docs/{{version}}/facades) and helper functions provide a simple way of utilizing Laravel's services without needing to type-hint and resolve contracts out of the service container. In most cases, each facade has an equivalent contract.
 
-不像 facades 那样，contracts 需要你为你的类显示的定义依赖关系。有些开发者喜欢这种显示的依赖定义，所以他们喜欢使用 contracts，而其他开发者更喜欢方便的 facades。
+Unlike facades, which do not require you to require them in your class' constructor, contracts allow you to define explicit dependencies for your classes. Some developers prefer to explicitly define their dependencies in this way and therefore prefer to use contracts, while other developers enjoy the convenience of facades.
 
-> {tip} 大多数应用不管你是使用 facades 还是 contracts 都可以很好的工作，但是如果你打算构建扩展包的话，强烈建议使用 contracts，因为它们在扩展包的环境下更容易被测试。
+> {tip} Most applications will be fine regardless of whether you prefer facades or contracts. However, if you are building a package, you should strongly consider using contracts since they will be easier to test in a package context.
 
 <a name="when-to-use-contracts"></a>
-## 何时使用 Contracts
+## When To Use Contracts
 
-正如我们所说，到底是选择 facade 还是 contracts 取决于你或你的团队的喜好。不管是 facade 还是 contracts，都可以创建出健壮的，易测试的应用。随着你长期关注于类的功能层面，你会发现其实 facades 和 contracts 之间并没有太大的区别。
+As discussed elsewhere, much of the decision to use contracts or facades will come down to personal taste and the tastes of your development team. Both contracts and facades can be used to create robust, well-tested Laravel applications. As long as you are keeping your class' responsibilities focused, you will notice very few practical differences between using contracts and facades.
 
-你可能有很多关于 contracts 的问题。像是为什么要使用接口？使用接口会不会变的更复杂？让我们来提炼一下这样做的原因：低耦合和简单性。
+However, you may still have several questions regarding contracts. For example, why use interfaces at all? Isn't using interfaces more complicated? Let's distill the reasons for using interfaces to the following headings: loose coupling and simplicity.
 
 <a name="loose-coupling"></a>
-### 低耦合
+### Loose Coupling
 
-首先，让我们来查看这一段和缓存功能有高耦合的代码，如下：
+First, let's review some code that is tightly coupled to a cache implementation. Consider the following:
 
     <?php
 
@@ -45,12 +45,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
     class Repository
     {
         /**
-         * 缓存实例。
+         * The cache instance.
          */
         protected $cache;
 
         /**
-         * 创建一个新的仓库实例。
+         * Create a new repository instance.
          *
          * @param  \SomePackage\Cache\Memcached  $cache
          * @return void
@@ -61,7 +61,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
 
         /**
-         * 借由 ID 获取订单信息。
+         * Retrieve an Order by ID.
          *
          * @param  int  $id
          * @return Order
@@ -74,11 +74,11 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
     }
 
-在此类中，程序和缓存实现之间是高耦合。因为它是依赖于扩展包的特定缓存类。一旦这个扩展包的 API 更改了，我们的代码也要跟着改变。
+In this class, the code is tightly coupled to a given cache implementation. It is tightly coupled because we are depending on a concrete Cache class from a package vendor. If the API of that package changes our code must change as well.
 
-同样的，如果想要将底层的缓存实现（比如 Memcached ）切换成另一种（像 Redis ），又一次的我们必须修改这个 `Repository` 类。我们的 `Repository` 类不应该知道这么多关于谁提供了数据，或是如何提供等细节。
+Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. Our repository should not have so much knowledge regarding who is providing them data or how they are providing it.
 
-**比起上面的做法，我们可以使用一个简单、和扩展包无关的接口来改进代码:**
+**Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:**
 
     <?php
 
@@ -89,12 +89,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
     class Repository
     {
         /**
-         * 缓存实例。
+         * The cache instance.
          */
         protected $cache;
 
         /**
-         * 创建一个新的仓库实例。
+         * Create a new repository instance.
          *
          * @param  Cache  $cache
          * @return void
@@ -105,23 +105,23 @@ Laravel 的 [facades](/docs/{{version}}/facades) 提供一个简单的方法来�
         }
     }
 
-现在上面的代码没有跟任何扩展包耦合，甚至是 Laravel。既然 contracts 扩展包没有包含实现和任何依赖，你就可以很简单的对任何 contract 进行实现，你可以很简单的写一个替换的实现，甚至是替换 contracts，让你可以替换缓存实现而不用修改任何用到缓存的代码。
+Now the code is not coupled to any specific vendor, or even Laravel. Since the contracts package contains no implementation and no dependencies, you may easily write an alternative implementation of any given contract, allowing you to replace your cache implementation without modifying any of your cache consuming code.
 
 <a name="simplicity"></a>
-### 简单性
+### Simplicity
 
-当所有的 Laravel 服务都使用简洁的接口定义，就能够很容易决定一个服务需要提供的功能。 **可以将 contracts 视为说明框架特色的简洁文档。**
+When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. **The contracts serve as succinct documentation to the framework's features.**
 
-除此之外，当依赖的接口足够简洁时，代码的可读性和可维护性大大提高。比起搜索一个大型复杂的类里有哪些可用的方法，你有一个简单，干净的接口可以参考。
+In addition, when you depend on simple interfaces, your code is easier to understand and maintain. Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface.
 
 <a name="how-to-use-contracts"></a>
-## 如何使用 Contracts
+## How To Use Contracts
 
-那么，如何获取一个 contract 的实现呢？其实真的非常简单。
+So, how do you get an implementation of a contract? It's actually quite simple.
 
-Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/container)解析出来的。包括控制器，事件监听器，中间件，任务队列，甚至是路由的闭包。所以说，想要获得一个 contract 的实现，你只需要在类的构造函数里添加相应的类型约束就好了。
+Many types of classes in Laravel are resolved through the [service container](/docs/{{version}}/container), including controllers, event listeners, middleware, queued jobs, and even route Closures. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved.
 
-举个例子，看一下这个事件监听器：
+For example, take a look at this event listener:
 
     <?php
 
@@ -134,12 +134,12 @@ Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/contai
     class CacheOrderInformation
     {
         /**
-         * Redis 数据库实现。
+         * The Redis database implementation.
          */
         protected $redis;
 
         /**
-         * 创建事件处理器实例。
+         * Create a new event handler instance.
          *
          * @param  Database  $redis
          * @return void
@@ -150,7 +150,7 @@ Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/contai
         }
 
         /**
-         * 处理事件。
+         * Handle the event.
          *
          * @param  OrderWasPlaced  $event
          * @return void
@@ -161,52 +161,45 @@ Laravel 里很多类型的类都是通过[服务容器](/docs/{{version}}/contai
         }
     }
 
-当事件监听器被解析时，服务容器会从构造函数里读取到类型约束，并且注入合适的类。想了解如何注册绑定到容器，请参考[这篇文档](/docs/{{version}}/container)。
-
+When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. To learn more about registering things in the service container, check out [its documentation](/docs/{{version}}/container).
 
 <a name="contract-reference"></a>
-## Contract 参考
+## Contract Reference
 
-下面的表格提供了 Laravel contracts 及其对应的 facades 的参考:
+This table provides a quick reference to all of the Laravel contracts and their equivalent facades:
 
 Contract  |  References Facade
 ------------- | -------------
-[Illuminate\Contracts\Auth\Factory](https://github.com/illuminate/contracts/blob/master/Auth/Factory.php)  |  Auth
-[Illuminate\Contracts\Auth\PasswordBroker](https://github.com/illuminate/contracts/blob/master/Auth/PasswordBroker.php)  |  Password
-[Illuminate\Contracts\Bus\Dispatcher](https://github.com/illuminate/contracts/blob/master/Bus/Dispatcher.php)  |  Bus
-[Illuminate\Contracts\Broadcasting\Broadcaster](https://github.com/illuminate/contracts/blob/master/Broadcasting/Broadcaster.php)  | &nbsp;
-[Illuminate\Contracts\Cache\Repository](https://github.com/illuminate/contracts/blob/master/Cache/Repository.php) | Cache
-[Illuminate\Contracts\Cache\Factory](https://github.com/illuminate/contracts/blob/master/Cache/Factory.php) | Cache::driver()
-[Illuminate\Contracts\Config\Repository](https://github.com/illuminate/contracts/blob/master/Config/Repository.php) | Config
-[Illuminate\Contracts\Container\Container](https://github.com/illuminate/contracts/blob/master/Container/Container.php) | App
-[Illuminate\Contracts\Cookie\Factory](https://github.com/illuminate/contracts/blob/master/Cookie/Factory.php) | Cookie
-[Illuminate\Contracts\Cookie\QueueingFactory](https://github.com/illuminate/contracts/blob/master/Cookie/QueueingFactory.php) | Cookie::queue()
-[Illuminate\Contracts\Encryption\Encrypter](https://github.com/illuminate/contracts/blob/master/Encryption/Encrypter.php) | Crypt
-[Illuminate\Contracts\Events\Dispatcher](https://github.com/illuminate/contracts/blob/master/Events/Dispatcher.php) | Event
-[Illuminate\Contracts\Filesystem\Cloud](https://github.com/illuminate/contracts/blob/master/Filesystem/Cloud.php) | &nbsp;
-[Illuminate\Contracts\Filesystem\Factory](https://github.com/illuminate/contracts/blob/master/Filesystem/Factory.php) | File
-[Illuminate\Contracts\Filesystem\Filesystem](https://github.com/illuminate/contracts/blob/master/Filesystem/Filesystem.php) | File
-[Illuminate\Contracts\Foundation\Application](https://github.com/illuminate/contracts/blob/master/Foundation/Application.php) | App
-[Illuminate\Contracts\Hashing\Hasher](https://github.com/illuminate/contracts/blob/master/Hashing/Hasher.php) | Hash
-[Illuminate\Contracts\Logging\Log](https://github.com/illuminate/contracts/blob/master/Logging/Log.php) | Log
-[Illuminate\Contracts\Mail\MailQueue](https://github.com/illuminate/contracts/blob/master/Mail/MailQueue.php) | Mail::queue()
-[Illuminate\Contracts\Mail\Mailer](https://github.com/illuminate/contracts/blob/master/Mail/Mailer.php) | Mail
-[Illuminate\Contracts\Queue\Factory](https://github.com/illuminate/contracts/blob/master/Queue/Factory.php) | Queue::driver()
-[Illuminate\Contracts\Queue\Queue](https://github.com/illuminate/contracts/blob/master/Queue/Queue.php) | Queue
-[Illuminate\Contracts\Redis\Database](https://github.com/illuminate/contracts/blob/master/Redis/Database.php) | Redis
-[Illuminate\Contracts\Routing\Registrar](https://github.com/illuminate/contracts/blob/master/Routing/Registrar.php) | Route
-[Illuminate\Contracts\Routing\ResponseFactory](https://github.com/illuminate/contracts/blob/master/Routing/ResponseFactory.php) | Response
-[Illuminate\Contracts\Routing\UrlGenerator](https://github.com/illuminate/contracts/blob/master/Routing/UrlGenerator.php) | URL
-[Illuminate\Contracts\Support\Arrayable](https://github.com/illuminate/contracts/blob/master/Support/Arrayable.php) | &nbsp;
-[Illuminate\Contracts\Support\Jsonable](https://github.com/illuminate/contracts/blob/master/Support/Jsonable.php) | &nbsp;
-[Illuminate\Contracts\Support\Renderable](https://github.com/illuminate/contracts/blob/master/Support/Renderable.php) | &nbsp;
-[Illuminate\Contracts\Validation\Factory](https://github.com/illuminate/contracts/blob/master/Validation/Factory.php) | Validator::make()
-[Illuminate\Contracts\Validation\Validator](https://github.com/illuminate/contracts/blob/master/Validation/Validator.php) | &nbsp;
-[Illuminate\Contracts\View\Factory](https://github.com/illuminate/contracts/blob/master/View/Factory.php) | View::make()
-[Illuminate\Contracts\View\View](https://github.com/illuminate/contracts/blob/master/View/View.php) | &nbsp;
-
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@dinghua](https://phphub.org/users/294)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/294_1473147991.png?imageView2/1/w/100/h/100">  |  翻译  | 专注于 PHP 和 Laravel |
-
+[Illuminate\Contracts\Auth\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Auth/Factory.php)  |  Auth
+[Illuminate\Contracts\Auth\PasswordBroker](https://github.com/illuminate/contracts/blob/{{version}}/Auth/PasswordBroker.php)  |  Password
+[Illuminate\Contracts\Bus\Dispatcher](https://github.com/illuminate/contracts/blob/{{version}}/Bus/Dispatcher.php)  |  Bus
+[Illuminate\Contracts\Broadcasting\Broadcaster](https://github.com/illuminate/contracts/blob/{{version}}/Broadcasting/Broadcaster.php)  | &nbsp;
+[Illuminate\Contracts\Cache\Repository](https://github.com/illuminate/contracts/blob/{{version}}/Cache/Repository.php) | Cache
+[Illuminate\Contracts\Cache\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Cache/Factory.php) | Cache::driver()
+[Illuminate\Contracts\Config\Repository](https://github.com/illuminate/contracts/blob/{{version}}/Config/Repository.php) | Config
+[Illuminate\Contracts\Container\Container](https://github.com/illuminate/contracts/blob/{{version}}/Container/Container.php) | App
+[Illuminate\Contracts\Cookie\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Cookie/Factory.php) | Cookie
+[Illuminate\Contracts\Cookie\QueueingFactory](https://github.com/illuminate/contracts/blob/{{version}}/Cookie/QueueingFactory.php) | Cookie::queue()
+[Illuminate\Contracts\Encryption\Encrypter](https://github.com/illuminate/contracts/blob/{{version}}/Encryption/Encrypter.php) | Crypt
+[Illuminate\Contracts\Events\Dispatcher](https://github.com/illuminate/contracts/blob/{{version}}/Events/Dispatcher.php) | Event
+[Illuminate\Contracts\Filesystem\Cloud](https://github.com/illuminate/contracts/blob/{{version}}/Filesystem/Cloud.php) | &nbsp;
+[Illuminate\Contracts\Filesystem\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Filesystem/Factory.php) | File
+[Illuminate\Contracts\Filesystem\Filesystem](https://github.com/illuminate/contracts/blob/{{version}}/Filesystem/Filesystem.php) | File
+[Illuminate\Contracts\Foundation\Application](https://github.com/illuminate/contracts/blob/{{version}}/Foundation/Application.php) | App
+[Illuminate\Contracts\Hashing\Hasher](https://github.com/illuminate/contracts/blob/{{version}}/Hashing/Hasher.php) | Hash
+[Illuminate\Contracts\Logging\Log](https://github.com/illuminate/contracts/blob/{{version}}/Logging/Log.php) | Log
+[Illuminate\Contracts\Mail\MailQueue](https://github.com/illuminate/contracts/blob/{{version}}/Mail/MailQueue.php) | Mail::queue()
+[Illuminate\Contracts\Mail\Mailer](https://github.com/illuminate/contracts/blob/{{version}}/Mail/Mailer.php) | Mail
+[Illuminate\Contracts\Queue\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Queue/Factory.php) | Queue::driver()
+[Illuminate\Contracts\Queue\Queue](https://github.com/illuminate/contracts/blob/{{version}}/Queue/Queue.php) | Queue
+[Illuminate\Contracts\Redis\Database](https://github.com/illuminate/contracts/blob/{{version}}/Redis/Database.php) | Redis
+[Illuminate\Contracts\Routing\Registrar](https://github.com/illuminate/contracts/blob/{{version}}/Routing/Registrar.php) | Route
+[Illuminate\Contracts\Routing\ResponseFactory](https://github.com/illuminate/contracts/blob/{{version}}/Routing/ResponseFactory.php) | Response
+[Illuminate\Contracts\Routing\UrlGenerator](https://github.com/illuminate/contracts/blob/{{version}}/Routing/UrlGenerator.php) | URL
+[Illuminate\Contracts\Support\Arrayable](https://github.com/illuminate/contracts/blob/{{version}}/Support/Arrayable.php) | &nbsp;
+[Illuminate\Contracts\Support\Jsonable](https://github.com/illuminate/contracts/blob/{{version}}/Support/Jsonable.php) | &nbsp;
+[Illuminate\Contracts\Support\Renderable](https://github.com/illuminate/contracts/blob/{{version}}/Support/Renderable.php) | &nbsp;
+[Illuminate\Contracts\Validation\Factory](https://github.com/illuminate/contracts/blob/{{version}}/Validation/Factory.php) | Validator::make()
+[Illuminate\Contracts\Validation\Validator](https://github.com/illuminate/contracts/blob/{{version}}/Validation/Validator.php) | &nbsp;
+[Illuminate\Contracts\View\Factory](https://github.com/illuminate/contracts/blob/{{version}}/View/Factory.php) | View::make()
+[Illuminate\Contracts\View\View](https://github.com/illuminate/contracts/blob/{{version}}/View/View.php) | &nbsp;
