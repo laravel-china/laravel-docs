@@ -1,4 +1,4 @@
-# Testing: Getting Started
+# Laravel 测试: 入门指南
 
 - [Introduction](#introduction)
 - [Environment](#environment)

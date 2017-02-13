@@ -1,4 +1,4 @@
-# Notifications
+# Laravel 的消息通知系统
 
 - [Introduction](#introduction)
 - [Creating Notifications](#creating-notifications)

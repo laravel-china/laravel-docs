@@ -1,4 +1,4 @@
-# Redis
+# Laravel 的 Redis 使用指南
 
 - [Introduction](#introduction)
     - [Configuration](#configuration)

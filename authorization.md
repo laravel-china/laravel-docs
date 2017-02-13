@@ -1,4 +1,4 @@
-# Authorization
+# Laravel 的用户授权系统
 
 - [Introduction](#introduction)
 - [Gates](#gates)

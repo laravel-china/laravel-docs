@@ -1,4 +1,4 @@
-# Laravel 5.3 中文文档
+# Laravel 5.4 中文文档
 
 ## 说明
 
@@ -10,12 +10,12 @@
 
 ## 译者
 
-> [Laravel 5.3 译者](https://laravel-china.org/roles/7)
+> [Laravel 5.4 译者](https://laravel-china.org/roles/11)
 
 ## 相关讨论
 
-* [Laravel 5.3 文档翻译召集](https://laravel-china.org/topics/2752)
-* [Laravel 5.3 中文文档翻译完成](https://laravel-china.org/topics/3084)
+* [Laravel 5.4 文档翻译召集](https://laravel-china.org/topics/2752)
+* [Laravel 5.4 中文文档翻译完成]()
 
 ## 排版规范
 

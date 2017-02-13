@@ -1,4 +1,4 @@
-# Database: Getting Started
+# Laravel 的数据库操作 - 入门
 
 - [Introduction](#introduction)
     - [Configuration](#configuration)

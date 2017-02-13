@@ -1,4 +1,4 @@
-# Database: Query Builder
+# Laravel 数据库之：数据库请求构建器
 
 - [Introduction](#introduction)
 - [Retrieving Results](#retrieving-results)

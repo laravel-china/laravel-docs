@@ -1,4 +1,4 @@
-# Request Lifecycle
+# Laravel 的请求周期
 
 - [Introduction](#introduction)
 - [Lifecycle Overview](#lifecycle-overview)

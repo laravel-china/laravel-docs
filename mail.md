@@ -1,4 +1,4 @@
-# Mail
+# Laravel 的 邮箱发送功能
 
 - [Introduction](#introduction)
     - [Driver Prerequisites](#driver-prerequisites)

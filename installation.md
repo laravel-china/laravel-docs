@@ -1,4 +1,4 @@
-# Installation
+# Laravel 安装指南
 
 - [Installation](#installation)
     - [Server Requirements](#server-requirements)

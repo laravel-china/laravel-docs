@@ -1,4 +1,4 @@
-# Views
+# Laravel 的视图功能
 
 - [Creating Views](#creating-views)
 - [Passing Data To Views](#passing-data-to-views)

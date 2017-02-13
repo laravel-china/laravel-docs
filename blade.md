@@ -1,4 +1,4 @@
-# Blade Templates
+# Laravel 的 Blade 模板引擎
 
 - [Introduction](#introduction)
 - [Template Inheritance](#template-inheritance)

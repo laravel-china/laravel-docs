@@ -1,4 +1,4 @@
-# Compiling Assets (Laravel Mix)
+# Laravel 的资源任务编译器 Laravel Mix
 
 - [Introduction](#introduction)
 - [Installation & Setup](#installation)

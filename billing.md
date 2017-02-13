@@ -1,4 +1,4 @@
-# Laravel Cashier
+# Laravel 的收费系统 Cashier
 
 - [Introduction](#introduction)
 - [Configuration](#configuration)

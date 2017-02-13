@@ -1,4 +1,4 @@
-# HTTP Responses
+# Laravel 的请求返回 Response
 
 - [Creating Responses](#creating-responses)
     - [Attaching Headers To Responses](#attaching-headers-to-responses)

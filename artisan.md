@@ -1,4 +1,4 @@
-# Artisan Console
+# Laravel 的 Artisan 命令行工具
 
 - [Introduction](#introduction)
 - [Writing Commands](#writing-commands)

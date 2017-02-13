@@ -1,4 +1,4 @@
-# Resetting Passwords
+# Laravel 的密码重设功能
 
 - [Introduction](#introduction)
 - [Database Considerations](#resetting-database)

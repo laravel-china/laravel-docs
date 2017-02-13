@@ -1,4 +1,4 @@
-# Database Testing
+# Laravel 测试之 - 数据库测试
 
 - [Introduction](#introduction)
 - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)

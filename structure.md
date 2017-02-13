@@ -1,4 +1,4 @@
-# Directory Structure
+# Laravel 的文件夹结构
 
 - [Introduction](#introduction)
 - [The Root Directory](#the-root-directory)

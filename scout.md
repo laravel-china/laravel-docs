@@ -1,4 +1,4 @@
-# Laravel Scout
+# Laravel 的搜索系统 Scout
 
 - [Introduction](#introduction)
 - [Installation](#installation)

@@ -1,4 +1,4 @@
-# JavaScript & CSS Scaffolding
+# Laravel 的前端资源处理 JavaScript 和 CSS 构建
 
 - [Introduction](#introduction)
 - [Writing CSS](#writing-css)

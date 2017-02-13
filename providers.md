@@ -1,4 +1,4 @@
-# Service Providers
+# Laravel 的服务提供者设计模式
 
 - [Introduction](#introduction)
 - [Writing Service Providers](#writing-service-providers)

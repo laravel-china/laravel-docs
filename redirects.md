@@ -1,4 +1,4 @@
-# HTTP Redirects
+# Laravel 的 HTTP 重定向 Redirect
 
 - [Creating Redirects](#creating-redirects)
 - [Redirecting To Named Routes](#redirecting-named-routes)

@@ -1,4 +1,4 @@
-# Event Broadcasting
+# Laravel 的时间广播系统
 
 - [Introduction](#introduction)
     - [Configuration](#configuration)

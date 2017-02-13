@@ -1,4 +1,4 @@
-# Helper Functions
+# Laravel 的辅助函数列表
 
 - [Introduction](#introduction)
 - [Available Methods](#available-methods)

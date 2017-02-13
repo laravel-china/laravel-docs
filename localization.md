@@ -1,4 +1,4 @@
-# Localization
+# Laravel 的本地化功能
 
 - [Introduction](#introduction)
 - [Defining Translation Strings](#defining-translation-strings)

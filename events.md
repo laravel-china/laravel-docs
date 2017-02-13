@@ -1,4 +1,4 @@
-# Events
+# Laravel 的事件系统
 
 - [Introduction](#introduction)
 - [Registering Events & Listeners](#registering-events-and-listeners)

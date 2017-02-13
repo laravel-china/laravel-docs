@@ -1,4 +1,4 @@
-# Hashing
+# Laravel 的哈希加密
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)

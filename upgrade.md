@@ -1,6 +1,6 @@
-# Upgrade Guide
+# Laravel 升级索引
 
-- [Upgrading To 5.4.0 From 5.3](#upgrade-5.4.0)
+- [从 5.3 升级到 5.4.0](#upgrade-5.4.0)
 
 <a name="upgrade-5.4.0"></a>
 ## Upgrading To 5.4.0 From 5.3

@@ -1,4 +1,4 @@
-# Collections
+# Laravel 的集合 Collection
 
 - [Introduction](#introduction)
     - [Creating Collections](#creating-collections)

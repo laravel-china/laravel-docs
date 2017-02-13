@@ -1,4 +1,4 @@
-# Pagination
+# Laravel 的分页功能
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)

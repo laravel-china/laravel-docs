@@ -1,4 +1,4 @@
-# Configuration
+# Laravel 的配置信息
 
 - [Introduction](#introduction)
 - [Environment Configuration](#environment-configuration)

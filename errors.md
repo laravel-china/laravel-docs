@@ -1,4 +1,4 @@
-# Errors & Logging
+# Laravel 的错误和日志记录
 
 - [Introduction](#introduction)
 - [Configuration](#configuration)

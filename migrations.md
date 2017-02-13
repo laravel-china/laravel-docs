@@ -1,4 +1,4 @@
-# Database: Migrations
+# Laravel 的数据库迁移 Migrations
 
 - [Introduction](#introduction)
 - [Generating Migrations](#generating-migrations)

@@ -1,4 +1,4 @@
-# Eloquent: Getting Started
+# Laravel 的 Eloquent 入门指南
 
 - [Introduction](#introduction)
 - [Defining Models](#defining-models)

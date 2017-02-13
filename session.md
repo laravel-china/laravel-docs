@@ -1,4 +1,4 @@
-# HTTP Session
+# Laravel 的 HTTP 会话机制
 
 - [Introduction](#introduction)
     - [Configuration](#configuration)

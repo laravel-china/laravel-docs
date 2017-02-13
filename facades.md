@@ -1,4 +1,4 @@
-# Facades
+# Laravel 的 Facades 介绍
 
 - [Introduction](#introduction)
 - [When To Use Facades](#when-to-use-facades)
