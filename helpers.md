@@ -982,7 +982,7 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 
     return view('auth.login');
 
-
+## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@zyxcba](https://github.com/cmzz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/6111715?v=3&s=100">  |  翻译  | [淘亿联盟](http://wewx.cn) - 免费的淘宝客优惠券CMS |
