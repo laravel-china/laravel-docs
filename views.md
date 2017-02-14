@@ -32,7 +32,7 @@
 
 #### 判断视图文件是否存在
 
-如果需要测试一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果测试的视图文件存在，则返回值为 `true` ：
+如果需要判断一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果视图文件存在，则返回值为 `true` ：
 
     use Illuminate\Support\Facades\View;
 
