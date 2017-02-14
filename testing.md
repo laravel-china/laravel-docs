@@ -1,37 +1,37 @@
 # Laravel 测试: 入门指南
 
-- [Introduction](#introduction)
-- [Environment](#environment)
-- [Creating & Running Tests](#creating-and-running-tests)
+- [简介](#introduction)
+- [测试环境](#environment)
+- [定义并运行测试](#creating-and-running-tests)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box and a `phpunit.xml` file is already setup for your application. The framework also ships with convenient helper methods that allow you to expressively test your applications.
+Laravel 天生就具有测试的基因。事实上，Laravel 默认就支持用 PHPUnit 来做测试，并为你的应用程序配置好了 `phpunit.xml` 文件。框架还提供了一些便利的辅助函数，让你可以更直观的测试应用程序。
 
-By default, your application's `tests` directory contains two directories: `Feature` and `Unit`. Unit tests are tests that focus on a very small, isolated portion of your code. In fact, most unit tests probably focus on a single method. Feature tests may test a larger portion of your code, including how several objects interact with each other or even a full HTTP request to a JSON endpoint.
+默认在你应用的 `tests` 目录下包含了两个子目录： `Feature` 和 `Unit`。单元测试是针对你代码中相对独立而且非常少的一部分代码来进行测试。实际上，大多数单元测试可能都是针对某一个方法来进行的。功能测试是针对你代码中大部分的代码来进行测试，包括几个对象的相互作用，甚至是一个完整的 HTTP 请求 JSON 实例。
 
-An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, simply run `phpunit` on the command line to run your tests.
+在 `Feature` 和 `Unit` 目录中都有提供一个 `ExampleTest.php` 的示例文件。安装新的 Laravel 应用程序之后，只需在命令行上运行 `phpunit` 就可以进行测试。
 
 <a name="environment"></a>
-## Environment
+## 测试环境
 
-When running tests via `phpunit`, Laravel will automatically set the configuration environment to `testing` because of the environment variables defined in the `phpunit.xml` file. Laravel also automatically configures the session and cache to the `array` driver while testing, meaning no session or cache data will be persisted while testing.
+在运行测试时，Laravel 会根据 `phpunit.xml` 文件中设定好的环境变量自动将环境变量设置为 `testing`，并将 Session 及缓存以 `array` 的形式存储，也就是说在测试时不会持久化任何 Session 或缓存数据。
 
-You are free to define other testing environment configuration values as necessary. The `testing` environment variables may be configured in the `phpunit.xml` file, but make sure to clear your configuration cache using the `config:clear` Artisan command before running your tests!
+你可以随意创建其它必要的测试环境配置。`testing` 环境的变量可以在 `phpunit.xml` 文件中被修改，但是在运行测试之前，请确保使用 `config:clear` Artisan 命令来清除配置信息的缓存。
 
 <a name="creating-and-running-tests"></a>
-## Creating & Running Tests
+## 定义并运行测试
 
-To create a new test case, use the `make:test` Artisan command:
+可以使用 `make:test` Artisan 命令，创建一个测试用例：
 
-    // Create a test in the Feature directory...
+    // 在 Feature 目录下创建一个测试类...
     php artisan make:test UserTest
 
-    // Create a test in the Unit directory...
+    // 在 Unit 目录下创建一个测试类...
     php artisan make:test UserTest --unit
 
-Once the test has been generated, you may define test methods as you normally would using PHPUnit. To run your tests, simply execute the `phpunit` command from your terminal:
+测试类生成之后，你就可以像平常使用 PHPUnit 一样来定义测试方法。要运行测试只需要在终端上运行 `phpunit` 命令即可：
 
     <?php
 
@@ -44,7 +44,7 @@ Once the test has been generated, you may define test methods as you normally wo
     class ExampleTest extends TestCase
     {
         /**
-         * A basic test example.
+         * 基本的测试用例。
          *
          * @return void
          */
@@ -54,4 +54,4 @@ Once the test has been generated, you may define test methods as you normally wo
         }
     }
 
-> {note} If you define your own `setUp` method within a test class, be sure to call `parent::setUp`.
+> {note} 如果要在你的测试类自定义自己的 `setUp` 方法，请确保调用了 `parent::setUp` 方法。
