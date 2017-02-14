@@ -1,57 +1,62 @@
 # Laravel 的哈希加密
 
-- [Introduction](#introduction)
-- [Basic Usage](#basic-usage)
+- [简介](#introduction)
+- [基本用法](#basic-usage)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt hashing for storing user passwords. If you are using the built-in `LoginController` and `RegisterController` classes that are included with your Laravel application, they will automatically use Bcrypt for registration and authentication.
+Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密来保存用户密码。 如果您在当前的 Laravel 应用程序中使用了内置的`LoginController` 和 `RegisterController` 类，它们将自动使用Bcrypt进行注册和身份验证。
 
-> {tip} Bcrypt is a great choice for hashing passwords because its "work factor" is adjustable, which means that the time it takes to generate a hash can be increased as hardware power increases.
+> {tip} 由于 Bcrypt 的 「加密系数（word fator）」可以任意调整，这使它成为最好的加密选择。这代表每一次加密的时间可以随着硬件设备的升级而加长。
 
 <a name="basic-usage"></a>
-## Basic Usage
+## 基本用法
 
-You may hash a password by calling the `make` method on the `Hash` facade:
+你可以通过调用 `Hash` facade 的 `make` 方法加密一个密码：
 
-    <?php
 
-    namespace App\Http\Controllers;
+```php
+<?php
 
-    use Illuminate\Http\Request;
-    use Illuminate\Support\Facades\Hash;
-    use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 
-    class UpdatePasswordController extends Controller
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+
+class UpdatePasswordController extends Controller
+{
+    /**
+     * 跟新用户密码
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function update(Request $request)
     {
-        /**
-         * Update the password for the user.
-         *
-         * @param  Request  $request
-         * @return Response
-         */
-        public function update(Request $request)
-        {
-            // Validate the new password length...
+        // 验证新密码长度...
 
-            $request->user()->fill([
-                'password' => Hash::make($request->newPassword)
-            ])->save();
-        }
+        $request->user()->fill([
+            'password' => Hash::make($request->newPassword)
+        ])->save();
     }
+}
+```
 
-#### Verifying A Password Against A Hash
+#### 根据哈希值验证密码
 
-The `check` method allows you to verify that a given plain-text string corresponds to a given hash. However, if you are using the `LoginController` [included with Laravel](/docs/{{version}}/authentication), you will probably not need to use this directly, as this controller automatically calls this method:
+`check` 方法允许你通过一个指定的纯字符串跟哈希值进行验证。 如果你目前正使用[Laravel内含的](/docs/{{version}}/authentication) `LoginController` , 你可能不需要直接使用该方法，它已经包含在控制器当中并且会被自动调用：
 
-    if (Hash::check('plain-text', $hashedPassword)) {
-        // The passwords match...
-    }
+```php
+if (Hash::check('plain-text', $hashedPassword)) {
+    // The passwords match...
+}
+```
 
-#### Checking If A Password Needs To Be Rehashed
+#### 验证密码是否须重新加密
 
-The `needsRehash` function allows you to determine if the work factor used by the hasher has changed since the password was hashed:
+`needsRehash` 函数允许你检查已加密的密码所使用的加密系数是否被修改：
 
     if (Hash::needsRehash($hashed)) {
         $hashed = Hash::make('plain-text');
