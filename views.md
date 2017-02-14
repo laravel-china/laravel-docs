@@ -1,4 +1,4 @@
-# 视图
+# Laravel 的视图功能
 
 - [创建视图](#creating-views)
 - [传递数据到视图](#passing-data-to-views)
