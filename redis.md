@@ -1,12 +1,12 @@
 # Laravel 的 Redis 使用指南
 
 - [简介](#introduction)
-    - [配置](#Configuration)
+    - [配置](#configuration)
     - [Predis](#predis)
     - [PhpRedis](#phpredis)
-- [基本用法](#Interacting With Redis)
-    - [管道化命令](#Pipelining Commands)
-- [发布与订阅](#Pub/Sub)
+- [基本用法](#interacting-with-redis)
+    - [管道化命令](#pipelining-commands)
+- [发布与订阅](#pubsub)
 
 <a name="introduction"></a>
 ## 简介
@@ -160,7 +160,7 @@ Redis 是一款开源且先进的键值对数据库。由于它的键指向的�
 
     $redis = Redis::connection();
 
-你会得到一个 Redis 默认服务器的实例。如果你没有使用服务器集群，则可以在 `connection` 方法传入定义在 Redis 配置文件的服务器名称，以获取特定服务器：
+这会返回配置项中的默认的 redis 服务器。你也可以传递连接或者集群的名字给 `connection` 方法，来获取在 Redis 配置文件中配置的特定的服务器或者集群：
 
     $redis = Redis::connection('my-connection');
 
