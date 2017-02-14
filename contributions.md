@@ -1,4 +1,4 @@
-# 贡献指南
+# Laravel 源代码贡献指南
 
 - [错误反馈](#bug-reports)
 - [核心开发讨论](#core-development-discussion)

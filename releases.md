@@ -1,6 +1,7 @@
-# 发行说明
+# Laravel 发行说明
 
-- [支持策略](#support-policy)
+- [Support Policy](#support-policy)
+- [Laravel 5.4](#laravel-5.4)
 - [Laravel 5.3](#laravel-5.3)
 - [Laravel 5.2](#laravel-5.2)
 - [Laravel 5.1.11](#laravel-5.1.11)
@@ -13,40 +14,369 @@
 <a name="support-policy"></a>
 ## 支持策略
 
-Laravel 5.1 LTS 版本会提供两年的 BUG 修复及三年的安全性修复，LTS 版本是 Laravel 能提供的维护时间最长的发行版。
+对于 LTS 版本，比如 Laravel 5.1，会提供为期两年的 bug 修复和三年的安全修复支持。LTS 版本是 Laravel 能提供的维护时间最长的发行版。
 
-对于一般的版本，会提供六个月的 BUG 修复及一年的安全性修复。
+对于其他通用版本，只提供六个月的 bug 修复和一年的安全修复支持。
 
 > [Laravel 的发布路线图](https://phphub.org/topics/2594) - by [Summer](http://github.com/summerblue)
+
+<a name="laravel-5.4"></a>
+## Laravel 5.4
+
+Laravel 5.4 continues the improvements made in Laravel 5.3 by adding support for [Markdown based emails and notifications](/docs/5.4/mail#markdown-mailables), the [Laravel Dusk](/docs/5.4/dusk) browser automation and testing framework, Laravel Mix, Blade "components" and "slots", route model binding on broadcast channels, higher order messages for Collections, object-based Eloquent events, job-level "retry" and "timeout" settings, "realtime" facades, improved support for Redis Cluster, custom pivot table models, middleware for request input trimming and cleaning, and more. In addition, the entire codebase of the framework was reviewed and refactored for general cleanliness.
+
+> {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md).
+
+### Markdown Mail & Notifications
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7) for this feature available on Laracasts.
+
+Markdown mailable messages allow you to take advantage of the pre-built templates and components of mail notifications in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart. For example, a Markdown email might look something like the following:
+
+    @component('mail::message')
+    # Order Shipped
+
+    Your order has been shipped!
+
+    @component('mail::button', ['url' => $url])
+    View Order
+    @endcomponent
+
+    Next Steps:
+
+    - Track Your Order On Our Website
+    - Pre-Sign For Delivery
+
+    Thanks,<br>
+    {{ config('app.name') }}
+    @endcomponent
+
+Using this simple Markdown template, Laravel is able to generate a responsive HTML email and plain-text counterpart:
+
+<img src="https://laravel.com/assets/img/examples/markdown.png" width="551" height="596">
+
+To read more about Markdown mail and notifications, check out the full [mail](/docs/5.4/mail) and [notification](/docs/5.4/notifications) documentation.
+
+> {tip} You may export all of the Markdown mail components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag.
+
+### Laravel Dusk
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/9) for this feature available on Laracasts.
+
+Laravel Dusk provides an expressive, easy-to-use browser automation and testing API. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) installation. However, you are free to utilize any other Selenium compatible driver you wish.
+
+Since Dusk operates using a real browser, you are able to easily test and interact with your applications that heavily use JavaScript:
+
+    /**
+     * A basic browser test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $user = factory(User::class)->create([
+            'email' => 'taylor@laravel.com',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visit('/home')
+                    ->press('Create Playlist')
+                    ->whenAvailable('.playlist-modal', function ($modal) {
+                        $modal->type('name', 'My Playlist')
+                              ->press('Create');
+                    });
+
+            $browser->waitForText('Playlist Created');
+        });
+    }
+
+For more information on Dusk, consult the full [Dusk documentation](/docs/5.4/dusk).
+
+### Laravel Mix
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/3) for this feature available on Laracasts.
+
+Laravel Mix is the spiritual successor of Laravel Elixir, and its entirely based on Webpack instead of Gulp. Laravel Mix provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
+
+    mix.js('resources/assets/js/app.js', 'public/js')
+       .sass('resources/assets/sass/app.scss', 'public/css');
+
+### Blade Components & Slots
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/6) for this feature available on Laracasts.
+
+Blade components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
+
+    <!-- /resources/views/alert.blade.php -->
+
+    <div class="alert alert-danger">
+        {{ $slot }}
+    </div>
+
+The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
+
+    @component('alert')
+        <strong>Whoops!</strong> Something went wrong!
+    @endcomponent
+
+Named slots allow you to provide multiple slots into a single component:
+
+    <!-- /resources/views/alert.blade.php -->
+
+    <div class="alert alert-danger">
+        <div class="alert-title">{{ $title }}</div>
+
+        {{ $slot }}
+    </div>
+
+Named slots may be injected using the `@slot` directive. Any content is not within a `@slot` directive will be passed to the component in the `$slot` variable:
+
+    @component('alert')
+        @slot('title')
+            Forbidden
+        @endslot
+
+        You are not allowed to access this resource!
+    @endcomponent
+
+To read more about components and slots, consult the full [Blade documentation](/docs/5.4/blade).
+
+### Broadcast Model Binding
+
+Just like HTTP routes, channel routes may now take advantage of implicit and explicit [route model binding](/docs/5.4/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, you may request an actual `Order` model instance:
+
+    use App\Order;
+
+    Broadcast::channel('order.{order}', function ($user, Order $order) {
+        return $user->id === $order->user_id;
+    });
+
+To read more about broadcast model binding, consult the full [event broadcasting](/docs/5.4/broadcasting) documentation.
+
+### Collection Higher Order Messages
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/2) for this feature available on Laracasts.
+
+Collections now provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
+
+Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
+
+    $users = User::where('votes', '>', 500)->get();
+
+    $users->each->markAsVip();
+
+Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
+
+    $users = User::where('group', 'Development')->get();
+
+    return $users->sum->votes;
+
+### Object Based Eloquent Events
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/10) for this feature available on Laracasts.
+
+Eloquent event handlers may now be mapped to event objects. This provides a more intuitive way of handling Eloquent events and makes it easier to test the events. To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/5.4/events):
+
+    <?php
+
+    namespace App;
+
+    use App\Events\UserSaved;
+    use App\Events\UserDeleted;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+
+    class User extends Authenticatable
+    {
+        use Notifiable;
+
+        /**
+         * The event map for the model.
+         *
+         * @var array
+         */
+        protected $events = [
+            'saved' => UserSaved::class,
+            'deleted' => UserDeleted::class,
+        ];
+    }
+
+### Job Level Retry & Timeout
+
+Previously, queue job "retry" and "timeout" settings could only be configured globally for all jobs on the command line. However, in Laravel 5.4, these settings may be configured on a per-job basis by defining them directly on the job class:
+
+    <?php
+
+    namespace App\Jobs;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        /**
+         * The number of times the job may be attempted.
+         *
+         * @var int
+         */
+        public $tries = 5;
+
+        /**
+         * The number of seconds the job can run before timing out.
+         *
+         * @var int
+         */
+        public $timeout = 120;
+    }
+
+For more information about these settings, consult the full [queue documentation](/docs/5.4/queues).
+
+### Request Sanitization Middleware
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/1) for this feature available on Laracasts.
+
+Laravel 5.4 includes two new middleware in the default middleware stack: `TrimStrings` and `ConvertEmptyStringsToNull`:
+
+    /**
+     * The application's global HTTP middleware stack.
+     *
+     * These middleware are run during every request to your application.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+    ];
+
+These middleware will automatically trim request input values and convert any empty strings to `null`. This helps you normalize the input for every request entering into your application and not have to worry about continually calling the `trim` function in every route and controller.
+
+### "Realtime" Facades
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/8) for this feature available on Laracasts.
+
+Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/facades), which provide quick, terse access to their methods via the service container. However, in Laravel 5.4, you may easily convert any of your application's classes into a facade in realtime simply by prefixing the imported class name with `Facades`. For example, imagine your application contains a class like the following:
+
+    <?php
+
+    namespace App\Services;
+
+    class PaymentGateway
+    {
+        protected $tax;
+
+        /**
+         * Create a new payment gateway instance.
+         *
+         * @param  TaxCalculator  $tax
+         * @return void
+         */
+        public function __construct(TaxCalculator $tax)
+        {
+            $this->tax = $tax;
+        }
+
+        /**
+         * Pay the given amount.
+         *
+         * @param  int  $amount
+         * @return void
+         */
+        public function pay($amount)
+        {
+            // Pay an amount...
+        }
+    }
+
+You may easily use this class as a facade like so:
+
+    use Facades\ {
+        App\Services\PaymentGateway
+    };
+
+    Route::get('/pay/{amount}', function ($amount) {
+        PaymentGateway::pay($amount);
+    });
+
+Of course, if you leverage a realtime facade in this way, you may easily write a test for the interaction using Laravel's [facade mocking capabilities](/docs/5.4/mocking):
+
+    PaymentGateway::shouldReceive('pay')->with('100');
+
+### Custom Pivot Table Models
+
+In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used the same built-in `Pivot` model instance. In Laravel 5.4, you may define custom models for your pivot tables. If you would like to define a custom model to represent the intermediate table of your relationship, use the `using` method when defining the relationship:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Role extends Model
+    {
+        /**
+         * The users that belong to the role.
+         */
+        public function users()
+        {
+            return $this->belongsToMany('App\User')->using('App\UserRole');
+        }
+    }
+
+### Improved Redis Cluster Support
+
+Previously, it was not possible to define Redis connections to single hosts and to clusters in the same application. In Laravel 5.4, you may now define Redis connections to multiple single hosts and multiple clusters within the same application. For more information on Redis in Laravel, please consult the full [Redis documentation](/docs/5.4/redis).
+
+<a name="utf8mb4"></a>
+### Migration Default String Length
+
+Laravel 5.4 uses the `utf8mb4` character set by default, which includes support for storing "emojis" in the database. If you are upgrading your application from Laravel 5.3, you are not required to switch to this character set.
+
+If you choose to switch to this character set manually and are running a version of MySQL older than the 5.7.7 release, you may need to manually configure the default string length generated by migrations. You may configure this by calling the `Schema::defaultStringLength` method within your `AppServiceProvider`:
+
+    use Illuminate\Support\Facades\Schema;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
+    }
 
 <a name="laravel-5.3"></a>
 ## Laravel 5.3
 
 Laravel 5.3 在 5.2 基础上进行了优化，新特性包括以下：
 
-* [消息通知系统 Laravel Notifications](/docs/5.3/notifications)；
-* [事件广播系统 Laravel Echo](/docs/5.3/broadcasting)；
-* [Laravel Passport 快速 OAuth2 服务器的扩展包](/docs/5.3/passport)；
-* [Laravel Scout 全文搜索引擎](/docs/5.3/scout)；
+* [消息通知 Laravel Notifications](/docs/5.3/notifications)；
+* [事件广播 Laravel Echo](/docs/5.3/broadcasting)；
+* [OAuth2 授权认证 Laravel Passport](/docs/5.3/passport)；
+* [全文搜索引擎 Laravel Scout](/docs/5.3/scout)；
 * Laravel Elixir 开始支持 Webpack；
-* 邮件操作 Laravel Mailable；
+* Mail 操作类 Laravel Mailable；
 * `web` 和 `api` 的路由分离；
 * 基于闭包的控制台命令；
-* 上传文件存储的帮助函数；
+* 更加易用的辅助函数，用于存储上传的文件；
 * 支持 POPO 和单动作控制；
-* 优化默认前端脚手架，等。
+* 优化默认的前端脚手架，等等。
 
-### 消息通知 Notifications
+### 消息通知
 
-> {video} Laracasts 上关于此功能的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9)。
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/9)。
 
-Laravel Notifications 提供了简单、优雅的 API 支持你在不同的发送媒介中发送通知，例如邮件、SMS、Slack 等等。
+Laravel Notifications 提供了简单、优雅的 API 支持你通过不同的渠道发送通知，例如电子邮件、Slack、手机短信等等。
 
-例如，你可以定义一个单据已经支付的通知，然后通过邮件和 SMS 发送这个通知：
+例如，你可以定义一个单据，当该单据被付款后，则通过邮件和手机短信发送提醒通知：
+
+你可用通过下面这个简单的方法来实现：
 
     $user->notify(new InvoicePaid($invoice));
 
 [Laravel 社区](http://laravel-notification-channels.com) 已经为通知系统编写了各式的驱动，甚至包括对 iOS 和 Android 通知的支持，更多关于通知系统的信息，请查看 [完整的文档](/docs/5.3/notifications)。
+
 
 ### WebSockets / 事件广播
 
@@ -59,16 +389,17 @@ Laravel Notifications 提供了简单、优雅的 API 支持你在不同的发�
         return $user->placedOrder($orderId);
     });
 
-Laravel Echo 是一个可通过 NPM 安装的全新的 JavaScript 包，会和 Laravel 5.3 一起发布，Echo 为客户端 JavaScript 中监听服务器端事件提供了简单、优雅的 API 接口。
+Laravel Echo 是一个可通过 NPM 安装的全新的 JavaScript 包，会随 Laravel 5.3 一起发布。Echo 提供了简单、优雅的 API 接口，支持你在 JavaScript 客户端应用中，订阅频道和监听服务器端事件。
 
-Echo 默认包含对 [Pusher](https://pusher.com) 和 [Socket.io](http://socket.io) 的支持：
+Echo 提供的支持包括 [Pusher](https://pusher.com) 以及 [Socket.io](http://socket.io)：
 
     Echo.channel('orders.' + orderId)
         .listen('ShippingStatusUpdated', (e) => {
             console.log(e.description);
         });
 
-除了订阅到传统频道上，Laravel Echo 也让频道间的监听变得简单：
+
+除了订阅到传统频道上，Laravel Echo 也让频道的监听与管理变得更加简单：
 
     Echo.join('chat.' + roomId)
         .here((users) => {
@@ -81,7 +412,7 @@ Echo 默认包含对 [Pusher](https://pusher.com) 和 [Socket.io](http://socket.
             console.log(user.name);
         });
 
-更多信息请查阅 [完整文档](/docs/5.3/broadcasting).
+了解更多关于 Echo 和事件广播的信息，请查阅 [完整文档](/docs/5.3/broadcasting).
 
 ### Laravel Passport (OAuth2 认证服务)
 
@@ -97,7 +428,7 @@ Passport 让发放 OAuth2 令牌（Access Token）变得轻松，你还可以允
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
 
-如果你不想使用 Vue 组件，你可以自由的定制用于管理客户端和访问令牌的前端、后台。Passport 提供了一个简单的 JSON API，你可以在前端使用任何 JavaScript 框架与之集成。
+如果你不想使用 Vue 组件，你可以自由的定制用于管理客户端和访问令牌的前端及后台。Passport 提供了一个简单的 JSON API，你可以在前端使用任何 JavaScript 框架与之集成。
 
 Passport 还提供了方便的 API 让你定制「Token 访问域」：
 
@@ -109,7 +440,7 @@ Passport 还提供了方便的 API 让你定制「Token 访问域」：
 此外，Passport 还包含了一个用于检查「Token 访问域」访问权限的中间件：
 
     Route::get('/orders/{order}/status', function (Order $order) {
-        // 检查令牌是否拥有访问域 "check-status"
+        // 检查令牌是否拥有 "check-status" 访问域
     })->middleware('scope:check-status');
 
 最后，Passport 还支持从 JavaScript 应用访问你的 API，而不必担心访问令牌传输。
@@ -118,7 +449,7 @@ Passport 通过加密 JWT cookies 和同步「CSRF 令牌」来实现此功能�
 
 更多关于 Passport 信息，请查看 [完整文档](/docs/5.3/passport)。
 
-### 搜索系统 (Laravel Scout)
+### 搜索系统 Laravel Scout
 
 Laravel Scout 提供了一个简单的、基于驱动的、针对 [Eloquent](/docs/5.3/eloquent) 模型的全文搜索解决方案。
 
@@ -167,7 +498,7 @@ Laravel 5.3 Mailable 是一个崭新的 Mail 操作类，通过一种更加优�
         use Queueable, SerializesModels;
 
         /**
-         * Build the message.
+         * 新建消息
          *
          * @return $this
          */
@@ -199,7 +530,7 @@ Mailable 还支持队列操作，只需要在类声明里实现 `ShouldQueue` �
 Laravel 5.3 提供了一个便捷的 `store` 方法，只需要对上传文件对象调用此方法，并传参准备存储的路径即可：
 
     /**
-     * Update the avatar for the user.
+     * 更新用户头像
      *
      * @param  Request  $request
      * @return Response
@@ -212,7 +543,6 @@ Laravel 5.3 提供了一个便捷的 `store` 方法，只需要对上传文件�
     }
 
 更多上传文件信息，请查看 [完整文档](/docs/{{version}}/filesystem#file-uploads)。
-
 
 ### Webpack 和 Laravel Elixir
 
@@ -233,7 +563,7 @@ Laravel Elixir 6.0 与 Laravel 5.3 共同发布，内置了 Webpack 和 Rollup J
 
 Laravel 5.3 提供了一个更加现代的前端架构。这主要会影响 `make:auth` 命令生成认证相关的前端脚手架代码，不再从 CDN 中加载前端资源，所有依赖被定义在默认的 package.json 文件中，你可以自行修改。
 
-此外，支持单文件的 Vue 组件现在直接开箱即用， `resources/assets/js/components` 目录下包含了一个简单的示例 `Example.vue`，新的 `resources/assets/js/app.js` 用来配置 JavaScript 类库依赖和 Vue 子模块。
+此外，支持单文件的 [Vue 组件](https://vuejs.org) 现在直接开箱即用， `resources/assets/js/components` 目录下包含了一个简单的示例 `Example.vue`，新的 `resources/assets/js/app.js` 用来配置 JavaScript 类库依赖和 Vue 子模块。
 
 这种架构对开始开发现代的、强大的 JavaScript 应用提供了更好的支持，而不需要要求应用使用任何特定 JavaScript 或者 CSS 框架。
 
@@ -277,7 +607,6 @@ API 相关的路由在 `RouteServiceProvider` 中指定了自动添加 `api` 前
 
 更多信息请查看 [Blade 文档](/docs/5.3/blade#the-loop-variable).
 
-
 <a name="laravel-5.2"></a>
 ## Laravel 5.2
 
@@ -297,21 +626,21 @@ Laravel 5.2 在 Laravel 5.1 的基础上进行了优化，新特性包括以下�
 
 Laravel 5.2 对此进行了改进，你可以定义多个认证驱动，还支持多个可认证的数据模型以及用户表，并且可以独立控制其认证。
 
-如果你的应用包含 `管理员用户数据表` 和一个 `学生用户数据表`，现在你可以使用 `Auth` 来实现管理员用户和学生用户的独立登录而互不影响。
+例如，如果你的应用中有一张「admin」数据库用户表，一张「student」数据库用户表（一个后台管理员用户表和一个前台学生用户表），现在你可以使用  `Auth` 方法来实现后台用户和学生用户的独立登录而不相互影响。
 
 ### 用户认证脚手架
 
-Laravel 不止提供服务器端的用户认证逻辑代码，Laravel 5.2 还提供了便捷的方式来创建认证视图，只需在终端执行下 `make:auth` 命令即可：
+此前 Laravel 后端认证处理已经是相当容易了，现在 Laravel 5.2 提供了一个更加便捷、快速的方法来创建前台认证视图，只需要简单的在终端执行 `make:auth` 命令即可。
 
     php artisan make:auth
 
-该命令会生成纯文本、兼容 Bootstrap 样式，用于登录、注册和密码重置的视图。该命令还会顺带在路由文件中增加对应的授权路由。
+该命令会生成纯文本的、兼容 Bootstrap 样式的视图用于登录、注册和密码重置。该命令还会顺带在路由文件中增加对应的授权路由。
 
-> **注意**：该功能特性只能在新应用中使用，不能在应用升级过程中使用。
+>  {note} 该功能特性只能用于新创建的应用，不能用于升级后的应用。
 
 ### 隐式数据模型绑定
 
-隐式模型绑定使得在路由和控制器中注入模型实例更加便捷。假设你有一个路由定义如下：
+隐式模型绑定使得在路由和控制器中注入模型实例更加便捷。例如，假设你定义了一个如下的路由：
 
     use App\User;
 
@@ -319,7 +648,7 @@ Laravel 不止提供服务器端的用户认证逻辑代码，Laravel 5.2 还提
         return $user;
     });
 
-Laravel 5.1 中，你需要通过 `Route::model` 方法指示 Laravel 注入 `App\User` 实例来匹配路由中的 `{user}` 参数。
+在 Laravel 5.1 中，你通常需要通过 `Route::model` 方法告诉 Laravel 注入 `App\User` 实例以匹配路由定义中的 `{user}` 参数。
 
 现在，在 Laravel 5.2 中，框架将会基于相应 URI 判断 **自动** 注入模型，从而允许你快速访问需要的模型实例。
 
@@ -327,14 +656,14 @@ Laravel 5.1 中，你需要通过 `Route::model` 方法指示 Laravel 注入 `Ap
 
 更多隐式模型绑定信息，请查看 [HTTP 路由模型绑定部分](/docs/{{version}}/routing#Route-Model-Binding)。
 
-### 中间件组
+### 中间件群组
 
-中间件组允许你使用单个 `键` 对相关路由中间件进行分组，从而实现为某个路由一次性指定多个中间件。例如，在同一个应用中同时构建 Web UI 和 API 时，这一特性就会派上用场，你可以将 Session 和 CSRF 路由分组到一个 `web` 组，或者将访问频率限制分组到 `api` 组中。
+中间件群组允许你将多个路由中间件组织到单一、方便的键 （即群组名称）下面，从而可以为某个路由一次指派多个中间件。例如，在同一个应用中构建 Web UI 或 API 时，这一特性很有用。例如，你可以将 session 及 CSRF 路由組合成一个 `web` 群组，并将访问频率限制分组到 `api`群组。
 
-实际上，默认的 Laravel 5.2 应用结构采用的正是这个方法。例如，在默认的 `App\Http\Kernel.php` 文件中你会看到如下：
+实际上，默认的 Laravel 5.2 应用结构采用的正是这种方法。例如，在默认的 `App\Http\Kernel.php`  文件中你会看到如下内容：
 
     /**
-     * 应用程序的中间件分组
+     * 路由中间件群组
      *
      * @var array
      */
@@ -372,13 +701,13 @@ Laravel 5.1 中，你需要通过 `Route::model` 方法指示 Laravel 注入 `Ap
 
 ### 数组输入验证
 
-Laravel 5.2 可轻松实现表单字段的数组输入验证。例如，要验证指定数组输入字段中的每一个 email 是否唯一，可以这么做：
+在 Laravel 5.2 中，可轻松验证表单中的每一个数组输入字段。例如，要验证指定数组输入字段中每一个 email 是否唯一，可以这么实现：
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users'
     ]);
 
-你可以使用 `*` 来自定义验证数组字段的错误消息提醒：
+同样的，你可以使用「 *」 符号来指定要验证数组字段，自定义验证数组字段的错误消息提醒：
 
     'custom' => [
         'person.*.email' => [
@@ -386,7 +715,7 @@ Laravel 5.2 可轻松实现表单字段的数组输入验证。例如，要验�
         ]
     ],
 
-### `bail` 验证规则
+### Bail 认证规则
 
 Laravel 5.2 新添加了一个 `bail` 认证规则，此规则会在第一个失败认证后停止后面的其他认证检查。例如：你想在 `integer` 数值检查失败后停止对 `unique` 唯一性的检查：
 
@@ -931,5 +1260,3 @@ Laravel 4.1 拥有一个完全重新编写的路由层。API 一样不变。然�
 ### Doctrine DBAL
 
 如果你有在你的迁移中使用到 `renameColumn`，之后你必须在 `composer.json` 里加 `doctrine/dbal` 进依赖扩展包中。此扩展包不再默认包含在 Laravel 之中。
-
-

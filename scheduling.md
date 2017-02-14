@@ -1,9 +1,10 @@
-# Task Scheduling
+# Laravel 的计划任务功能 Task Scheduling
 
 - [Introduction](#introduction)
 - [Defining Schedules](#defining-schedules)
     - [Schedule Frequency Options](#schedule-frequency-options)
     - [Preventing Task Overlaps](#preventing-task-overlaps)
+    - [Maintenance Mode](#maintenance-mode)
 - [Task Output](#task-output)
 - [Task Hooks](#task-hooks)
 
@@ -60,9 +61,11 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
         }
     }
 
-In addition to scheduling `Closure` calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command:
+In addition to scheduling `Closure` calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
 
     $schedule->command('emails:send --force')->daily();
+
+    $schedule->command(EmailsCommand::class, ['--force'])->daily();
 
 The `exec` command may be used to issue a command to the operating system:
 
@@ -81,6 +84,7 @@ Method  | Description
 `->everyTenMinutes();`  |  Run the task every ten minutes
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
+`->hourlyAt(17);`  |  Run the task every hour at 17 mins past the hour
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
@@ -103,9 +107,7 @@ These methods may be combined with additional constraints to create even more fi
               ->weekdays()
               ->hourly()
               ->timezone('America/Chicago')
-              ->when(function () {
-                    return date('H') >= 8 && date('H') <= 17;
-              });
+              ->between('8:00', '17:00');
 
 Below is a list of the additional schedule constraints:
 
@@ -119,7 +121,22 @@ Method  | Description
 `->thursdays();`  |  Limit the task to Thursday
 `->fridays();`  |  Limit the task to Friday
 `->saturdays();`  |  Limit the task to Saturday
+`->between($start, $end);`  |  Limit the task to run between start and end times
 `->when(Closure);`  |  Limit the task based on a truth test
+
+#### Between Time Constraints
+
+The `between` method may be used to limit the execution of a task based on the time of day:
+
+    $schedule->command('reminders:send')
+                        ->hourly()
+                        ->between('7:00', '22:00');
+
+Similarly, the `unlessBetween` method can be used to exclude the execution of a task for a period of time:
+
+    $schedule->command('reminders:send')
+                        ->hourly()
+                        ->unlessBetween('23:00', '4:00');
 
 #### Truth Test Constraints
 
@@ -146,6 +163,13 @@ By default, scheduled tasks will be run even if the previous instance of the tas
 
 In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) will be run every minute if it is not already running. The `withoutOverlapping` method is especially useful if you have tasks that vary drastically in their execution time, preventing you from predicting exactly how long a given task will take.
 
+<a name="maintenance-mode"></a>
+### Maintenance Mode
+
+Laravel's scheduled tasks will not run when Laravel is in [maintenance mode](/docs/{{version}}/configuration#maintenance-mode), since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may use the `evenInMaintenanceMode` method:
+
+    $schedule->command('emails:send')->evenInMaintenanceMode();
+
 <a name="task-output"></a>
 ## Task Output
 
@@ -161,14 +185,14 @@ If you would like to append the output to a given file, you may use the `appendO
              ->daily()
              ->appendOutputTo($filePath);
 
-Using the `emailOutputTo` method, you may e-mail the output to an e-mail address of your choice. Note that the output must first be sent to a file using the `sendOutputTo` method. Before e-mailing the output of a task, you should configure Laravel's [e-mail services](/docs/{{version}}/mail):
+Using the `emailOutputTo` method, you may e-mail the output to an e-mail address of your choice. Before e-mailing the output of a task, you should configure Laravel's [e-mail services](/docs/{{version}}/mail):
 
     $schedule->command('foo')
              ->daily()
              ->sendOutputTo($filePath)
              ->emailOutputTo('foo@example.com');
 
-> {note} The `emailOutputTo` and `sendOutputTo` methods are exclusive to the `command` method and are not supported for `call`.
+> {note} The `emailOutputTo`, `sendOutputTo` and `appendOutputTo` methods are exclusive to the `command` method and are not supported for `call`.
 
 <a name="task-hooks"></a>
 ## Task Hooks

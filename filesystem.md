@@ -1,4 +1,4 @@
-# Filesystem / Cloud Storage
+# Laravel 的文件系统和云存储功能集成
 
 - [Introduction](#introduction)
 - [Configuration](#configuration)
@@ -127,7 +127,18 @@ When using the `local` or `s3` drivers, you may use the `url` method to get the 
 
     $url = Storage::url('file1.jpg');
 
-> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) to the `storage/app/public` directory.
+> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) at `public/storage` which points to the `storage/app/public` directory.
+
+#### Local URL Host Customization
+
+If you would like to pre-define the host for files stored on a disk using the `local` driver, you may add a `url` option to the disk's configuration array:
+
+    'public' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public'),
+        'url' => env('APP_URL').'/storage',
+        'visibility' => 'public',
+    ],
 
 <a name="file-metadata"></a>
 ### File Metadata
@@ -155,19 +166,19 @@ The `put` method may be used to store raw file contents on a disk. You may also 
 
 #### Automatic Streaming
 
-If you would like Laravel to automatically manage streaming a given file to your storage location, you may use the `putFile` or `putFileAs` method. This method accepts either a `Illuminate\Http\File` or `Illuminate\Http\UploadedFile` instance and will automatically stream the file to your desire location:
+If you would like Laravel to automatically manage streaming a given file to your storage location, you may use the `putFile` or `putFileAs` method. This method accepts either a `Illuminate\Http\File` or `Illuminate\Http\UploadedFile` instance and will automatically stream the file to your desired location:
 
     use Illuminate\Http\File;
 
-    // Automatically calculate MD5 hash for file name...
+    // Automatically generate a unique ID for file name...
     Storage::putFile('photos', new File('/path/to/photo'));
 
     // Manually specify a file name...
-    Storage::putFile('photos', new File('/path/to/photo'), 'photo.jpg');
+    Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will automatically generate a filename based on the contents of the file. This is accomplished by taking a MD5 hash of the file's contents. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
 
-The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to publicly accessible:
+The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
 
     Storage::putFile('photos', new File('/path/to/photo'), 'public');
 
@@ -215,13 +226,11 @@ In web applications, one of the most common use-cases for storing files is stori
         }
     }
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will automatically generate a filename based on the contents of the file. This is accomplished by taking a MD5 hash of the file's contents. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
 
 You may also call the `putFile` method on the `Storage` facade to perform the same file manipulation as the example above:
 
     $path = Storage::putFile('avatars', $request->file('avatar'));
-
-> {note} If you are receiving very large file uploads, you may wish to manually specify the file name as shown below. Calculating an MD5 hash for extremely large files can be memory intensive.
 
 #### Specifying A File Name
 
@@ -333,7 +342,7 @@ In order to set up the custom filesystem you will need to create a [service prov
          */
         public function boot()
         {
-            Storage::extend('dropbox', function($app, $config) {
+            Storage::extend('dropbox', function ($app, $config) {
                 $client = new DropboxClient(
                     $config['accessToken'], $config['clientIdentifier']
                 );
@@ -355,4 +364,4 @@ In order to set up the custom filesystem you will need to create a [service prov
 
 The first argument of the `extend` method is the name of the driver and the second is a Closure that receives the `$app` and `$config` variables. The resolver Closure must return an instance of `League\Flysystem\Filesystem`. The `$config` variable contains the values defined in `config/filesystems.php` for the specified disk.
 
-Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystem.php` configuration file.
+Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystems.php` configuration file.

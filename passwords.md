@@ -1,63 +1,61 @@
-# 重置密码
+# Laravel 的密码重设功能
 
-- [重置密码说明](#introduction)
-- [数据库注意事项](#resetting-database)
-- [路由](#resetting-routing)
-- [视图](#resetting-views)
-- [重置密码后](#after-resetting-passwords)
-- [密码自定义](#password-customization)
+- [Introduction](#introduction)
+- [Database Considerations](#resetting-database)
+- [Routing](#resetting-routing)
+- [Views](#resetting-views)
+- [After Resetting Passwords](#after-resetting-passwords)
+- [Customization](#password-customization)
 
 <a name="introduction"></a>
-## 重置密码说明
+## Introduction
 
-> ｛提示｝ **想要快速上手此功能？** 首先在 Laravel 应用下运行 `php artisan make:auth` 命令，然后使用浏览器打开 `http://your-app.dev/register` ，或者任意一个在应用中分配的 URL 。这个命令将会生成包括密码重置在内的整个认证系统。
+> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
 
-大部分的 web 应用都为用户提供重置密码的功能。Laravel 提供了一种方便的方法用于发送密码提示及执行密码重置，而不需要在每个应用中重新实现。
+Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.
 
-
-> ｛注意｝ 在使用 Laravel 密码重置功能之前, 你必须 `use` 这个 `Illuminate\Notifications\Notifiable` `trait` 。
+> {note} Before using the password reset features of Laravel, your user must use the `Illuminate\Notifications\Notifiable` trait.
 
 <a name="resetting-database"></a>
-## 数据库注意事项
+## Database Considerations
 
-开始之前，请先确认 `App\User` 模型是否实现了 `Illuminate\Contracts\Auth\CanResetPassword` `contract` 。当然，在 Laravel 框架中 `App\User` 模型已经实现了这个接口，并使用 `Illuminate\Contracts\Auth\CanResetPassword` `trait` 来实现该接口包含的方法。
+To get started, verify that your `App\User` model implements the `Illuminate\Contracts\Auth\CanResetPassword` contract. Of course, the `App\User` model included with the framework already implements this interface, and uses the `Illuminate\Auth\Passwords\CanResetPassword` trait to include the methods needed to implement the interface.
 
-#### 生成重置令牌表迁移
+#### Generating The Reset Token Table Migration
 
-接下来，用来存储密码重置令牌的表必须被创建。 Laravel 已经自带了这张表的迁移，就存放在 `database/migrations` 目录，因此，你只需要运行数据库迁移命令：
-
+Next, a table must be created to store the password reset tokens. The migration for this table is included with Laravel out of the box, and resides in the `database/migrations` directory. So, all you need to do is run your database migrations:
 
     php artisan migrate
 
 <a name="resetting-routing"></a>
-## 路由
+## Routing
 
-Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` 两个类中包含了电子邮件密码重置链接和重置用户密码的必要逻辑。所有需要密码重置的路由可以使用 `make:auth` Artisa 命令生成：
+Laravel includes `Auth\ForgotPasswordController` and `Auth\ResetPasswordController` classes that contains the logic necessary to e-mail password reset links and reset user passwords. All of the routes needed to perform password resets may be generated using the `make:auth` Artisan command:
 
     php artisan make:auth
 
 <a name="resetting-views"></a>
-## 视图
+## Views
 
-和路由一样， Laravel 在执行 `make:auth` 命令时将会成生成密码重置时的必要视图文件。这些视图文件存放在 `resources/views/auth/passwords` 目录。你可以在应用中对生成的文件进行相应修改。
+Again, Laravel will generate all of the necessary views for password reset when the `make:auth` command is executed. These views are placed in `resources/views/auth/passwords`. You are free to customize them as needed for your application.
 
 <a name="after-resetting-passwords"></a>
-## 重置密码后
+## After Resetting Passwords
 
-定义好重置用户密码的路由和视图后，你可以简单的在浏览器中访问路由 `/password/reset` 。框架自带的 `ForgotPasswordController` 已经包含了发送密码重置链接邮件的逻辑，`ResetPasswordController` 包含了重置用户密码的逻辑。
+Once you have defined the routes and views to reset your user's passwords, you may simply access the route in your browser at `/password/reset`. The `ForgotPasswordController` included with the framework already includes the logic to send the password reset link e-mails, while the `ResetPasswordController` includes the logic to reset user passwords.
 
-在密码重置之后，用户将会自动登录并重定向到 `/home` 。你可以定义 `ResetPasswordController` 控制器的 `redirectTo` 属性来定制密码重置成功后的自定义跳转链接：
+After a password is reset, the user will automatically be logged into the application and redirected to `/home`. You can customize the post password reset redirect location by defining a `redirectTo` property on the `ResetPasswordController`:
 
     protected $redirectTo = '/dashboard';
 
-> ｛注意｝ 默认情况下, 密码重置令牌在一小时内有效。你可以通过修改 `config/auth.php` 的 `expire` 选项来修改此项配置。
+> {note} By default, password reset tokens expire after one hour. You may change this via the password reset `expire` option in your `config/auth.php` file.
 
 <a name="password-customization"></a>
-## 密码自定义
+## Customization
 
-#### 自定义认证 Guard
+#### Authentication Guard Customization
 
-在配置文件 `auth.php` 中, 你可以配置多个 `guards` 参数，可以用来多用户表的独立认证。你可以在重写 `ResetPasswordController` 控制器的 `guard` 方法来实现自定义认证 `guard` ，此方法应该返回一个 `guard` 实例：
+In your `auth.php` configuration file, you may configure multiple "guards", which may be used to define authentication behavior for multiple user tables. You can customize the included `ResetPasswordController` to use the guard of your choice by overriding the `guard` method on the controller. This method should return a guard instance:
 
     use Illuminate\Support\Facades\Auth;
 
@@ -66,11 +64,11 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` �
         return Auth::guard('guard-name');
     }
 
-#### 自定义密码 Broker
+#### Password Broker Customization
 
-在配置文件 `auth.php` 中, 可以配置多个密码 `brokers` ，它可以用于多个用户表重置密码。你可以通过重写 `ForgotPasswordController` 和 `ResetPasswordController` 控制器的 `broker` 方法来实现你的自定义 `broker` ：
+In your `auth.php` configuration file, you may configure multiple password "brokers", which may be used to reset passwords on multiple user tables. You can customize the included `ForgotPasswordController` and `ResetPasswordController` to use the broker of your choice by overriding the `broker` method:
 
-
+    use Illuminate\Support\Facades\Password;
 
     /**
      * Get the broker to be used during password reset.
@@ -82,9 +80,9 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` �
         return Password::broker('name');
     }
 
-#### 自定义重置邮箱
+#### Reset Email Customization
 
-你可以方便的修改通知类用以给用户发送密码重置链接。在开始之前， 重写`User` 模型中 `sendPasswordResetNotification` 方法。在这个方法中，你可以使用你选择的任意通知类发送通知。密码重置令牌 `$token` 是这个方法的接收第一个参数：
+You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `User` model. Within this method, you may send the notification using any notification class you choose. The password reset `$token` is the first argument received by the method:
 
     /**
      * Send the password reset notification.
@@ -96,3 +94,4 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` �
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+

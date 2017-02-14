@@ -1,4 +1,4 @@
-# Package Development
+# Laravel 的扩展插件开发指南
 
 - [Introduction](#introduction)
     - [A Note On Facades](#a-note-on-facades)
@@ -7,8 +7,10 @@
 - [Resources](#resources)
     - [Configuration](#configuration)
     - [Migrations](#migrations)
+    - [Routes](#routes)
     - [Translations](#translations)
     - [Views](#views)
+- [Commands](#commands)
 - [Public Assets](#public-assets)
 - [Publishing File Groups](#publishing-file-groups)
 
@@ -36,7 +38,7 @@ A service provider extends the `Illuminate\Support\ServiceProvider` class and co
 <a name="routing"></a>
 ## Routing
 
-To define routes for your package, simply `require` the routes file from within your package service provider's `boot` method. From within your routes file, you may use the `Illuminate\Support\Facades\Route` facade to [register routes](/docs/{{version}}/routing) just as you would within a typical Laravel application:
+To define routes for your package, pass the routes file path to the `loadRoutesFrom` method from within your package service provider's `boot` method. From within your routes file, you may use the `Illuminate\Support\Facades\Route` facade to [register routes](/docs/{{version}}/routing) just as you would within a typical Laravel application:
 
     /**
      * Perform post-registration booting of services.
@@ -45,9 +47,7 @@ To define routes for your package, simply `require` the routes file from within 
      */
     public function boot()
     {
-        if (! $this->app->routesAreCached()) {
-            require __DIR__.'/../../routes.php';
-        }
+        $this->loadRoutesFrom(__DIR__.'/path/to/routes.php');
     }
 
 <a name="resources"></a>
@@ -74,6 +74,8 @@ Now, when users of your package execute Laravel's `vendor:publish` command, your
 
     $value = config('courier.option');
 
+> {note} You should not define Closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
+
 #### Default Package Configuration
 
 You may also merge your own package configuration file with the application's published copy. This will allow your users to define only the options they actually want to override in the published copy of the configuration. To merge the configurations, use the `mergeConfigFrom` method within your service provider's `register` method:
@@ -88,6 +90,23 @@ You may also merge your own package configuration file with the application's pu
         $this->mergeConfigFrom(
             __DIR__.'/path/to/config/courier.php', 'courier'
         );
+    }
+
+> {note} This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
+
+<a name="routes"></a>
+### Routes
+
+If your package contains routes, you may load them using the `loadRoutesFrom` method. This method will automatically determine if the application's routes are cached and will not load your routes file if the routes have already been cached:
+
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
     }
 
 <a name="migrations"></a>
@@ -191,6 +210,26 @@ If you would like to make your views available for publishing to the application
 
 Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's views will be copied to the specified publish location.
 
+<a name="commands"></a>
+## Commands
+
+To register your package's Artisan commands with Laravel, you may use the `commands` method. This method expects an array of command class names. Once the commands have been registered, you may execute them using the [Artisan CLI](/docs/{{version}}/artisan):
+
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                FooCommand::class,
+                BarCommand::class,
+            ]);
+        }
+    }
+
 <a name="public-assets"></a>
 ## Public Assets
 
@@ -235,4 +274,4 @@ You may want to publish groups of package assets and resources separately. For i
 
 Now your users may publish these groups separately by referencing their tag when executing the `vendor:publish` command:
 
-    php artisan vendor:publish --tag="config"
+    php artisan vendor:publish --tag=config

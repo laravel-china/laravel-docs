@@ -1,4 +1,4 @@
-# Database: Migrations
+# Laravel 的数据库迁移 Migrations
 
 - [Introduction](#introduction)
 - [Generating Migrations](#generating-migrations)
@@ -51,6 +51,7 @@ Within both of these methods you may use the Laravel schema builder to expressiv
 
     <?php
 
+    use Illuminate\Support\Facades\Schema;
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Database\Migrations\Migration;
 
@@ -156,13 +157,13 @@ You may easily check for the existence of a table or column using the `hasTable`
 
 If you want to perform a schema operation on a database connection that is not your default connection, use the `connection` method:
 
-    Schema::connection('foo')->create('users', function ($table) {
+    Schema::connection('foo')->create('users', function (Blueprint $table) {
         $table->increments('id');
     });
 
 You may use the `engine` property on the schema builder to define the table's storage engine:
 
-    Schema::create('users', function ($table) {
+    Schema::create('users', function (Blueprint $table) {
         $table->engine = 'InnoDB';
 
         $table->increments('id');
@@ -193,7 +194,7 @@ Before renaming a table, you should verify that any foreign key constraints on t
 
 The `table` method on the `Schema` facade may be used to update existing tables. Like the `create` method, the `table` method accepts two arguments: the name of the table and a `Closure` that receives a `Blueprint` instance you may use to add columns to the table:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('email');
     });
 
@@ -214,7 +215,7 @@ Command  | Description
 `$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale.
 `$table->double('column', 15, 8);`  |  DOUBLE equivalent with precision, 15 digits in total and 8 after the decimal point.
 `$table->enum('choices', ['foo', 'bar']);` | ENUM equivalent for the database.
-`$table->float('amount');`  |  FLOAT equivalent for the database.
+`$table->float('amount', 8, 2);`  |  FLOAT equivalent for the database, 8 digits in total and 2 after the decimal point.
 `$table->increments('id');`  |  Incrementing ID (primary key) using a "UNSIGNED INTEGER" equivalent.
 `$table->integer('votes');`  |  INTEGER equivalent for the database.
 `$table->ipAddress('visitor');`  |  IP address equivalent for the database.
@@ -222,13 +223,16 @@ Command  | Description
 `$table->jsonb('options');`  |  JSONB equivalent for the database.
 `$table->longText('description');`  |  LONGTEXT equivalent for the database.
 `$table->macAddress('device');`  |  MAC address equivalent for the database.
+`$table->mediumIncrements('id');`  |  Incrementing ID (primary key) using a "UNSIGNED MEDIUM INTEGER" equivalent.
 `$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent for the database.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent for the database.
-`$table->morphs('taggable');`  |  Adds INTEGER `taggable_id` and STRING `taggable_type`.
-`$table->nullableTimestamps();`  |  Same as `timestamps()`, except allows NULLs.
+`$table->morphs('taggable');`  |  Adds unsigned INTEGER `taggable_id` and STRING `taggable_type`.
+`$table->nullableMorphs('taggable');`  |  Nullable versions of the `morphs()` columns.
+`$table->nullableTimestamps();`  |  Nullable versions of the `timestamps()` columns.
 `$table->rememberToken();`  |  Adds `remember_token` as VARCHAR(100) NULL.
+`$table->smallIncrements('id');`  |  Incrementing ID (primary key) using a "UNSIGNED SMALL INTEGER" equivalent.
 `$table->smallInteger('votes');`  |  SMALLINT equivalent for the database.
-`$table->softDeletes();`  |  Adds `deleted_at` column for soft deletes.
+`$table->softDeletes();`  |  Adds nullable `deleted_at` column for soft deletes.
 `$table->string('email');`  |  VARCHAR equivalent column.
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length.
 `$table->text('description');`  |  TEXT equivalent for the database.
@@ -237,7 +241,13 @@ Command  | Description
 `$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
 `$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent for the database.
-`$table->timestamps();`  |  Adds `created_at` and `updated_at` columns.
+`$table->timestamps();`  |  Adds nullable `created_at` and `updated_at` columns.
+`$table->timestampsTz();`  |  Adds nullable `created_at` and `updated_at` (with timezone) columns.
+`$table->unsignedBigInteger('votes');`  |  Unsigned BIGINT equivalent for the database.
+`$table->unsignedInteger('votes');`  |  Unsigned INT equivalent for the database.
+`$table->unsignedMediumInteger('votes');`  |  Unsigned MEDIUMINT equivalent for the database.
+`$table->unsignedSmallInteger('votes');`  |  Unsigned SMALLINT equivalent for the database.
+`$table->unsignedTinyInteger('votes');`  |  Unsigned TINYINT equivalent for the database.
 `$table->uuid('id');`  |  UUID equivalent for the database.
 
 <a name="column-modifiers"></a>
@@ -245,7 +255,7 @@ Command  | Description
 
 In addition to the column types listed above, there are several column "modifiers" you may use while adding a column to a database table. For example, to make the column "nullable", you may use the `nullable` method:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('email')->nullable();
     });
 
@@ -274,43 +284,43 @@ Before modifying a column, be sure to add the `doctrine/dbal` dependency to your
 
 #### Updating Column Attributes
 
-The `change` method allows you to modify an existing column to a new type or modify the column's attributes. For example, you may wish to increase the size of a string column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
+The `change` method allows you to modify some existing column types to a new type or modify the column's attributes. For example, you may wish to increase the size of a string column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('name', 50)->change();
     });
 
 We could also modify a column to be nullable:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} Modifying any column in a table that also has a column of type `enum`, `json` or `jsonb` is not currently supported.
+> {note} The following column types can not be "changed": char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableMorphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid.
 
 <a name="renaming-columns"></a>
 #### Renaming Columns
 
 To rename a column, you may use the `renameColumn` method on the Schema builder. Before renaming a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
     });
 
-> {note} Renaming any column in a table that also has a column of type `enum`, `json` or `jsonb` is not currently supported.
+> {note} Renaming any column in a table that also has a column of type `enum` is not currently supported.
 
 <a name="dropping-columns"></a>
 ### Dropping Columns
 
 To drop a column, use the `dropColumn` method on the Schema builder. Before dropping columns from a SQLite database, you will need to add the `doctrine/dbal` dependency to your `composer.json` file and run the `composer update` command in your terminal to install the library:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->dropColumn('votes');
     });
 
 You may drop multiple columns from a table by passing an array of column names to the `dropColumn` method:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
@@ -346,7 +356,26 @@ Command  | Description
 `$table->primary(['first', 'last']);`  |  Add composite keys.
 `$table->unique('email');`  |  Add a unique index.
 `$table->unique('state', 'my_index_name');`  |  Add a custom index name.
+`$table->unique(['first', 'last']);`  |  Add a composite unique index.
 `$table->index('state');`  |  Add a basic index.
+
+#### Index Lengths & MySQL / MariaDB
+
+Laravel uses the `utf8mb4` character set by default, which includes support for storing "emojis" in the database. If you are running a version of MySQL older than the 5.7.7 release or MariaDB older than the 10.2.2 release, you may need to manually configure the default string length generated by migrations in order for MySQL to create indexes for them. You may configure this by calling the `Schema::defaultStringLength` method within your `AppServiceProvider`:
+
+    use Illuminate\Support\Facades\Schema;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
+    }
+
+Alternatively, you may enable the `innodb_large_prefix` option for your database. Refer to your database's documentation for instructions on how to properly enable this option.
 
 <a name="dropping-indexes"></a>
 ### Dropping Indexes
@@ -361,7 +390,7 @@ Command  | Description
 
 If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns and key type:
 
-    Schema::table('geo', function ($table) {
+    Schema::table('geo', function (Blueprint $table) {
         $table->dropIndex(['state']); // Drops index 'geo_state_index'
     });
 
@@ -370,7 +399,7 @@ If you pass an array of columns into a method that drops indexes, the convention
 
 Laravel also provides support for creating foreign key constraints, which are used to force referential integrity at the database level. For example, let's define a `user_id` column on the `posts` table that references the `id` column on a `users` table:
 
-    Schema::table('posts', function ($table) {
+    Schema::table('posts', function (Blueprint $table) {
         $table->integer('user_id')->unsigned();
 
         $table->foreign('user_id')->references('id')->on('users');

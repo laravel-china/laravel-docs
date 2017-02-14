@@ -1,4 +1,4 @@
-# Artisan 命令行
+# Laravel 的 Artisan 命令行工具
 
 - [介绍](#introduction)
 - [编写命令](#writing-commands)
@@ -15,7 +15,7 @@
     - [输入提示](#prompting-for-input)
     - [编写输出](#writing-output)
 - [注册命令](#registering-commands)
-- [程序内部调用命令](#programatically-executing-commands)
+- [程序内部调用命令](#programmatically-executing-commands)
     - [命令中调用其它命令](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
@@ -29,6 +29,12 @@
 
     php artisan help migrate
 
+#### Laravel REPL
+
+所有的 Laravel 应用都包括 Tinker，一个基于 [PsySH](https://github.com/bobthecow/psysh) 开发的 REPL 包。Tinker 让你可以在命令行中与你整个的 Laravel 应用进行交互，包括 Eloquent ORM，任务，事件等等。运行 `tinker` 命令进入 Tinker 环境：
+
+    php artisan tinker
+
 <a name="writing-commands"></a>
 ## 编写命令
 
@@ -40,6 +46,8 @@
 要创建一个新的命令，可以使用 `make:command` 命令。这个命令会创建一个命令类并存放在 `app/Console/Commands` 目录。 不必担心不存在这个目录，运行 `make:command` 命令时会首先创建这个目录。生成的命令将会包括所有默认存在的属性和方法：
 
     php artisan make:command SendEmails
+
+接下来，你需要在 Artisan CLI 里执行之前[注册命令](#registering-commands)。
 
 <a name="command-structure"></a>
 ### 命令结构
@@ -248,7 +256,7 @@
                             {--queue= : Whether the job should be queued}';
 
 <a name="command-io"></a>
-## Command I/O
+## I/O 命令
 
 <a name="retrieving-input"></a>
 ### 获取输入
@@ -304,8 +312,7 @@
 
 如果你要用户提供的确认信息，你可以使用 `confirm` 方法，默认情况下，该方法返回 `false`，当然，如果你输入 `y` 这个方法将会返回 `true`。
 
-
-    if ($this->confirm('Do you wish to continue? [y|N]')) {
+    if ($this->confirm('Do you wish to continue?')) {
         //
     }
 
@@ -370,7 +377,7 @@
 
     $bar->finish();
 
-更多信息请查阅[Symfony Progress Bar 组件的文档](http://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
+更多信息请查阅[Symfony Progress Bar 组件的文档](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
 
 <a name="registering-commands"></a>
 ## 注册命令
@@ -381,7 +388,7 @@
         Commands\SendEmails::class
     ];
 
-<a name="programatically-executing-commands"></a>
+<a name="programmatically-executing-commands"></a>
 ## 程序内部调用命令
 
 有时候你可能希望在 CLI 之外执行 Artisan 命令，例如，你可能希望在路由或控制器中触发 Artisan 命令，你可以使用 `Artisan` facade 上的 `call` 方法来完成。`call` 方法接收被执行的命令名称作为第一个参数，命令参数数组作为第二个参数，退出代码被返回：
@@ -434,8 +441,3 @@
     $this->callSilent('email:send', [
         'user' => 1, '--queue' => 'default'
     ]);
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 努力学习PHP  |
-| [@overtrue](https://github.com/overtrue)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/76_1451276555.png?imageView2/1/w/100/h/100">    |  Review | 大家可以  [加我微博](http://weibo.com/joychaocc) 保持联系 |

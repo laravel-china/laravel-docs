@@ -1,4 +1,4 @@
-# 用户授权
+# Laravel 的用户授权系统
 
 - [简介](#introduction)
 - [Gates](#gates)
@@ -54,13 +54,21 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
 使用 gates 来授权动作时，应当使用 `allows` 方法。注意你并不需要传递当前认证通过的用户给 `allows` 方法。Laravel 会自动处理好传入的用户，然后传递给 gate 闭包函数：
 
     if (Gate::allows('update-post', $post)) {
-        // 当前用户可以更新 post
-    });
+        // 当前用户可以更新 post...
+    }
+
+    if (Gate::denies('update-post', $post)) {
+        // 当前用户不能更新 post...
+    }
 
 如果需要指定一个特定的用户可以访问某个动作，可以使用 `Gate` facade 中的 `forUser` 方法：
 
     if (Gate::forUser($user)->allows('update-post', $post)) {
-        // 指定用户可以更新博客...
+        // 指定用户可以更新 post...
+    }
+
+    if (Gate::forUser($user)->denies('update-post', $post)) {
+        // 指定用户不能更新 post...
     }
 
 <a name="creating-policies"></a>
@@ -153,8 +161,7 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
 
 你可以接着在此授权策略定义额外的方法，作为各种权限需要的授权。例如，你可以定义 `view` 或 `delete` 方法来授权 `Post` 的多种行为。可以为自定义策略方法使用自己喜欢的名字。
 
-> {tip} 如果在 Artisan 控制台生成策略使用 `--model` 选项，会自动包含
- `view`、`create`、`update` 和 `delete` 动作。
+> {tip} 如果在 Artisan 控制台生成策略使用 `--model` 选项，会自动包含 `view`、`create`、`update` 和 `delete` 动作。
 
 <a name="methods-without-models"></a>
 ### 不包含模型方法
@@ -174,8 +181,6 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
         //
     }
 
-> {tip} 如果在 Artisan 控制台生成策略使用 `--model` 选项，所有相关的「CRUD」策略方法已经定义好了。
-
 <a name="policy-filters"></a>
 ### 策略过滤器
 
@@ -187,6 +192,8 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
             return true;
         }
     }
+
+如果你想拒绝用户所有的授权，你应该在 `before` 方法中返回 `false`。如果返回的是 `null`，则通过其他的策略方法来决定授权与否。
 
 <a name="authorizing-actions-using-policies"></a>
 ## 使用策略授权动作
@@ -287,10 +294,14 @@ Laravel 包含一个可以在请求到达路由或控制器之前就进行动作
 
     @can('update', $post)
         <!-- 当前用户可以更新博客 -->
+    @elsecan('create', $post)
+        <!-- 当前用户可以新建博客 -->
     @endcan
 
     @cannot('update', $post)
         <!-- 当前用户不可以更新博客 -->
+    @elsecannot('create', $post)
+        <!-- 当前用户不可以新建博客 -->
     @endcannot
 
 这些指令在编写 `@if` 和 `@unless` 时提供了方便的缩写。`@can` 和 `@cannot` 各自转化为如下声明：

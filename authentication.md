@@ -1,19 +1,20 @@
-# 用户认证
+# Laravel 的用户认证系统
 
-- [介绍](#introduction)
+- [简介](#introduction)
     - [数据库注意事项](#introduction-database-considerations)
 - [认证快速入门](#authentication-quickstart)
     - [路由](#included-routing)
     - [视图](#included-views)
     - [认证](#included-authenticating)
-    - [获取已认证之用户](#retrieving-the-authenticated-user)
+    - [获取已认证的用户信息](#retrieving-the-authenticated-user)
     - [限制路由访问](#protecting-routes)
     - [登入限流](#login-throttling)
 - [手动认证用户](#authenticating-users)
     - [记住用户](#remembering-users)
     - [其它认证方法](#other-authentication-methods)
 - [HTTP 基础认证](#http-basic-authentication)
-     - [无状态 HTTP 基础认证](#stateless-http-basic-authentication)
+    - [无状态 HTTP 基础认证](#stateless-http-basic-authentication)
+- [社交认证](https://github.com/laravel/socialite)
 - [增加自定义 Guard](#adding-custom-guards)
 - [增加自定义用户 Provider](#adding-custom-user-providers)
     - [用户 Provider Contract](#the-user-provider-contract)
@@ -21,13 +22,13 @@
 - [事件](#events)
 
 <a name="introduction"></a>
-## 介绍
+## 简介
 
-> {tip} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 命令，然后用可以浏览器访问 `http://your-app.dev/register` 或者其他你在程序中定义的 url。这个简单的命令就可以搭建好整个认证系统的脚手架。
+> {tip} **想要快速起步？** 在一个全新的 Laravel 应用中运行 `php artisan make:auth` 和 `php artisan migrate` 命令，然后可以用浏览器访问 `http://your-app.dev/register` 或者你在程序中定义的其他 url。这个两个简单的命令就可以搭建好整个认证系统的脚手架。
 
 Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已经为你配置好了。配置文件位于 `config/auth.php`，其中包含了用于调整认证服务行为的、标注好注释的选项配置。
 
-在其核心代码中，Laravel 的认证组件由 `guards` 和 `providers` 组成，Guard 定义了用户在每个请求中如何实现认证，例如，Laravel 通过 `session` guard 来维护 Session 存储的状态和Cookie。
+在其核心代码中，Laravel 的认证组件由 `guards` 和 `providers` 组成，Guard 定义了用户在每个请求中如何实现认证，例如，Laravel 通过 `session` guard 来维护 Session 存储的状态和 Cookie。
 
 Provider 定义了如何从持久化存储中获取用户信息，Laravel 底层支持通过 Eloquent 和数据库查询构建器两种方式来获取用户，如果需要的话，你还可以定义额外的 Provider。
 
@@ -45,7 +46,7 @@ Provider 定义了如何从持久化存储中获取用户信息，Laravel 底层
 <a name="authentication-quickstart"></a>
 ## 认证快速入门
 
-Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`RegisterController` 处理用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理充值密码的 e-mail 链接，`ResetPasswordController` 包含重置密码的逻辑。每个控制器都使用 trait 来包含必要的方法。对于大部分应用，都不必去修改这些控制器。
+Laravel 带有几个预设的认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`RegisterController` 处理用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理重置密码的 e-mail 链接，`ResetPasswordController` 包含重置密码的逻辑。每个控制器都使用 trait 来包含必要的方法。对于大部分应用，都不必去修改这些控制器。
 这些控制器使用了 trait 来包含所需要的方法，对于大多数的应用程序而言，你并不需要修改这些控制器。
 
 <a name="included-routing"></a>
@@ -55,7 +56,7 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
 
     php artisan make:auth
 
-运行该命令会生成注册和登录视图，以及所有的认证路由，同时生成 `HomeController` ，因为登录成功后会跳转到该控制器下的动作。
+该命令应该在新安装的应用下使用，它会生成 layout 布局视图，注册和登录视图，以及所有的认证路由，同时生成 `HomeController` ，用来处理登录成功后会跳转到该控制器下的请求。
 
 <a name="included-views"></a>
 ### 视图
@@ -75,7 +76,23 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
 
     protected $redirectTo = '/';
 
-当一个用户登录认证失败后，默认将会自动跳转回登录表单对应的页面。
+如果跳转路径需要自定义逻辑来生成，你可以定义 `redirectTo` 方法来代替 `redirectTo` 属性：
+
+    protected function redirectTo()
+    {
+        return '/path';
+    }
+
+> {tip} `redirectTo` 方法优先于 `redirectTo` 属性。
+
+#### 自定义用户名
+
+Laravel默认使用 `email` 字段来认证。如果你想用其他字段认证，可以在 `LoginController` 里面定义一个 `username` 方法
+
+    public function username()
+    {
+        return 'username';
+    }
 
 #### 自定义 Guard
 
@@ -103,7 +120,11 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
 
     use Illuminate\Support\Facades\Auth;
 
+    // 获取当前已通过认证的用户...
     $user = Auth::user();
+
+    // 获取当前已通过认证的用户id...
+    $id = Auth::id();
 
 也有另外一种方法可以访问认证过的用户，就是通过 `Illuminate\Http\Request` 实例，请注意类型提示的类会被自动注入：
 
@@ -121,11 +142,9 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
          * @param  Request  $request
          * @return Response
          */
-        public function updateProfile(Request $request)
+        public function update(Request $request)
         {
-            if ($request->user()) {
-                // $request->user() 返回认证过的用户的实例...
-            }
+            // $request->user() 返回认证过的用户的实例...
         }
     }
 
@@ -146,9 +165,9 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
 
 [路由中间件](/docs/{{version}}/middleware) 用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中。因为这个中间件已经在 HTTP kernel 中注册了，只需要将它应用到路由定义中即可使用：
 
-    Route::get('profile', ['middleware' => 'auth', function() {
+    Route::get('profile', function () {
         // 只有认证过的用户能进来这里...
-    }]);
+    })->middleware('auth');
 
 如果使用 [控制器类](/docs/{{version}}/controllers)，可以在构造器中调用 `middleware` 方法，来代替在路由中直接定义：
 
@@ -166,7 +185,7 @@ Laravel 通过运行如下命令可快速生成认证所需要的路由和视图
         $this->middleware('auth:api');
     }
 
-<a name="authentication-throttling"></a>
+<a name="login-throttling"></a>
 ### 登录限流
 
 Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\ThrottlesLogins` trait 允许你在应用程序中限制登录次数。默认情况下，如果用户在进行几次尝试后仍不能提供正确的凭证，将在一分钟内无法进行登录。这个限制会特别针对用户的用户名称 / 邮件地址和他们的 IP 地址。
@@ -184,7 +203,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
     use Illuminate\Support\Facades\Auth;
 
-    class AuthController extends Controller
+    class LoginController extends Controller
     {
         /**
          * Handle an authentication attempt.
@@ -265,7 +284,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
     Auth::guard('admin')->login($user);
 
-#### 用用户 ID 做认证
+#### 通过用户 ID 做认证
 
 使用 `loginUsingId` 方法来登录指定 ID 用户，这个方法接受要登录用户的主键：
 
@@ -287,7 +306,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
 [HTTP 基础认证](http://en.wikipedia.org/wiki/Basic_access_authentication) 提供一个快速的方法来认证用户，不需要任何「登录」页面。开始之前，先增加 `auth.basic` [中间件](/docs/{{version}}/middleware) 到你的路由，`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
 
-    Route::get('profile', function() {
+    Route::get('profile', function () {
         // 只有认证过的用户可进入...
     })->middleware('auth.basic');
 
@@ -329,10 +348,11 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
 接着，[注册这个路由中间件](/docs/{{version}}/middleware#registering-middleware)，然后将它增加在一个路由上：
 
-    Route::get('api/user', function() {
+    Route::get('api/user', function () {
         // 只有认证过的用户可以进入...
     })->middleware('auth.basic.once');
 
+<a name="adding-custom-guards"></a>
 ## 增加自定义的 Guard
 
 你可以使用 `Auth` 的 `extend` 方法来自定义认证 Guard，你需要在 [服务提供者](/docs/{{version}}/providers) 中放置此代码调用。因为 Laravel 已经提供 `AuthServiceProvider`，可以把代码放入其中：
@@ -343,7 +363,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
     use App\Services\Auth\JwtGuard;
     use Illuminate\Support\Facades\Auth;
-    use Illuminate\Support\ServiceProvider;
+    use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -356,7 +376,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
         {
             $this->registerPolicies();
 
-            Auth::extend('jwt', function($app, $name, array $config) {
+            Auth::extend('jwt', function ($app, $name, array $config) {
                 // Return an instance of Illuminate\Contracts\Auth\Guard...
 
                 return new JwtGuard(Auth::createUserProvider($config['provider']));
@@ -397,7 +417,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
         {
             $this->registerPolicies();
 
-            Auth::provider('riak', function($app, array $config) {
+            Auth::provider('riak', function ($app, array $config) {
                 // Return an instance of Illuminate\Contracts\Auth\UserProvider...
 
                 return new RiakUserProvider($app->make('riak.connection'));
@@ -422,6 +442,7 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
         ],
     ],
 
+<a name="the-user-provider-contract"></a>
 ### UserProvider 契约
 
 `Illuminate\Contracts\Auth\UserProvider` 的实现只负责获取 `Illuminate\Contracts\Auth\Authenticatable` 的实现， 且不受限于永久保存系统，例如 MySQL, Riak 等等。这两个接口允许 Laravel 认证机制继续作用，而不用管用户如何保存或是使用什么样类型的类实现它。
@@ -450,9 +471,10 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
 `retrieveByCredentials` 方法获取了从 `Auth::attempt` 方法发送过来的凭证数组（当想要登录时）。这个方法应该要 「查找」所使用的持久化存储系统来匹配这些凭证。通常，这个方法会运行一个带着「where」`$credentials['username']` 条件的查找。这个方法接着需要返回一个 `UserInterface` 的实现。**此方法不应该企图做任何密码验证或认证操作。**
 
-`validateCredentials` 方法需要比较 `$user` 和 `$credentials` 来认证这个用户。例如，这个方法可能会比较 `$user->getAuthPassword()` 字符串及 `Hash::make` 后的 `$credentials['password']`。这个方法应该只验证用户的凭证并返回一个布尔值。
+`validateCredentials` 方法需要比较 `$user` 和 `$credentials` 来认证这个用户。例如，这个方法可能会使用 `Hash::check` 比较 `$user->getAuthPassword()` 字符串及 `$credentials['password']`。这个方法通过返回一个布尔值来验证密码是否正确。
 
-### 可验证之 Contract
+<a name="the-authenticatable-contract"></a>
+### 用户认证 Contract
 
 现在我们已经介绍了 `UserProvider` 的每个方法，让我们看一下 `Authenticate` contract。这个提供者需要 `retrieveById` 和 `retrieveByCredentials` 方法来返回这个接口的实现：
 
@@ -471,7 +493,6 @@ Laravel 内置的 `LoginController` 类提供 `Illuminate\Foundation\Auth\Thrott
 
     }
 
-
 这个接口很简单。`getAuthIdentifierName` 方法需要返回「主键名字」。`getAuthIdentifier` 方法需要返回用户的「主键」。在 MySQL 中，这个主键是指自动增加的主键。而 `getAuthPassword` 应该要返回用户哈希后的密码。这个接口允许认证系统和任何用户类运作，不用管你在使用何种 ORM 或存储抽象层。默认情况下，Laravel 的 `app` 文件夹中会包含 `User` 类来实现此接口，所以你可以观察这个类以作为实现的例子。
 
 <a name="events"></a>
@@ -485,6 +506,10 @@ Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)�
      * @var array
      */
     protected $listen = [
+        'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\LogRegisteredUser',
+        ],
+
         'Illuminate\Auth\Events\Attempting' => [
             'App\Listeners\LogAuthenticationAttempt',
         ],
@@ -495,6 +520,10 @@ Laravel 提供了在认证过程中的各种 [事件](/docs/{{version}}/events)�
 
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
+        ],
+
+        'Illuminate\Auth\Events\Failed' => [
+            'App\Listeners\LogFailedLogin',
         ],
 
         'Illuminate\Auth\Events\Logout' => [

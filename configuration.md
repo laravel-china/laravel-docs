@@ -1,9 +1,9 @@
-# 配置
+# Laravel 的配置信息
 
 - [基础介绍](#introduction)
-- [获取设置值](#accessing-configuration-values)
 - [环境配置](#environment-configuration)
     - [判定目前使用的环境](#determining-the-current-environment)
+- [获取设置值](#accessing-configuration-values)
 - [缓存配置信息](#configuration-caching)
 - [维护模式](#maintenance-mode)
 
@@ -12,23 +12,14 @@
 
 所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，请仔细阅读这些说明，并熟悉这些选项配置。
 
-<a name="accessing-configuration-values"></a>
-## 获取设置值
-
-可以使用 `config` 辅助函数获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。你也可以指定一个默认值，当该设置选项不存在时就会返回默认值：
-
-    $value = config('app.timezone');
-
-若要在运行期间修改设置值，请传递一个数组至 `config` 辅助函数：
-
-    config(['app.timezone' => 'America/Chicago']);
-
 <a name="environment-configuration"></a>
 ## 环境配置
 
 应用程序常常需要根据不同的运行环境设置不同的值。例如，你会希望在本机开发环境上有与正式环境不同的缓存驱动。类似这种环境变量，只需通过 `.env` 配置文件就可轻松完成。
 
 Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP 函数库来实现项目内环境变量的控制，在安装好的全新 Laravel 应用程序里，在根目录下会包含一个 `.env.example` 文件。如果你通过 Composer 安装 Laravel，这个文件将自动被更名为 `.env`，否则你只能手动更改文件名。
+
+> {tip} 你也可以新建一个 `.env.testing` 文件。当在运行 PHPUnit 测试或者带有 `--env=testing` 选项运行 Artisan 命令的时候，这个 `.env.testing` 文件会覆盖掉 `.env` 文件中对应的值。
 
 #### 获取环境变量
 
@@ -59,6 +50,17 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
         // 当前环境处于 `local` 或者 `staging`
     }
 
+<a name="accessing-configuration-values"></a>
+## 获取设置值
+
+可以使用 `config` 辅助函数获取你的设置值，设置值可以通过「点」语法来获取，其中包含了文件与选项的名称。你也可以指定一个默认值，当该设置选项不存在时就会返回默认值：
+
+    $value = config('app.timezone');
+
+若要在运行期间修改设置值，请传递一个数组至 `config` 辅助函数：
+
+    config(['app.timezone' => 'America/Chicago']);
+
 <a name="configuration-caching"></a>
 ## 缓存配置信息
 
@@ -66,12 +68,14 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 你应该将运行 `php artisan config:cache` 命令作为部署工作的一部分。此命令不应该在开发时运行，因为设置选项会在开发时经常变动。
 
+> {note} 如果你在部署过程中执行 `config:cache` 命令，你应该确保在你的配置文件中你只调用了 `env` 函数。
+
 > 译者注：更多 Laravel 程序调优技巧请参阅：[Laravel 5 程序优化技巧](https://phphub.org/topics/2020)
 
 <a name="maintenance-mode"></a>
 ## 维护模式
 
-当你的应用程序处于维护模式时，所有传递至应用程序的请求都会显示出一个自定义视图。在你更新应用或进行性能维护时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的中间件堆栈。如果应用程序处于维护模式，则 `HttpException` 会抛出 503 的状态码。
+当你的应用程序处于维护模式时，所有传递至应用程序的请求都会显示出一个自定义视图。在你更新应用或进行性能维护时，这么做可以很轻松的「关闭」整个应用程序。维护模式会检查包含在应用程序的默认的中间件堆栈。如果应用程序处于维护模式，则 `MaintenanceModeException` 会抛出 503 的状态码。
 
 启用维护模式，只需要运行 Artisan 命令 `down`：
 
@@ -87,7 +91,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
 #### 维护模式的响应模板
 
-维护模式的默认模板放在 `resources/views/errors/503.blade.php`。
+维护模式的默认模板放在 `resources/views/errors/503.blade.php`。你可以根据你的需求来修改这个模版
 
 #### 维护模式与队列
 
@@ -96,4 +100,3 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 #### 维护模式的替代方案
 
 维护模式有几秒钟的服务器不可用时间，如果你想做到平滑迁移的话，推荐使用 [Envoyer](https://envoyer.io) 服务。
-

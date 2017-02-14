@@ -1,4 +1,4 @@
-# 缓存
+# Laravel 的缓存系统
 
 - [配置信息](#configuration)
     - [驱动前提条件](#driver-prerequisites)
@@ -7,6 +7,7 @@
     - [从缓存中获取项目](#retrieving-items-from-the-cache)
     - [存放项目到缓存中](#storing-items-in-the-cache)
     - [删除缓存中的项目](#removing-items-from-the-cache)
+    - [Cache 帮助函数](#the-cache-helper)
 - [缓存标签](#cache-tags)
     - [写入被标记的缓存项](#storing-tagged-cache-items)
     - [访问被标记的缓存项](#accessing-tagged-cache-items)
@@ -30,7 +31,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 当使用 `database` 缓存驱动时，你需要配置一个用来存放缓存项的数据库表，下面是一个 `Schema` 数据表结构声明的示例：
 
-    Schema::create('cache', function($table) {
+    Schema::create('cache', function ($table) {
         $table->string('key')->unique();
         $table->text('value');
         $table->integer('expiration');
@@ -40,7 +41,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 #### Memcached
 
-使用 Memcached 驱动需要安装 [Memcached PECL 扩展包](http://pecl.php.net/package/memcached) 。你可以把所有 Memcached 服务器都列在 `config/cache.php` 这个配置信息文件中：
+使用 Memcached 驱动需要安装 [Memcached PECL 扩展包](https://pecl.php.net/package/memcached) 。你可以把所有 Memcached 服务器都列在 `config/cache.php` 这个配置信息文件中：
 
     'memcached' => [
         [
@@ -62,7 +63,8 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 #### Redis
 
-在使用 Redis 作为 Laravel 的缓存驱动前，你需要通过 Composer 安装 `predis/predis` 扩展包 (~1.0) 。
+在使用 Redis 作为 Laravel 的缓存驱动前，你需要通过 Composer 安装 `predis/predis` 扩展包 (~1.0) 或者使用 PECL 安装 PhpRedis PHP 拓展。
+
 关于配置 Redis 的更多信息，请参考 [Laravel 文档页面](/docs/{{version}}/redis#configuration) 。
 
 <a name="cache-usage"></a>
@@ -115,7 +117,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 你甚至可以将 `闭包` 作为默认值传递。如果指定的缓存项在缓存中不存在，`闭包` 的结果将被返回。传递一个闭包允许你延迟从数据库或外部服务中取出默认值：
 
-    $value = Cache::get('key', function() {
+    $value = Cache::get('key', function () {
         return DB::table(...)->get();
     });
 
@@ -140,7 +142,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 有时你可能会想从缓存中取出一个项目，但也想在取出的项目不存在时存入一个默认值，例如，你可能会想从缓存中取出所有用户，或者当用户不存在时，从数据库中将这些用户取出并放入缓存中，你可以使用 Cache::remember 方法实现：
 
-    $value = Cache::remember('users', $minutes, function() {
+    $value = Cache::remember('users', $minutes, function () {
         return DB::table('users')->get();
     });
 
@@ -191,27 +193,42 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
     Cache::flush();
 
 > {note} 清空缓存并不会遵从缓存的前缀，并且会将缓存中所有的缓存项删除。在清除与其它应用程序共享的缓存时应谨慎考虑这一点。
-<a name="cache-tags"></a>
 
+<a name="the-cache-helper"></a>
+### Cache 帮助函数
+
+除了可以使用 `Cache` facade 或者 [cache contract](/docs/{{version}}/contracts)之外，你也可以使用全局帮助函数 `cache` 来获取和保存缓存数据。当 `cache` 只接收一个字符串参数的时候，它将会返回给定键对应的值：
+
+    $value = cache('key');
+
+如果你传给函数一个键值对数组和过期时间，它将会把值和过期时间保存在缓存中：
+
+    cache(['key' => 'value'], $minutes);
+
+    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
+
+> {tip} 如果在测试中使用全局函数 `cache`，你应该使用 `Cache::shouldReceive` 方法，就好像你在[测试 facade](/docs/{{version}}/mocking#mocking-facades)一样。
+
+<a name="cache-tags"></a>
 ## 缓存标签
 
 > {note} 缓存标签并不支持使用 `file` 或 `dababase` 的缓存驱动。此外，当在缓存使用多个标签并「永久」写入时，类似 `memcached` 的驱动性能会是最佳的，且会自动清除旧的纪录。
-<a name="storing-tagged-cache-items"></a>
 
+<a name="storing-tagged-cache-items"></a>
 ### 写入被标记的缓存项
 
 缓存标签允许你在缓存中标记关联的项目，并清空所有已分配指定标签的缓存值。你可以通过传入一组标签名称的有序数组，以访问被标记的缓存。举例来说，让我们访问一个被标记的缓存并 `put` 值给它：
 
-	Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
+    Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
 
-	Cache::tags(['people', 'authors'])->put('Anne', $anne, $minutes);
+    Cache::tags(['people', 'authors'])->put('Anne', $anne, $minutes);
 
 <a name="accessing-tagged-cache-items"></a>
 ### 访问被标记的缓存项
 
 若要获取一个被标记的缓存项，只要传递一样的有序标签列表至 `tags` 方法，然后通过你希望获取的值对应的键来调用 `get` 方法：
 
-	$john = Cache::tags(['people', 'artists'])->get('John');
+    $john = Cache::tags(['people', 'artists'])->get('John');
 
     $anne = Cache::tags(['people', 'authors'])->get('Anne');
 
@@ -220,11 +237,11 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 你可以清空已分配的单个标签或是一组标签列表中的所有缓存项。例如，下方的语句会把被标记为 `people`、`authors`，或两者都标记了的缓存都移除。所以，`Anne` 与 `John` 都会被从缓存中移除：
 
-	Cache::tags(['people', 'authors'])->flush();
+    Cache::tags(['people', 'authors'])->flush();
 
 相反的，下方的语句只会删除被标示为 `authors` 的缓存，所以 `Anne` 会被移除，但 `John` 不会：
 
-	Cache::tags('authors')->flush();
+    Cache::tags('authors')->flush();
 
 <a name="adding-custom-cache-drivers"></a>
 ## 增加自定义的缓存驱动
@@ -256,7 +273,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 
 我们只需要通过一个 MongoDB 的连接来实现这些方法。关于如何实现这些方法，可以查看框架源代码中的 `Illuminate\Cache\MemcachedStore` 。一旦我们的部署完成，我们就可以完成自定义驱动的注册了。
 
-    Cache::extend('mongo', function($app) {
+    Cache::extend('mongo', function ($app) {
         return Cache::repository(new MongoStore);
     });
 
@@ -284,7 +301,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
          */
         public function boot()
         {
-            Cache::extend('mongo', function($app) {
+            Cache::extend('mongo', function ($app) {
                 return Cache::repository(new MongoStore);
             });
         }
@@ -303,6 +320,7 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
 传递给 `extend` 方法的第一个参数是驱动名称。这取决于你的 `config/cache.php` 配置信息文件的 `driver` 选项。第二个参数为一个应该返回 `Illuminate\Cache\Repository` 实例的闭包。这个闭包将传递一个 [service container](/docs/{{version}}/container) 的 `$app` 实例。
 
 一旦你的扩展被注册，就可以轻松的更新 `config/cache.php` 配置信息文件的 `driver` 选项为你的扩展名称。
+
 <a name="events"></a>
 ## 缓存事件
 
@@ -330,8 +348,3 @@ Laravel 给多种缓存系统提供丰富而统一的 API，缓存配置信息�
             'App\Listeners\LogKeyWritten',
         ],
     ];
-
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@houfei](https://github.com/houfei)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3472_1452945992.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 玩咖啡 & 铲屎奴 & 努力回头做码农 [@houfei](https://github.com/houfei) at Github |

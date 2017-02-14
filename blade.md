@@ -1,9 +1,10 @@
-# Blade 模板
+# Laravel 的 Blade 模板引擎
 
 - [简介](#introduction)
 - [模板继承](#template-inheritance)
     - [定义页面布局](#defining-a-layout)
     - [继承页面布局](#extending-a-layout)
+- [组件 & Slots](#components-and-slots)
 - [显示数据](#displaying-data)
     - [Blade & JavaScript 框架](#blade-and-javascript-frameworks)
 - [控制结构](#control-structures)
@@ -11,6 +12,7 @@
     - [循环](#loops)
     - [循环变量](#the-loop-variable)
     - [注释](#comments)
+    - [PHP](#php)
 - [引入子视图](#including-sub-views)
     - [为集合渲染视图](#rendering-views-for-collections)
 - [堆栈](#stacks)
@@ -56,7 +58,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 <a name="extending-a-layout"></a>
 ### 继承页面布局
 
-当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所 「继承」 的页面布局。 当视图 `@section` Blade 的布局之后，即可使用 `@section` 命令将内容注入于布局的区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
+当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所 「继承」 的页面布局。 当子页面继承布局之后，即可使用 `@section` 命令将内容注入于布局的 `@section` 区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
 
     <!-- Stored in resources/views/child.blade.php -->
 
@@ -74,13 +76,58 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
         <p>This is my body content.</p>
     @endsection
 
-在上面的例子里，`sidebar` 区块利用了 `@parent` 命令追加布局中的 sidebar 区块中的内容，如果不使用则会覆盖掉布局中的这部分内容。 `@parent` 命令会在视图被渲染时替换为布局中的内容。
+在上面的例子里，`sidebar` 区块利用了 `@@parent` 命令追加布局中的 sidebar 区块中的内容，如果不使用则会覆盖掉布局中的这部分内容。 `@@parent` 命令会在视图被渲染时替换为布局中的内容。
 
 当然，可以通过在路由中使用全局辅助函数 `view` 来返回 Blade 视图：
 
     Route::get('blade', function () {
         return view('child');
     });
+
+<a name="components-and-slots"></a>
+## 组件 & Slots
+
+组件和 slots 能提供类似于区块和布局的好处；不过，一些人可能发现组件和 slots 更容易理解。首先，让我们假设一个会在我们应用中重复使用的「警告」组件:
+
+    <!-- /resources/views/alert.blade.php -->
+
+    <div class="alert alert-danger">
+        {{ $slot }}
+    </div>
+
+`{{ $slot }}` 变量将包含我们希望注入到组件的内容。现在，我们可以使用 `@component` 指令来构造这个组件：
+
+    @component('alert')
+        <strong>哇！</strong> 出现了一些问题！
+    @endcomponent
+
+有些时候它对于定义组件的多个 slots 是非常有帮助的。让我们修改我们的警告组件，让它支持注入一个「标题」。 已命名的 slots 将显示「相对应」名称的变量的值:
+
+    <!-- /resources/views/alert.blade.php -->
+
+    <div class="alert alert-danger">
+        <div class="alert-title">{{ $title }}</div>
+
+        {{ $slot }}
+    </div>
+
+现在，我们可以使用 `@slot` 指令注入内容到已命名的 slot 中，任何没有被 `@slot` 指令包裹住的内容将传递给组件中的 `$slot` 变量:
+
+    @component('alert')
+        @slot('title')
+            拒绝
+        @endslot
+
+        你没有权限访问这个资源！
+    @endcomponent
+
+#### 传递额外的数据给组件
+
+有时候你可能需要传递额外的数据给组件。为了解决这个问题，你可以传递一个数组作为第二个参数传递给 `@component` 指令。所有的数据都将以变量的形式传递给组件模版:
+
+    @component('alert', ['foo' => 'bar'])
+        ...
+    @endcomponent
 
 <a name="displaying-data"></a>
 ## 显示数据
@@ -262,6 +309,17 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 
     {{-- 此注释将不会出现在渲染后的 HTML --}}
 
+<a name="php"></a>
+### PHP
+
+在某些情况下，它对于你在视图文件中嵌入 php 代码是非常有帮助的。你可以在你的模版中使用 Blade 提供的 `@php` 指令来执行一段纯 PHP 代码：
+
+    @php
+        //
+    @endphp
+
+> {tip} 虽然 Blade 提供了这个功能，但频繁地使用也同时意味着你在你的模版中嵌入了太多的逻辑了。
+
 <a name="including-sub-views"></a>
 ## 引入子视图
 
@@ -279,6 +337,10 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 
     @include('view.name', ['some' => 'data'])
 
+当然，如果你尝试使用 `@include` 去引用一个不存在的视图，Laravel 会抛出错误。如果你想引入一个视图，而你又无法确认这个视图存在与否，你可以使用 `@includeIf` 指令:
+
+    @includeIf('view.name', ['some' => 'data'])
+
 > {note} 请避免在 Blade 视图中使用 `__DIR__` 及 `__FILE__` 常量，因为他们会引用视图被缓存的位置。
 
 <a name="rendering-views-for-collections"></a>
@@ -288,9 +350,9 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 
     @each('view.name', $jobs, 'job')
 
-第一个参数为每个元素要渲染的局部视图，第二个参数你要迭代的数组或集合，而第三个参数为迭代时被分配至视图中的变量名称。举个例子，如果你需要迭代一个 `job` 数组。通常你会想要在局部渲染视图中使用 `job` 作为变量来访问 job 信息。在你的试图部分中 `key` 变量将是当前迭代的关键。
+第一个参数为每个元素要渲染的子视图，第二个参数是你要迭代的数组或集合，而第三个参数为迭代时被分配至子视图中的变量名称。举个例子，如果你需要迭代一个 `jobs` 数组，通常子视图会使用 `job` 作为变量来访问 job 信息。子视图使用 `key` 变量作为当前迭代的键名。
 
-你也可以传递第四个参数到 `@each` 命令。此参数为当指定的数组为空时，将会被渲染的视图。
+你也可以传递第四个参数到 `@each` 命令。当需要迭代的数组为空时，将会使用这个参数提供的视图来渲染。
 
     @each('view.name', $jobs, 'job', 'view.empty')
 
@@ -323,7 +385,7 @@ Blade 也允许你在其它视图或布局中为已经命名的堆栈中压入�
     </div>
 
 <a name="extending-blade"></a>
-## 扩充 Blade
+## 拓展 Blade
 
 Blade 甚至允许你使用 `directive` 方法来注册自己的命令。当 Blade 编译器遇到该命令时，它将会带参数调用提供的回调函数。
 
@@ -345,8 +407,8 @@ Blade 甚至允许你使用 `directive` 方法来注册自己的命令。当 Bla
          */
         public function boot()
         {
-            Blade::directive('datetime', function($expression) {
-                return "<?php echo $expression->format('m/d/Y H:i'); ?>";
+            Blade::directive('datetime', function ($expression) {
+                return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
         }
 
@@ -366,10 +428,4 @@ Blade 甚至允许你使用 `directive` 方法来注册自己的命令。当 Bla
     <?php echo $var->format('m/d/Y H:i'); ?>
 
 > {note} 在更新 Blade 指令的逻辑后，你将需要删除所有已缓存的 Blade 视图，使用 `view:clear` Artisan 命令来清除被缓存的视图。
-
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@江边望海](http://blog.jiangbianwanghai.com)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5306_1470714129.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 郑州悉知资深技术经理、讲师，10多年软件产品研发、测试、咨询及管理工作经验。Follow me [@jiangbianwanghai](https://github.com/jiangbianwanghai/) at Github |
-| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
 
