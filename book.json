@@ -1,0 +1,13 @@
+{
+    "root": "./",
+    "title": "Laravel 中文文档",
+
+    "gitbook": "= 3.2.0",
+
+    "plugins": [
+        "-sharing",
+        "-fontsettings",
+        "-search",
+        "theme-official"
+    ]
+}
