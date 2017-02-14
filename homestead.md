@@ -52,7 +52,7 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
 <a name="first-steps"></a>
 ### 第一步
 
-在你启动 Homestead 环境之前，须先安装 [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads) 或 [VMWare](http://www.vmware.com) 以及 [Vagrant](http://www.vagrantup.com/downloads.html)。这些软件在各个常用的平台都有提供简单易用的界面安装包。
+在你启动 Homestead 环境之前，须先安装 [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads) 或 [VMWare](http://www.vmware.com) 以及 [Vagrant](http://www.vagrantup.com/downloads.html)。这些软件在各个常用的操作系统平台上都提供了简单易用可视化安装程序。
 
 若要使用 VMware provider，你需要同时购买 VMware Fusion / Workstation 以及 [VMware Vagrant plug-in](http://www.vagrantup.com/vmware) 的软件授权。使用 VMware 可以在共享文件夹上获得较快的性能。
 
@@ -63,6 +63,22 @@ Homestead 可以在 Windows、Mac 或 Linux 系统上面运行，里面包含了
     vagrant box add laravel/homestead
 
 如果上面的命令运行失败，代表你使用的可能是旧版的 Vagrant，请升级你的 Vagrant。
+
+如果由于网络问题导致 box 上述命令执行失败，可从命令行界面找出 box 文件地址，使用下载工具下载。下载完成后，在 box 文件所在目录手动创建 metadata.json 文件，内容如下：
+
+```json
+{
+    "name": "laravel/homestead",
+    "versions": [{
+        "version": "1.0.1",
+        "providers": [{
+            "name": "virtualbox",
+            "url": "virtualbox.box"
+        }]
+    }]
+}
+```
+然后在当前目录下执行 `vagrant box add metadata.json` 命令。
 
 #### 安装 Homestead
 
