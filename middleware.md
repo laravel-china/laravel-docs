@@ -25,7 +25,7 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
 
     php artisan make:middleware CheckAge
 
-该命令将会在 `app/Http/Middleware` 目录内新建一个 `CheckAge` 类。在这个中间件内，我们仅允许请求的 `age` 参数大于 200 时访问该路由，否则，会将用户请求重定向到 「home」 URI 。
+该命令将会在 `app/Http/Middleware` 目录内新建一个 `CheckAge` 类。在这个中间件内，我们仅允许请求的 `age` 参数大于 200 时访问该路由，否则，会将用户请求重定向到 `home` URI 。
 
     <?php
 
