@@ -39,7 +39,7 @@
 
 默认的服务器配置对于开发来说应该足够了。当然，你也可以根据使用的环境来随意更改数组。只需给每个 Redis 服务器指定名称、host 和 port 即可。
 
-> 译者注： 关于 Redis 多连接的配置，请参阅 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://laravel-china.org/topics/2466)。
+> 译者注： 关于 Redis 多连接的配置，请参阅 - [Laravel 下配置 Redis 让缓存、Session 各自使用不同的 Redis 数据库](https://laravel-china.org/topics/2466) 。
 
 #### redis 集群配置
 
@@ -82,7 +82,7 @@
 <a name="predis"></a>
 ### Predis
 
-除了默认的 `Host`，`port`，`database` 和 `password` 服务配置项之外，Predis 还可以为每个 redis 定义其他的[连接参数](https://github.com/nrk/predis/wiki/Connection-Parameters)。要使用这些额外的配置选项，只需将它们添加到你的 `config/database.php` 配置文件的 Redis 服务器配置项中即可：
+除了默认的 `Host`，`port`，`database` 和 `password` 服务配置项之外，Predis 还可以为每个 redis 定义其他的 [连接参数](https://github.com/nrk/predis/wiki/Connection-Parameters) 。要使用这些额外的配置选项，只需将它们添加到你的 `config/database.php` 配置文件的 Redis 服务器配置项中即可：
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -119,7 +119,7 @@
 <a name="interacting-with-redis"></a>
 ## 基本用法
 
-你可以通过调用 `Redis` [facade](/docs/{{version}}/facades) 的各种方法与 `Redis` 进行交互。`Redis` facade 支持动态方法，意思就是指你可以在该 facade 调用任何 [Redis 命令](http://redis.io/commands)，该命令会直接传递给 Redis。在本例中，我们会通过 `Redis` facade 的 `get` 方法来调用 Redis 的 `GET` 命令：
+你可以通过调用 `Redis` [facade](/docs/{{version}}/facades) 的各种方法与 `Redis` 进行交互。`Redis` facade 支持动态方法，意思就是指你可以在该 facade 调用任何 [Redis 命令](http://redis.io/commands) ，该命令会直接传递给 Redis。在本例中，我们会通过 `Redis` facade 的 `get` 方法来调用 Redis 的 `GET` 命令：
 
     <?php
 
