@@ -1,44 +1,44 @@
 # Laravel 的请求返回 Response
 
-- [Creating Responses](#creating-responses)
-    - [Attaching Headers To Responses](#attaching-headers-to-responses)
-    - [Attaching Cookies To Responses](#attaching-cookies-to-responses)
-    - [Cookies & Encryption](#cookies-and-encryption)
-- [Redirects](#redirects)
-    - [Redirecting To Named Routes](#redirecting-named-routes)
-    - [Redirecting To Controller Actions](#redirecting-controller-actions)
-    - [Redirecting With Flashed Session Data](#redirecting-with-flashed-session-data)
-- [Other Response Types](#other-response-types)
-    - [View Responses](#view-responses)
-    - [JSON Responses](#json-responses)
-    - [File Downloads](#file-downloads)
-    - [File Responses](#file-responses)
-- [Response Macros](#response-macros)
+- [创建响应](#creating-responses)
+    - [附加头信息至响应](#attaching-headers-to-responses)
+    - [附加 Cookie 至响应](#attaching-cookies-to-responses)
+    - [Cookies 加密](#cookies-and-encryption)
+- [重定向](#redirects)
+    - [重定向至命名路由](#redirecting-named-routes)
+    - [重定向至控制器行为](#redirecting-controller-actions)
+    - [重定向并附加 Session 闪存数据](#redirecting-with-flashed-session-data)
+- [其他响应类型](#other-response-types)
+    - [视图响应](#view-responses)
+    - [JSON 响应](#json-responses)
+    - [文件下载](#file-downloads)
+    - [文件响应](#file-responses)
+- [响应宏](#response-macros)
 
 <a name="creating-responses"></a>
-## Creating Responses
+## 创建响应
 
-#### Strings & Arrays
+#### 字符串 & 数组
 
-All routes and controllers should return a response to be sent back to the user's browser. Laravel provides several different ways to return responses. The most basic response is simply returning a string from a route or controller. The framework will automatically convert the string into a full HTTP response:
+所有路由和控制器都会返回一个响应并返回给用户的浏览器。Laravel 提供了几种不同的方式来返回响应。最基本的响应就是从路由或控制器返回一串字符串。框架会自动将字符串转换为一个完整的 HTTP 响应：
 
     Route::get('/', function () {
         return 'Hello World';
     });
 
-In addition to returning strings from your routes and controllers, you may also return arrays. The framework will automatically convert the array into a JSON response:
+从路由和控制器不仅能返回字符串，也可以返回数组。框架也会自动地将数组转为 JSON 响应：
 
     Route::get('/', function () {
         return [1, 2, 3];
     });
 
-> {tip} Did you know you can also return [Eloquent collections](/docs/{{version}}/eloquent-collections) from your routes or controllers? They will automatically be converted to JSON. Give it a shot!
+> {tip} 你知道吗？ [Eloquent 集合](/docs/{{version}}/eloquent-collections) 也可以从路由和控制器中直接返回，它们会自动转为 JSON 响应。试试吧！
 
-#### Response Objects
+#### 响应对象
 
-Typically, you won't just be returning simple strings or arrays from your route actions. Instead, you will be returning full `Illuminate\Http\Response` instances or [views](/docs/{{version}}/views).
+一般来说，你不需要从路由方法返回简单的字符串或数组。而是需要返回整个 `Illuminate\Http\Response` 实例或 [视图](/docs/{{version}}/views)。
 
-Returning a full `Response` instance allows you to customize the response's HTTP status code and headers. A `Response` instance inherits from the `Symfony\Component\HttpFoundation\Response` class, which provides a variety of methods for building HTTP responses:
+当返回整个 `Response` 实例时，Laravel 允许自定义响应的 HTTP 状态码和响应头信息。`Response` 实例继承自 `Symfony\Component\HttpFoundation\Response` 类，该类提供了丰富的构建 HTTP 响应的方法：
 
     Route::get('home', function () {
         return response('Hello World', 200)
@@ -46,16 +46,16 @@ Returning a full `Response` instance allows you to customize the response's HTTP
     });
 
 <a name="attaching-headers-to-responses"></a>
-#### Attaching Headers To Responses
+#### 附加头信息至响应
 
-Keep in mind that most response methods are chainable, allowing for the fluent construction of response instances. For example, you may use the `header` method to add a series of headers to the response before sending it back to the user:
+大部分的响应方法都是可链式调用的，以使你更酣畅淋漓的创建响应实例。例如，你可以在响应返回给用户前使用 `header` 方法向响应实例中附加一系列的头信息：
 
     return response($content)
                 ->header('Content-Type', $type)
                 ->header('X-Header-One', 'Header Value')
                 ->header('X-Header-Two', 'Header Value');
 
-Or, you may use the `withHeaders` method to specify an array of headers to be added to the response:
+或者，你可以使用 `withHeaders` 方法来指定一个包含头信息的数组：
 
     return response($content)
                 ->withHeaders([
@@ -65,9 +65,9 @@ Or, you may use the `withHeaders` method to specify an array of headers to be ad
                 ]);
 
 <a name="attaching-cookies-to-responses"></a>
-#### Attaching Cookies To Responses
+#### 附加 Cookie 至响应
 
-The `cookie` method on response instances allows you to easily attach cookies to the response. For example, you may use the `cookie` method to generate a cookie and fluently attach it to the response instance like so:
+通过响应对象的 cookie 方法可以让你轻松的附加 cookies 至响应。你可以使用 `cookie` 方法来生成 cookie 并附加至响应实例，像这样：
 
     return response($content)
                     ->header('Content-Type', $type)
@@ -75,15 +75,17 @@ The `cookie` method on response instances allows you to easily attach cookies to
 
 The `cookie` method also accepts a few more arguments which are used less frequently. Generally, these arguments have the same purpose and meaning as the arguments that would be given to PHP's native [setcookie](https://secure.php.net/manual/en/function.setcookie.php) method:
 
+`cookie` 方法也接受另外几个参数，它们的使用频率较低。通常，这些参数和给予原生 PHP 方法的参数有着相同的目的和含义：
+
     ->cookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
 
 <a name="cookies-and-encryption"></a>
-#### Cookies & Encryption
+#### Cookies 加密
 
-By default, all cookies generated by Laravel are encrypted and signed so that they can't be modified or read by the client. If you would like to disable encryption for a subset of cookies generated by your application, you may use the `$except` property of the `App\Http\Middleware\EncryptCookies` middleware, which is located in the `app/Http/Middleware` directory:
+默认情况下，Laravel 生成的所有 cookie 都是加密并通过签名验证的，因此他们并不能够在客户端被修改和读取。如果你想对你的应用程序生成的部分 cookie 禁用加密，可以使用 `App\Http\Middleware\EncryptCookies` 中间件的 `$except` 属性，该文件存储在 `app/Http/Middleware`：
 
     /**
-     * The names of the cookies that should not be encrypted.
+     * 无需被加密的 cookie 名
      *
      * @var array
      */
@@ -92,36 +94,36 @@ By default, all cookies generated by Laravel are encrypted and signed so that th
     ];
 
 <a name="redirects"></a>
-## Redirects
+## 重定向
 
-Redirect responses are instances of the `Illuminate\Http\RedirectResponse` class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a `RedirectResponse` instance. The simplest method is to use the global `redirect` helper:
+重定向响应是 `Illuminate\Http\RedirectResponse` 类的实例，并且包含用户需要重定向至另一个 URL 所需的头信息。Laravel 提供了许多方法用于生成 `RedirectResponse` 实例。最简单的方法是使用全局辅助函数 `redirect`：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
     });
 
-Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/docs/{{version}}/session), make sure the route calling the `back` function is using the `web` middleware group or has all of the session middleware applied:
+有些情况下你可能希望用户重定向至上级一页面，比如，当提交表单失败时。这时可以使用 全局辅助函数 `back`。由于此功能利用了 [session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 session 中间件：
 
     Route::post('user/profile', function () {
-        // Validate the request...
+        // 验证请求...
 
         return back()->withInput();
     });
 
 <a name="redirecting-named-routes"></a>
-### Redirecting To Named Routes
+### 重定向至命名路由
 
-When you call the `redirect` helper with no parameters, an instance of `Illuminate\Routing\Redirector` is returned, allowing you to call any method on the `Redirector` instance. For example, to generate a `RedirectResponse` to a named route, you may use the `route` method:
+当调用不带参数的辅助函数 `redirect` 时，会返回一个 `Illuminate\Routing\Redirector` 实例，该实例允许你调用 `Redirector` 实例的任何方法。例如，生成一个 `RedirectResponse` 重定向至一个被命名的路由时，您可以使用 `route` 方法：
 
     return redirect()->route('login');
 
-If your route has parameters, you may pass them as the second argument to the `route` method:
+如果你的路由有参数，它们可以作为 `route` 方法的第二个参数来传递：
 
-    // For a route with the following URI: profile/{id}
+    // 对于该 URI 的路由: profile/{id}
 
     return redirect()->route('profile', ['id' => 1]);
 
-#### Populating Parameters Via Eloquent Models
+#### 通过 Eloquent 模型填充参数
 
 If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may simply pass the model itself. The ID will be extracted automatically:
 
