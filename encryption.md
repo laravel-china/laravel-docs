@@ -20,7 +20,6 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 #### 加密一个值
 
 你可以借助  `encrypt`  辅助函数来加密一个值。这些值都会使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过后的值都会被签署文件消息验证码 (MAC)，以检测加密字符串是否被篡改过：
-
     <?php
 
     namespace App\Http\Controllers;
@@ -28,11 +27,11 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
     use App\User;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
-
+    
     class UserController extends Controller
     {
         /**
-         * Store a secret message for the user.
+         * 存储用户保密信息
          *
          * @param  Request  $request
          * @param  int  $id
@@ -41,7 +40,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
         public function storeSecret(Request $request, $id)
         {
             $user = User::findOrFail($id);
-
+    
             $user->fill([
                 'secret' => encrypt($request->secret)
             ])->save();
@@ -50,7 +49,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 
 #### 不进行序列化的加密解密方法
 
-加密值在加密期间通过 `serialize` 传递，这也就允许对对象和数组进行加密。由此，非PHP客户端接收到加密值将需要 `unserialize`  数据。如果您希望在不进行序列化的情况下加密和解密值，可以使用 `Crypt` facade的 `encryptString` 和`decryptString` 方法：
+加密值在加密期间通过 `serialize` 传递，这也就允许对对象和数组进行加密。由此，非PHP客户端接收到加密值将需要 `unserialize`  数据。如果您希望在不进行序列化的情况下加密和解密值，可以使用 `Crypt` facade的 `encryptString` 和 `decryptString` 方法：
 
     use Illuminate\Support\Facades\Crypt;
 
@@ -60,7 +59,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 
 #### 解密一个值
 
-你可以借助 `decrypt` 辅助函数来解密一个值。如果值不能被正确解密，例如当MAC无效时，将抛出 `Illuminate\Contracts\Encryption\DecryptException` 异常：
+你可以借助 `decrypt` 辅助函数来解密一个值。如果值不能被正确解密，例如当 MAC 无效时，将抛出 `Illuminate\Contracts\Encryption\DecryptException` 异常：
 
     use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -69,7 +68,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
     } catch (DecryptException $e) {
         //
     }
-    
+	
 ## 译者署名
 | 用户名                                      | 头像                                       | 职能   | 签名                                       |
 | ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |

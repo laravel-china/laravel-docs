@@ -15,44 +15,39 @@ Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密�
 
 你可以通过调用 `Hash` facade 的 `make` 方法加密一个密码：
 
+    <?php
 
-```php
-<?php
+    namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Hash;
+    use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
-
-class UpdatePasswordController extends Controller
-{
-    /**
-     * 跟新用户密码
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function update(Request $request)
+    class UpdatePasswordController extends Controller
     {
-        // 验证新密码长度...
+        /**
+         * 跟新用户密码
+         *
+         * @param  Request  $request
+         * @return Response
+         */
+        public function update(Request $request)
+        {
+            // Validate the new password length...
 
-        $request->user()->fill([
-            'password' => Hash::make($request->newPassword)
-        ])->save();
+            $request->user()->fill([
+                'password' => Hash::make($request->newPassword)
+            ])->save();
+        }
     }
-}
-```
 
 #### 根据哈希值验证密码
 
 `check` 方法允许你通过一个指定的纯字符串跟哈希值进行验证。 如果你目前正使用[Laravel内含的](/docs/{{version}}/authentication) `LoginController` , 你可能不需要直接使用该方法，它已经包含在控制器当中并且会被自动调用：
 
-```php
-if (Hash::check('plain-text', $hashedPassword)) {
-    // The passwords match...
-}
-```
+    if (Hash::check('plain-text', $hashedPassword)) {
+        // 密码对比...
+    }
 
 #### 验证密码是否须重新加密
 
@@ -61,6 +56,7 @@ if (Hash::check('plain-text', $hashedPassword)) {
     if (Hash::needsRehash($hashed)) {
         $hashed = Hash::make('plain-text');
     }
+	
 ## 译者署名
 | 用户名                                      | 头像                                       | 职能   | 签名                                       |
 | ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
