@@ -74,3 +74,7 @@ try {
     //
 }
 ```
+## 译者署名
+| 用户名                                      | 头像                                       | 职能   | 签名                                       |
+| ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
+| [@GanymedeNil](https://github.com/GanymedeNil) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6859_1487055454.jpg?imageView2/1/w/100/h/100"> | 翻译   | 我不是Full Stack Developer 2333  [@GanymedeNil](http://weibo.com/jinhongyang) |
