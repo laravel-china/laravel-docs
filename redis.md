@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Redis 是一款开源且先进的键值对数据库。由于它的键指向的数据包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets) 和 [有序集合](http://redis.io/topics/data-types#sorted-sets)这些数据类型，因此常被用作数据结构服务器。
+[Redis](http://redis.io) 是一款开源且先进的键值对数据库。由于它的键指向的数据包含了[字符串](http://redis.io/topics/data-types#strings)、[哈希](http://redis.io/topics/data-types#hashes)、[列表](http://redis.io/topics/data-types#lists)、[集合](http://redis.io/topics/data-types#sets) 和 [有序集合](http://redis.io/topics/data-types#sorted-sets)这些数据类型，因此常被用作数据结构服务器。
 
 在使用 Redis 之前，你需要通过 Composer 安装 `predis/predis`  扩展包。
 
