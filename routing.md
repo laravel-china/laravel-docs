@@ -191,20 +191,18 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 <a name="route-group-namespaces"></a>
 ### 命名空间
 
-Another common use-case for route groups is assigning the same PHP namespace to a group of controllers using the `namespace` parameter in the group array:
-
-另一个常见的案例是，指定相同的 `PHP` 命名空间给控制器组。可以使用 `namespace` 参数来指定组内所有控制器的公共命名空间：
+另一个常见的例子是，为控制器组指定公共的 `PHP` 命名空间。这时使用 `namespace` 参数来指定组内所有控制器的公共命名空间：
 
     Route::group(['namespace' => 'Admin'], function () {
-        // Controllers Within The "App\Http\Controllers\Admin" Namespace
+        // 在 "App\Http\Controllers\Admin" 命名空间下的控制器
     });
 
-Remember, by default, the `RouteServiceProvider` includes your route files within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix. So, you only need to specify the portion of the namespace that comes after the base `App\Http\Controllers` namespace.
+请记住，默认 `RouteServiceProvider` 会在命名空间组中引入你的路由文件，让你不用指定完整的 `App\Http\Controllers` 命名空间前缀就能注册控制器路由，因此，我们在定义的时候只需要指定命名空间 `App\Http\Controllers` 以后的部分。
 
 <a name="route-group-sub-domain-routing"></a>
-### Sub-Domain Routing
+### 子域名路由
 
-Route groups may also be used to handle sub-domain routing. Sub-domains may be assigned route parameters just like route URIs, allowing you to capture a portion of the sub-domain for usage in your route or controller. The sub-domain may be specified using the `domain` key on the group attribute array:
+路由组也可以用作子域名的通配符，子域名可以像 URI 一样当作路由组的参数，因此允许把捕获的子域名一部分用于我们的路由或控制器。可以使用路由组属性的 `domain` 键声明子域名。
 
     Route::group(['domain' => '{account}.myapp.com'], function () {
         Route::get('user/{id}', function ($account, $id) {
@@ -213,38 +211,40 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
     });
 
 <a name="route-group-prefixes"></a>
-### Route Prefixes
+### 路由前缀
 
-The `prefix` group attribute may be used to prefix each route in the group with a given URI. For example, you may want to prefix all route URIs within the group with `admin`:
+通过路由组数组属性中的 `prefix` 键可以给每个路由组中的路由加上指定的 URI 前缀，例如，我们可以给路由组中所有的 URI 加上路由前缀 `admin` :
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('users', function ()    {
-            // Matches The "/admin/users" URL
+            // 匹配包含 "/admin/users" 的 URL
         });
     });
 
 <a name="route-model-binding"></a>
-## Route Model Binding
+## 路由模型绑定
 
-When injecting a model ID to a route or controller action, you will often query to retrieve the model that corresponds to that ID. Laravel route model binding provides a convenient way to automatically inject the model instances directly into your routes. For example, instead of injecting a user's ID, you can inject the entire `User` model instance that matches the given ID.
+当向路由控制器中注入模型 ID 时，我们通常需要查询这个 ID 对应的模型，Laravel 路由模型绑定提供了一个方便的方法自动将模型注入到我们的路由中，例如，除了注入一个用户的 ID，你也可以注入与指定 ID 匹配的完整 `User` 类实例。
 
 <a name="implicit-binding"></a>
-### Implicit Binding
+### 隐式绑定
 
-Laravel automatically resolves Eloquent models defined in routes or controller actions whose type-hinted variable names match a route segment name. For example:
+Laravel 会自动解析定义在路由或控制器方法（方法包含和路由片段匹配的已声明类型变量）中的 Eloquent 模型，例如：
 
     Route::get('api/users/{user}', function (App\User $user) {
         return $user->email;
     });
 
-Since the `$user` variable is type-hinted as the `App\User` Eloquent model and the variable name matches the `{user}` URI segment, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.
+在这个例子中，由于类型声明了 Eloquent 模型 `App\User`，对应的变量名 `$user` 会匹配路由片段中的 `{user}`，这样，Laravel 会自动注入与请求 URI 中传入的 ID 对应的用户模型实例。
 
-#### Customizing The Key Name
+如果数据库中找不到对应的模型实例，将会自动生成产生一个 404 HTTP 响应。
 
-If you would like model binding to use a database column other than `id` when retrieving a given model class, you may override the `getRouteKeyName` method on the Eloquent model:
+#### 自定义键名
+
+如果你想要隐式模型绑定除 `id` 以外的数据库字段，你可以重写 Eloquent 模型类的 `getRouteKeyName` 方法：
 
     /**
-     * Get the route key for the model.
+     * 为路由模型获取键名
      *
      * @return string
      */
@@ -254,9 +254,9 @@ If you would like model binding to use a database column other than `id` when re
     }
 
 <a name="explicit-binding"></a>
-### Explicit Binding
+### 显式绑定
 
-To register an explicit binding, use the router's `model` method to specify the class for a given parameter. You should define your explicit model bindings in the `boot` method of the `RouteServiceProvider` class:
+使用路由的 `model` 方法来为已有参数声明 class 。你应该在 `RouteServiceProvider` 类中的 `boot` 方法内定义这些显式绑定：
 
     public function boot()
     {
@@ -265,19 +265,20 @@ To register an explicit binding, use the router's `model` method to specify the 
         Route::model('user', App\User::class);
     }
 
-Next, define a route that contains a `{user}` parameter:
+接着，定义包含 `{user}` 参数的路由：
 
     Route::get('profile/{user}', function (App\User $user) {
         //
     });
 
-Since we have bound all `{user}` parameters to the `App\User` model, a `User` instance will be injected into the route. So, for example, a request to `profile/1` will inject the `User` instance from the database which has an ID of `1`.
+因为我们已经绑定 `{user}` 参数至 `App\User` 模型，所以 `User` 实例将被注入该路由。举个例子，一个至 `profile/1` 的请求会注入 ID 为 1 的 `User` 实例。
 
-If a matching model instance is not found in the database, a 404 HTTP response will be automatically generated.
+> **注意：**如果在数据库不存在对应 ID 的数据，就会自动抛出一个 404 异常。
 
-#### Customizing The Resolution Logic
 
-If you wish to use your own resolution logic, you may use the `Route::bind` method. The `Closure` you pass to the `bind` method will receive the value of the URI segment and should return the instance of the class that should be injected into the route:
+#### 自定义解析逻辑
+
+如果你想要使用自定义的解析逻辑，需要使用 `Route::bind` 方法，传递到 `bind` 方法的闭包会获取到 URI 请求参数中的值，并且返回你想要在该路由中注入的类实例：
 
     public function boot()
     {
@@ -289,23 +290,23 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
     }
 
 <a name="form-method-spoofing"></a>
-## Form Method Spoofing
+## 表单方法伪造
 
-HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
+HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义要在 HTML 表单中调用的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。 `_method` 字段的值将被作为 HTTP 的请求方法使用：
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
     </form>
 
-You may use the `method_field` helper to generate the `_method` input:
+你也可以使用辅助函数 `method_field` 来生成隐藏的输入字段 `_method`：
 
     {{ method_field('PUT') }}
 
 <a name="accessing-the-current-route"></a>
-## Accessing The Current Route
+## 获取当前路由信息
 
-You may use the `current`, `currentRouteName`, and `currentRouteAction` methods on the `Route` facade to access information about the route handling the incoming request:
+你可以使用 `Route` 上的 `current`, `currentRouteName`, and `currentRouteAction` 方法来访问处理当前输入请求的路由信息：
 
     $route = Route::current();
 
@@ -313,4 +314,9 @@ You may use the `current`, `currentRouteName`, and `currentRouteAction` methods 
 
     $action = Route::currentRouteAction();
 
-Refer to the API documentation for both the [underlying class of the Route facade](https://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](https://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) to review all accessible methods.
+完整的方法列表请参考 [Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@zhouzihanntu](https://github.com/zhouzihanntu)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/14007659?v=3&s=460">  |  翻译  |   |
