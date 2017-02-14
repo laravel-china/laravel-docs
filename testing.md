@@ -23,7 +23,7 @@ Laravel 天生就具有测试的基因。事实上，Laravel 默认就支持用 
 <a name="creating-and-running-tests"></a>
 ## 定义并运行测试
 
-可以使用 `make:test` Artisan 命令，创建一个测试案例：
+可以使用 `make:test` Artisan 命令，创建一个测试用例：
 
     // 在 Feature 目录下创建一个测试类...
     php artisan make:test UserTest
@@ -44,7 +44,7 @@ Laravel 天生就具有测试的基因。事实上，Laravel 默认就支持用 
     class ExampleTest extends TestCase
     {
         /**
-         * 基本的测试案例。
+         * 基本的测试用例。
          *
          * @return void
          */
