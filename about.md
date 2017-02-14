@@ -2,15 +2,13 @@
 
 ## 说明
 
-此文档由 [Laravel China](https://laravel-china.org) 组织翻译和维护。更多讨论，请前往这个帖子：[Laravel China 文档导读](https://laravel-china.org/topics/2095)。
+为了更好的阅读文档，请查看 [Laravel China 文档导读](https://laravel-china.org/topics/2095)。
 
-## 译者
+此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生的，本次 5.3 版本的翻译参与人员总共 27 人，完整的用户列表请见 ：[Laravel 5.3 译者](https://laravel-china.org/roles/7) 。
 
-Laravel China 中文文档是由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生的，本次 5.3 版本的翻译参与人员总共 27 人，完整的用户列表请见 ：[Laravel 5.3 译者](https://laravel-china.org/roles/7) 。
+> 感谢这些可爱的译者，感谢他们的热情。
 
-感谢这些可爱的译者，感谢他们的热情。
-
-## 相关讨论
+### 相关讨论
 
 * [Laravel 5.3 文档翻译召集](https://laravel-china.org/topics/2752)
 * [Laravel 5.3 中文文档翻译完成](https://laravel-china.org/topics/3084)
