@@ -6,9 +6,9 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密来保存用户密码。 如果您在当前的 Laravel 应用程序中使用了内置的`LoginController` 和 `RegisterController` 类，它们将自动使用Bcrypt进行注册和身份验证。
+Laravel 通过 `Hash` [facade](/docs/{{version}}/facades) 提供 Bcrypt 加密来保存用户密码。 如果您在当前的 Laravel 应用程序中使用了内置的`LoginController` 和 `RegisterController` 类，它们将自动使用 Bcrypt 进行注册和身份验证。
 
-> {tip} 由于 Bcrypt 的 「加密系数（word fator）」可以任意调整，这使它成为最好的加密选择。这代表每一次加密的时间可以随着硬件设备的升级而加长。
+> {tip} 由于 Bcrypt 的 「加密系数（word fator）」可以任意调整，这使它成为最好的加密选择。这代表每一次加密的次数可以随着硬件设备的升级而加长。
 
 <a name="basic-usage"></a>
 ## 基本用法
