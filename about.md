@@ -1,21 +1,16 @@
 # Laravel 5.4 中文文档
-
 ## 说明
 
-此文档由 [Laravel China](https://laravel-china.org) 组织翻译和维护。
+为了更好的阅读文档，请查看 [Laravel China 文档导读](https://laravel-china.org/topics/2095)。
 
-为了方便新手学习，在每篇文档的最底部增加导读内容区块。
+此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生，本次 5.4 版本的翻译参与人员总共 xx 人，完整的参与人员列表请见 ：[Laravel 5.4 译者](https://laravel-china.org/roles/11) 。
 
-更多讨论，请前往这个帖子：[Laravel China 文档导读](https://laravel-china.org/topics/2095)。
+> 感谢这些可爱的译者，感谢他们的热情。
 
-## 译者
-
-> [Laravel 5.4 译者](https://laravel-china.org/roles/11)
-
-## 相关讨论
+### 相关讨论
 
 * [Laravel 5.4 文档翻译召集](https://laravel-china.org/topics/3810)
-* [Laravel 5.4 中文文档翻译完成]()
+* [Laravel 5.4 中文文档翻译完成](#)
 
 ## 排版规范
 
