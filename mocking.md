@@ -1,141 +1,213 @@
-# Mocking
+# Laravel 测试之：测试模拟器
 
-- [Introduction](#introduction)
-- [Events](#mocking-events)
-- [Jobs](#mocking-jobs)
-- [Facades](#mocking-facades)
+- [介绍](#introduction)
+- [任务模拟](#bus-fake)
+- [事件模拟](#event-fake)
+- [邮件模拟](#mail-fake)
+- [通知模拟](#notification-fake)
+- [队列模拟](#queue-fake)
+- [Facades 模拟](#mocking-facades)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that fires an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners, since the event listeners can be tested in their own test case.
+测试 Laravel 应用时，有时候你可能想要「模拟」实现应用的部分功能的行为，从而避免该部分在测试过程中真正执行。例如，控制器执行过程中会触发一个事件（ Events ），你想要模拟这个事件的监听器，从而避免该事件在测试这个控制器时真正执行。如上可以让你仅测试控制器的 HTTP 响应情况，而不用去担心触发事件。当然，你可以在单独的测试中测试该事件的逻辑。
 
-Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. Of course, you are free to use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
+Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助函数。这些辅助函数基于 Mockery 封装而成，使用非常简单，无需你手动调用复杂的 Mockery 函数。当然，你也可以使用 [Mockery](http://docs.mockery.io/en/latest/) 或者 PHPUnit 创建自己的模拟器。
 
-<a name="mocking-events"></a>
-## Events
+<a name="bus-fake"></a>
+## 任务模拟
 
-If you are making heavy use of Laravel's event system, you may wish to silence or mock certain events while testing. For example, if you are testing user registration, you probably do not want all of a `UserRegistered` event's handlers firing, since the listeners may send "welcome" e-mails, etc.
-
-Laravel provides a convenient `expectsEvents` method which verifies the expected events are fired, but prevents any listeners for those events from executing:
+你可以使用 `Bus` facade 的 `fake` 方法来模拟任务执行，测试的时候任务不会被真实执行。使用 fakes 的时候，断言一般出现在测试代码的后面：
 
     <?php
 
-    use App\Events\UserRegistered;
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use App\Jobs\ShipOrder;
+    use Illuminate\Support\Facades\Bus;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
-        /**
-         * Test new user registration.
-         */
-        public function testUserRegistration()
+        public function testOrderShipping()
         {
-            $this->expectsEvents(UserRegistered::class);
+            Bus::fake();
 
-            // Test user registration...
+            // 处理订单发货...
+
+            Bus::assertDispatched(ShipOrder::class, function ($job) use ($order) {
+                return $job->order->id === $order->id;
+            });
+
+            // 断言任务并没有被执行...
+            Bus::assertNotDispatched(AnotherJob::class);
         }
     }
 
-You may use the `doesntExpectEvents` method to verify that the given events are not fired:
+<a name="event-fake"></a>
+## 事件模拟
+
+你可以使用 `Event` facade 的 `fake` 方法来模拟事件监听，测试的时候不会触发事件监听器运行。然后你就可以断言事件运行了，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面:
 
     <?php
 
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
     use App\Events\OrderShipped;
     use App\Events\OrderFailedToShip;
+    use Illuminate\Support\Facades\Event;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
         /**
-         * Test order shipping.
+         * 测试订单发货.
          */
         public function testOrderShipping()
         {
-            $this->expectsEvents(OrderShipped::class);
-            $this->doesntExpectEvents(OrderFailedToShip::class);
+            Event::fake();
 
-            // Test order shipping...
+            // 处理订单发货...
+
+            Event::assertDispatched(OrderShipped::class, function ($e) use ($order) {
+                return $e->order->id === $order->id;
+            });
+
+            Event::assertNotDispatched(OrderFailedToShip::class);
         }
     }
 
-If you would like to prevent all event listeners from running, you may use the `withoutEvents` method. When this method is called, all listeners for all events will be mocked:
+<a name="mail-fake"></a>
+## 邮件模拟
+
+你可以使用 `Mail` facade 的 `fake` 方法来模拟邮件发送，测试时不会真的发送邮件。然后你可以断言 [mailables](/docs/{{version}}/mail) 发送给了用户，甚至可以检查他们收到的数据. 使用 fakes 时，断言一般在测试代码的后面：
 
     <?php
 
-    class ExampleTest extends TestCase
-    {
-        public function testUserRegistration()
-        {
-            $this->withoutEvents();
+    namespace Tests\Feature;
 
-            // Test user registration code...
-        }
-    }
-
-<a name="mocking-jobs"></a>
-## Jobs
-
-Sometimes, you may wish to test that given jobs are dispatched when making requests to your application. This will allow you to test your routes and controllers in isolation without worrying about your job's logic. Of course, you should then test the job in a separate test case.
-
-Laravel provides the convenient `expectsJobs` method which will verify that the expected jobs are dispatched. However, the job itself will not be executed:
-
-    <?php
-
-    class App\Jobs\ShipOrder;
+    use Tests\TestCase;
+    use App\Mail\OrderShipped;
+    use Illuminate\Support\Facades\Mail;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
         public function testOrderShipping()
         {
-            $this->expectsJobs(ShipOrder::class);
+            Mail::fake();
 
-            // Test order shipping...
+            // 处理订单发货...
+
+            Mail::assertSent(OrderShipped::class, function ($mail) use ($order) {
+                return $mail->order->id === $order->id;
+            });
+
+            // 断言一封邮件已经发送给了指定用户...
+            Mail::assertSent(OrderShipped::class, function ($mail) use ($user) {
+                return $mail->hasTo($user->email) &&
+                       $mail->hasCc('...') &&
+                       $mail->hasBcc('...');
+            });
+
+            // 断言 mailable 没有发送...
+            Mail::assertNotSent(AnotherMailable::class);
         }
     }
 
-> {note} This method only detects jobs that are dispatched via the `DispatchesJobs` trait's dispatch methods or the `dispatch` helper function. It does not detect queued jobs that are sent directly to `Queue::push`.
+<a name="notification-fake"></a>
+## 通知模拟
 
-Like the event mocking helpers, you may also test that a job is not dispatched using the `doesntExpectJobs` method:
+你可以使用 `Notification` facade 的 `fake` 方法来模拟通知发送，测试的时候并不会真的发送通知。然后你可以断言 [通知](/docs/{{version}}/notifications) 已经发送给你的用户，甚至可以检查他们收到的数据。使用 fakes 时, 断言一般出现在测试代码的后面.
 
     <?php
 
-    class App\Jobs\ShipOrder;
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use App\Notifications\OrderShipped;
+    use Illuminate\Support\Facades\Notification;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
-        /**
-         * Test order cancellation.
-         */
-        public function testOrderCancellation()
+        public function testOrderShipping()
         {
-            $this->doesntExpectJobs(ShipOrder::class);
+            Notification::fake();
 
-            // Test order cancellation...
+            // 处理订单发货...
+
+            Notification::assertSentTo(
+                $user,
+                OrderShipped::class,
+                function ($notification, $channels) use ($order) {
+                    return $notification->order->id === $order->id;
+                }
+            );
+
+            // 断言通知已经发送给了指定用户...
+            Notification::assertSentTo(
+                [$user], OrderShipped::class
+            );
+
+            // 断言通知没有发送...
+            Notification::assertNotSentTo(
+                [$user], AnotherNotification::class
+            );
         }
     }
 
-Alternatively, you may ignore all dispatched jobs using the `withoutJobs` method. When this method is called within a test method, all jobs that are dispatched during that test will be discarded:
+<a name="queue-fake"></a>
+## 队列模拟
+
+你可以使用 `Queue` facade 的 `fake` 方法来模拟任务队列，测试的时候并不会真的把任务放入队列。然后你可以断言任务被放进了队列，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面。
 
     <?php
 
-    class App\Jobs\ShipOrder;
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use App\Jobs\ShipOrder;
+    use Illuminate\Support\Facades\Queue;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
-        /**
-         * Test order cancellation.
-         */
-        public function testOrderCancellation()
+        public function testOrderShipping()
         {
-            $this->withoutJobs();
+            Queue::fake();
 
-            // Test order cancellation...
+            // 处理订单发货...
+
+            Queue::assertPushed(ShipOrder::class, function ($job) use ($order) {
+                return $job->order->id === $order->id;
+            });
+
+            // 断言任务进入了指定队列
+            Queue::assertPushedOn('queue-name', ShipOrder::class);
+
+            // 断言任务没有进入队列
+            Queue::assertNotPushed(AnotherJob::class);
         }
     }
 
 <a name="mocking-facades"></a>
-## Facades
+## Facades 模拟
 
-Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may be mocked. This provides a great advantage over traditional static methods and grants you the same testability you would have if you were using dependency injection. When testing, you may often want to mock a call to a Laravel facade in one of your controllers. For example, consider the following controller action:
+不同于传统的静态函数的调用， [facades](/docs/{{version}}/facades) 也是可以被模拟的，相对静态函数来说这是个巨大的优势，即使你在使用依赖注入，测试时依然会非常方便。在很多测试中，你可能经常想在控制器中模拟对 Laravel facade 的调用。比如下面控制器中的行为：
 
     <?php
 
@@ -146,7 +218,7 @@ Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may
     class UserController extends Controller
     {
         /**
-         * Show a list of all users of the application.
+         * 显示网站的所有用户
          *
          * @return Response
          */
@@ -158,11 +230,19 @@ Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may
         }
     }
 
-We can mock the call to the `Cache` facade by using the `shouldReceive` method, which will return an instance of a [Mockery](https://github.com/padraic/mockery) mock. Since facades are actually resolved and managed by the Laravel [service container](/docs/{{version}}/container), they have much more testability than a typical static class. For example, let's mock our call to the `Cache` facade's `get` method:
+我们可以通过 `shouldReceive` 方法来模拟 `Cache` facade ，此函数会返回一个 [Mockery](https://github.com/padraic/mockery) 实例，由于对 facade 的调用实际上都是由 Laravel 的 [服务容器](/docs/{{version}}/container) 管理的，所以 facade 能比传统的静态类表现出更好的测试便利性。接下来，让我们来模拟一下 `Cache` facade 的 `get` 方法的调用：
 
     <?php
 
-    class FooTest extends TestCase
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Support\Facades\Cache;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+    class UserControllerTest extends TestCase
     {
         public function testGetIndex()
         {
@@ -171,8 +251,10 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
                         ->with('key')
                         ->andReturn('value');
 
-            $this->visit('/users')->see('value');
+            $response = $this->get('/users');
+
+            // ...
         }
     }
 
-> {note} You should not mock the `Request` facade. Instead, pass the input you desire into the HTTP helper methods such as `call` and `post` when running your test.
+> {note} 不可以模拟 `Request` facade，测试时，如果需要传递指定的数据请使用 HTTP 辅助函数，例如 `get` 和 `post`。类似的，请在你的测试中通过调用 `Config::set` 来模拟 `Config` facade。

@@ -1,4 +1,4 @@
-# Events
+# Laravel 的事件系统
 
 - [Introduction](#introduction)
 - [Registering Events & Listeners](#registering-events-and-listeners)
@@ -8,7 +8,8 @@
 - [Defining Listeners](#defining-listeners)
 - [Queued Event Listeners](#queued-event-listeners)
     - [Manually Accessing The Queue](#manually-accessing-the-queue)
-- [Firing Events](#firing-events)
+    - [Handling Failed Jobs](#handling-failed-jobs)
+- [Dispatching Events](#dispatching-events)
 - [Event Subscribers](#event-subscribers)
     - [Writing Event Subscribers](#writing-event-subscribers)
     - [Registering Event Subscribers](#registering-event-subscribers)
@@ -43,6 +44,33 @@ Of course, manually creating the files for each event and listener is cumbersome
 
     php artisan event:generate
 
+<a name="manually-registering-events"></a>
+### Manually Registering Events
+
+Typically, events should be registered via the `EventServiceProvider` `$listen` array; however, you may also register Closure based events manually in the `boot` method of your `EventServiceProvider`:
+
+    /**
+     * Register any other events for your application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+
+        Event::listen('event.name', function ($foo, $bar) {
+            //
+        });
+    }
+
+#### Wildcard Event Listeners
+
+You may even register listeners using the `*` as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the event name as their first argument, and the entire event data array as their second argument:
+
+    Event::listen('event.*', function ($eventName, array $data) {
+        //
+    });
+
 <a name="defining-events"></a>
 ## Defining Events
 
@@ -53,10 +81,9 @@ An event class is simply a data container which holds the information related to
     namespace App\Events;
 
     use App\Order;
-    use App\Events\Event;
     use Illuminate\Queue\SerializesModels;
 
-    class OrderShipped extends Event
+    class OrderShipped
     {
         use SerializesModels;
 
@@ -138,6 +165,34 @@ To specify that a listener should be queued, add the `ShouldQueue` interface to 
 
 That's it! Now, when this listener is called for an event, it will be automatically queued by the event dispatcher using Laravel's [queue system](/docs/{{version}}/queues). If no exceptions are thrown when the listener is executed by the queue, the queued job will automatically be deleted after it has finished processing.
 
+#### Customizing The Queue Connection & Queue Name
+
+If you would like to customize the queue connection and queue name used by an event listener, you may define `$connection` and `$queue` properties on your listener class:
+
+    <?php
+
+    namespace App\Listeners;
+
+    use App\Events\OrderShipped;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+
+    class SendShipmentNotification implements ShouldQueue
+    {
+        /**
+         * The name of the connection the job should be sent to.
+         *
+         * @var string|null
+         */
+        public $connection = 'sqs';
+
+        /**
+         * The name of the queue the job should be sent to.
+         *
+         * @var string|null
+         */
+        public $queue = 'listeners';
+    }
+
 <a name="manually-accessing-the-queue"></a>
 ### Manually Accessing The Queue
 
@@ -163,10 +218,38 @@ If you need to manually access the listener's underlying queue job's `delete` an
         }
     }
 
-<a name="firing-events"></a>
-## Firing Events
+<a name="handling-failed-jobs"></a>
+### Handling Failed Jobs
 
-To fire an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
+Sometimes your queued event listeners may fail. If queued listener exceeds the maximum number of attempts as defined by your queue worker, the `failed` method will be called on your listener. The `failed` method receives the event instance and the exception that caused the failure:
+
+    <?php
+
+    namespace App\Listeners;
+
+    use App\Events\OrderShipped;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+
+    class SendShipmentNotification implements ShouldQueue
+    {
+        use InteractsWithQueue;
+
+        public function handle(OrderShipped $event)
+        {
+            //
+        }
+
+        public function failed(OrderShipped $event, $exception)
+        {
+            //
+        }
+    }
+
+<a name="dispatching-events"></a>
+## Dispatching Events
+
+To dispatch an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
 
     <?php
 
@@ -194,7 +277,7 @@ To fire an event, you may pass an instance of the event to the `event` helper. T
         }
     }
 
-> {tip} When testing, it can be helpful to assert that certain events were fired without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#mocking-events) makes it a cinch.
+> {tip} When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#mocking-events) makes it a cinch.
 
 <a name="event-subscribers"></a>
 ## Event Subscribers

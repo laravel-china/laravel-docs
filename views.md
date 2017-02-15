@@ -1,8 +1,8 @@
-# 视图
+# Laravel 的视图功能
 
 - [创建视图](#creating-views)
 - [传递数据到视图](#passing-data-to-views)
-    - [把数据共享给所有视图](#sharing-data-with-all-views)
+    - [共享数据给所有视图](#sharing-data-with-all-views)
 - [视图合成器](#view-composers)
 
 <a name="creating-views"></a>
@@ -10,7 +10,7 @@
 
 视图的用途是用来存放应用程序中 HTML 内容，并且能够将你的控制器层（或应用逻辑层）与展现层分开。视图文件目录为 `resources/views` ，示例视图如下：
 
-    <!-- 此视图文件位置：resources/views/greeting.php -->
+    <!-- 此视图文件位置：resources/views/greeting.blade.php -->
 
     <html>
         <body>
@@ -18,21 +18,21 @@
         </body>
     </html>
 
-上述视图文件位置为 `resources/views/greeting.php` ，我们可以通过全局函数 `view` 来使用这个视图，如下：
+上述视图文件位置为 `resources/views/greeting.blade.php` ，我们可以通过全局函数 `view` 来使用这个视图，如下：
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
 
-如你所见，`view` 函数中，第一个参数即 `resources/views` 目录中视图文件的文件名，第二个参数是一个数组，数组中的数据可以直接在视图文件中使用。在上面示例中，我们将 `name` 变量传递到了视图中，并在视图中使用 [Blade 模板语言](/docs/{{version}}/blade) 打印出来。
+如你所见，`view` 函数中，第一个参数是 `resources/views` 目录中视图文件的文件名，第二个参数是一个数组，数组中的数据可以直接在视图文件中使用。在上面示例中，我们将 `name` 变量传递到了视图中，并在视图中使用 [Blade 模板语言](/docs/{{version}}/blade) 打印出来。
 
-当然，视图文件也可能存放在 `resources/views` 的子目录中，你可以使用英文句点 `.` 来引用深层子目录中的视图文件。例如，一个视图的位置为 `resources/views/admin/profile.php` ，使用示例如下：
+当然，视图文件也可能存放在 `resources/views` 的子目录中，你可以使用英文句点 `.` 来引用深层子目录中的视图文件。例如，一个视图的位置为 `resources/views/admin/profile.blade.php` ，使用示例如下：
 
     return view('admin.profile', $data);
 
 #### 判断视图文件是否存在
 
-如果需要测试一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果测试的视图文件存在，则返回值为 `true` ：
+如果需要判断一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果视图文件存在，则返回值为 `true` ：
 
     use Illuminate\Support\Facades\View;
 
@@ -47,7 +47,7 @@
 
     return view('greetings', ['name' => 'Victoria']);
 
-当使用上面方式传递数据时，第二个参数（ `$data` ）必须是键值对数组。在视图文件中，你可以通过对应的关键字（ `$key` ）取用相应的数据值，例如 `<?php echo $key; ?>`。如果只需要传递特定数据而非一个臃肿的数组到视图文件，可以使用 `with` 辅助函数，示例如下：
+当使用上面方式传递数据时，第二个参数（ `$data` ）必须是键值对数组（关联数组）。在视图文件中，你可以通过对应的关键字（ `$key` ）取用相应的数据值，例如 `<?php echo $key; ?>`。如果只需要传递特定数据而非一个臃肿的数组到视图文件，可以使用 `with` 辅助函数，示例如下：
 
     return view('greeting')->with('name', 'Victoria');
 
@@ -193,15 +193,13 @@
         //
     });
 
-#### 视图塑造器
+#### 视图构造器
 
-视图 **塑造器** 和视图合成器非常相似。不同之处在于：视图塑造器在视图实例化时执行，而视图合成器在视图渲染时执行。如下，可以使用 `creator` 方法来注册一个视图塑造器：
+视图 **构造器** 和视图合成器非常相似。不同之处在于：视图构造器在视图实例化时执行，而视图合成器在视图渲染时执行。如下，可以使用 `creator` 方法来注册一个视图塑造器：
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  |   |
-| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
-| [@NauxLiu](https://github.com/NauxLiu)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9570112?v=3&s=100">  |  Review  |   |
+| [@zyxcba](https://github.com/cmzz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/6111715?v=3&s=100">  |  翻译  | [最新最好玩的微信小程序](http://wewx.cn) - WxStore 开源微信小程序商城 |

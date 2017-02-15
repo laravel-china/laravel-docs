@@ -1,4 +1,4 @@
-# Validation
+# Laravel 的表单验证机制详解
 
 - [Introduction](#introduction)
 - [Validation Quickstart](#validation-quickstart)
@@ -6,6 +6,7 @@
     - [Creating The Controller](#quick-creating-the-controller)
     - [Writing The Validation Logic](#quick-writing-the-validation-logic)
     - [Displaying The Validation Errors](#quick-displaying-the-validation-errors)
+    - [A Note On Optional Fields](#a-note-on-optional-fields)
 - [Form Request Validation](#form-request-validation)
     - [Creating Form Requests](#creating-form-requests)
     - [Authorizing Form Requests](#authorizing-form-requests)
@@ -154,6 +155,19 @@ So, in our example, the user will be redirected to our controller's `create` met
 
     <!-- Create Post Form -->
 
+<a name="a-note-on-optional-fields"></a>
+### A Note On Optional Fields
+
+By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
+
+    $this->validate($request, [
+        'title' => 'required|unique:posts|max:255',
+        'body' => 'required',
+        'publish_at' => 'nullable|date',
+    ]);
+
+In this example, we are specifying that the `publish_at` field may be either `null` or a valid date representation. If the `nullable` modifier is not added to the rule definition, the validator would consider `null` an invalid date.
+
 <a name="quick-customizing-the-flashed-error-format"></a>
 #### Customizing The Flashed Error Format
 
@@ -226,10 +240,29 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
 
 If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors.
 
+#### Adding After Hooks To Form Requests
+
+If you would like to add an "after" hook to a form request, you may use the `withValidator` method. This method receives the fully constructed validator, allowing you to call any of its methods before the validation rules are actually evaluated:
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->somethingElseIsInvalid()) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+            }
+        });
+    }
+
 <a name="authorizing-form-requests"></a>
 ### Authorizing Form Requests
 
-The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, if a user is attempting to update a blog post comment, do they actually own that comment? For example:
+The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update:
 
     /**
      * Determine if the user is authorized to make this request.
@@ -332,7 +365,7 @@ If you do not want to use the `ValidatesRequests` trait's `validate` method, you
 
 The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data.
 
-After checking if the request passed validation, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
+After checking if the request validation failed, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
 
 <a name="automatic-redirection"></a>
 ### Automatic Redirection
@@ -363,7 +396,7 @@ The validator also allows you to attach callbacks to be run after validation is 
 
     $validator = Validator::make(...);
 
-    $validator->after(function($validator) {
+    $validator->after(function ($validator) {
         if ($this->somethingElseIsInvalid()) {
             $validator->errors()->add('field', 'Something is wrong with this field!');
         }
@@ -455,6 +488,14 @@ In most cases, you will probably specify your custom messages in a language file
         ],
     ],
 
+#### Specifying Custom Attributes In Language Files
+
+If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
+
+    'attributes' => [
+        'email' => 'email address',
+    ],
+
 <a name="available-validation-rules"></a>
 ## Available Validation Rules
 
@@ -476,11 +517,13 @@ Below is a list of all available validation rules and their function:
 [Accepted](#rule-accepted)
 [Active URL](#rule-active-url)
 [After (Date)](#rule-after)
+[After Or Equal (Date)](#rule-after-or-equal)
 [Alpha](#rule-alpha)
 [Alpha Dash](#rule-alpha-dash)
 [Alpha Numeric](#rule-alpha-num)
 [Array](#rule-array)
 [Before (Date)](#rule-before)
+[Before Or Equal (Date)](#rule-before-or-equal)
 [Between](#rule-between)
 [Boolean](#rule-boolean)
 [Confirmed](#rule-confirmed)
@@ -534,7 +577,7 @@ The field under validation must be _yes_, _on_, _1_, or _true_. This is useful f
 <a name="rule-active-url"></a>
 #### active_url
 
-The field under validation must be a valid URL according to the `checkdnsrr` PHP function.
+The field under validation must have a valid A or AAAA record according to the `dns_get_record` PHP function.
 
 <a name="rule-after"></a>
 #### after:_date_
@@ -546,6 +589,11 @@ The field under validation must be a value after a given date. The dates will be
 Instead of passing a date string to be evaluated by `strtotime`, you may specify another field to compare against the date:
 
     'finish_date' => 'required|date|after:start_date'
+
+<a name="rule-after-or-equal"></a>
+#### after\_or\_equal:_date_
+
+The field under validation must be a value after or equal to the given date. For more information, see the [after](#rule-after) rule.
 
 <a name="rule-alpha"></a>
 #### alpha
@@ -572,6 +620,11 @@ The field under validation must be a PHP `array`.
 
 The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function.
 
+<a name="rule-before-or-equal"></a>
+#### before\_or\_equal:_date_
+
+The field under validation must be a value preceding or equal to the given date. The dates will be passed into the PHP `strtotime` function.
+
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
@@ -595,7 +648,7 @@ The field under validation must be a valid date according to the `strtotime` PHP
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-The field under validation must match the given _format_. The format will be evaluated using the PHP `date_parse_from_format` function. You should use **either** `date` or `date_format` when validating a field, not both.
+The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both.
 
 <a name="rule-different"></a>
 #### different:_field_
@@ -625,6 +678,17 @@ A _ratio_ constraint should be represented as width divided by height. This can 
 
     'avatar' => 'dimensions:ratio=3/2'
 
+Since this rule requires several arguments, you may use the `Rule::dimensions` method to fluently construct the rule:
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'avatar' => [
+            'required',
+            Rule::dimensions()->maxWidth(1000)->maxHeight(500)->ratio(3 / 2),
+        ],
+    ]);
+
 <a name="rule-distinct"></a>
 #### distinct
 
@@ -650,23 +714,22 @@ The field under validation must exist on a given database table.
 
     'state' => 'exists:states,abbreviation'
 
-You may also specify more conditions that will be added as "where" clauses to the query:
-
-    'email' => 'exists:staff,email,account_id,1'
-
-These conditions may be negated using the `!` sign:
-
-    'email' => 'exists:staff,email,role,!admin'
-
-You may also pass `NULL` or `NOT_NULL` to the "where" clause:
-
-    'email' => 'exists:staff,email,deleted_at,NULL'
-
-    'email' => 'exists:staff,email,deleted_at,NOT_NULL'
-
 Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name using "dot" syntax:
 
     'email' => 'exists:connection.staff,email'
+
+If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'email' => [
+            'required',
+            Rule::exists('staff')->where(function ($query) {
+                $query->where('account_id', 1);
+            }),
+        ],
+    ]);
 
 <a name="rule-file"></a>
 #### file
@@ -686,7 +749,16 @@ The file under validation must be an image (jpeg, png, bmp, gif, or svg)
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
 
-The field under validation must be included in the given list of values.
+The field under validation must be included in the given list of values. Since this rule often requires you to `implode` an array, the `Rule::in` method may be used to fluently construct the rule:
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'zones' => [
+            'required',
+            Rule::in(['first-zone', 'second-zone']),
+        ],
+    ]);
 
 <a name="rule-in-array"></a>
 #### in_array:_anotherfield_
@@ -702,6 +774,14 @@ The field under validation must be an integer.
 #### ip
 
 The field under validation must be an IP address.
+
+#### ipv4
+
+The field under validation must be an IPv4 address.
+
+#### ipv6
+
+The field under validation must be an IPv6 address.
 
 <a name="rule-json"></a>
 #### json
@@ -733,7 +813,7 @@ The file under validation must have a MIME type corresponding to one of the list
 
 Even though you only need to specify the extensions, this rule actually validates against the MIME type of the file by reading the file's contents and guessing its MIME type.
 
-A full listing of MIME types and their corresponding extensions may be found at the following location: [http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+A full listing of MIME types and their corresponding extensions may be found at the following location: [https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="rule-min"></a>
 #### min:_value_
@@ -848,21 +928,30 @@ Occasionally, you may need to set a custom connection for database queries made 
 
 **Forcing A Unique Rule To Ignore A Given ID:**
 
-Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address. To tell the unique rule to ignore the user's ID, you may pass the ID as the third parameter:
+Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address.
 
-    'email' => 'unique:users,email_address,'.$user->id
+To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
 
-If your table uses a primary key column name other than `id`, you may specify it as the fourth parameter:
+    use Illuminate\Validation\Rule;
 
-    'email' => 'unique:users,email_address,'.$user->id.',user_id'
+    Validator::make($data, [
+        'email' => [
+            'required',
+            Rule::unique('users')->ignore($user->id),
+        ],
+    ]);
+
+If your table uses a primary key column name other than `id`, you may specify the name of the column when calling the `ignore` method:
+
+    'email' => Rule::unique('users')->ignore($user->id, 'user_id')
 
 **Adding Additional Where Clauses:**
 
-You may also specify more conditions that will be added as "where" clauses to the query:
+You may also specify additional query constraints by customizing the query using the `where` method. For example, let's add a constraint that verifies the `account_id` is `1`:
 
-    'email' => 'unique:users,email_address,NULL,id,account_id,1'
-
-In the rule above, only rows with an `account_id` of `1` would be included in the unique check.
+    'email' => Rule::unique('users')->where(function ($query) {
+        $query->where('account_id', 1);
+    })
 
 <a name="rule-url"></a>
 #### url
@@ -893,13 +982,13 @@ Sometimes you may wish to add validation rules based on more complex conditional
 
 Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
 
-    $v->sometimes('reason', 'required|max:500', function($input) {
+    $v->sometimes('reason', 'required|max:500', function ($input) {
         return $input->games >= 100;
     });
 
 The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. The second argument is the rules we want to add. If the `Closure` passed as the third argument returns `true`, the rules will be added. This method makes it a breeze to build complex conditional validations. You may even add conditional validations for several fields at once:
 
-    $v->sometimes(['reason', 'cost'], 'required', function($input) {
+    $v->sometimes(['reason', 'cost'], 'required', function ($input) {
         return $input->games >= 100;
     });
 
@@ -944,7 +1033,7 @@ Laravel provides a variety of helpful validation rules; however, you may wish to
          */
         public function boot()
         {
-            Validator::extend('foo', function($attribute, $value, $parameters, $validator) {
+            Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
                 return $value == 'foo';
             });
         }
@@ -987,7 +1076,7 @@ When creating a custom validation rule, you may sometimes need to define custom 
     {
         Validator::extend(...);
 
-        Validator::replacer('foo', function($message, $attribute, $rule, $parameters) {
+        Validator::replacer('foo', function ($message, $attribute, $rule, $parameters) {
             return str_replace(...);
         });
     }
@@ -1004,7 +1093,7 @@ By default, when an attribute being validated is not present or contains an empt
 
 For a rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create such an "implicit" extension, use the `Validator::extendImplicit()` method:
 
-    Validator::extendImplicit('foo', function($attribute, $value, $parameters, $validator) {
+    Validator::extendImplicit('foo', function ($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
 

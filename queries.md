@@ -1,4 +1,4 @@
-# Database: Query Builder
+# Laravel 数据库之：数据库请求构建器
 
 - [Introduction](#introduction)
 - [Retrieving Results](#retrieving-results)
@@ -77,7 +77,7 @@ If you don't even need an entire row, you may extract a single value from a reco
 
 #### Retrieving A List Of Column Values
 
-If you would like to retrieve an array containing the values of a single column, you may use the `pluck` method. In this example, we'll retrieve an array of role titles:
+If you would like to retrieve a Collection containing the values of a single column, you may use the `pluck` method. In this example, we'll retrieve a Collection of role titles:
 
     $titles = DB::table('roles')->pluck('title');
 
@@ -85,7 +85,7 @@ If you would like to retrieve an array containing the values of a single column,
         echo $title;
     }
 
- You may also specify a custom key column for the returned array:
+ You may also specify a custom key column for the returned Collection:
 
     $roles = DB::table('roles')->pluck('title', 'name');
 
@@ -98,7 +98,7 @@ If you would like to retrieve an array containing the values of a single column,
 
 If you need to work with thousands of database records, consider using the `chunk` method. This method retrieves a small chunk of the results at a time and feeds each chunk into a `Closure` for processing. This method is very useful for writing [Artisan commands](/docs/{{version}}/artisan) that process thousands of records. For example, let's work with the entire `users` table in chunks of 100 records at a time:
 
-    DB::table('users')->orderBy('id')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         foreach ($users as $user) {
             //
         }
@@ -106,7 +106,7 @@ If you need to work with thousands of database records, consider using the `chun
 
 You may stop further chunks from being processed by returning `false` from the `Closure`:
 
-    DB::table('users')->orderBy('id')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         // Process the records...
 
         return false;
@@ -312,25 +312,25 @@ The `whereNotNull` method verifies that the column's value is not `NULL`:
 
 **whereDate / whereMonth / whereDay / whereYear**
 
-The `whereDate` method may be used compare a column's value against a date:
+The `whereDate` method may be used to compare a column's value against a date:
 
     $users = DB::table('users')
-                    ->whereDate('created_at', '2016-10-10')
+                    ->whereDate('created_at', '2016-12-31')
                     ->get();
 
-The `whereMonth` method may be used compare a column's value against a specific month of an year:
+The `whereMonth` method may be used to compare a column's value against a specific month of a year:
 
     $users = DB::table('users')
-                    ->whereMonth('created_at', '10')
+                    ->whereMonth('created_at', '12')
                     ->get();
 
-The `whereDay` method may be used compare a column's value against a specific day of a month:
+The `whereDay` method may be used to compare a column's value against a specific day of a month:
 
     $users = DB::table('users')
-                    ->whereDay('created_at', '10')
+                    ->whereDay('created_at', '31')
                     ->get();
 
-The `whereYear` method may be used compare a column's value against a specific year:
+The `whereYear` method may be used to compare a column's value against a specific year:
 
     $users = DB::table('users')
                     ->whereYear('created_at', '2016')
@@ -419,6 +419,14 @@ The `orderBy` method allows you to sort the result of the query by a given colum
                     ->orderBy('name', 'desc')
                     ->get();
 
+#### latest / oldest
+
+The `latest` and `oldest` methods allow you to easily order results by date. By default, result will be ordered by the `created_at` column. Or, you may pass the column name that you wish to sort by:
+
+    $user = DB::table('users')
+                    ->latest()
+                    ->first();
+
 #### inRandomOrder
 
 The `inRandomOrder` method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:
@@ -450,6 +458,13 @@ To limit the number of results returned from the query, or to skip a given numbe
 
     $users = DB::table('users')->skip(10)->take(5)->get();
 
+Alternatively, you may use the `limit` and `offset` methods:
+
+    $users = DB::table('users')
+                    ->offset(10)
+                    ->limit(5)
+                    ->get();
+
 <a name="conditional-clauses"></a>
 ## Conditional Clauses
 
@@ -465,6 +480,19 @@ Sometimes you may want clauses to apply to a query only when something else is t
 
 
 The `when` method only executes the given Closure when the first parameter is `true`. If the first parameter is `false`, the Closure will not be executed.
+
+You may pass another Closure as the third parameter to the `when` method. This Closure will execute if the first parameter evaluates as `false`. To illustrate how this feature may be used, we will use it to configure the default sorting of a query:
+
+    $sortBy = null;
+
+    $users = DB::table('users')
+                    ->when($sortBy, function ($query) use ($sortBy) {
+                        return $query->orderBy($sortBy);
+                    }, function ($query) {
+                        return $query->orderBy('name');
+                    })
+                    ->get();
+
 
 <a name="inserts"></a>
 ## Inserts
@@ -513,7 +541,7 @@ When updating a JSON column, you should use `->` syntax to access the appropriat
 <a name="increment-and-decrement"></a>
 ### Increment & Decrement
 
-The query builder also provides convenient methods for incrementing or decrementing the value of a given column. This is simply a short-cut, providing a more expressive and terse interface compared to manually writing the `update` statement.
+The query builder also provides convenient methods for incrementing or decrementing the value of a given column. This is simply a shortcut, providing a more expressive and terse interface compared to manually writing the `update` statement.
 
 Both of these methods accept at least one argument: the column to modify. A second argument may optionally be passed to control the amount by which the column should be incremented or decremented:
 

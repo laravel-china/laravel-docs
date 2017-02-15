@@ -1,4 +1,4 @@
-# Contribution Guide
+# Laravel 源代码贡献指南
 
 - [错误反馈](#bug-reports)
 - [核心开发讨论](#core-development-discussion)
@@ -9,7 +9,7 @@
     - [StyleCI](#styleci)
 
 <a name="bug-reports"></a>
-## Bug Reports
+## 错误反馈
 
 为了提倡积极协作，Laravel 强烈地鼓励使用 Pull Request，而不仅仅只是反馈错误。「错误反馈」可以以一个包含失败测试的 Pull Request 的形式发送。
 
@@ -54,7 +54,7 @@ Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有�
 如果你发现 Laravel 存在安全漏洞，请发送电子邮件到 <a href="mailto:taylor@laravel.com">taylor@laravel.com</a> 给 Taylor Otwell。所有的安全漏洞将会及时予以处理。
 
 <a name="coding-style"></a>
-## Coding Style
+## 编码风格
 
 Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](https://phphub.org/topics/2081) 自动加载规范。
 

@@ -1,24 +1,16 @@
-# Laravel 5.3 中文文档
-
+# Laravel 5.4 中文文档
 ## 说明
 
-此文档主要由 [PHPHub](https://phphub.org)  组织维护。
+为了更好的阅读文档，请查看 [Laravel China 文档导读](https://laravel-china.org/topics/2095)。
 
-为了方便新手学习，在每篇文档的最底部增加导读内容区块。
+此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生，本次 5.4 版本的翻译参与人员总共 xx 人，完整的参与人员列表请见 ：[Laravel 5.4 译者](https://laravel-china.org/roles/11) 。
 
-更多讨论，请前往这个帖子：[Laravel 中文文档导读](https://phphub.org/topics/2095)。
+> 感谢这些可爱的译者，感谢他们的热情。
 
-## 译者
+### 相关讨论
 
-| 用户名 | 头像 | 
-|---|---|
-| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/200/h/200">  | 
-| [@overtrue](https://github.com/overtrue)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/76_1451276555.png?imageView2/1/w/100/h/100">    | 
-| [@JobsLong](https://github.com/JobsLong)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/200/h/200">    |
-| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |
-| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  | 
-| [@NauxLiu](https://github.com/NauxLiu)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9570112?v=3&s=100">  | 
-
+* [Laravel 5.4 文档翻译召集](https://laravel-china.org/topics/3810)
+* [Laravel 5.4 中文文档翻译完成](#)
 
 ## 排版规范
 
@@ -88,6 +80,8 @@
 - Extension 扩展
 - Eloquent (不翻)
 - Exception 异常
+- Echo (不翻)
+- Elixir (不翻)
 
 ### F
 
@@ -155,6 +149,7 @@
 - Presenter (不翻)
 - Pipeline 管道
 - Policies 策略
+- Passport（不翻）
 
 ### Q
 
@@ -209,5 +204,6 @@
 - Workbench (开源项目名称，不翻)
 - Webhooks (不翻)
 - Word Factor 加密系数
+- Webpack (不翻)
 
 

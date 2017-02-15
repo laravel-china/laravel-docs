@@ -1,4 +1,4 @@
-# Controllers
+# Laravel 的 HTTP 控制器
 
 - [Introduction](#introduction)
 - [Basic Controllers](#basic-controllers)
@@ -10,6 +10,7 @@
     - [Partial Resource Routes](#restful-partial-resource-routes)
     - [Naming Resource Routes](#restful-naming-resource-routes)
     - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
+    - [Localizing Resource URIs](#restful-localizing-resource-uris)
     - [Supplementing Resource Controllers](#restful-supplementing-resource-controllers)
 - [Dependency Injection & Controllers](#dependency-injection-and-controllers)
 - [Route Caching](#route-caching)
@@ -107,7 +108,7 @@ However, it is more convenient to specify middleware within your controller's co
     class UserController extends Controller
     {
         /**
-         * Instantiate a new new controller instance.
+         * Instantiate a new controller instance.
          *
          * @return void
          */
@@ -120,6 +121,14 @@ However, it is more convenient to specify middleware within your controller's co
             $this->middleware('subscribed')->except('store');
         }
     }
+
+Controllers also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:
+
+    $this->middleware(function ($request, $next) {
+        // ...
+
+        return $next($request);
+    });
 
 > {tip} You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.
 
@@ -149,6 +158,12 @@ GET       | `/photos/{photo}`      | show         | photos.show
 GET       | `/photos/{photo}/edit` | edit         | photos.edit
 PUT/PATCH | `/photos/{photo}`      | update       | photos.update
 DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
+
+#### Specifying The Resource Model
+
+If you are using route model binding and would like the resource controller's methods to type-hint a model instance, you may use the `--model` option when generating the controller:
+
+    php artisan make:controller PhotoController --resource --model=Photo
 
 #### Spoofing Form Methods
 
@@ -190,6 +205,32 @@ By default, `Route::resource` will create the route parameters for your resource
  The example above generates the following URIs for the resource's `show` route:
 
     /user/{admin_user}
+
+<a name="restful-localizing-resource-uris"></a>
+### Localizing Resource URIs
+
+By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
+
+    use Illuminate\Support\Facades\Route;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Route::resourceVerbs([
+            'create' => 'crear',
+            'edit' => 'editar',
+        ]);
+    }
+
+Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
+
+    /fotos/crear
+
+    /fotos/{foto}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Supplementing Resource Controllers

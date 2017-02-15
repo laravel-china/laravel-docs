@@ -1,4 +1,4 @@
-# Eloquent: Collections
+# Laravel 的 Eloquent 集合
 
 - [Introduction](#introduction)
 - [Available Methods](#available-methods)

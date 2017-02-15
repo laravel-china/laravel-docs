@@ -1,4 +1,4 @@
-# Eloquent: Serialization
+# Laravel 的 Eloquent 序列号
 
 - [Introduction](#introduction)
 - [Serializing Models & Collections](#serializing-models-and-collections)

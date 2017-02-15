@@ -1,4 +1,4 @@
-# Eloquent: Getting Started
+# Laravel 的 Eloquent 入门指南
 
 - [Introduction](#introduction)
 - [Defining Models](#defining-models)
@@ -123,6 +123,16 @@ If you need to customize the format of your timestamps, set the `$dateFormat` pr
          * @var string
          */
         protected $dateFormat = 'U';
+    }
+
+If you need to customize the names of the columns used to store the timestamps, you may set the `CREATED_AT` and `UPDATED_AT` constants in your model:
+
+    <?php
+
+    class Flight extends Model
+    {
+        const CREATED_AT = 'creation_date';
+        const UPDATED_AT = 'last_update';
     }
 
 #### Database Connection
@@ -335,6 +345,10 @@ Once we have made the attributes mass assignable, we can use the `create` method
 
     $flight = App\Flight::create(['name' => 'Flight 10']);
 
+If you already have a model instance, you may use the `fill` method to populate it with an array of attributes:
+
+    $flight->fill(['name' => 'Flight 22']);
+
 #### Guarding Attributes
 
 While `$fillable` serves as a "white list" of attributes that should be mass assignable, you may also choose to use `$guarded`. The `$guarded` property should contain an array of attributes that you do not want to be mass assignable. All other attributes not in the array will be mass assignable. So, `$guarded` functions like a "black list". Of course, you should use either `$fillable` or `$guarded` - not both. In the example below, all attributes **except for `price`** will be mass assignable:
@@ -367,6 +381,8 @@ If you would like to make all attributes mass assignable, you may define the `$g
 <a name="other-creation-methods"></a>
 ### Other Creation Methods
 
+#### `firstOrCreate`/ `firstOrNew`
+
 There are two other methods you may use to create models by mass assigning attributes: `firstOrCreate` and `firstOrNew`. The `firstOrCreate` method will attempt to locate a database record using the given column / value pairs. If the model can not be found in the database, a record will be inserted with the given attributes.
 
 The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in the database matching the given attributes. However, if a model is not found, a new model instance will be returned. Note that the model returned by `firstOrNew` has not yet been persisted to the database. You will need to call `save` manually to persist it:
@@ -376,6 +392,17 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
 
     // Retrieve the flight by the attributes, or instantiate a new instance...
     $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
+
+#### `updateOrCreate`
+
+You may also come across situations where you want to update an existing model or create a new model if none exists. Laravel provides an `updateOrCreate` method to do this in one step. Like the `firstOrCreate` method, `updateOrCreate` persists the model, so there's no need to call `save()`:
+
+    // If there's a flight from Oakland to San Diego, set the price to $99.
+    // If no matching model exists, create one.
+    $flight = App\Flight::updateOrCreate(
+        ['departure' => 'Oakland', 'destination' => 'San Diego'],
+        ['price' => 99]
+    );
 
 <a name="deleting-models"></a>
 ## Deleting Models
@@ -398,9 +425,11 @@ In the example above, we are retrieving the model from the database before calli
 
 #### Deleting Models By Query
 
-Of course, you may also run a delete query on a set of models. In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not fire any model events for the models that are deleted:
+Of course, you may also run a delete statement on a set of models. In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not fire any model events for the models that are deleted:
 
     $deletedRows = App\Flight::where('active', 0)->delete();
+
+> {note} When executing a mass delete statement via Eloquent, the `deleting` and `deleted` model events will not be fired for the deleted models. This is because the models are never actually retrieved when executing the delete statement.
 
 <a name="soft-deleting"></a>
 ### Soft Deleting
@@ -520,7 +549,7 @@ Writing a global scope is simple. Define a class that implements the `Illuminate
          */
         public function apply(Builder $builder, Model $model)
         {
-            return $builder->where('age', '>', 200);
+            $builder->where('age', '>', 200);
         }
     }
 
@@ -578,15 +607,11 @@ Eloquent also allows you to define global scopes using Closures, which is partic
         {
             parent::boot();
 
-            static::addGlobalScope('age', function(Builder $builder) {
+            static::addGlobalScope('age', function (Builder $builder) {
                 $builder->where('age', '>', 200);
             });
         }
     }
-
-The first argument of the `addGlobalScope()` serves as an identifier to remove the scope:
-
-    User::withoutGlobalScope('age')->get();
 
 #### Removing Global Scopes
 
@@ -622,6 +647,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include popular users.
          *
+         * @param \Illuminate\Database\Eloquent\Builder $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopePopular($query)
@@ -632,6 +658,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include active users.
          *
+         * @param \Illuminate\Database\Eloquent\Builder $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeActive($query)
@@ -661,6 +688,8 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
         /**
          * Scope a query to only include users of a given type.
          *
+         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @param mixed $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)
@@ -676,42 +705,34 @@ Now, you may pass the parameters when calling the scope:
 <a name="events"></a>
 ## Events
 
-Eloquent models fire several events, allowing you to hook into various points in the model's lifecycle using the following methods: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
+Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
 
 Whenever a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
 
-For example, let's define an Eloquent event listener in a [service provider](/docs/{{version}}/providers). Within our event listener, we will call the `isValid` method on the given model, and return `false` if the model is not valid. Returning `false` from an Eloquent event listener will cancel the `save` / `update` operation:
+To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
 
     <?php
 
-    namespace App\Providers;
+    namespace App;
 
-    use App\User;
-    use Illuminate\Support\ServiceProvider;
+    use App\Events\UserSaved;
+    use App\Events\UserDeleted;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
 
-    class AppServiceProvider extends ServiceProvider
+    class User extends Authenticatable
     {
-        /**
-         * Bootstrap any application services.
-         *
-         * @return void
-         */
-        public function boot()
-        {
-            User::creating(function ($user) {
-                return $user->isValid();
-            });
-        }
+        use Notifiable;
 
         /**
-         * Register the service provider.
+         * The event map for the model.
          *
-         * @return void
+         * @var array
          */
-        public function register()
-        {
-            //
-        }
+        protected $events = [
+            'saved' => UserSaved::class,
+            'deleted' => UserDeleted::class,
+        ];
     }
 
 <a name="observers"></a>

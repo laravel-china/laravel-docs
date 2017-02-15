@@ -1,4 +1,4 @@
-# 服务容器
+# Laravel 服务容器解析
 
 - [简介](#introduction)
 - [绑定](#binding)
@@ -29,14 +29,14 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     class UserController extends Controller
     {
         /**
-         * The user repository implementation.
+         * User Repository 的实现。
          *
          * @var UserRepository
          */
         protected $users;
 
         /**
-         * Create a new controller instance.
+         * 创建新的控制器实例。
          *
          * @param  UserRepository  $users
          * @return void
@@ -47,7 +47,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
         }
 
         /**
-         * Show the profile for the given user.
+         * 显示指定用户的详细信息。
          *
          * @param  int  $id
          * @return Response
@@ -72,7 +72,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 
 几乎所有服务容器的绑定都是在 [服务提供者](/docs/{{version}}/providers) 中进行的，所以下面的例子将示范在该情景中使用容器。
 
-> {tips} 但是，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
+> {tip} 但是，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
 
 #### 简单绑定
 
@@ -193,7 +193,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="automatic-injection"></a>
 #### 自动注入
 
-另外，并且也是重要的，你可以在类的构造函数中对依赖使用“类型提示”，依赖的类将会被容器自动进行解析，包括在 [控制器](/docs/{{version}}/controllers) ， [事件监听器](/docs/{{version}}/events) ， [队列任务](/docs/{{version}}/queues) ， [中间件](/docs/{{version}}/middleware) 等地方。 事实上，这也是大部分类被容器解析的方式。
+另外，并且也是重要的，你可以在类的构造函数中对依赖使用「类型提示」，依赖的类将会被容器自动进行解析，包括在 [控制器](/docs/{{version}}/controllers) ， [事件监听器](/docs/{{version}}/events) ， [队列任务](/docs/{{version}}/queues) ， [中间件](/docs/{{version}}/middleware) 等地方。 事实上，这也是大部分类被容器解析的方式。
 
 例如，你可以在控制器的构造函数中对应用程序定义的 `Repository` 使用类型提示。这样 `Repository` 实例会被自动解析并注入到类中：
 
@@ -206,12 +206,12 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     class UserController extends Controller
     {
         /**
-         * The user repository instance.
+         * user repository 实例。
          */
         protected $users;
 
         /**
-         * Create a new controller instance.
+         * 控制器构造方法。
          *
          * @param  UserRepository  $users
          * @return void
@@ -222,7 +222,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
         }
 
         /**
-         * Show the user with the given ID.
+         * 显示指定 ID 的用户信息。
          *
          * @param  int  $id
          * @return Response
@@ -239,17 +239,11 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 每当服务容器解析一个对象时就会触发一个事件。你可以使用 `resolving` 方法监听这个事件：
 
     $this->app->resolving(function ($object, $app) {
-        // Called when container resolves object of any type...
+        // 解析任何类型的对象时都会调用该方法...
     });
 
     $this->app->resolving(HelpSpot\API::class, function ($api, $app) {
-        // Called when container resolves objects of type "HelpSpot\API"...
+        // 解析「HelpSpot\API」类型的对象时调用...
     });
 
 如你所见，被解析的对象会被传递至回调中，让你在对象被传递到消费者前可以设置任何额外属性到对象上。
-
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@yangjingqzp](https://phphub.org/users/5742)  |  <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5742_1473308107.jpeg?imageView2/1/w/100/h/100"> |  翻译  | 大神们请多多指教，[@yangjingqzp](https://github.com/yangjingqzp) at Github  |
-
