@@ -14,7 +14,7 @@
     - [请求密码授权令牌](#requesting-password-grant-tokens)
     - [请求所有作用域](#requesting-all-scopes)
 - [简化授权令牌](#implicit-grant-tokens)
-- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
+- [客户端授权令牌](#client-credentials-grant-tokens)
 - [私人访问令牌](#personal-access-tokens)
     - [创建私人访问令牌的客户端](#creating-a-personal-access-client)
     - [管理私人访问令牌](#managing-personal-access-tokens)
@@ -26,8 +26,8 @@
     - [给令牌分派作用域](#assigning-scopes-to-tokens)
     - [检查作用域](#checking-scopes)
 - [使用 JavaScript 接入 API](#consuming-your-api-with-javascript)
-- [Events](#events)
-- [Testing](#testing)
+- [事件](#events)
+- [测试](#testing)
 
 <a name="introduction"></a>
 ## 介绍
@@ -51,7 +51,7 @@ Passport 使用服务提供者注册内部的数据库迁移脚本目录，所�
 
     php artisan migrate
 
-> {note} If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using `php artisan vendor:publish --tag=passport-migrations`.
+> {note} 如果你不打算使用 Passport 的默认迁移，你应该在`AppServiceProvider`的`register`方法中调用`Passport :: ignoreMigrations`方法。 你可以导出这个默认迁移用`php artisan vendor:publish --tag=passport-migrations`命令。
 
 接下来，你需要运行 `passport:install` 命令来创建生成安全访问令牌时用到的加密密钥，同时，这条命令也会创建「私人访问」客户端和「密码授权」客户端：
 
@@ -383,7 +383,8 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
 
 <a name="implicit-grant-tokens"></a>
 ## 简化授权令牌
-简化授权和授权码模式相似; 区别是, 不需要通过授权码去获取令牌而是直接返回客户端the token is returned to the client without exchanging an authorization code. 这种授权在 JavaScript 和 移动应用 是最常用客户端凭证不能安全地存储This grant is most commonly used for JavaScript or mobile applications where the client credentials can't be securely stored. 开启授权To enable the grant, 调用call the `enableImplicitGrant` 方法在你的 `AuthServiceProvider`:
+
+简化授权和通过授权码授权相似; 区别是, 不需要通过授权码去获取令牌而是把令牌直接返回客户端. 主要用在无法安全存储证书场景中，这种授权在 JavaScript 和 移动应用 是最常用的. 开启授权, 在 `AuthServiceProvider` 中调用 `enableImplicitGrant` 方法:
 
     /**
      * Register any authentication / authorization services.
@@ -399,7 +400,7 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
         Passport::enableImplicitGrant();
     }
 
-一次授权被启用Once a grant has been enabled, 开发者可以用他们自己的client ID 去请求一个访问令牌在自己的应用developers may use their client ID to request an access token from your application. 应用程序应该有一个回调请求在你的应用The consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
+调用上面方法开启授权后, 开发者可以通过自己的应用把 client ID 当做参数去请求一个令牌. 在你的应用程序 `/oauth/authorize` 的接口中应该有一个重定向请求像下面这样:
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -412,12 +413,12 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
-> {tip} 记住Remember, 这个the `/oauth/authorize` 接口已经定义在`Passport::routes` 方法route is already defined by the `Passport::routes` method. 你不需要自己定义这个接口You do not need to manually define this route.
+> {tip} 记住, 这个 `/oauth/authorize` 接口已经定义在 `Passport::routes` 中. 所以无需再次手动定义.
 
 <a name="client-credentials-grant-tokens"></a>
-## 客户端授权令牌Client Credentials Grant Tokens
+## 客户端证书授权令牌
 
-客户端授权适用于机器对机器认证，举例子，The client credentials grant is suitable for machine-to-machine authentication. For example, 您可以在通过API执行维护任务的计划作业中使用此授权you might use this grant in a scheduled job which is performing maintenance tasks over an API.获取令牌 To retrieve a token, 向 `oauth/token` 发出请求:
+客户端证书授权适用于机器对机器认证，例如，你可以在通过API执行脚本任务中使用此授权。 要获取令牌，向 `oauth/token` 接口发出请求:
 
     $guzzle = new GuzzleHttp\Client;
 
@@ -626,7 +627,7 @@ Passport 的这个中间件将会在你所有的对外请求中添加一个 `lar
             console.log(response.data);
         });
 
-当使用上面方法授权时，在每次请求中都需要使用 `X-CSRF-TOKEN` 请求头传递 CSRF 令。如果你使用框架默认的 [Vue](https://vuejs.org) 配置，Laravel 已经自动帮你做了这件事了：When using this method of authentication, Axios will automatically send the `X-CSRF-TOKEN` header. In addition, the default Laravel JavaScript scaffolding instructs Axios to send the `X-Requested-With` header:
+当使用上面方法授权时，Axios 会自动带上 `X-CSRF-TOKEN` 请求头传递。另外，默认的 Laravel JavaScript 也会带上 `X-Requested-With` 请求头:
 
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
@@ -638,9 +639,8 @@ Passport 的这个中间件将会在你所有的对外请求中添加一个 `lar
 <a name="events"></a>
 ## 事件
 
-护照在发出访问令牌和刷新令牌时引发事件。 您可以使用这些事件来修剪或撤销数据库中的其他访问令牌。 您可以在应用程序的EventServiceProvider中为这些事件附加监听器：Passport raises events when issuing access tokens and refresh tokens. You may use these events to prune or revoke other access tokens in your database. You may attach listeners to these events in your application's `EventServiceProvider`:
+Passport 在访问令牌和刷新令牌时触发事件。 你可以通过触发这些事件来修改或删除数据库中的其他访问令牌。 你可以在应用程序的 `EventServiceProvider` 中为这些事件附加监听器:
 
-```php
 /**
  * The event listener mappings for the application.
  *
@@ -655,12 +655,11 @@ protected $listen = [
         'App\Listeners\PruneOldTokens',
     ],
 ];
-```
 
 <a name="testing"></a>
 ## 测试
 
-Passport的`actingAs`方法可以用于指定当前认证的用户及其范围。 给予`actingAs`方法的第一个参数是用户实例，第二个参数是应该授予用户令牌的范围数组：Passport's `actingAs` method may be used to specify the currently authenticated user as well as its scopes. The first argument given to the `actingAs` method is the user instance and the second is an array of scopes that should be granted to the user's token:
+Passport 的 `actingAs` 方法可以用于指定当前认证的用户及其授权范围。 `actingAs` 方法第一个参数是一个对象，第二个参数是数组表示申请的授权范围:
 
     public function testServerCreation()
     {
@@ -673,3 +672,11 @@ Passport的`actingAs`方法可以用于指定当前认证的用户及其范围�
 
         $response->assertStatus(200);
     }
+    
+    
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@KevinDiamen](https://github.com/KevinDiamen)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  | 部分关键字翻译参考 [学院君的翻译](http://laravelacademy.org/post/5993.html)  |
+| [@JobsLong](https://phphub.org/users/56)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/56_1427370654.jpeg?imageView2/1/w/100/h/100">  |  Review  | 我的个人主页：[http://jobslong.com](http://jobslong.com)  |
+| [@summerblue](https://github.com/summerblue)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/324764?v=3&s=100">  |  Review  | A man seeking for Wisdom. |
