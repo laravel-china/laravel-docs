@@ -218,3 +218,4 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@zyxcba](https://github.com/cmzz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/6111715?v=3&s=100">  |  翻译  | [考拉客](http://kaolake.net) - 考拉微商店主加盟立返100元！ |
+
