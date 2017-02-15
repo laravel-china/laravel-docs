@@ -677,4 +677,4 @@ Passport 的 `actingAs` 方法可以用于指定当前认证的用户及其授�
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@KevinDiamen](https://github.com/KevinDiamen)  | <img class="avatar-66 rm-style" src="http://cms.csdnimg.cn/article/201408/12/53e9c9a007790.jpg">  |  翻译  |   |
+| [@KevinDiamen](https://github.com/KevinDiamen)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/10242_1487138520.jpg?imageView2/1/w/100/h/100">  |  翻译  |   |
