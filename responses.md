@@ -157,7 +157,7 @@
 <a name="redirecting-with-flashed-session-data"></a>
 ### 重定向并附加 Session 闪存数据
 
-重定向至一个新的 URL 的同时通常会 [附加 Session 闪存数据](/docs/{{version}}/session#flash-data)。一般来说，在控制器行为成功地执行之后才会向 Session 中闪存成功的消息。为了方便起见，你可以创建一个 `RedirectResponse` 实例并通过使用单向流利的链式调用函数的方式闪存数据至 Session：
+重定向至一个新的 URL 的同时通常会 [附加 Session 闪存数据](/docs/{{version}}/session#flash-data)。一般来说，在控制器行为成功地执行之后才会向 Session 中闪存成功的消息。为了方便，你可以利用链式调用的方式创建一个 RedirectResponse 的实例并闪存数据至 Session：
 
     Route::post('user/profile', function () {
         // 更新用户的信息
