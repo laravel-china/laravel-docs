@@ -108,7 +108,7 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
 <a name="assigning-middleware-to-routes"></a>
 ### 为路由指定中间件
 
-如果你想为特殊的路由指定中间件，首先应该在 `app/Http/Kernel.php` 文件内为该中间件指定一个 `键值`。默认情况下 `Kernel` 类的 `$routeMiddleware` 属性已经包含了 Laravel 内置的中间件条目。加入自定义的全局中间件，只需把它附加到此列表并指定你定义的`键值`即可。例如：
+如果你想为特殊的路由指定中间件，首先应该在 `app/Http/Kernel.php` 文件内为该中间件指定一个 `键值`。默认情况下 `Kernel` 类的 `$routeMiddleware` 属性已经包含了 Laravel 内置的中间件条目。加入自定义的中间件，只需把它附加到此列表并指定你定义的`键值`即可。例如：
 
     // App\Http\Kernel 类内
 
