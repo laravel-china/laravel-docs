@@ -60,7 +60,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，
     {
         public function testApplication()
         {
-            $user = factory(App\User::class)->create();
+            $user = factory(\App\User::class)->create();
 
             $response = $this->actingAs($user)
                              ->withSession(['foo' => 'bar'])
