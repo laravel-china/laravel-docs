@@ -20,6 +20,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 #### 加密一个值
 
 你可以借助  `encrypt`  辅助函数来加密一个值。这些值都会使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过后的值都会被签署文件消息验证码 (MAC)，以检测加密字符串是否被篡改过：
+
     <?php
 
     namespace App\Http\Controllers;
