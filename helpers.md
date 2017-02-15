@@ -902,6 +902,10 @@ Laravel 包含有各种各样的 PHP 辅助函数，许多都是在 Laravel 自�
 
     info('Some helpful information!');
 
+包含上下文数据的数组可以通过第二个参数传递给函数：
+
+    info('User login attempt failed.', ['id' => $user->id]);
+
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
