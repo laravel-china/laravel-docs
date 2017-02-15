@@ -73,9 +73,7 @@
                     ->header('Content-Type', $type)
                     ->cookie('name', 'value', $minutes);
 
-The `cookie` method also accepts a few more arguments which are used less frequently. Generally, these arguments have the same purpose and meaning as the arguments that would be given to PHP's native [setcookie](https://secure.php.net/manual/en/function.setcookie.php) method:
-
-`cookie` 方法也接受另外几个参数，它们的使用频率较低。通常，这些参数和给予原生 PHP 方法的参数有着相同的目的和含义：
+`cookie` 方法也接受另外几个参数，它们的使用频率较低。通常，这些参数和给予原生 PHP 的 [setcookie](https://secure.php.net/manual/en/function.setcookie.php) 方法的参数有着相同的目的和含义：
 
     ->cookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
 
@@ -96,13 +94,13 @@ The `cookie` method also accepts a few more arguments which are used less freque
 <a name="redirects"></a>
 ## 重定向
 
-重定向响应是 `Illuminate\Http\RedirectResponse` 类的实例，并且包含用户需要重定向至另一个 URL 所需的头信息。Laravel 提供了许多方法用于生成 `RedirectResponse` 实例。最简单的方法是使用全局辅助函数 `redirect`：
+重定向响应是 `Illuminate\Http\RedirectResponse` 类的实例，并且包含用户需要重定向至另一个 URL 所需的头信息。Laravel 提供了许多方法用于生成 `RedirectResponse` 实例。最简单的方法是使用全局的 `redirect` 辅助函数：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
     });
 
-有些情况下你可能希望用户重定向至上级一页面，比如，当提交表单失败时。这时可以使用 全局辅助函数 `back`。由于此功能利用了 [session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 session 中间件：
+有些情况下你可能希望用户重定向至上级一页面，比如，当提交表单失败时。这时可以使用 全局辅助函数 `back`。由于此功能利用了 [Session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 Session 中间件：
 
     Route::post('user/profile', function () {
         // 验证请求...
@@ -125,16 +123,16 @@ The `cookie` method also accepts a few more arguments which are used less freque
 
 #### 通过 Eloquent 模型填充参数
 
-If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may simply pass the model itself. The ID will be extracted automatically:
+如果要重定向到一个使用了 Eloquent 模型并需要传递 ID 参数的路由上，你只需传递模型本身即可，ID 会自动提取。
 
-    // For a route with the following URI: profile/{id}
+    // 对于此路由: profile/{id}
 
     return redirect()->route('profile', [$user]);
 
-If you would like to customize the value that is placed in the route parameter, you should override the `getRouteKey` method on your Eloquent model:
+如果想要更改自动提取的路由参数的键值，你应该重写 Eloquent 模型里的 `getRouteKey` 方法：
 
     /**
-     * Get the value of the model's route key.
+     * 获取模型的路由键值.
      *
      * @return mixed
      */
@@ -144,30 +142,30 @@ If you would like to customize the value that is placed in the route parameter, 
     }
 
 <a name="redirecting-controller-actions"></a>
-### Redirecting To Controller Actions
+### 重定向至控制器行为
 
-You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method. Remember, you do not need to specify the full namespace to the controller since Laravel's `RouteServiceProvider` will automatically set the base controller namespace:
-
+你可能也会用到生成重定向至 [控制器行为](/docs/{{version}}/controllers)的响应。要实现此功能，可以向 `action` 方法传递控制器和行为名称作为参数来实现。请记住，这里并不需要指定完整的命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置基本的控制器命名空间：
+ 
     return redirect()->action('HomeController@index');
 
-If your controller route requires parameters, you may pass them as the second argument to the `action` method:
+如果控制器路由包含参数则需要把他们作为 `action` 函数的第二个参数传递：
 
     return redirect()->action(
         'UserController@profile', ['id' => 1]
     );
 
 <a name="redirecting-with-flashed-session-data"></a>
-### Redirecting With Flashed Session Data
+### 重定向并附加 Session 闪存数据
 
-Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/session#flash-data) are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a `RedirectResponse` instance and flash data to the session in a single, fluent method chain:
+重定向至一个新的 URL 的同时通常会 [附加 Session 闪存数据](/docs/{{version}}/session#flash-data)。一般来说，在控制器行为成功地执行之后才会向 Session 中闪存成功的消息。为了方便起见，你可以创建一个 `RedirectResponse` 实例并通过使用单向流利的链式调用函数的方式闪存数据至 Session：
 
     Route::post('user/profile', function () {
-        // Update the user's profile...
+        // 更新用户的信息
 
         return redirect('dashboard')->with('status', 'Profile updated!');
     });
 
-After the user is redirected, you may display the flashed message from the [session](/docs/{{version}}/session). For example, using [Blade syntax](/docs/{{version}}/blade):
+用户重定向至指定页面后，你可以从 Session 中获取并展示闪存数据。例如，使用 [Blade 语法](/docs/{{version}}/blade)：
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -176,61 +174,61 @@ After the user is redirected, you may display the flashed message from the [sess
     @endif
 
 <a name="other-response-types"></a>
-## Other Response Types
+## 其他响应类型
 
-The `response` helper may be used to generate other types of response instances. When the `response` helper is called without arguments, an implementation of the `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) is returned. This contract provides several helpful methods for generating responses.
+使用全局辅助函数 `response` 可以轻松的生成其他类型的响应实例。当不带任何参数调用 `response` 时，将会返回 Illuminate\Contracts\Routing\ResponseFactory [Contract](/docs/{{version}}/contracts) 的实现。Contract 包含许多有用的用来辅助生成响应的方法。
 
 <a name="view-responses"></a>
-### View Responses
+### 视图响应
 
-If you need control over the response's status and headers but also need to return a [view](/docs/{{version}}/views) as the response's content, you should use the `view` method:
+如果你的响应内容不但需要控制响应状态码和响应头信息而且还需要返回一个 [视图](/docs/{{version}}/views)，这时你应该使用 `view` 方法：
 
     return response()
                 ->view('hello', $data, 200)
                 ->header('Content-Type', $type);
 
-Of course, if you do not need to pass a custom HTTP status code or custom headers, you should use the global `view` helper function.
+当然，如果不需要自定义 HTTP 状态码和响应头信息，则可使用全局的 `view` 辅助函数。
 
 <a name="json-responses"></a>
-### JSON Responses
+### JSON 响应
 
-The `json` method will automatically set the `Content-Type` header to `application/json`, as well as convert the given array to JSON using the `json_encode` PHP function:
+`json` 方法会自动将 `Content-Type` 响应头信息设置为 `application/json`，并使用 PHP 的 `json_encode` 函数将数组转换为 JSON 字符串。 
 
     return response()->json([
         'name' => 'Abigail',
         'state' => 'CA'
     ]);
 
-If you would like to create a JSONP response, you may use the `json` method in combination with the `withCallback` method:
+如果想要创建一个 JSONP 响应，则可以使用 `json` 方法并结合 setCallback 函数：
 
     return response()
                 ->json(['name' => 'Abigail', 'state' => 'CA'])
                 ->withCallback($request->input('callback'));
 
 <a name="file-downloads"></a>
-### File Downloads
+### 文件下载
 
-The `download` method may be used to generate a response that forces the user's browser to download the file at the given path. The `download` method accepts a file name as the second argument to the method, which will determine the file name that is seen by the user downloading the file. Finally, you may pass an array of HTTP headers as the third argument to the method:
+`download` 方法可以用于生成强制让用户的浏览器下载指定路径文件的响应。`download` 方法接受文件名称作为方法的第二个参数，此名称为用户下载文件时看见的文件名称。最后，你可以传递一个包含 HTTP 头信息的数组作为第三个参数传入该方法：
 
     return response()->download($pathToFile);
 
     return response()->download($pathToFile, $name, $headers);
 
-> {note} Symfony HttpFoundation, which manages file downloads, requires the file being downloaded to have an ASCII file name.
+> {note} 管理文件下载的扩展包 Symfony HttpFoundation，要求下载文件名必须是 ASCII 编码。
 
 <a name="file-responses"></a>
-### File Responses
+### 文件响应
 
-The `file` method may be used to display a file, such as an image or PDF, directly in the user's browser instead of initiating a download. This method accepts the path to the file as its first argument and an array of headers as its second argument:
+`file` 方法可以用来显示一个文件，例如图片或者 PDF，直接在用户的浏览器中显示，而不是开始下载。这个方法的第一个参数是文件的路径，第二个参数是包含头信息的数组：
 
     return response()->file($pathToFile);
 
     return response()->file($pathToFile, $headers);
 
 <a name="response-macros"></a>
-## Response Macros
+## 响应宏
 
-If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the `macro` method on the `Response` facade. For example, from a [service provider's](/docs/{{version}}/providers) `boot` method:
+如果你想要自定义可以在很多路由和控制器重复使用的响应，可以使用 `Response` Facade 实现的 `macro` 方法。举个例子，来自 [服务提供者](/docs/{{version}}/providers)的 `boot` 方法：
 
     <?php
 
@@ -242,7 +240,7 @@ If you would like to define a custom response that you can re-use in a variety o
     class ResponseMacroServiceProvider extends ServiceProvider
     {
         /**
-         * Register the application's response macros.
+         * 注册应用的响应宏
          *
          * @return void
          */
@@ -254,6 +252,6 @@ If you would like to define a custom response that you can re-use in a variety o
         }
     }
 
-The `macro` function accepts a name as its first argument, and a Closure as its second. The macro's Closure will be executed when calling the macro name from a `ResponseFactory` implementation or the `response` helper:
+`macro` 函数第一个参数为宏名称，第二个参数为闭包函数。宏的闭包函数会在 `ResponseFactory` 的实现或者辅助函数 `response` 调用宏名称的时候运行：
 
     return response()->caps('foo');
