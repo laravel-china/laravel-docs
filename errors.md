@@ -143,13 +143,13 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="custom-http-error-pages"></a>
 ### 自定义错误页面
 
-Laravel可以轻松地显示各种HTTP状态代码的自定义错误页面。 例如，如果您要自定义404 HTTP状态代码的错误页面，请创建一个 `resources/views/errors/404.blade.php` 。 此文件将会用于渲染所有404错误。 此目录中的视图文件命名应与它们对应的HTTP状态代码匹配。 由 `abort` 函数引发的 `HttpException` 实例将作为 `$exception` 变量传递给视图。
+Laravel 可以轻松地显示各种HTTP状态代码的自定义错误页面。 例如，如果您要自定义404 HTTP状态代码的错误页面，请创建一个 `resources/views/errors/404.blade.php` 。 此文件将会用于渲染所有404错误。 此目录中的视图文件命名应与它们对应的HTTP状态代码匹配。 由 `abort` 函数引发的 `HttpException` 实例将作为 `$exception` 变量传递给视图。
 
 
 <a name="logging"></a>
 ## 记录
 
-Laravel在强大的 [Monolog](https://github.com/seldaek/monolog) 库上提供了一个简单的抽象层。 默认情况下，Laravel 日志目录为 `storage/logs` 。 您可以使用 `Log` [facade](/docs/{{version}}/facades) : 将信息写入日志：
+Laravel 在强大的 [Monolog](https://github.com/seldaek/monolog) 库上提供了一个简单的抽象层。 默认情况下，Laravel 日志目录为 `storage/logs` 。 您可以使用 `Log` [facade](/docs/{{version}}/facades) : 将信息写入日志：
 
 
 
