@@ -24,7 +24,7 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 ## 配置
 <a name="error-detail"></a>
 ### 显示错误信息
-`config / app.php` 文件的`debug`选项，决定了是否向用户显示错误信息。默认情况下，此选项设置为存储在 `.env` 文件中的  `APP_DEBUG` 环境变量中。
+`config/app.php` 文件的`debug`选项，决定了是否向用户显示错误信息。默认情况下，此选项设置为存储在 `.env` 文件中的  `APP_DEBUG` 环境变量中。
 
 开发环境下，应该将`APP_DEBUG`环境变量设置为`true`。在您的生产环境中，此值应始终为 `false`。如果在生产中将该值设置为`true`，则可能会将敏感的配置值暴露给应用程序的最终用户。
 
