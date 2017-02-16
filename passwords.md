@@ -1,6 +1,6 @@
 # Laravel 的密码重设功能
 
-- [重置密码说明](#introduction)
+- [简介](#introduction)
 - [数据库注意事项](#resetting-database)
 - [路由](#resetting-routing)
 - [视图](#resetting-views)
@@ -8,7 +8,7 @@
 - [密码自定义](#password-customization)
 
 <a name="introduction"></a>
-## 重置密码说明
+## 简介
 
 > {tip} **想要快速上手此功能？**  首先在 Laravel 应用下运行 `php artisan make:auth` 命令，然后使用浏览器打开 `http://your-app.dev/register` ，或者任意一个在应用中分配的 URL 。这个命令将会生成包括密码重置在内的整个认证系统。
 
