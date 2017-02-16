@@ -7,8 +7,8 @@
     - [日志等级](#log-severity-levels)
     - [自定义Monolog设置](#custom-monolog-configuration)
 - [异常处理](#the-exception-handler)
-    - [Report方法](#report-method)
-    - [Render方法](#render-method)
+    - [Report 方法](#report-method)
+    - [Render 方法](#render-method)
 - [HTTP 异常](#http-exceptions)
     - [自定义错误页面](#custom-http-error-pages)
 - [记录](#logging)
@@ -75,9 +75,9 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 
     /**
      * 报告或记录异常
-     *
+     * 
      * 这是一个很棒的位置向Sentry，Bugsnag等发送异常。
-     *
+     * 
      * @param  \Exception  $exception
      * @return void
      */
@@ -97,7 +97,7 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 
     /**
      * 不应报告的异常类型列表
-     *
+     * 
      * @var array
      */
     protected $dontReport = [
@@ -116,7 +116,7 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 
     /**
      * 渲染异常并添加到HTTP响应中。
-     *
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
@@ -165,7 +165,7 @@ Laravel在强大的[Monolog](https://github.com/seldaek/monolog) 库上提供了
     {
         /**
          * 显示给定用户的配置文件
-         *
+         * 
          * @param  int  $id
          * @return Response
          */
