@@ -171,9 +171,12 @@ Laravel可以轻松地显示各种HTTP状态代码的自定义错误页面。 �
 
 
 <a name="logging"></a>
-## Logging
+## 记录
 
 Laravel provides a simple abstraction layer on top of the powerful [Monolog](https://github.com/seldaek/monolog) library. By default, Laravel is configured to create a log file for your application in the `storage/logs` directory. You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades):
+
+Laravel在强大的[Monolog](https://github.com/seldaek/monolog) 库上提供了一个简单的抽象层。 默认情况下，Laravel日志目录为 `storage/logs`。 您可以使用 `Log` [facade](/docs/{{version}}/facades): 将信息写入日志：
+
 
     <?php
 
@@ -186,8 +189,8 @@ Laravel provides a simple abstraction layer on top of the powerful [Monolog](htt
     class UserController extends Controller
     {
         /**
-         * Show the profile for the given user.
-         *
+         * 显示给定用户的配置文件
+         *
          * @param  int  $id
          * @return Response
          */
@@ -200,6 +203,7 @@ Laravel provides a simple abstraction layer on top of the powerful [Monolog](htt
     }
 
 The logger provides the eight logging levels defined in [RFC 5424](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**.
+该日志记录器提供八种 [RFC 5424](https://tools.ietf.org/html/rfc5424):定义的日志级别: emergency ，alert ，critical, error ，warning ，notice ，info 和 debug 。
 
     Log::emergency($message);
     Log::alert($message);
@@ -210,14 +214,15 @@ The logger provides the eight logging levels defined in [RFC 5424](https://tools
     Log::info($message);
     Log::debug($message);
 
-#### Contextual Information
-
+#### 上下文信息
 An array of contextual data may also be passed to the log methods. This contextual data will be formatted and displayed with the log message:
+将上下文数据以数组格式传递给日志方法。 此上下文数据将被格式化并与日志消息一起显示：
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
-#### Accessing The Underlying Monolog Instance
+#### 访问底层 Monolog 实例
 
 Monolog has a variety of additional handlers you may use for logging. If needed, you may access the underlying Monolog instance being used by Laravel:
+Monolog还有多种其他的处理handler，你可以用来记录。 如果需要，您可以访问Laravel底层的Monolog实例：
 
     $monolog = Log::getMonolog();
