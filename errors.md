@@ -74,10 +74,10 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 例如，如果您需要以不同的方式报告不同类型的异常，您可以使用PHP `instanceof`比较运算符：
 
     /**
-     * 报告或记录异常
-     * 
-     * 这是一个很棒的位置向Sentry，Bugsnag等发送异常。
-     * 
+     * 报告或记录异常
+     *
+     * 这是一个很棒的位置向Sentry，Bugsnag等发送异常。
+     *
      * @param  \Exception  $exception
      * @return void
      */
@@ -96,8 +96,8 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 
 
     /**
-     * 不应报告的异常类型列表
-     * 
+     * 不应报告的异常类型列表
+     *
      * @var array
      */
     protected $dontReport = [
@@ -113,10 +113,9 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 
 `render`方法负责将异常转换成 HTTP 响应发送给浏览器。 默认情况下，异常会传递给为您生成响应的基类。 但是，您可以自由检查异常类型或返回您自己的自定义响应：
 
-
     /**
-     * 渲染异常并添加到HTTP响应中。
-     * 
+     * 渲染异常并添加到HTTP响应中。
+     *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
@@ -153,6 +152,7 @@ Laravel可以轻松地显示各种HTTP状态代码的自定义错误页面。 �
 Laravel在强大的[Monolog](https://github.com/seldaek/monolog) 库上提供了一个简单的抽象层。 默认情况下，Laravel日志目录为 `storage/logs`。 您可以使用 `Log` [facade](/docs/{{version}}/facades): 将信息写入日志：
 
 
+
     <?php
 
     namespace App\Http\Controllers;
@@ -164,8 +164,8 @@ Laravel在强大的[Monolog](https://github.com/seldaek/monolog) 库上提供了
     class UserController extends Controller
     {
         /**
-         * 显示给定用户的配置文件
-         * 
+         * 显示给定用户的配置文件
+         *
          * @param  int  $id
          * @return Response
          */
