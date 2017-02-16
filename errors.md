@@ -15,11 +15,8 @@
 
 <a name="introduction"></a>
 ## 简介
-When you start a new Laravel project, error and exception handling is already configured for you. The `App\Exceptions\Handler` class is where all exceptions triggered by your application are logged and then rendered back to the user. We'll dive deeper into this class throughout this documentation.
 
 当您启动一个新的Laravel项目时，错误和异常处理就已为您配置。 应用程序触发的所有异常都被`App\Exceptions\Handler`类记录下来，然后渲染给用户。 我们将在本文档中深入介绍此类。
-
-For logging, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel configures several of these handlers for you, allowing you to choose between a single log file, rotating log files, or writing error information to the system log.
 
 Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进行日志处理。 Laravel配置了多几种日志处理handler，方便您在单个日志文件、多个交替日志文件之间进行选择写入，或将错误信息写入系统日志。
 
@@ -27,18 +24,13 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 ## 配置
 <a name="error-detail"></a>
 ### 显示错误信息
-The `debug` option in your `config/app.php` configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the `APP_DEBUG` environment variable, which is stored in your `.env` file.
-
-For local development, you should set the `APP_DEBUG` environment variable to `true`. In your production environment, this value should always be `false`. If the value is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.
-
 `config / app.php` 文件的`debug`选项，决定了是否向用户显示错误信息。默认情况下，此选项设置为存储在 `.env` 文件中的  `APP_DEBUG` 环境变量中。
 
 开发环境下，应该将`APP_DEBUG`环境变量设置为`true`。在您的生产环境中，此值应始终为 `false`。如果在生产中将该值设置为`true`，则可能会将敏感的配置值暴露给应用程序的最终用户。
 
 <a name="log-storage"></a>
-### Log Storage
-
-Out of the box, Laravel supports writing log information to `single` files, `daily` files, the `syslog`, and the `errorlog`. To configure which storage mechanism Laravel uses, you should modify the `log` option in your `config/app.php` configuration file. For example, if you wish to use daily log files instead of a single file, you should set the `log` value in your `app` configuration file to `daily`:
+### 日志存储
+开箱即用，Laravel支持 `single` 、`daily` 、 `syslog` 和 `errorlog` 日志写入模式。要配置Laravel使用的存储机制，应该修改config/app.php配置文件中的`log`选项。 例如，如果您希望使用每日一个日志文件而不是单个文件，则应将 `app` 配置文件中的 `log` 值设置为 `daily`：
 
     'log' => 'daily'
 
