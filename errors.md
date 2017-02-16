@@ -61,9 +61,11 @@ Once this option has been configured, Laravel will log all levels greater than o
 
 
 <a name="custom-monolog-configuration"></a>
-### Custom Monolog Configuration
+### 自定义Monolog设置
 
 If you would like to have complete control over how Monolog is configured for your application, you may use the application's `configureMonologUsing` method. You should place a call to this method in your `bootstrap/app.php` file right before the `$app` variable is returned by the file:
+
+如果你想让你的应用程序完全控制Monolog，可以使用应用程序的`configureMonologUsing`方法。 你应该放置一个回调方法到 `bootstrap/app.php`文件中，在文件返回`$ app`变量之前，调用这个方法：
 
     $app->configureMonologUsing(function ($monolog) {
         $monolog->pushHandler(...);
@@ -72,12 +74,14 @@ If you would like to have complete control over how Monolog is configured for yo
     return $app;
 
 <a name="the-exception-handler"></a>
-## The Exception Handler
+## 异常处理
 
 <a name="report-method"></a>
-### The Report Method
+### Report方法
 
 All exceptions are handled by the `App\Exceptions\Handler` class. This class contains two methods: `report` and `render`. We'll examine each of these methods in detail. The `report` method is used to log exceptions or send them to an external service like [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method simply passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
+
+所有异常都由 `App\Exceptions\Handler` 类处理。 这个类包含两个方法：`report`和`render`。 我们将详细研究这些方法。 `report`方法用于记录异常或将其发送到外部服务，如[Bugsnag](https://bugsnag.com) 或[Sentry](https://github.com/getsentry/sentry-laravel) 。 默认情况下，`report`方法只是将异常传递给记录异常的基类。 然而，你可以自由选择任何方式进行处理。
 
 For example, if you need to report different types of exceptions in different ways, you may use the PHP `instanceof` comparison operator:
 
