@@ -1,15 +1,15 @@
-# Laravel 的 Eloquent 集合
+# Eloquent: 集合
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
-- [Custom Collections](#custom-collections)
+- [简介](#introduction)
+- [可用的方法](#available-methods)
+- [自定义集合](#custom-collections)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-All multi-result sets returned by Eloquent are instances of the `Illuminate\Database\Eloquent\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends the Laravel [base collection](/docs/{{version}}/collections), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.
+默认情况下 Eloquent 返回的都是一个 `Illuminate\Database\Eloquent\Collection` 对象的实例，包含通过 `get` 方法或是访问一个关联来获取到的结果。Eloquent 集合对象继承了 Laravel [集合基类](/docs/{{version}}/collections)，因此它自然也继承了许多可用于与 Eloquent 模型交互的方法。
 
-Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
+当然，所有集合都可以作为迭代器，来让你像遍历一个 PHP 数组一样来遍历一个集合：
 
     $users = App\User::where('active', 1)->get();
 
@@ -17,7 +17,7 @@ Of course, all collections also serve as iterators, allowing you to loop over th
         echo $user->name;
     }
 
-However, collections are much more powerful than arrays and expose a variety of map / reduce operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the first name for each remaining user:
+然而，集合比数组更强大的地方是其使用了各种 map / reduce 的直观操作。例如，我们移除所有未激活的用户模型和收集其余各个用户的名字：
 
     $users = App\User::where('active', 1)->get();
 
@@ -28,14 +28,17 @@ However, collections are much more powerful than arrays and expose a variety of 
         return $user->name;
     });
 
-> {note} While most Eloquent collection methods return a new instance of an Eloquent collection, the `pluck`, `keys`, `zip`, `collapse`, `flatten` and `flip` methods return a [base collection](/docs/{{version}}/collections) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be automatically cast to a base collection.
+> {note} 大部分的 Eloquent 集合会返回新的「Eloquent 集合」实例，但是 `pluck`, `keys`, `zip`, `collapse`, `flatten` 和 `flip` 方法会返回 [基础集合](/docs/{{version}}/collections) 实例。
+> 
+> 相应的，如果一个 `map` 操作返回一个不包含任何 Eloquent 模型的集合，那么它将会自动转换成基础集合。
+
 
 <a name="available-methods"></a>
-## Available Methods
+## 可用的方法
 
-### The Base Collection
+### 集合对象
 
-All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections) object; therefore, they inherit all of the powerful methods provided by the base collection class:
+所有 Eloquent 集合都继承了基础的 [Laravel 集合](/docs/{{version}}/collections) 对象。因此，他们也继承了所有集合类提供的强大的方法：
 
 <style>
     #collection-method-list > p {
@@ -118,9 +121,10 @@ All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/
 </div>
 
 <a name="custom-collections"></a>
-## Custom Collections
+## 自定义集合
 
-If you need to use a custom `Collection` object with your own extension methods, you may override the `newCollection` method on your model:
+
+如果你需要使用一个自定义的 `Collection` 对象到自己的扩充方法上，则可以在模型中重写 `newCollection` 方法：
 
     <?php
 
@@ -132,7 +136,7 @@ If you need to use a custom `Collection` object with your own extension methods,
     class User extends Model
     {
         /**
-         * Create a new Eloquent Collection instance.
+         * 创建一个新的 Eloquent 集合实例对象。
          *
          * @param  array  $models
          * @return \Illuminate\Database\Eloquent\Collection
@@ -143,4 +147,5 @@ If you need to use a custom `Collection` object with your own extension methods,
         }
     }
 
-Once you have defined a `newCollection` method, you will receive an instance of your custom collection anytime Eloquent returns a `Collection` instance of that model. If you would like to use a custom collection for every model in your application, you should override the `newCollection` method on a base model class that is extended by all of your models.
+
+一旦你定义了 `newCollection` 方法，则可在任何 Eloquent 返回该模型的 `Collection` 实例时，接收到一个你的自定义集合的实例。如果你想要在应用程序的每个模型中使用自定义集合，则应该在所有的模型继承的模型基类中重写 `newCollection` 方法。
