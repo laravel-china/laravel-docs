@@ -30,26 +30,35 @@ Laravel使用功能强大的[Monolog](https://github.com/Seldaek/monolog) 库进
 
 <a name="log-storage"></a>
 ### 日志存储
-开箱即用，Laravel支持 `single` 、`daily` 、 `syslog` 和 `errorlog` 日志写入模式。要配置Laravel使用的存储机制，应该修改config/app.php配置文件中的`log`选项。 例如，如果您希望使用每日一个日志文件而不是单个文件，则应将 `app` 配置文件中的 `log` 值设置为 `daily`：
+开箱即用，Laravel支持 `single` 、`daily` 、 `syslog` 和 `errorlog` 日志模式。要配置Laravel使用的存储机制，应该修改config/app.php配置文件中的`log`选项。 例如，如果您希望使用每日一个日志文件而不是单个文件，则应将 `app` 配置文件中的 `log` 值设置为 `daily`：
 
     'log' => 'daily'
 
-#### Maximum Daily Log Files
+#### 日志保存天数限制
 
 When using the `daily` log mode, Laravel will only retain five days of log files by default. If you want to adjust the number of retained files, you may add a `log_max_files` configuration value to your `app` configuration file:
+使用`daily`日志模式时，Laravel将只保留五天默认的日志文件。如果你想调整保留文件的数量，您可以添加一个` log_max_files `配置项目到 ` APP `配置文件：
 
     'log_max_files' => 30
 
 <a name="log-severity-levels"></a>
-### Log Severity Levels
+### 日志等级
 
 When using Monolog, log messages may have different levels of severity. By default, Laravel writes all log levels to storage. However, in your production environment, you may wish to configure the minimum severity that should be logged by adding the `log_level` option to your `app.php` configuration file.
 
+使用Monolog时，日志消息可能具有不同的日志等级。 默认情况下，Laravel将所有日志级别写入存储。 但是，在生产环境中，您可能希望通过将`log_level`选项添加到`app.php`配置文件中来配置应记录的最低日志等级。
+
+
 Once this option has been configured, Laravel will log all levels greater than or equal to the specified severity. For example, a default `log_level` of `error` will log **error**, **critical**, **alert**, and **emergency** messages:
+
+一旦配置了此选项，Laravel将记录大于或等于指定日志等级的所有级别。 例如，默认将`log_level` 设置为 `error` 那么将会记录 error, critical, alert 和 emergency 日志信息：
 
     'log_level' => env('APP_LOG_LEVEL', 'error'),
 
 > {tip} Monolog recognizes the following severity levels - from least severe to most severe: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency`.
+
+> {tip} Monolog 识别以下日志等级 - 从低到高为: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency`.
+
 
 <a name="custom-monolog-configuration"></a>
 ### Custom Monolog Configuration
