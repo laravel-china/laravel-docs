@@ -313,7 +313,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 <a name="updating-homestead"></a>
 ## 更新 Homestead
 
-你可以简单的用两个步骤来更新 Homestead ，第一步，使用`vagrant box update` 命令更新Vgrant box:
+你可以简单的用两个步骤来更新 Homestead ，第一步，使用 `vagrant box update` 命令更新Vgrant box:
 
 	vagrant box update
 
@@ -339,7 +339,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
     cpus: 4
     provider: virtualbox
 
-当你使用旧版本的box时，你需要确保 Homestead 源代码的版本与之对应，下面的图表展示了支持的box版本，以及与之对应的 Homestead 的源代码版本和 box 所提供的PHP版本：
+当你使用旧版本的 box 时，你需要确保 Homestead 源代码的版本与之对应，下面的图表展示了支持的 box 版本，以及与之对应的 Homestead 的源代码版本和 box 所提供的PHP版本：
 
 |         | Homestead Version | Box Version |
 |---------|-------------------|-------------|
