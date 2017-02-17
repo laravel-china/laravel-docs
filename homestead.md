@@ -141,7 +141,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 <a name="launching-the-vagrant-box"></a>
 ### 启动 Vagrant Box
 
-编辑完`Homestead.yaml`后，进入你的 Homestead 目录并运行 `vagrant up` 命令。 Vagrant 就会根据 `Homestead.yaml` 里的配置信息，为虚拟机设置共享文件夹和 Nginx 网站。
+编辑完 `Homestead.yaml` 后，进入你的 Homestead 目录并运行 `vagrant up` 命令。 Vagrant 就会根据 `Homestead.yaml` 里的配置信息，为虚拟机设置共享文件夹和 Nginx 网站。
 
 如果要移除虚拟机，你可以使用 `vagrant destroy --force` 命令
 
@@ -158,7 +158,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 
 一旦 Homestead 安装完毕，可以使用 `make` 命令生成 `Vagrantfile` 与 `Homestead.yaml` 文件，并存放于项目的根目录。
 
-`make` 命令将会自动在 Homestead.yaml 文件中配置 `sites` 及 `folders`：
+`make` 命令将会自动在 Homestead.yaml 文件中配置 `sites` 及 `folders` ：
 
 Mac / Linux:
 
@@ -261,7 +261,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
           to: /home/vagrant/Code/Laravel/public
           schedule: true
 
-该网站的 Cron 任务会被定义在虚拟机的 `/etc/cron.d`文件夹中。
+该网站的 Cron 任务会被定义在虚拟机的 `/etc/cron.d` 文件夹中。
 
 <a name="ports"></a>
 ### 连接端口
@@ -291,13 +291,13 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 
 ## Network Interfaces
 
-`Homestead.yaml `文件里的 `networks` 配置项允许你为 Homestead 环境配置网络接口。你可以任意配置多个网络接口：
+`Homestead.yaml` 文件里的 `networks` 配置项允许你为 Homestead 环境配置网络接口。你可以任意配置多个网络接口：
 
 	networks:
         - type: "private_network"
           ip: "192.168.10.20"
 
-想要配置一个 [桥接](https://www.vagrantup.com/docs/networking/public_network.html) 接口的话，增加 `bridge` 配置项，然后 `type` 填写为 `public_network`：
+想要配置一个 [桥接](https://www.vagrantup.com/docs/networking/public_network.html) 接口的话，增加 `bridge` 配置项，然后 `type` 填写为 `public_network` ：
 
 	networks:
     	- type: "public_network"
@@ -313,7 +313,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 <a name="updating-homestead"></a>
 ## 更新 Homestead
 
-你可以简单的用两个步骤来更新 Homestead ，第一步，使用 `vagrant box update` 命令更新Vgrant box:
+你可以简单的用两个步骤来更新 Homestead ，第一步，使用 `vagrant box update` 命令更新 Vgrant box :
 
 	vagrant box update
 
@@ -339,7 +339,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
     cpus: 4
     provider: virtualbox
 
-当你使用旧版本的 box 时，你需要确保 Homestead 源代码的版本与之对应，下面的图表展示了支持的 box 版本，以及与之对应的 Homestead 的源代码版本和 box 所提供的PHP版本：
+当你使用旧版本的 box 时，你需要确保 Homestead 源代码的版本与之对应，下面的图表展示了支持的 box 版本，以及与之对应的 Homestead 的源代码版本和 box 所提供的 PHP 版本：
 
 |         | Homestead Version | Box Version |
 |---------|-------------------|-------------|
