@@ -159,6 +159,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 一旦 Homestead 安装完毕，可以使用 `make` 命令生成 `Vagrantfile` 与 `Homestead.yaml` 文件，并存放于项目的根目录。
 
 `make` 命令将会自动在 Homestead.yaml 文件中配置 `sites` 及 `folders`：
+
 Mac / Linux:
 
 	php vendor/bin/homestead make
@@ -256,7 +257,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 如果你想为 Homestead 网站使用 `schedule:run` 命令，你可以在定义网站时将 `schedule` 选项设置为 `true`
 
 	sites:
-        - map: homestead.app
+    	- map: homestead.app
           to: /home/vagrant/Code/Laravel/public
           schedule: true
 
@@ -277,8 +278,8 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 
 如果你需要的话，也可以借助指定连接端口的通信协议来转发更多额外的连接端口给 Vagrant box ：
 
- ports:
-        - send: 93000
+ 	ports:
+    	- send: 93000
           to: 9300
         - send: 7777
           to: 777
@@ -299,9 +300,9 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 想要配置一个 [桥接](https://www.vagrantup.com/docs/networking/public_network.html) 接口的话，增加 `bridge` 配置项，然后 `type` 填写为 `public_network`：
 
 	networks:
-    - type: "public_network"
-      ip: "192.168.10.20"
-      bridge: "en1: Wi-Fi (AirPort)"
+    	- type: "public_network"
+      	  ip: "192.168.10.20"
+          bridge: "en1: Wi-Fi (AirPort)"
 
 想要配置一个 [DHCP](https://www.vagrantup.com/docs/networking/public_network.html) 接口的话，请从配置中移除 `ip` 选项：
 
