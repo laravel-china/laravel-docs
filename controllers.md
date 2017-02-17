@@ -19,7 +19,7 @@
 - [基础控制器](#basic-controllers)
     - [定义控制器](#defining-controllers)
     - [控制器与命名空间](#controllers-and-namespaces)
-    - [单一行为控制器](#single-action-controllers)
+    - [单一操作控制器](#single-action-controllers)
 - [控制器中间件](#controller-middleware)
 - [资源控制器](#resource-controllers)
     - [部分资源路由](#restful-partial-resource-routes)
@@ -37,7 +37,7 @@
 
 Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes. Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
 
-除了可以在路由文件中以闭包的形式定义所有的请求处理逻辑外，你可能还希望能够使用控制器类来组织此类行为。控制器能够将相关的请求处理逻辑组成一个单独的类。控制器被存放在 `app/Http/Controllers` 目录下。
+除了在路由文件中以闭包的形式定义所有的请求处理逻辑外，你可能还想使用控制器类来组织此类操作。控制器能够将相关的请求处理逻辑组成一个单独的类。控制器被存放在 `app/Http/Controllers` 目录下。
 
 <a name="basic-controllers"></a>
 ## Basic Controllers
@@ -51,7 +51,7 @@ Instead of defining all of your request handling logic as Closures in route file
 
 Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the `middleware` method, which may be used to attach middleware to controller actions:
 
-以下是一个基础控制器类的例子。需要注意的是，该控制器继承了 Laravel 内置的基础控制器。该基础类提供了一些便捷的方法，比如 `middleware` 方法，该方法可以用来给控制器行为添加中间件：
+以下是一个基础控制器类的例子。需要注意的是，该控制器继承了 Laravel 内置的基础控制器类。该基础类提供了一些便捷的方法，比如 `middleware` 方法，该方法可以用来给控制器操作添加中间件：
 
     <?php
 
@@ -76,7 +76,7 @@ Below is an example of a basic controller class. Note that the controller extend
 
 You can define a route to this controller action like so:
 
-你可以这样定义一个指向该控制器行为的路由：
+你可以这样定义一个指向该控制器操作的路由：
 
     Route::get('user/{id}', 'UserController@show');
 
@@ -86,7 +86,7 @@ Now, when a request matches the specified route URI, the `show` method on the `U
 
 > {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
 
-> {tip} 控制器并不是**一定**要继承基础类。只是，你将不能使用一些便捷的功能，比如 `middleware`，`validate` 和 `dispatch` 方法。
+> {tip} 控制器并不是**一定**要继承基础类。只是，你将无法使用一些便捷的功能，比如 `middleware`，`validate` 和 `dispatch` 方法。
 
 <a name="controllers-and-namespaces"></a>
 ### Controllers & Namespaces
@@ -106,11 +106,11 @@ If you choose to nest your controllers deeper into the `App\Http\Controllers` di
 <a name="single-action-controllers"></a>
 ### Single Action Controllers
 
-### 单一行为控制器
+### 单一操作控制器
 
 If you would like to define a controller that only handles a single action, you may place a single `__invoke` method on the controller:
 
-如果你想定义一个只处理单个行为的控制器，你可以在控制器中只设置一个 `__invoke` 方法：
+如果想定义一个只处理单个操作的控制器，你可以在控制器中只设置一个 `__invoke` 方法：
 
     <?php
 
@@ -135,7 +135,7 @@ If you would like to define a controller that only handles a single action, you 
 
 When registering routes for single action controllers, you do not need to specify a method:
 
-为单一行为控制器注册路由时，无需指定方法：
+为单一操作控制器注册路由时，无需指定方法：
 
     Route::get('user/{id}', 'ShowProfile');
 
@@ -146,13 +146,13 @@ When registering routes for single action controllers, you do not need to specif
 
 [Middleware](/docs/{{version}}/middleware) may be assigned to the controller's routes in your route files:
 
-[中间件](/docs/{{version}}/middleware)可以在路由文件中分配给控制器路由：
+[中间件](/docs/{{version}}/middleware)可以在路由文件中指定给控制器路由：
 
     Route::get('profile', 'UserController@show')->middleware('auth');
 
 However, it is more convenient to specify middleware within your controller's constructor. Using the `middleware` method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:
 
-然而，在控制器的构造方法中指定中间件会更为便捷。通过在控制器构造方法中使用 `middleware` 方法，你可以很容易地将中间件分配给控制器行为。你甚至可以约束中间件只对控制器类中的某个特定的方法生效：
+然而，在控制器的构造方法中指定中间件会更为便捷。在控制器构造方法中使用 `middleware` 方法，你可以很容易地将中间件指定给控制器操作。你甚至可以约束中间件只对控制器类中的某个特定方法生效：
 
     class UserController extends Controller
     {
@@ -183,7 +183,7 @@ Controllers also allow you to register middleware using a Closure. This provides
 
 > {tip} You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.
 
-> {tip} 你可能将中间件分配到控制器行为的子集上，然而，这可能使你的控制器过于臃肿。相反，考虑将控制器分成多个更小的控制器。
+> {tip} 你可能将中间件指定到控制器的部分操作上，然而，这会使你的控制器过于臃肿。换个角度，考虑将控制器分成多个更小的控制器。
 
 <a name="resource-controllers"></a>
 ## Resource Controllers
@@ -192,7 +192,7 @@ Controllers also allow you to register middleware using a Closure. This provides
 
 Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
 
-Laravel 资源路由仅需一行代码就可以将典型的“CURD”路由分派到一个控制器上。比如，你可能希望创建一个控制器来处理所有应用保存的「相片」的 HTTP 请求。使用 `make:controller` Artisan 命令，我们就能快速创建这样一个控制器：
+Laravel 资源路由可以将典型的“CURD”路由指定到一个控制器上，仅需一行代码就可以实现。比如，你可能希望创建一个控制器来处理所有应用保存的「相片」的 HTTP 请求。使用 `make:controller` Artisan 命令，我们就能快速创建这样一个控制器：
 
     php artisan make:controller PhotoController --resource
 
@@ -212,7 +212,7 @@ This single route declaration creates multiple routes to handle a variety of act
 
 #### Actions Handled By Resource Controller
 
-#### 资源控制器操作行为
+#### 资源控制器操作操作
 
 Verb      | URI                  | Action       | Route Name
 ----------|-----------------------|--------------|---------------------
@@ -224,7 +224,7 @@ GET       | `/photos/{photo}/edit` | edit         | photos.edit
 PUT/PATCH | `/photos/{photo}`      | update       | photos.update
 DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
-动作      | URI                  | 行为       | 路由名称
+动作      | URI                  | 操作       | 路由名称
 ----------|-----------------------|--------------|---------------------
 GET       | `/photos`              | index        | photos.index
 GET       | `/photos/create`       | create       | photos.create
@@ -261,7 +261,7 @@ Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need 
 
 When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:
 
-声明资源路由的时候，你可以指定控制器处理的部分行为而避免使用去全部默认的行为：
+声明资源路由的时候，你可以指定控制器处理的部分操作而避免使用去全部默认的操作：
 
     Route::resource('photo', 'PhotoController', ['only' => [
         'index', 'show'
