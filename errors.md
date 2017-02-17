@@ -18,7 +18,7 @@
 
 当您启动一个新的 Laravel 项目时，错误和异常处理就已为您配置。 应用程序触发的所有异常都被 `App\Exceptions\Handler` 类记录下来，然后渲染给用户。 我们将在本文档中深入介绍此类。
 
-Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库进行日志处理。  Laravel 配置了多几种日志处理 handler ，方便您在单个日志文件、多个交替日志文件之间进行选择写入或将错误信息写入系统日志。
+Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库进行日志处理。Laravel 配置了多几种日志处理 handler ，方便您在单个日志文件、多个交替日志文件之间进行选择写入或将错误信息写入系统日志。
 
 <a name="configuration"></a>
 ## 配置
@@ -30,7 +30,7 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 
 <a name="log-storage"></a>
 ### 日志存储
-开箱即用，Laravel 支持 `single` 、`daily` 、 `syslog` 和 `errorlog` 日志模式。要配置 Laravel 使用的存储机制，应该修改 `config/app.php` 配置文件中的 `log` 选项。 例如，如果您希望使用每日一个日志文件而不是单个文件，则应将 `app` 配置文件中的 `log` 值设置为 `daily`：
+开箱即用，Laravel 支持 `single` 、`daily` 、 `syslog` 和 `errorlog` 日志模式。要配置 Laravel 使用的存储机制，应该修改 `config/app.php` 配置文件中的 `log` 选项。例如，如果您希望使用每日一个日志文件而不是单个文件，则应将 `app` 配置文件中的 `log` 值设置为 `daily`：
 
     'log' => 'daily'
 
@@ -43,9 +43,9 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="log-severity-levels"></a>
 ### 日志等级
 
-使用 Monolog 时，日志消息可能具有不同的日志等级。 默认情况下，Laravel 将所有日志级别写入存储。 但是，在生产环境中，您可能希望通过将 `log_level` 选项添加到 `app.php` 配置文件中来配置应记录的最低日志等级。
+使用 Monolog 时，日志消息可能具有不同的日志等级。默认情况下，Laravel 将所有日志级别写入存储。但是，在生产环境中，您可能希望通过将 `log_level` 选项添加到 `app.php` 配置文件中来配置应记录的最低日志等级。
 
-一旦配置了此选项，Laravel 将记录大于或等于指定日志等级的所有级别。 例如，默认将 `log_level` 设置为 `error` 那么将会记录 error , critical , alert 和 emergency 日志信息：
+一旦配置了此选项，Laravel 将记录大于或等于指定日志等级的所有级别。例如，默认将 `log_level` 设置为 `error` 那么将会记录 error , critical , alert 和 emergency 日志信息：
 
     'log_level' => env('APP_LOG_LEVEL', 'error'),
 
@@ -55,7 +55,7 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="custom-monolog-configuration"></a>
 ### 自定义 Monolog 设置
 
-如果你想让你的应用程序完全控制 Monolog ，可以使用应用程序的 `configureMonologUsing` 方法。 你应该放置一个回调方法到 `bootstrap/app.php` 文件中，在文件返回 `$app` 变量之前，调用这个方法：
+如果你想让你的应用程序完全控制 Monolog ，可以使用应用程序的 `configureMonologUsing` 方法。你应该放置一个回调方法到 `bootstrap/app.php` 文件中，在文件返回 `$app` 变量之前，调用这个方法：
 
     $app->configureMonologUsing(function ($monolog) {
         $monolog->pushHandler(...);
@@ -69,7 +69,7 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="report-method"></a>
 ### Report 方法
 
-所有异常都由 `App\Exceptions\Handler` 类处理。 这个类包含两个方法：`report` 和 `render` 。 我们将详细研究这些方法。 `report` 方法用于记录异常或将其发送到外部服务，如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。 默认情况下，`report` 方法只是将异常传递给记录异常的基类。 然而，你可以自由选择任何方式进行处理。
+所有异常都由 `App\Exceptions\Handler` 类处理。 这个类包含两个方法：`report` 和 `render` 。 我们将详细研究这些方法。 `report` 方法用于记录异常或将其发送到外部服务，如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。默认情况下，`report` 方法只是将异常传递给记录异常的基类。然而，你可以自由选择任何方式进行处理。
 
 例如，如果您需要以不同的方式报告不同类型的异常，您可以使用 PHP `instanceof` 比较运算符：
 
@@ -92,7 +92,7 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 
 #### 通过类型忽略异常
 
-异常 handler 的 `$dontReport` 属性包含不会记录的异常类型数组。 例如，404错误导致的异常以及其他几种类型的错误不会写入您的日志文件。 您可以根据需要向此数组添加其他异常类型：
+异常 handler 的 `$dontReport` 属性包含不会记录的异常类型数组。例如，404错误导致的异常以及其他几种类型的错误不会写入您的日志文件。您可以根据需要向此数组添加其他异常类型：
 
 
     /**
@@ -111,7 +111,7 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="render-method"></a>
 ### Render 方法
 
-`render` 方法负责将异常转换成 HTTP 响应发送给浏览器。 默认情况下，异常会传递给为您生成响应的基类。 但是，您可以自由检查异常类型或返回您自己的自定义响应：
+`render` 方法负责将异常转换成 HTTP 响应发送给浏览器。默认情况下，异常会传递给为您生成响应的基类。但是，您可以自由检查异常类型或返回您自己的自定义响应：
 
     /**
      * 渲染异常并添加到 HTTP 响应中。
@@ -132,7 +132,7 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="http-exceptions"></a>
 ## HTTP 异常
 
-一些异常描述了来自服务器的 HTTP 错误代码。 例如这可能是「找不到页面」 错误（404），「未授权错误」（401）或甚至开发者生成的500错误。 你可以使用 `abort` 函数，在应用程序中的任何地方生成这样的响应：
+一些异常描述了来自服务器的 HTTP 错误代码。例如这可能是「找不到页面」 错误（404），「未授权错误」（401）或甚至开发者生成的500错误。你可以使用 `abort` 函数，在应用程序中的任何地方生成这样的响应：
 
     abort(404);
 
@@ -143,13 +143,13 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 <a name="custom-http-error-pages"></a>
 ### 自定义错误页面
 
-Laravel 可以轻松地显示各种HTTP状态代码的自定义错误页面。 例如，如果您要自定义404 HTTP状态代码的错误页面，请创建一个 `resources/views/errors/404.blade.php` 。 此文件将会用于渲染所有404错误。 此目录中的视图文件命名应与它们对应的HTTP状态代码匹配。 由 `abort` 函数引发的 `HttpException` 实例将作为 `$exception` 变量传递给视图。
+Laravel 可以轻松地显示各种HTTP状态代码的自定义错误页面。例如，如果您要自定义404 HTTP状态代码的错误页面，请创建一个 `resources/views/errors/404.blade.php` 。此文件将会用于渲染所有404错误。此目录中的视图文件命名应与它们对应的HTTP状态代码匹配。由 `abort` 函数引发的 `HttpException` 实例将作为 `$exception` 变量传递给视图。
 
 
 <a name="logging"></a>
 ## 记录
 
-Laravel 在强大的 [Monolog](https://github.com/seldaek/monolog) 库上提供了一个简单的抽象层。 默认情况下，Laravel 日志目录为 `storage/logs` 。 您可以使用 `Log` [facade](/docs/{{version}}/facades) : 将信息写入日志：
+Laravel 在强大的 [Monolog](https://github.com/seldaek/monolog) 库上提供了一个简单的抽象层。默认情况下，Laravel 日志目录为 `storage/logs` 。您可以使用 `Log` [facade](/docs/{{version}}/facades) :将信息写入日志：
 
 
 
@@ -190,13 +190,13 @@ Laravel 在强大的 [Monolog](https://github.com/seldaek/monolog) 库上提供�
 
 #### 上下文信息
 
-将上下文数据以数组格式传递给日志方法。 此上下文数据将被格式化并与日志消息一起显示：
+将上下文数据以数组格式传递给日志方法。此上下文数据将被格式化并与日志消息一起显示：
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
 #### 访问底层 Monolog 实例
 
-Monolog 还有多种其他的处理 handler ，你可以用来记录。 如果需要，您可以访问 Laravel 底层的 Monolog 实例：
+Monolog 还有多种其他的处理 handler ，你可以用来记录。如果需要，您可以访问 Laravel 底层的 Monolog 实例：
 
     $monolog = Log::getMonolog();
 
