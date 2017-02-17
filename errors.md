@@ -17,8 +17,12 @@
 ## Introduction
 
 When you start a new Laravel project, error and exception handling is already configured for you. The `App\Exceptions\Handler` class is where all exceptions triggered by your application are logged and then rendered back to the user. We'll dive deeper into this class throughout this documentation.
+当您启动一个新的Laravel项目时，错误和异常处理就已为您配置。 应用程序触发的所有异常都被`App\Exceptions\Handler`类记录下来，然后渲染给用户。 我们将在本文档中深入介绍此类。
 
 For logging, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel configures several of these handlers for you, allowing you to choose between a single log file, rotating log files, or writing error information to the system log.
+
+Laravel的日志记录使用的是[Monolog]（https://github.com/Seldaek/monolog）库，它为各种强大的日志处理程序提供支持。 Laravel为您配置了几个处理程序，允许您在单个日志文件，旋转日志文件之间进行选择，或将错误信息写入系统日志。
+
 
 <a name="configuration"></a>
 ## Configuration
