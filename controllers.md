@@ -192,13 +192,13 @@ Controllers also allow you to register middleware using a Closure. This provides
 
 Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
 
-Laravel 资源路由可以将典型的“CURD”路由指定到一个控制器上，仅需一行代码就可以实现。比如，你可能希望创建一个控制器来处理所有应用保存的「相片」的 HTTP 请求。使用 `make:controller` Artisan 命令，我们就能快速创建这样一个控制器：
+Laravel 资源路由可以将典型的“CURD”路由指定到一个控制器上，仅需一行代码就可以实现。比如，你可能希望创建一个控制器来处理所有应用保存的「相片」的 HTTP 请求。使用 `make:controller` Artisan 命令，就能快速创建这样一个控制器：
 
     php artisan make:controller PhotoController --resource
 
 This command will generate a controller at `app/Http/Controllers/PhotoController.php`. The controller will contain a method for each of the available resource operations.
 
-这个命令会在 `app/Http/Controllers/PhotoController.php` 中生成一个控制器。该控制器包含了各种可用的资源操作方法。
+这个命令会在 `app/Http/Controllers/PhotoController.php` 中生成一个控制器，该控制器包含了各种可用的资源操作方法。
 
 Next, you may register a resourceful route to the controller:
 
@@ -208,11 +208,11 @@ Next, you may register a resourceful route to the controller:
 
 This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
 
-这个路由声明会创建多个路由来处理各种各样的资源操作。生成的控制器已经包含了这些操作的方法，还包括了 HTTP 动作和操作 URI 的注释。
+这个路由声明会创建多个路由来处理各种各样的资源操作。前面生成的控制器已经包含了这些操作的方法，还包括了 HTTP 动作和操作 URI 的注释。
 
 #### Actions Handled By Resource Controller
 
-#### 资源控制器操作操作
+#### 资源控制器操作处理
 
 Verb      | URI                  | Action       | Route Name
 ----------|-----------------------|--------------|---------------------
@@ -261,7 +261,7 @@ Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need 
 
 When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:
 
-声明资源路由的时候，你可以指定控制器处理的部分操作而避免使用去全部默认的操作：
+声明资源路由的时候，你可以指定控制器处理部分操作，而不必使用全部默认的操作：
 
     Route::resource('photo', 'PhotoController', ['only' => [
         'index', 'show'
@@ -278,7 +278,7 @@ When declaring a resource route, you may specify a subset of actions the control
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 
-默认地，所有的资源路由操作都有一个路由名称；不过你可以在选项中传入一个 `names` 数组来重写这些名称：
+默认地，所有的资源路由操作都有一个路由名称；不过你可以在参数选项中传入一个 `names` 数组来重写这些名称：
 
     Route::resource('photo', 'PhotoController', ['names' => [
         'create' => 'photo.build'
@@ -310,7 +310,7 @@ By default, `Route::resource` will create the route parameters for your resource
 
 By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
 
-默认地，`Route::resource` 将会用英文动词创建资源 URI。如果你想本地化 `create` 和 `edit` 动作名，可以使用 `Route::resourceVerb` 方法，可以在 `AppServiceProvider` 中的 `boot` 方法中实现：
+默认地，`Route::resource` 将会用英文动词创建资源 URI。如果你想本地化 `create` 和 `edit` 的动作名，可以使用 `Route::resourceVerb` 方法，可以在 `AppServiceProvider` 的 `boot` 方法中实现：
 
     use Illuminate\Support\Facades\Route;
 
@@ -342,7 +342,7 @@ Once the verbs have been customized, a resource route registration such as `Rout
 
 If you need to add additional routes to a resource controller beyond the default set of resource routes, you should define those routes before your call to `Route::resource`; otherwise, the routes defined by the `resource` method may unintentionally take precedence over your supplemental routes:
 
-如果你想在默认的资源路之外增加额外的资源控制器路由，你应该在调用 `Route::resource` 之前定义这些路由；否则，`resource` 方法定义的路由可能会不小心覆盖你的附加路由：
+如果你想在默认的资源路由之外增加资源控制器路由，你应该在调用 `Route::resource` 之前定义这些路由；否则，`resource` 方法定义的路由可能会不小心覆盖你的附加路由：
 
     Route::get('photos/popular', 'PhotoController@method');
 
@@ -363,7 +363,7 @@ If you need to add additional routes to a resource controller beyond the default
 
 The Laravel [service container](/docs/{{version}}/container) is used to resolve all Laravel controllers. As a result, you are able to type-hint any dependencies your controller may need in its constructor. The declared dependencies will automatically be resolved and injected into the controller instance:
 
-Laravel 使用[服务容器](/docs/{{version}}/container)来解析所有的控制器。因此，你可以在控制器的构造方法中对任何依赖使用类型约束，被声明的依赖会自动被解析并注入控制器实例中：
+Laravel 使用[服务容器](/docs/{{version}}/container)来解析所有的控制器。因此，你可以在控制器的构造方法中对任何依赖使用类型约束，声明的依赖会自动被解析并注入控制器实例中：
 
     <?php
 
@@ -392,7 +392,7 @@ Laravel 使用[服务容器](/docs/{{version}}/container)来解析所有的控�
 
 Of course, you may also type-hint any [Laravel contract](/docs/{{version}}/contracts). If the container can resolve it, you can type-hint it. Depending on your application, injecting your dependencies into your controller may provide better testability.
 
-当然，你也可以对任何的 [Laravel contract](/docs/{{version}}/contracts) 使用类型约束。当容器解析 contract 的时候，就会使用类型约束。直接将依赖注入控制器可能会提供更好的可测试性，这取决于你的项目的具体情况。
+当然，你也可以对任何的 [Laravel contract](/docs/{{version}}/contracts) 使用类型约束。当容器解析 contract 的时候，就会使用类型约束。直接将依赖注入控制器可能会提供更好的可测试性，但这取决于你的项目的具体情况。
 
 #### Method Injection
 
@@ -400,7 +400,7 @@ Of course, you may also type-hint any [Laravel contract](/docs/{{version}}/contr
 
 In addition to constructor injection, you may also type-hint dependencies on your controller's methods. A common use-case for method injection is injecting the `Illuminate\Http\Request` instance into your controller methods:
 
-除了构造方法注入之外，你还可以在控制器方法中使用依赖类型约束。方法注入的一个常见用法就是将 `Illuminate\Http\Request` 实例注入控制器方法中：
+除了构造方法注入之外，你还可以在控制器方法中使用依赖类型约束。一个常见的用法就是将 `Illuminate\Http\Request` 实例注入控制器方法中：
 
     <?php
 
@@ -432,7 +432,7 @@ If your controller method is also expecting input from a route parameter, simply
 
 You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
 
-你仍可以使用 `Illuminate\Http\Request` 类型约束并且获取参数 `id`，你需要这样定义控制器方法：
+通过以下方式定义控制器方法，可以让你在使用 `Illuminate\Http\Request` 类型约束的同时仍然可以获取参数 `id`：
 
     <?php
 
@@ -466,13 +466,13 @@ You may still type-hint the `Illuminate\Http\Request` and access your `id` param
 
 If your application is exclusively using controller based routes, you should take advantage of Laravel's route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the `route:cache` Artisan command:
 
-如果你的应用只用到了基于控制器的路由，你应该充分利用 Laravel 的路由缓存。使用路由缓存将极大地减少注册全部应用路由的时间。某些情况下，路由注册甚至可以快一百倍。要生成路由缓存，只需在 Artisan 命令行中执行 `route:cache` 命令：
+如果你的应用只用到了基于控制器的路由，那么你应该充分利用 Laravel 的路由缓存。使用路由缓存将极大地减少注册全部应用路由的时间。某些情况下，路由注册甚至可以快一百倍。要生成路由缓存，只需在 Artisan 命令行中执行 `route:cache` 命令：
 
     php artisan route:cache
 
 After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the `route:cache` command during your project's deployment.
 
-运行这个命令之后，缓存路由文件将在每一次请求的时候被加载。记住，如果添加了新的路由，你需要刷新路由缓存。因此，你应该只在项目部署时才运行 `route:cache` 命令：
+运行这个命令之后，每一次请求的时候都将会加载缓存的路由文件。记住，如果添加了新的路由，你需要刷新路由缓存。因此，你应该只在项目部署时才运行 `route:cache` 命令：
 
 You may use the `route:clear` command to clear the route cache:
 
