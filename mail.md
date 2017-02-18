@@ -1,59 +1,59 @@
 # Laravel 的 邮箱发送功能
 
-- [Introduction](#introduction)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Generating Mailables](#generating-mailables)
-- [Writing Mailables](#writing-mailables)
-    - [Configuring The Sender](#configuring-the-sender)
-    - [Configuring The View](#configuring-the-view)
-    - [View Data](#view-data)
-    - [Attachments](#attachments)
+- [简价](#introduction)
+    - [准备驱动](#driver-prerequisites)
+- [生成 mailables](#generating-mailables)
+- [编写 mailables](#writing-mailables)
+    - [配置邮件发送人](#configuring-the-sender)
+    - [配置视图](#configuring-the-view)
+    - [向视图传递数据](#view-data)
+    - [附件](#attachments)
     - [Inline Attachments](#inline-attachments)
-- [Markdown Mailables](#markdown-mailables)
-    - [Generating Markdown Mailables](#generating-markdown-mailables)
-    - [Writing Markdown Messages](#writing-markdown-messages)
-    - [Customizing The Components](#customizing-the-components)
-- [Sending Mail](#sending-mail)
-    - [Queueing Mail](#queueing-mail)
-- [Mail & Local Development](#mail-and-local-development)
-- [Events](#events)
+- [Markdown 格式的邮件](#markdown-mailables)
+    - [生成 Markdown 格式的邮件](#generating-markdown-mailables)
+    - [编写 Markdown 格式的邮件](#writing-markdown-messages)
+    - [自定义组件](#customizing-the-components)
+- [发送邮件](#sending-mail)
+    - [邮件队列](#queueing-mail)
+- [邮件与本地开发](#mail-and-local-development)
+- [事件](#events)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel provides a clean, simple API over the popular [SwiftMailer](http://swiftmailer.org) library with drivers for SMTP, Mailgun, SparkPost, Amazon SES, PHP's `mail` function, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干净，简洁的邮件 API ，Laravel 为 SMTP，Mailgun，SparkPost， Amazon SES，PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以快速从本地或云端服务自由地发送邮件。
 
 <a name="driver-prerequisites"></a>
-### Driver Prerequisites
+### 准备驱动
 
-The API based drivers such as Mailgun and SparkPost are often simpler and faster than SMTP servers. If possible, you should use one of these drivers. All of the API drivers require the Guzzle HTTP library, which may be installed via the Composer package manager:
+基于 API 驱动的邮件系统，例如 Mailgun 和 SparkPost 通常比 SMTP 服务来得简单和快速。如果有可能，你应该选择基于 API 驱动的邮件系统。所有的基于 API 驱动的邮件系统都需要 Guzzle HTTP 库，这个库可以通过 Composer 包管理器来安装：
 
     composer require guzzlehttp/guzzle
 
-#### Mailgun Driver
+#### Mailgun 驱动
 
-To use the Mailgun driver, first install Guzzle, then set the `driver` option in your `config/mail.php` configuration file to `mailgun`. Next, verify that your `config/services.php` configuration file contains the following options:
+要使用 Mailgun 驱动，首先要安装 Guzzle ,再在你的 `config/mail.php` 配置文件里指定 `driver` 为 `mailgun` 。然后，确保你的 `config/services.php` 配置文件包含以下选项：
 
     'mailgun' => [
         'domain' => 'your-mailgun-domain',
         'secret' => 'your-mailgun-key',
     ],
 
-#### SparkPost Driver
+#### SparkPost 驱动
 
-To use the SparkPost driver, first install Guzzle, then set the `driver` option in your `config/mail.php` configuration file to `sparkpost`. Next, verify that your `config/services.php` configuration file contains the following options:
+要使用 SparkPost 驱动，首先要安装 Guzzle ,再在你的 `config/mail.php` 配置文件里指定 `driver` 为 `sparkpost` 。然后，确保你的 `config/services.php` 配置文件包含以下选项：
 
     'sparkpost' => [
         'secret' => 'your-sparkpost-key',
     ],
 
-#### SES Driver
+#### SES 驱动
 
-To use the Amazon SES driver you must first install the Amazon AWS SDK for PHP. You may install this library by adding the following line to your `composer.json` file's `require` section and running the `composer update` command:
+要使用 Amazon SES驱动，首先要安装 Amazon AWS SDK for PHP ,要安装这个库，你可以在你的 `composer.json` 文件的 `require` 节里加入以下行，然后运行 `composer update` 命令：
 
     "aws/aws-sdk-php": "~3.0"
 
-Next, set the `driver` option in your `config/mail.php` configuration file to `ses` and verify that your `config/services.php` configuration file contains the following options:
+然后，在你的 `config/mail.php` 配置文件里指定 `driver` 为 `ses` 。并确保你的 `config/services.php` 配置文件包含以下选项：
 
     'ses' => [
         'key' => 'your-ses-key',
@@ -62,23 +62,23 @@ Next, set the `driver` option in your `config/mail.php` configuration file to `s
     ],
 
 <a name="generating-mailables"></a>
-## Generating Mailables
+## 生成 Mailables
 
-In Laravel, each type of email sent by your application is represented as a "mailable" class. These classes are stored in the `app/Mail` directory. Don't worry if you don't see this directory in your application, since it will be generated for you when you create your first mailable class using the `make:mail` command:
+在 Laravel 中，每种类型的邮件发送程序被描述成一个「mailables」类。这些类保存在 `app/Mail` 文件夹。如果在你的应用中没有看到这个文件也别担心，当你用 `make:mail` 命令创建第一个「mailables」类时，这个目录会自动创建：
 
     php artisan make:mail OrderShipped
 
 <a name="writing-mailables"></a>
-## Writing Mailables
+## 编写 Mailables
 
-All of a mailable class' configuration is done in the `build` method. Within this method, you may call various methods such as `from`, `subject`, `view`, and `attach` to configure the email's presentation and delivery.
+所有「mailables」类都在 `build` 方法中进行配置。在这个方法中，你可以调其他的方法，比如 `from`, `subject`, `view`, 和 `attach` 来配置邮件的详情和发送方式。
 
 <a name="configuring-the-sender"></a>
-### Configuring The Sender
+### 配置邮件发送人
 
-#### Using The `from` Method
+#### 使用 `from` 方法
 
-First, let's explore configuring the sender of the email. Or, in other words, who the email is going to be "from". There are two ways to configure the sender. First, you may use the `from` method within your mailable class' `build` method:
+首先，让我们解释下如何配置邮件发件人。或者说，邮件的「from」是谁。有两种方法指定发件人，第一种，你可以在你的 mailable 类的 `build` 方法中调用 `from` 方法：
 
     /**
      * Build the message.
@@ -91,16 +91,16 @@ First, let's explore configuring the sender of the email. Or, in other words, wh
                     ->view('emails.orders.shipped');
     }
 
-#### Using A Global `from` Address
+#### 使用一个全局的 `from` 地址
 
-However, if your application uses the same "from" address for all of its emails, it can become cumbersome to call the `from` method in each mailable class you generate. Instead, you may specify a global "from" address in your `config/mail.php` configuration file. This address will be used if no other "from" address is specified within the mailable class:
+然而，如果你整个应用使用相同的发件人「from」地址，在你生成的每个 mailables 类中调用 `from` 方法就显得太麻烦了。作为替代，你可以在你的 `config/mail.php` 配置文件中指定一个全局的「from」地址。在 mailable 类中没有另外指定「from」地址的时候，就会使用这个默认的地址：
 
     'from' => ['address' => 'example@example.com', 'name' => 'App Name'],
 
 <a name="configuring-the-view"></a>
-### Configuring The View
+### 配置视图
 
-Within a mailable class' `build` method, you may use the `view` method to specify which template should be used when rendering the email's contents. Since each email typically uses a [Blade template](/docs/{{version}}/blade) to render its contents, you have the full power and convenience of the Blade templating engine when building your email's HTML:
+在 mailable 类的 `build` 方法中，你可以使用 `view` 方法来指定使用哪个模板来渲染邮件的内容，因为通常情况下每个邮件都使用 [Blade 模板](/docs/{{version}}/blade) 来渲染内容，你可以全权控制 Blade 模板来构建你邮件的 HTML :
 
     /**
      * Build the message.
@@ -112,11 +112,11 @@ Within a mailable class' `build` method, you may use the `view` method to specif
         return $this->view('emails.orders.shipped');
     }
 
-> {tip} You may wish to create a `resources/views/emails` directory to house all of your email templates; however, you are free to place them wherever you wish within your `resources/views` directory.
+> {tip} 你可以创建一个 `resources/views/emails` 目录来存放你所有的邮件模板；或者，放在 `resources/views` 目录下的任何位置都可以。
 
-#### Plain Text Emails
+#### 纯文本邮件
 
-If you would like to define a plain-text version of your email, you may use the `text` method. Like the `view` method, the `text` method accepts a template name which will be used to render the contents of the email. You are free to define both a HTML and plain-text version of your message:
+如果你想要定义一个纯文本版的邮件，你可以使用 `text` 方法。和 `view` 方法一样，`text` 方法接受一个模板名称，程序将用这个模板来渲染邮件内容。这样你就可以方便地发送纯文本邮件或是 HTML 格式的邮件：
 
     /**
      * Build the message.
@@ -130,9 +130,9 @@ If you would like to define a plain-text version of your email, you may use the 
     }
 
 <a name="view-data"></a>
-### View Data
+### 向视图传递数据
 
-#### Via Public Properties
+#### 通过公共属性
 
 Typically, you will want to pass some data to your view that you can utilize when rendering the email's HTML. There are two ways you may make data available to your view. First, any public property defined on your mailable class will automatically be made available to the view. So, for example, you may pass data into your mailable class' constructor and set that data to public properties defined on the class:
 
