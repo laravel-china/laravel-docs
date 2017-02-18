@@ -1,9 +1,9 @@
 # Laravel 的 邮箱发送功能
 
-- [简价](#introduction)
+- [简介](#introduction)
     - [准备驱动](#driver-prerequisites)
-- [生成 mailables](#generating-mailables)
-- [编写 mailables](#writing-mailables)
+- [生成 mailables 类](#generating-mailables)
+- [编写 mailables 类](#writing-mailables)
     - [配置邮件发送人](#configuring-the-sender)
     - [配置视图](#configuring-the-view)
     - [向视图传递数据](#view-data)
@@ -21,7 +21,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干净，简洁的邮件 API ，Laravel 为 SMTP，Mailgun，SparkPost， Amazon SES，PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以快速从本地或云端服务自由地发送邮件。
+Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干净，简洁的邮件 API ， Laravel 为 SMTP，Mailgun，SparkPost， Amazon SES，PHP 的 `mail` 函数及 `sendmail` 提供驱动，让你可以快速从本地或云端服务自由地发送邮件。
 
 <a name="driver-prerequisites"></a>
 ### 准备驱动
@@ -32,7 +32,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### Mailgun 驱动
 
-要使用 Mailgun 驱动，首先要安装 Guzzle ,再在你的 `config/mail.php` 配置文件里指定 `driver` 为 `mailgun` 。然后，确保你的 `config/services.php` 配置文件包含以下选项：
+要使用 Mailgun 驱动，首先要安装 Guzzle ，再在你的 `config/mail.php` 配置文件里指定 `driver` 为 `mailgun` 。然后，确保你的 `config/services.php` 配置文件包含以下选项：
 
     'mailgun' => [
         'domain' => 'your-mailgun-domain',
@@ -41,7 +41,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### SparkPost 驱动
 
-要使用 SparkPost 驱动，首先要安装 Guzzle ,再在你的 `config/mail.php` 配置文件里指定 `driver` 为 `sparkpost` 。然后，确保你的 `config/services.php` 配置文件包含以下选项：
+要使用 SparkPost 驱动，首先要安装 Guzzle ，再在你的 `config/mail.php` 配置文件里指定 `driver` 为 `sparkpost` 。然后，确保你的 `config/services.php` 配置文件包含以下选项：
 
     'sparkpost' => [
         'secret' => 'your-sparkpost-key',
@@ -49,7 +49,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### SES 驱动
 
-要使用 Amazon SES驱动，首先要安装 Amazon AWS SDK for PHP ,要安装这个库，你可以在你的 `composer.json` 文件的 `require` 节里加入以下行，然后运行 `composer update` 命令：
+要使用 Amazon SES驱动，首先要安装 Amazon AWS SDK for PHP ，要安装这个库，你可以在你的 `composer.json` 文件的 `require` 节里加入以下行，然后运行 `composer update` 命令：
 
     "aws/aws-sdk-php": "~3.0"
 
@@ -62,14 +62,14 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
     ],
 
 <a name="generating-mailables"></a>
-## 生成 Mailables
+## 生成 Mailables 类
 
-在 Laravel 中，每种类型的邮件发送程序被描述成一个「mailables」类。这些类保存在 `app/Mail` 文件夹。如果在你的应用中没有看到这个文件也别担心，当你用 `make:mail` 命令创建第一个「mailables」类时，这个目录会自动创建：
+在 Laravel 中，每种类型的邮件发送程序被描述成一个「mailables」类。这些类保存在 `app/Mail` 文件夹。如果在你的应用中没有看到这个文件夹也别担心，当你用 `make:mail` 命令创建第一个「mailables」类时，这个目录会自动创建：
 
     php artisan make:mail OrderShipped
 
 <a name="writing-mailables"></a>
-## 编写 Mailables
+## 编写 Mailables 类
 
 所有「mailables」类都在 `build` 方法中进行配置。在这个方法中，你可以调其他的方法，比如 `from`, `subject`, `view`, 和 `attach` 来配置邮件的详情和发送方式。
 
