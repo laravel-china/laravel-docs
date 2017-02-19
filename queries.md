@@ -8,7 +8,7 @@
 - [原始表达式](#raw-expressions)
 - [Joins](#joins)
 - [Unions](#unions)
-- [条件语句](#where-clauses)
+- [Where 子句](#where-clauses)
     - [参数分组](#parameter-grouping)
     - [Where Exists 语法](#where-exists-clauses)
     - [JSON 查询语句](#json-where-clauses)
@@ -16,7 +16,7 @@
 - [条件语句](#conditional-clauses)
 - [Inserts](#inserts)
 - [Updates](#updates)
-    - [更新 JSON 列](#updating-json-columns)
+    - [更新 JSON](#updating-json-columns)
     - [自增或自减](#increment-and-decrement)
 - [Deletes](#deletes)
 - [悲观锁](#pessimistic-locking)
@@ -24,16 +24,16 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 的数据库查询构造器提供了一个方便、流畅的接口，用来创建及运行数据库语句。它能用来执行应用程序中的大部分数据库操作，且能在所有被支持的数据库系统中使用。
+Laravel 的数据库查询构造器提供了一个方便、流畅的接口，用来创建及运行数据库查询语句。它能用来执行应用程序中的大部分数据库操作，且能在所有被支持的数据库系统中使用。
 
-Laravel 的查询构造器使用 PDO 参数绑定，来保护你的应用程序免受 SQL 注入的攻击。在绑定传入字符串前没必要清理它们。
+Laravel 的查询构造器使用 PDO 参数绑定，来保护你的应用程序免受 SQL 注入的攻击。在绑定传入字符串前不需要清理它们。
 
 <a name="retrieving-results"></a>
 ## 获取结果
 
 #### 从数据表中获取所有的数据列
 
-你应该使用 `DB` facade 的 `table` 方法开始查询。这个 `table` 方法针对查询表返回一个查询构造器实例，允许你在查询时链式调用更多约束，并使用 `get` 方法获取最终结果：
+你可以使用 `DB` facade 的 `table` 方法开始查询。这个 `table` 方法针对查询表返回一个查询构造器实例，允许你在查询时链式调用更多约束，并使用 `get` 方法获取最终结果：
 
     <?php
 
@@ -96,7 +96,7 @@ Laravel 的查询构造器使用 PDO 参数绑定，来保护你的应用程序�
 <a name="chunking-results"></a>
 ### 结果分块
 
-如果你需要操作数千条数据库记录，可以考虑使用 `chunk` 方法。这个方法每次只取出一小块结果，并会将每个块传递给一个`闭包`处理。这个方法对于编写数千条记录的 [Artisan 命令](/docs/{{version}}/artisan) 是非常有用的。例如，让我们把 `users` 表进行分块，每次操作100 条数据：
+如果你需要操作数千条数据库记录，可以考虑使用 `chunk` 方法。这个方法每次只取出一小块结果，并会将每个块传递给一个 `闭包` 处理。这个方法对于编写数千条记录的 [Artisan 命令](/docs/{{version}}/artisan) 是非常有用的。例如，让我们把 `users` 表进行分块，每次操作 100 条数据：
 
     DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         foreach ($users as $user) {
@@ -104,7 +104,7 @@ Laravel 的查询构造器使用 PDO 参数绑定，来保护你的应用程序�
         }
     });
 
-你可以从`闭包`中返回 `false`，以停止对后续分块的处理：
+你可以从 `闭包` 中返回 `false`，以停止对后续分块的处理：
 
     DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         // Process the records...
@@ -136,7 +136,7 @@ Laravel 的查询构造器使用 PDO 参数绑定，来保护你的应用程序�
 
     $users = DB::table('users')->select('name', 'email as user_email')->get();
 
-`distinct` 方法 允许你强制让查询返回不重复的结果：
+`distinct` 方法允许你强制让查询返回不重复的结果：
 
     $users = DB::table('users')->distinct()->get();
 
@@ -371,14 +371,14 @@ Laravel 的查询构造器使用 PDO 参数绑定，来保护你的应用程序�
                 })
                 ->get();
 
-如你所见，上面例子会传递一个`闭包`到 `orWhere` 方法，告诉查询构造器开始一个约束分组。此`闭包`接收一个查询构造器实例，你可用它来设置应包含在括号分组内的约束。这个例子会生成以下 SQL：
+如你所见，上面例子会传递一个 `闭包` 到 `orWhere` 方法，告诉查询构造器开始一个约束分组。此 `闭包` 接收一个查询构造器实例，你可用它来设置应包含在括号分组内的约束。这个例子会生成以下 SQL：
 
     select * from users where name = 'John' or (votes > 100 and title <> 'Admin')
 
 <a name="where-exists-clauses"></a>
 ### Where Exists 语法
 
-`whereExists` 方法允许你编写 `where exists` SQL 子句。此方法会接收一个`闭包`参数，此闭包接收一个查询语句构造器实例，让你可以定义应放在「exists」SQL 子句中的查找：
+`whereExists` 方法允许你编写 `where exists` SQL 子句。此方法会接收一个 `闭包` 参数，此闭包接收一个查询语句构造器实例，让你可以定义应放在「exists」SQL 子句中的查找：
 
     DB::table('users')
                 ->whereExists(function ($query) {
@@ -413,7 +413,7 @@ Laravel 也支持查询 JSON 类型的字段。目前，本特性仅支持 MySQL
 
 #### orderBy
 
-`orderBy` 方法允许你根据指定字段对查询结果进行排序 。`orderBy` 方法的第一个参数是你想要用来排序的字段，而第二个参数则控制排序的顺序，可以为 `asc` 或 `desc`：
+`orderBy` 方法允许你根据指定字段对查询结果进行排序。`orderBy` 方法的第一个参数是你想要用来排序的字段，而第二个参数则控制排序的顺序，可以为 `asc` 或 `desc`：
 
     $users = DB::table('users')
                     ->orderBy('name', 'desc')
