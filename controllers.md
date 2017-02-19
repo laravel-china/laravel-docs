@@ -135,7 +135,7 @@
 <a name="resource-controllers"></a>
 ## 资源控制器
 
-Laravel 资源路由可以将典型的「CURD」路由指定到一个控制器上，仅需一行代码就可以实现。比如，你可能希望创建一个控制器来处理所有应用保存的「相片」的 HTTP 请求。使用 `make:controller` Artisan 命令，就能快速创建这样一个控制器：
+Laravel 资源路由可以将典型的「CURD」路由指定到一个控制器上，仅需一行代码就可以实现。比如，你可能希望创建一个控制器来处理所有应用保存的「相片」的 HTTP 请求。使用 Artisan 命令 `make:controller`，就能快速创建这样一个控制器：
 
     php artisan make:controller PhotoController --resource
 
