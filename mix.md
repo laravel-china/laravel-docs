@@ -1,17 +1,17 @@
 # Laravel 的资源任务编译器 Laravel Mix
 
 - [简介](#introduction)
-- [安装](#installation)
-- [使用](#running-mix)
-- [编译样式表](#working-with-stylesheets)
+- [安装与配置](#installation)
+- [运行 Mix](#running-mix)
+- [使用样式](#working-with-stylesheets)
     - [Less](#less)
     - [Sass](#sass)
     - [纯 CSS](#plain-css)
-    - [Source Maps](#css-source-maps)
-- [编译 JavaScript](#working-with-scripts)
-    - [代码分割](#code-splitting)
-    - [自定义 Webpack 配置](#custom-webpack-configuration)
-- [复制文件和目录](#copying-files-and-directories)
+    - [资源地图](#css-source-maps)
+- [使用脚本](#working-with-scripts)
+   - [代码分割](#code-splitting)
+   - [自定义 Webpack 配置](#custom-webpack-configuration)
+- [复制文件与目录](#copying-files-and-directories)
 - [版本与缓存清除](#versioning-and-cache-busting)
 - [通知](#notifications)
 
@@ -20,8 +20,8 @@
 
 Laravel Mix 提供了简洁流畅的 API，让你能够为你的 Laravel 应用定义 Webpack 的编译任务。Mix 支持许多常见的 CSS 与 JavaScrtip 预处理器，通过简单的方法，你可以轻松的管理资源。例如：
 
-    mix.js('resources/assets/js/app.js', 'public/js')
-       .sass('resources/assets/sass/app.scss', 'public/css');
+	mix.js('resources/assets/js/app.js', 'public/js')
+		.sass('resources/assets/sass/app.scss', 'public/css');
 
 如果你曾经对于使用 Webpack 及编译资源感到困惑，那么你绝对会爱上 Laravel Mix。当然，在 Laravel 应用开发中使用 Mix 并不是必须的，你也可以选择任何你喜欢的资源编译工具，或者不使用任何工具。
 
@@ -34,6 +34,7 @@ Laravel Mix 提供了简洁流畅的 API，让你能够为你的 Laravel 应用�
 
     node -v
     npm -v
+
 
 默认情况下, Laravel Homestead 会包含你所需的一切。当然，如果你没有使用 Vagrant，那么你可以浏览 [nodejs](https://nodejs.org/en/download/) 下载可视化的安装工具来安装最新版的 Node 和 NPM.
 
@@ -52,15 +53,16 @@ Laravel Mix 提供了简洁流畅的 API，让你能够为你的 Laravel 应用�
 
 Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 `package.json` 文件中的 NPM 脚本即可执行 Mix 的编译任务:
 
-    // Run all Mix tasks...
+    // 运行所有 Mix 任务...
     npm run dev
 
-    // Run all Mix tasks and minify output...
+    // 运行所有 Mix 任务和压缩资源输出
     npm run production
 
 #### 监控资源文件修改
 
 `npm run watch` 会在你的终端里持续运行，监控资源文件是否有发生改变。在 watch 命令运行的情况下，一旦资源文件发生变化，Webpack 会自动重新编译：
+
 
     npm run watch
 
@@ -74,7 +76,7 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 
 `less` 方法可以让你将 [Less](http://lesscss.org/) 编译为 CSS。下面的命令可以把 `app.less` 编译为 `public/css/app.css`。
 
-    mix.less('resources/assets/less/app.less', 'public/css');
+	mix.less('resources/assets/less/app.less', 'public/css');
 
 多次调用 `less` 方法可以编译多个文件:
 
@@ -90,11 +92,11 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 
 `sass` 方法可以让你将 [Sass](http://sass-lang.com/) 便以为 CSS。你可以使用此方法：
 
-    mix.sass('resources/assets/sass/app.scss', 'public/css');
+	mix.sass('resources/assets/sass/app.scss', 'public/css');
 
 同样的，如同 `less` 方法, 你可以将多个 Sass 文件编译为多个 CSS 文件，甚至可以自定义生成的 CSS 的输出目录：
 
-    mix.sass('resources/assets/sass/app.sass', 'public/css')
+	mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
 
 <a name="plain-css"></a>
@@ -108,7 +110,7 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
     ], 'public/css/all.css');
 
 <a name="css-source-maps"></a>
-### Source Maps
+### 资源地图
 
 source maps 默认状态下是禁用的，你可以通过在 `webpack.mix.js` 文件中调用 `mix.sourceMaps()` 方法来开启。它会带来一些编译成本，但在使用编译后的资源文件时可以更方便的在浏览器中进行调试：
 
@@ -125,9 +127,9 @@ Mix 也提供了一些函数来帮助你使用 JavaScript 文件，像是编译 
 这一行简单的代码，支持：
 
 <div class="content-list" markdown="1">
-- ES2015 syntax.
-- Compilation of `.vue` files.
-- Minification for production environments.
+- ECMAScript 2015 语法.
+- 编译 `.vue` 文件.
+- 针对生产环境压缩代码.
 </div>
 
 <a name="code-splitting"></a>
@@ -143,9 +145,9 @@ Mix 也提供了一些函数来帮助你使用 JavaScript 文件，像是编译 
 `extract` 方法接受你希望提取到 `vendor.js` 文件中的所有的依赖库或模块的数组。使用以上代码片段作为示例，Mix 将生成以下文件：
 
 <div class="content-list" markdown="1">
-- `public/js/manifest.js`: *The Webpack manifest runtime*
-- `public/js/vendor.js`: *Your vendor libraries*
-- `public/js/app.js`: *Your application code*
+- `public/js/manifest.js`: *Webpack 显示运行时*
+- `public/js/vendor.js`: *依赖库*
+- `public/js/app.js`: *应用代码*
 </div>
 
 为了避免 `JavaScript` 错误，请务必按正确的顺序加载这些文件：
@@ -170,6 +172,7 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
             ]
         }
     });
+
 
 #### 自己维护配置文件
 
@@ -212,6 +215,7 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
 ## 通知
 
 在可用的时候，Mix 会将每个包的编译是否成功以系统通知的方式反馈给你。如果你希望停用这些通知，可以通过 `disableNotifications` 方法实现：
+    
     mix.disableNotifications();
 
 ## 译者署名
