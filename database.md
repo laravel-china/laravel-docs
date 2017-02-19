@@ -23,7 +23,7 @@ Laravel 对主流数据库系统连接和查询都提供了很好的支持，尤
 
 Laravel 应用程序的数据库配置文件放置在 `config/database.php` 文件中。在这个配置文件内你可以定义所有的数据库连接，以及指定默认使用哪个连接。在此文件内提供了所有支持的数据库系统示例。
 
-默认情况下，Laravel 的 [环境配置](/docs/{{version}}/installation#environment-configuration) 示例会使用 [Laravel Homestead](/docs/{{version}}/homestead)，对于 Laravel 开发来说这是一个相当便利的本地虚拟机。当然你也可以根据需求来随时修改本机端的数据库设置
+默认情况下，Laravel 的 [环境配置](/docs/{{version}}/installation#environment-configuration) 示例会使用 [Laravel Homestead](/docs/{{version}}/homestead)，对于 Laravel 开发来说这是一个相当便利的本地虚拟机。当然你也可以根据需求来随时修改本机端的数据库设置。
 
 #### SQLite 配置
 
@@ -91,7 +91,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 
 #### 运行 Select
 
-运行一个基础的查询语句, 你可以使用 `DB` facade 的 `select` 方法：
+运行一个基础的查询语句，你可以使用 `DB` facade 的 `select` 方法：
 
     <?php
 
@@ -103,7 +103,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
     class UserController extends Controller
     {
         /**
-         *在应用用户中查询出已激活的用户列表。
+         * 在应用用户中查询出已激活的用户列表。
          *
          * @return Response
          */
@@ -117,7 +117,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 
 传递到 `select` 方法的第一个参数是一个原生的 SQL 查询，而第二个参数则是传递的所有绑定到查询中的参数值。通常，这些都是 `where` 字句约束中的值。参数绑定可以避免 SQL 注入攻击。
 
- `select` 方法以数组的形式返回结果集，数组中的每一个结果都是一个PHP `StdClass` 对象,你可以像下面这样访问结果值：
+ `select` 方法以数组的形式返回结果集，数组中的每一个结果都是一个PHP `StdClass` 对象，你可以像下面这样访问结果值：
 
     foreach ($users as $user) {
         echo $user->name;
@@ -131,7 +131,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 
 #### 运行 insert
 
-运行 `Insert` 语句, 你可以是使用 `DB` facade 的 `insert` 方法 。 像 `select` 一样， 该方法将原生SQL语句作为第一个参数，将参数绑定作为第二个参数：:
+运行 `Insert` 语句，你可以是使用 `DB` facade 的 `insert` 方法 。 像 `select` 一样， 该方法将原生SQL语句作为第一个参数，将参数绑定作为第二个参数：
 
     DB::insert('insert into users (id, name) values (?, ?)', [1, 'Dayle']);
 
@@ -156,7 +156,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 <a name="listening-for-query-events"></a>
 ### 监听查询事件
 
-如果你希望能够监控到程序执行的每一条 SQL 语句，那么你可以使用 `listen` 方法。 该方法对查询日志和调试非常有用， 你可以在 [服务容器](/docs/{{version}}/providers) 中注册该方法:
+如果你希望能够监控到程序执行的每一条 SQL 语句，那么你可以使用 `listen` 方法。 该方法对查询日志和调试非常有用，你可以在 [服务容器](/docs/{{version}}/providers) 中注册该方法：
 
     <?php
 
@@ -168,7 +168,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * 启动应用服务。
          *
          * @return void
          */
@@ -182,7 +182,7 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
         }
 
         /**
-         * Register the service provider.
+         * 注册服务提供者。
          *
          * @return void
          */
@@ -222,5 +222,4 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 努力学习PHP  |
-| [@zhuzhichao](https://github.com/zhuzhichao)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/161_1427370700.png?imageView2/1/w/100/h/100">  |  Review  |   |
+| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |
