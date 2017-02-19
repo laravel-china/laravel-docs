@@ -141,6 +141,7 @@ Method  | Description
 `$response->assertCookie($cookieName, $value = null);`  |  断言该响应包含了指定的 cookie。
 `$response->assertPlainCookie($cookieName, $value = null);`  |  断言该响应包含了指定的 cookie （未加密）。
 `$response->assertSessionHas($key, $value = null);`  |  断言该 session 包含指定数据。
+`$response->assertSessionHasErrors(array $keys);`  |  断言该 session 包含指定字段的错误信息。
 `$response->assertSessionMissing($key);`  |  断言该 session 不包含指定键。
 `$response->assertJson(array $data);`  |  断言该响应包含指定 JSON 数据。
 `$response->assertJsonFragment(array $data);`  |  断言该响应包含指定 JSON 片段。
