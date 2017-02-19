@@ -109,7 +109,7 @@
         ];
     }
 
-当某个字段被认为是日期时，你或许想将其数值设置成一个 UNIX 时间戳、日期字符串（`Y-m-d`）、日期时间（ `date-time` ）字符串、当然还有 `DateTime` 或 `Carbon` 实例，然后日期数值将会被自动保存到数据库中：
+当某个字段被认为是日期时，你或许想将其数值设置成一个 UNIX 时间戳、日期字符串（`Y-m-d`）、日期时间（ `date-time` ）字符串，当然还有 `DateTime` 或 `Carbon` 实例，然后日期数值将会被自动保存到数据库中：
 
     $user = App\User::find(1);
 
@@ -223,3 +223,7 @@
     $user->options = $options;
 
     $user->save();
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |

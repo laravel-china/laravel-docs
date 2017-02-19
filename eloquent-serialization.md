@@ -73,7 +73,7 @@
         protected $hidden = ['password'];
     }
 
-> **注意：**当你要对关联进行隐藏时，需使用关联的 **方法** 名称，而不是它的动态属性名称。
+> {note} 当你要对关联进行隐藏时，需使用关联的 **方法** 名称，而不是它的动态属性名称。
 
 另外，你也可以使用 `visible` 属性来定义应该包含在你的模型数组和 JSON 表示中的属性白名单。白名单外的其他属性将隐藏，不会出现在转换后的数组或 JSON 中：
 
@@ -127,7 +127,7 @@
         }
     }
 
-访问器创建成功后，只需添加该属性到改模型的 `appends` 属性中。注意，属性名称通常遵循 "[Snake Case](https://en.wikipedia.org/wiki/Snake_case)" 的命名方式，即是访问器的名称是基于 "Camel Case" 的命名方式。
+访问器创建成功后，只需添加该属性到改模型的 `appends` 属性中。注意，属性名称通常遵循 「[Snake Case](https://en.wikipedia.org/wiki/Snake_case)」 的命名方式，即是访问器的名称是基于 「[Camel Case](https://en.wikipedia.org/wiki/Camel_case)」 的命名方式。
 
     <?php
 
@@ -146,3 +146,7 @@
     }
 
 一旦属性被添加到 `appends` 清单，便会将模型中的数组和 JSON 这两种形式都包含进去。在 `appends` 数组中的属性也遵循模型中 `visible` 和 `hidden` 设置。
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |

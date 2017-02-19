@@ -21,7 +21,7 @@
     - [`create` 方法](#the-create-method)
     - [更新「从属」关联](#updating-belongs-to-relationships)
     - [多对多关联](#updating-many-to-many-relationships)
-- [连动上层时间戳](#touching-parent-timestamps)
+- [连动父级时间戳](#touching-parent-timestamps)
 
 <a name="introduction"></a>
 ## 简介
@@ -38,7 +38,7 @@
 <a name="defining-relationships"></a>
 ## 定义关联
 
-你可在 Eloquent 模型类内中，把 Eloquent 关联定义成方法（methods）。因为，关联就像 Eloquent 模型一样，也可以作为强大的 [查询语句构造器](/docs/{{version}}/queries)，定义关联为方法，因为其提供了强而有力的链式调用及查找功能。例如，我们可以在 `posts` 关联的链式调用中附加一个约束条件：
+你可在 Eloquent 模型类内中，把 Eloquent 关联定义成方法（methods）。因为，关联就像 Eloquent 模型一样，也可以作为强大的 [查询语句构造器](/docs/{{version}}/queries)，定义关联为方法，为其提供了强而有力的链式调用及查找功能。例如，我们可以在 `posts` 关联的链式调用中附加一个约束条件：
 
     $user->posts()->where('active', 1)->get();
 
@@ -80,7 +80,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
 
 #### 定义反向关联
 
-所以，我们可以从 `User` 模型访问到 `Phone` 模型。现在，让我们在 `Phone` 模型上定义一个关联，此关联能够让我们访问拥有此电话的 `User` 模型。我们可以定义与 `hasOne` 关联相对应的 `belongsTo` 方法
+所以，我们可以从 `User` 模型访问到 `Phone` 模型。现在，让我们在 `Phone` 模型上定义一个关联，此关联能够让我们访问拥有此电话的 `User` 模型。我们可以定义与 `hasOne` 关联相对应的 `belongsTo` 方法：
 
     <?php
 
@@ -468,7 +468,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
 
 #### 自定义多态关联的类型字段
 
-默认情况下，Laravel 会使用「包含命名空间的类名」作为多态表的类型区分，例如，`Comment` 属于 `Post` 或者 `Video` , `commentable_type ` 的默认值可以分别是 `App\Post` 或者 `App\Video` 。然而，你也许会想使用应用中的内部结构来对数据库进行解耦。在这个例子中，你可以定义一个「多态对照表」来指引 Eloquent 对各个模型使用自定义名称而非类名：
+默认情况下，Laravel 会使用「包含命名空间的类名」作为多态表的类型区分，例如，`Comment` 属于 `Post` 或者 `Video` ， `commentable_type ` 的默认值可以分别是 `App\Post` 或者 `App\Video` 。然而，你也许会想使用应用中的内部结构来对数据库进行解耦。在这个例子中，你可以定义一个「多态对照表」来指引 Eloquent 对各个模型使用自定义名称而非类名：
 
     use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -576,7 +576,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
 
 所有类型的 Eloquent 关联都是通过方法来定义的，你可以通过调用这些方法来获得关联的一个实例，而不需要实际运行关联的查找。此外，所有类型的 Eloquent 关联也提供了 [查询语句构造器](/docs/{{version}}/queries) 的功能，让你能够在数据库运行该 SQL 前，在关联查找后面链式调用条件。
 
-例如，假设有一个博客系统，其中 `User` 模型拥有许多关联的 `Post` 模型:
+例如，假设有一个博客系统，其中 `User` 模型拥有许多关联的 `Post` 模型：
 
     <?php
 
@@ -710,7 +710,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
 
 #### 预加载多种关联
 
-有时你可能想要在单次操作中预加载多种不同的关联。要这么做，只需传递额外的参数至 `方法` 即可：
+有时你可能想要在单次操作中预加载多种不同的关联。要这么做，只需传递额外的参数至 `with` 方法即可：
 
     $books = App\Book::with('author', 'publisher')->get();
 
@@ -746,7 +746,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
         $books->load('author', 'publisher');
     }
 
-如果你想设置预加载查询的额外条件，则可以传递一个键值为你想要的关联的数组至 `load` 方法。这个数组的值应是用于接收查询 `闭包` 实例：
+如果你想设置预加载查询的额外条件，则可以传递一个键值为你想要的关联的数组至 `load` 方法。这个数组的值应是用于接收查询实例的 `闭包` 实例：
 
     $books->load(['author' => function ($query) {
         $query->orderBy('published_date', 'asc');
@@ -801,7 +801,7 @@ Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如�
 
     $user->save();
 
-当删除一个 `belongsTo` 关联时，你可以使用 `dissociate` 方法。此方法会置该关联的外键为空(null)：
+当删除一个 `belongsTo` 关联时，你可以使用 `dissociate` 方法。此方法会置该关联的外键为空 (null) ：
 
     $user->account()->dissociate();
 
@@ -844,23 +844,23 @@ Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如�
 
     $user->roles()->sync([1, 2, 3]);
 
-You may also pass additional intermediate table values with the IDs:
+你也可以通过 IDs 传递其他的附加中间表值：
 
     $user->roles()->sync([1 => ['expires' => true], 2, 3]);
 
-If you do not want to detach existing IDs, you may use the `syncWithoutDetaching` method:
+如果你不想分离现有的 IDs ，你可以 `syncWithoutDetaching` 方法：
 
     $user->roles()->syncWithoutDetaching([1, 2, 3]);
 
-#### Saving Additional Data On A Pivot Table
+#### 在中间表上保存额外数据
 
-When working with a many-to-many relationship, the `save` method accepts an array of additional intermediate table attributes as its second argument:
+处理多对多关联时， `save` 方法接收额外中间表属性数组作为第二个参数：
 
     App\User::find(1)->roles()->save($role, ['expires' => $expires]);
 
-#### Updating A Record On A Pivot Table
+#### 更新中间表记录
 
-If you need to update an existing row in your pivot table, you may use `updateExistingPivot` method. This method accepts the pivot record foreign key and an array of attributes to update:
+如果你需要更新中间表已存在的记录，可以使用 `updateExistingPivot` 方法。这个方法接收中间记录的外键和属性数组进行更新：
 
     $user = App\User::find(1);
 
@@ -902,3 +902,7 @@ If you need to update an existing row in your pivot table, you may use `updateEx
     $comment->text = 'Edit to this comment!';
 
     $comment->save();
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |
