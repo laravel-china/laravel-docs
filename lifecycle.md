@@ -7,7 +7,7 @@
 <a name="introduction"></a>
 ## 介绍
 
-当使用任何「现实世界」中的任何工具时，如果理解这个工具的运作原理，那么你会更加得心应手的使用这个工具。应用开发也是这样。当你明白你的开发工具如何运行的，你就会对它们的使用用游刃有余。
+使用「现实世界」中的任何工具时，如果理解这个工具的运作原理，那么你会更加得心应手的使用这个工具。应用开发也是这样。当你明白你的开发工具如何运行的，你就会对它们的使用游刃有余。
 
 这篇文档的目的是让你更好的理解 Laravel 框架如何进行工作及它的工作原理。通过对框架进行全面的了解，一切都不会那么「神奇」，也将会让你更有自信的构建你的应用。如果你不能理解所有的这些术语，也不要丧失信心！只要对现在提到的东西有个基本概念，随着对本文档和其他章节的不断探索，你对它们的理解会不断提升。
 
@@ -16,13 +16,13 @@
 
 ### 第一件事
 
-一个 Laravel 应用的所有请求的入口都是 `public/index.php` 文件。 通过网页服务器 (Apache / Nginx) 所有请求都会导向这个文件。 `index.php` 文件没有太多的代码，只是加载框架其他部分的一个起点。
+一个 Laravel 应用的所有请求的入口都是 `public/index.php` 文件。 通过网页服务器 (Apache / Nginx) 所有请求都会导向这个文件。 `index.php` 文件没有太多的代码，只是加载框架其他部分的一个入口。
 
-`index.php` 文件载入 Composer 生成的自动加载器定义，并从 `bootstrap/app.php` 脚本获取到 Laravel 应用实例。Laravel 的第一个动作就是创建一个自身应用实例 / [服务容器](/docs/{{version}}/container)。
+`index.php` 文件载入 Composer 生成的自动加载器定义，并从 `bootstrap/app.php` 文件获取到 Laravel 应用实例。Laravel 的第一个动作就是创建一个自身应用实例 / [服务容器](/docs/{{version}}/container)。
 
 ### HTTP / Console 内核
 
-接下来，传入的请求会被发送给 HTTP 内核或者 console 内核，这根据进入应用的请求的类型而定。这两个内核服务是所有请求都经过的中枢。现在，让我们只关注位于 `app/Http/Kernel.php` 的 HTTP 内核。
+接下来，传入的请求会被发送给 HTTP 内核或者 console 内核，这根据进入应用的请求的类型而定。这两个内核服务是所有请求都经过的中枢。让我们现在只关注位于 `app/Http/Kernel.php` 的 HTTP 内核。
 
 HTTP 内核继承自 `Illuminate\Foundation\Http\Kernel` 类，它定义了一个 `bootstrappers` 数组，数组中的类在请求真正执行前进行前置执行。 这些引导程序配置了错误处理，日志记录，[检测应用程序环境](/docs/{{version}}/configuration#environment-configuration)，以及其他在请求被处理前需要完成的工作。
 
