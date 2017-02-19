@@ -29,6 +29,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 ## 生成迁移
 
 使用 `make:migration` [Artisan 命令](/docs/{{version}}/artisan) 来创建迁移：
+
     php artisan make:migration create_users_table
 
 新的迁移文件将会被放置在 `database/migrations` 目录中。每个迁移文件的名称都包含了一个时间戳，以便让 Laravel 确认迁移的顺序。
@@ -90,7 +91,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 
     php artisan migrate
 
-> {note} 如果你使用的是 [Homestead virtual machine](/docs/{{version}}/homestead) ， 你需要在虚拟机中执行以上命令。
+> {note} 如果你使用的是 [Homestead 虚拟机](/docs/{{version}}/homestead) ， 你需要在虚拟机中执行以上命令。
 
 #### 在线上环境强制执行迁移
 
