@@ -191,7 +191,7 @@ Laravel 在处理动态属性的优先级是，先从请求的数据中查找，
 
     $input = $request->except('credit_card');
 
-`only` 方法会所有你指定的键值对，即使这个键在输入数据中并不存在。如果一个键在输入数据中并不存在时，它对应的值是 `null` 。当你想要获取请求中实际存在的输入数据时，你可以使用 `intersect` 方法。
+`only` 方法会返回所有你指定的键值对，即使这个键在输入数据中并不存在。如果一个键在输入数据中并不存在时，它对应的值是 `null` 。当你想要获取请求中实际存在的输入数据时，你可以使用 `intersect` 方法。
 
     $input = $request->intersect(['username', 'password']);
 
@@ -272,7 +272,7 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 
     return response('Hello World')->cookie($cookie);
     
-> 译者注： 关于 Cookie，需要注意一点，默认 Laravel 创建的所有 Cookie 都是加密过的，创建未加密的 Cookie 的方法请见 [【小技巧分享】在 Laravel 中设置没有加密的 cookie](https://phphub.org/topics/1758)
+> 译者注： 关于 Cookie，需要注意一点，默认 Laravel 创建的所有 Cookie 都是加密过的，创建未加密的 Cookie 的方法请见 [【小技巧分享】在 Laravel 中设置没有加密的 cookie](https://laravel-china.org/topics/1758)
 
 <a name="files"></a>
 ## 文件资源
@@ -310,7 +310,7 @@ Laravel 框架创建的每个 cookie 都会被加密并且加上认证标识，�
 
 #### 其它上传文件的方法
 
-`UploadedFile` 的实例还有许多可用的方法，可以到 [该对象的 API 文档](http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html) 了解这些方法的详细信息。
+`UploadedFile` 的实例还有许多可用的方法，可以到该对象的 [API 文档](http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html) 了解这些方法的详细信息。
 
 <a name="storing-uploaded-files"></a>
 ### 储存上传文件
