@@ -160,7 +160,7 @@ Laravel 的分页类实现了 `Illuminate\Contracts\Support\Jsonable` 的 `toJso
 
     php artisan vendor:publish --tag=laravel-pagination
 
-这个名令将会在 `resources/views/vendor/pagination` 目录中创建视图。`default.blade.php` 文件为默认的分页模板，你可以编辑这个模板以修改分页的 HTML 样式。
+这个命令将会在 `resources/views/vendor/pagination` 目录中创建视图。`default.blade.php` 文件为默认的分页模板，你可以编辑这个模板以修改分页的 HTML 样式。
 
 <a name="paginator-instance-methods"></a>
 ## 分页实例方法
