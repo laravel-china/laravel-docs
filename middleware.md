@@ -108,7 +108,7 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
 <a name="assigning-middleware-to-routes"></a>
 ### 为路由指定中间件
 
-如果你想为特殊的路由指定中间件，首先应该在 `app/Http/Kernel.php` 文件内为该中间件指定一个 `键值`。默认情况下 `Kernel` 类的 `$routeMiddleware` 属性已经包含了 Laravel 内置的中间件条目。加入自定义的全局中间件，只需把它附加到此列表并指定你定义的`键值`即可。例如：
+如果你想为特殊的路由指定中间件，首先应该在 `app/Http/Kernel.php` 文件内为该中间件指定一个 `键值`。默认情况下 `Kernel` 类的 `$routeMiddleware` 属性已经包含了 Laravel 内置的中间件条目。加入自定义的中间件，只需把它附加到此列表并指定你定义的`键值`即可。例如：
 
     // App\Http\Kernel 类内
 
@@ -248,6 +248,7 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
 `terminable` 方法必需接收请求及响应两个参数。一旦定义了 terminable 中间件，你便需要将它增加到 HTTP kernel 文件的全局中间件清单列表中。
 
 中间件的 `terminate` 调用时，Laravel 会从 [服务容器](/docs/{{version}}/container) 中解析一个全新的中间件实例。如果你想在 `handle` 和 `terminate` 被调用时使用同一个中间件实例，可使用容器的 `singleton` 方法向容器注册中间件。
+
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |

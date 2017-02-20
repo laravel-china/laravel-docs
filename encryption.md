@@ -1,25 +1,25 @@
 # Laravel 的加密解密机制
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Using The Encrypter](#using-the-encrypter)
+- [介绍](#introduction)
+- [设置](#configuration)
+- [基本用法](#using-the-encrypter)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Laravel's encrypter uses OpenSSL to provide AES-256 and AES-128 encryption. You are strongly encouraged to use Laravel's built-in encryption facilities and not attempt to roll your own "home grown" encryption algorithms. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified once encrypted.
+Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议您使用 Laravel 自己的加密机制，而不是尝试自己的「自制」加密算法。 Laravel 所有加密之后的结果都会使用消息认证码 (MAC) 去签署，所以一旦被加密就无法再改变。
 
 <a name="configuration"></a>
-## Configuration
+## 设置
 
-Before using Laravel's encrypter, you must set a `key` option in your `config/app.php` configuration file. You should use the `php artisan key:generate` command to generate this key since this Artisan command will use PHP's secure random bytes generator to build your key. If this value is not properly set, all values encrypted by Laravel will be insecure.
+在使用 Laravel 加密之前, 你必须先设置 `config/app.php`  配置文件中的  `key` 选项。由于 Artisan 控制台会使用 PHP 的安全机制为你随机生成  key ，你可以直接使用  `php artisan key:generate`  命令去生成 key 。如果没有适当地设置这个值，所有被 Laravel 加密的值都将是不安全的。
 
 <a name="using-the-encrypter"></a>
-## Using The Encrypter
+## 基本用法
 
-#### Encrypting A Value
+#### 加密一个值
 
-You may encrypt a value using the `encrypt` helper. All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:
+你可以借助  `encrypt`  辅助函数来加密一个值。这些值都会使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过后的值都会被签署文件消息验证码 (MAC)，以检测加密字符串是否被篡改过：
 
     <?php
 
@@ -28,11 +28,11 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
     use App\User;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
-
+    
     class UserController extends Controller
     {
         /**
-         * Store a secret message for the user.
+         * 存储用户保密信息
          *
          * @param  Request  $request
          * @param  int  $id
@@ -41,16 +41,16 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
         public function storeSecret(Request $request, $id)
         {
             $user = User::findOrFail($id);
-
+    
             $user->fill([
                 'secret' => encrypt($request->secret)
             ])->save();
         }
     }
 
-#### Encrypting Without Serialization
+#### 不进行序列化的加密解密方法
 
-Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data. If you would like to encrypt and decrypt values without serialization, you may use the `encryptString` and `decryptString` methods of the `Crypt` facade:
+加密值在加密期间通过 `serialize` 传递，这也就允许对对象和数组进行加密。由此，非PHP客户端接收到加密值将需要 `unserialize`  数据。如果您希望在不进行序列化的情况下加密和解密值，可以使用 `Crypt` facade的 `encryptString` 和 `decryptString` 方法：
 
     use Illuminate\Support\Facades\Crypt;
 
@@ -58,9 +58,9 @@ Encrypted values are passed through `serialize` during encryption, which allows 
 
     $decrypted = Crypt::decryptString($encrypted);
 
-#### Decrypting A Value
+#### 解密一个值
 
-You may decrypt values using the `decrypt` helper. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
+你可以借助 `decrypt` 辅助函数来解密一个值。如果值不能被正确解密，例如当 MAC 无效时，将抛出 `Illuminate\Contracts\Encryption\DecryptException` 异常：
 
     use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -69,3 +69,8 @@ You may decrypt values using the `decrypt` helper. If the value can not be prope
     } catch (DecryptException $e) {
         //
     }
+	
+## 译者署名
+| 用户名                                      | 头像                                       | 职能   | 签名                                       |
+| ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
+| [@GanymedeNil](https://github.com/GanymedeNil) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6859_1487055454.jpg?imageView2/1/w/100/h/100"> | 翻译   | 我不是Full Stack Developer 2333  [@GanymedeNil](http://weibo.com/jinhongyang) |

@@ -111,6 +111,7 @@
 [union](#method-union)
 [unique](#method-unique)
 [values](#method-values)
+[when](#method-when)
 [where](#method-where)
 [whereStrict](#method-wherestrict)
 [whereIn](#method-wherein)
@@ -1386,6 +1387,21 @@
             1 => ['product' => 'Desk', 'price' => 200],
         ]
     */
+<a name="method-when"></a>
+#### `when()` {#collection-method}
+
+当第一个参数运算结果为 `true` 的时候，会执行第二个参数传入的闭包：
+
+    $collection = collect([1, 2, 3]);
+
+    $collection->when(true, function ($collection) {
+        return $collection->push(4);
+    });
+
+    $collection->all();
+
+    // [1, 2, 3, 4]
+
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 
