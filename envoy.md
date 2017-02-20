@@ -63,6 +63,7 @@
     @endsetup
 
 如果你想在任务执行前引入其他 PHP 文件，可以直接在 `Envoy.blade.php` 文件起始位置使用 `@include` ：
+
     @include('vendor/autoload.php')
 
     @task('foo')
@@ -164,7 +165,7 @@
 <a name="slack"></a>
 ### Slack
 
-Envoy 也支持任务执行完毕后发送通知至 [Slack](https://slack.com)。`@slack` 命令接收 Slack hook 网址和频道名称。当你在 Slack 的网站控制面板上创建 「Incoming WebHooks」 时会获得 webhook 网址。webhook-url 参数必须是 `@slack` 的 Incoming WebHooks 所提供的完整网址：
+Envoy 也支持任务执行完毕后发送通知至 [Slack](https://slack.com)。`@slack` 命令接收 Slack hook 网址和频道名称。你可以通在在 Slack 的控制面板上创建 「Incoming WebHooks」 时来检索 webhook 网址。webhook-url 参数必须是 `@slack` 的 Incoming WebHooks 所提供的完整网址：
 
     @finished
         @slack('webhook-url', '#bots')
