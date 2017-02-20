@@ -522,6 +522,7 @@ Laravel 会在发送邮件消息之前触发一个事件。记住，这个事件
     ];
 
 ## 译者署名
+
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@qufo](https://github.com/qufo)  | <img class="avatar-66 rm-style" src="https://avatars1.githubusercontent.com/u/2526883?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 欢迎共同探讨。[@Qufo](https://github.com/qufo) |
