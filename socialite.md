@@ -1,7 +1,7 @@
 # Laravel 的 社会化登录功能
 
 - [简介](#introduction)
-- [授权](#License)
+- [授权](#license)
 - [官方文档](#official-documentation)
 - [配置](#configuration)
 - [基本用法](#basic-usage)
@@ -9,7 +9,7 @@
     - [检索用户详细信息](#retrieving-user-details)
     - [从令牌检索用户详细信息](#retrieving-user-details-from-token)
 
-
+<a name="introduction"></a>
 ## 简介
 
 Laravel 社会化登录通过 Facebook ， Twitter ，Google ，LinkedIn ，GitHub 和 Bitbucket 提供了一个富有表现力的，流畅的 OAuth 身份验证界面。它几乎能处理所有你害怕处理的各种样板社会认证代码。
@@ -18,10 +18,12 @@ Laravel 社会化登录通过 Facebook ， Twitter ，Google ，LinkedIn ，GitH
 
 社区驱动的社会化登录提供商网站上可以找到为其他平台提供的适配器列表。
 
+<a name="license"></a>
 ## 授权
 
 Laravel 社会化登录是根据  [MIT 授权](http://opensource.org/licenses/MIT) 许可的开源软件
 
+<a name="official-documentation"></a>
 ## 官方文档
 
 除了常规的基于表单的身份验证之外， Laravel 也提供了一种简单，方便的办法来使用 [Laravel 社会化登录](https://github.com/laravel/socialite) 向 OAuth 提供程序进行身份验证。社公化登录目前支持 `Facebook` ， `Twitter` ， `LinkedIn` ，`Google` ，`GitHub` 和 `Bitbucket` 的身份验证。
@@ -30,6 +32,7 @@ Laravel 社会化登录是根据  [MIT 授权](http://opensource.org/licenses/MI
 
     composer require laravel/socialite
 
+<a name="configuration"></a>
 ### 配置
 
 安装完社会化登录库之后，在你的 `config/app.php` 文件中注册 `Laravel\Socialite\SocialiteServiceProvider` 。
@@ -57,6 +60,7 @@ Laravel 社会化登录是根据  [MIT 授权](http://opensource.org/licenses/MI
     'redirect' => 'http://your-callback-url',
 ],
 ```
+<a name="basic-usage"></a>
 ### 基本用法
 
 接下来，你已经准备好了验证用户了！你需要两个路由：一个重定向用户到 OAuth 提供商，另一个在提供商验证之后接收回调。我们用 `Socialite` facade 来访问：
@@ -117,6 +121,7 @@ return Socialite::driver('google')
 
 当使用 `with` 方法时，注意不要传递保留关键字，比如 `state` 或 `response_type` 。
 
+<a name="stateless-authentication"></a>
 #### 无状态身份验证
 
  `stateless` 方法可以用于禁用 session 状态的验证，这个方法在向 API 添加社会化身份验证时非常有用。
@@ -125,7 +130,7 @@ return Socialite::driver('google')
 return Socialite::driver('google')->stateless()->user();
 ```
 
-
+<a name="retrieving-user-details"></a>
 #### 检索用户详细信息
 
 一旦你有了一个用户实例，你可以获取这个用户的更多详细信息：
@@ -149,7 +154,7 @@ $user->getName();
 $user->getEmail();
 $user->getAvatar();
 ```
-
+<a name="retrieving-user-details-from-token"></a>
 #### 从令牌检索用户详细信息
 
 如果你已经有了一个用户的有效访问令牌，你可以使用 `userFromToken` 方法检索用户的详细信息。
