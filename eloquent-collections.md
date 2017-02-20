@@ -19,7 +19,7 @@
 
 然而，集合比数组更强大的地方是其使用了各种 map / reduce 的直观操作。例如，我们移除所有未激活的用户模型和收集其余各个用户的名字：
 
-    $users = App\User::where('active', 1)->get();
+    $users = App\User::all();
 
     $names = $users->reject(function ($user) {
         return $user->active === false;
