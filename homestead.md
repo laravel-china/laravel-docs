@@ -190,7 +190,7 @@ Windows:
 
 如果你希望在文件系统的任何地方都可以 `vagrant up` 开启 Homestead 虚拟机，你可以把以下代码放到你的 Bash profile 里面，这个函数允许你在文件系统的任何位置都可以对 Homestead 运行 Vagrant 命令：
 
-#### Linux
+#### Mac / Linux
 
     function homestead() {
     	( cd ~/Homestead && vagrant $* )
