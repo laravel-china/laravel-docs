@@ -49,7 +49,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### SES 驱动
 
-要使用 Amazon SES驱动，首先要安装 Amazon AWS SDK for PHP ，要安装这个库，你可以在你的 `composer.json` 文件的 `require` 节里加入以下行，然后运行 `composer update` 命令：
+要使用 Amazon SES 驱动，首先要安装 Amazon AWS SDK for PHP ，要安装这个库，你可以在你的 `composer.json` 文件的 `require` 节里加入以下行，然后运行 `composer update` 命令：
 
     "aws/aws-sdk-php": "~3.0"
 
@@ -64,7 +64,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 <a name="generating-mailables"></a>
 ## 生成 Mailables 类
 
-在 Laravel 中，每种类型的邮件发送程序被描述成一个「mailables」类。这些类保存在 `app/Mail` 文件夹。如果在你的应用中没有看到这个文件夹也别担心，当你用 `make:mail` 命令创建第一个「mailables」类时，这个目录会自动创建：
+在 Laravel 中，每种类型的邮件被描述成一个「mailables」类。这些类保存在 `app/Mail` 文件夹。如果在你的应用中没有看到这个文件夹也别担心，当你用 `make:mail` 命令创建第一个「mailables」类时，这个目录会自动创建：
 
     php artisan make:mail OrderShipped
 
@@ -157,7 +157,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
         public $order;
 
         /**
-         * 创建一个消息实例。
+         * 创建一个新的消息实例。
          *
          * @return void
          */
@@ -290,7 +290,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 <a name="inline-attachments"></a>
 ### 行内附件
 
-要在邮件中嵌入行内图片通常是个麻烦事；然后 Laravel 提供了一种简单的方法来图片附加到你的邮件中并获得相应的 CID 。要嵌入一个行内图片，在邮件模板的 `$message` 变量上调用 `embed` 方法， Laravel 已经让 `$message` 变量在所有的邮件模板中都自动可用，所以你不用担心如何手工传递它：
+要在邮件中嵌入行内图片通常是个麻烦事；然而 Laravel 提供了一种简单的方法让图片附加到你的邮件中并获得相应的 CID 。要嵌入一个行内图片，在邮件模板的 `$message` 变量上调用 `embed` 方法。 Laravel 已经让 `$message` 变量在所有的邮件模板中都自动可用，所以你不用担心如何手工传递它：
 
     <body>
         Here is an image:
@@ -314,13 +314,12 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 Markdown 格式的 mailable 消息允许你从预编译的模板和你的 mailables 类中的邮件提醒组件中受益。因为消息是用 Markdown 格式写的， Laravel 能为消息体渲染出漂亮、响应式的 HTML 模板，也能自动生成一个纯文本的副本。
 
 <a name="generating-markdown-mailables"></a>
-### Generating Markdown Mailables
+### 生成 Markdown 格式的 Mailables
 
 要生成一个包含友好的 Markdown 模板的 mailable 类，你在使用  `make:mail` 这个 Artisan 命令时，要加上 `--markdown` 选项：
 
     php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 
-Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` methods accepts the name of the Markdown template and an optional array of data to make available to the template:
 然后，在使用 `build` 方法配置 mailable 时，用 `markdown` 方法来换掉 `view` 方法， `view` 方法接受一个 Markdown 模板的名称和一个将在模板中可用的选项数组：
 
     /**
@@ -337,7 +336,7 @@ Then, when configuring the mailable within its `build` method, call the `markdow
 <a name="writing-markdown-messages"></a>
 ### 编写 Markdown 格式的消息
 
-Markdown mailables use a combination of Blade components and Markdown syntax which allow you to easily construct mail messages while leveraging Laravel's pre-crafted components:
+Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你轻松地构建邮件消息，同时利用 Laravel 的预制组件。
 
     @component('mail::message')
     # Order Shipped
@@ -428,7 +427,7 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
         }
     }
 
-当然，发邮件时不只限定于使用「to」来指定收件人，你可以链式地使用「to」,「cc」和「bcc」要指定相应的收件人。
+当然，发邮件时不只限定于使用「to」来指定收件人，你可以链式地使用「to」,「cc」和「bcc」来指定相应的收件人。
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -440,14 +439,14 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
 
 #### 将邮件消息加入队列
 
-因为发邮件会拖长应用程序的响应时间，许多开发者选择将邮件放在队列中在后台进行发送。 Laravel 使用内置的 [统一邮件API](/docs/{{version}}/queues) 来轻松完成此工作。要把邮件消息加入到队列，在指定收件人后使用 `mail` facade 的 `queue` 方法：
+因为发邮件会拖长应用程序的响应时间，许多开发者选择将邮件放在队列中在后台进行发送。 Laravel 使用内置的 [统一队列API](/docs/{{version}}/queues) 来轻松完成此工作。要把邮件消息加入到队列，在指定收件人后使用 `mail` facade 的 `queue` 方法：
 
     Mail::to($request->user())
         ->cc($moreUsers)
         ->bcc($evenMoreUsers)
         ->queue(new OrderShipped($order));
 
-这个方法会自动把发邮件的任务压到任务队列中以便后台发送，当然在使用这个功能之前，你得先 [配置你的队列](/docs/{{version}}/queues) 。
+这个方法会自动把发邮件的任务推送到任务队列中以便后台发送，当然在使用这个功能之前，你得先 [配置你的队列](/docs/{{version}}/queues) 。
 
 #### 延迟邮件消息队列
 
@@ -460,7 +459,7 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
         ->bcc($evenMoreUsers)
         ->later($when, new OrderShipped($order));
 
-#### 压到指定的队列
+#### 推送到指定的队列
 
 因为所有的 mailable 类都是通过 `make:mail` 命令生成的，他们都使用 `Illuminate\Bus\Queueable` trait ，你可以在任何的 mailable 实例中调用 `onQueue` 方法来指定队列名称，调用 `onConnection` 方法来指定连接名称。
 
@@ -491,7 +490,7 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
 
 #### 日志驱动
 
-作为替代， `log` 邮件驱动会把所有的邮件信息写入到日志文件以供检查。想知道在每个环境中如何配置，可参考  [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
+作为替代， `log` 邮件驱动会把所有的邮件信息写入到日志文件以供检查。想知道在每个环境中如何配置，可参考  [配置文档](/docs/{{version}}/configuration#environment-configuration).
 
 #### 通用收件人
 
@@ -509,7 +508,7 @@ Laravel 提供的另一个解决方案是在整个框架中指定一个通用的
 <a name="events"></a>
 ## 事件
 
-Laravel 会在发送邮件消息之前触发一个事件。记住，这个事件是在邮件 *发送* 的时候触发，而不是在邮件消息压入队列时触发。你可以在你的 `EventServiceProvider` 中注册一个事件监听器来监听这个事件：
+Laravel 会在发送邮件消息之前触发一个事件。记住，这个事件是在邮件 *发送* 的时候触发，而不是在邮件消息推送到队列时触发。你可以在你的 `EventServiceProvider` 中注册一个事件监听器来监听这个事件：
 
     /**
      * 应用事件监听映射。
@@ -522,3 +521,7 @@ Laravel 会在发送邮件消息之前触发一个事件。记住，这个事件
         ],
     ];
 
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@qufo](https://github.com/qufo)  | <img class="avatar-66 rm-style" src="https://avatars1.githubusercontent.com/u/2526883?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 欢迎共同探讨。[@Qufo](https://github.com/qufo) |
