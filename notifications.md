@@ -12,10 +12,10 @@
     - [自定义接受者](#customizing-the-recipient)
     - [自定义主题](#customizing-the-subject)
     - [自定义模板](#customizing-the-templates)
-- [Markdown Mail Notifications](#markdown-mail-notifications)
-    - [Generating The Message](#generating-the-message)
-    - [Writing The Message](#writing-the-message)
-    - [Customizing The Components](#customizing-the-components)
+- [Markdown 邮件通知](#markdown-mail-notifications)
+    - [生成消息](#generating-the-message)
+    - [写消息](#writing-the-message)
+    - [自定义组件](#customizing-the-components)
 - [数据库通知](#database-notifications)
     - [先决条件](#database-prerequisites)
     - [格式化数据库通知](#formatting-database-notifications)
@@ -289,8 +289,8 @@ Markdown mail notifications allow you to take advantage of the pre-built templat
 要使用相应的 Markdown 模板生成通知，您可以使用 `make：notification` Artisan命令的 `--markdown` 选项：
 
     php artisan make:notification InvoicePaid --markdown=mail.invoice.paid
-
-与所有其他邮件通知一样，使用 Markdown 模板的通知应在其通知类上定义一个 `toMail` 方法。 但是，不使用 `line' 和 `action` 方法来构造通知，而是使用 `markdown` 方法来指定应该使用的 Markdown 模板的名称：
+    
+与所有其他邮件通知一样，使用 Markdown 模板的通知应在其通知类上定义一个 `toMail` 方法。 但是，不使用 `line` 和 `action` 方法来构造通知，而是使用 `markdown` 方法来指定应该使用的 Markdown 模板的名称：
 
     /**
      * Get the mail representation of the notification.
