@@ -1,14 +1,14 @@
-# Laravel 的 邮箱发送功能
+# Laravel 的 邮件发送功能
 
 - [简介](#introduction)
     - [准备驱动](#driver-prerequisites)
 - [生成 mailables 类](#generating-mailables)
 - [编写 mailables 类](#writing-mailables)
-    - [配置邮件发送人](#configuring-the-sender)
+    - [配置邮件发件人](#configuring-the-sender)
     - [配置视图](#configuring-the-view)
     - [向视图传递数据](#view-data)
     - [附件](#attachments)
-    - [Inline Attachments](#inline-attachments)
+    - [行内附件](#inline-attachments)
 - [Markdown 格式的邮件](#markdown-mailables)
     - [生成 Markdown 格式的邮件](#generating-markdown-mailables)
     - [编写 Markdown 格式的邮件](#writing-markdown-messages)
@@ -81,7 +81,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 首先，让我们解释下如何配置邮件发件人。或者说，邮件的「from」是谁。有两种方法指定发件人，第一种，你可以在你的 mailable 类的 `build` 方法中调用 `from` 方法：
 
     /**
-     * Build the message.
+     * 构建消息。
      *
      * @return $this
      */
@@ -103,7 +103,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 在 mailable 类的 `build` 方法中，你可以使用 `view` 方法来指定使用哪个模板来渲染邮件的内容，因为通常情况下每个邮件都使用 [Blade 模板](/docs/{{version}}/blade) 来渲染内容，你可以全权控制 Blade 模板来构建你邮件的 HTML :
 
     /**
-     * Build the message.
+     * 构建消息。
      *
      * @return $this
      */
@@ -119,7 +119,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 如果你想要定义一个纯文本版的邮件，你可以使用 `text` 方法。和 `view` 方法一样，`text` 方法接受一个模板名称，程序将用这个模板来渲染邮件内容。这样你就可以方便地发送纯文本邮件或是 HTML 格式的邮件：
 
     /**
-     * Build the message.
+     * 构建消息。
      *
      * @return $this
      */
@@ -134,7 +134,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### 通过公共属性
 
-Typically, you will want to pass some data to your view that you can utilize when rendering the email's HTML. There are two ways you may make data available to your view. First, any public property defined on your mailable class will automatically be made available to the view. So, for example, you may pass data into your mailable class' constructor and set that data to public properties defined on the class:
+通常，你会希望传递一些数据到你的视图中，这样你就可以利用这些数据来渲染邮件的 HTML 内容。有两种方法可以办到。首先，所有在你的 mailable 中定义的公共属性将会自动地应用到你的视图中。比如说，你可以通过传递一些数据到构造函数中并且在构造函数中把他们设置为公共属性：
 
     <?php
 
@@ -150,14 +150,14 @@ Typically, you will want to pass some data to your view that you can utilize whe
         use Queueable, SerializesModels;
 
         /**
-         * The order instance.
+         * order 实例.
          *
          * @var Order
          */
         public $order;
 
         /**
-         * Create a new message instance.
+         * 创建一个消息实例。
          *
          * @return void
          */
@@ -167,7 +167,7 @@ Typically, you will want to pass some data to your view that you can utilize whe
         }
 
         /**
-         * Build the message.
+         * 构建消息。
          *
          * @return $this
          */
@@ -177,15 +177,15 @@ Typically, you will want to pass some data to your view that you can utilize whe
         }
     }
 
-Once the data has been set to a public property, it will automatically be available in your view, so you may access it like you would access any other data in your Blade templates:
+一旦数据被设置为公共属性，在视图文件中就可以用了，你可以在 Blade 模板中象访问其他数据一样访问他们：
 
     <div>
         Price: {{ $order->price }}
     </div>
 
-#### Via The `with` Method:
+#### 通过 `with` 方法：
 
-If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view via the `with` method. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template. Then, when calling the `with` method, pass an array of data that you wish to make available to the template:
+如果你想在数据发到模板之前自定义他的格式，你可以手工地通过 `with` 方法把你的数据传到视图中去。一般而言，你仍通过 mailable 类的构造函数传递数据，但当你要把这些数据设置为 `protected` 或 `private` 属性时，数据不会自动传递到模板了。那时，你可以调用 `with` 方法，把你希望在视图中使用的数据放在数组中传递到模板去。
 
     <?php
 
@@ -201,14 +201,14 @@ If you would like to customize the format of your email's data before it is sent
         use Queueable, SerializesModels;
 
         /**
-         * The order instance.
+         * order 实例。
          *
          * @var Order
          */
         protected $order;
 
         /**
-         * Create a new message instance.
+         * 创建新的消息实例。
          *
          * @return void
          */
@@ -218,7 +218,7 @@ If you would like to customize the format of your email's data before it is sent
         }
 
         /**
-         * Build the message.
+         * 构建消息。
          *
          * @return $this
          */
@@ -232,19 +232,19 @@ If you would like to customize the format of your email's data before it is sent
         }
     }
 
-Once the data has been passed to the `with` method, it will automatically be available in your view, so you may access it like you would access any other data in your Blade templates:
+一旦数据被通过 `with` 方法传递进视图，在视图文件中就可以用了，你可以在 Blade 模板中象访问其他数据一样访问他们：
 
     <div>
         Price: {{ $orderPrice }}
     </div>
 
 <a name="attachments"></a>
-### Attachments
+### 附件
 
-To add attachments to an email, use the `attach` method within the mailable class' `build` method. The `attach` method accepts the full path to the file as its first argument:
+要在邮件中加入附件，可以使用 mailable 类的 `build` 方法，在这个方法里通过 `attach` 方法来附加， `attach` 方法的第1个参数是附件的绝对路径。
 
         /**
-         * Build the message.
+         * 构建消息。
          *
          * @return $this
          */
@@ -254,10 +254,10 @@ To add attachments to an email, use the `attach` method within the mailable clas
                         ->attach('/path/to/file');
         }
 
-When attaching files to a message, you may also specify the display name and / or MIME type by passing an `array` as the second argument to the `attach` method:
+当附加一个附件到邮件消息体时，你可以通过传递一个数组作为 `attach` 的第2个参数，来指定显示名称或附件文件的 MIME 类型。
 
         /**
-         * Build the message.
+         * 构建消息。
          *
          * @return $this
          */
@@ -270,12 +270,12 @@ When attaching files to a message, you may also specify the display name and / o
                         ]);
         }
 
-#### Raw Data Attachments
+#### 原始数据附件
 
-The `attachData` method may be used to attach a raw string of bytes as an attachment. For example, you might use this method if you have generated a PDF in memory and want to attach it to the email without writing it to disk. The `attachData` method accepts the raw data bytes as its first argument, the name of the file as its second argument, and an array of options as its third argument:
+`attachData` 方法可以使用字节数据当附件。比如，你在内存里构建了一个 pdf 文件，不想保存到硬盘上，却想附加在邮件中当附件。 `attachData` 方法接受字节数据为他的第1个参数，文件名作为其第2个参数，一个包含选项值的数组作为其第3个参数：
 
         /**
-         * Build the message.
+         * 构建消息。
          *
          * @return $this
          */
@@ -288,9 +288,9 @@ The `attachData` method may be used to attach a raw string of bytes as an attach
         }
 
 <a name="inline-attachments"></a>
-### Inline Attachments
+### 行内附件
 
-Embedding inline images into your emails is typically cumbersome; however, Laravel provides a convenient way to attach images to your emails and retrieving the appropriate CID. To embed an inline image, use the `embed` method on the `$message` variable within your email template. Laravel automatically makes the `$message` variable available to all of your email templates, so you don't need to worry about passing it in manually:
+要在邮件中嵌入行内图片通常是个麻烦事；然后 Laravel 提供了一种简单的方法来图片附加到你的邮件中并获得相应的 CID 。要嵌入一个行内图片，在邮件模板的 `$message` 变量上调用 `embed` 方法， Laravel 已经让 `$message` 变量在所有的邮件模板中都自动可用，所以你不用担心如何手工传递它：
 
     <body>
         Here is an image:
@@ -298,9 +298,9 @@ Embedding inline images into your emails is typically cumbersome; however, Larav
         <img src="{{ $message->embed($pathToFile) }}">
     </body>
 
-#### Embedding Raw Data Attachments
+#### 嵌入原始数据附件
 
-If you already have a raw data string you wish to embed into an email template, you may use the `embedData` method on the `$message` variable:
+如果你已有了原始数据并且想嵌入到邮件模板中，你可以调用 `$message` 变量的 `embedData` 方法：
 
     <body>
         Here is an image from raw data:
@@ -309,21 +309,22 @@ If you already have a raw data string you wish to embed into an email template, 
     </body>
 
 <a name="markdown-mailables"></a>
-## Markdown Mailables
+## Markdown 格式的 Mailables 类
 
-Markdown mailable messages allow you to take advantage of the pre-built templates and components of mail notifications in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart.
+Markdown 格式的 mailable 消息允许你从预编译的模板和你的 mailables 类中的邮件提醒组件中受益。因为消息是用 Markdown 格式写的， Laravel 能为消息体渲染出漂亮、响应式的 HTML 模板，也能自动生成一个纯文本的副本。
 
 <a name="generating-markdown-mailables"></a>
 ### Generating Markdown Mailables
 
-To generate a mailable with a corresponding Markdown template, you may use the `--markdown` option of the `make:mail` Artisan command:
+要生成一个包含友好的 Markdown 模板的 mailable 类，你在使用  `make:mail` 这个 Artisan 命令时，要加上 `--markdown` 选项：
 
     php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 
 Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` methods accepts the name of the Markdown template and an optional array of data to make available to the template:
+然后，在使用 `build` 方法配置 mailable 时，用 `markdown` 方法来换掉 `view` 方法， `view` 方法接受一个 Markdown 模板的名称和一个将在模板中可用的选项数组：
 
     /**
-     * Build the message.
+     * 构建消息。
      *
      * @return $this
      */
@@ -334,7 +335,7 @@ Then, when configuring the mailable within its `build` method, call the `markdow
     }
 
 <a name="writing-markdown-messages"></a>
-### Writing Markdown Messages
+### 编写 Markdown 格式的消息
 
 Markdown mailables use a combination of Blade components and Markdown syntax which allow you to easily construct mail messages while leveraging Laravel's pre-crafted components:
 
@@ -351,25 +352,25 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
     {{ config('app.name') }}
     @endcomponent
 
-#### Button Component
+#### 按钮组件
 
-The button component renders a centered button link. The component accepts two arguments, a `url` and an optional `color`. Supported colors are `blue`, `green`, and `red`. You may add as many button components to a message as you wish:
+按钮连组件渲染一个居中的连接按钮，组件接受两个参数，一个 `url` 和一个可选的 `color` 。支持的颜色有 `blue`， `green`， 和 `red` 。你可以在邮件消息体中加入随便多个你想要的按钮。
 
     @component('mail::button', ['url' => $url, 'color' => 'green'])
     View Order
     @endcomponent
 
-#### Panel Component
+#### 面板组件
 
-The panel component renders the given block of text in a panel that has a slightly different background color than the rest of the message. This allows you to draw attention to a given block of text:
+面板组件将面板中给定的一块文字的背景渲染成跟其他的消息体背景稍微不同。这样可以让这块文字引起人们的注意。
 
     @component('mail::panel')
     This is the panel content.
     @endcomponent
 
-#### Table Component
+#### 表格组件
 
-The table component allows you to transform a Markdown table into an HTML table. The component accepts the Markdown table as its content. Table column alignment is supported using the default Markdown table alignment syntax:
+表格组件允许你将一个 Markdown 格式的表格转换成一个 HTML 格式的表格。组件接受 Markdown 格式的表格作为它的内容。表格列对齐方式按照默认的 Markdown 对齐风格而定。
 
     @component('mail::table')
     | Laravel       | Table         | Example  |
@@ -379,24 +380,24 @@ The table component allows you to transform a Markdown table into an HTML table.
     @endcomponent
 
 <a name="customizing-the-components"></a>
-### Customizing The Components
+### 自定义组件
 
-You may export all of the Markdown mail components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag:
+你或许会为了自定义而导出你应用中所有的 Markdown 邮件组件。要导出这些组件，使用 `vendor:publish` 这个 Artisan 命令来发布资源文件标签。
 
     php artisan vendor:publish --tag=laravel-mail
 
-This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `markdown` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
+这个命令会发布 Markdown 邮件组件到 `resources/views/vendor/mail` 文件夹。而 `mail` 文件夹会包含一个 `html` 文件夹和一个 `markdown` 文件夹，每个文件夹都包含他们的可用组件的描述。你可以按照你的意愿自定义这些组件。
 
-#### Customizing The CSS
+#### 自定义样式表 CSS
 
-After exporting the components, the `resources/views/vendor/mail/html/themes` directory will contain a `default.css` file. You may customize the CSS in this file and your styles will automatically be in-lined within the HTML representations of your Markdown mail messages.
+在导出组件之后，`resources/views/vendor/mail/html/themes` 文件夹将包含一个默认的 `default.css` 文件。你可以在这个文件中自定义 CSS ，你定义的这些样式将会在 Markdown 格式消息体转换成 HTML 格式时自动得到应用。
 
-> {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
+> {tip} 如果你想为 Markdown 组件构建一个全新的主题，只要写一个新的 CSS 文件，放在 `html/themes` 文件夹，然后在你的 `mail` 配置文件中改变 `theme` 选项就可以了。
 
 <a name="sending-mail"></a>
-## Sending Mail
+## 发送邮件
 
-To send a message, use the `to` method on the `Mail` [facade](/docs/{{version}}/facades). The `to` method accepts an email address, a user instance, or a collection of users. If you pass an object or collection of objects, the mailer will automatically use their `email` and `name` properties when setting the email recipients, so make sure these attributes are available on your objects. Once you have specified your recipients, you may pass an instance of your mailable class to the `send` method:
+要发送一个邮件，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `to` 方法。 `to` 方法接受一个邮件地址，一个 user 实例，或者 users 集合。如果你传进一个对象或者对象的集合， mailer 将自动使用他们的 `email` 和 `name` 属性来设定为邮件的收件人，所以要确定传进去的对象这两个属性可用。一旦指定了收件人，你可以传递一个你的 mailable 类的实例给 `send` 方法。
 
     <?php
 
@@ -411,7 +412,7 @@ To send a message, use the `to` method on the `Mail` [facade](/docs/{{version}}/
     class OrderController extends Controller
     {
         /**
-         * Ship the given order.
+         * 订单发货。
          *
          * @param  Request  $request
          * @param  int  $orderId
@@ -427,7 +428,7 @@ To send a message, use the `to` method on the `Mail` [facade](/docs/{{version}}/
         }
     }
 
-Of course, you are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients all within a single, chained method call:
+当然，发邮件时不只限定于使用「to」来指定收件人，你可以链式地使用「to」,「cc」和「bcc」要指定相应的收件人。
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -435,22 +436,22 @@ Of course, you are not limited to just specifying the "to" recipients when sendi
         ->send(new OrderShipped($order));
 
 <a name="queueing-mail"></a>
-### Queueing Mail
+### 邮件队列
 
-#### Queueing A Mail Message
+#### 将邮件消息加入队列
 
-Since sending email messages can drastically lengthen the response time of your application, many developers choose to queue email messages for background sending. Laravel makes this easy using its built-in [unified queue API](/docs/{{version}}/queues). To queue a mail message, use the `queue` method on the `Mail` facade after specifying the message's recipients:
+因为发邮件会拖长应用程序的响应时间，许多开发者选择将邮件放在队列中在后台进行发送。 Laravel 使用内置的 [统一邮件API](/docs/{{version}}/queues) 来轻松完成此工作。要把邮件消息加入到队列，在指定收件人后使用 `mail` facade 的 `queue` 方法：
 
     Mail::to($request->user())
         ->cc($moreUsers)
         ->bcc($evenMoreUsers)
         ->queue(new OrderShipped($order));
 
-This method will automatically take care of pushing a job onto the queue so the message is sent in the background. Of course, you will need to [configure your queues](/docs/{{version}}/queues) before using this feature.
+这个方法会自动把发邮件的任务压到任务队列中以便后台发送，当然在使用这个功能之前，你得先 [配置你的队列](/docs/{{version}}/queues) 。
 
-#### Delayed Message Queueing
+#### 延迟邮件消息队列
 
-If you wish to delay the delivery of a queued email message, you may use the `later` method. As its first argument, the `later` method accepts a `DateTime` instance indicating when the message should be sent:
+如果你希望延迟发送队列里的邮件消息，你可以使用 `later` 方法。 `later` 方法的第1个参数接受一个 `DateTime` 实例指定邮件消息要在什么时候发送。
 
     $when = Carbon\Carbon::now()->addMinutes(10);
 
@@ -459,9 +460,9 @@ If you wish to delay the delivery of a queued email message, you may use the `la
         ->bcc($evenMoreUsers)
         ->later($when, new OrderShipped($order));
 
-#### Pushing To Specific Queues
+#### 压到指定的队列
 
-Since all mailable classes generated using the `make:mail` command make use of the `Illuminate\Bus\Queueable` trait, you may call the `onQueue` and `onConnection` methods on any mailable class instance, allowing you to specify the connection and queue name for the message:
+因为所有的 mailable 类都是通过 `make:mail` 命令生成的，他们都使用 `Illuminate\Bus\Queueable` trait ，你可以在任何的 mailable 实例中调用 `onQueue` 方法来指定队列名称，调用 `onConnection` 方法来指定连接名称。
 
     $message = (new OrderShipped($order))
                     ->onConnection('sqs')
@@ -472,9 +473,9 @@ Since all mailable classes generated using the `make:mail` command make use of t
         ->bcc($evenMoreUsers)
         ->queue($message);
 
-#### Queueing By Default
+#### 默认队列
 
-If you have mailable classes that you want to always be queued, you may implement the `ShouldQueue` contract on the class. Now, even if you call the `send` method when mailing, the mailable will still be queued since it implements the contract:
+如果你的 mailable 类想要默认使用队列，你可以在类中实现 `ShouldQueue` 接口契约。现在，即便你调用 `send` 方法来发送邮件， mailable 类仍将邮件放入队列中发送。
 
     use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -484,17 +485,17 @@ If you have mailable classes that you want to always be queued, you may implemen
     }
 
 <a name="mail-and-local-development"></a>
-## Mail & Local Development
+## 邮件和本地开发
 
-When developing an application that sends email, you probably don't want to actually send emails to live email addresses. Laravel provides several ways to "disable" the actual sending of emails during local development.
+当开发一个发送邮件的应用时，你或许不想将邮件发送到一个真的邮件地址上。 Laravel 提供了几种方法在本地开发时「停用」真实的邮件发送过程。
 
-#### Log Driver
+#### 日志驱动
 
-Instead of sending your emails, the `log` mail driver will write all email messages to your log files for inspection. For more information on configuring your application per environment, check out the [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
+作为替代， `log` 邮件驱动会把所有的邮件信息写入到日志文件以供检查。想知道在每个环境中如何配置，可参考  [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
 
-#### Universal To
+#### 通用收件人
 
-Another solution provided by Laravel is to set a universal recipient of all emails sent by the framework. This way, all the emails generated by your application will be sent to a specific address, instead of the address actually specified when sending the message. This can be done via the `to` option in your `config/mail.php` configuration file:
+Laravel 提供的另一个解决方案是在整个框架中指定一个通用的收件人。使用这种方法，应用中生成的所有邮件将会发送到这个指定的地址上，而不是发送给你在邮件程序中指定的真正收件人。这可以通过在 `config/mail.php` 配置文件中指定 `to` 选项来完成。
 
     'to' => [
         'address' => 'example@example.com',
@@ -503,15 +504,15 @@ Another solution provided by Laravel is to set a universal recipient of all emai
 
 #### Mailtrap
 
-Finally, you may use a service like [Mailtrap](https://mailtrap.io) and the `smtp` driver to send your email messages to a "dummy" mailbox where you may view them in a true email client. This approach has the benefit of allowing you to actually inspect the final emails in Mailtrap's message viewer.
+最后，你可以使用象 [Mailtrap](https://mailtrap.io) 和 `smtp` 驱动来将你的邮件发送到一个 「虚假的」 邮箱，你却可以在一个真实的邮件客户端中查看它们。这个方法的好处是可以让你在 Mailtrap 的邮件查看器中看到最终的邮件。
 
 <a name="events"></a>
-## Events
+## 事件
 
-Laravel fires an event just before sending mail messages. Remember, this event is fired when the mail is *sent*, not when it is queued. You may register an event listener for this event in your `EventServiceProvider`:
+Laravel 会在发送邮件消息之前触发一个事件。记住，这个事件是在邮件 *发送* 的时候触发，而不是在邮件消息压入队列时触发。你可以在你的 `EventServiceProvider` 中注册一个事件监听器来监听这个事件：
 
     /**
-     * The event listener mappings for the application.
+     * 应用事件监听映射。
      *
      * @var array
      */
