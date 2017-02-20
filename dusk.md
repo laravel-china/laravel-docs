@@ -460,7 +460,7 @@ Assertion  | Description
 <a name="configuring-pages"></a>
 ### 配置页面
 
-页面默认拥有 3 个方法： `url`， `assert` 和 `selectors`。 在这里我们先详述 `url` 和 `assert` 方法。`elements` 方法将会 [在下面详细描述](#shorthand-selectors)。
+页面默认拥有 3 个方法： `url`， `assert` 和 `elements`。 在这里我们先详述 `url` 和 `assert` 方法。`elements` 方法将会 [在下面详细描述](#shorthand-selectors)。
 
 #### `url` 方法
 
