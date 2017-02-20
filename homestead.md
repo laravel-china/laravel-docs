@@ -75,7 +75,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
     git clone https://github.com/laravel/homestead.git Homestead
 
 一旦你克隆完 Homestead 的代码仓库，即可在 Homestead 目录中运行 `bash init.sh` 命令
-来创建 `Homesstead.yaml` 配置文件。 `Homesstead.yaml` 文件会被放置在你的 `~/.homestead` 目录中：
+来创建 `Homesstead.yaml` 配置文件。 `Homesstead.yaml` 文件会被放置在你的 Homestead 目录中：
 
     // Mac / Linux...
     bash init.sh
@@ -88,7 +88,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 
 #### 配置你的提供者
 
-`~/.homestead/Homestead.yaml` 中的 `provider` 参数设置取决于你用的是哪一个 Vagrant 提供者 `virtualbox ` 、 `vmware_fusion` 、 `vmware_workstation` ，或者 `parallels` 。你可以根据自己的喜好来设置提供者：
+`Homestead.yaml` 中的 `provider` 参数设置取决于你用的是哪一个 Vagrant 提供者 `virtualbox ` 、 `vmware_fusion` 、 `vmware_workstation` ，或者 `parallels` 。你可以根据自己的喜好来设置提供者：
 
 	provider: virtualbox
 
@@ -134,7 +134,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 
 	192.168.10.10  homestead.app
 
-务必确认 IP 地址与 `~/.homestead/Homestead.yaml` 文件中设置的相同。将域名设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站。
+务必确认 IP 地址与 `Homestead.yaml` 文件中设置的相同。将域名设置在 `hosts` 文件之后，你就可以通过网页浏览器访问你的网站。
 
 	http://homestead.app
 
@@ -234,7 +234,7 @@ Windows:
 <a name="adding-additional-sites"></a>
 ### 增加更多网站
 
-一旦 Homestead 环境配置完毕且成功运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单个 Homestead 环境中运行多个 Laravel 程序。要添加额外的网站，只需将网站添加到您的 `~/.homestead/Homestead.yaml` 文件中：
+一旦 Homestead 环境配置完毕且成功运行后，你可能会想要为 Laravel 应用程序增加更多的 Nginx 网站。你可以在单个 Homestead 环境中运行多个 Laravel 程序。要添加额外的网站，只需将网站添加到您的 `Homestead.yaml` 文件中：
 
      sites:
         - map: homestead.app
