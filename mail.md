@@ -254,7 +254,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
                         ->attach('/path/to/file');
         }
 
-当附加一个附件到邮件消息体时，你可以通过传递一个数组作为 `attach` 的第2个参数，来指定显示名称或附件文件的 MIME 类型。
+当附加一个附件到邮件消息体时，你可以通过传递一个数组作为 `attach` 的第2个参数，来指定显示名称以及附件文件的 MIME 类型。
 
         /**
          * 构建消息。
@@ -320,7 +320,7 @@ Markdown 格式的 mailable 消息允许你从预编译的模板和你的 mailab
 
     php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 
-然后，在使用 `build` 方法配置 mailable 时，用 `markdown` 方法来换掉 `view` 方法， `view` 方法接受一个 Markdown 模板的名称和一个将在模板中可用的选项数组：
+然后，在使用 `build` 方法配置 mailable 时，用 `markdown` 方法来换掉 `view` 方法， `markdown` 方法接受一个 Markdown 模板的名称和一个将在模板中可用的选项数组：
 
     /**
      * 构建消息。
