@@ -1,5 +1,4 @@
 # Laravel 的文件系统和云存储功能集成
-# 文件系统与云存储
 
 - [简介](#introduction)
 - [配置](#configuration)
@@ -21,7 +20,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 提供强大文件抽象能力，这得益于 Frank de Jonge 的 [Flysystem](https://github.com/thephpleague/flysystem) 扩展包。Laravel集成的flysystem提供了可支持本地文件系统、Amazon S3及 Rackspace 云存储的简单易用的驱动程序。更棒的是，由于每个系统的API保持不变，所以在这些存储项之间切换是非常轻松的。
+Laravel 提供强大文件抽象能力，这得益于 Frank de Jonge 的 [Flysystem](https://github.com/thephpleague/flysystem) 扩展包。Laravel 集成的 flysystem 提供了可支持本地文件系统、Amazon S3及 Rackspace 云存储的简单易用的驱动程序。更棒的是，由于每个系统的API保持不变，所以在这些存储项之间切换是非常轻松的。
 
 <a name="configuration"></a>
 ## 配置
@@ -33,9 +32,9 @@ Laravel 提供强大文件抽象能力，这得益于 Frank de Jonge 的 [Flysys
 <a name="the-public-disk"></a>
 ### 公开磁盘
 
-「公开磁盘」就是指你的文件将可被公开访问，默认下， `public` 磁盘使用 `local` 驱动且将文件存放在 `storage/app/public` 文目录。为了能通过网络访问，你需要创建 `public/storage` 到 `storage/app/public` 的符号链接。这个约定能让你的可公开访问文件保持在同一个目录下，这样在不同的部署系统间就可以轻松共享，如 [Envoyer](https://envoyer.io) 的“不停服”部署系统。
+「公开磁盘」就是指你的文件将可被公开访问，默认下， `public` 磁盘使用 `local` 驱动且将文件存放在 `storage/app/public` 目录下。为了能通过网络访问，你需要创建 `public/storage` 到 `storage/app/public` 的符号链接。这个约定能让你的可公开访问文件保持在同一个目录下，这样在不同的部署系统间就可以轻松共享，如 [Envoyer](https://envoyer.io) 的“不停服”部署系统。
 
-你就可以使用 `storage:link` Artisan 命令创建符号链接:
+你可以使用 `storage:link` Artisan 命令创建符号链接：
 
     php artisan storage:link
 
@@ -124,18 +123,18 @@ Laravel 集成的 Flysystem 能很好的支持 Rackspace，不过 Rackspace 的�
 <a name="file-urls"></a>
 ### 文件 URLs
 
-当使用 `local` 或者 `s3` 驱动的时候，你可以使用 `url` 方法来获取给定文件的 URL。如果你使用 `local` 驱动，一般会在传参的路径前面加上 `/storage` 且返回相对路径。如果是 `s3` 的话，返回的是完整的 S3 文件系统的 URL:
+当使用 `local` 或者 `s3` 驱动的时候，你可以使用 `url` 方法来获取给定文件的 URL。如果你使用 `local` 驱动，一般会在传参的路径前面加上 `/storage` 且返回相对路径。如果是 `s3` 的话，返回的是完整的 S3 文件系统的 URL：
 
 
     use Illuminate\Support\Facades\Storage;
 
     $url = Storage::url('file1.jpg');
 
-> {提示} 切记，如果使用 `local` 驱动，所有想被公开访问的文件都应该放在 `storage/app/public` 目录下。此外，你应该在`public/storage` [创建符号链接 ] (#the-public-disk) 来指向 `storage/app/public` 文件夹。
+> {note} 切记，如果使用 `local` 驱动，所有想被公开访问的文件都应该放在 `storage/app/public` 目录下。此外，你应该在`public/storage` [创建符号链接 ] (#the-public-disk) 来指向 `storage/app/public` 文件夹。
 
 #### 定制本地 URL 主机
 
-如果你想给使用 `local` 驱动的存储文件预定义主机的话，你可以在磁盘配置数组中添加 `url` 键:
+如果你想给使用 `local` 驱动的存储文件预定义主机的话，你可以在磁盘配置数组中添加 `url` 键：
 
     'public' => [
         'driver' => 'local',
@@ -148,7 +147,7 @@ Laravel 集成的 Flysystem 能很好的支持 Rackspace，不过 Rackspace 的�
 <a name="file-metadata"></a>
 ### 文件元数据
 
-除了读写文件，Laravel还可以提供有关文件本身的信息。例如，`size` 方法可用来获取以字节为单位的文件大小：
+除了读写文件，Laravel 还可以提供有关文件本身的信息。例如，`size` 方法可用来获取以字节为单位的文件大小：
 
     use Illuminate\Support\Facades\Storage;
 
@@ -183,7 +182,7 @@ Laravel 集成的 Flysystem 能很好的支持 Rackspace，不过 Rackspace 的�
 
 关于 `putFile` 方法有些重要的提醒。我们只指定一个目录名，而非文件名。默认情况下，该 `putFile` 方法将生成以为唯一ID作为文件名。文件的路径将被 `putFile` 方法返回，因此您可以在数据库中存储路径及文件名。
 
-`putFile` 和 `putFileAs` 方法也接受一个参数指定被存储文件的“可见性”。在使用如 S3 的云存储时，若希望该文件可被公开访问，这将非常有用：
+`putFile` 和 `putFileAs` 方法也接受一个参数指定被存储文件的「可见性」。在使用如 S3 的云存储时，若希望该文件可被公开访问，这将非常有用：
 
     Storage::putFile('photos', new File('/path/to/photo'), 'public');
 
@@ -219,7 +218,7 @@ Laravel 集成的 Flysystem 能很好的支持 Rackspace，不过 Rackspace 的�
     class UserAvatarController extends Controller
     {
         /**
-         * 更新用户头像.
+         * 更新用户头像。
          *
          * @param  Request  $request
          * @return Response
@@ -266,8 +265,7 @@ Laravel 集成的 Flysystem 能很好的支持 Rackspace，不过 Rackspace 的�
 <a name="file-visibility"></a>
 ### 文件可见性
 
-在Laravel的Flysystem集成里，“可见性” 是跨多平台的文件权限抽象。文件可以被设定为 `public` 或`private` 。当一个文件声明为 `public` 时，就意味着文件一般可供他人访问。例如，使用S3驱动
-时，你可检索 `public` 文件的URL。
+在 Laravel 的 Flysystem 集成里，「可见性」 是跨多平台的文件权限抽象。文件可以被设定为 `public` 或 `private` 。当一个文件声明为 `public` 时，就意味着文件一般可供他人访问。例如，使用S3驱动时，你可检索 `public` 文件的URL。
 
 你可通过 `put` 方法设定文件可见性：
 
