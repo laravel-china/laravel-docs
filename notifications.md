@@ -308,7 +308,7 @@ Markdown 邮件通知可让您利用邮件通知的预先构建的模板，同�
 <a name="writing-the-message"></a>
 ### 写消息
 
-Markdown mail notifications use a combination of Blade components and Markdown syntax which allow you to easily construct notifications while leveraging Laravel's pre-crafted notification components:
+Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您轻松构建通知，同时利用Laravel的预制通知组件：
 
     @component('mail::message')
     # Invoice Paid
@@ -323,25 +323,25 @@ Markdown mail notifications use a combination of Blade components and Markdown s
     {{ config('app.name') }}
     @endcomponent
 
-#### Button Component
+#### 按钮组件
 
-The button component renders a centered button link. The component accepts two arguments, a `url` and an optional `color`. Supported colors are `blue`, `green`, and `red`. You may add as many button components to a notification as you wish:
+按钮组件渲染了一个居中的链接按钮。组件有两个参数， `url` 和一个可选的参数 `color` 。支持的颜色有 `blue` ， `green` ， 和 `red` 。你可以根据你的需要向通知中添加任意数量的按钮组件：
 
     @component('mail::button', ['url' => $url, 'color' => 'green'])
     View Invoice
     @endcomponent
 
-#### Panel Component
+#### 面板组件
 
-The panel component renders the given block of text in a panel that has a slightly different background color than the rest of the notification. This allows you to draw attention to a given block of text:
+面板部件在面板中呈现给定文本块，该面板具有与通知的其余部分稍微不同的背景颜色。 这将会允许你将给定的文本块引起注意：
 
     @component('mail::panel')
     This is the panel content.
     @endcomponent
 
-#### Table Component
+#### 表格组件
 
-The table component allows you to transform a Markdown table into an HTML table. The component accepts the Markdown table as its content. Table column alignment is supported using the default Markdown table alignment syntax:
+表格组件允许你将一个 Markdown 表格转化成一个 HTML 表格。表格组件接受 Markdown 表格作为内容。支持使用默认的 Markdown 表格对齐语法使表列对齐：
 
     @component('mail::table')
     | Laravel       | Table         | Example  |
@@ -351,19 +351,19 @@ The table component allows you to transform a Markdown table into an HTML table.
     @endcomponent
 
 <a name="customizing-the-components"></a>
-### Customizing The Components
+### 自定义组件
 
-You may export all of the Markdown notification components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag:
+您可以将所有 Markdown 通知组件导出到您自己的应用程序中进行自定义。 要导出组件，请使用 `vendor：publish` Artisan命令来发布 `laravel-mail` 标签：
 
     php artisan vendor:publish --tag=laravel-mail
 
-This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `markdown` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
+此命令将 Markdown 邮件组件发布到 `resources/views/vendor/mail` 目录。 `mail` 目录将包含一个 `html` 和一个 `markdown` 目录，每个目录包含它们各自可用组件的展示方式。 您可以随意自定义这些组件。
 
-#### Customizing The CSS
+#### 自定义CSS
 
-After exporting the components, the `resources/views/vendor/mail/html/themes` directory will contain a `default.css` file. You may customize the CSS in this file and your styles will automatically be in-lined within the HTML representations of your Markdown notifications.
+导出组件后， `resources/views/vendor/mail/html/themes` 目录将包含一个 `default.css` 文件。 您可以在此文件中自定义 CSS ，并且您的样式将自动内嵌在 Markdown 通知的HTML展示中。
 
-> {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
+> {tip} 如果您想为 Markdown 组件构建一个全新的主题，只需在 `html/themes` 目录中写一个新的 CSS 文件，并更改 `mail` 配置文件中的 `theme` 选项。
 
 <a name="database-notifications"></a>
 ## 数据库通知
