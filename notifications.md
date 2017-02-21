@@ -99,7 +99,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 `via` 方法受到一个 `$notifiable` 实例，它是接收通知的类实例。你可以用 `$notifiable` 来决定通知用哪个频道来发送：
 
     /**
-     * 获取通知发送频道。
+     * 获取通知发送频道
      *
      * @param  mixed  $notifiable
      * @return array
