@@ -77,4 +77,4 @@
     - [Envoy 部署工具](/docs/{{version}}/envoy)
     - [Passport OAuth 认证](/docs/{{version}}/passport)
     - [Scout 全文搜索](/docs/{{version}}/scout)
-    - [Socialite 社会化登录](https://github.com/laravel/socialite)
+    - [Socialite 社会化登录](/docs/{{version}}/socialite)
