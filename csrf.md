@@ -66,7 +66,7 @@ Laravel 为每个活跃用户的 Session 自动生成一个 CSRF 「token」。�
 
 Laravel 将当前的 CSRF token 存储在由框架生成的每个响应中包含的一个`XSRF-TOKEN` cookie 中。你可以使用该 cookie 的值来设置 X-XSRF-TOKEN 请求头信息。
 
-这个 cookie 作为头信息发送主要是为了方便，因为一些 JacaScript 框架，如 Angular，会自动将其值添加到 `X-XSRF-TOKEN` 头中.
+这个 cookie 作为头信息发送主要是为了方便，因为一些 JavaScript 框架，如 Angular，会自动将其值添加到 `X-XSRF-TOKEN` 头中.
 
 
 ## 译者署名
