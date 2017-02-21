@@ -179,8 +179,8 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 你可以使用 `view` 方法来指定一个应用于渲染通知电子邮件的自定义模板，而不是在通知类中定义文本的「模板」：
 
     /**
-     * 获取通知的邮件展示方式
-     *
+     * 获取通知的邮件展示方式
+     *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
@@ -212,14 +212,14 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 有些通知是给用户提示错误，比如账单支付失败的提示。你可以通过调用 `error` 方法来指定这条邮件消息被当做一个错误提示。当邮件消息使用了 `error` 方法后，引导链接按钮会变成红色而非蓝色：
 
     /**
-     * 获取通知的邮件展示方式
-     *
+     * 获取通知的邮件展示方式
+     *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Message
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+       return (new MailMessage)
                     ->error()
                     ->subject('Notification Subject')
                     ->line('...');
@@ -242,8 +242,8 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
         use Notifiable;
 
         /**
-         * 邮件频道的路由
-         *
+         * 邮件频道的路由
+         *
          * @return string
          */
         public function routeNotificationForMail()
