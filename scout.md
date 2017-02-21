@@ -21,7 +21,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的基于驱动的全文检索系统。Scout 使用模型观察者时会自动保持你的检索索引与你的 Eloquent 记录同步。
+Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的一个简单的，基于驱动的全文检索系统。Scout 使用模型观察者时会自动保持你的检索索引与你的 Eloquent 记录同步。
 
 目前，Scout 带着一个 [Algolia](https://www.algolia.com/) 驱动；然而，扩展 Scout 并不难，你可以通过自定义驱动来自由的扩展 Scout。
 
