@@ -150,8 +150,8 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 如果一条通知支持以邮件发送，你应该在通知类里定义一个 `toMail` 方法。这个方法将收到一个 `$notifiable` 实体并返回一个 `Illuminate\Notifications\Messages\MailMessage` 实例。邮件消息可以包含多行文本也可以是引导链接。我们来看一个 `toMail` 方法的例子：
 
     /**
-     * 获取通知的邮件展示方式
-     *
+     * 获取通知的邮件展示方式
+     *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
@@ -160,7 +160,6 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
         $url = url('/invoice/'.$this->invoice->id);
 
         return (new MailMessage)
-                    ->greeting('Hello!')
                     ->line('One of your invoices has been paid!')
                     ->action('View Invoice', $url)
                     ->line('Thank you for using our application!');
