@@ -14,6 +14,8 @@
 
 Laravel 社会化登录通过 Facebook ， Twitter ，Google ，LinkedIn ，GitHub 和 Bitbucket 提供了一个富有表现力的，流畅的 OAuth 身份验证界面。它几乎能处理所有你害怕处理的各种样板社会认证代码。
 
+> 翻译自 Readme： https://github.com/laravel/socialite
+
 **我们不接受新的适配器。**
 
 社区驱动的社会化登录提供商网站上可以找到为其他平台提供的适配器列表。
