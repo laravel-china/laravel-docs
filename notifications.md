@@ -28,7 +28,7 @@
 - [短信通知](#sms-notifications)
     - [先决条件](#sms-prerequisites)
     - [格式化短信通知](#formatting-sms-notifications)
-    - [自定义 「From」 号码](#customizing-the-from-number)
+    - [自定义 `From` 号码](#customizing-the-from-number)
     - [路由短信通知](#routing-sms-notifications)
 - [Slack 通知](#slack-notifications)
     - [先决条件](#slack-prerequisites)
