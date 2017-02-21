@@ -99,8 +99,8 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 `via` 方法受到一个 `$notifiable` 实例，它是接收通知的类实例。你可以用 `$notifiable` 来决定通知用哪个频道来发送：
 
     /**
-     * 获取通知发送频道
-     *
+     * 获取通知发送频道
+     *
      * @param  mixed  $notifiable
      * @return array
      */
@@ -242,7 +242,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
         use Notifiable;
 
         /**
-         * 邮件频道的路由。
+         * 邮件频道的路由
          *
          * @return string
          */
@@ -281,7 +281,6 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 ## Markdown 邮件通知
 
 Markdown 邮件通知可让您利用邮件通知的预先构建的模板，同时给予您更多自由地撰写更长的自定义邮件。 由于消息是用 Markdown 编写的， Laravel 能够为消息呈现漂亮，响应的 HTML 模板，同时还自动生成纯文本对应。
-Markdown mail notifications allow you to take advantage of the pre-built templates of mail notifications, while giving you more freedom to write longer, customized messages. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart.
 
 <a name="generating-the-message"></a>
 ### 生成消息
@@ -293,7 +292,7 @@ Markdown mail notifications allow you to take advantage of the pre-built templat
 与所有其他邮件通知一样，使用 Markdown 模板的通知应在其通知类上定义一个 `toMail` 方法。 但是，不使用 `line` 和 `action` 方法来构造通知，而是使用 `markdown` 方法来指定应该使用的 Markdown 模板的名称：
 
     /**
-     * Get the mail representation of the notification.
+     * 获取通知的邮件展示方式
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
@@ -308,7 +307,7 @@ Markdown mail notifications allow you to take advantage of the pre-built templat
     }
 
 <a name="writing-the-message"></a>
-### Writing The Message
+### 写消息
 
 Markdown mail notifications use a combination of Blade components and Markdown syntax which allow you to easily construct notifications while leveraging Laravel's pre-crafted notification components:
 
@@ -368,26 +367,26 @@ After exporting the components, the `resources/views/vendor/mail/html/themes` di
 > {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
 
 <a name="database-notifications"></a>
-## Database Notifications
+## 数据库通知
 
 <a name="database-prerequisites"></a>
-### Prerequisites
+### 先决条件
 
-The `database` notification channel stores the notification information in a database table. This table will contain information such as the notification type as well as custom JSON data that describes the notification.
+`database` 通知频道在一张数据表里存储通知信息。这张表包含了比如通知类型、JSON 格式数据等描述通知的信息。
 
-You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `notifications:table` command to generate a migration with the proper table schema:
+你可以查询这张表的内容在应用界面上展示通知。但是在这之前，你需要先创建一个数据表来保存通知。你可以用 `notifications:table` 命令来生成迁移表：
 
     php artisan notifications:table
 
     php artisan migrate
 
 <a name="formatting-database-notifications"></a>
-### Formatting Database Notifications
+### 格式化数据库通知
 
-If a notification supports being stored in a database table, you should define a `toDatabase` or `toArray` method on the notification class. This method will receive a `$notifiable` entity and should return a plain PHP array. The returned array will be encoded as JSON and stored in the `data` column of your `notifications` table. Let's take a look at an example `toArray` method:
+如果通知支持被存储到数据表中，你应该在通知类中定义一个 `toDatabase` 或 `toArray` 方法。这个方法接收 `$notifiable` 实体参数并返回一个普通的 PHP 数组。这个返回的数组将被转成 JSON 格式并存储到通知数据表的 `data` 列。我们来看一个 `toArray` 的例子：
 
     /**
-     * Get the array representation of the notification.
+     * 获取通知的数组展示方式
      *
      * @param  mixed  $notifiable
      * @return array
@@ -402,12 +401,12 @@ If a notification supports being stored in a database table, you should define a
 
 #### `toDatabase` Vs. `toArray`
 
-The `toArray` method is also used by the `broadcast` channel to determine which data to broadcast to your JavaScript client. If you would like to have two different array representations for the `database` and `broadcast` channels, you should define a `toDatabase` method instead of a `toArray` method.
+`toArray` 方法在 `broadcast` 频道也用到了，它用来决定广播给 JavaScript 客户端的数据。如果你想在 `database` 和 `broadcast` 频道中采用两种不同的数组展示方式，你应该定义 `toDatabase` 方法而非 `toArray` 方法。
 
 <a name="accessing-the-notifications"></a>
-### Accessing The Notifications
+### 访问通知
 
-Once notifications are stored in the database, you need a convenient way to access them from your notifiable entities. The `Illuminate\Notifications\Notifiable` trait, which is included on Laravel's default `App\User` model, includes a `notifications` Eloquent relationship that returns the notifications for the entity. To fetch notifications, you may access this method like any other Eloquent relationship. By default, notifications will be sorted by the `created_at` timestamp:
+一旦通知被存到数据库中，你需要一种方便的方式来从通知实体中访问它们。 `Illuminate\Notifications\Notifiable` trait 包含一个可以返回这个实体所有通知的 `notifications` Eloquent 关联。要获取这些通知，你可以像用其他 Eloquent 关联一样来使用这个方法。默认情况下，通知将会以 `created_at` 时间戳来排序：
 
     $user = App\User::find(1);
 
@@ -415,7 +414,7 @@ Once notifications are stored in the database, you need a convenient way to acce
         echo $notification->type;
     }
 
-If you want to retrieve only the "unread" notifications, you may use the `unreadNotifications` relationship. Again, these notifications will be sorted by the `created_at` timestamp:
+如果你只想检索未读通知，你可以使用 `unreadNotifications` 关联。检索出来的通知也是以 `created_at` 时间戳来排序的：
 
     $user = App\User::find(1);
 
@@ -423,12 +422,12 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
         echo $notification->type;
     }
 
-> {tip} To access your notifications from your JavaScript client, you should define a notification controller for your application which returns the notifications for a notifiable entity, such as the current user. You may then make an HTTP request to that controller's URI from your JavaScript client.
+> {tip} 要从 JavaScript 客户端来访问通知的话，你应该定义一个通知控制器来给可通知的实体返回通知，比如给当前用户返回通知。然后你就可以在 JavaScript 客户端来发起对应 URI 的 HTTP 请求了。
 
 <a name="marking-notifications-as-read"></a>
-### Marking Notifications As Read
+### 标为已读
 
-Typically, you will want to mark a notification as "read" when a user views it. The `Illuminate\Notifications\Notifiable` trait provides a `markAsRead` method, which updates the `read_at` column on the notification's database record:
+通常情况下，当用户查看了通知时，你就希望把通知标为已读。`Illuminate\Notifications\Notifiable` trait 提供了一个 `markAsRead` 方法，它能在对应的数据库记录里更新 `read_at` 列：
 
     $user = App\User::find(1);
 
@@ -436,37 +435,37 @@ Typically, you will want to mark a notification as "read" when a user views it. 
         $notification->markAsRead();
     }
 
-However, instead of looping through each notification, you may use the `markAsRead` method directly on a collection of notifications:
+你可以使用 `markAsRead` 方法直接操作一个通知集合，而不是一条条遍历每个通知：
 
     $user->unreadNotifications->markAsRead();
 
-You may also use a mass-update query to mark all of the notifications as read without retrieving them from the database:
+你可以用批量更新的方式来把所有通知标为已读，而不用在数据库里检索：
 
     $user = App\User::find(1);
 
     $user->unreadNotifications()->update(['read_at' => Carbon::now()]);
 
-Of course, you may `delete` the notifications to remove them from the table entirely:
+当然，你可以通过 `delete` 通知来把它们从数据库删除：
 
     $user->notifications()->delete();
 
 <a name="broadcast-notifications"></a>
-## Broadcast Notifications
+## 广播通知
 
 <a name="broadcast-prerequisites"></a>
-### Prerequisites
+### 先决条件
 
-Before broadcasting notifications, you should configure and be familiar with Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services. Event broadcasting provides a way to react to server-side fired Laravel events from your JavaScript client.
+在广播通知前，你应该配置并熟悉 Laravel [事件广播](/docs/{{version}}/broadcasting) 服务。事件广播提供了一种 JavaScript 客户端响应服务端 Laravel 事件的机制。
 
 <a name="formatting-broadcast-notifications"></a>
-### Formatting Broadcast Notifications
+### 格式化广播通知
 
-The `broadcast` channel broadcasts notifications using Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services, allowing your JavaScript client to catch notifications in realtime. If a notification supports broadcasting, you should define a `toBroadcast` method on the notification class. This method will receive a `$notifiable` entity and should return a `BroadcastMessage` instance. The returned data will be encoded as JSON and broadcast to your JavaScript client. Let's take a look at an example `toBroadcast` method:
+`broadcast` 频道使用 Laravel  [事件广播](/docs/{{version}}/broadcasting) 服务来广播通知，它使得 JavaScript 客户端可以实时捕捉通知。如果一条通知支持广播，你应该在通知类里定义一个 `toBroadcast` 或 `toArray` 方法。这个方法将收到一个 `$notifiable` 实体并返回一个普通的 PHP 数组。返回的数组会被编码成 JSON 格式并广播给你的 JavaScript 客户端。我们来看个 `toArray` 方法的例子：
 
     use Illuminate\Notifications\Messages\BroadcastMessage;
 
     /**
-     * Get the broadcastable representation of the notification.
+     * 获取通知的数组展示方式
      *
      * @param  mixed  $notifiable
      * @return BroadcastMessage
@@ -479,7 +478,7 @@ The `broadcast` channel broadcasts notifications using Laravel's [event broadcas
         ]);
     }
 
-#### Broadcast Queue Configuration
+#### 广播队列配置
 
 All broadcast notifications are queued for broadcasting. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
 
@@ -487,12 +486,12 @@ All broadcast notifications are queued for broadcasting. If you would like to co
                     ->onConnection('sqs')
                     ->onQueue('broadcasts');
 
-> {tip} In addition to the data you specify, broadcast notifications will also contain a `type` field containing the class name of the notification.
+> {tip} 除了你指定的数据外，广播通知也包含一个 `type` 字段，这个字段包含了通知类的类名。
 
 <a name="listening-for-notifications"></a>
-### Listening For Notifications
+### 监听通知
 
-Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to a `App\User` instance with an ID of `1`, the notification will be broadcast on the `App.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting), you may easily listen for notifications on a channel using the `notification` helper method:
+通知将会在一个私有频道里进行广播，频道格式为 `{notifiable}.{id}`。所以，如果你给 ID 为 `1` 的 `App\User` 实例发送通知，这个通知就在 `App.User.1` 私有频道里被发送。当你使用 [Laravel Echo](/docs/{{version}}/broadcasting) 的时候，你可以很简单地使用 `notification` 辅助函数来监听一个频道的通知：
 
     Echo.private('App.User.' + userId)
         .notification((notification) => {
@@ -529,12 +528,12 @@ If you would like to customize which channels a notifiable entity receives its b
     }
 
 <a name="sms-notifications"></a>
-## SMS Notifications
+## 短信通知
 
 <a name="sms-prerequisites"></a>
-### Prerequisites
+### 先决条件
 
-Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com/). Before you can send notifications via Nexmo, you need to install the `nexmo/client` Composer package and add a few configuration options to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+在 Laravel 中发送短信通知是基于 [Nexmo](https://www.nexmo.com/)服务的。在通过 Nexmo 发送短信通知前，你需要安装 `nexmo/client` Composer 包并在 `config/services.php` 配置文件中添加几个配置选项。你可以复制下面的配置示例来开始使用：
 
     'nexmo' => [
         'key' => env('NEXMO_KEY'),
@@ -542,15 +541,15 @@ Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com
         'sms_from' => '15556666666',
     ],
 
-The `sms_from` option is the phone number that your SMS messages will be sent from. You should generate a phone number for your application in the Nexmo control panel.
+`sms_from` 选项是短信消息发送者的手机号码。你可以在 Nexmo 控制面板中生成一个手机号码。
 
 <a name="formatting-sms-notifications"></a>
-### Formatting SMS Notifications
+### 格式化短信通知
 
-If a notification supports being sent as a SMS, you should define a `toNexmo` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\NexmoMessage` instance:
+如果通知支持以短信方式发送，你应该在通知类里定义一个 `toNexmo` 方法。这个方法将会收到一个  `$notifiable` 实体并返回一个 `Illuminate\Notifications\Messages\NexmoMessage` 实例：
 
     /**
-     * Get the Nexmo / SMS representation of the notification.
+     * 获取通知的 Nexmo / 短信展示方式
      *
      * @param  mixed  $notifiable
      * @return NexmoMessage
@@ -579,12 +578,12 @@ If your SMS message will contain unicode characters, you should call the `unicod
     }
 
 <a name="customizing-the-from-number"></a>
-### Customizing The "From" Number
+### 自定义 “From” 号码
 
-If you would like to send some notifications from a phone number that is different from the phone number specified in your `config/services.php` file, you may use the `from` method on a `NexmoMessage` instance:
+如果你想通过一个手机号来发送某些通知，而这个手机号不同于你的 `config/services.php` 配置文件中指定的话，你可以在 `NexmoMessage` 实例中使用 `from`：
 
     /**
-     * Get the Nexmo / SMS representation of the notification.
+     * 获取通知的 Nexmo / 短信展示方式
      *
      * @param  mixed  $notifiable
      * @return NexmoMessage
@@ -597,9 +596,9 @@ If you would like to send some notifications from a phone number that is differe
     }
 
 <a name="routing-sms-notifications"></a>
-### Routing SMS Notifications
+### 路由短信通知
 
-When sending notifications via the `nexmo` channel, the notification system will automatically look for a `phone_number` attribute on the notifiable entity. If you would like to customize the phone number the notification is delivered to, define a `routeNotificationForNexmo` method on the entity:
+当通过 `nexmo` 频道来发送通知的时候，通知系统会自动寻找通知实体的 `phone_number` 属性。如果你想自定义通知被发送的手机号码，你要在通知实体里定义一个 `routeNotificationForNexmo` 方法。
 
     <?php
 
@@ -613,7 +612,7 @@ When sending notifications via the `nexmo` channel, the notification system will
         use Notifiable;
 
         /**
-         * Route notifications for the Nexmo channel.
+         * Nexmo 频道的路由通知
          *
          * @return string
          */
@@ -624,24 +623,24 @@ When sending notifications via the `nexmo` channel, the notification system will
     }
 
 <a name="slack-notifications"></a>
-## Slack Notifications
+## Slack 通知
 
 <a name="slack-prerequisites"></a>
-### Prerequisites
+### 先决条件
 
-Before you can send notifications via Slack, you must install the Guzzle HTTP library via Composer:
+通过 Slack 发送通知前，你必须通过 Composer 安装 Guzzle HTTP 库：
 
     composer require guzzlehttp/guzzle
 
-You will also need to configure an "Incoming Webhook" integration for your Slack team. This integration will provide you with a URL you may use when [routing Slack notifications](#routing-slack-notifications).
+你还需要给 Slack 组配置 "Incoming Webhook" 。它将提供你使用 [路由 Slack 通知](#routing-slack-notifications)时用到的 URL。
 
 <a name="formatting-slack-notifications"></a>
-### Formatting Slack Notifications
+### 格式化 Slack 通知
 
-If a notification supports being sent as a Slack message, you should define a `toSlack` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\SlackMessage` instance. Slack messages may contain text content as well as an "attachment" that formats additional text or an array of fields. Let's take a look at a basic `toSlack` example:
+如果通知支持被当做 Slack 消息发送，你应该在通知类里定义一个 `toSlack` 方法。这个方法将收到一个 `$notifiable` 实体并且返回一个 `Illuminate\Notifications\Messages\SlackMessage` 实例。Slack 消息可以包含文本内容以及一个 "attachment" 用来格式化额外文本或者字段数组。我们来看个基本的 `toSlack` 例子：
 
     /**
-     * Get the Slack representation of the notification.
+     * 获取通知的 Slack 展示方式
      *
      * @param  mixed  $notifiable
      * @return SlackMessage
@@ -652,7 +651,7 @@ If a notification supports being sent as a Slack message, you should define a `t
                     ->content('One of your invoices has been paid!');
     }
 
-In this example we are just sending a single line of text to Slack, which will create a message that looks like the following:
+这个例子中，我们只发送了一行文本给 Slack，这会创建类似下面的一条消息：
 
 <img src="https://laravel.com/assets/img/basic-slack-notification.png">
 
@@ -675,12 +674,12 @@ You may use the `from` and `to` methods to customize the sender and recipient. T
     }
 
 <a name="slack-attachments"></a>
-### Slack Attachments
+### Slack 附加项 (Attachments)
 
-You may also add "attachments" to Slack messages. Attachments provide richer formatting options than simple text messages. In this example, we will send an error notification about an exception that occurred in an application, including a link to view more details about the exception:
+你可以给 Slack 消息添加 "附加项"。附加项提供了比简单文本消息更丰富的格式化选项。在这个例子中，我们将发送一条有关应用中异常的错误通知，它里面有个可以查看这个异常更多详情的链接：
 
     /**
-     * Get the Slack representation of the notification.
+     * 获取通知的 Slack 展示方式。
      *
      * @param  mixed  $notifiable
      * @return SlackMessage
@@ -698,14 +697,14 @@ You may also add "attachments" to Slack messages. Attachments provide richer for
                     });
     }
 
-The example above will generate a Slack message that looks like the following:
+上面这个例子将会生成一条类似下面的 Slack 消息：
 
 <img src="https://laravel.com/assets/img/basic-slack-attachment.png">
 
-Attachments also allow you to specify an array of data that should be presented to the user. The given data will be presented in a table-style format for easy reading:
+附加项也允许你指定一个应该被展示给用户的数据的数组。给定的数据将会以表格样式展示出来，这能方便阅读：
 
     /**
-     * Get the Slack representation of the notification.
+     * 获取通知的 Slack 展示方式
      *
      * @param  mixed  $notifiable
      * @return SlackMessage
@@ -728,7 +727,7 @@ Attachments also allow you to specify an array of data that should be presented 
                     });
     }
 
-The example above will create a Slack message that looks like the following:
+上面的例子将会生成一条类似下面的 Slack 消息：
 
 <img src="https://laravel.com/assets/img/slack-fields-attachment.png">
 
@@ -757,9 +756,9 @@ If some of your attachment fields contain Markdown, you may use the `markdown` m
     }
 
 <a name="routing-slack-notifications"></a>
-### Routing Slack Notifications
+### 路由 Slack 通知
 
-To route Slack notifications to the proper location, define a `routeNotificationForSlack` method on your notifiable entity. This should return the webhook URL to which the notification should be delivered. Webhook URLs may be generated by adding an "Incoming Webhook" service to your Slack team:
+要把 Slack 通知路由到正确的位置，你要在通知实体中定义 `routeNotificationForSlack` 方法。它返回通知要被发往的 URL 回调地址。URL 可以通过在 Slack 组里面添加 "Incoming Webhook" 服务来生成。
 
     <?php
 
@@ -773,7 +772,7 @@ To route Slack notifications to the proper location, define a `routeNotification
         use Notifiable;
 
         /**
-         * Route notifications for the Slack channel.
+         * Slack 频道的通知路由
          *
          * @return string
          */
@@ -784,12 +783,12 @@ To route Slack notifications to the proper location, define a `routeNotification
     }
 
 <a name="notification-events"></a>
-## Notification Events
+## 通知事件
 
-When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` event is fired by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your `EventServiceProvider`:
+当通知发送后，通知系统就会触发 `Illuminate\Notifications\Events\NotificationSent` 事件。它包含了 "notifiable" 实体和通知实例本身。你应该在 `EventServiceProvider` 中注册监听器：
 
     /**
-     * The event listener mappings for the application.
+     * 应用中的事件监听映射
      *
      * @var array
      */
@@ -799,12 +798,12 @@ When a notification is sent, the `Illuminate\Notifications\Events\NotificationSe
         ],
     ];
 
-> {tip} After registering listeners in your `EventServiceProvider`, use the `event:generate` Artisan command to quickly generate listener classes.
+> {tip} 注册完监听器后，使用 `event:generate` Artisan 命令来快速生成监听器类。
 
-Within an event listener, you may access the `notifiable`, `notification`, and `channel` properties on the event to learn more about the notification recipient or the notification itself:
+在事件监听器中，你可以访问事件中的 `notifiable`, `notification`, 和 `channel` 属性，来了解通知接收者和通知本身：
 
     /**
-     * Handle the event.
+     * 处理事件
      *
      * @param  NotificationSent  $event
      * @return void
@@ -817,9 +816,9 @@ Within an event listener, you may access the `notifiable`, `notification`, and `
     }
 
 <a name="custom-channels"></a>
-## Custom Channels
+## 自定义频道
 
-Laravel ships with a handful of notification channels, but you may want to write your own drivers to deliver notifications via other channels. Laravel makes it simple. To get started, define a class that contains a `send` method. The method should receive two arguments: a `$notifiable` and a `$notification`:
+Laravel 提供了开箱即用的通知频道，但是你可能会想编写自己的驱动来通过其他频道发送通知。Laravel 很容易实现。首先，定义一个包含 `send` 方法的类。这个方法应该收到两个参数：`$notifiable` 和 `$notification`:
 
     <?php
 
@@ -830,7 +829,7 @@ Laravel ships with a handful of notification channels, but you may want to write
     class VoiceChannel
     {
         /**
-         * Send the given notification.
+         * 发送给定通知
          *
          * @param  mixed  $notifiable
          * @param  \Illuminate\Notifications\Notification  $notification
@@ -840,11 +839,11 @@ Laravel ships with a handful of notification channels, but you may want to write
         {
             $message = $notification->toVoice($notifiable);
 
-            // Send notification to the $notifiable instance...
+            // 将通知发送给 $notifiable 实例
         }
     }
 
-Once your notification channel class has been defined, you may simply return the class name from the `via` method of any of your notifications:
+一旦定义了通知频道类，你应该在所有通知里通过 `via` 方法来简单地返回这个频道的类名。
 
     <?php
 
@@ -861,7 +860,7 @@ Once your notification channel class has been defined, you may simply return the
         use Queueable;
 
         /**
-         * Get the notification channels.
+         * 获取通知频道
          *
          * @param  mixed  $notifiable
          * @return array|string
@@ -872,7 +871,7 @@ Once your notification channel class has been defined, you may simply return the
         }
 
         /**
-         * Get the voice representation of the notification.
+         * 获取通知的声音展示方式
          *
          * @param  mixed  $notifiable
          * @return VoiceMessage
@@ -882,3 +881,8 @@ Once your notification channel class has been defined, you may simply return the
             // ...
         }
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@司维](https://phphub.org/users/5711)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@Leon0204](https://github.com/leon0204) at Github  |
