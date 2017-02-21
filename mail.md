@@ -254,7 +254,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
                         ->attach('/path/to/file');
         }
 
-附加文件到消息时，你也可以传递 `数组` 给 `attache` 方法作为第二个个参数，以指定显示名称和 / 或是 MIME 类型：
+附加文件到消息时，你也可以传递 `数组` 给 `attache` 方法作为第二个参数，以指定显示名称和 / 或是 MIME 类型：
 
         /**
          * Build the message.
