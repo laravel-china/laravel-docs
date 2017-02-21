@@ -15,21 +15,21 @@ Laravel 的 Contracts 是一组定义了框架核心服务的接口。例如，`
 
 框架对每个 contract 都提供了相应的实现。例如，Laravel 提供了一个对各种驱动程序的队列实现，以及一个由  [SwiftMailer](http://swiftmailer.org/) 驱动的邮件实现。
 
-所有的 Laravel contracts 存放在 [他们单独的GitHub库](https://github.com/illuminate/contracts) 。除了提供给所有可用的 contracts 一个快速的参考，还可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
+所有的 Laravel contracts 存放在他们 [单独的GitHub库](https://github.com/illuminate/contracts) 。除了提供给所有可用的 contracts 一个快速的参考，还可以单独作为一个低耦合的扩展包来让其他扩展包开发者使用。
 
 <a name="contracts-vs-facades"></a>
 ### Contracts Vs. Facades
 
 Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种使用 Laravel 的服务的简单方法，而不需要类型提示和解析服务容器之外的 contracts 。 在大多数情况下，每个 facade 都有一个等效 contract。
 
-不像 facades 它不需要的构造类的依赖关系，而 contracts 需要为你的类定义显式依赖关系。 一些开发人员更喜欢以这种方式显式定义它们的依赖关系，因此更喜欢使用 contracts，而其他开发人员喜欢 facades 的方便性。
+不像 facades 那样，contracts 需要显式定义依赖关系。 一些开发人员更喜欢以这种方式显式定义它们的依赖关系，因此更喜欢使用 contracts，而其他开发人员喜欢 facades 的方便性。
 
 > {tip} 大多数应用程序不论使用 facades 还是 contracts 都无所谓。 然而，如果你正在构建一个扩展包，强烈地建议使用 contracts，因为它们将更容易在包上下文中测试。
 
 <a name="when-to-use-contracts"></a>
 ## 何时使用 contracts
 
-正如其他地方所讨论的，使用 contracts 或 facades 很大程度上归结于个人品味和开发团队的品味。 contracts 和 facades 都可用于创建稳健，经过良好测试的 Laravel 应用程序。 只要你一直能关注类的功能点，你会发现使用 contracts 和 facades 之间很少有实际差异。
+正如其他地方所讨论的，使用 contracts 或 facades 很大程度上归结于个人品味和开发团队的品味。 contracts 和 facades 都可用于创建稳健、经过良好测试的 Laravel 应用程序。 只要你一直能关注类的功能点，你会发现使用 contracts 和 facades 之间很少有实际差异。
 
 但是，您可能仍有几个关于 contracts 的问题。例如，为什么使用接口？是不是使用接口更复杂？使用接口的原因如下：低耦合和简单性。
 
@@ -37,7 +37,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种�
 <a name="loose-coupling"></a>
 ### 低耦合
 
-首先，让我们回顾一些与缓存实现紧密耦合的代码。 如下：
+首先，让我们回顾一些与缓存实现紧密耦合的代码。如下：
 
     <?php
 
@@ -46,12 +46,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种�
     class Repository
     {
         /**
-         * 缓存实例
+         * 缓存实例。
          */
         protected $cache;
 
         /**
-         * 创建一个仓库实例
+         * 创建一个仓库实例。
          *
          * @param  \SomePackage\Cache\Memcached  $cache
          * @return void
@@ -62,7 +62,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种�
         }
 
         /**
-         * 按照Id检索订单
+         * 按照Id检索订单。
          *
          * @param  int  $id
          * @return Order
@@ -75,11 +75,11 @@ Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种�
         }
     }
 
-在这个类中，代码跟给定的缓存实现紧密耦合。因为我们依赖于一个具体的 Cache 类从一个软件包供应商。如果该包的API更改，我们的代码也必须更改。
+在这个类中，代码跟给定的缓存实现紧密耦合。因为我们依赖于一个具体的 Cache 类从一个软件包供应商。如果该包的 API 更改，我们的代码也必须更改。
 
 同样，如果我们要用另一种缓存技术（ Redis ）替换我们的底层缓存技术（ Memcached ），我们再次必须修改我们的 Repository 。我们的 Repository 类不应该知道这么多关于谁提供了数据，或是如何提供等细节。
 
-**比起上面的做法，我们可以使用一个简单、和扩展包无关的接口来改进代码:**
+**比起上面的做法，我们可以使用一个简单，和扩展包无关的接口来改进代码：**
 
     <?php
 
@@ -90,12 +90,12 @@ Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种�
     class Repository
     {
         /**
-         * 缓存实例
+         * 缓存实例。
          */
         protected $cache;
 
         /**
-         * 创建一个仓库实例
+         * 创建一个仓库实例。
          *
          * @param  Cache  $cache
          * @return void
@@ -121,7 +121,7 @@ Laravel 的 [facades](/docs/{{version}}/facades) 和辅助函数提供了一种�
 
 那么，如何获取一个 contract 实现呢？这其实很简单。
 
-Laravel中的许多类型的类都是通过 [服务容器](/docs/{{version}}/container)解析，包括控制器，事件监听器，中间件，任务队列，甚至路由闭包。所以，要获得一个 contract 的实现，你只需要在正在解析的类的构造函数中的声明「类型约束」即可。
+Laravel 中的许多类型的类都是通过 [服务容器](/docs/{{version}}/container) 解析，包括控制器，事件监听器，中间件，任务队列，甚至路由闭包。所以，要获得一个 contract 的实现，你只需要在正在解析的类的构造函数中的声明「类型约束」即可。
 
 例如，看看这个事件监听器：
 
@@ -136,12 +136,12 @@ Laravel中的许多类型的类都是通过 [服务容器](/docs/{{version}}/con
     class CacheOrderInformation
     {
         /**
-         * Redis 数据库实现
+         * Redis 数据库实现。
          */
         protected $redis;
 
         /**
-         * 创建事件处理器实例
+         * 创建事件处理器实例。
          *
          * @param  Database  $redis
          * @return void
@@ -152,7 +152,7 @@ Laravel中的许多类型的类都是通过 [服务容器](/docs/{{version}}/con
         }
 
         /**
-         * 处理事件
+         * 处理事件。
          *
          * @param  OrderWasPlaced  $event
          * @return void
