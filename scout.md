@@ -21,7 +21,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Scout 是针对 [Eloquent models](/docs/{{version}}/eloquent) 模型 开发的基于驱动的全文检索系统。Scout 使用模型观察者时会自动保持你的检索索引与你的 Eloquent 记录同步。
+Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的基于驱动的全文检索系统。Scout 使用模型观察者时会自动保持你的检索索引与你的 Eloquent 记录同步。
 
 目前，Scout 带着一个 [Algolia](https://www.algolia.com/) 驱动；然而，扩展 Scout 并不难，你可以通过自定义驱动来自由的扩展 Scout。
 
@@ -33,7 +33,6 @@ Laravel Scout 是针对 [Eloquent models](/docs/{{version}}/eloquent) 模型 开
     composer require laravel/scout
 
 接下来，你需要将 `ScoutServiceProvider` 添加到你的 `config/app.php` 配置文件的 `providers` 数组中：
-Next, you should add the `ScoutServiceProvider` to the `providers` array of your `config/app.php` configuration file:
 
     Laravel\Scout\ScoutServiceProvider::class,
 
@@ -41,7 +40,7 @@ Next, you should add the `ScoutServiceProvider` to the `providers` array of your
 
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 
-最后，将 `Laravel\Scout\Searchable` 加到你想要做检索的模型，这个 trait 会注册一个模型观察者来保持模型同步到检索的驱动：
+最后，将 `Laravel\Scout\Searchable` trait 加到你想要做检索的模型，这个 trait 会注册一个模型观察者来保持模型同步到检索的驱动：
 
     <?php
 
@@ -148,7 +147,6 @@ Next, you should add the `ScoutServiceProvider` to the `providers` array of your
 ### 添加记录
 
 当你将 `Laravel\Scout\Searchable` 添加到模型之后，你只需要 `save` 一个模型实例，它就会自动的添加到你检索的索引里。如果你的 Scout 配置里 [使用队列](#queueing) 这个操作会在后台由你的 queue worker 执行：
-Once you have added the `Laravel\Scout\Searchable` trait to a model, all you need to do is `save` a model instance and it will automatically be added to your search index. If you have configured Scout to [use queues](#queueing) this operation will be performed in the background by your queue worker:
 
     $order = new App\Order;
 
