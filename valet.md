@@ -16,7 +16,7 @@
 ## 简介
 Valet 是为 Mac 提供的极简主义开发环境，没有 Vagrant ，也无需 `/etc/hosts` 文件，甚至可以使用本地隧道公开共享你的站点。_Yeah, we like it too._
 
-Laravel Valet 会在你的机器启动的时候在后台运行 [Nginx](https://www.nginx.com/) ，然后使用 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq) ， Valet 将所有的请求代理到 `*.dev` 域名并指向本地安装的站点目录。
+Laravel Valet 会在你的 Mac 上将 [Nginx](https://www.nginx.com/) 设置为随系统启动后台运行，然后使用 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq) ， Valet 将所有的请求代理到 `*.dev` 域名并指向本地安装的站点目录。
 
 换句话说，一个速度极快的 Laravel 开发环境仅仅需要占用 7MB 内存。 Valet 并不是想要替代 Vagrant 或者 Homestead，只是提供另外一种选择，更加灵活、方便、以及占用更小的内存。
 
@@ -106,7 +106,7 @@ Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你�
 
 <a name="the-park-command"></a>
 
-** `park` 命令 **
+**`park`命令 **
 
 <div class="content-list" markdown="1">
 - 在你的 Mac 中创建一个新的目录，例如 `mkdir ~/Sites` 。然后 `cd ~/Sites` 并且运行 `valet park` 。这个命令将在当前所在目录作为 Web 根目录， Valet 将会在这个目录中搜索站点。
@@ -118,7 +118,7 @@ Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你�
 
 <a name="the-link-command"></a>
 
-** `link` 命令 **
+**`link`命令 **
 
 link 命令也被用来服务你的 Laravel 站点。这个命令在你想要在目录中提供单个站点是很有用。
 
@@ -135,11 +135,11 @@ link 命令也被用来服务你的 Laravel 站点。这个命令在你想要在
 
 **通过TLS让站点更安全**
 
-默认的情况下, Valet 通过纯 HTTP 协议服务网站。然而，如果你想利用 HTTP/2 提供加密的 TLS ，你可以使用 `secure` 命令。例如，你有一个站点 `laravel.dev` ，可以使用以下命令让其更安全：
+默认的情况下， Valet 通过纯 HTTP 协议服务网站。然而，如果你想利用 HTTP/2 提供加密的 TLS ，你可以使用 `secure` 命令。例如，你有一个站点 `laravel.dev` ，可以使用以下命令让其更安全：
 
 	valet secure laravel
 
-想恢复一个站点到普通的 HTTP 使用 `unsecure 命令`，这个命令可以去除 secure 增加的安全加密:
+想恢复一个站点到普通的 HTTP 使用 `unsecure 命令`，这个命令可以去除 secure 增加的安全加密：
 
 	valet unsecure laravel
 
