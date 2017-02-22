@@ -884,4 +884,4 @@ Laravel 提供了开箱即用的通知频道，但是你可能会想编写自己
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@司维](https://phphub.org/users/5711)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@Leon0204](https://github.com/leon0204) at Github  |
+| [@司维](https://phphub.org/users/11602)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@Leon0204](https://github.com/leon0204) at Github  |
