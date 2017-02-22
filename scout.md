@@ -305,4 +305,4 @@ Scout 允许你增加一个简单的「where」语句链接到搜索语句上。
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@司维](https://phphub.org/users/5711)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@Leon0204](https://github.com/leon0204) at Github  |
+| [@司维](https://phphub.org/users/11602)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@Leon0204](https://github.com/leon0204) at Github  |
