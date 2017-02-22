@@ -26,7 +26,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel 提供了多种不同的处验证方法来对应用程序传入的数据进行验证。默认情况下，Laravel 的基类控制器使用 `ValidatesRequests` Trait，它提供了方便的方法使用各种强大的验证规则来验证传入的 HTTP 请求数据。
+Laravel 提供了多种不同的验证方法来对应用程序传入的数据进行验证。默认情况下，Laravel 的基类控制器使用 `ValidatesRequests` Trait，它提供了方便的方法使用各种强大的验证规则来验证传入的 HTTP 请求数据。
 
 <a name="validation-quickstart"></a>
 ## 快速上手
