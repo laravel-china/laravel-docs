@@ -784,7 +784,7 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
 <a name="notification-events"></a>
 ## 通知事件
 
-当通知发送后，通知系统就会触发 `Illuminate\Notifications\Events\NotificationSent` 事件。它包含了 "notifiable" 实体和通知实例本身。你应该在 `EventServiceProvider` 中注册监听器：
+当通知发送后，通知系统就会触发 `Illuminate\Notifications\Events\NotificationSent` 事件。它包含了 「notifiable」 实体和通知实例本身。你应该在 `EventServiceProvider` 中注册监听器：
 
     /**
      * 应用中的事件监听映射
