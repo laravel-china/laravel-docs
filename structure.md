@@ -41,7 +41,7 @@
 <a name="the-root-app-directory"></a>
 #### `app` 目录
 
- `app` 目录，如你所料，这里面包含应用程序的核心代码。另外，你为应用编写的代码绝大多数也会放到这里，我们之后将很快对这个目录的细节进行深入探讨。
+ `app` 目录，如你所料，这里面包含应用程序的核心代码。另外，你为应用编写的代码绝大多数也会放到这里，   我们之后将很快对这个目录的细节进行深入探讨。
 
 <a name="the-bootstrap-directory"></a>
 #### `Bootstrap` 目录
@@ -73,7 +73,7 @@
 
  `routes` 目录包含了应用的所有路由定义。Laravel 默认提供了三个路由文件：`web.php`, `api.php`, 和 `console.php`。
 
- `web.php` 文件里定义的路由都会在 `RouteServiceProvider` 中被指定应用到 `web` 中间件组，具备 Session、CSRF 防护以及 Cookie 加密功能，如果应用无需提供无状态的、RESTful 风格的API，所有路由都会定义在 `web.php` 文件。
+ `web.php` 文件里定义的路由都会在 `RouteServiceProvider` 中被指定应用到 `web` 中间件组，具备 Session 、CSRF 防护以及 Cookie 加密功能，如果应用无需提供无状态的、RESTful 风格的API，所有路由都会定义在 `web.php` 文件。
  
  `api.php` 文件里定义的路由都会在 `RouteServiceProvider` 中被指定应用到 `api` 中间件组，具备频率限制功能，这些路由是无状态的，所以请求通过这些路由进入应用需要通过 API 令牌进行认证并且不能访问 Session 状态。
 
@@ -104,7 +104,7 @@
 应用的核心代码位于 `app` 目录下，默认情况下，该目录位于命名空间 `App` 下， 并且被 Composer 通过 [PSR-4](http://www.php-fig.org/psr/psr-4/) 自动载入标准 自动加载。
 
  `app` 目录下包含多个子目录，如 `Console` 、`Http` 、`Providers` 等。
- 其中 `Console` 和 `Http` 目录为进入应用程序核心提供了一个 API 。HTTP协议和CLI是和应用进行交互的两种机制，但实际上并不包含应用逻辑。换句话说，它们是两种简单地发布命令给应用程序的方法。`Console` 目录包含你全部的 Artisan 命令，而 `Http` 目录包含你的控制器、中间件和请求。
+ 其中 `Console` 和 `Http` 目录为进入应用程序核心提供了一个 API 。HTTP 协议和 CLI 是和应用进行交互的两种机制，但实际上并不包含应用逻辑。换句话说，它们是两种简单地发布命令给应用程序的方法。`Console` 目录包含你全部的 Artisan 命令，而 `Http` 目录包含你的控制器、中间件和请求。
  
  其他目录将会在你通过 Artisan 命令 make 生成相应类的时候生成到 `app` 目录下。例如，`app/Jobs` 目录在你执行 `make:job` 命令生成任务类时，才会出现在 `app` 目录下。
 
