@@ -478,8 +478,8 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
     }
 
 #### 广播队列配置
-
-All broadcast notifications are queued for broadcasting. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
+ 
+所有广播通知都排队等待广播。 如果要配置用于广播队列操作的队列连接或队列名称，你可以使用 `BroadcastMessage` 的 `onConnection` 和 `onQueue` 方法：
 
     return new BroadcastMessage($data)
                     ->onConnection('sqs')
@@ -497,9 +497,9 @@ All broadcast notifications are queued for broadcasting. If you would like to co
             console.log(notification.type);
         });
 
-#### Customizing The Notification Channel
+#### 自定义通知通道
 
-If you would like to customize which channels a notifiable entity receives its broadcast notifications on, you may define a `receivesBroadcastNotificationsOn` method on the notifiable entity:
+如果您想自定义应通知实体接收其广播通知的渠道，您可以定义一个 `receiveBroadcastNotificationsOn` 方法：
 
     <?php
 
@@ -514,7 +514,7 @@ If you would like to customize which channels a notifiable entity receives its b
         use Notifiable;
 
         /**
-         * The channels the user receives notification broadcasts on.
+         * 用户接收的通知广播
          *
          * @return array
          */
@@ -559,12 +559,12 @@ If you would like to customize which channels a notifiable entity receives its b
                     ->content('Your SMS message content');
     }
 
-#### Unicode Content
+#### Unicode 内容
 
-If your SMS message will contain unicode characters, you should call the `unicode` method when constructing the `NexmoMessage` instance:
+如果您的 SMS 消息包含 unicode 字符，您应该在构建 `NexmoMessage` 实例时调用 `unicode` 方法：
 
     /**
-     * Get the Nexmo / SMS representation of the notification.
+     * 获取通知的 Nexmo / 短信展示方式
      *
      * @param  mixed  $notifiable
      * @return NexmoMessage
@@ -577,7 +577,7 @@ If your SMS message will contain unicode characters, you should call the `unicod
     }
 
 <a name="customizing-the-from-number"></a>
-### 自定义 “From” 号码
+### 自定义 「From」 号码
 
 如果你想通过一个手机号来发送某些通知，而这个手机号不同于你的 `config/services.php` 配置文件中指定的话，你可以在 `NexmoMessage` 实例中使用 `from`：
 
@@ -654,12 +654,12 @@ If your SMS message will contain unicode characters, you should call the `unicod
 
 <img src="https://laravel.com/assets/img/basic-slack-notification.png">
 
-#### Customizing The Sender & Recipient
+#### 自定义发件人和收件人
 
-You may use the `from` and `to` methods to customize the sender and recipient. The `from` method accepts a username and emoji identifier, while the `to` method accepts a channel or username:
+您可以使用 `from' 和 `to` 方法来自定义发件人和收件人。 `from` 方法接受用户名和表情符号标识符，而 `to` 方法接受一个频道或用户名：
 
     /**
-     * Get the Slack representation of the notification.
+     * 获取通知的 Slack 展示方式
      *
      * @param  mixed  $notifiable
      * @return SlackMessage
@@ -730,12 +730,12 @@ You may use the `from` and `to` methods to customize the sender and recipient. T
 
 <img src="https://laravel.com/assets/img/slack-fields-attachment.png">
 
-#### Markdown Attachment Content
+#### Markdown 附件内容
 
-If some of your attachment fields contain Markdown, you may use the `markdown` method to instruct Slack to parse and display the given attachment fields as Markdown formatted text:
+如果一些附件字段包含 Markdown ，您可以使用 `markdown` 方法指示 Slack 解析并将给定的附件字段显示为 Markdown 格式的文本：
 
     /**
-     * Get the Slack representation of the notification.
+     * 获取通知的 Slack 展示方式
      *
      * @param  mixed  $notifiable
      * @return SlackMessage
