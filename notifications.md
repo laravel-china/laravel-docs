@@ -41,7 +41,7 @@
 <a name="introduction"></a>
 ## 简介
 
-除了 [发送邮件](/docs/{{version}}/mail)，Laravel 还支持通过多种频道发送通知，包括邮件、短信（通过 [Nexmo](https://www.nexmo.com/)）以及 [Slack](https://slack.com)。通知还能存到数据库，这样就能在网页界面上显示了。
+除了 [发送邮件](/docs/{{version}}/mail)，Laravel 还支持通过多种频道发送通知，包括邮件、短信（通过 [Nexmo](https://www.nexmo.com/)）以及 [Slack](https://slack.com) 。通知还能存到数据库，这样就能在网页界面上显示了。
 
 通常情况下，通知应该是简短、有信息量的消息来通知用户你的应用发生了什么。举例来说，如果你在编写一个在线交易应用，你应该会通过邮件和短信频道来给用户发送一条「账单已付」的通知。
 
@@ -60,7 +60,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 <a name="using-the-notifiable-trait"></a>
 ### 使用 Notifiable Trait
 
-通知可以通过两种方法发送： `Notifiable` trait 的 `notify` 方法或 `Notification` [facade](/docs/{{version}}/facades)。首先，让我们探索使用 trait ：
+通知可以通过两种方法发送： `Notifiable` trait 的 `notify` 方法或 `Notification` [facade](/docs/{{version}}/facades) 。首先，让我们探索使用 trait ：
 
     <?php
 
@@ -398,7 +398,7 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
         ];
     }
 
-#### `toDatabase` Vs. `toArray`
+#### `toDatabase` Vs `toArray`
 
 `toArray` 方法在 `broadcast` 频道也用到了，它用来决定广播给 JavaScript 客户端的数据。如果你想在 `database` 和 `broadcast` 频道中采用两种不同的数组展示方式，你应该定义 `toDatabase` 方法而非 `toArray` 方法。
 
@@ -577,7 +577,7 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
     }
 
 <a name="customizing-the-from-number"></a>
-### 自定义 「From」 号码
+### 自定义 `From` 号码
 
 如果你想通过一个手机号来发送某些通知，而这个手机号不同于你的 `config/services.php` 配置文件中指定的话，你可以在 `NexmoMessage` 实例中使用 `from`：
 
@@ -631,12 +631,12 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
 
     composer require guzzlehttp/guzzle
 
-你还需要给 Slack 组配置 "Incoming Webhook" 。它将提供你使用 [路由 Slack 通知](#routing-slack-notifications)时用到的 URL。
+你还需要给 Slack 组配置 「Incoming Webhook」 。它将提供你使用 [路由 Slack 通知](#routing-slack-notifications) 时用到的 URL。
 
 <a name="formatting-slack-notifications"></a>
 ### 格式化 Slack 通知
 
-如果通知支持被当做 Slack 消息发送，你应该在通知类里定义一个 `toSlack` 方法。这个方法将收到一个 `$notifiable` 实体并且返回一个 `Illuminate\Notifications\Messages\SlackMessage` 实例。Slack 消息可以包含文本内容以及一个 "attachment" 用来格式化额外文本或者字段数组。我们来看个基本的 `toSlack` 例子：
+如果通知支持被当做 Slack 消息发送，你应该在通知类里定义一个 `toSlack` 方法。这个方法将收到一个 `$notifiable` 实体并且返回一个 `Illuminate\Notifications\Messages\SlackMessage` 实例。Slack 消息可以包含文本内容以及一个 「attachment」 用来格式化额外文本或者字段数组。我们来看个基本的 `toSlack` 例子：
 
     /**
      * 获取通知的 Slack 展示方式
@@ -656,7 +656,7 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
 
 #### 自定义发件人和收件人
 
-您可以使用 `from' 和 `to` 方法来自定义发件人和收件人。 `from` 方法接受用户名和表情符号标识符，而 `to` 方法接受一个频道或用户名：
+您可以使用 `from` 和 `to` 方法来自定义发件人和收件人。 `from` 方法接受用户名和表情符号标识符，而 `to` 方法接受一个频道或用户名：
 
     /**
      * 获取通知的 Slack 展示方式
