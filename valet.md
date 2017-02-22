@@ -106,7 +106,7 @@ Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你�
 
 <a name="the-park-command"></a>
 
-**`park`命令 **
+**`park` 命令**
 
 <div class="content-list" markdown="1">
 - 在你的 Mac 中创建一个新的目录，例如 `mkdir ~/Sites` 。然后 `cd ~/Sites` 并且运行 `valet park` 。这个命令将在当前所在目录作为 Web 根目录， Valet 将会在这个目录中搜索站点。
@@ -118,7 +118,7 @@ Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你�
 
 <a name="the-link-command"></a>
 
-**`link`命令 **
+**`link` 命令**
 
 link 命令也被用来服务你的 Laravel 站点。这个命令在你想要在目录中提供单个站点是很有用。
 
