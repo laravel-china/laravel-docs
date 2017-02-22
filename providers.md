@@ -1,36 +1,39 @@
-# Laravel 的服务提供者设计模式
+# 服务提供者
+- [简介](#introduction)
+- [编写服务提供者](#writing-service-providers)
+    - [注册方法](#the-register-method)
+    - [引导方法](#the-boot-method)
+- [注册提供者](#registering-providers)
+- [延迟的提供者](#deferred-providers)
 
-- [简介](#简介)
-- [编写服务提供者](#编写服务提供者)
-    - [注册方法](#注册方法)
-    - [启动方法](#启动方法)
-- [注册提供者](#注册提供者)
-- [延迟提供者](#延迟提供者)
-
-<a name="简介"></a>
+<a name="introduction"></a>
 ## 简介
 
-服务提供者是所有 Laravel 应用程序启动的中心所在。包括你自己的应用程序，以及所有的 Laravel 核心服务，都是通过服务提供者启动的。
+服务提供者是所有 Laravel 应用程序引导启动的中心所在。包括您自己的应用程序，以及所有的 Laravel 核心服务，都是通过服务提供者引导启动的。
 
-但我们所说的「启动」指的是什么？一般而言，我们指的是 **注册** 事物，包括注册服务容器绑定、事件侦听器、中间件，甚至路由。服务提供者是设置你的应用程序的中心所在。
+但我们所谓的「引导启动」指的是什么？一般而言，我们指的是**注册**事物，包括注册服务容器绑定，事件监听器，中间件，甚至路由。服务提供者是配置应用程序的中心所在。
 
-若你打开 Laravel 的 `config/app.php` 文件，你将会看到 `providers` 数组。这些是你的应用会加载的所有服务提供者类。当然，它们之中有很多属于「延迟」提供者，意味着这些提供者不会在每次请求中都加载，而只有在真正需要这些提供者提供的服务时他们才会被加载。
+如果您打开 Laravel 的 `config/app.php` 文件，您会看到一个 `providers` 数组。这些是将被应用程序加载的服务提供者类。当然，它们其中有许多是「延迟」提供者，意味着它们不会每次请求都加载，只会按需加载。
 
-在这份概述中，你会学到如何编写你自己的服务提供者，并将它们注册于你的 Laravel 应用程序。
+在本概述中，您将学习如何编写自己的服务提供商，并在您的 Laravel 应用程序中注册它们。
 
-<a name="编写服务提供者"></a>
+<a name="writing-service-providers"></a>
 ## 编写服务提供者
 
-所有的服务提供者都继承了 `Illuminate\Support\ServiceProvider` 类。大多数服务提供者包含一个 `register` 方法和一个 `boot` 方法，在 `register` 方法中，你应该 **只将事物绑定至 [服务容器](/docs/{{version}}/container)** 之中。 永远不要试图在 `register` 方法中注册任何事件侦听器、路由或任何其它功能。
+所有服务提供者都需要继承 `Illuminate\Support\ServiceProvider` 类。大多数服务提供者都包含 `register` 和 `boot` 方法。在 `register` 方法中，您应该**只能将事物绑定到 [服务容器](/docs/{{version}}/container)**。不应该在 `register` 方法中尝试注册任何事件监听器，路由或者任何其他功能。
 
-Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的提供者：
+Artisan 命令行可以生成一个新的提供者通过 `make:provider` 命令：
 
     php artisan make:provider RiakServiceProvider
 
-<a name="注册方法"></a>
+<a name="the-register-method"></a>
 ### 注册方法
 
-如同之前提到的，在 `register` 方法中，你应该只将事物绑定至 [服务容器](/docs/{{version}}/container)中。永远不要尝试在 `register` 方法中注册任何事件侦听器、路由或任何其它功能。否则的话，你可能会意外地使用到由尚未加载的服务提供者所提供的服务。
+如前所述，在 `register` 方法中，您只能将事物绑定到 [服务容器](/docs/{{version}}/container) 。不应该在 `register` 方法中尝试注册任何事件监听器，路由或者任何其他功能。否则，您可能会意外的使用到尚未加载的服务提供者提供的服务。
+
+让我们来看看一个基本的服务提供者。在服务提供者的方法中，都会提供一个有服务容器访问权限的 `$app` 属性：
+
+
 
 现在，让我们来看看基本的服务提供者。在你的任意一个服务提供者方法中，你总是可以通过访问 `$app` 属性使用服务容器：
     <?php
@@ -43,7 +46,7 @@ Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的
     class RiakServiceProvider extends ServiceProvider
     {
         /**
-         * 在容器中注册绑定。
+         * 在容器中注册绑定
          *
          * @return void
          */
@@ -55,12 +58,13 @@ Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的
         }
     }
 
-此服务提供者只定义了一个 `register` 方法，并在服务容器中使用此方法定义了一份 `Riak\Connection` 的实现。若你不了解服务容器是如何运作的，可查阅 [its documentation](/docs/{{version}}/container)。
+服务提供者只定义了一个 `register` 方法，并且使用该方法在服务容器中定义了一个 `Riak\Connection` 类的实现。如果您不明白服务容器的工作原理，请查看 [服务容器](/docs/{{version}}/container)。
 
-<a name="启动方法"></a>
-### 启动方法
 
-因此，若我们需要在我们的服务提供者中注册一个视图 composer 则应该在 `boot`方法中完成。 **此方法会在所有其它的服务提供者被注册后才被调用**, 意味着你能访问已经被框架注册的所有其它服务：
+<a name="the-boot-method"></a>
+### 引导方法
+
+那么，如果我们需要在我们的服务提供商中注册一个视图合成器呢？这应该在 `boot` 方法中完成。**此方法在所有其他服务提供者均已注册之后调用**，这意味着您可以访问已由框架注册的所有服务：
 
     <?php
 
@@ -71,7 +75,7 @@ Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的
     class ComposerServiceProvider extends ServiceProvider
     {
         /**
-         * 启动任意应用服务。
+         * 引导启动任何应用程序服务
          *
          * @return void
          */
@@ -83,9 +87,9 @@ Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的
         }
     }
 
-#### 启动方法依赖注入
+#### 引导方法依赖注入
 
-我们可以为我们 `boot` 方法中的依赖作类型提示。[服务容器](/docs/{{version}}/container) 会自动注入你所需要的任何依赖：
+您可以为服务提供者的 `boot` 方法设置类型提示。[服务容器](/docs/{{version}}/container) 会自动注入您需要的任何依赖：
 
     use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -96,12 +100,11 @@ Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的
         });
     }
 
-<a name="注册提供者"></a>
+<a name="registering-providers"></a>
 ## 注册提供者
+所有服务提供者都在 `config/app.php` 配置文件中注册。此文件包含一个服务提供者类数组 `providers` 。默认情况下，它只会列出 Laravel 核心服务提供者类。这些服务提供者引导启动 Laravel 核心组件，例如邮件程序，队列，缓存和其他。
 
-所有的服务提供者都在 `config/app.php` 配置文件中被注册。这个文件包含了一个 `providers` 数组，你可以在其中列出你所有服务提供者的类名。此数组默认会列出一组 Laravel 的核心服务提供者。这些提供者启动 Laravel 的核心组件，如邮件寄送者、队列、缓存等。
-
-将你的提供者加入此数组来注册服务提供者：
+要注册您的提供程序，只需将其添加到数组：
 
     'providers' => [
         // Other Service Providers
@@ -109,14 +112,15 @@ Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的
         App\Providers\ComposerServiceProvider::class,
     ],
 
-<a name="延迟提供者"></a>
-## 延迟提供者
+<a name="deferred-providers"></a>
+## 延迟的提供者
 
-若你的提供者 **仅** 在 [服务容器](/docs/{{version}}/container) 中注册绑定，你可以选择推迟执行其注册逻辑，直到其注册的绑定真正被需要的时候才执行，延迟提供者加载可提高应用程序的性能，因为它不会在每个请求中都从文件系统加载。
+如果您的提供程序 **仅** 在 [服务容器](/docs/{{version}}/container) 中注册绑定，您可以选择推迟其注册，直到真正需要注册绑定时。延迟加载服务提供者将提高应用程序的性能，因为它不会每次都从文件系统中加载。
 
-Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供的所有服务，以及其服务提供者类的类名。因此，只有在当你在试图解析其中的服务时，Laravel 才会加载该服务提供者。
+Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供的所有服务，以及其服务提供者类的类名。因此，只有在当您在试图解析其中的服务时，Laravel 才会加载该服务提供者。
 
-要延迟加载提供者，可将 `defer` 属性设置为 `true` ，并定义一个 `provides` 方法。`provides` 方法会返回提供者所注册的服务容器绑定：
+若要推迟提供者的加载，请将 `defer` 属性设置为 `true` ，并定义 `provides` 方法。`provides` 应该返回由提供者注册的服务容器绑定：
+
 
     <?php
 
@@ -128,14 +132,14 @@ Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供
     class RiakServiceProvider extends ServiceProvider
     {
         /**
-         * 指定提供者加载是否延缓。
+         * 显示是否延迟提供程序的加载
          *
          * @var bool
          */
         protected $defer = true;
 
         /**
-         * 注册服务提供者。
+         * 注册一个服务提供者
          *
          * @return void
          */
@@ -147,7 +151,7 @@ Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供
         }
 
         /**
-         * 获取提供者所提供的服务。
+         * 获取提供者提供的服务
          *
          * @return array
          */
@@ -157,3 +161,8 @@ Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供
         }
 
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@e421083458](https://github.com/e421083458)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/10802_1486368142.jpeg?imageView2/1/w/100/h/100">  |  翻译  | Github求star，[@e421083458](https://github.com/e421083458/) at Github  |

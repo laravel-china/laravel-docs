@@ -262,4 +262,8 @@ return [
         'text' => 'Scout 全文搜索',
         'link' => '/docs/{{version}}/scout)'
     ],
+    [
+        'text' => 'Socialite 社会化登录',
+        'link' => '/docs/{{version}}/socialite'
+    ],
 ];

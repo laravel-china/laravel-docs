@@ -641,20 +641,20 @@ Passport 的这个中间件将会在你所有的对外请求中添加一个 `lar
 
 Passport 在访问令牌和刷新令牌时触发事件。 你可以通过触发这些事件来修改或删除数据库中的其他访问令牌。 你可以在应用程序的 `EventServiceProvider` 中为这些事件附加监听器:
 
-/**
- * The event listener mappings for the application.
- *
- * @var array
- */
-protected $listen = [
-    'Laravel\Passport\Events\AccessTokenCreated' => [
-        'App\Listeners\RevokeOldTokens',
-    ],
+    /**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Laravel\Passport\Events\AccessTokenCreated' => [
+            'App\Listeners\RevokeOldTokens',
+        ],
 
-    'Laravel\Passport\Events\RefreshTokenCreated' => [
-        'App\Listeners\PruneOldTokens',
-    ],
-];
+        'Laravel\Passport\Events\RefreshTokenCreated' => [
+            'App\Listeners\PruneOldTokens',
+        ],
+    ];
 
 <a name="testing"></a>
 ## 测试
