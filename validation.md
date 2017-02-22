@@ -26,12 +26,12 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel 提供了多种不同的处理方法来验证方法来对应用程序传入的数据进行验证。默认情况下，Laravel 的基类控制器使用 `ValidatesRequests` Trait，它提供了方便的方法使用各种强大的验证规则来验证传入的 HTTP 请求数据。
+Laravel 提供了多种不同的处验证方法来对应用程序传入的数据进行验证。默认情况下，Laravel 的基类控制器使用 `ValidatesRequests` Trait，它提供了方便的方法使用各种强大的验证规则来验证传入的 HTTP 请求数据。
 
 <a name="validation-quickstart"></a>
 ## 快速上手
 
-为了了解 Laravel 相关的强大验证特性，我们先来看看一个完整的表单验证示例以及返回错误消息给用户。
+为了了解 Laravel 强大验证特性，我们先来看看一个完整的表单验证并返回错误消息的示例。
 
 <a name="quick-defining-the-routes"></a>
 ### 定义路由
@@ -42,7 +42,7 @@ Laravel 提供了多种不同的处理方法来验证方法来对应用程序传
 
     Route::post('post', 'PostController@store');
 
-` GET ` 路由会显示一个用于创建新博客文章的表单，`POST` 路由则会将新的博客文章保存到数据库。
+`GET` 路由会显示一个用于创建新博客文章的表单，`POST` 路由则会将新的博客文章保存到数据库。
 
 <a name="quick-creating-the-controller"></a>
 ### 创建控制器
