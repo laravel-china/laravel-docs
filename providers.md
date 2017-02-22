@@ -21,7 +21,7 @@
 <a name="编写服务提供者"></a>
 ## 编写服务提供者
 
-所有的服务提供者都继承了 `Illuminate\Support\ServiceProvider` 类。大多数服务提供者包含一个 `register` 方法和一个 `boot` 方法，在 `register` 方法中，你应该 **只将事物绑定至 [服务容器](/docs/{{version}}/container)**之中。 永远不要试图在`register` 方法中注册任何事件侦听器、路由或任何其它功能。
+所有的服务提供者都继承了 `Illuminate\Support\ServiceProvider` 类。大多数服务提供者包含一个 `register` 方法和一个 `boot` 方法，在 `register` 方法中，你应该 **只将事物绑定至 [服务容器](/docs/{{version}}/container)** 之中。 永远不要试图在 `register` 方法中注册任何事件侦听器、路由或任何其它功能。
 
 Artisan 命令行接口可以很容易地通过`make:provider`命令生成新的提供者：
 
