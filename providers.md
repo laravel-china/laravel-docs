@@ -1,38 +1,41 @@
-# Laravel 的服务提供者设计模式
-
-- [Introduction](#introduction)
-- [Writing Service Providers](#writing-service-providers)
-    - [The Register Method](#the-register-method)
-    - [The Boot Method](#the-boot-method)
-- [Registering Providers](#registering-providers)
-- [Deferred Providers](#deferred-providers)
+# 服务提供者
+- [简介](#introduction)
+- [编写服务提供者](#writing-service-providers)
+    - [注册方法](#the-register-method)
+    - [引导方法](#the-boot-method)
+- [注册提供者](#registering-providers)
+- [延迟的提供者](#deferred-providers)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Service providers are the central place of all Laravel application bootstrapping. Your own application, as well as all of Laravel's core services are bootstrapped via service providers.
+服务提供者是所有 Laravel 应用程序引导启动的中心所在。包括您自己的应用程序，以及所有的 Laravel 核心服务，都是通过服务提供者引导启动的。
 
-But, what do we mean by "bootstrapped"? In general, we mean **registering** things, including registering service container bindings, event listeners, middleware, and even routes. Service providers are the central place to configure your application.
+但我们所谓的「引导启动」指的是什么？一般而言，我们指的是**注册**事物，包括注册服务容器绑定，事件监听器，中间件，甚至路由。服务提供者是配置应用程序的中心所在。
 
-If you open the `config/app.php` file included with Laravel, you will see a `providers` array. These are all of the service provider classes that will be loaded for your application. Of course, many of these are "deferred" providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
+如果您打开 Laravel 的 `config/app.php` 文件，您会看到一个 `providers` 数组。这些是将被应用程序加载的服务提供者类。当然，它们其中有许多是「延迟」提供者，意味着它们不会每次请求都加载，只会按需加载。
 
-In this overview you will learn how to write your own service providers and register them with your Laravel application.
+在本概述中，您将学习如何编写自己的服务提供商，并在您的 Laravel 应用程序中注册它们。
 
 <a name="writing-service-providers"></a>
-## Writing Service Providers
+## 编写服务提供者
 
-All service providers extend the `Illuminate\Support\ServiceProvider` class. Most service providers contain a `register` and a `boot` method. Within the `register` method, you should **only bind things into the [service container](/docs/{{version}}/container)**. You should never attempt to register any event listeners, routes, or any other piece of functionality within the `register` method.
+所有服务提供者都需要继承 `Illuminate\Support\ServiceProvider` 类。大多数服务提供者都包含 `register` 和 `boot` 方法。在 `register` 方法中，您应该**只能将事物绑定到 [服务容器](/docs/{{version}}/container)**。不应该在 `register` 方法中尝试注册任何事件监听器，路由或者任何其他功能。
 
-The Artisan CLI can generate a new provider via the `make:provider` command:
+Artisan 命令行可以生成一个新的提供者通过 `make:provider` 命令：
 
     php artisan make:provider RiakServiceProvider
 
 <a name="the-register-method"></a>
-### The Register Method
+### 注册方法
 
-As mentioned previously, within the `register` method, you should only bind things into the [service container](/docs/{{version}}/container). You should never attempt to register any event listeners, routes, or any other piece of functionality within the `register` method. Otherwise, you may accidentally use a service that is provided by a service provider which has not loaded yet.
+如前所述，在 `register` 方法中，您只能将事物绑定到 [服务容器](/docs/{{version}}/container) 。不应该在 `register` 方法中尝试注册任何事件监听器，路由或者任何其他功能。否则，您可能会意外的使用到尚未加载的服务提供者提供的服务。
 
-Let's take a look at a basic service provider. Within any of your service provider methods, you always have access to the `$app` property which provides access to the service container:
+让我们来看看一个基本的服务提供者。在服务提供者的方法中，都会提供一个有服务容器访问权限的 `$app` 属性：
+
+
+
+现在，让我们来看看基本的服务提供者。在你的任意一个服务提供者方法中，你总是可以通过访问 `$app` 属性使用服务容器：
 
     <?php
 
@@ -44,7 +47,7 @@ Let's take a look at a basic service provider. Within any of your service provid
     class RiakServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定
          *
          * @return void
          */
@@ -56,12 +59,13 @@ Let's take a look at a basic service provider. Within any of your service provid
         }
     }
 
-This service provider only defines a `register` method, and uses that method to define an implementation of `Riak\Connection` in the service container. If you don't understand how the service container works, check out [its documentation](/docs/{{version}}/container).
+服务提供者只定义了一个 `register` 方法，并且使用该方法在服务容器中定义了一个 `Riak\Connection` 类的实现。如果您不明白服务容器的工作原理，请查看 [服务容器](/docs/{{version}}/container)。
+
 
 <a name="the-boot-method"></a>
-### The Boot Method
+### 引导方法
 
-So, what if we need to register a view composer within our service provider? This should be done within the `boot` method. **This method is called after all other service providers have been registered**, meaning you have access to all other services that have been registered by the framework:
+那么，如果我们需要在我们的服务提供商中注册一个视图合成器呢？这应该在 `boot` 方法中完成。**此方法在所有其他服务提供者均已注册之后调用**，这意味着您可以访问已由框架注册的所有服务：
 
     <?php
 
@@ -72,7 +76,7 @@ So, what if we need to register a view composer within our service provider? Thi
     class ComposerServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * 引导启动任何应用程序服务
          *
          * @return void
          */
@@ -84,9 +88,9 @@ So, what if we need to register a view composer within our service provider? Thi
         }
     }
 
-#### Boot Method Dependency Injection
+#### 引导方法依赖注入
 
-You may type-hint dependencies for your service provider's `boot` method. The [service container](/docs/{{version}}/container) will automatically inject any dependencies you need:
+您可以为服务提供者的 `boot` 方法设置类型提示。[服务容器](/docs/{{version}}/container) 会自动注入您需要的任何依赖：
 
     use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -98,11 +102,10 @@ You may type-hint dependencies for your service provider's `boot` method. The [s
     }
 
 <a name="registering-providers"></a>
-## Registering Providers
+## 注册提供者
+所有服务提供者都在 `config/app.php` 配置文件中注册。此文件包含一个服务提供者类数组 `providers` 。默认情况下，它只会列出 Laravel 核心服务提供者类。这些服务提供者引导启动 Laravel 核心组件，例如邮件程序，队列，缓存和其他。
 
-All service providers are registered in the `config/app.php` configuration file. This file contains a `providers` array where you can list the class names of your service providers. By default, a set of Laravel core service providers are listed in this array. These providers bootstrap the core Laravel components, such as the mailer, queue, cache, and others.
-
-To register your provider, simply add it to the array:
+要注册您的提供程序，只需将其添加到数组：
 
     'providers' => [
         // Other Service Providers
@@ -111,13 +114,14 @@ To register your provider, simply add it to the array:
     ],
 
 <a name="deferred-providers"></a>
-## Deferred Providers
+## 延迟的提供者
 
-If your provider is **only** registering bindings in the [service container](/docs/{{version}}/container), you may choose to defer its registration until one of the registered bindings is actually needed. Deferring the loading of such a provider will improve the performance of your application, since it is not loaded from the filesystem on every request.
+如果您的提供程序 **仅** 在 [服务容器](/docs/{{version}}/container) 中注册绑定，您可以选择推迟其注册，直到真正需要注册绑定时。延迟加载服务提供者将提高应用程序的性能，因为它不会每次都从文件系统中加载。
 
-Laravel compiles and stores a list of all of the services supplied by deferred service providers, along with the name of its service provider class. Then, only when you attempt to resolve one of these services does Laravel load the service provider.
+Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供的所有服务，以及其服务提供者类的类名。因此，只有在当您在试图解析其中的服务时，Laravel 才会加载该服务提供者。
 
-To defer the loading of a provider, set the `defer` property to `true` and define a `provides` method. The `provides` method should return the service container bindings registered by the provider:
+若要推迟提供者的加载，请将 `defer` 属性设置为 `true` ，并定义 `provides` 方法。`provides` 应该返回由提供者注册的服务容器绑定：
+
 
     <?php
 
@@ -129,14 +133,14 @@ To defer the loading of a provider, set the `defer` property to `true` and defin
     class RiakServiceProvider extends ServiceProvider
     {
         /**
-         * Indicates if loading of the provider is deferred.
+         * 显示是否延迟提供程序的加载
          *
          * @var bool
          */
         protected $defer = true;
 
         /**
-         * Register the service provider.
+         * 注册一个服务提供者
          *
          * @return void
          */
@@ -148,7 +152,7 @@ To defer the loading of a provider, set the `defer` property to `true` and defin
         }
 
         /**
-         * Get the services provided by the provider.
+         * 获取提供者提供的服务
          *
          * @return array
          */
@@ -158,3 +162,8 @@ To defer the loading of a provider, set the `defer` property to `true` and defin
         }
 
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@e421083458](https://github.com/e421083458)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/10802_1486368142.jpeg?imageView2/1/w/100/h/100">  |  翻译  | Github求star，[@e421083458](https://github.com/e421083458/) at Github  |

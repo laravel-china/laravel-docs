@@ -29,7 +29,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Dusk 提供了富有表现力、简单易用的浏览器自动化以及相应的测试API。Dusk 并不要求你在你的机器中安装 JDK 或者 Selenium。Dusk 只需要使用一个单独的 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)。不过，依然可以按照你自己的需要安装其他 Selenium 兼容的驱动引擎。
+Laravel Dusk 提供了富有表现力、简单易用的浏览器自动化以及相应的测试 API。Dusk 只需要使用一个单独的 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)，不再需要在你的机器中安装 JDK 或者 Selenium。不过，依然可以按照你自己的需要安装其他 Selenium 兼容的驱动引擎。
 
 <a name="installation"></a>
 ## 安装
