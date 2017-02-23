@@ -351,6 +351,8 @@ Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你�
     {{ config('app.name') }}
     @endcomponent
 
+> {tip} 当你在写 Markdown 格式邮件的时候千万不要有多余缩进，不然 Markdown 解析器很容易会把缩进的内容渲染成代码块。
+
 #### 按钮组件
 
 按钮连组件渲染一个居中的连接按钮，组件接受两个参数，一个 `url` 和一个可选的 `color` 。支持的颜色有 `blue` 、 `green` 、 和 `red` 。你可以在邮件消息体中加入随便多个你想要的按钮。

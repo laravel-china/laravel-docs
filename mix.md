@@ -6,13 +6,19 @@
 - [使用样式](#working-with-stylesheets)
     - [Less](#less)
     - [Sass](#sass)
+    - [Stylus](#stylus)
+    - [PostCSS](#postcss)
     - [纯 CSS](#plain-css)
+	- [URL Processing](#url-processing)
     - [资源地图](#css-source-maps)
 - [使用脚本](#working-with-scripts)
-   - [代码分割](#code-splitting)
-   - [自定义 Webpack 配置](#custom-webpack-configuration)
+    - [Vendor Extraction](#vendor-extraction)
+    - [React](#react-support)
+    - [Vanilla JS](#vanilla-js)
+    - [自定义 Webpack 配置](#custom-webpack-configuration)
 - [复制文件与目录](#copying-files-and-directories)
 - [版本与缓存清除](#versioning-and-cache-busting)
+- [Browsersync Reloading](#browsersync-reloading)
 - [通知](#notifications)
 
 <a name="introduction"></a>
@@ -66,6 +72,10 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 
     npm run watch
 
+You may find that in certain environments Webpack isn't updating when your files change. If this is the case on your system, consider using the `watch-poll` command:
+
+    npm run watch-poll
+
 <a name="working-with-stylesheets"></a>
 ## 使用样式
 
@@ -87,6 +97,12 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 
     mix.less('resources/assets/less/app.less', 'public/stylesheets/styles.css');
 
+If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
+
+    mix.less('resources/assets/less/app.less', 'public/css', {
+        strictMath: true
+    });
+
 <a name="sass"></a>
 ### Sass
 
@@ -99,15 +115,78 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 	mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
 
+Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
+
+    mix.sass('resources/assets/less/app.less', 'public/css', {
+        precision: 5
+    });
+
+<a name="stylus"></a>
+### Stylus
+
+Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
+
+    mix.stylus('resources/assets/sass/app.scss', 'public/css');
+
+You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
+
+    mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
+        use: [
+            require('rupture')()
+        ]
+    });
+
+<a name="postcss"></a>
+### PostCSS
+
+[PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+
+    mix.sass('resources/assets/sass/app.scss', 'public/css')
+       .options({
+            postCss: [
+                require('postcss-css-variables')()
+            ]
+       });
+
 <a name="plain-css"></a>
 ### 纯 CSS
 
-如果你只是想将一些纯 CSS 样式合并成单个的文件, 你可以使用 `combine` 方法。此方法同样支持合并 JavaScript 文件:
+如果你只是想将一些纯 CSS 样式合并成单个的文件, 你可以使用 `styles` 方法。
 
-    mix.combine([
+    mix.styles([
         'public/css/vendor/normalize.css',
         'public/css/vendor/videojs.css'
     ], 'public/css/all.css');
+
+<a name="url-processing"></a>
+### URL Processing
+
+Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
+
+    .example {
+        background: url('../images/example.png');
+    }
+
+> {note} Absolute paths for `url()`s will be excluded from URL-rewriting. For example, `url('/images/thing.png')` or `url('http://example.com/images/thing.png')` won't be modified.
+
+By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
+
+    .example {
+      background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
+    }
+
+As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+
+    mix.sass('resources/assets/app/app.scss', 'public/css')
+       .options({
+          processCssUrls: false
+       });
+
+With this addition to your `webpack.mix.js` file, Mix will no longer match `url()`s or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
+
+    .example {
+        background: url("../images/thing.png");
+    }
 
 <a name="css-source-maps"></a>
 ### 资源地图
@@ -128,12 +207,13 @@ Mix 也提供了一些函数来帮助你使用 JavaScript 文件，像是编译 
 
 <div class="content-list" markdown="1">
 - ECMAScript 2015 语法.
+- Modules
 - 编译 `.vue` 文件.
 - 针对生产环境压缩代码.
 </div>
 
-<a name="code-splitting"></a>
-### 代码分割
+<a name="vendor-extraction"></a>
+### Vendor Extraction
 
 将应用程序的 JavaScript 与依赖库捆绑在一起的一个潜在缺点是，使得长期缓存更加困难。如，对应用程序代码的单独更新将强制浏览器重新下载所有依赖库，即使它们没有更改。
 
@@ -156,6 +236,29 @@ Mix 也提供了一些函数来帮助你使用 JavaScript 文件，像是编译 
     <script src="/js/vendor.js"></script>
     <script src="/js/app.js"></script>
 
+<a name="react"></a>
+### React
+
+Mix can automatically install the Babel plug-ins necessary for React support. To get started, replace your `mix.js()` call with `mix.react()`:
+
+    mix.react('resources/assets/js/app.jsx', 'public/js');
+
+Behind the scenes, React will download and include the appropriate `babel-preset-react` Babel plug-in.
+
+<a name="vanilla-js"></a>
+### Vanilla JS
+
+Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
+
+    mix.scripts([
+        'public/js/admin.js',
+        'public/js/dashboard.js'
+    ], 'public/js/all.js');
+
+This option is particularly useful for legacy projects where you don't require Webpack compilation for your JavaScript.
+
+> {tip} A slight variation of `mix.scripts()` is `mix.babel()`. Its method signature is identical to `scripts`; however, the concatenated file will receive Babel compilation, which translates any ES2015 code to vanilla JavaScript that all browsers will understand.
+
 <a name="custom-webpack-configuration"></a>
 ### 自定义 Webpack 配置
 
@@ -172,15 +275,6 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
             ]
         }
     });
-
-
-#### 自己维护配置文件
-
-第二个是将 Mix 的 `webpack.config.js` 复制到项目根目录。
-
-    cp node_modules/laravel-mix/setup/webpack.config.js ./
-
-接下来，你需要更新 `package.json` 中的 NPM 脚本，以确保不再直接引用默认的 Mix 的配置文件。需要从命令中删除 `--config="node_modules/laravel-mix/setup/webpack.config.js"`。之后，你就可以根据需要修改配置文件。
 
 <a name="copying-files-and-directories"></a>
 ## 复制文件与目录
@@ -210,6 +304,22 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
     if (mix.config.inProduction) {
         mix.version();
     }
+
+<a name="browsersync-reloading"></a>
+## Browsersync Reloading
+
+[BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
+
+    mix.browserSync('my-domain.dev');
+
+    // Or...
+
+    // https://browsersync.io/docs/options
+    mix.browserSync({
+        proxy: 'my-domain.dev'
+    });
+
+You may pass either a string (proxy) or object (BrowserSync settings) to this method. Next, start Webpack's dev server using the `npm run watch` command. Now, when you modify a script or PHP file, watch as the browser instantly refreshes the page to reflect your changes.
 
 <a name="notifications"></a>
 ## 通知
