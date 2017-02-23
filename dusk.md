@@ -283,6 +283,10 @@ Dusk 提供了与表单和 input 元素交互的各种方法。首先，让我�
 
     $browser->select('size', 'Large');
 
+你也可以通过省略第二个参数来随机选择一个选项：
+
+    $browser->select('size');
+
 #### 复选框
 
 你可以使用 `check` 方法来选中某个复选框。像其他 input 相关的方法一样，并不是必须传入 CSS 选择器。如果准确的选择器没法找到的时候，Dusk 会搜索与 `name` 属性匹配的复选框： 
@@ -439,6 +443,8 @@ Assertion  | Description
 `$browser->assertInputValueIsNot($field, $value)`  |  断言指定输入框不为指定值。
 `$browser->assertChecked($field)`  |  断言指定复选框被选中。
 `$browser->assertNotChecked($field)`  |  断言指定复选框没有被选中。
+`$browser->assertRadioSelected($field, $value)`  |  断言指定单选按钮被选中。
+`$browser->assertRadioNotSelected($field, $value)` |  断言指定单选按钮没有被选中。
 `$browser->assertSelected($field, $value)`  |  断言指定下拉菜单选中了指定选项。
 `$browser->assertNotSelected($field, $value)`  |  断言指定下拉菜单没有选中了指定选项。
 `$browser->assertValue($selector, $value)`  |  断言匹配指定选择器的元素为指定值。
