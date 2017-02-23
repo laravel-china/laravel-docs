@@ -1,4 +1,4 @@
-# Contracts
+# Laravel 接口契约 Contracts
 
 - [简介](#introduction)
     - [Contracts Vs. Facades](#contracts-vs-facades)
