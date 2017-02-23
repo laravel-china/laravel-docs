@@ -672,6 +672,22 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
                     ->content('This will be sent to #other');
     }
 
+你也可以不使用表情符号，改为使用图片作为你的 logo：
+
+    /**
+     * 获取通知的 Slack 展示方式
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+                    ->from('Laravel')
+                    ->image('https://laravel.com/favicon.png')
+                    ->content('This will display the Laravel logo next to the message');
+    }
+
 <a name="slack-attachments"></a>
 ### Slack 附加项 (Attachments)
 
