@@ -36,6 +36,7 @@ Artisan 命令行可以生成一个新的提供者通过 `make:provider` 命令�
 
 
 现在，让我们来看看基本的服务提供者。在你的任意一个服务提供者方法中，你总是可以通过访问 `$app` 属性使用服务容器：
+
     <?php
 
     namespace App\Providers;
