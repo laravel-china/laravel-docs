@@ -41,7 +41,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 - Sqlite3
 - Postgres
 - Composer
-- Node (With Yarn, PM2, Bower, Grunt, and Gulp)
+- Node (With Yarn, Bower, Grunt, and Gulp)
 - Redis
 - Memcached
 - Beanstalkd
