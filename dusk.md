@@ -29,7 +29,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Dusk 为浏览器提供了丰富而简单易用的自动化测试 API。Dusk 并不要求你在你的机器中安装 JDK 或者 Selenium。Dusk 而是使用 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)。不过，依然可以按照你自己的需要安装其他 Selenium 兼容的驱动引擎。
+Laravel Dusk 提供了富有表现力、简单易用的浏览器自动化以及相应的测试 API。Dusk 使用 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)，不再需要在你的机器中安装 JDK 或者 Selenium。不过，依然可以按照你自己的需要安装其他 Selenium 兼容的驱动引擎。
 
 <a name="installation"></a>
 ## 安装
@@ -43,7 +43,7 @@ Laravel Dusk 为浏览器提供了丰富而简单易用的自动化测试 API。
     use Laravel\Dusk\DuskServiceProvider;
 
     /**
-     * Register any application services.
+     * 在这里可用注册任何应用服务 
      *
      * @return void
      */
@@ -72,7 +72,7 @@ Dusk 默认使用 Google Chrome 和 [ChromeDriver](https://sites.google.com/a/ch
 打开你的 `tests/DuskTestCase.php` 文件，这个文件是你应用中最基础的 Dusk 测试用例。你可以在这个文件中移除 `startChromeDriver` 方法。这样 Dusk 就不会自动运行 ChromeDriver：
 
     /**
-     * Prepare for Dusk test execution.
+     * 为 Dusk 的测试做准备
      *
      * @beforeClass
      * @return void
@@ -85,7 +85,7 @@ Dusk 默认使用 Google Chrome 和 [ChromeDriver](https://sites.google.com/a/ch
 然后，你可以通过简单地修改 `driver` 方法来连接到你指定的 URL 和 端口。同时，你要修改传递给 WebDriver 的「desired capabilities」：
 
     /**
-     * Create the RemoteWebDriver instance.
+     * 创建 `RemoteWebDriver` 实例
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
@@ -122,7 +122,7 @@ Dusk 默认使用 Google Chrome 和 [ChromeDriver](https://sites.google.com/a/ch
 Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中不能正常运行，你可以在运行 `dusk` 命令之前通过手动的方式来运行 ChromeDriver。如果你选择手动运行 ChromeDriver，你需要在你的 `tests/DuskTestCase.php` 文件中注释掉下面这行：
 
     /**
-     * Prepare for Dusk test execution.
+     * 为 Dusk 的测试做准备
      *
      * @beforeClass
      * @return void
@@ -135,7 +135,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
 另外，如果你是在非 9515 端口运行 ChromeDriver ，你需要在 `tests/DuskTestCase.php` 修改 `driver` 方法：
 
     /**
-     * Create the RemoteWebDriver instance.
+     * 创建 `RemoteWebDriver` 实例
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
@@ -172,7 +172,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
         use DatabaseMigrations;
 
         /**
-         * A basic browser test example.
+         * 一个基本的浏览器测试示例
          *
          * @return void
          */
@@ -231,7 +231,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
 <a name="clicking-links"></a>
 ### 点击链接
 
-你可以在你的浏览器实例中使用 `clickLink` 方法来模拟点击一个链接。`clickLink` 方法会点击传入的显示文本:
+你可以在你的浏览器实例中使用 `clickLink` 方法来模拟点击一个链接。`clickLink` 方法会点击传入的显示文本：
 
     $browser->clickLink($linkText);
 
@@ -242,7 +242,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
 
 #### 获取和设置值
 
-Dusk 提供了几种方法让你和当前页面元素中的显示文本，值和属性进行交互。举例来说，想获得某个指定选择器对应元素的 「值」，你可以使用 `value` 方法：
+Dusk 提供了几种方法让你和当前页面元素中的显示文本、值和属性进行交互。举例来说，想获得某个指定选择器对应元素的 「值」，你可以使用 `value` 方法：
 
     // 获取值...
     $value = $browser->value('selector');
@@ -448,7 +448,7 @@ Assertion  | Description
 <a name="pages"></a>
 ## 页面
 
-有时候，测试有一些复杂的动作需要顺序执行。 这很容易让你的测试代码变得难读，并且难以理解。页面雨荨你定义语义化的动作行为，然后你可以在给定页面中使用单个方法。页面也允许你为你的应用或者单个页面定义简写的公共选择器。
+有时候，测试有一些复杂的动作需要顺序执行。 这很容易让你的测试代码变得难读，并且难以理解。页面允许你定义语义化的动作行为，然后你可以在给定页面中使用单个方法。页面也允许你为你的应用或者单个页面定义简写的公共选择器。
 
 <a name="generating-pages"></a>
 ### 创建页面
@@ -464,7 +464,7 @@ Assertion  | Description
 
 #### `url` 方法
 
-`url` 方法应该返回表示页面 URL 的路径。 Dusk 将会在浏览器中使用这个 URL 来导航到具体页面。
+`url` 方法应该返回表示页面 URL 的路径。 Dusk 将会在浏览器中使用这个 URL 来导航到具体页面：
 
     /**
      * 获得当前页面 URL
@@ -558,8 +558,8 @@ Assertion  | Description
 
     class Dashboard extends Page
     {
-        // Other page methods...
-
+        // 其他方法...
+        
         /**
          * 创建一个新的播放列表。
          *
