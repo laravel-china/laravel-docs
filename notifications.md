@@ -532,7 +532,7 @@ Markdown 邮件通知使用 Blade 组件和Markdown语法的组合，允许您�
 <a name="sms-prerequisites"></a>
 ### 先决条件
 
-在 Laravel 中发送短信通知是基于 [Nexmo](https://www.nexmo.com/)服务的。在通过 Nexmo 发送短信通知前，你需要安装 `nexmo/client` Composer 包并在 `config/services.php` 配置文件中添加几个配置选项。你可以复制下面的配置示例来开始使用：
+在 Laravel 中发送短信通知是基于 [Nexmo](https://www.nexmo.com/) 服务的。在通过 Nexmo 发送短信通知前，你需要安装 `nexmo/client` Composer 包并在 `config/services.php` 配置文件中添加几个配置选项。你可以复制下面的配置示例来开始使用：
 
     'nexmo' => [
         'key' => env('NEXMO_KEY'),
