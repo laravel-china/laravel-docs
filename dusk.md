@@ -11,7 +11,7 @@
     - [认证](#authentication)
 - [与元素交互](#interacting-with-elements)
     - [点击链接](#clicking-links)
-    - [文本，值和属性](#text-values-and-attributes)
+    - [文本、值和属性](#text-values-and-attributes)
     - [使用表单](#using-forms)
     - [附加文件](#attaching-files)
     - [使用键盘](#using-the-keyboard)
@@ -29,7 +29,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel Dusk 提供了富有表现力、简单易用的浏览器自动化以及相应的测试 API。Dusk 使用 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)，不再需要在你的机器中安装 JDK 或者 Selenium。不过，依然可以按照你自己的需要安装其他 Selenium 兼容的驱动引擎。
+Laravel Dusk 提供了富有表现力、简单易用的浏览器自动化以及相应的测试 API。Dusk 只需要使用一个单独的 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)，不再需要在你的机器中安装 JDK 或者 Selenium。不过，依然可以按照你自己的需要安装其他 Selenium 兼容的驱动引擎。
 
 <a name="installation"></a>
 ## 安装
@@ -43,7 +43,7 @@ Laravel Dusk 提供了富有表现力、简单易用的浏览器自动化以及�
     use Laravel\Dusk\DuskServiceProvider;
 
     /**
-     * 在这里可用注册任何应用服务 
+     * 在这里可以注册任何应用服务。
      *
      * @return void
      */
@@ -72,7 +72,7 @@ Dusk 默认使用 Google Chrome 和 [ChromeDriver](https://sites.google.com/a/ch
 打开你的 `tests/DuskTestCase.php` 文件，这个文件是你应用中最基础的 Dusk 测试用例。你可以在这个文件中移除 `startChromeDriver` 方法。这样 Dusk 就不会自动运行 ChromeDriver：
 
     /**
-     * 为 Dusk 的测试做准备
+     * 为 Dusk 的测试做准备。
      *
      * @beforeClass
      * @return void
@@ -85,7 +85,7 @@ Dusk 默认使用 Google Chrome 和 [ChromeDriver](https://sites.google.com/a/ch
 然后，你可以通过简单地修改 `driver` 方法来连接到你指定的 URL 和 端口。同时，你要修改传递给 WebDriver 的「desired capabilities」：
 
     /**
-     * 创建 `RemoteWebDriver` 实例
+     * 创建 RemoteWebDriver 实例。
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
@@ -122,7 +122,7 @@ Dusk 默认使用 Google Chrome 和 [ChromeDriver](https://sites.google.com/a/ch
 Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中不能正常运行，你可以在运行 `dusk` 命令之前通过手动的方式来运行 ChromeDriver。如果你选择手动运行 ChromeDriver，你需要在你的 `tests/DuskTestCase.php` 文件中注释掉下面这行：
 
     /**
-     * 为 Dusk 的测试做准备
+     * 为 Dusk 的测试做准备。
      *
      * @beforeClass
      * @return void
@@ -135,7 +135,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
 另外，如果你是在非 9515 端口运行 ChromeDriver ，你需要在 `tests/DuskTestCase.php` 修改 `driver` 方法：
 
     /**
-     * 创建 `RemoteWebDriver` 实例
+     * 创建 RemoteWebDriver 实例。
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
@@ -172,7 +172,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
         use DatabaseMigrations;
 
         /**
-         * 一个基本的浏览器测试示例
+         * 一个基本的浏览器测试示例。
          *
          * @return void
          */
@@ -238,7 +238,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
 > {note} 这方法基于 JQuery 来进行交互。如果页面中没有可用的 jQuery，Dusk 会自动将 jQuery 注入到页面中。所以他可能会增加测试的时间。
 
 <a name="text-values-and-attributes"></a>
-### 文本，值和属性
+### 文本、值和属性
 
 #### 获取和设置值
 
@@ -282,6 +282,10 @@ Dusk 提供了与表单和 input 元素交互的各种方法。首先，让我�
 你可以使用 `select` 方法来选择下来菜单中的某个选项。类似于 `type` 方法，`select` 方法并不是一定要传入 CSS 选择器。当你使用 `select` 方法的时候应该注意，你传的值应该是低层选项的值，而不是显示的值：
 
     $browser->select('size', 'Large');
+
+你也可以通过省略第二个参数来随机选择一个选项：
+
+    $browser->select('size');
 
 #### 复选框
 
@@ -439,6 +443,8 @@ Assertion  | Description
 `$browser->assertInputValueIsNot($field, $value)`  |  断言指定输入框不为指定值。
 `$browser->assertChecked($field)`  |  断言指定复选框被选中。
 `$browser->assertNotChecked($field)`  |  断言指定复选框没有被选中。
+`$browser->assertRadioSelected($field, $value)`  |  断言指定单选按钮被选中。
+`$browser->assertRadioNotSelected($field, $value)` |  断言指定单选按钮没有被选中。
 `$browser->assertSelected($field, $value)`  |  断言指定下拉菜单选中了指定选项。
 `$browser->assertNotSelected($field, $value)`  |  断言指定下拉菜单没有选中了指定选项。
 `$browser->assertValue($selector, $value)`  |  断言匹配指定选择器的元素为指定值。
@@ -558,8 +564,8 @@ Assertion  | Description
 
     class Dashboard extends Page
     {
-        // 其他方法...
-        
+        // 其他页面方法...
+
         /**
          * 创建一个新的播放列表。
          *
