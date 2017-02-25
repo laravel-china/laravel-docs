@@ -10,7 +10,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Facades 为应用程序的[服务容器](/docs/{{version}}/container)中可用的类提供了一个「静态」接口。Laravel 自带了很多 facades ，几乎可以用来访问到 Laravel 中所有的服务。Laravel facades 实际上是服务容器中那些底层类的「静态代理」，相比于传统的静态方法， facades 在提供了简洁且丰富的语法同时，还带来了更好的可测试性和扩展性。
+Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 自带了很多 facades ，几乎可以用来访问到 Laravel 中所有的服务。Laravel facades 实际上是服务容器中那些底层类的「静态代理」，相比于传统的静态方法， facades 在提供了简洁且丰富的语法同时，还带来了更好的可测试性和扩展性。
 
 所有的 Laravel's facades 都需要定义在命名空间 `Illuminate\Support\Facades` 下。所以，我们可以容易地向下面这样调用 facade :
 
@@ -25,9 +25,9 @@ Facades 为应用程序的[服务容器](/docs/{{version}}/container)中可用�
 <a name="when-to-use-facades"></a>
 ## 何时使用 Facades
 
-Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简单，易记的语法，让你不需要记住长长的类名来实现依赖注入和手动配置。还有，因为它们使用了 PHP 动态方法的独特用法，让它们很容易进行测试。
+Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简单，易记的语法，让你不需要记住长长的类名来实现依赖注入和手动配置。还有，因为它们使用了 PHP 动态方法的独特用法，测试起来非常容易。
 
-然而，在使用 facades 时，有些地方还需要特别注意。使用 facades 最主要的风险就是会引起类作用范围的膨胀。因为 facades 使用起来非常简单而且不需要注入，我们会不经意的在单个类中大量使用。不像使用依赖注入的时候，使用的类越多，构造方法会越长，在视觉上就会引起注意，提醒你这个类有点庞大了。所以在使用 facades 的时候，要特别注意控制好类的大小，让类的作用范围保持短小。
+然而，在使用 facades 时，有些地方还需要特别注意。使用 facades 最主要的风险就是会引起类作用范围的膨胀。因为 facades 使用起来非常简单而且不需要注入，我们会不经意的在单个类中大量使用。它不会像使用依赖注入那样，使用的类越多，构造方法会越长，在视觉上就会引起注意，提醒你这个类有点庞大了。所以在使用 facades 的时候，要特别注意控制好类的大小，让类的作用范围保持短小。
 
 > {tip} 在开发与 Laravel 交互的第三发扩展包时，最好是在包中通过注入 [Laravel contracts](/docs/{{version}}/contracts) ，而不是在包中通过 facades 来使用 Laravel 的类。因为扩展包不是在 Laravel 内部使用的，无法使用 Laravel's facade 的测试辅助函数。
 
@@ -36,7 +36,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
 
 依赖注入的一个主要的好处是可以切换注入类的具体实现。这在测试的时候很有用，因为你可以注入一个 mock 或者 stub ，并且对在 stub 中被调用的各种方法进行断言。
 
-通常，静态方法是不可以被 mock 或者 stub 。但是，因为 facades 是使用动态方法来代理服务容器对象中的方法，我们可以像测试注入类的实例一样测试 facades ，例如，像下面的路由：
+通常，静态方法是不可以被 mock 或者 stub 。但是，因为 facades 调用的是对象的动态方法，我们可以像测试注入类的实例一样测试 facades ，例如，像下面的路由：
 
     use Illuminate\Support\Facades\Cache;
 
@@ -100,9 +100,9 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
 <a name="how-facades-work"></a>
 ## Facades 工作原理
 
-在 Laravel 应用中，一个 facade 就是一个提供访问容器中对象的类。其中核心的部件就是 `Facade` 类。不管是 Laravel 自带的，还是用户自定义的 Facades ，都继承自 `Illuminate\Support\Facades\Facade` 类。
+在 Laravel 应用中，一个 facade 就是一个提供访问容器中对象的类。其中核心的部件就是 `Facade` 类。不管是 Laravel 自带的 Facades ，还是用户自定义的 Facades ，都继承自 `Illuminate\Support\Facades\Facade` 类。
 
-`Facade` 基类使用 `__callStatic()` 魔术方法在你的 facades 中延迟调用容器中对象的方法，在下面的例子中，调用了 Laravel 的缓存系统。在代码里，我们可能以为是 `Cache` 类中的静态方法 `get` 被调用了：
+`Facade` 基类使用 `__callStatic()` 魔术方法在你的 facades 中延迟调用容器中对应对象的方法，在下面的例子中，调用了 Laravel 的缓存系统。在代码里，我们可能认为是 `Cache` 类中的静态方法 `get` 被调用了：
 
     <?php
 
@@ -141,7 +141,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
         protected static function getFacadeAccessor() { return 'cache'; }
     }
 
-其实， `Cache` facade 是继承了 `Facade` 基类，并且定义了 `getFacadeAccessor()` 方法。这个方法的作用是返回服务容器中对应名字的绑定内容。当用户调用 `Cache` facade 中的任何静态方法时， Laravel 会解析到服务容器中绑定的 `cache` 实例对象，并调用这个对象对应的方法（在这个例子中就是 `get` 方法）。
+其实， `Cache` facade 是继承了 `Facade` 基类，并且定义了 `getFacadeAccessor()` 方法。这个方法的作用是返回服务容器中对应名字的绑定内容。当用户调用 `Cache` facade 中的任何静态方法时， Laravel 会解析到服务容器中绑定的键值为 `cache` 实例对象，并调用这个对象对应的方法（在这个例子中就是 `get` 方法）。
 
 <a name="facade-class-reference"></a>
 ## Facade 类参考
