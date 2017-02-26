@@ -3,12 +3,14 @@
 - [安装](#installation)
     - [运行环境要求](#server-requirements)
     - [安装 Laravel](#installing-laravel)
-    - [配置信息](#configuration)
+    - [配置](#configuration)
+- [Web 服务器配置](#web-server-configuration)
+	- [优雅链接](#pretty-urls)
 
 <a name="installation"></a>
 ## 安装
 
-> {video} 你是一个视觉学习者吗? Laracasts 为 Laravel 框架初学者提供了一个[免费，彻底](https://laracasts.com/series/laravel-from-scratch-2017) 的介绍。这是一个开始你学习旅程的不错的地方。
+> {video} 你是一个视频学习爱好者吗? Laracasts 为 Laravel 框架初学者提供了一个[免费，彻底](https://laracasts.com/series/laravel-from-scratch-2017) 的介绍。这是一个开始你学习旅程的好地方。
 
 <a name="server-requirements"></a>
 ### 运行环境要求
@@ -96,3 +98,27 @@ Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你
 
 一旦 Laravel 安装完成，你应该立即 [设置本机环境](/docs/{{version}}/installation#environment-configuration)。
 
+<a name="web-server-configuration"></a>
+## Web 服务器配置
+<a name="pretty-urls"></a>
+### 优雅连接
+#### Apache
+Laravel 框架通过 `public/.htaccess` 文件来让 URL 不需要 `index.php` 即可访问。在 Apache 启用 Laravel 之前，请确认是否有开启 mod_rewrite 模块，以便 `.htaccess` 文件发挥作用。
+
+如果 Laravel 附带的 .htaccess 文件在 Apache 中无法使用的话，请尝试下方的做法：
+
+	Options +FollowSymLinks
+	RewriteEngine On
+
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^ index.php [L]
+
+#### Nginx
+若你使用了 Nginx，你网站配置的如下指令会转发所有请求到 `index.php` 前端控制器。
+
+ 	location / {
+   		try_files $uri $uri/ /index.php?$query_string;
+  	}
+  	
+当然如果你使用了 [Homestead](/docs/{{version}}/homestead) 或者 [Valet](/docs/{{version}}/valet) 的话， 它会自动的帮你设置好优雅链接。  
