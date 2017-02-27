@@ -7,6 +7,7 @@
 - [Web 服务器配置](#web-server-configuration)
     - [优雅链接](#pretty-urls)
 
+
 <a name="installation"></a>
 ## 安装
 
@@ -28,7 +29,10 @@ Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel
 - XML PHP Extension
 </div>
 
+> 译者注：强烈推荐使用 Homestead 作为开发环境，尤其是新手，可以避免很多不必要的麻烦。线上环境可以参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 进行部署。
+
 <a name="installing-laravel"></a>
+
 ### 安装 Laravel 
 
 Laravel 使用 [Composer](https://getcomposer.org) 来管理代码依赖。所以，在使用 Laravel 之前，请先确认你的电脑上安装了 Composer。
@@ -39,11 +43,13 @@ Laravel 使用 [Composer](https://getcomposer.org) 来管理代码依赖。所�
 
     composer global require "laravel/installer"
 
-请确保 `$HOME/.composer/vendor/bin` 目录（或者是你操作系统对应的目录）在你的 $PATH 环境变量中，只有这样系统才能找到 `laravel` 的执行文件。
+请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH，只有这样系统才能找到 `laravel` 的执行文件。
 
-一旦安装完成，就可以使用` laravel new `命令在指定目录创建一个新的 Laravel 项目，例如：`laravel new blog `将会在当前目录下创建一个叫` blog `的目录，此目录里面存放着新安装的 Laravel 和代码依赖。
+一旦安装完成，就可以使用 `laravel new` 命令在指定目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
 
     laravel new blog
+
+因为代码依赖是直接一起打包安装的。
 
 #### 通过 Composer Create-Project
 
@@ -53,9 +59,11 @@ Laravel 使用 [Composer](https://getcomposer.org) 来管理代码依赖。所�
 
 #### 本地开发服务器
 
-如果你本地安装了 PHP，并且你想使用 PHP 内建的开发服务器来启动你的应用，你应该使用 Artisan 的 `serve` 命令。这个命令将会启动一个开发服务器在 `http://localhost:8000`:
+如果你在本地安装了 PHP，你可能希望像运行 PHP 内置的开发服务器一样来访问自己的应用程序，你可以使用 `serve` Artisan 命令来启动一个本地开发服务器，这样你就可以在 `http://localhost:8000` 来访问它。
 
-    php artisan serve
+	php artisan serve
+
+不过有更健壮的本地开发选项可用，比如 [Homestead](/doc/{{version}}/homestead) 和 [Valet](/doc/{{version}}/valet)。
 
 当然，更稳定的本地开发选项比如 [Homestead](/docs/{{version}}/homestead)  或 [Valet](/docs/{{version}}/valet)。
 
@@ -87,32 +95,28 @@ Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你
 
 你也可以设置 Laravel 的几个附加组件，像是：
 
-<div class="content-list" markdown="1">
-- [Cache](/docs/{{version}}/cache#configuration)
-- [Database](/docs/{{version}}/database#configuration)
+- [缓存](/docs/{{version}}/cache#configuration)
+- [数据库](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
-</div>
+
+一旦 Laravel 安装完成，你应该立即 [设置本机环境](/docs/{{version}}/installation#environment-configuration)。
 
 <a name="web-server-configuration"></a>
 ## Web 服务器配置
-
 <a name="pretty-urls"></a>
 ### 优雅连接
 
 #### Apache
+Laravel 框架通过 `public/.htaccess` 文件来让 URL 不需要 `index.php` 即可访问。在 Apache 启用 Laravel 之前，请确认是否有开启 mod_rewrite 模块，以便 `.htaccess` 文件发挥作用。
 
-Laravel 框架通过 `public/.htaccess `文件来让 URL 不需要` index.php `即可访问。在 Apache 中使用 Laravel 之前，应当确保开启了 `mod_rewrite`模块，来保证 `.htaccess` 文件发挥作用
+如果 Laravel 附带的 .htaccess 文件在 Apache 中无法使用的话，请尝试下方的做法：
 
+	Options +FollowSymLinks
+	RewriteEngine On
 
-
-如果 Laravel 附带的 `.htaccess `文件在 Apache 中无法使用的话，请尝试下方的做法：
-
-    Options +FollowSymLinks
-    RewriteEngine On
-
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^ index.php [L]
 
 #### Nginx
 
@@ -122,6 +126,6 @@ Laravel 框架通过 `public/.htaccess `文件来让 URL 不需要` index.php `�
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-如果你使用了  [Homestead](/docs/{{version}}/homestead) 或 [Valet](/docs/{{version}}/valet) 的话，它将会自动的帮你设置好优雅链接。
-
+  	
+当然如果你使用了 [Homestead](/docs/{{version}}/homestead) 或者 [Valet](/docs/{{version}}/valet) 的话， 它会自动的帮你设置好优雅链接。  
 
