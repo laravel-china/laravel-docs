@@ -1,23 +1,23 @@
 # Laravel 安装指南
 
-- [Installation](#installation)
-    - [Server Requirements](#server-requirements)
-    - [Installing Laravel](#installing-laravel)
-    - [Configuration](#configuration)
-- [Web Server Configuration](#web-server-configuration)
-    - [Pretty URLs](#pretty-urls)
+- [安装](#installation)
+    - [运行环境要求](#server-requirements)
+    - [安装 Laravel](#installing-laravel)
+    - [配置](#configuration)
+- [Web 服务器配置](#web-server-configuration)
+	- [优雅链接](#pretty-urls)
 
 <a name="installation"></a>
-## Installation
+## 安装
 
-> {video} Are you a visual learner? Laracasts provides a [free, thorough introduction to Laravel](https://laracasts.com/series/laravel-from-scratch-2017) for newcomers to the framework. It's a great place to start your journey.
+> {video} 你是一个视频学习爱好者吗? Laracasts 为 Laravel 框架初学者提供了一个[免费，彻底](https://laracasts.com/series/laravel-from-scratch-2017) 的介绍。这是一个开始你学习旅程的好地方。
 
 <a name="server-requirements"></a>
-### Server Requirements
+### 运行环境要求
 
-The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
+Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel Homestead](/docs/{{version}}/homestead) 虚拟机上都已经完全配置好了，强烈建议使用 Homestead 作为本地开发环境。
 
-However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
+系统要求为以下：
 
 <div class="content-list" markdown="1">
 - PHP >= 5.6.4
@@ -28,95 +28,97 @@ However, if you are not using Homestead, you will need to make sure your server 
 - XML PHP Extension
 </div>
 
+> 译者注：强烈推荐使用 Homestead 作为开发环境，尤其是新手，可以避免很多不必要的麻烦。线上环境可以参考 [Homestead 的环境部署脚本](https://github.com/laravel/settler/blob/master/scripts/provision.sh) 进行部署。
+
 <a name="installing-laravel"></a>
-### Installing Laravel
+### 安装 Laravel
 
-Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.
+Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以，在使用 Laravel 之前，请先确认你的电脑上安装了 Composer。
 
-#### Via Laravel Installer
+#### 通过 Laravel 安装工具
 
-First, download the Laravel installer using Composer:
+首先，使用 Composer 下载 Laravel 安装包：
 
     composer global require "laravel/installer"
 
-Make sure to place the `$HOME/.composer/vendor/bin` directory (or the equivalent directory for your OS) in your $PATH so the `laravel` executable can be located by your system.
+请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH，只有这样系统才能找到 `laravel` 的执行文件。
 
-Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
+一旦安装完成，就可以使用 `laravel new` 命令在指定目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
 
     laravel new blog
 
-#### Via Composer Create-Project
+因为代码依赖是直接一起打包安装的。
 
-Alternatively, you may also install Laravel by issuing the Composer `create-project` command in your terminal:
+#### 通过 Composer Create-Project
+
+除此之外，你也可以通过 Composer 在命令行运行 `create-project` 命令来安装 Laravel：
 
     composer create-project --prefer-dist laravel/laravel blog
 
-#### Local Development Server
+#### 本地开发服务器
 
-If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the `serve` Artisan command. This command will start a development server at `http://localhost:8000`:
+如果你在本地安装了 PHP，你可能希望像运行 PHP 内置的开发服务器一样来访问自己的应用程序，你可以使用 `serve` Artisan 命令来启动一个本地开发服务器，这样你就可以在 `http://localhost:8000` 来访问它。
 
-    php artisan serve
 
-Of course, more robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
+	php artisan serve
+
+不过有更健壮的本地开发选项可用，比如 [Homestead](/doc/{{version}}/homestead) 和 [Valet](/doc/{{version}}/valet)。
+
 
 <a name="configuration"></a>
-### Configuration
+### 配置信息
 
-#### Public Directory
+#### Public 目录
 
-After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
+安装完成后，你应该指定 Web 服务器的网站根目录到 `public` 文件夹上。`index.php` 文件是 Laravel 的主要入口文件。
 
-#### Configuration Files
+#### 配置文件
 
-All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
+所有 Laravel 框架的配置文件都放置在 `config` 目录下。每个选项都有说明，请仔细阅读这些说明，并熟悉这些选项配置。
 
-#### Directory Permissions
+#### 目录权限
 
-After installing Laravel, you may need to configure some permissions. Directories within the `storage` and the `bootstrap/cache` directories should be writable by your web server or Laravel will not run. If you are using the [Homestead](/docs/{{version}}/homestead) virtual machine, these permissions should already be set.
+安装 Laravel 之后，你必须设置一些文件目录权限。`storage` 和 `bootstrap/cache` 目录必须让服务器有写入权限。如果你使用 [Homestead](/docs/{{version}}/homestead) 虚拟机，那么这些权限已经被设置好了。
 
-#### Application Key
+#### 应用程序密钥
 
-The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `php artisan key:generate` command.
+在你安装完 Laravel 后，首先需要做的事情是设置一个随机字符串的密钥。假设你是通过 Composer 或是 Laravel 安装工具安装的 Laravel，那么这个密钥已经通过 `key:generate` 命令帮你设置完成。通常这个密钥会有 32 字符长。这个密钥可以被设置在 `.env` 环境文件中。如果你还没将 `.env.example` 文件重命名为 `.env`，那么你现在应该去设置下。
 
-Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not renamed the `.env.example` file to `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
+**如果应用程序密钥没有被设置的话，你的用户 Session 和其它的加密数据都是不安全的！**
 
-#### Additional Configuration
+#### 其它设置
 
-Laravel needs almost no other configuration out of the box. You are free to get started developing! However, you may wish to review the `config/app.php` file and its documentation. It contains several options such as `timezone` and `locale` that you may wish to change according to your application.
+Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你先浏览 `config/app.php` 文件和对应的文档，这里面包含着一些选项，如 `时区` 和 `语言环境`，你可以根据应用程序的情况来修改。
 
-You may also want to configure a few additional components of Laravel, such as:
+你也可以设置 Laravel 的几个附加组件，像是：
 
-<div class="content-list" markdown="1">
-- [Cache](/docs/{{version}}/cache#configuration)
-- [Database](/docs/{{version}}/database#configuration)
+- [缓存](/docs/{{version}}/cache#configuration)
+- [数据库](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
-</div>
+
+一旦 Laravel 安装完成，你应该立即 [设置本机环境](/docs/{{version}}/installation#environment-configuration)。
 
 <a name="web-server-configuration"></a>
-## Web Server Configuration
-
+## Web 服务器配置
 <a name="pretty-urls"></a>
-### Pretty URLs
-
+### 优雅连接
 #### Apache
+Laravel 框架通过 `public/.htaccess` 文件来让 URL 不需要 `index.php` 即可访问。在 Apache 启用 Laravel 之前，请确认是否有开启 mod_rewrite 模块，以便 `.htaccess` 文件发挥作用。
 
-Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
+如果 Laravel 附带的 .htaccess 文件在 Apache 中无法使用的话，请尝试下方的做法：
 
-If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
+	Options +FollowSymLinks
+	RewriteEngine On
 
-    Options +FollowSymLinks
-    RewriteEngine On
-
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^ index.php [L]
 
 #### Nginx
+若你使用了 Nginx，你网站配置的如下指令会转发所有请求到 `index.php` 前端控制器。
 
-If you are using Nginx, the following directive in your site configuration will direct all requests to the `index.php` front controller:
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-Of course, when using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
+ 	location / {
+   		try_files $uri $uri/ /index.php?$query_string;
+  	}
+  	
+当然如果你使用了 [Homestead](/docs/{{version}}/homestead) 或者 [Valet](/docs/{{version}}/valet) 的话， 它会自动的帮你设置好优雅链接。  
