@@ -31,7 +31,7 @@ Laravel 5.4 继续在 Laravel 5.3 的基础上进行优化，新特性包括以�
 * 在广播频道上进行路由模型绑定；
 * 在集合中支持高阶消息传递；
 * 基于对象的 Eloquent 事件；
-* 任务级别的 "重试" 和 "超时" 设置；
+* 任务级别的「重试」和「超时」设置；
 * "实时" Facades；
 * 更好的支持 Redis Cluster；
 * 自定义 pivot 表模型；
@@ -343,7 +343,7 @@ Laravel 5.4 在默认的中间件栈中引入了两个新的中间件：`TrimStr
 
 5.4版本以前，在同一个应用中不能同时定义 Redis 链接指向单个主机和集群，在 Laravel 5.4 中可以在同一个应用中定义 Redis 链接指向多个主机和多个集群。
 
-更多关于 Laravel 中 Redis 的信息，查看[Redis 文档](/docs/5.4/redis)。
+更多关于 Laravel 中 Redis 的信息，查看 [Redis 文档](/docs/5.4/redis)。
 
 <a name="utf8mb4"></a>
 ### 迁移默认字符长度
