@@ -10,7 +10,7 @@
 <a name="installation"></a>
 ## 安装
 
-> {video} 你是一个视频学习爱好者吗? Laracasts 为 Laravel 框架初学者提供了一个[免费，彻底](https://laracasts.com/series/laravel-from-scratch-2017) 的介绍。这是一个开始你学习旅程的好地方。
+> {video} 你是一个视频学习爱好者吗? Laracasts 为 Laravel 框架初学者提供了一个 [免费，彻底](https://laracasts.com/series/laravel-from-scratch-2017) 的介绍。这是一个开始你学习旅程的好地方。
 
 <a name="server-requirements"></a>
 ### 运行环境要求
