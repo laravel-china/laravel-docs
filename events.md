@@ -9,7 +9,7 @@
 - [队列化事件监听器](#queued-event-listeners)
     - [手动访问队列](#manually-accessing-the-queue)
     - [处理失败任务](#handling-failed-jobs)
-- [分发事件](#dispatching-events)
+- [触发事件](#dispatching-events)
 - [事件订阅者](#event-subscribers)
     - [编写事件订阅者](#writing-event-subscribers)
     - [注册事件订阅者](#registering-event-subscribers)
@@ -17,7 +17,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 事件机制实现了一个简单的观察者模式，为我们提供订阅和监听应用中出现的各种事件。 Event 类通常保存在 `app/Events` 目录下，而它们的 listeners 类被保存在 `app/Listeners` 目录下。如果你在应用中看不到这些文件夹也不要担心，因为当你使用 Artisan 命令来生成事件和监听器时他们会被自动创建。
+Laravel 事件机制实现了一个简单的观察者模式，让我们可以订阅和监听应用中出现的各种事件。事件类 (Event) 类通常保存在 `app/Events` 目录下，而它们的监听类 (Listener) 类被保存在 `app/Listeners` 目录下。如果你在应用中看不到这些文件夹也不要担心，因为当你使用 Artisan 命令来生成事件和监听器时他们会被自动创建。
 
 事件机制是一种很好的应用解耦方式，因为一个事件可以拥有多个互不依赖的监听器。例如，每次把用户的订单发完货后都希望给他发个 Slack 通知。这时候你可以发起一个 `OrderShipped` 事件，它会被监听器接收到再传递给 Slack 通知模块，这样你就不用把订单处理的代码跟 Slack 通知的代码耦合在一起了。
 
@@ -27,7 +27,7 @@ Laravel 事件机制实现了一个简单的观察者模式，为我们提供订
 Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来注册所有的事件监听器。它的 `listen` 属性是一个数组，包含所有的事件（键）以及事件对应的监听器（值）。你也可以根据应用需求来增加事件到这个数组中。例如，增加一个 `OrderShipped` 事件：
 
     /**
-     * The event listener mappings for the application.
+     * 应用程序的事件监听器映射。
      *
      * @var array
      */
@@ -50,7 +50,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
 一般来说，事件必须通过 `EventServiceProvider` 类的 `$listen` 数组进行注册；不过，你也可以在 `EventServiceProvider` 类的 `boot` 方法中注册闭包事件。
 
     /**
-     * Register any other events for your application.
+     * 注册应用程序中的任何其他事件。
      *
      * @return void
      */
@@ -90,7 +90,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
         public $order;
 
         /**
-         * Create a new event instance.
+         * 创建一个事件实例。
          *
          * @param  Order  $order
          * @return void
@@ -117,7 +117,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
     class SendShipmentNotification
     {
         /**
-         * Create the event listener.
+         * 创建事件监听器。
          *
          * @return void
          */
@@ -127,14 +127,14 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
         }
 
         /**
-         * Handle the event.
+         * 处理事件
          *
          * @param  OrderShipped  $event
          * @return void
          */
         public function handle(OrderShipped $event)
         {
-            // Access the order using $event->order...
+            // 使用 $event->order 来访问 order ...
         }
     }
 
@@ -149,7 +149,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
 
 如果你的监听器中需要实现一些耗时的任务，比如发送邮件或者进行 HTTP 请求，那把它放到队列中处理是非常有用的。在使用队列化监听器之前，一定要在服务器或者本地环境中配置 [队列](/docs/{{version}}/queues) 并开启一个队列监听器。
 
-要对监听器进行序列化的话，只需增加 `ShouldQueue` 接口到你的监听器类。由 Artisan 命令 `event:generate` 生成的监听器已经将此接口导入到命名空间了，因此你可以直接使用它：
+要对监听器进行队列化的话，只需增加 `ShouldQueue` 接口到你的监听器类。由 Artisan 命令 `event:generate` 生成的监听器已经将此接口导入到命名空间了，因此你可以直接使用它：
 
     <?php
 
@@ -179,14 +179,14 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
     class SendShipmentNotification implements ShouldQueue
     {
         /**
-         * The name of the connection the job should be sent to.
+         * 队列化任务使用的连接名称。
          *
          * @var string|null
          */
         public $connection = 'sqs';
 
         /**
-         * The name of the queue the job should be sent to.
+         * 队列化任务使用的队列名称。
          *
          * @var string|null
          */
@@ -247,7 +247,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
     }
 
 <a name="dispatching-events"></a>
-## 分发事件
+## 触发事件
 
 如果要触发事件，你可以传递一个事件实例给 `event` 辅助函数。这个函数将会把事件分发到它所有已经注册的监听器上。因为 `event` 函数是全局可访问的，所以你可以在应用中的任何地方调用它：
 
@@ -262,7 +262,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
     class OrderController extends Controller
     {
         /**
-         * Ship the given order.
+         * 将传递过来的订单发货。
          *
          * @param  int  $orderId
          * @return Response
@@ -271,7 +271,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
         {
             $order = Order::findOrFail($orderId);
 
-            // Order shipment logic...
+            // 订单的发货逻辑...
 
             event(new OrderShipped($order));
         }
@@ -294,17 +294,17 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
     class UserEventSubscriber
     {
         /**
-         * Handle user login events.
+         * 处理用户登录事件。
          */
         public function onUserLogin($event) {}
 
         /**
-         * Handle user logout events.
+         * 处理用户注销事件。
          */
         public function onUserLogout($event) {}
 
         /**
-         * Register the listeners for the subscriber.
+         * 为订阅者注册监听器。
          *
          * @param  Illuminate\Events\Dispatcher  $events
          */
@@ -337,7 +337,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
     class EventServiceProvider extends ServiceProvider
     {
         /**
-         * The event listener mappings for the application.
+         * 应用中事件监听器的映射。
          *
          * @var array
          */
@@ -346,7 +346,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
         ];
 
         /**
-         * The subscriber classes to register.
+         * 需要注册的订阅者类。
          *
          * @var array
          */
