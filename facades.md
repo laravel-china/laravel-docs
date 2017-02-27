@@ -10,9 +10,9 @@
 <a name="introduction"></a>
 ## 简介
 
-Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 自带了很多 facades ，几乎可以用来访问到 Laravel 中所有的服务。Laravel facades 实际上是服务容器中那些底层类的「静态代理」，相比于传统的静态方法， facades 在提供了简洁且丰富的语法同时，还带来了更好的可测试性和扩展性。
+Facades（读音：/fəˈsäd/ ）为应用程序的 [服务容器](/docs/{{version}}/container) 中可用的类提供了一个「静态」接口。Laravel 自带了很多 facades ，几乎可以用来访问到 Laravel 中所有的服务。Laravel facades 实际上是服务容器中那些底层类的「静态代理」，相比于传统的静态方法， facades 在提供了简洁且丰富的语法同时，还带来了更好的可测试性和扩展性。
 
-所有的 Laravel's facades 都需要定义在命名空间 `Illuminate\Support\Facades` 下。所以，我们可以容易地向下面这样调用 facade :
+所有的 Laravel facades 都需要定义在命名空间 `Illuminate\Support\Facades` 下。所以，我们可以容易地向下面这样调用 facade :
 
     use Illuminate\Support\Facades\Cache;
 
@@ -25,7 +25,7 @@ Facades 为应用程序的 [服务容器](/docs/{{version}}/container) 中可用
 <a name="when-to-use-facades"></a>
 ## 何时使用 Facades
 
-Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简单，易记的语法，让你不需要记住长长的类名来实现依赖注入和手动配置。还有，因为它们使用了 PHP 动态方法的独特用法，测试起来非常容易。
+Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简单，易记的语法，让你不需要记住长长的类名来实现依赖注入和手动配置。还有，因为它们对于PHP动态方法的独特用法，测试起来非常容易。
 
 然而，在使用 facades 时，有些地方还需要特别注意。使用 facades 最主要的风险就是会引起类作用范围的膨胀。因为 facades 使用起来非常简单而且不需要注入，我们会不经意的在单个类中大量使用。它不会像使用依赖注入那样，使用的类越多，构造方法会越长，在视觉上就会引起注意，提醒你这个类有点庞大了。所以在使用 facades 的时候，要特别注意控制好类的大小，让类的作用范围保持短小。
 
