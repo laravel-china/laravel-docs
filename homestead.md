@@ -14,11 +14,11 @@
     - [增加更多网站](#adding-additional-sites)
     - [配置 Cron 调度器](#configuring-cron-schedules)
     - [连接端口](#ports)
-    - [Sharing Your Environment](#sharing-your-environment)
+    - [共享你的环境](#sharing-your-environment)
 - [网络接口](#network-interfaces)
 - [更新 Homestead](#updating-homestead)
 - [历史版本](#old-versions)
-- [Provider Specific Settings](#provider-specific-settings)
+- [Provider 的特殊设置](#provider-specific-settings)
     - [VirtualBox](#provider-specific-virtualbox)
 
 <a name="introduction"></a>
@@ -79,11 +79,11 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 
     git clone https://github.com/laravel/homestead.git Homestead
 
-You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [Github Release Page](https://github.com/laravel/homestead/releases):
+由于 Homestead 的 `master` 分支并不是稳定分支，你应该检出已经标签过的稳定版本。你可以在 [Github Release Page](https://github.com/laravel/homestead/releases) 找到最新的稳定版本。
 
     cd Homestead
 
-    // Clone the desired release...
+    // 检出所需要的版本...
     git checkout v4.0.5
 
 一旦你克隆完 Homestead 的代码仓库，即可在 Homestead 目录中运行 `bash init.sh` 命令
@@ -311,15 +311,15 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
           protocol: udp
 
 <a name="sharing-your-environment"></a>
-### Sharing Your Environment
+### 共享你的环境
 
-Sometimes you may wish to share what you're currently working on with coworkers or a  client. Vagrant has a built-in way to support this via `vagrant share`; however, this will not work if you have multiple sites configured in your `Homestead.yaml` file.
+有时候你想跟你的同事或者是客户共享你目前的工作进度。Vagrant 为此提供了一个内置方法 `vagrant share`；不过，如果你在你的 `Homestead.yaml` 文件中配置了多个站点则这条命令将会变得没多大用处。
 
-To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.app`. This will share the `homestead.app` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.app`.
+为了解决这个问题，Homestead 提供了自己的 `share` 命令。开始之前，通过 `vagrant ssh` 命令 SSH 进你的 Homestead 机器中，然后运行 `share homestead.app`。这会从你的 `Homestead.yaml` 配置文件中共享 `homestead.app` 站点。当然，你也可以用其他已经配置的站点来代替 `homestead.app`。
 
-After running the command, you will see an Ngrok screen appear which contains the activity log and the publicly accessible URLs for the shared site.
+运行完命令之后，你可以看到一个包含活动日志和共享站点外网访问路径的 Ngrok 界面。
 
-> {note} Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
+> {note} 谨记，Vagrant 本质上是不安全的，当你运行 `share` 命令的时候，你会把你的虚拟机暴露在互联网中。
 
 <a name="network-interfaces"></a>
 ## 网络接口
@@ -382,12 +382,12 @@ After running the command, you will see an Ngrok screen appear which contains th
 | PHP 7.1 |       4.0.0       |    1.0.0    |
 
 <a name="provider-specific-settings"></a>
-## Provider Specific Settings
+## Provider 的特殊设置
 
 <a name="provider-specific-virtualbox"></a>
 ### VirtualBox
 
-By default, Homestead configures the `natdnshostresolver` setting to `on`. This allows Homestead to use your host operating system's DNS settings. If you would like to override this behavior, add the following lines to your `Homestead.yaml` file:
+Homestead 默认将 `natdnshostresolver` 设置为 `on`。这允许 Homestead 使用你的主机系统中的 DNS 设置。如果你想重写这行为，你可以在你的 `Homestead.yaml` 文件中添加下面这几行：
 
     provider: virtualbox
     natdnshostresolver: off
