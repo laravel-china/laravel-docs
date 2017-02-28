@@ -146,7 +146,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
     The current UNIX timestamp is {{ time() }}.
 
-> {note} Blade `{{ }}` 语法会自动调用 PHP `htmlentities` 函数来避免 XSS 攻击。
+> {note} Blade `{{ }}` 语法会自动调用 PHP `htmlspecialchars` 函数来避免 XSS 攻击。
 
 #### 当数据存在时输出
 
@@ -162,7 +162,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
 #### 显示未转义过的数据
 
-在默认情况下，Blade 模板中的 `{{ }}` 表达式将会自动调用 PHP `htmlentities` 函数来转义数据以避免 XSS 的攻击。如果你不想你的数据被转义，你可以使用下面的语法：
+在默认情况下，Blade 模板中的 `{{ }}` 表达式将会自动调用 PHP `htmlspecialchars` 函数来转义数据以避免 XSS 的攻击。如果你不想你的数据被转义，你可以使用下面的语法：
 
     Hello, {!! $name !!}.
 
