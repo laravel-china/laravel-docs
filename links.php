@@ -106,7 +106,7 @@ return [
         'link' => '/docs/{{version}}/frontend)'
     ],
     [
-        'text' => '编辑资源 Mix',
+        'text' => '编译资源 Mix',
         'link' => '/docs/{{version}}/mix)'
     ],
     [

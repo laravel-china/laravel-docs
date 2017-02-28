@@ -1,6 +1,6 @@
 # Laravel 发行说明
 
-- [Support Policy](#support-policy)
+- [支持策略](#support-policy)
 - [Laravel 5.4](#laravel-5.4)
 - [Laravel 5.3](#laravel-5.3)
 - [Laravel 5.2](#laravel-5.2)
@@ -23,15 +23,29 @@
 <a name="laravel-5.4"></a>
 ## Laravel 5.4
 
-Laravel 5.4 continues the improvements made in Laravel 5.3 by adding support for [Markdown based emails and notifications](/docs/5.4/mail#markdown-mailables), the [Laravel Dusk](/docs/5.4/dusk) browser automation and testing framework, Laravel Mix, Blade "components" and "slots", route model binding on broadcast channels, higher order messages for Collections, object-based Eloquent events, job-level "retry" and "timeout" settings, "realtime" facades, improved support for Redis Cluster, custom pivot table models, middleware for request input trimming and cleaning, and more. In addition, the entire codebase of the framework was reviewed and refactored for general cleanliness.
+Laravel 5.4 继续在 Laravel 5.3 的基础上进行优化，新特性包括以下：
+* [在邮件和通知中支持 Markdown](/docs/5.4/mail#markdown-mailables)；
+* [Laravel Dusk 浏览器自动测试框架](/docs/5.4/dusk)；
+* Laravel Mix；
+* Blade "components" 和 "slots"；
+* 在广播频道上进行路由模型绑定；
+* 在集合中支持高阶消息传递；
+* 基于对象的 Eloquent 事件；
+* 任务级别的「重试」和「超时」设置；
+* "实时" Facades；
+* 更好的支持 Redis Cluster；
+* 自定义 pivot 表模型；
+* 两个新的中间件，用于输入修剪空格和清除非必要字段，等等。
 
-> {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md).
+此外，还对整个框架代码进行了 reviewed 和重构，以使代码更加干净和清晰。
 
-### Markdown Mail & Notifications
+> {tip} 这个文档总结了许多框架值得注意的改进。需要知道更多细节请参考 Github 上的更新记录 [on GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md)。
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7) for this feature available on Laracasts.
+### Markdown 邮件和通知
 
-Markdown mailable messages allow you to take advantage of the pre-built templates and components of mail notifications in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart. For example, a Markdown email might look something like the following:
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7)。
+
+此新特性允许我们在邮件通知中使用 Markdown 语法，Laravel 可以将这些消息渲染成美观、响应式的 HTML 模板，同时自动生成纯文本副本，下面是一个 Markdown 格式的邮件示例：
 
     @component('mail::message')
     # Order Shipped
@@ -51,24 +65,24 @@ Markdown mailable messages allow you to take advantage of the pre-built template
     {{ config('app.name') }}
     @endcomponent
 
-Using this simple Markdown template, Laravel is able to generate a responsive HTML email and plain-text counterpart:
+利用这个简单的 Markdown 模板，Laravel 可以生成一个响应式 HTML 邮件和纯文本副本：
 
 <img src="https://laravel.com/assets/img/examples/markdown.png" width="551" height="596">
 
-To read more about Markdown mail and notifications, check out the full [mail](/docs/5.4/mail) and [notification](/docs/5.4/notifications) documentation.
+要想了解更多细节，查看 [mail](/docs/5.4/mail) 和 [notification](/docs/5.4/notifications) 文档。
 
-> {tip} You may export all of the Markdown mail components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag.
+> {tip} 你可以导出所有的 Markdown 邮件组件到自己的应用中进行自定义。使用 `vendor:publish` Artisan 命令 `laravel-mail` 选项来导出资源。
 
 ### Laravel Dusk
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/9) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/9)。
 
-Laravel Dusk provides an expressive, easy-to-use browser automation and testing API. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) installation. However, you are free to utilize any other Selenium compatible driver you wish.
+Laravel Dusk 提供一个优雅，简单易用的浏览器自动化测试 API。默认情况下，Dusk 不需要再你安装 JDK 或 Selenium 。Dusk 使用独立的 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) 安装方式。你也可自由的使用其他 Selenium 兼容驱动。
 
-Since Dusk operates using a real browser, you are able to easily test and interact with your applications that heavily use JavaScript:
+Dusk 运行使用真实的浏览器，所有你可以轻松地对那些重度使用 JavaScript 的引用进行测试和交互：
 
     /**
-     * A basic browser test example.
+     * 一个基本浏览器测试例子.
      *
      * @return void
      */
@@ -91,22 +105,22 @@ Since Dusk operates using a real browser, you are able to easily test and intera
         });
     }
 
-For more information on Dusk, consult the full [Dusk documentation](/docs/5.4/dusk).
+需要了解更多关于 Dusk 的细节，查看 [Dusk 文档](/docs/5.4/dusk)
 
 ### Laravel Mix
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/3) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/3)。
 
-Laravel Mix is the spiritual successor of Laravel Elixir, and its entirely based on Webpack instead of Gulp. Laravel Mix provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
+Laravel Mix 是 Laravel Elixir 思想继承者，完全基于 Webpack 而非 Gulp。Laravel Mix 提供流式 API 定义 Webpack 构建步骤，有几种已经定义的 CSS 和 JavaScript 预处理器。通过简单的方法链，你可以流畅的定义你的资源构建流水线。例如：
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
 
 ### Blade Components & Slots
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/6) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/6)。
 
-Blade components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
+Blade components 和 slots 提供与 sections 和 layouts 相似的功能；然而，有些人会觉得 components 和 slots 的思想更易理解。首先，让我们假设一个可重用的 "alert" 组件想要在整个应用进行重用：
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -114,13 +128,13 @@ Blade components and slots provide similar benefits to sections and layouts; how
         {{ $slot }}
     </div>
 
-The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
+`{{ $slot }}` 变量包含我们想要插入的组件内容，要构建这个组件，我们可以使用 `component` Blade 指令：
 
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
 
-Named slots allow you to provide multiple slots into a single component:
+命名 slots 允许在单个组件中定义多个 slots：
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -130,7 +144,7 @@ Named slots allow you to provide multiple slots into a single component:
         {{ $slot }}
     </div>
 
-Named slots may be injected using the `@slot` directive. Any content is not within a `@slot` directive will be passed to the component in the `$slot` variable:
+命名 slots 可以通过 `@slot` 指令注入。一个 `@slot` 中的所有内容都会被传递给 `@slot` 变量：
 
     @component('alert')
         @slot('title')
@@ -140,11 +154,11 @@ Named slots may be injected using the `@slot` directive. Any content is not with
         You are not allowed to access this resource!
     @endcomponent
 
-To read more about components and slots, consult the full [Blade documentation](/docs/5.4/blade).
+需要了解更多关于 components 和 slots 的细节，查看 [Blade documentation](/docs/5.4/blade)。
 
-### Broadcast Model Binding
+### 广播模型绑定
 
-Just like HTTP routes, channel routes may now take advantage of implicit and explicit [route model binding](/docs/5.4/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, you may request an actual `Order` model instance:
+和 HTTP 路由一样，频道路由也使用隐式和显式 [路由模型绑定](/docs/5.4/routing#route-model-binding)。例如，可以通过请求一个实际的 `Order` 模型实例来取代之前获取字符串或数字订单ID ID：
 
     use App\Order;
 
@@ -152,31 +166,33 @@ Just like HTTP routes, channel routes may now take advantage of implicit and exp
         return $user->id === $order->user_id;
     });
 
-To read more about broadcast model binding, consult the full [event broadcasting](/docs/5.4/broadcasting) documentation.
+需要了解更多关于广播模型绑定，查看 [事件广播](/docs/5.4/broadcasting)。
 
-### Collection Higher Order Messages
+### 集合高阶消息传递
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/2) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/2)。
 
-Collections now provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
+集合现在支持 "高阶消息传递"，从而使集合的操作更为精简，目前支持高阶消息传递方法有：
 
-Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
+ `contains`、`each`、`every`、`filter`、`first`、`map`、`partition`、`reject`、`sortBy`、`sortByDesc`、 `sum`。
+
+每一个高阶消息传递都可以通过集合实例的动态属性进行访问，例如，使用 `each` 的高阶消息传递去调用集合的某个对象：
 
     $users = User::where('votes', '>', 500)->get();
 
     $users->each->markAsVip();
 
-Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
+类似的，我们可以通过 `sum` 的高阶消息传递在用户集合中聚合所有的投票数：
 
     $users = User::where('group', 'Development')->get();
 
     return $users->sum->votes;
 
-### Object Based Eloquent Events
+### 基于对象的 Eloquent 事件
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/10) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/10)。
 
-Eloquent event handlers may now be mapped to event objects. This provides a more intuitive way of handling Eloquent events and makes it easier to test the events. To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/5.4/events):
+Eloquent 事件处理器现在可以被映射到事件对象上。这提供了一种直观处理 Eloquent 事件并易于测试的方式。在开始使用之前，先在你的 Eloquent 模型中定义一个 `$events` 属性数组，在这个数组中可以定义 Eloquent 模型的生命周期中属于你的 [事件 classes](/docs/5.4/events):
 
     <?php
 
@@ -202,9 +218,9 @@ Eloquent event handlers may now be mapped to event objects. This provides a more
         ];
     }
 
-### Job Level Retry & Timeout
+### 任务级别重试和超时
 
-Previously, queue job "retry" and "timeout" settings could only be configured globally for all jobs on the command line. However, in Laravel 5.4, these settings may be configured on a per-job basis by defining them directly on the job class:
+5.4版本以前，任务队列 "retry" 和 "timeout" 设置只能在全局的队列配置中用命令行设置。现在可以单独在任务类中配置每一个任务的 "重试" 和 "超时"：
 
     <?php
 
@@ -227,18 +243,18 @@ Previously, queue job "retry" and "timeout" settings could only be configured gl
         public $timeout = 120;
     }
 
-For more information about these settings, consult the full [queue documentation](/docs/5.4/queues).
+需要了更多，查看 [队列](/docs/5.4/queues).
 
-### Request Sanitization Middleware
+### 请求清理中间件
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/1) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/1)。
 
-Laravel 5.4 includes two new middleware in the default middleware stack: `TrimStrings` and `ConvertEmptyStringsToNull`:
+Laravel 5.4 在默认的中间件栈中引入了两个新的中间件：`TrimStrings` 和 `ConvertEmptyStringsToNull`：
 
     /**
-     * The application's global HTTP middleware stack.
+     * 应用的全局 HTTP 中间件栈
      *
-     * These middleware are run during every request to your application.
+     * 这些中间件会对你的每一个请求运行
      *
      * @var array
      */
@@ -249,13 +265,13 @@ Laravel 5.4 includes two new middleware in the default middleware stack: `TrimSt
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
-These middleware will automatically trim request input values and convert any empty strings to `null`. This helps you normalize the input for every request entering into your application and not have to worry about continually calling the `trim` function in every route and controller.
+新增的中间件会自动去除请求输入值首尾的空格、将空字符串转换为 `null`。这可以帮助你获得正确的输入而不需要重复在每一个路由和控制器中调用 `trim` 方法。
 
-### "Realtime" Facades
+### "实时" Facades
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/8) for this feature available on Laracasts.
+> {video} Laracasts 上关于此新特性的免费视频 [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/8)。
 
-Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/facades), which provide quick, terse access to their methods via the service container. However, in Laravel 5.4, you may easily convert any of your application's classes into a facade in realtime simply by prefixing the imported class name with `Facades`. For example, imagine your application contains a class like the following:
+5.4版本以前，只有 Laravel 内置的服务才可以提供 [Facades](/docs/5.4/facades)，提供快速的，简短的方式访问这些服务容器的方法。在 Laravel 5.4 中，你可以轻松的将你的任意类库实时的转换成Facades，只需要将类名导入到 `Facades` 中。例如，假设你的应用中有这样一个类：
 
     <?php
 
@@ -266,7 +282,7 @@ Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/fac
         protected $tax;
 
         /**
-         * Create a new payment gateway instance.
+         * 创建一个新的支付网关实例
          *
          * @param  TaxCalculator  $tax
          * @return void
@@ -288,7 +304,7 @@ Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/fac
         }
     }
 
-You may easily use this class as a facade like so:
+你可以这样以 Facades 的方式调用这个类的方法：
 
     use Facades\ {
         App\Services\PaymentGateway
@@ -298,13 +314,13 @@ You may easily use this class as a facade like so:
         PaymentGateway::pay($amount);
     });
 
-Of course, if you leverage a realtime facade in this way, you may easily write a test for the interaction using Laravel's [facade mocking capabilities](/docs/5.4/mocking):
+当然，如果你以这种方式实现实时 Facades ，就可以使用 Laravel 的 [Facades 模拟功能](/docs/5.4/mocking) 编写测试用例:
 
     PaymentGateway::shouldReceive('pay')->with('100');
 
-### Custom Pivot Table Models
+### 自定义 Pivot 表模型
 
-In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used the same built-in `Pivot` model instance. In Laravel 5.4, you may define custom models for your pivot tables. If you would like to define a custom model to represent the intermediate table of your relationship, use the `using` method when defining the relationship:
+在 Laravel 5.3, 所有的 `belongsToMany` 关联关系使用同一个内置的 `Pivot` 模型实例。在 Laravel 5.4 中你可以为这些 pivot 表自定义模型类，如果你想要定义一个自定义模型，可以在定义关联关系时使用 `using` 方法：
 
     <?php
 
@@ -315,7 +331,7 @@ In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used 
     class Role extends Model
     {
         /**
-         * The users that belong to the role.
+         * 属于这个角色的用户
          */
         public function users()
         {
@@ -323,21 +339,23 @@ In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used 
         }
     }
 
-### Improved Redis Cluster Support
+### 优化 Redis 集群支持
 
-Previously, it was not possible to define Redis connections to single hosts and to clusters in the same application. In Laravel 5.4, you may now define Redis connections to multiple single hosts and multiple clusters within the same application. For more information on Redis in Laravel, please consult the full [Redis documentation](/docs/5.4/redis).
+5.4版本以前，在同一个应用中不能同时定义 Redis 链接指向单个主机和集群，在 Laravel 5.4 中可以在同一个应用中定义 Redis 链接指向多个主机和多个集群。
+
+更多关于 Laravel 中 Redis 的信息，查看 [Redis 文档](/docs/5.4/redis)。
 
 <a name="utf8mb4"></a>
-### Migration Default String Length
+### 迁移默认字符长度
 
-Laravel 5.4 uses the `utf8mb4` character set by default, which includes support for storing "emojis" in the database. If you are upgrading your application from Laravel 5.3, you are not required to switch to this character set.
+Laravel 5.4 默认使用 `utf8mb4` 字符编码，该编码支持对 "emojis" 表情在数据库进行存储。如果你从 Laravel 5.3 升级，不需要对字符编码做切换。
 
-If you choose to switch to this character set manually and are running a version of MySQL older than the 5.7.7 release, you may need to manually configure the default string length generated by migrations. You may configure this by calling the `Schema::defaultStringLength` method within your `AppServiceProvider`:
+如果你选择手动切换到这个字符编码，并且运行小于 MySQL 5.7.7 release 版本的数据库，你可能还需要手动配置迁移命令生成默认字符长度，你可以在 `AppServiceProvider` 中调用 `Schema::defaultStringLength` 方法来实现这一配置：
 
     use Illuminate\Support\Facades\Schema;
 
     /**
-     * Bootstrap any application services.
+     * 引导任何应用服务
      *
      * @return void
      */

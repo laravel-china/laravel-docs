@@ -3,57 +3,57 @@
 - [从 5.3 升级到 5.4.0](#upgrade-5.4.0)
 
 <a name="upgrade-5.4.0"></a>
-## Upgrading To 5.4.0 From 5.3
+## 从 5.3 升级到 5.4.0 
 
-#### Estimated Upgrade Time: 1-2 Hours
+#### 预计升级耗时: 1-2 小时
 
-> {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
+> {note} 我们尽量罗列出每一个不兼容的变更。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
 
-### Updating Dependencies
+### 更新依赖
 
-Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~5.7`.
+在 `composer.json` 文件中将你的 `laravel/framework` 更新为 `5.4.*`。 此外, 你应该更新你的 `phpunit/phpunit` 依赖关系到 `~5.7`。
 
-#### Removing Compiled Services File
+#### 删除编译的服务文件
 
-If it exists, you may delete the `bootstrap/cache/compiled.php` file. It is no longer used by the framework.
+如果存在，你可以删除 `bootstrap/cache/compiled.php` 文件。 它不再被框架使用。
 
-#### Flushing The Cache
+#### 刷新缓存
 
-After upgrading all packages, you should run `php artisan view:clear` to avoid Blade errors related to the removal of `Illuminate\View\Factory::getFirstLoop()`. In addition, you may need to run `php artisan route:clear` to flush the route cache.
+升级所有软件包之后，你应该运行 `php artisan view:clear` 来避免与删除 `Illuminate\View\Factory::getFirstLoop()` 相关的 Blade 错误。此外，你需要运行 `php artisan route:clear` 来刷新路由缓存。
 
 #### Laravel Cashier
 
-Laravel Cashier is already compatible with Laravel 5.4.
+Laravel Cashier 已经兼容 Laravel 5.4。
 
 #### Laravel Passport
 
-Laravel Passport `2.0.0` has been released to provide compatibility with Laravel 5.4 and the [Axios](https://github.com/mzabriskie/axios) JavaScript library. If you are upgrading from Laravel 5.3 and using the pre-built Passport Vue components, you should make sure the Axios library is globally available to your application as `axios`.
+为了兼容 Laravel 5.4 和 [Axios](https://github.com/mzabriskie/axios) JavaScript 库，Laravel Passport 已经发布了 `2.0.0` 。如果你是从 Laravel 5.3 升级，并使用了预置的 Passport Vue 组件，你应该确保 Axios 库在你的应用程序中作为 `axios` 全局可用。
 
 #### Laravel Scout
 
-Laravel Scout `3.0.0` has been released to provide compatibility with Laravel 5.4.
+Laravel Scout `3.0.0` 已经发布，以提供与 Laravel 5.4 的兼容性。
 
 #### Laravel Socialite
 
-Laravel Socialite `3.0.0` has been released to provide compatibility with Laravel 5.4.
+Laravel Socialite `3.0.0` 已经发布，以提供与 Laravel 5.4 的兼容性。
 
 #### Laravel Tinker
 
-In order to continue using the `tinker` Artisan command, you should also install the `laravel/tinker` package:
+为了继续使用 `tinker` Artisan 命令，你还应该安装 `laravel/tinker` 包:
 
     composer require laravel/tinker
 
-Once the package has been installed, you should add `Laravel\Tinker\TinkerServiceProvider::class` to the `providers` array in your `config/app.php` configuration file.
+一旦软件包被安装，你应该添加 `Laravel\Tinker\TinkerServiceProvider::class` 到 `config/app.php` 配置文件中的 `providers`数组。
 
 #### Guzzle
 
-Laravel 5.4 requires Guzzle 6.0 or greater.
+Laravel 5.4 需要 Guzzle 6.0或者更高版本。
 
-### Authorization
+### 授权
 
-#### The `getPolicyFor` Method
+#### `getPolicyFor` 方法
 
-Previous, when calling the `Gate::getPolicyFor($class)` method, an exception was thrown if no policy could be found. Now, the method will return `null` if no policy is found for the given class. If you call this method directly, make sure you refactor your code to check for `null`:
+在之前的版本中，调用 `Gate::getPolicyFor($class)` 方法的时候，如果没有找到对应的 policy，会抛出异常。 现在, 该方法在给定类中找不到policy的时候会返回  `null`。 如果你直接调用这个方法，请确保你在重构代码中新增了对 `null`的检查:
 
 ```php
 $policy = Gate::getPolicyFor($class);
@@ -67,75 +67,75 @@ if ($policy) {
 
 ### Blade
 
-#### `@section` Escaping
+#### `@section` 转码
 
-In Laravel 5.4, inline content passed to a section is automatically escaped:
+在 Laravel 5.4，传递给 section 的内联内容会自动进行转码：
 
     @section('title', $content)
 
-If you would like to render unescaped content in a section, you must declare the section using the traditional "long form" style:
+如果你想要在 section 中渲染原生内容，你必须使用传统的「长形式」声明该 section。
 
     @section('title')
         {!! $content !!}
     @stop
 
-### Bootstrappers
+### 引导程序
 
-If you are manually overriding the `$bootstrappers` array on your HTTP or Console kernel, you should rename the `DetectEnvironment` entry to `LoadEnvironmentVariables`.
+如果你在 HTTP 或 Console 启动类中手动覆盖了 `$bootstrappers` 数组，需要将 `DetectEnvironment` 重命名为 `LoadEnvironmentVariables`。
 
-### Broadcasting
+### 广播
 
-#### Channel Model Binding
+#### 频道模型绑定
 
-When defining channel name placeholders in Laravel 5.3, the `*` character is used. In Laravel 5.4, you should define these placeholders using `{foo}` style placeholders, like routes:
+在 Laravel 5.3 中定义频道名称占位符时，使用 `*` 字符。在 Laravel 5.4 中， 你应该使用 `{foo}` 风格来定义这些占位符，如路由：
 
     Broadcast::channel('App.User.{userId}', function ($user, $userId) {
         return (int) $user->id === (int) $userId;
     });
 
-### Collections
+### 集合
 
-#### The `every` Method
+#### `every` 方法
 
-The behavior of the `every` method has been moved to the `nth` method to match the method name defined by Lodash.
+`every` 方法的功能被合并到 `nth` 方法中以匹配被 Lodash 定义的方法名。
 
-#### The `random` Method
+#### `random` 方法
 
-Calling `$collection->random(1)` will now return a new collection instance with one item. Previously, this would return a single object. This method will only return a single object if no arguments are supplied.
+调用 `$collection->random(1)` 现在会返回一个包含单个item的新的集合实例。在之前版本中，这个方法会返回单个对象。如果没有提供参数，该方法将只返回单个对象。
 
-### Container
+### 容器
 
-#### Aliasing Via `bind` / `instance`
+#### 别名 via `bind` / `instance`
 
-In previous Laravel releases, you could pass an array as the first parameter to the `bind` or `instance` methods to register an alias:
+在之前的 Laravel 版本中，你可以将数组作为第一个参数传递给 `bind` 或者 `instance` 方法来注册别名：
 
     $container->bind(['foo' => FooContract::class], function () {
         return 'foo';
     });
 
-However, this behavior has been removed in Laravel 5.4. To register an alias, you should now use the `alias` method:
+然而，这种行为已经在 Laravel 5.4 中删除。要注册别名，你应该使用 `alias` 方法：
 
     $container->alias(FooContract::class, 'foo');
 
-#### Binding Classes With Leading Slashes
+#### 使用 \ 绑定类
 
-Binding classes into the container with leading slashes is no longer supported. This feature required a significant amount of string formatting calls to be made within the container. Instead, simply register your bindings without a leading slash:
-
+将不再支持通过带有 \ 的类名绑定类到容器。因为该功能需要在底层容器中进行大量的字符串格式化调用。取而代之的，只需要通过下面这种不带 \ 的方式绑定即可：
+    
     $container->bind('Class\Name', function () {
         //
     });
-
+    
     $container->bind(ClassName::class, function () {
         //
     });
 
-#### `make` Method Parameters
+#### `make` 方法参数
 
-The container's `make` method no longer accepts a second array of parameters. This feature typically indicates a code smell. Typically, you can always construct the object in another way that is more intuitive.
+容器的 `make` 方法不再接受第二个数组参数，因为该特性表明了代码的坏味道。我们需要以更加直观的方式来构造对象。
 
-#### Resolving Callbacks
+#### 解决回调
 
-The container's `resolving` and `afterResolving` method now must be provided a class name or binding key as the first argument to the method:
+容器的 `resolving` 和 `afterResolving` 方法现在必须提供一个类名或绑定键作为方法的第一个参数：
 
     $container->resolving('Class\Name', function ($instance) {
         //
@@ -145,25 +145,25 @@ The container's `resolving` and `afterResolving` method now must be provided a c
         //
     });
 
-#### `share` Method Removed
+#### `share` 方法已删除
 
-The `share` method has been removed from the container. This was a legacy method that has not been documented in several years. If you are using this method, you should begin using the `singleton` method instead:
+`share` 方法已经从容器中删除。这是一个遗留的方法，多年未被列出来。如果你使用这个方法，你应该开始使用 `singleton` 方法：
 
     $container->singleton('foo', function () {
         return 'foo';
     });
 
-### Console
+### 控制台
 
 #### The `Illuminate\Console\AppNamespaceDetectorTrait` Trait
 
-If you are directly referencing the `Illuminate\Console\AppNamespaceDetectorTrait` trait, update your code to reference `Illuminate\Console\DetectsApplicationNamespace` instead.
+如果你直接引用 `Illuminate\Console\AppNamespaceDetectorTrait` trait，更新你的代码替换为 `Illuminate\Console\DetectsApplicationNamespace`。
 
-### Database
+### 数据库
 
-#### Custom Connections
+#### 自定义连接
 
-If you were previously binding a service container binding for a `db.connection.{driver-name}` key in order to resolve a custom database connection instance, you should now use the `Illuminate\Database\Connection::resolverFor` method in the `register` method of your `AppServiceProvider`:
+如果你之前为 `db.connection.{driver-name}` 绑定了一个服务容器绑定以便解析自定义数据库连接实例，现在需要在 `AppServiceProvider` 的 `register` 方法中使用 `Illuminate\Database\Connection::resolverFor` 方法：
 
     use Illuminate\Database\Connection;
 
@@ -171,9 +171,9 @@ If you were previously binding a service container binding for a `db.connection.
         //
     });
 
-#### Fetch Mode
+#### Fetch 模式
 
-Laravel no longer includes the ability to customize the PDO "fetch mode" from your configuration files. Instead, `PDO::FETCH_OBJ` is always used. If you will still like to customize the fetch mode for your application you may listen for the new `Illuminate\Database\Events\StatementPrepared` event:
+Laravel不再支持在配置文件中定制PDO 「fetch mode」 的功能。取而代之，  `PDO::FETCH_OBJ` 一直可以使用。如果你仍然想要为你的应用程序自定义提取模式，你可以监听新的 `Illuminate\Database\Events\StatementPrepared` 事件：
 
     Event::listen(StatementPrepared::class, function ($event) {
         $event->statement->setFetchMode(...);
@@ -181,43 +181,43 @@ Laravel no longer includes the ability to customize the PDO "fetch mode" from yo
 
 ### Eloquent
 
-#### Date Casts
+#### 日期转换
 
-The `date` cast now converts the column to a `Carbon` object and calls the `startOfDay` method on the object. If you would like to preserve the time portion of the date, you should use the `datetime` cast.
+日期转换 `date` 现在会将日期转化为 `Carbon` 对象并调用该对象上的  `startOfDay` 方法，如果你想保留日期的时间部分，需要使用 `datetime` 转换。
 
-#### Foreign Key Conventions
+#### 外键约束
 
-If the foreign key is not explicitly specified when defining a relationship, Eloquent will now use the table name and primary key name for the related model to build the foreign key. For the vast majority of applications, this is not a change of behavior. For example:
+在定义关联关系的时候如果外键没有被显式指定，Eloquent 将会使用关联模型的表名和主键名来构建外键。这适用于大多数应用，这不是行为的改变。例如：
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-Just like previous Laravel releases, this relationship will typically use `user_id` as the foreign key. However, the behavior could be different from previous releases if you are overriding the `getKeyName` method of the `User` model. For example:
+就像以前的 Laravel 版本一样，这种关系通常使用 `user_id` 作为外键。但是，如果你重写 `User` 模型的 `getKeyName` 方法，情况就会变得不一样，例如：
 
     public function getKeyName()
     {
         return 'key';
     }
 
-When this is the case, Laravel will now respect your customization and determine the foreign key column name is `user_key` instead of `user_id`.
+在这种情况下，Laravel 会以你自定义的主键名为准，外键名将会是 `user_key` 而不是 `user_id`。
 
-#### Has One / Many `createMany`
+#### 一对一 / 多的 `createMany`
 
-The `createMany` method of a `hasOne` or `hasMany` relationship now returns a collection object instead of an array.
+`hasOne` or `hasMany` 关系的 `createMany` 方法现在返回一个集合对象而不是一个数组。
 
-#### Related Model Connections
+#### 相关模型连接
 
-Related models will now use the same connection as the parent model. For example, if you execute a query like:
+相关模型现在将使用与父模型相同的连接。例如，你执行以下查询：
 
     User::on('example')->with('posts');
 
-Eloquent will query the posts table on the `example` connection instead of the default database connection. If you want to read the `posts` relationship from the default connection, you should to explicitly set the model's connection to your application's default connection.
+Eloquent 将查询 `example` 连接上的 posts 表，而不是默认的数据库连接。如果你想从默认连接读取 `posts` 关系，你应该明确地设置模型的连接到你的应用程序的默认连接。
 
-#### The `create` & `forceCreate` Methods
+####`create` & `forceCreate` 方法
 
-The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illuminate\Database\Eloquent\Builder` class in order to provide better support for creating models on multiple connections. However, if you are extending these methods in your own models, you will need to modify your implementation to call the `create` method on the builder. For example:
+`Model::create` & `Model:: forceCreate` 方法已经移动到  `Illuminate\Database\Eloquent\Builder` 类，以便为在多个连接上创建模型提供更好的支持。但是，如果要在自己的模型中扩展这些方法，则需要修改实现以在构建器上调用 `create` 方法。例如：
 
     public static function create(array $attributes = [])
     {
@@ -228,73 +228,73 @@ The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illu
         return $model;
     }
 
-#### The `hydrate` Method
+####`hydrate` 方法
 
-If you are currently passing a custom connection name to this method, you should now use the `on` method:
+如果你现在传递自定义的连接名到该方法，需要使用 `on` 方法：
 
     User::on('connection')->hydrate($records);
 
-#### `hydrateRaw` Method
+####`hydrateRaw` 方法
 
-The `Model::hydrateRaw` method has been renamed to `fromQuery`. If you are passing a custom connection name to this method, you should now use the `on` method:
+`Model::hydrateRaw` 方法已经被重命名为 `fromQuery` ，如果你传递自定义的连接名到该方法，需要使用 `on` 方法：
 
     User::on('connection')->fromQuery('...');
 
-#### The `whereKey` Method
+#### `whereKey` 方法
 
-The `whereKey($id)` method will now add a "where" clause for the given primary key value. Previously, this would fall into the dynamic "where" clause builder and add a "where" clause for the "key" column. If you used the `whereKey` method to dynamically add a condition for the `key` column you should now use `where('key', ...)` instead.
+`whereKey($id)` 方法现在将为给定的主键值添加一个 「where」 子句。 在之前的版本中，这将属于动态 「where」子句构建器，并为 「key」 列添加 「where」子句。如果你使用 `whereKey` 方法为 `key` 列动态添加一个条件，你现在应该使用  `where('key', ...)` 。
 
-#### The `factory` Helper
+#### `factory` Helper
 
-Calling `factory(User::class, 1)->make()` or `factory(User::class, 1)->create()` will now return a collection with one item. Previously, this would return a single model. This method will only return a single model if the amount is not supplied.
+调用 `factory(User::class, 1)->make()` 或 `factory(User::class, 1)->create()` 现在将返回一个集合。以前，这将返回单个模型。如果没有传入数量的话，返回的仍然只是单个模型。
 
-### Events
+### 事件
 
-#### Contract Changes
+#### Contract 变更
 
-If you are manually implementing the `Illuminate\Contracts\Events\Dispatcher` interface in your application or package, you should rename the `fire` method to `dispatch`.
+如果你在应用程序或者包中手动实现 `Illuminate\Contracts\Events\Dispatcher` 接口，则应该将 `fire` 方法重命名为 `dispatch`。
 
-#### Event Priority
+#### 事件优先级
 
-Support for event handler "priorities" has been removed. This undocumented feature typically indicates an abuse of the event feature. Instead, consider using a series of synchronous method calls. Alternatively, you may dispatch a new event from within the handler of another event in order to ensure that a given event's handler fires after an unrelated handler.
+不再支持事件处理器 「优先级」 ，从未记录的功能通常表示事件功能的滥用。相反，请考虑使用一系列同步方法调用。或者，你可以从另一个事件的处理程序中分派一个新事件，以确保给定事件的处理程序不在相关的处理程序之后触发。
 
-#### Wildcard Event Handler Signatures
+#### 通配符事件处理器签名
 
-Wildcard event handlers now receive the event name as their first argument and the array of event data as their second argument. The `Event::firing` method has been removed:
+通配符事件处理器现在接收事件名作为第一个参数以及事件数据作为第二个参数，  `Event::firing` 方法被移除：
 
     Event::listen('*', function ($eventName, array $data) {
         //
     });
 
-#### The `kernel.handled` Event
+#### `kernel.handled` 事件
 
-The `kernel.handled` event is now an object based event using the `Illuminate\Foundation\Http\Events\RequestHandled` class.
+`kernel.handled` 事件现在是一个基于对象的事件，使用  `Illuminate\Foundation\Http\Events\RequestHandled` 类。
 
-#### The `locale.changed` Event
+#### `locale.changed` 事件
 
-The `locale.changed` event is now an object based event using the `Illuminate\Foundation\Events\LocaleUpdated` class.
+`locale.changed` 事件现在是一个基于对象的事件，使用 `Illuminate\Foundation\Events\LocaleUpdated` 类。
 
-#### The `illuminate.log` Event
+#### `illuminate.log` 事件
 
-The `illuminate.log` event is now an object based event using the `Illuminate\Log\Events\MessageLogged` class.
+`illuminate.log` 事件现在是一个基于对象的事件，使用  `Illuminate\Log\Events\MessageLogged` 类。
 
-### Exceptions
+### 异常
 
-The `Illuminate\Http\Exception\HttpResponseException` has been renamed to `Illuminate\Http\Exceptions\HttpResponseException`. Note that `Exceptions` is now plural. Likewise, the `Illuminate\Http\Exception\PostTooLargeException` has been renamed to `Illuminate\Http\Exceptions\PostTooLargeException`.
+`Illuminate\Http\Exception\HttpResponseException` 已被重命名为  `Illuminate\Http\Exceptions\HttpResponseException` 。注意  `Exceptions` 现在是复数。 类似的，  `Illuminate\Http\Exception\PostTooLargeException` 已经被重命名为  `Illuminate\Http\Exceptions\PostTooLargeException`。
 
-### Mail
+### 邮件
 
-#### `Class@method` Syntax
+#### `Class@method` 语法
 
-Sending mail using `Class@method` syntax is no longer supported. For example:
+不再支持使用 `Class@method` 语法发邮件。例如：
 
     Mail::send('view.name', $data, 'Class@send');
 
-If you are sending mail in this way you should convert these calls to [mailables](/docs/{{version}}/mail).
+如果你是以这种方式发送邮件，需要将这些调用做转化 [mailables](/docs/{{version}}/mail) 。
 
-#### New Configuration Options
+#### 新的配置选项
 
-In order to provide support for Laravel 5.4's new Markdown mail components, you should add the following block of configuration to the bottom of your `mail` configuration file:
+为了支持 Laravel 5.4 版本的 Markdown 邮件组件，你需要添加如下区域配置到 `mail` 配置文件底部：
 
     'markdown' => [
         'theme' => 'default',
@@ -304,15 +304,15 @@ In order to provide support for Laravel 5.4's new Markdown mail components, you 
         ],
     ],
 
-#### Queueing Mail With Closures
+#### 使用闭包将邮件推送到队列
 
-In order to queue mail, you now must use a [mailable](/docs/{{version}}/mail). Queuing mail using the `Mail::queue` and `Mail::later` methods no longer supports using Closures to configure the mail message. This feature required the use of special libraries to serialize Closures since PHP does not natively support this feature.
+为了将邮件推送到队列，必须使用 [mailable](/docs/{{version}}/mail) 提供的方法。 使用 `Mail::queue` 和 `Mail::later` 方法将邮件推送到队列，不再支持使用闭包来配置邮件消息。该功能需要使用指定的库来序列化闭包，因为PHP原生不支持这一功能特性。
 
 ### Redis
 
-#### Improved Clustering Support
+#### 改进的集群支持
 
-Laravel 5.4 introduces improved Redis cluster support. If you are using Redis clusters, you should place your cluster connections inside of a `clusters` configuration option in the Redis portion of your `config/database.php` configuration file:
+Laravel 5.4 引入了改进的 Redis 集群支持。 如果你正在使用 Redis 集群，则应该将集群连接置于 `config/database.php` 配置文件的 Redis 部分中的 `clusters`  配置选项内：
 
     'redis' => [
 
@@ -335,53 +335,54 @@ Laravel 5.4 introduces improved Redis cluster support. If you are using Redis cl
 
     ],
 
-### Routing
+### 路由
 
-#### Post Size Middleware
+#### Post 大小中间件
 
-The class `Illuminate\Foundation\Http\Middleware\VerifyPostSize` has been renamed to `Illuminate\Foundation\Http\Middleware\ValidatePostSize`.
+`Illuminate\Foundation\Http\Middleware\VerifyPostSize` 类被重命名为  `Illuminate\Foundation\Http\Middleware\ValidatePostSize`。
 
-#### The `middleware` Method
+#### `middleware` 方法
 
-The `middleware` method of the `Illuminate\Routing\Router` class has been renamed to `aliasMiddleware()`. It is likely that most applications never call this method manually, as it is typically only called by the HTTP kernel to register route-level middleware defined in the `$routeMiddleware` array.
+`Illuminate\Routing\Router` 类的 `middleware` 方法已重命名为 `aliasMiddleware()` 。 似乎大多数应用都不会直接手动调用这个方法，因为这个方法只会被 HTTP kernel 调用，用于注册定义在 `$routeMiddleware` 数组中的路由级中间件。
 
-#### `Route` Methods
+#### `Route` 方法
 
-The `getUri` method of the `Illuminate\Routing\Route` class has been removed. You should use the `uri` method instead.
+`Illuminate\Routing\Route` 类的 `getUri` 方法已删除。你应该使用 `uri` 方法。
 
-The `getMethods` method of the `Illuminate\Routing\Route` class has been removed. You should use the `methods` method instead.
+`Illuminate\Routing\Route` 类的 `getMethods` 方法已经删除。你应该使用  `methods` 方法。
 
-The `getParameter` method of the `Illuminate\Routing\Route` class has been removed. You should use the `parameter` method instead.
+`Illuminate\Routing\Route` 类的 `getParameter` 方法已经删除。你应该使用 `getParameter` 方法。
 
-### Sessions
+### 会话
 
-#### Symfony Compatibility
+#### Symfony兼容性
 
-Laravel's session handlers no longer implements Symfony's `SessionInterface`. Implementing this interface required us to implement extraneous features that were not needed by the framework. Instead, a new `Illuminate\Contracts\Session\Session` interface has been defined and may be used instead. The following code changes should also be applied:
+Laravel 的会话处理程序不再实现 Symfony 的 `SessionInterface` 。 
+实现这个接口需要我们实现框架不需要的无关特性。取而代之，已经定义了新的 `Illuminate\Contracts\Session\Session` 接口，并且可以使用。还应该修改一下代码：
 
-All calls to the `->set()` method should be changed to `->put()`. Typically, Laravel applications would never call the `set` method since it has never been documented within the Laravel documentation. However, it is included here out of caution.
+所有调用 `->set()` 方法应该更改为 `->put()` 。通常，Laravel 应用从不调用  `set` 方法，因为它从未在 Laravel 文档中记录。不过，谨慎起见，这里我们依然罗列出来。
 
-All calls to the `->getToken()` method should be changed to `->token()`.
+所有调用 `->getToken()` 方法的地方需要修改为 `->token()` 。
 
-All calls to the `$request->setSession()` method should be changed to `setLaravelSession()`.
+所有调用 `$request->setSession()` 方法的地方需要求改为  `setLaravelSession()` 。
 
-### Testing
+### 测试
 
-Laravel 5.4's testing layer has been re-written to be simpler and lighter out of the box. If you would like to continue using the testing layer present in Laravel 5.3, you may install the `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing) into your application. This package provides full compatibility with the Laravel 5.3 testing layer. In fact, you can run the Laravel 5.4 testing layer side-by-side with the Laravel 5.3 testing layer.
+Laravel 5.4 的测试层已经被重成更加简单和更加轻量级。如果你想继续使用 Laravel  5.3 中的测试层，你可以安装 `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing) 到你的应用程序。该包提供了与 Laravel 5.3 测试层的完全兼容。实际上，你可以同时运行 Laravel 5.3 和 Laravel 5.4 的测试层。
 
-#### Running Laravel 5.3 & 5.4 Tests In A Single Application
+#### 在一个应用里面运行 Laravel 5.3 & 5.4 的测试
 
-Before getting started, you should add the `Tests` namespace to your `composer.json` file's `autoload-dev` block. This will allow Laravel to autoload any new tests you generate using the Laravel 5.4 test generators:
+在开始之前，你应该将 `Tests` 命名空间添加到 `composer.json` 文件中的 `autoload-dev` 块中。这将允许 Laravel 自动加载你使用 Laravel 5.4 测试生成器生成的任何新测试：
 
     "psr-4": {
         "Tests\\": "tests/"
     }
 
-Next, install the `laravel/browser-kit-testing` package:
+接下来, 安装 `laravel/browser-kit-testing` 包：
 
     composer require laravel/browser-kit-testing
 
-Once the package has been installed, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTestCase.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTestCase.php`. In order for your `BrowserKitTestCase` class to be properly loaded, you may need to add it to your `composer.json` file:
+安装软件包后，创建 `tests/TestCase.php` 文件的副本，并将其作为 `BrowserKitTestCase.php` 保存到你的 `tests` 文件夹中。然后，修改该文件以扩展  `Laravel\BrowserKitTesting\TestCase` 类。完成之后，你应该在你的 `tests` 目录中有两个基本测试类： `TestCase.php` 和 `BrowserKitTestCase.php` 。为了正确加载你的  `BrowserKitTestCase` 类，你可能需要将它添加到你的 `composer.json` 文件：
 
     "autoload-dev": {
         "classmap": [
@@ -390,7 +391,7 @@ Once the package has been installed, create a copy of your `tests/TestCase.php` 
         ]
     },
 
-Tests written on Laravel 5.3 will extend the `BrowserKitTestCase` class while any new tests that use the Laravel 5.4 testing layer will extend the `TestCase` class. Your `BrowserKitTestCase` class should look like the following:
+在 Laravel 5.3 上编写的测试将扩展 `BrowserKitTestCase` 类，而使用 Laravel 5.4 测试层的任何新测试将扩展 `TestCase` 类。你的 `BrowserKitTestCase` 类应该如下所示：
 
     <?php
 
@@ -400,14 +401,14 @@ Tests written on Laravel 5.3 will extend the `BrowserKitTestCase` class while an
     abstract class BrowserKitTestCase extends BaseTestCase
     {
         /**
-         * The base URL of the application.
+         * 应用的基础 URL 。
          *
          * @var string
          */
         public $baseUrl = 'http://localhost';
 
         /**
-         * Creates the application.
+         * 创建应用。
          *
          * @return \Illuminate\Foundation\Application
          */
@@ -421,17 +422,17 @@ Tests written on Laravel 5.3 will extend the `BrowserKitTestCase` class while an
         }
     }
 
-Once you have created this class, make sure to update all of your tests to extend your new `BrowserKitTestCase` class. This will allow all of your tests written on Laravel 5.3 to continue running on Laravel 5.4. If you choose, you can slowly begin to port them over to the new [Laravel 5.4 test syntax](/docs/5.4/http-tests) or [Laravel Dusk](/docs/5.4/dusk).
+创建好这些类之后，确保更新所有已编写的测试类继承自 `BrowserKitTestCase` 类，这将得所有基于 Laravel 5.3 编写的测试类在 Laravel 5.4 中得以继续运行。如果你选择，你可以慢慢地开始将它们移植到新的 [Laravel 5.4 测试语法](/docs/5.4/http-tests) 或者  [Laravel Dusk](/docs/5.4/dusk)。
 
-> {note} If you are writing new tests and want them to use the Laravel 5.4 testing layer, make sure to extend the `TestCase` class.
+> {note} 如果你正在编写新的测试，并且希望它们使用 Laravel 5.4 的测试层，确保继承自  `TestCase` 类。
 
-#### Installing Dusk In An Upgraded Application
+#### 在已升级应用中安装 Duck
 
-If you would like to install Laravel Dusk into an application that has been upgraded from Laravel 5.3, first install it via Composer:
+如果你想在已升级应用中安装 Laravel Duck ，首先通过 Composer 安装：
 
     composer require laravel/dusk
 
-Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
+记下来，你需要在 `tests` 目录中创建一个 `CreatesApplication` trait ，该 trait 用于为测试用例创建新的应用实例。该 trait 代码如下： 
 
     <?php
 
@@ -440,7 +441,7 @@ Next, you will need to create a `CreatesApplication` trait in your `tests` direc
     trait CreatesApplication
     {
         /**
-         * Creates the application.
+         * 创建应用。
          *
          * @return \Illuminate\Foundation\Application
          */
@@ -454,50 +455,55 @@ Next, you will need to create a `CreatesApplication` trait in your `tests` direc
         }
     }
 
-> {note} If you have namespaced your tests and are using the PSR-4 autoloading standard to load your `tests` directory, you should place the `CreatesApplication` trait under the appropriate namespace.
+> {note} 如果你的测试类位于某个命名空间下，并使用 PSR-4 自动加载标准来加载 `tests`  目录，则应该将 `CreatesApplication` trait 放置在合适的命名空间下。
 
-Once you have completed these preparatory steps, you can follow the normal [Dusk installation instructions](/docs/{{version}}/dusk#installation).
+完成了这些准备工作，你就可以按照正常的 [Dusk 安装指南](/docs/{{version}}/dusk#installation) 进行操作。
 
-#### Environment
+#### 环境
 
-The Laravel 5.4 test class no longer manually forces `putenv('APP_ENV=testing')` for each test. Instead, the framework utilizes the `APP_ENV` variable from the loaded `.env` file.
+Laravel 5.4 不需要在每个测试类中手动强制设置 `putenv('APP_ENV=testing')`，取而代之，框架使用从 `.env` 文件中载入 `APP_ENV` 变量。
 
-#### Event Fake
+#### 时间伪造
 
-The `Event` fake's `assertFired` method should be updated to `assertDispatched`, and the `assertNotFired` method should be updated to `assertNotDispatched`. The method's signatures have not been changed.
+`Event` 伪造的 `assertFired` 方法应该更新为 `assertDispatched`，并且  `assertNotFired` 方法应该更新为 `assertNotDispatched` 。方法的签名没有变更。
 
-#### Mail Fake
+#### 邮件伪造
 
-The `Mail` fake has been greatly simplified for the Laravel 5.4 release. Instead of using the `assertSentTo` method, you should now simply use the `assertSent` method and utilize the `hasTo`, `hasCc`, etc. helper methods within your callback:
+`Mail` 伪造在 Laravel 5.4 中极大的简化。现在应该使用 `assertSent` 方法以及 `hasTo`，`hasCc` 等辅助函数即可即可，不再需要调用 `assertSentTo` 方法：
 
     Mail::assertSent(MailableName::class, function ($mailable) {
         return $mailable->hasTo('email@example.com');
     });
 
-### Translation
+### 翻译
 
-#### `{Inf}` Placeholder
+#### `{Inf}` 占位符
 
-If you are using the `{Inf}` placeholder for pluralizing your translation strings, you should update your translation strings to use the `*` character instead:
+如果你在使用 `{Inf}` 占位符处理字符串复数格式的翻译，你需要更新为使用 `*` 字符：
 
     {0} First Message|{1,*} Second Message
 
-### URL Generation
+### URL 生成
 
-#### The `forceSchema` Method
+#### `forceSchema` 方法
 
-The `forceSchema` method of the `Illuminate\Routing\UrlGenerator` class has been renamed to `forceScheme`.
+`Illuminate\Routing\UrlGenerator` 类中的 `forceSchema` 方法已经重命名为  `forceScheme`。
 
-### Validation
+### 验证
 
-#### Date Format Validation
+#### 日期格式验证
 
-Date format validation is now more strict and supports the placeholders present within the documentation for the PHP [date function](http://php.net/manual/en/function.date.php). In previous releases of Laravel, the timezone placeholder `P` would accept all timezone formats; however, in Laravel 5.4 each timezone format has a unique placeholder as per the PHP documentation.
+日期格式验证现在更加严格，并支持对 PHP [date function](http://php.net/manual/en/function.date.php) 中列出的占位符进行校验。 在之前版本中，时区占位符 `P` 会接受所有的时区格式； 然而，在 Laravel 5.4 中，每种时区格式像在 PHP 文档一样，都有一个唯一的占位符。
 
-#### Method Names
+#### 方法名
 
-The `addError` method has been renamed to `addFailure`. In addition, the `doReplacements` method has been renamed to `makeReplacements`. Typically, these changes will only be relevant if you are extending the `Validator` class.
+`addError` 方法已经重命名为 `addFailure`。此外，`doReplacements` 方法重命名为  `makeReplacements`。通常，这些改变只有当你去扩展 `Validator` 类时才会有影响。
 
-### Miscellaneous
+### 杂项
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [Github comparison tool](https://github.com/laravel/laravel/compare/5.3...master) and choose which updates are important to you.
+我们同样鼓励你去翻阅 `laravel/laravel` [GitHub 仓库](https://github.com/laravel/laravel) 中的修改记录。虽然很多修改不是必需的，你可能希望这些文件与你的应用程序同步。另外的一些变更将在本升级指南中介绍，但是其他更改不会。例如更改配置文件或者注释。你可以通过 [Github comparison tool](https://github.com/laravel/laravel/compare/5.3...master) 很轻松的查看到这些变更，并选择对你重要的更新。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |
