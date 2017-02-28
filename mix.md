@@ -9,16 +9,16 @@
     - [Stylus](#stylus)
     - [PostCSS](#postcss)
     - [纯 CSS](#plain-css)
-	- [URL Processing](#url-processing)
+	- [URL 处理](#url-processing)
     - [资源地图](#css-source-maps)
 - [使用脚本](#working-with-scripts)
-    - [Vendor Extraction](#vendor-extraction)
+    - [提取 Vendor](#vendor-extraction)
     - [React](#react-support)
-    - [Vanilla JS](#vanilla-js)
+    - [原生 JS](#vanilla-js)
     - [自定义 Webpack 配置](#custom-webpack-configuration)
 - [复制文件与目录](#copying-files-and-directories)
 - [版本与缓存清除](#versioning-and-cache-busting)
-- [Browsersync Reloading](#browsersync-reloading)
+- [Browsersync 自动加载刷新](#browsersync-reloading)
 - [通知](#notifications)
 
 <a name="introduction"></a>
@@ -72,7 +72,7 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 
     npm run watch
 
-You may find that in certain environments Webpack isn't updating when your files change. If this is the case on your system, consider using the `watch-poll` command:
+你可能会发现，在某些环境下，当你改变了你的文件的时候而 Webpack 并没有同步更新。如果在你的系统中出现了这个问题，你可以考虑使用 `watch-poll` 命令：
 
     npm run watch-poll
 
@@ -97,7 +97,7 @@ You may find that in certain environments Webpack isn't updating when your files
 
     mix.less('resources/assets/less/app.less', 'public/stylesheets/styles.css');
 
-If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
+如果你需要重写 [底层 Less 插件选项](https://github.com/webpack-contrib/less-loader#options)，你可以传递一个对象到 `mix.less()` 的第三个参数：
 
     mix.less('resources/assets/less/app.less', 'public/css', {
         strictMath: true
@@ -115,7 +115,7 @@ If you need to override the [underlying Less plug-in options](https://github.com
 	mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
 
-Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
+另外 [Node-Sass 插件选项](https://github.com/sass/node-sass#options) 可以通过传递第三个参数来重写：
 
     mix.sass('resources/assets/sass/app.sass', 'public/css', {
         precision: 5
@@ -124,11 +124,11 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 <a name="stylus"></a>
 ### Stylus
 
-Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
+类似于 Less 和 Sass，`stylus` 方法允许你编译 [Stylus](http://stylus-lang.com/) 为 CSS：
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css');
 
-You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
+你也可以安装其他的 Stylus 插件，例如 [Rupture](https://github.com/jescalan/rupture)。首先，通过 NPM(`npm install rupture`) 来安装插件，然后在调用 `mix.stylus()` 的时候引用插件：
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
         use: [
@@ -139,7 +139,7 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 <a name="postcss"></a>
 ### PostCSS
 
-[PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+[PostCSS](http://postcss.org/)，一个用来转换 CSS 的强大工具，已经包含在 Laravel Mix 中。默认， Mix 利用了流行的 [Autoprefixer](https://github.com/postcss/autoprefixer) 插件来自动添加所需要的 CSS3 供应商前缀。不过，你也可以自由添加任何适合你应用程序的插件。首先，通过 NPM 来安装想要的插件，然后在你的 `webpack.mix.js` 文件中引用：
 
     mix.sass('resources/assets/sass/app.scss', 'public/css')
        .options({
@@ -159,30 +159,30 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
     ], 'public/css/all.css');
 
 <a name="url-processing"></a>
-### URL Processing
+### URL 处理
 
-Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
+由于 Laravel Mix 是建立在 Webpack 之上，所以了解一些 Webpack 概念就非常有必要。编译 CSS 的时候，Webpack 会重写和优化那些你样式表中调用 `url()` 的地方。 虽然可能一开始听起来觉得奇怪，不过这确实是一个强大的功能。试想一下我们编译一个包含相对路径图片的 Sass 文件:
 
     .example {
         background: url('../images/example.png');
     }
 
-> {note} Absolute paths for `url()`s will be excluded from URL-rewriting. For example, `url('/images/thing.png')` or `url('http://example.com/images/thing.png')` won't be modified.
+> {note} `url()` 方法会在 URL 重写中排除绝对路径。例如 `url('/images/thing.png')` 或者 `url('http://example.com/images/thing.png')` 不会被修改。
 
-By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
+Laravel Mix 和 Webpack 默认会找到 `example.png`，把它复制到你的 `public/images` 目录下，然后在你生成的样式表中重写  `url()`。这样，你编译之后的 CSS 会变成：
 
     .example {
       background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
     }
 
-As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+与此功能相同，可能你的现在的文件夹结构已经按照你喜欢的方式来配置。如果是这种情况，你可以像这样来禁用 `url()` 重写：
 
     mix.sass('resources/assets/app/app.scss', 'public/css')
        .options({
           processCssUrls: false
        });
 
-With this addition to your `webpack.mix.js` file, Mix will no longer match `url()`s or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
+如果在你的 `webpack.mix.js` 文件这样配置之后，Mix 将不再匹配 `url()` 或者复制 assets 到你的 public 目录。换句话来说，编译后的 CSS 跟你原来输入的看起来一样：
 
     .example {
         background: url("../images/thing.png");
@@ -239,25 +239,25 @@ Mix 也提供了一些函数来帮助你使用 JavaScript 文件，像是编译 
 <a name="react"></a>
 ### React
 
-Mix can automatically install the Babel plug-ins necessary for React support. To get started, replace your `mix.js()` call with `mix.react()`:
+Mix 可以自动安装 Babel 插件来支持 React。你只需要替换你的 `mix.js()` 变成 `mix.react()` 即可：
 
     mix.react('resources/assets/js/app.jsx', 'public/js');
 
-Behind the scenes, React will download and include the appropriate `babel-preset-react` Babel plug-in.
+在背后，React 会自动下载，并且自动下载适当的 `babel-preset-react` Babel 插件。
 
 <a name="vanilla-js"></a>
-### Vanilla JS
+### 原生 JS
 
-Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
+类似使用 `mix.styles()` 来组合多个样式表一样，你也可以使用 `scripts()` 方法来合并并且压缩多个 JavaScript 文件：
 
     mix.scripts([
         'public/js/admin.js',
         'public/js/dashboard.js'
     ], 'public/js/all.js');
 
-This option is particularly useful for legacy projects where you don't require Webpack compilation for your JavaScript.
+这个选项对于那些没有使用 Webpack 的历史项目非常有用。
 
-> {tip} A slight variation of `mix.scripts()` is `mix.babel()`. Its method signature is identical to `scripts`; however, the concatenated file will receive Babel compilation, which translates any ES2015 code to vanilla JavaScript that all browsers will understand.
+> {tip} `mix.babel()` 和 `mix.scripts()` 有点稍微不一样。`babel` 方法用法和 `scripts` 一样；不过，这些文件会经过 Bable 编译，把所有 ES2015 的代码转换为原生 JavaScript，这样所有浏览器都能识别。
 
 <a name="custom-webpack-configuration"></a>
 ### 自定义 Webpack 配置
@@ -306,20 +306,20 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
     }
 
 <a name="browsersync-reloading"></a>
-## Browsersync Reloading
+## Browsersync 自动加载刷新
 
-[BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
+[BrowserSync](https://browsersync.io/) 可以监控你的文件变化，并且无需手动刷新就可以把你的变化注入到浏览器中。你可以通过调用 `mix.browserSync()` 方法来启用这个功能支持：
 
     mix.browserSync('my-domain.dev');
 
-    // Or...
+    // 或者...
 
     // https://browsersync.io/docs/options
     mix.browserSync({
         proxy: 'my-domain.dev'
     });
 
-You may pass either a string (proxy) or object (BrowserSync settings) to this method. Next, start Webpack's dev server using the `npm run watch` command. Now, when you modify a script or PHP file, watch as the browser instantly refreshes the page to reflect your changes.
+你可以通过传递一个字符串 (代理) 或者一个对象 (BrowserSync 设置) 给这个方法。接着，使用 `npm run watch` 命令来开启 Webpack 的开发服务器。现在，当你修改一个脚本或者 PHP 文件，看着浏览器立即刷新出来的页面来反馈你的改变。
 
 <a name="notifications"></a>
 ## 通知
