@@ -117,7 +117,7 @@ If you need to override the [underlying Less plug-in options](https://github.com
 
 Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
 
-    mix.sass('resources/assets/less/app.less', 'public/css', {
+    mix.sass('resources/assets/sass/app.sass', 'public/css', {
         precision: 5
     });
 
