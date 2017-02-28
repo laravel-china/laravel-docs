@@ -51,6 +51,11 @@ Laravel 使用 [Composer](http://getcomposer.org) 来管理代码依赖。所以
 
     composer create-project --prefer-dist laravel/laravel blog
 
+
+> 译者注： 安装 Laravel 5.3，请使用以下命令：
+
+    composer create-project laravel/laravel your-project-name --prefer-dist "5.3.*"
+
 #### 本地开发服务器
 
 如果你在本地安装了 PHP，你可能希望像运行 PHP 内置的开发服务器一样来访问自己的应用程序，你可以使用 `serve` Artisan 命令来启动一个本地开发服务器，这样你就可以在 `http://localhost:8000` 来访问它。
