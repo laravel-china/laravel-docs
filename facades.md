@@ -49,7 +49,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
     use Illuminate\Support\Facades\Cache;
 
     /**
-     * A basic functional test example.
+     * 一个基础功能的测试用例。
      *
      * @return void
      */
@@ -83,7 +83,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
     use Illuminate\Support\Facades\Cache;
 
     /**
-     * A basic functional test example.
+     * 一个基础功能的测试用例。
      *
      * @return void
      */
@@ -114,7 +114,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
     class UserController extends Controller
     {
         /**
-         * Show the profile for the given user.
+         * 显示给定用户的大体信息。
          *
          * @param  int  $id
          * @return Response
@@ -134,7 +134,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
     class Cache extends Facade
     {
         /**
-         * Get the registered name of the component.
+         * 获取组件在容器中注册的名称。
          *
          * @return string
          */
