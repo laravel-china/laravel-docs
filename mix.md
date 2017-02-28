@@ -117,7 +117,7 @@ If you need to override the [underlying Less plug-in options](https://github.com
 
 Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
 
-    mix.sass('resources/assets/less/app.less', 'public/css', {
+    mix.sass('resources/assets/sass/app.sass', 'public/css', {
         precision: 5
     });
 
@@ -126,7 +126,7 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 
 Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
 
-    mix.stylus('resources/assets/sass/app.scss', 'public/css');
+    mix.stylus('resources/assets/stylus/app.styl', 'public/css');
 
 You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
 

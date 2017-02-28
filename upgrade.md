@@ -353,6 +353,8 @@ Laravel 5.4 引入了改进的 Redis 集群支持。 如果你正在使用 Redis
 
 `Illuminate\Routing\Route` 类的 `getParameter` 方法已经删除。你应该使用 `getParameter` 方法。
 
+`Illuminate\Routing\Route` 类的 `getPath` 方法已经删除。你应该使用 `uri` 方法。
+
 ### 会话
 
 #### Symfony兼容性

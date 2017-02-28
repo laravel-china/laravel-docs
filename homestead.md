@@ -14,9 +14,12 @@
     - [增加更多网站](#adding-additional-sites)
     - [配置 Cron 调度器](#configuring-cron-schedules)
     - [连接端口](#ports)
+    - [Sharing Your Environment](#sharing-your-environment)
 - [网络接口](#network-interfaces)
 - [更新 Homestead](#updating-homestead)
 - [历史版本](#old-versions)
+- [Provider Specific Settings](#provider-specific-settings)
+    - [VirtualBox](#provider-specific-virtualbox)
 
 <a name="introduction"></a>
 ## 简介
@@ -45,6 +48,8 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
 - Redis
 - Memcached
 - Beanstalkd
+- Mailhog
+- ngrok
 
 <a name="installation-and-setup"></a>
 ## 安装与设置
@@ -73,6 +78,13 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，并且里面包�
     cd ~
 
     git clone https://github.com/laravel/homestead.git Homestead
+
+You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [Github Release Page](https://github.com/laravel/homestead/releases):
+
+    cd Homestead
+
+    // Clone the desired release...
+    git checkout v4.0.5
 
 一旦你克隆完 Homestead 的代码仓库，即可在 Homestead 目录中运行 `bash init.sh` 命令
 来创建 `Homesstead.yaml` 配置文件。 `Homesstead.yaml` 文件会被放置在你的 Homestead 目录中：
@@ -249,6 +261,18 @@ Windows:
 
 当你的网站添加完成，从你的 Homestead 目录运行 `vagrant reload --provision` 命令就可以应用新的更改。
 
+<a name="site-types"></a>
+#### Site Types
+
+Homestead supports several types of sites which allow you to easily run projects that are not based on Laravel. For example, we may easily add a Symfony application to Homestead using the `symfony2` site type:
+
+    sites:
+        - map: symfony2.app
+          to: /home/vagrant/Code/Symfony/public
+          type: symfony2
+
+The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, and `symfony2`.
+
 <a name="configuring-cron-schedules"></a>
 ### 配置 Cron 调度器
 
@@ -273,6 +297,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **Postgres:** 54320 &rarr; Forwards To 5432
+- **Mailhog:** 8025 &rarr; Forwards To 8025
 
 #### 转发更多的端口
 
@@ -285,6 +310,16 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
           to: 777
           protocol: udp
 
+<a name="sharing-your-environment"></a>
+### Sharing Your Environment
+
+Sometimes you may wish to share what you're currently working on with coworkers or a  client. Vagrant has a built-in way to support this via `vagrant share`; however, this will not work if you have multiple sites configured in your `Homestead.yaml` file.
+
+To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.app`. This will share the `homestead.app` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.app`.
+
+After running the command, you will see an Ngrok screen appear which contains the activity log and the publicly accessible URLs for the shared site.
+
+> {note} Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
 
 <a name="network-interfaces"></a>
 ## 网络接口
@@ -346,6 +381,16 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 | PHP 7.0 |       3.1.0       |    0.6.0    |
 | PHP 7.1 |       4.0.0       |    1.0.0    |
 
+<a name="provider-specific-settings"></a>
+## Provider Specific Settings
+
+<a name="provider-specific-virtualbox"></a>
+### VirtualBox
+
+By default, Homestead configures the `natdnshostresolver` setting to `on`. This allows Homestead to use your host operating system's DNS settings. If you would like to override this behavior, add the following lines to your `Homestead.yaml` file:
+
+    provider: virtualbox
+    natdnshostresolver: off
 
 ## 译者署名
 
