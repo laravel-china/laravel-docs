@@ -151,9 +151,9 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 <a name="plain-css"></a>
 ### 纯 CSS
 
-如果你只是想将一些纯 CSS 样式合并成单个的文件, 你可以使用 `styles` 方法。
+如果你只是想将一些纯 CSS 样式合并成单个的文件, 你可以使用 `combine` 方法。
 
-    mix.styles([
+    mix.combine([
         'public/css/vendor/normalize.css',
         'public/css/vendor/videojs.css'
     ], 'public/css/all.css');
