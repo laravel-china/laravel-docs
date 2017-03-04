@@ -18,7 +18,7 @@
 
 Laravel 框架会有一些系统上的要求。当然，这些要求在 [Laravel Homestead](/docs/{{version}}/homestead) 虚拟机上都已经完全配置好了。所以，非常推荐你使用 Homestead 作为你的本地 Laravel 开发环境。
 
-然而，如果你没有使用 Homestead ,你需要确保你的服务器上安装了下面的几个拓展：
+然而，如果你没有使用 Homestead ，你需要确保你的服务器上安装了下面的几个拓展：
 
 <div class="content-list" markdown="1">
 - PHP >= 5.6.4
