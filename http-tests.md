@@ -3,6 +3,7 @@
 - [基础介绍](#introduction)
 - [Session / 认证](#session-and-authentication)
 - [测试 JSON APIs](#testing-json-apis)
+- [Testing File Uploads](#testing-file-uploads)
 - [可用的断言方法](#available-assertions)
 
 <a name="introduction"></a>
@@ -37,7 +38,7 @@ Laravel 为 HTTP 请求的生成和发送操作、输出的检查都提供了非
 `get` 方法会创建一个 `GET` 请求来请求你的应用，而 `assertStatus` 方法断言返回的响应是给定的 HTTP  状态码。除了这个简单的断言之外，Laravel 也包含检查响应标头、内容、 JSON 结构等等的各种断言。
 
 <a name="session-and-authentication"></a>
-### Session / 认证
+## Session / 认证
 
 Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，你需要传递一个数组给 `withSession` 方法来设置 Seesion 数据。这让你在应用程序的测试请求发送之前，先给数据加载 Session 变得简单：
 
@@ -75,7 +76,7 @@ Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，
     $this->actingAs($user, 'api')
 
 <a name="testing-json-apis"></a>
-### 测试 JSON APIs
+## 测试 JSON APIs
 
 Laravel 也提供了几个辅助函数来测试 JSON APIs 及其响应。举例来说，`json`， `get`， `post`， `put`， `patch` 和 `delete` 方法可以用于发出各种 HTTP 动作的请求。你也可以轻松的传入数据或标头到这些方法上。首先，让我们来编写一个测试，将 POST 请求发送至 /user ，并断言其会返回预期数据：
 
@@ -128,8 +129,52 @@ Laravel 也提供了几个辅助函数来测试 JSON APIs 及其响应。举例�
         }
     }
 
+<a name="testing-file-uploads"></a>
+## Testing File Uploads
+
+The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be used to generate dummy files or images for testing. This, combined with the `Storage` facade's `fake` method greatly simplifies the testing of file uploads. For example, you may combine these two features to easily test an avatar upload form:
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+    class ExampleTest extends TestCase
+    {
+        public function testAvatarUpload()
+        {
+            Storage::fake('avatars');
+
+            $response = $this->json('POST', '/avatar', [
+                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            ]);
+
+            // Assert the file was stored...
+            Storage::disk('avatars')->assertExists('avatar.jpg');
+
+            // Assert a file does not exist...
+            Storage::disk('avatars')->assertMissing('missing.jpg');
+        }
+    }
+
+#### Fake File Customization
+
+When creating files using the `fake` method, you may specify the width, height, and size of the image in order to better test your validation rules:
+
+    UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100);
+
+In addition to creating images, you may create files of any other type using the `create` method:
+
+    UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
+
 <a name="available-assertions"></a>
-### 可用的断言方法
+## 可用的断言方法
 
 Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了各种各样的自定义断言方法。`json`， `get`， `post`， `put`  和 `delete` 这些测试方法返回的响应都可以使用这些断言方法：
 
