@@ -6,7 +6,7 @@
 - [邮件模拟](#mail-fake)
 - [通知模拟](#notification-fake)
 - [队列模拟](#queue-fake)
-- [Storage Fake](#storage-fake)
+- [Storage 模拟](#storage-fake)
 - [Facades 模拟](#mocking-facades)
 
 <a name="introduction"></a>
@@ -206,9 +206,9 @@ Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助
     }
 
 <a name="storage-fake"></a>
-## Storage Fake
+## Storage 模拟
 
-The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `UploadedFile` class, greatly simplifies the testing of file uploads. For example:
+利用 `Storage` facade 的 `fake` 方法，你可以轻松地生成一个模拟的磁盘，结合 `UploadedFile` 类的文件生成工具，极大地简化了文件上传测试。例如：
 
     <?php
 
@@ -231,10 +231,10 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
                 'avatar' => UploadedFile::fake()->image('avatar.jpg')
             ]);
 
-            // Assert the file was stored...
+            // 断言文件已存储
             Storage::disk('avatars')->assertExists('avatar.jpg');
 
-            // Assert a file does not exist...
+            // 断言文件不存在
             Storage::disk('avatars')->assertMissing('missing.jpg');
         }
     }

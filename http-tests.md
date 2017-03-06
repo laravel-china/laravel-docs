@@ -3,7 +3,7 @@
 - [基础介绍](#introduction)
 - [Session / 认证](#session-and-authentication)
 - [测试 JSON APIs](#testing-json-apis)
-- [Testing File Uploads](#testing-file-uploads)
+- [测试文件上传](#testing-file-uploads)
 - [可用的断言方法](#available-assertions)
 
 <a name="introduction"></a>
@@ -130,9 +130,9 @@ Laravel 也提供了几个辅助函数来测试 JSON APIs 及其响应。举例�
     }
 
 <a name="testing-file-uploads"></a>
-## Testing File Uploads
+## 测试文件上传
 
-The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be used to generate dummy files or images for testing. This, combined with the `Storage` facade's `fake` method greatly simplifies the testing of file uploads. For example, you may combine these two features to easily test an avatar upload form:
+`Illuminate\Http\UploadedFile` 类提供了一个 `fake` 方法，可用于生成用于测试的模拟文件或图像。这与 `Storage` facade 的 `fake` 方法结合使用，极大地简化文件上传的测试。例如，你可以结合这两个功能轻松测试头像上传表单：
 
     <?php
 
@@ -155,21 +155,21 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
                 'avatar' => UploadedFile::fake()->image('avatar.jpg')
             ]);
 
-            // Assert the file was stored...
+            // 断言文件已存储
             Storage::disk('avatars')->assertExists('avatar.jpg');
 
-            // Assert a file does not exist...
+            // 断言文件不存在
             Storage::disk('avatars')->assertMissing('missing.jpg');
         }
     }
 
-#### Fake File Customization
+#### 自定义模拟文件
 
-When creating files using the `fake` method, you may specify the width, height, and size of the image in order to better test your validation rules:
+当使用 `fake` 方法创建文件时，你可以指定图片的宽度、高度和大小，以便更好的测试你的验证规则：
 
     UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100);
 
-In addition to creating images, you may create files of any other type using the `create` method:
+除了创建图片，你还可以使用 `create` 方法创建任何其他类型的文件：
 
     UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
 
