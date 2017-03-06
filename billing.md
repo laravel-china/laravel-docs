@@ -92,6 +92,7 @@ Laravel Cashier 提供了直观、流畅的接口来接入 [Stripe's](https://st
 
     'stripe' => [
         'model'  => App\User::class,
+        'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
 

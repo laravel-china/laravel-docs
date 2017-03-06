@@ -106,7 +106,7 @@ return [
         'link' => '/docs/{{version}}/frontend)'
     ],
     [
-        'text' => '编辑资源 Mix',
+        'text' => '编译资源 Mix',
         'link' => '/docs/{{version}}/mix)'
     ],
     [
@@ -261,5 +261,9 @@ return [
     [
         'text' => 'Scout 全文搜索',
         'link' => '/docs/{{version}}/scout)'
+    ],
+    [
+        'text' => 'Socialite 社会化登录',
+        'link' => '/docs/{{version}}/socialite'
     ],
 ];
