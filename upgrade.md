@@ -28,7 +28,7 @@ Laravel 5.3 需要 PHP 5.6.4 或者更高的版本。由于不包含和 PHP 5.6+
 
 ### 应用服务提供者
 
-你可以从 `EventServiceProvider`，`RouteSerivceProvider` 和 `AuthServiceProvider` 类的 `boot` 方法上移除参数。任何给定参数的调用都可以被转化为等效的 [facade](https://laravel-china.org/docs/5.3/facades)。所以，举个栗子，除了在 `$dispatcher` 参数上调用方法，你可以直接调用 `Event` facade。同样，除了在 `$router` 参数上调用方法，你可以直接调用 `Route` facade，`$gate` 亦然（可直接调用 `Gate` facade）。
+你可以从 `EventServiceProvider`，`RouteServiceProvider` 和 `AuthServiceProvider` 类的 `boot` 方法上移除参数。任何给定参数的调用都可以被转化为等效的 [facade](https://laravel-china.org/docs/5.3/facades)。所以，举个栗子，除了在 `$dispatcher` 参数上调用方法，你可以直接调用 `Event` facade。同样，除了在 `$router` 参数上调用方法，你可以直接调用 `Route` facade，`$gate` 亦然（可直接调用 `Gate` facade）。
 
 > {note} 当把方法调用转化为 facades 时，请先在服务提供者顶部引入 facade 类。
 
