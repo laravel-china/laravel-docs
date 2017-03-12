@@ -18,6 +18,12 @@
 
 > {note} 我们尽量罗列出每一个不兼容的变更。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
 
+### 更新依赖
+
+在 `composer.json` 文件中将你的 `laravel/framework` 更新为 `5.3.*`。 
+
+此外, 你应该更新你的 `symfony/css-selector` 和 `symfony/dom-crawler`  依赖到 `3.1.*` 在 `composer.json` 文件的 `require-dev` 部分。
+
 ### PHP & HHVM
 
 Laravel 5.3 需要 PHP 5.6.4 或者更高的版本。由于不包含和 PHP 5.6+ 相同的语言特性，HHVM 不再受到官方支持。
