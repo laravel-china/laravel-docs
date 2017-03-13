@@ -618,7 +618,7 @@ The generated class will be placed in the `app/Http/Requests` directory. If this
 <a name="rule-before"></a>
 #### before:_date_
 
-The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function.
+验证字段是否是在指定日期之前。这个日期将会通过 `strtotime` 函数来验证。
 
 <a name="rule-before-or-equal"></a>
 #### before\_or\_equal:_date_
