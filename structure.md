@@ -44,32 +44,32 @@
  `app` 目录，如你所料，这里面包含应用程序的核心代码。另外，你为应用编写的代码绝大多数也会放到这里，   我们之后将很快对这个目录的细节进行深入探讨。
 
 <a name="the-bootstrap-directory"></a>
-#### `Bootstrap` 目录
+#### `bootstrap` 目录
 
- `Bootstrap`目录包含了几个框架启动和自动加载设置的文件。`cache` 文件夹用于包含框架为提升性能所生成的文件，如路由和服务缓存文件。
+ `bootstrap`目录包含了几个框架启动和自动加载设置的文件。`cache` 文件夹用于包含框架为提升性能所生成的文件，如路由和服务缓存文件。
 
 <a name="the-config-directory"></a>
-#### `Config` 目录
+#### `config` 目录
 
- `Config` 目录，顾名思义，包含所有应用程序的配置文件。通读这些配置文件可以应对自己对配置修改的需求。
+ `config` 目录，顾名思义，包含所有应用程序的配置文件。通读这些配置文件可以应对自己对配置修改的需求。
 
 <a name="the-database-directory"></a>
-#### `Database` 目录
+#### `database` 目录
 
  `database` 目录包含了数据迁移及填充文件，你还可以将其作为 SQLite 数据库的存放目录。
 
 <a name="the-public-directory"></a>
-#### `Public` 目录
+#### `public` 目录
 
  `public` 目录包含了 Laravel 的 HTTP 入口文件 `index.php` 和前端资源文件（图片、JavaScript、CSS等）。
  
  <a name="the-resources-directory"></a>
-#### `Resources` 目录
+#### `resources` 目录
 
  `resources` 目录包含了视图、原始的资源文件 (LESS、SASS、CoffeeScript) ，以及语言包。
  
 <a name="the-routes-directory"></a>
-#### `Routes` 目录
+#### `routes` 目录
 
  `routes` 目录包含了应用的所有路由定义。Laravel 默认提供了三个路由文件：`web.php`, `api.php`, 和 `console.php`。
 
@@ -81,25 +81,25 @@
  `console.php` 文件用于定义所有基于闭包的控制台命令，每个闭包都被绑定到一个控制台命令并且允许与命令行 IO 方法进行交互，尽管这个文件并不定义 HTTP 路由，但是它定义了基于命令行的应用入口（路由）。
 
 <a name="the-storage-directory"></a>
-#### `Storage` 目录
+#### `storage` 目录
 
  `storage` 目录包含编译后的 Blade 模板、基于文件的 session、文件缓存和其它框架生成的文件。此文件夹分格成 `app` 、`framework` ，及 `logs` 目录。`app` 目录可用于存储应用程序使用的任何文件。`framework` 目录被用于保存框架生成的文件及缓存。最后，`logs` 目录包含了应用程序的日志文件。
  
  `storage/app/public` 可以用来存储用户生成的文件，例如头像文件，这是一个公开的目录。你还需要在 `public/storage` 目录下生成一个软连接指向这个目录，你可以使用 `php artisan storage:link` 来创建软链接。
 
 <a name="the-tests-directory"></a>
-#### `Tests` 目录
+#### `tests` 目录
 
  `tests` 目录包含自动化测试。Laravel 推荐了一个 [PHPUnit](https://phpunit.de/) 例子。每一个测试类都需要添加 `Test` 前缀，你可以使用 `phpunit` 或者 `php vendor/bin/phpunit` 命令来运行测试。
 
 <a name="the-vendor-directory"></a>
-#### `Vendor` 目录
+#### `vendor` 目录
 
  `vendor` 目录包含所有 [Composer](https://getcomposer.org) 依赖。
  
  
 <a name="the-app-directory"></a>
-## `App` 目录
+## `app` 目录
 
 应用的核心代码位于 `app` 目录下，默认情况下，该目录位于命名空间 `App` 下， 并且被 Composer 通过 [PSR-4](http://www.php-fig.org/psr/psr-4/) 自动载入标准 自动加载。
 
