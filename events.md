@@ -277,7 +277,7 @@ Laravel 应用中的 `EventServiceProvider` 提供了一个很方便的地方来
         }
     }
 
-> {tip} 测试时，不用真的触发监听器就能断言事件类型是很有用的。 Laravel [内置的测试辅助方法](/docs/{{version}}/mocking#mocking-events) 能让这件事变得很容器。
+> {tip} 测试时，不用真的触发监听器就能断言事件类型是很有用的。 Laravel [内置的测试辅助方法](/docs/{{version}}/mocking#mocking-events) 能让这件事变得很容易。
 
 <a name="event-subscribers"></a>
 ## 事件订阅者
