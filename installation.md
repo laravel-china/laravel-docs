@@ -63,9 +63,7 @@ Laravel 使用 [Composer](https://getcomposer.org) 来管理代码依赖。所�
 
 	php artisan serve
 
-不过有更健壮的本地开发选项可用，比如 [Homestead](/doc/{{version}}/homestead) 和 [Valet](/doc/{{version}}/valet)。
-
-当然，更稳定的本地开发选项比如 [Homestead](/docs/{{version}}/homestead)  或 [Valet](/docs/{{version}}/valet)。
+不过有更健壮的本地开发选项可用，比如 [Homestead](/docs/{{version}}/homestead) 和 [Valet](/docs/{{version}}/valet)。
 
 <a name="configuration"></a>
 ### 配置
