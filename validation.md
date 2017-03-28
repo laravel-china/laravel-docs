@@ -166,7 +166,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         'publish_at' => 'nullable|date',
     ]);
 
-在这个例子里，我们指定 `publish_at` 字段可以为 `null` 或者一个有效的日期格式。如果 `nullable` 的修饰词没有添加到规则定义中，验证器会认为 `null` 是一个有效的日期格式。
+在这个例子里，我们指定 `publish_at` 字段可以为 `null` 或者一个有效的日期格式。如果 `nullable` 的修饰词没有添加到规则定义中，验证器会认为 `null` 是一个无效的日期格式。
 
 <a name="quick-customizing-the-flashed-error-format"></a>
 #### 自定义闪存的错误消息格式
