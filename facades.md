@@ -24,7 +24,7 @@ Facades /fəˈsäd/ 为应用程序的[服务容器](/docs/{{version}}/container
 <a name="when-to-use-facades"></a>
 ## 何时使用 Facades
 
-Facades 有很多的好处，它们提供了简单易记的语法让你使用 Laravel 的各种功能，你再也不需要记住长长的类名来实现注入或者手动去配置。还有，因为它们对于PHP动态方法的独特用法，测试起来就非常容易。
+Facades 有很多的好处，它们提供了简单易记的语法让你使用 Laravel 的各种功能，你再也不需要记住长长的类名来实现注入或者手动去配置。还有，因为它们对于 PHP 动态方法的独特用法，测试起来就非常容易。
 
 但是，在使用 facades 时，有些地方还是需要特别注意。使用 facades 最主要的风险就是会引起类的体积的膨胀。由于 facades 使用起来非常简单而且不需要注入，我们会不经意间在单个类中大量使用。不像是使用依赖注入，用得越多，构造方法会越长，在视觉上就会引起注意，提醒你这个类有点太庞大了。所以，在使用 facades 时，要特别注意把类的体积控制在一个合理的范围。
 
@@ -65,7 +65,7 @@ Facades 有很多的好处，它们提供了简单易记的语法让你使用 La
 <a name="facades-vs-helper-functions"></a>
 ### Facades Vs. 辅助函数
 
-除了 facades，Laravel 还引入了一些「辅助函数」来实现一些常用的功能，比如生成视图，触发事件，调度任务或者发送 HTTP 响应。许多辅助函数的功能其实和对应的 facades 一样。举例来说，这个 facede 和辅助函数是一样的：
+除了 facades，Laravel 还引入了一些「辅助函数」来实现一些常用的功能，比如生成视图、触发事件、调度任务或者发送 HTTP 响应。许多辅助函数的功能其实和对应的 facades 一样。举例来说，这个 facede 和辅助函数是一样的：
 
     return View::make('profile');
 
@@ -76,7 +76,7 @@ Facade 和辅助函数其实没有本质区别，当使用辅助函数时，你�
     Route::get('/cache', function () {
         return cache('key');
     });
-    
+
 在底层，辅助函数 `cache` 会调用 `Cache` facade 的基类的 `get` 方法。因此，即使我们是在使用辅助函数，我们依然可以用下面的代码来测试方法是不是被正确的调用了：
 
     use Illuminate\Support\Facades\Cache;

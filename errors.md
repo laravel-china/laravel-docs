@@ -46,7 +46,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 <a name="log-severity-levels"></a>
 ### 日志记录级别
 
-使用 Monolog 时, log 信息可以有不同的严重级别。默认，Laravel 将所有级别日志写到 storage ，然而在你的生产环境中，你可能希望配置一个最小严重级别，那么你应该添加 `log_level` 选项到你的 `app.php` 配置文件。
+使用 Monolog 时，log 信息可以有不同的严重级别。默认，Laravel 将所有级别日志写到 storage ，然而在你的生产环境中，你可能希望配置一个最小严重级别，那么你应该添加 `log_level` 选项到你的 `app.php` 配置文件。
 
 一旦该选项被配置，Laravel 会记录所有大于或等于这个级别的日志。例如，一个默认 `log_level` 是 `error` 那么将会记录 **error**, **critical**, **alert** 和 **emergency** 信息：
 
@@ -71,7 +71,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 <a name="report-method"></a>
 ### Report 方法
 
-所有异常处理都由 `App\Exceptions\Handler` 类进行。这个类包含两个方法：`report` 和 `render`。 我们将研究这些方法的细节。`report` 方法用于记录异常或将异常寄给外部服务如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。默认， `report` 方法简单地通过传递异常到基类进行处理，然而，你可以自由选择任何方式进行处理。
+所有异常处理都由 `App\Exceptions\Handler` 类进行。这个类包含两个方法：`report` 和 `render`。 我们将研究这些方法的细节。`report` 方法用于记录异常或将异常寄给外部服务如 [Bugsnag](https://bugsnag.com) 或 [Sentry](https://github.com/getsentry/sentry-laravel) 。默认 `report` 方法简单地通过传递异常到基类进行处理。然而，你可以自由选择任何方式进行处理。
 
 例如，如果你需要将不同的异常类型报告给不同的方法，你可以使用 PHP `instanceof` 比较操作符：
 
@@ -94,7 +94,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 
 #### 通过类型忽略异常
 
- `$dontReport` 属性包含一个不会被记录的异常类型数组。例如，404 异常以及其他几个类型异常不会被写到你的日志文件中，如果需要你可以添加其他异常类型这个数组：
+ `$dontReport` 属性包含一个不会被记录的异常类型数组。例如 404 异常以及其他几个类型异常不会被写到你的日志文件中，如果需要你可以添加其他异常类型这个数组：
 
     /**
      * 不需要报告的异常类型列表。
@@ -144,7 +144,7 @@ Laravel 提供可立即使用的 `single`、`daily`、`syslog` 和 `errorlog` �
 <a name="custom-http-error-pages"></a>
 ### 自定义 HTTP 错误页面
 
-Laravel 制作自定义的 HTTP 错误显示页面很简单。例如，如果你想定义一个 404 页面，创建一个 `resources/views/errors/404.blade.php` 。这个文件将会用于渲染所有的 404 错误。这个视图目录中的视图命名应该和·对于的 HTTP 状态码相匹配。 `HttpException` 实例会将 `abort` 函数传递到视图作为 `$exception` 变量.
+Laravel 制作自定义的 HTTP 错误显示页面很简单。例如，如果你想定义一个 404 页面，创建一个 `resources/views/errors/404.blade.php` 。这个文件将会用于渲染所有的 404 错误。这个视图目录中的视图命名应该和对应的 HTTP 状态码相匹配。 `HttpException` 实例会将 `abort` 函数传递到视图作为 `$exception` 变量。
 
 <a name="logging"></a>
 ## 日志
@@ -175,7 +175,7 @@ Laravel 用强大的 [Monolog](http://github.com/seldaek/monolog) 函数库提�
         }
     }
 
-该日志记录器提供八种 [RFC 5424](http://tools.ietf.org/html/rfc5424) 定义的日志级别: **emergency** ，**alert** ，**critical**, **error** ，**warning** ，**notice** ，**info** 和 **debug** 。
+该日志记录器提供八种 [RFC 5424](http://tools.ietf.org/html/rfc5424) 定义的日志级别： **emergency** ，**alert** ，**critical** ，**error** ，**warning** ，**notice** ，**info** 和 **debug** 。
 
     Log::emergency($message);
     Log::alert($message);
