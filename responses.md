@@ -199,7 +199,7 @@
         'state' => 'CA'
     ]);
 
-如果想要创建一个 JSONP 响应，则可以使用 `json` 方法并结合 setCallback 函数：
+如果想要创建一个 JSONP 响应，则可以使用 `json` 方法并结合 withCallback 函数：
 
     return response()
                 ->json(['name' => 'Abigail', 'state' => 'CA'])
