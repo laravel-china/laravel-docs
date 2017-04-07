@@ -45,7 +45,7 @@ Provider 定义了如何从持久化存储中获取用户信息，Laravel 底层
 <a name="authentication-quickstart"></a>
 ## 认证快速入门
 
-Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`RegisterController` 处理用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理重置密码的 e-mail 链接，`ResetPasswordController` 包含重置密码的逻辑。每个控制器都使用 trait 来包含必要的方法。对于大部分应用，都不必去修改这些控制器。
+Laravel 带有两个认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内，`RegisterController` 处理用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理重置密码的 e-mail 链接，`ResetPasswordController` 包含重置密码的逻辑。
 这些控制器使用了 trait 来包含所需要的方法，对于大多数的应用程序而言，你并不需要修改这些控制器。
 
 <a name="included-routing"></a>
@@ -117,7 +117,7 @@ Laravel默认使用 `email` 字段来认证。如果你想用其他字段认证�
 
     // 获取当前已通过认证的用户id...
     $id = Auth::id();
-    
+
 也有另外一种方法可以访问认证过的用户，就是通过 `Illuminate\Http\Request` 实例，请注意类型提示的类会被自动注入：
 
     <?php
