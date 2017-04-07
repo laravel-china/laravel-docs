@@ -137,7 +137,10 @@ Facade 和辅助函数其实没有本质区别，当使用辅助函数时，你�
          *
          * @return string
          */
-        protected static function getFacadeAccessor() { return 'cache'; }
+        protected static function getFacadeAccessor()
+        {
+            return 'cache';
+        }
     }
 
 其实，`Cache` facade 是继承了基类 `Facade` 并且定义了 `getFacadeAccessor()` 方法。这个方法的功能是返回服务容器中绑定的名字。当用户调用 `Cache` facade 的静态方法时，Laravel 会解析到 `cache` 在服务容积里绑定的具体的那个实例对象，并且调用这个对象的相应方法（在这个例子里就是 `get` 方法）。
