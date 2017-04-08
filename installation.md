@@ -102,7 +102,7 @@ Laravel 几乎不需做任何其它设置就可以马上使用，但是建议你
 <a name="web-server-configuration"></a>
 ## Web 服务器配置
 <a name="pretty-urls"></a>
-### 优雅连接
+### 优雅链接
 
 #### Apache
 Laravel 框架通过 `public/.htaccess` 文件来让 URL 不需要 `index.php` 即可访问。在 Apache 启用 Laravel 之前，请确认是否有开启 mod_rewrite 模块，以便 `.htaccess` 文件发挥作用。
