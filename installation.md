@@ -68,7 +68,7 @@ Laravel 使用 [Composer](https://getcomposer.org) 来管理代码依赖。所�
 <a name="configuration"></a>
 ### 配置
 
-#### 公告目录
+#### 入口目录
 
 在安装 Laravel 之后，你需要配置你的 Web 服务器的根目录为 `public` 目录。 这个目录的 `index.php` 文件作为所有 HTTP 请求进入应用的前端处理器。
 
