@@ -106,7 +106,7 @@ Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 
 <a name="sass"></a>
 ### Sass
 
-`sass` 方法可以让你将 [Sass](http://sass-lang.com/) 便以为 CSS。你可以使用此方法：
+`sass` 方法可以让你将 [Sass](http://sass-lang.com/) 编译为 CSS。你可以使用此方法：
 
 	mix.sass('resources/assets/sass/app.scss', 'public/css');
 
