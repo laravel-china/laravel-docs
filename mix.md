@@ -257,7 +257,7 @@ Mix 可以自动安装 Babel 插件来支持 React。你只需要替换你的 `m
 
 这个选项对于那些没有使用 Webpack 的历史项目非常有用。
 
-> {tip} `mix.babel()` 和 `mix.scripts()` 有点稍微不一样。`babel` 方法用法和 `scripts` 一样；不过，这些文件会经过 Bable 编译，把所有 ES2015 的代码转换为原生 JavaScript，这样所有浏览器都能识别。
+> {tip} `mix.babel()` 和 `mix.scripts()` 有点稍微不一样。`babel` 方法用法和 `scripts` 一样；不过，这些文件会经过 Babel 编译，把所有 ES2015 的代码转换为原生 JavaScript，这样所有浏览器都能识别。
 
 <a name="custom-webpack-configuration"></a>
 ### 自定义 Webpack 配置
