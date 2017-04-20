@@ -758,7 +758,7 @@ Eloquent 会假设对应关联的外键名称是基于模型名称的。在这�
 <a name="the-save-method"></a>
 ### Save 方法
 
-Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如，将新的 `Commnet` 写入至 `Post` 模型。除了手动设置 `Commnet` 的 `post_id` 属性外，你也可以直接使用关联的 `save` 方法来写入 `Comment`：
+Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如，将新的 `Comment` 写入至 `Post` 模型。除了手动设置 `Comment` 的 `post_id` 属性外，你也可以直接使用关联的 `save` 方法来写入 `Comment`：
 
     $comment = new App\Comment(['message' => 'A new comment.']);
 
@@ -869,7 +869,7 @@ Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如�
 <a name="touching-parent-timestamps"></a>
 ## 连动父级时间戳
 
-当一个模型 `belongsTo` 或 `belongsToMany` 另一个模型时，像是一个 `Comment` 属于一个 `Post`。这对于子级模型被更新时，要更新父级的时间戳相当有帮助。举例来说，当一个 `Commnet` 模型被更新时，你可能想要「连动」更新 `Post` 所属的 `updated_at` 时间戳。Eloquent 使得此事相当容易。只要在关联的下层模型中增加一个包含名称的 `touches` 属性即可：
+当一个模型 `belongsTo` 或 `belongsToMany` 另一个模型时，像是一个 `Comment` 属于一个 `Post`。这对于子级模型被更新时，要更新父级的时间戳相当有帮助。举例来说，当一个 `Comment` 模型被更新时，你可能想要「连动」更新 `Post` 所属的 `updated_at` 时间戳。Eloquent 使得此事相当容易。只要在关联的下层模型中增加一个包含名称的 `touches` 属性即可：
 
     <?php
 
