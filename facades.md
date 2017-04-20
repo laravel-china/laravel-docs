@@ -29,7 +29,7 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
 
 然而，在使用 facades 时，有些地方还需要特别注意。使用 facades 最主要的风险就是会引起类作用范围的膨胀。因为 facades 使用起来非常简单而且不需要注入，我们会不经意的在单个类中大量使用。它不会像使用依赖注入那样，使用的类越多，构造方法会越长，在视觉上就会引起注意，提醒你这个类有点庞大了。所以在使用 facades 的时候，要特别注意控制好类的大小，让类的作用范围保持短小。
 
-> {tip} 在开发与 Laravel 交互的第三发扩展包时，最好是在包中通过注入 [Laravel contracts](/docs/{{version}}/contracts) ，而不是在包中通过 facades 来使用 Laravel 的类。因为扩展包不是在 Laravel 内部使用的，无法使用 Laravel's facade 的测试辅助函数。
+> {tip} 在开发与 Laravel 交互的第三方扩展包时，最好是在包中通过注入 [Laravel contracts](/docs/{{version}}/contracts) ，而不是在包中通过 facades 来使用 Laravel 的类。因为扩展包不是在 Laravel 内部使用的，无法使用 Laravel's facade 的测试辅助函数。
 
 <a name="facades-vs-dependency-injection"></a>
 ### Facades Vs. 依赖注入
