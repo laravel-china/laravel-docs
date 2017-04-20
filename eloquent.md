@@ -341,8 +341,11 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
 
 一旦我们已经设置好可以被批量赋值的属性，便能通过 `create` 方法来添加一条新记录到数据库。`create` 方法将返回已经被保存的模型实例：
 
-    $flight = App\Flight::create(['name' => 'Flight 10']);
-
+    $flight = App\Flight::create(['name' => 'Flight 10']);
+    
+如果你已经有一个 `model` 实例，你可以使用一个数组传递给 `fill` 方法：
+ 
+    $flight->fill(['name' => 'Flight 22']);
 #### Guarding Attributes
 
 `$fillable` 作为一个可以被批量赋值的属性「白名单」。另外你也可以选择使用 `$guarded`。`$guarded` 属性应该包含一个你不想要被批量赋值的属性数组。所有不在数组里面的其它属性都可以被批量赋值。因此，`$guarded` 的功能更类似一个「黑名单」。使用的时候应该只选择 `$fillable` 或 `$guarded` 中的其中一个。 下面这个例子中，**除了 `price`** 所有的属性都可以被批量赋值：
