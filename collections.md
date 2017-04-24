@@ -503,7 +503,7 @@
 
     // [0 => 'Desk', 2 => 'Chair']
 
-相当于去「交集」。
+相当于取「交集」。
 
 <a name="method-isempty"></a>
 #### `isEmpty()` {#collection-method}
