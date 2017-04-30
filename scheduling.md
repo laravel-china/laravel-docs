@@ -80,7 +80,7 @@ Laravel 命令调度器允许你在 Laravel 中对命令调度进行清晰流畅
 方法  | 描述
 ------------- | -------------
 `->cron('* * * * * *');`  |  自定义调度任务
-`->everyMinute();`  |  自定义调度任务
+`->everyMinute();`  |  每分钟执行一次任务
 `->everyFiveMinutes();`  |  每五分钟执行一次任务
 `->everyTenMinutes();`  |  每十分钟执行一次任务
 `->everyThirtyMinutes();`  |  每半小时执行一次任务
