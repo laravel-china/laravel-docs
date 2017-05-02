@@ -163,7 +163,7 @@ Laravel默认使用 `email` 字段来认证。如果你想用其他字段认证�
 <a name="protecting-routes"></a>
 ### 限制路由访问
 
-[路由中间件](/docs/{{version}}/middleware) 用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `app\Http\Middleware\Authenticate.php` 中。因为这个中间件已经在 HTTP kernel 中注册了，只需要将它应用到路由定义中即可使用：
+[路由中间件](/docs/{{version}}/middleware) 用于限定认证过的用户访问指定的路由，Laravel 提供了 `auth` 中间件来达到这个目的，而这个中间件被定义在 `Illuminate\Auth\Middleware\Authenticate` 中。因为这个中间件已经在 HTTP kernel 中注册了，只需要将它应用到路由定义中即可使用：
 
     Route::get('profile', function () {
         // 只有认证过的用户能进来这里...
