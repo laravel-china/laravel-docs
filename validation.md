@@ -210,8 +210,6 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 
     php artisan make:request StoreBlogPost
 
-The generated class will be placed in the `app/Http/Requests` directory. If this directory does not exist, it will be created when you run the `make:request` command. Let's add a few validation rules to the `rules` method:
-
 新生成的类保存在 `app/Http/Requests` 目录下。如果这个目录不存在，那么将会在你运行 `make:request` 命令时创建出来。让我们添加一些验证规则到 `rules` 方法中：
 
     /**
