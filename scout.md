@@ -57,7 +57,7 @@ Laravel Scout 是针对 [Eloquent 模型](/docs/{{version}}/eloquent) 开发的�
 <a name="queueing"></a>
 ### 队列
 
-虽然 Scort 没有限制你必须使用队列，但是建议你为 Scort 配置一个 [队列驱动](/docs/{{version}}/queues)。使用队列来对处理 Scout 对数据模型的索引，将会极大的提高你的页面响应时间。
+虽然 Scout 没有限制你必须使用队列，但是建议你为 Scout 配置一个 [队列驱动](/docs/{{version}}/queues)。使用队列来对处理 Scout 对数据模型的索引，将会极大的提高你的页面响应时间。
 
 一旦你配置了队列驱动，在你的 `config/scout.php` 配置文件中设置 `queue` 的值为 `true`：
 
