@@ -389,6 +389,15 @@ Eloquent 的 `all` 方法会返回在模型数据表中的所有结果。由于�
     // 用属性取回航班，当结果不存在时实例化一个新实例...
     $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
 
+其次，你可能会碰到模型已经存在则更新，否则创建新模型的情形，Laravel 提供了一个 `updateOrCreate` 方法来一步完成该操作，类似 `firstOrCreate` 方法， `updateOrCreate` 方法会持久化模型，所以无需调用 `save()` :
+
+    // If there's a flight from Oakland to San Diego, set the price to $99.
+    // If no matching model exists, create one.
+    $flight = App\Flight::updateOrCreate(
+        ['departure' => 'Oakland', 'destination' => 'San Diego'],
+        ['price' => 99]
+    );
+
 
 <a name="deleting-models"></a>
 ## 删除模型
