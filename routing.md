@@ -140,7 +140,7 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 <a name="named-routes"></a>
 ## 命名路由
 
-命名路由可以方便的生成 `URL` 或者重定向，你可以在定义路由后使用 `name` 方法实现：
+命名路由可以方便的生成 `URL` 或者重定向到指定的路由，你可以在定义路由后使用 `name` 方法实现：
 
     Route::get('user/profile', function () {
         //
