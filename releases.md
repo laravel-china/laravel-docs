@@ -20,6 +20,17 @@
 
 > [Laravel 的发布路线图](https://phphub.org/topics/2594) - by [Summer](http://github.com/summerblue)
 
+<a name="Laravel 5.4.22"></a>
+## Laravel 5.4.22
+
+Laravel 5.4.22 为 Laravel 5.4 系列版本中能对应用程序中的用户进行网络钓鱼的安全漏洞安装了补丁。使用密码重置系统，恶意用户可以尝试欺骗你的用户将登录凭据输入到他们控制的单独应用程序中。由于密码重置通知使用主机传入请求来获取重置密码的 URL，因此用来生成重置密码的 URL 的主机可能会被欺骗。如果用户没有注意到他们访问的域名不正确，他们可能会意外将自己的登录凭据输入到恶意的应用程序中。
+
+在 Laravel 5.1 的应用程序中，密码重置通知由开发人员维护，因此此漏洞可能存在或可能不存在。你应该验证应用程序生成密码重置的链接是否是绝对的 URL：
+
+````
+{{ url('http://example.com/password/reset/'.$token) }}
+````
+
 <a name="laravel-5.4"></a>
 ## Laravel 5.4
 
