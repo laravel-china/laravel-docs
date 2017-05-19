@@ -224,7 +224,7 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
 <a name="terminable-middleware"></a>
 ## Terminable 中间件
 
-有些时候中间件需要在 HTTP 响应发送到浏览器后运行来处理一些任务。比如，Laravel 内置的「session」中间件存储的 session 数据是在响应被发送到浏览器之后才进行写入的。想实现这一点，你需要在中间件中定义一个 `terminable` 方法，它会在响应发送后自动被调用：
+有些时候中间件需要在 HTTP 响应发送到浏览器后运行来处理一些任务。比如，Laravel 内置的「session」中间件存储的 session 数据是在响应被发送到浏览器之后才进行写入的。想实现这一点，你需要在中间件中定义一个 `terminate` 方法，它会在响应发送后自动被调用：
 
     <?php
 
@@ -245,7 +245,7 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
         }
     }
 
-`terminable` 方法必需接收请求及响应两个参数。一旦定义了 terminable 中间件，你便需要将它增加到 HTTP kernel 文件的全局中间件清单列表中。
+`terminate` 方法必需接收请求及响应两个参数。一旦定义了 terminable 中间件，你便需要将它增加到 HTTP kernel 文件的全局中间件清单列表中。
 
 中间件的 `terminate` 调用时，Laravel 会从 [服务容器](/docs/{{version}}/container) 中解析一个全新的中间件实例。如果你想在 `handle` 和 `terminate` 被调用时使用同一个中间件实例，可使用容器的 `singleton` 方法向容器注册中间件。
 
