@@ -43,7 +43,7 @@ Laravel 使用 [Composer](https://getcomposer.org) 来管理代码依赖。所�
 
     composer global require "laravel/installer"
 
-请确定你已将 `~/.composer/vendor/bin` 路径加到 PATH，只有这样系统才能找到 `laravel` 的执行文件。
+请确定你已将 `~/.config/composer/vendor/bin` 路径加到 PATH，只有这样系统才能找到 `laravel` 的执行文件。
 
 一旦安装完成，就可以使用 `laravel new` 命令在指定目录创建一个新的 Laravel 项目，例如：`laravel new blog` 将会在当前目录下创建一个叫 `blog` 的目录，此目录里面存放着新安装的 Laravel 和代码依赖。这个方法的安装速度比通过 Composer 安装要快上许多：
 
