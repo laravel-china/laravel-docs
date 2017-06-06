@@ -73,7 +73,7 @@ Valet 将会在每次系统启动时自动启动，而不需要你每次运行 `
 
 #### 数据库
 
-如果你需要一个数据库，可以使用 `brew install mariadb` 命令试一试 MySQL 。你可以使用 host 为 `127.0.0.1` ，用户名 `root` ，密码为空进行数据库连接。
+如果你需要一个数据库，可以使用 `brew install mysql` 命令试一试 MySQL 。你可以使用 host 为 `127.0.0.1` ，用户名 `root` ，密码为空进行数据库连接。
 
 <a name="upgrading"></a>
 
