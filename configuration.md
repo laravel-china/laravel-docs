@@ -81,7 +81,7 @@ Laravel 使用 Vance Lucas 的 [DotEnv](https://github.com/vlucas/phpdotenv) PHP
 
     php artisan down
 
-你可以指定 `dowm` 命令的 `message` 和 `retry` 选项。`message` 自定义显示给用户的信息，`retry` 作为 `Retry-After` HTTP 标头返回：
+你可以指定 `down` 命令的 `message` 和 `retry` 选项。`message` 自定义显示给用户的信息，`retry` 作为 `Retry-After` HTTP 标头返回：
 
     php artisan down --message='Upgrading Database' --retry=60
 
