@@ -125,7 +125,7 @@
     class Flight extends Model
     {
         /**
-         * 模型的数据字段的保存格式。
+         * 模型的日期字段的保存格式。
          *
          * @var string
          */
