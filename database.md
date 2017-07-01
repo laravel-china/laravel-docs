@@ -202,6 +202,15 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 
         DB::table('posts')->delete();
     });
+    
+#### 处理死锁
+`transaction`方法参数列表的第二位接收一个可选的参数，这个参数定义了在发生死锁时，事务会重试的次数。如果重试结束还没有成功执行，将会抛出一个异常：
+
+    DB::transaction(function () {
+        DB::table('users')->update(['votes' => 1]);
+
+        DB::table('posts')->delete();
+    }, 5);
 
 #### 手动操作事务
 
