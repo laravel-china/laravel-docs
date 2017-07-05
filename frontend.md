@@ -59,7 +59,7 @@ Laravel `package.json` 文件默认会包含一些依赖包来帮助你开始建
 
     Vue.component('example', require('./components/Example.vue'));
 
-在应用程序中使用示例组件，你只需要简单的将其放到你的 HTML 模板之中。例如，在你运行 `make:auth` Artisan 命令去生成应用的用户认证和注册的脚手架页面后，你可以把组件放到 `homde.blade.php` Blade 模板：
+在应用程序中使用示例组件，你只需要简单的将其放到你的 HTML 模板之中。例如，在你运行 `make:auth` Artisan 命令去生成应用的用户认证和注册的脚手架页面后，你可以把组件放到 `home.blade.php` Blade 模板：
 
     @extends('layouts.app')
 
