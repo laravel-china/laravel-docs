@@ -101,7 +101,7 @@ Laravel 的数据库迁移提供了一个简单的方式，使用流畅、一目
 <a name="eloquent-models"></a>
 ### Eloquent 模型
 
-[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloqunet 通过明确的定义「模型」，让你可以很轻松的在数据库获取及保存数据。一般情况下，每个 Eloqunet 模型会直接对应一张数据表。
+[Eloquent](/docs/{{version}}/eloquent) 是 Laravel 默认的 ORM（对象关联映射）。Eloquent 通过明确的定义「模型」，让你可以很轻松的在数据库获取及保存数据。一般情况下，每个 Eloquent 模型会直接对应一张数据表。
 
 所以，让我们定义一个对应至 `tasks` 数据表的 `Task` 模型。
 
