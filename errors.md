@@ -58,7 +58,8 @@ Laravel 使用功能强大的 [Monolog](https://github.com/Seldaek/monolog) 库�
 如果你想让你的应用程序完全控制 Monolog ，可以使用应用程序的 `configureMonologUsing` 方法。你应该放置一个回调方法到 `bootstrap/app.php` 文件中，在文件返回 `$app` 变量之前，调用这个方法：
 
     $app->configureMonologUsing(function ($monolog) {
-        $monolog->pushHandler(...);
+        //eg. return $monolog->pushHandler(new \Monolog\Handler\StreamHandler(storage_path('logs/lumen-' . date('Ymd') . '.log')));
+        return $monolog->pushHandler(...);
     });
 
     return $app;
