@@ -206,3 +206,13 @@ HTTP 请求在实际碰触到应用程序之前，最好是可以层层通过中
 如果你希望在 `handle` 及 `terminate` 方法被调用时使用一致的中间件实例，只需在容器中使用容器的 `singleton` 方法注册中间件。
 
 
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org

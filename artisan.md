@@ -383,3 +383,13 @@ Command 类的 `call` 方法可以让你在命令中调用命令，`call` 方法
 
 * [Laravel 5.1 Artisan 命令行实战](https://phphub.org/topics/1759)
 
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org
