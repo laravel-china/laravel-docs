@@ -700,3 +700,13 @@ Laravel 提供了一个简洁的 `expectsJobs` 方法，以验证预期的任务
 > **注意：** 你不应该模拟 `Request` facade。应该在测试时使用如 `call` 及 `post` 这样的 HTTP 辅助函数来传递你想要的数据。
 
 
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org

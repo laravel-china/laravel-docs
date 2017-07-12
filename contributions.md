@@ -83,3 +83,13 @@ Laravel 遵守 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](h
 
 Laravel 使用 [StyleCI](https://styleci.io/) 来做代码矫正，所有 PR 都会在合并后被矫正代码样式，这样做允许我们把精力放到贡献的内容上，而不是代码风格。
 
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org

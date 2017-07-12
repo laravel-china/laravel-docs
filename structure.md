@@ -48,3 +48,13 @@
 `Exceptions` 目录包含应用程序的异常处理进程，同时也是个处置应用程序抛出异常的好位置。
 
 > **注意：**在 `app` 目录中的许多类可以通过 Artisan 命令生成。若要查看可以使用的命令，只要在命令行运行 `php artisan list make` 命令即可。
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org

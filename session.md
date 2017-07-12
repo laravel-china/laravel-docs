@@ -239,3 +239,13 @@ Laravel 框架在内部使用了 `flash` 作为 session 的键，所以应该避
 一旦 session 驱动被注册，则必须在 `config/session.php` 的配置文件内使用 `mongo` 驱动。
 
 
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org

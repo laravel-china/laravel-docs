@@ -96,3 +96,13 @@ Laravel 可以简单的使用 seed 类来给数据库填充测试数据。所有
 你也可以使用 `migrate:refresh` 命令来对数据库进行数据填充，它会回滚并重新运行所有迁移。这在对数据库进行重构时非常有用：
 
     php artisan migrate:refresh --seed
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译。
+> 
+> 文档永久地址： http://d.laravel-china.org
