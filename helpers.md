@@ -936,3 +936,12 @@ Laravel 包含有各种各样的PHP辅助函数，许多都是在 Laravel 自身
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@zjien](https://laravel-china.org/users/2554)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/2554_1445051146.png?imageView2/1/w/200/h/200">  |  翻译  | 专注于PHP，Laravel并学习设计模式中，[@zjien](https://github.com/zjien/) at Github  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/2752/laravel-53-document-translation-completed)。
+> 
+> 文档永久地址： http://d.laravel-china.org

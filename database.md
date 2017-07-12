@@ -224,3 +224,13 @@ Laravel 支持 SQL Server 数据库，你需要在 `config/database.php` 中为�
 |---|---|---|---|
 | [@kzh4435](https://phphub.org/users/5698)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5698_1473126483.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 努力学习PHP  |
 | [@zhuzhichao](https://github.com/zhuzhichao)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/161_1427370700.png?imageView2/1/w/100/h/100">  |  Review  |   |
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/2752/laravel-53-document-translation-completed)。
+> 
+> 文档永久地址： http://d.laravel-china.org

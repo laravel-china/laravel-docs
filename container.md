@@ -253,3 +253,13 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 |---|---|---|---|
 | [@yangjingqzp](https://phphub.org/users/5742)  |  <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5742_1473308107.jpeg?imageView2/1/w/100/h/100"> |  翻译  | 大神们请多多指教，[@yangjingqzp](https://github.com/yangjingqzp) at Github  |
 
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/2752/laravel-53-document-translation-completed)。
+> 
+> 文档永久地址： http://d.laravel-china.org

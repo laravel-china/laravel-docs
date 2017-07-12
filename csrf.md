@@ -73,3 +73,12 @@ Laravel 会通过响应把当前的 CSRF token 保存在 `XSRF-TOKEN` cookie 中
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@Macken](https://phphub.org/users/1289)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1289_1473143048.jpg?imageView2/1/w/200/h/200">  |  翻译  | 专注Web开发，[麦肯先生](https://macken.me) My Blog  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/2752/laravel-53-document-translation-completed)。
+> 
+> 文档永久地址： http://d.laravel-china.org

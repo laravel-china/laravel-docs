@@ -164,3 +164,13 @@ Laravel 编译并保存了一份清单，包括由延缓服务提供者所提供
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@rang9527](https://github.com/rang9527)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/10138783?v=3&s=132">  |  翻译  | 进城务工人员，[@rang9527](https://github.com/rang9527/) at Github  |
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/2752/laravel-53-document-translation-completed)。
+> 
+> 文档永久地址： http://d.laravel-china.org

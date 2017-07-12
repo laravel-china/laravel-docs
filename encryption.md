@@ -70,3 +70,13 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。你完全可
 |---|---|---|---|
 | [@silvercell](https://github.com/silvercell)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/20363459?v=3&u=2234d736aa27209a2e986d4d789f95c6d110aa0c&s=140">  |  翻译  | [你今天吃药了吗？](http://www.cxdog.com) |
 | [@buer](https://github.com/buer0)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/22141008?v=3&u=f14a9d540240e1d39079dc1319eb146a91aabfa8&s=140">  | 翻译 | [已放弃治疗！](http://www.cxdog.com) |
+
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/2752/laravel-53-document-translation-completed)。
+> 
+> 文档永久地址： http://d.laravel-china.org
