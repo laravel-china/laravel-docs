@@ -185,3 +185,12 @@ Laravel 分页器结果类实现了 `Illuminate\Contracts\Support\Jsonable` 接�
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@cjjian](https://laravel-china.org/users/3848)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3848_1477641871.png?imageView2/1/w/100/h/100">  |  翻译  | Nothing is impossible. [@Jiajian Chan](https://github.com/jcc/) at Github  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

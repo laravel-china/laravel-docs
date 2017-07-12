@@ -241,3 +241,11 @@ Valet 还提供一个命令将本地站点分享给其他人，这不需要任�
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@lybc](https://laravel-china.org/users/1232)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1232_1469434413.jpg?imageView2/1/w/100/h/100">  |  翻译  | 有用是有趣的前提  |
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

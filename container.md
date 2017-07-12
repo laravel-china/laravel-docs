@@ -247,3 +247,12 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     });
 
 如你所见，被解析的对象会被传递至回调中，让你在对象被传递到消费者前可以设置任何额外属性到对象上。
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

@@ -55,3 +55,12 @@ Laravel 天生就具有测试的基因。事实上，Laravel 默认就支持用 
     }
 
 > {note} 如果要在你的测试类自定义自己的 `setUp` 方法，请确保调用了 `parent::setUp()` 方法。
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org
