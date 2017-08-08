@@ -202,7 +202,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
      */
     public function toMail($notifiable)
     {
-        return new Mailable($this->invoice)->to($this->user->email);
+        return (new Mailable($this->invoice))->to($this->user->email);
     }
 
 <a name="error-messages"></a>
