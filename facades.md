@@ -108,8 +108,8 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\Cache;
-    use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Cache;
+    use App\Http\Controllers\Controller;
 
     class UserController extends Controller
     {
