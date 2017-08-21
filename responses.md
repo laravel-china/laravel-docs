@@ -26,7 +26,7 @@
         return 'Hello World';
     });
 
-从路由和控制器不仅能返回字符串，也可以返回数组。框架也会自动地将数组转为 JSON 响应:
+从路由和控制器不仅能返回字符串，也可以返回数组。框架也会自动地将数组转为 JSON 响应：
 
     Route::get('/', function () {
         return [1, 2, 3];
@@ -111,7 +111,7 @@
 <a name="redirecting-named-routes"></a>
 ### 重定向至命名路由
 
-当你调用不带参数的 `redirect` 辅助函数时，会返回 `Illuminate\Routing\Redirector` 实例，这个实例允许你调用 `Redirector` 上的任何方法。例如生产一个 `RedirectResponse` 重定向到一个 命命路由 时，可以使用 `route` 方法:
+当你调用不带参数的 `redirect` 辅助函数时，会返回 `Illuminate\Routing\Redirector` 实例，这个实例允许你调用 `Redirector` 上的任何方法。例如生产一个 `RedirectResponse` 重定向到一个 命命路由 时，可以使用 `route` 方法：
 
     return redirect()->route('login');
 
