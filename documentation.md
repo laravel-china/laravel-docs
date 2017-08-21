@@ -1,16 +1,16 @@
-- 前言
+- ## 前言
     - [翻译说明](/docs/{{version}}/about)
     - [发行说明](/docs/{{version}}/releases)
     - [升级说明](/docs/{{version}}/upgrade)
     - [贡献导引](/docs/{{version}}/contributions)
     - [API 文档](/api/{{version}})
-- 入门指南
+- ## 入门指南
     - [安装](/docs/{{version}}/installation)
     - [配置信息](/docs/{{version}}/configuration)
     - [文件夹结构](/docs/{{version}}/structure)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
-- 核心架构
+- ## 核心架构
     - [请求周期](/docs/{{version}}/lifecycle)
     - [服务容器](/docs/{{version}}/container)
     - [服务提供者](/docs/{{version}}/providers)
