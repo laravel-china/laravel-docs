@@ -263,7 +263,7 @@
 
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@Seven Du](https://github.com/medz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/5564821?s=300">  |  翻译  | 基于 Laravel 的社交开源系统 [ThinkSNS+](https://github.com/slimkit/thinksns-plus) 欢迎 Star。  |
+| [Seven Du](https://github.com/medz) | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/5564821?s=300"> | 翻译 | 基于 Laravel 的社交开源系统 [ThinkSNS+](https://github.com/slimkit/thinksns-plus) 欢迎 Star。  |
 
 
 --- 
