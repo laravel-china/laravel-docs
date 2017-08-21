@@ -7,9 +7,10 @@
 - [服务站点](#serving-sites)
     - [「Park」命令](#the-park-command)
     - [「Link」命令](#the-link-command)
-    - [通过TLS让站点更安全](#securing-sites)
+    - [配置 TLS 让站点更安全](#securing-sites)
 - [分享站点](#sharing-sites)
 - [自定义 Valet 驱动](#custom-valet-drivers)
+    - [本地驱动](#local-drivers)
 - [其他 Valet 命令](#other-valet-commands)
 
 <a name="introduction"></a>
@@ -25,15 +26,25 @@ Laravel Valet 会在你的 Mac 上将 [Nginx](https://www.nginx.com/) 设置为�
 <div class="content-list" markdown="1">
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
-- [Symfony](https://symfony.com)
-- [Zend](https://framework.zend.com)
-- [CakePHP 3](https://cakephp.org)
-- [WordPress](https://wordpress.org)
 - [Bedrock](https://roots.io/bedrock/)
+- [CakePHP 3](https://cakephp.org)
+- [Concrete5](http://www.concrete5.org/)
+- [Contao](https://contao.org/en/)
 - [Craft](https://craftcms.com)
-- [Statamic](https://statamic.com)
+- [Drupal](https://www.drupal.org/)
 - [Jigsaw](http://jigsaw.tighten.co)
+- [Joomla](https://www.joomla.org/)
+- [Katana](https://github.com/themsaid/katana)
+- [Kirby](https://getkirby.com/)
+- [Magento](https://magento.com/)
+- [OctoberCMS](https://octobercms.com/)
+- [Sculpin](https://sculpin.io/)
+- [Slim](https://www.slimframework.com)
+- [Statamic](https://statamic.com)
 - Static HTML
+- [Symfony](https://symfony.com)
+- [WordPress](https://wordpress.org)
+- [Zend](https://framework.zend.com)
 </div>
 
 当然，你还可以通过 [自定义驱动](#custom-valet-drivers) 来扩展 Valet.
@@ -52,7 +63,7 @@ Valet 和 Homestead 都是配置你本地 Laravel 开发环境的好帮手。选
 
 ## 安装
 
-**Valet 要求 macOS 和 [Homebrew](http://brew.sh/) 安装之前，你需要确保没有其他程序如   Apache 或者 Nginx 占用你本地机器的  80 端口。 安装步骤如下：**
+**Valet 要求 macOS 和 [Homebrew](http://brew.sh/) 安装之前，你需要确保没有其他程序如 Apache 或者 Nginx 占用你本地机器的 80 端口。 安装步骤如下：**
 
 <div class="content-list" markdown="1">
 - 安装或更新 [Homebrew](http://brew.sh/) 到最新版本，使用命令 `brew update`
@@ -73,7 +84,7 @@ Valet 将会在每次系统启动时自动启动，而不需要你每次运行 `
 
 #### 数据库
 
-如果你需要一个数据库，可以使用 `brew install mysql` 命令试一试 MySQL 。你可以使用 host 为 `127.0.0.1` ，用户名 `root` ，密码为空进行数据库连接。
+如果你需要一个数据库，可以使用 `brew install mysql` 命令试一试 MySQL 。如果你的 Mac 是第一次安装 MySQL 数据库，你可能需要执行 `brew services start mysql` 命令来启动它。之后，你可以使用 host 为 `127.0.0.1` ，用户名 `root` ，密码为空进行数据库连接。
 
 <a name="upgrading"></a>
 
@@ -85,7 +96,7 @@ Valet 将会在每次系统启动时自动启动，而不需要你每次运行 `
 Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你升级到这个版本之前你应该运行下面的命令来停止并卸载已经启动的 Caddy 进程：
 
 	valet stop
-    valet uninstall
+  valet uninstall
 
 接下来，你应该升级到 Valet 的最新版本。取决于你安装 Valet 的方式，这通常通过 Git 或 Composer 来实现。如果你是通过 Composer 安装的 Valet 你应该使用下面的命令来更新到最新的主版本：
 
@@ -94,7 +105,7 @@ Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你�
 当新的 Valet 源代码下载好了之后，你应该运行 `install` 命令：
 
 	valet install
-    valet restart
+  valet restart
 
 在升级之后，它需要 re-park 或 re-link 你的站点。
 
@@ -114,7 +125,7 @@ Valet 2.0 将 Valet 的底层 Web 服务从 Caddy 切换到了 Nginx 。在你�
 - 在浏览器中访问 `http://blog.dev` 。
 </div>
 
-**这就是我们所要做的全部工作**。现在，所有在 Site 目录中的 Laravel 项目都可以通过 `http://folder-name.dev` 这种方式访问，是不是很方便。
+**这就是我们所要做的全部工作**。现在，你所「parked」目录中的所有 Laravel 项目都可以通过 `http://folder-name.dev` 这种方式访问，是不是很方便。
 
 <a name="the-link-command"></a>
 
@@ -133,7 +144,7 @@ link 命令也被用来服务你的 Laravel 站点。这个命令在你想要在
 
 <a name="securing-sites"></a>
 
-**通过TLS让站点更安全**
+**配置 TLS 让站点更安全**
 
 默认的情况下， Valet 通过纯 HTTP 协议服务网站。然而，如果你想利用 HTTP/2 提供加密的 TLS ，你可以使用 `secure` 命令。例如，你有一个站点 `laravel.dev` ，可以使用以下命令让其更安全：
 
@@ -172,7 +183,7 @@ Valet 还提供一个命令将本地站点分享给其他人，这不需要任�
 例如，假设我们编写的是 `WordPressValetDriver` 。那么对应的 serves 方法如下：
 
 	/**
-     * 判断驱动服务请求
+     * 判断驱动服务请求。
      *
      * @param  string  $sitePath
      * @param  string  $siteName
@@ -223,6 +234,41 @@ Valet 还提供一个命令将本地站点分享给其他人，这不需要任�
         return $sitePath.'/public/index.php';
     }
 
+<a name="local-drivers"></a>
+
+### 本地驱动
+
+如果你希望为一些单独的应用编写各自的 Valet 驱动，首先你需要在这些应用的根目录创建一个`LocalValetDriver.php` 文件。在文件中你需要通过扩展基础类 `ValetDriver` 或使用这些应用特定的方法来编写 Valet 驱动，例如下面的 `LaravelValetDriver` 类。
+
+    class LocalValetDriver extends LaravelValetDriver
+    {
+        /**
+         * 判断驱动服务请求。
+         *
+         * @param  string  $sitePath
+         * @param  string  $siteName
+         * @param  string  $uri
+         * @return bool
+         */
+        public function serves($sitePath, $siteName, $uri)
+        {
+            return true;
+        }
+
+        /**
+         * 获取应用前端控制器绝对路径。
+         *
+         * @param  string  $sitePath
+         * @param  string  $siteName
+         * @param  string  $uri
+         * @return string
+         */
+        public function frontControllerPath($sitePath, $siteName, $uri)
+        {
+            return $sitePath.'/public_html/index.php';
+        }
+    }
+
 <a name="other-valet-commands"></a>
 
 ## 其他 Valet 命令
@@ -240,10 +286,10 @@ Valet 还提供一个命令将本地站点分享给其他人，这不需要任�
 
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@lybc](https://laravel-china.org/users/1232)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1232_1469434413.jpg?imageView2/1/w/100/h/100">  |  翻译  | 有用是有趣的前提  |
+| [@bqx619](https://laravel-china.org/users/4925)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4925_1503329979.jpg?imageView2/1/w/100/h/100">  |  翻译  | My Code is bqx619.  |
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
-> 
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
 > 文档永久地址： http://d.laravel-china.org
