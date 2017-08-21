@@ -258,7 +258,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="psr-11"></a>
 ## PSR-11
 
-Laravel 的服务容器实现了[PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md)的接口。 因此， 你可以使用PSR-11接口的类型提示去实例化一个容器：
+Laravel 的服务容器实现了[PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md)的接口。因此，你可以使用PSR-11接口的类型提示去实例化一个容器：
 
     use Psr\Container\ContainerInterface;
 
