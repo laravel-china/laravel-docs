@@ -310,7 +310,7 @@ Laravel 队列为不同的后台队列服务提供统一的 API ， 例如 Beans
 
     php artisan queue:work --timeout=30
 
-然而，你也可以在任务类中定义一个变量来设置可运行的最大描述，如果在类和命令行中都定义了最大尝试次数， Laravel 会优先执行命令行中的值：
+然而，你也可以在任务类中定义一个变量来设置可运行的最大描述，如果在类和命令行中都定义了最大尝试次数， Laravel 会优先执行任务类中的值：
 
     <?php
 
@@ -627,3 +627,12 @@ Supervisor 的配置文件一般是放在 `/etc/supervisor/conf.d` 目录下，�
             DB::rollBack();
         }
     });
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

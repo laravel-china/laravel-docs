@@ -108,8 +108,8 @@ Facades 有很多好处，它为我们使用 Laravel 的各种功能提供了简
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\Cache;
-    use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Cache;
+    use App\Http\Controllers\Controller;
 
     class UserController extends Controller
     {
@@ -187,3 +187,12 @@ Validator  |  [Illuminate\Validation\Factory](https://laravel.com/api/{{version}
 Validator (Instance)  |  [Illuminate\Validation\Validator](https://laravel.com/api/{{version}}/Illuminate/Validation/Validator.html) |  &nbsp;
 View  |  [Illuminate\View\Factory](https://laravel.com/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
 View (Instance)  |  [Illuminate\View\View](https://laravel.com/api/{{version}}/Illuminate/View/View.html)  |  &nbsp;
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

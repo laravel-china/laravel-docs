@@ -202,7 +202,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
      */
     public function toMail($notifiable)
     {
-        return new Mailable($this->invoice)->to($this->user->email);
+        return (new Mailable($this->invoice))->to($this->user->email);
     }
 
 <a name="error-messages"></a>
@@ -901,3 +901,12 @@ Laravel 提供了开箱即用的通知频道，但是你可能会想编写自己
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@司维](https://phphub.org/users/11602)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@Leon0204](https://github.com/leon0204) at Github  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

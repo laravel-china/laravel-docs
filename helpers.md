@@ -1010,3 +1010,12 @@ Laravel 包含有各种各样的 PHP 辅助函数，许多都是在 Laravel 自�
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@zyxcba](https://github.com/cmzz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/6111715?v=3&s=100">  |  翻译  | [小猪淘客](http://pigtk.com) - 免费的淘宝客优惠券CMS |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

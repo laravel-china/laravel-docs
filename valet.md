@@ -73,7 +73,7 @@ Valet 将会在每次系统启动时自动启动，而不需要你每次运行 `
 
 #### 数据库
 
-如果你需要一个数据库，可以使用 `brew install mariadb` 命令试一试 MySQL 。你可以使用 host 为 `127.0.0.1` ，用户名 `root` ，密码为空进行数据库连接。
+如果你需要一个数据库，可以使用 `brew install mysql` 命令试一试 MySQL 。你可以使用 host 为 `127.0.0.1` ，用户名 `root` ，密码为空进行数据库连接。
 
 <a name="upgrading"></a>
 
@@ -241,3 +241,9 @@ Valet 还提供一个命令将本地站点分享给其他人，这不需要任�
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@lybc](https://laravel-china.org/users/1232)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1232_1469434413.jpg?imageView2/1/w/100/h/100">  |  翻译  | 有用是有趣的前提  |
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org
