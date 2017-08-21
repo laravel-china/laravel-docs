@@ -1,18 +1,18 @@
-- 前言
+- ## 前言
     - [翻译说明](/docs/{{version}}/about)
     - [发行说明](/docs/{{version}}/releases)
     - [升级导引](/docs/{{version}}/upgrade)
     - [贡献导引](/docs/{{version}}/contributions)
     - [API 文档](/api/{{version}})
-- 安装与配置
+- ## 安装与配置
     - [安装](/docs/{{version}}/installation)
     - [配置](/docs/{{version}}/configuration)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
-- 教程
+- ## 教程
     - [初级任务清单](/docs/{{version}}/quickstart)
     - [中级任务清单](/docs/{{version}}/quickstart-intermediate)
-- 基本功能
+- ## 基本功能
     - [路由](/docs/{{version}}/routing)
     - [中间件](/docs/{{version}}/middleware)
     - [控制器](/docs/{{version}}/controllers)
@@ -20,14 +20,14 @@
     - [响应](/docs/{{version}}/responses)
     - [视图](/docs/{{version}}/views)
     - [Blade 模板](/docs/{{version}}/blade)
-- 系统架构
+- ## 系统架构
     - [请求生命周期](/docs/{{version}}/lifecycle)
     - [应用程序架构](/docs/{{version}}/structure)
     - [服务提供者](/docs/{{version}}/providers)
     - [服务容器](/docs/{{version}}/container)
     - [Contracts](/docs/{{version}}/contracts)
     - [Facades](/docs/{{version}}/facades)
-- 系统服务
+- ## 系统服务
     - [用户认证](/docs/{{version}}/authentication)
     - [用户授权](/docs/{{version}}/authorization)
     - [Artisan 命令行](/docs/{{version}}/artisan)
@@ -52,12 +52,12 @@
     - [任务调度](/docs/{{version}}/scheduling)
     - [测试](/docs/{{version}}/testing)
     - [表单验证](/docs/{{version}}/validation)
-- 数据库
+- ## 数据库
     - [数据库入门](/docs/{{version}}/database)
     - [查询构造器](/docs/{{version}}/queries)
     - [数据库迁移](/docs/{{version}}/migrations)
     - [数据填充](/docs/{{version}}/seeding)
-- Eloquent ORM
+- ## Eloquent ORM
     - [入门](/docs/{{version}}/eloquent)
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
