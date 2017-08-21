@@ -23,7 +23,7 @@ Laravel 为每个活跃用户的 Session 自动生成一个 CSRF 「令牌」。
 
 #### CSRF 令牌 & JavaScript
 
-当你构建由Javascript驱动的应用时，Javascript HTTP 函数库可以很方便地在你发起每一个请求时自动附上 CSRF 令牌。默认情况下， `resources/assets/js/bootstrap.js` 文件会用 Axios HTTP 函数库记录下 `csrf-令牌` meta 标签中的值。如果你不使用这个函数库，你需要为你的应用进行手动配置。
+当你构建由Javascript驱动的应用时，可以很方便地让你的 Javascript HTTP 函数库在发起每一个请求时自动附上 CSRF 令牌。默认情况下， `resources/assets/js/bootstrap.js` 文件会用 Axios HTTP 函数库记录下 `csrf-令牌` meta 标签中的值。如果你不使用这个函数库，你需要为你的应用进行手动配置。
 
 <a name="csrf-excluding-uris"></a>
 ## CSRF 白名单
