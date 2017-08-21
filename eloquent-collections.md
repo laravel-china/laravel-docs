@@ -1,15 +1,15 @@
 # Eloquent: 集合
 
-- [简介](#introduction)
-- [可用的方法](#available-methods)
-- [自定义集合](#custom-collections)
+- [Introduction](#introduction)
+- [Available Methods](#available-methods)
+- [Custom Collections](#custom-collections)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-默认情况下 Eloquent 返回的都是一个 `Illuminate\Database\Eloquent\Collection` 对象的实例，包含通过 `get` 方法或是访问一个关联来获取到的结果。Eloquent 集合对象继承了 Laravel [集合基类](/docs/{{version}}/collections)，因此它自然也继承了许多可用于与 Eloquent 模型交互的方法。
+All multi-result sets returned by Eloquent are instances of the `Illuminate\Database\Eloquent\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends the Laravel [base collection](/docs/{{version}}/collections), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.
 
-当然，所有集合都可以作为迭代器，来让你像遍历一个 PHP 数组一样来遍历一个集合：
+Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
 
     $users = App\User::where('active', 1)->get();
 
@@ -17,7 +17,7 @@
         echo $user->name;
     }
 
-然而，集合比数组更强大的地方是其使用了各种 map / reduce 的直观操作。例如，我们移除所有未激活的用户模型和收集其余各个用户的名字：
+However, collections are much more powerful than arrays and expose a variety of map / reduce operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the first name for each remaining user:
 
     $users = App\User::where('active', 1)->get();
 
@@ -28,17 +28,14 @@
         return $user->name;
     });
 
-> {note} 大部分的 Eloquent 集合会返回新的「Eloquent 集合」实例，但是 `pluck`, `keys`, `zip`, `collapse`, `flatten` 和 `flip` 方法会返回 [基础集合](/docs/{{version}}/collections) 实例。
-> 
-> 相应的，如果一个 `map` 操作返回一个不包含任何 Eloquent 模型的集合，那么它将会自动转换成基础集合。
-
+> {note} While most Eloquent collection methods return a new instance of an Eloquent collection, the `pluck`, `keys`, `zip`, `collapse`, `flatten` and `flip` methods return a [base collection](/docs/{{version}}/collections) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be automatically cast to a base collection.
 
 <a name="available-methods"></a>
-## 可用的方法
+## Available Methods
 
-### 集合对象
+### The Base Collection
 
-所有 Eloquent 集合都继承了基础的 [Laravel 集合](/docs/{{version}}/collections) 对象。因此，他们也继承了所有集合类提供的强大的方法：
+All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections) object; therefore, they inherit all of the powerful methods provided by the base collection class:
 
 <style>
     #collection-method-list > p {
@@ -54,11 +51,13 @@
 <div id="collection-method-list" markdown="1">
 
 [all](/docs/{{version}}/collections#method-all)
+[average](/docs/{{version}}/collections#method-average)
 [avg](/docs/{{version}}/collections#method-avg)
 [chunk](/docs/{{version}}/collections#method-chunk)
 [collapse](/docs/{{version}}/collections#method-collapse)
 [combine](/docs/{{version}}/collections#method-combine)
 [contains](/docs/{{version}}/collections#method-contains)
+[containsStrict](/docs/{{version}}/collections#method-containsstrict)
 [count](/docs/{{version}}/collections#method-count)
 [diff](/docs/{{version}}/collections#method-diff)
 [diffKeys](/docs/{{version}}/collections#method-diffkeys)
@@ -78,14 +77,21 @@
 [implode](/docs/{{version}}/collections#method-implode)
 [intersect](/docs/{{version}}/collections#method-intersect)
 [isEmpty](/docs/{{version}}/collections#method-isempty)
+[isNotEmpty](/docs/{{version}}/collections#method-isnotempty)
 [keyBy](/docs/{{version}}/collections#method-keyby)
 [keys](/docs/{{version}}/collections#method-keys)
 [last](/docs/{{version}}/collections#method-last)
 [map](/docs/{{version}}/collections#method-map)
+[mapWithKeys](/docs/{{version}}/collections#method-mapwithkeys)
 [max](/docs/{{version}}/collections#method-max)
+[median](/docs/{{version}}/collections#method-median)
 [merge](/docs/{{version}}/collections#method-merge)
 [min](/docs/{{version}}/collections#method-min)
+[mode](/docs/{{version}}/collections#method-mode)
+[nth](/docs/{{version}}/collections#method-nth)
 [only](/docs/{{version}}/collections#method-only)
+[partition](/docs/{{version}}/collections#method-partition)
+[pipe](/docs/{{version}}/collections#method-pipe)
 [pluck](/docs/{{version}}/collections#method-pluck)
 [pop](/docs/{{version}}/collections#method-pop)
 [prepend](/docs/{{version}}/collections#method-prepend)
@@ -104,27 +110,32 @@
 [sortBy](/docs/{{version}}/collections#method-sortby)
 [sortByDesc](/docs/{{version}}/collections#method-sortbydesc)
 [splice](/docs/{{version}}/collections#method-splice)
+[split](/docs/{{version}}/collections#method-split)
 [sum](/docs/{{version}}/collections#method-sum)
 [take](/docs/{{version}}/collections#method-take)
+[tap](/docs/{{version}}/collections#method-tap)
 [toArray](/docs/{{version}}/collections#method-toarray)
 [toJson](/docs/{{version}}/collections#method-tojson)
 [transform](/docs/{{version}}/collections#method-transform)
 [union](/docs/{{version}}/collections#method-union)
 [unique](/docs/{{version}}/collections#method-unique)
+[uniqueStrict](/docs/{{version}}/collections#method-uniquestrict)
 [values](/docs/{{version}}/collections#method-values)
+[when](/docs/{{version}}/collections#method-when)
 [where](/docs/{{version}}/collections#method-where)
 [whereStrict](/docs/{{version}}/collections#method-wherestrict)
 [whereIn](/docs/{{version}}/collections#method-wherein)
-[whereInLoose](/docs/{{version}}/collections#method-whereinloose)
+[whereInStrict](/docs/{{version}}/collections#method-whereinstrict)
+[whereNotIn](/docs/{{version}}/collections#method-wherenotin)
+[whereNotInStrict](/docs/{{version}}/collections#method-wherenotinstrict)
 [zip](/docs/{{version}}/collections#method-zip)
 
 </div>
 
 <a name="custom-collections"></a>
-## 自定义集合
+## Custom Collections
 
-
-如果你需要使用一个自定义的 `Collection` 对象到自己的扩充方法上，则可以在模型中重写 `newCollection` 方法：
+If you need to use a custom `Collection` object with your own extension methods, you may override the `newCollection` method on your model:
 
     <?php
 
@@ -136,7 +147,7 @@
     class User extends Model
     {
         /**
-         * 创建一个新的 Eloquent 集合实例对象。
+         * Create a new Eloquent Collection instance.
          *
          * @param  array  $models
          * @return \Illuminate\Database\Eloquent\Collection
@@ -147,17 +158,4 @@
         }
     }
 
-
-一旦你定义了 `newCollection` 方法，则可在任何 Eloquent 返回该模型的 `Collection` 实例时，接收到一个你的自定义集合的实例。如果你想要在应用程序的每个模型中使用自定义集合，则应该在所有的模型继承的模型基类中重写 `newCollection` 方法。
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |
-
---- 
-
-> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
-> 
-> 文档永久地址： http://d.laravel-china.org
+Once you have defined a `newCollection` method, you will receive an instance of your custom collection anytime Eloquent returns a `Collection` instance of that model. If you would like to use a custom collection for every model in your application, you should override the `newCollection` method on a base model class that is extended by all of your models.

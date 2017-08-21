@@ -1,43 +1,43 @@
 # Laravel 的远程服务器任务处理器 Envoy
 
-- [简介](#introduction)
-    - [安装](#installation)
-- [编写任务](#writing-tasks)
-    - [任务启动](#setup)
-    - [任务变量](#variables)
-    - [任务故事](#stories)
-    - [多个服务器](#multiple-servers)
-- [运行任务](#running-tasks)
-    - [任务确认](#confirming-task-execution)
-- [通知](#notifications)
+- [Introduction](#introduction)
+    - [Installation](#installation)
+- [Writing Tasks](#writing-tasks)
+    - [Setup](#setup)
+    - [Variables](#variables)
+    - [Stories](#stories)
+    - [Multiple Servers](#multiple-servers)
+- [Running Tasks](#running-tasks)
+    - [Confirming Task Execution](#confirming-task-execution)
+- [Notifications](#notifications)
     - [Slack](#slack)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-[Laravel Envoy](https://github.com/laravel/envoy) 为定义在远程服务器上运行的通用任务提供了一种简洁、轻便的语法。它使用了 Blade 风格的语法，让你可以很方便的启动任务来进行项目部署、Artisan 命令运行等操作。目前，Envoy 只支持 Mac 及 Linux 操作系统。
+[Laravel Envoy](https://github.com/laravel/envoy) provides a clean, minimal syntax for defining common tasks you run on your remote servers. Using Blade style syntax, you can easily setup tasks for deployment, Artisan commands, and more. Currently, Envoy only supports the Mac and Linux operating systems.
 
 <a name="installation"></a>
-### 安装
+### Installation
 
-首先，使用 Composer `global require` 命令来安装 Enovy ：
+First, install Envoy using the Composer `global require` command:
 
-    composer global require "laravel/envoy=~1.0"
+    composer global require laravel/envoy
 
-因为 Composer 的全局库有时会导致包的版本冲突，所以你可以考虑使用 `cgr` ，它是 `composer global require` 命令的一种替代实现 `cgr` 库的安装指导可以在 [GitHub上找到](https://github.com/consolidation-org/cgr)。
+Since global Composer libraries can sometimes cause package version conflicts, you may wish to consider using `cgr`, which is a drop-in replacement for the `composer global require` command. The `cgr` library's installation instructions can be [found on GitHub](https://github.com/consolidation-org/cgr).
 
-> {note} 一定要确保 `~/.composer/vendor/bin` 目录加入到了你的 PATH 中，这样才能在命令行运行 `envoy` 。
+> {note} Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `envoy` executable is found when running the `envoy` command in your terminal.
 
-#### 更新 Envoy
+#### Updating Envoy
 
-你也可以使用 Composer 来更新 Envoy 到最新版本。 要注意 `composer global update` 命令是更新你所有在全局安装的包：
+You may also use Composer to keep your Envoy installation up to date. Issuing the `composer global update` command will update all of your globally installed Composer packages:
 
     composer global update
 
 <a name="writing-tasks"></a>
-## 编写任务
+## Writing Tasks
 
-所有的 Envoy 任务都必须定义在项目根目录的 `Envoy.blade.php` 文件中，这里有个例子：
+All of your Envoy tasks should be defined in an `Envoy.blade.php` file in the root of your project. Here's an example to get you started:
 
     @servers(['web' => ['user@192.168.1.1']])
 
@@ -45,16 +45,16 @@
         ls -la
     @endtask
 
-如你所见， `@servers` 的数组被定义在文件的起始位置处，让你在声明任务时可以在 `on` 选项里参照使用这些服务器。在你的  `@task` 声明里，你可以放置当任务运行时想要在远程服务器运行的 Bash 命令。
+As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
 
-你可以通过指定服务器的 IP 地址为 `127.0.0.1` 来执行本地任务：
+You can force a script to run locally by specifying the server's IP address as `127.0.0.1`:
 
     @servers(['localhost' => '127.0.0.1'])
 
 <a name="setup"></a>
-### 任务启动
+### Setup
 
-有时，你可能想在任务启动前运行一些 PHP 代码。这时可以使用 ```@setup``` 区块在 Envoy 文件中声明变量以及运行普通的 PHP 程序：
+Sometimes, you may need to execute some PHP code before executing your Envoy tasks. You may use the ```@setup``` directive to declare variables and do other general PHP work before any of your other tasks are executed:
 
     @setup
         $now = new DateTime();
@@ -62,7 +62,7 @@
         $environment = isset($env) ? $env : "testing";
     @endsetup
 
-如果你想在任务执行前引入其他 PHP 文件，可以直接在 `Envoy.blade.php` 文件起始位置使用 `@include` ：
+If you need to require other PHP files before your task is executed, you may use the `@include` directive at the top of your `Envoy.blade.php` file:
 
     @include('vendor/autoload.php')
 
@@ -71,13 +71,13 @@
     @endtask
 
 <a name="variables"></a>
-### 任务变量
+### Variables
 
-如果需要的话，你也可以通过命令行选项来传递变量至 Envoy 文件，以便自定义你的任务：
+If needed, you may pass option values into Envoy tasks using the command line:
 
     envoy run deploy --branch=master
 
-你可以通过 Blade 的「echo」语法使用这些选项， 当然也能在任务里用「if」 和循环操作。举例来说，我们在执行 `git pull` 命令前，先检查 `$branch` 变量是否存在：
+You may access the options in your tasks via Blade's "echo" syntax. Of course, you may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
 
     @servers(['web' => '192.168.1.1'])
 
@@ -92,9 +92,9 @@
     @endtask
 
 <a name="stories"></a>
-### 任务故事
+### Stories
 
-任务故事通过一个统一的、便捷的名字来划分一组任务，来让你把小而专的子任务合并到大的任务里。比如说，一个名为  `deploy` 的任务故事可以在它定义范围内列出子任务名字 `git` 和 `composer` 来运行各自对应的任务：
+Stories group a set of tasks under a single, convenient name, allowing you to group small, focused tasks into large tasks. For instance, a `deploy` story may run the `git` and `composer` tasks by listing the task names within its definition:
 
     @servers(['web' => '192.168.1.1'])
 
@@ -111,14 +111,14 @@
         composer install
     @endtask
 
-当 story 写好后，像运行普通任务一样运行它就好了：
+Once the story has been written, you may run it just like a typical task:
 
     envoy run deploy
 
 <a name="multiple-servers"></a>
-### 多个服务器
+### Multiple Servers
 
-你可以在多个服务器上运行任务。首先，增加额外的服务器至你的 `@servers` 声明，每个服务器必须分配一个唯一的名称。一旦你定义好其它服务器，就能够在任务声明的 `on` 数组中列出这些服务器：
+Envoy allows you to easily run a task across multiple servers. First, add additional servers to your `@servers` declaration. Each server should be assigned a unique name. Once you have defined your additional servers, list each of the servers in the task's `on` array:
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -128,9 +128,9 @@
         php artisan migrate
     @endtask
 
-#### 并行运行
+#### Parallel Execution
 
-默认情况下，任务会按照顺序在每个服务器上运行。这意味着任务会在第一个服务器运行完后才跳到第二个。如果你想在多个服务器上并行运行任务，只需简单的在任务声明里加上 `parallel` 选项即可：
+By default, tasks will be executed on each server serially. In other words, a task will finish running on the first server before proceeding to execute on the second server. If you would like to run a task across multiple servers in parallel, add the `parallel` option to your task declaration:
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -141,16 +141,16 @@
     @endtask
 
 <a name="running-tasks"></a>
-## 运行任务
+## Running Tasks
 
-要想运行一个在 `Envoy.blade.php` 文件中定义好的任务或者故事，就执行 Envoy 的 `run` 命令，并将这个任务的名字传递给它。Envoy 会去执行这个任务并且把任务执行过程中的输出给打印出来：
+To run a task or story that is defined in your `Envoy.blade.php` file, execute Envoy's `run` command, passing the name of the task or story you would like to execute. Envoy will run the task and display the output from the servers as the task is running:
 
     envoy run task
 
 <a name="confirming-task-execution"></a>
-### 任务确认
+### Confirming Task Execution
 
-如果你想要在运行任务之前进行提示确认，则可以增加 `confirm` 命令到任务声明。这个选项对于破坏性的操作来说是相当有用的：
+If you would like to be prompted for confirmation before running a given task on your servers, you should add the `confirm` directive to your task declaration. This option is particularly useful for destructive operations:
 
     @task('deploy', ['on' => 'web', 'confirm' => true])
         cd site
@@ -160,35 +160,21 @@
 
 <a name="notifications"></a>
 <a name="hipchat-notifications"></a>
-## 通知
+## Notifications
 
 <a name="slack"></a>
 ### Slack
 
-Envoy 也支持任务执行完毕后发送通知至 [Slack](https://slack.com)。`@slack` 命令接收 Slack hook 网址和频道名称。你可以通在在 Slack 的控制面板上创建 「Incoming WebHooks」 时来检索 webhook 网址。webhook-url 参数必须是 `@slack` 的 Incoming WebHooks 所提供的完整网址：
+Envoy also supports sending notifications to [Slack](https://slack.com) after each task is executed. The `@slack` directive accepts a Slack hook URL and a channel name. You may retrieve your webhook URL by creating an "Incoming WebHooks" integration in your Slack control panel. You should pass the entire webhook URL into the `@slack` directive:
 
     @finished
         @slack('webhook-url', '#bots')
     @endfinished
 
-你可以选择下方的任意一个来作为 channel 参数：
+You may provide one of the following as the channel argument:
 
 <div class="content-list" markdown="1">
-- 如果要发送通知至一个频道： `#channel`
-- 如果要发送通知给一位用户： `@user`
+- To send the notification to a channel: `#channel`
+- To send the notification to a user: `@user`
 </div>
 
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@司维](https://phphub.org/users/11602)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/11602_1487572457.png?imageView2/1/w/380/h/380">  |  翻译  |  [@leon0204](https://github.com/leon0204) at Github  |
-
-
-
---- 
-
-> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
-> 
-> 文档永久地址： http://d.laravel-china.org
