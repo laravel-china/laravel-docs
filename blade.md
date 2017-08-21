@@ -1,24 +1,24 @@
 # Laravel 的 Blade 模板引擎
 
-- [Introduction](#introduction)
-- [Template Inheritance](#template-inheritance)
-    - [Defining A Layout](#defining-a-layout)
-    - [Extending A Layout](#extending-a-layout)
-- [Components & Slots](#components-and-slots)
-- [Displaying Data](#displaying-data)
-    - [Blade & JavaScript Frameworks](#blade-and-javascript-frameworks)
-- [Control Structures](#control-structures)
-    - [If Statements](#if-statements)
+- [简介](#introduction)
+- [模板继承](#template-inheritance)
+    - [定义页面布局](#defining-a-layout)
+    - [继承页面布局](#extending-a-layout)
+- [组件 & Slots](#components-and-slots)
+- [显示数据](#displaying-data)
+    - [Blade & JavaScript 框架](#blade-and-javascript-frameworks)
+- [控制结构](#control-structures)
+    - [If 语句](#if-statements)
     - [Switch Statements](#switch-statements)
-    - [Loops](#loops)
-    - [The Loop Variable](#the-loop-variable)
-    - [Comments](#comments)
+    - [循环](#loops)
+    - [循环变量](#the-loop-variable)
+    - [注释](#comments)
     - [PHP](#php)
-- [Including Sub-Views](#including-sub-views)
-    - [Rendering Views For Collections](#rendering-views-for-collections)
-- [Stacks](#stacks)
-- [Service Injection](#service-injection)
-- [Extending Blade](#extending-blade)
+- [引入子视图](#including-sub-views)
+    - [为集合渲染视图](#rendering-views-for-collections)
+- [堆栈](#stacks)
+- [服务注入](#service-injection)
+- [扩充 Blade](#extending-blade)
     - [Custom If Statements](#custom-if-statements)
 
 <a name="introduction"></a>
@@ -464,9 +464,11 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 > {note} After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
 
 <a name="custom-if-statements"></a>
-### Custom If Statements
+### Custom If Statements 自定义 If 语句「警告」
 
 Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+
+当你要定义一个简单的条件语句的时候，编写一个自定义命令有时比需要的更复杂。因此，blade 提供了一个能够使用 Closures 快速定义条件命令的 `Blade::if` 方法。举个例子，我们来定义一个检测当前应用环境的条件语句。通过 `AppServiceProvider` 中的 `boot` 方法可以实现：
 
     use Illuminate\Support\Facades\Blade;
 
@@ -483,6 +485,8 @@ Programming a custom directive is sometimes more complex than necessary when def
     }
 
 Once the custom conditional has been defined, we can easily use it on our templates:
+
+条件语句定义完成后，就可以在模板里使用了：
 
     @env('local')
         // The application is in the local environment...
