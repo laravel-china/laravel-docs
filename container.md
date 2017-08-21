@@ -37,7 +37,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
         protected $users;
 
         /**
-         * 创建信的控制器实例。
+         * 创建新的控制器实例。
          *
          * @param  UserRepository  $users
          * @return void
@@ -63,7 +63,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 
 在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 可能是通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，所以我们可以容易地切换为其他实现。当测试应用程序时，我们还可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
 
-在构建强大的应用程序，和为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
+在构建强大的应用程序和为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
 
 
 <a name="binding"></a>
@@ -269,3 +269,17 @@ Laravel 的服务容器实现了[PSR-11](https://github.com/php-fig/fig-standard
     });
 
 > {note} 如果标签没有绑定在容器当中，那么调用 `get` 方法将会抛出一个错误。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@kair](http://www.jianshu.com/u/7fdb641c0d01)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18390_1502954686.jpeg?imageView2/1/w/100/h/100">  |  翻译  | [@Aufree](https://github.com/JKair) |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org
