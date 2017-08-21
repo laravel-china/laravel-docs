@@ -65,7 +65,7 @@ Laravel 为每个活跃用户的 Session 自动生成一个 CSRF 「令牌」。
         }
     });
 
-> {tip} 默认情况下， `resources/assets/js/bootstrap.js` 文件会用 Axios HTTP 函数库记录下 `csrf-令牌` meta 标签中的值。如果你不使用这个函数库，则需要为你的应用进行手动配置。
+> {tip} 默认情况下， `resources/assets/js/bootstrap.js` 文件会用 Axios HTTP 函数库记录下 `csrf-token` meta 标签中的值。如果你不使用这个函数库，则需要为你的应用进行手动配置。
 
 <a name="csrf-x-xsrf-token"></a>
 ## X-XSRF-TOKEN
