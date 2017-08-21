@@ -1,7 +1,7 @@
 # Laravel 下的伪造跨站请求保护 CSRF
 
 - [简介](#csrf-introduction)
-- [CRSF令牌和Vue](#csrf-token-vue)
+- [CRSF 令牌和 Vue](#csrf-token-vue)
 - [CSRF 白名单](#csrf-excluding-uris)
 - [X-CSRF-Token](#csrf-x-csrf-token)
 - [X-XSRF-Token](#csrf-x-xsrf-token)
@@ -23,9 +23,9 @@ Laravel 为每个活跃用户的 Session 自动生成一个 CSRF 令牌。该令
 包含在 `web` 中间件组里的 `VerifyCsrfToken` [中间件](/docs/{{version}}/middleware)会自动验证请求里的令牌 `token` 与 Session 中存储的令牌 `token` 是否匹配。
 
 <a name="csrd-token-vue"></a>
-## CRSF令牌和Vue
+## CRSF 令牌和 Vue
 
-如果你使用[Vue.js](https://vuejs.org)框架，没有`make:auth`命令提供的身份验证过渡，那么你需要在你应用的主要布局中手动定义一个`Laravel`Javascript对象。这个对象会指定Vue在做请求时需要的CSRF令牌：
+如果你使用 [Vue.js](https://vuejs.org) 框架，没有 `make:auth` 命令提供的身份验证过渡，那么你需要在你应用的主要布局中手动定义一个 `Laravel` Javascript对象。这个对象会指定 Vue 在做请求时需要的 CSRF 令牌：
  
     <script>
         window.Laravel = {!! json_encode([
