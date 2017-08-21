@@ -273,7 +273,7 @@ Laravel 的服务容器实现了[PSR-11](https://github.com/php-fig/fig-standard
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@kair](http://www.jianshu.com/u/7fdb641c0d01)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18390_1502954686.jpeg?imageView2/1/w/100/h/100">  |  翻译  | [@Aufree](https://github.com/JKair) |
+| [@kair](http://www.jianshu.com/u/7fdb641c0d01)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18390_1502954686.jpeg?imageView2/1/w/100/h/100">  |  翻译  | [@kair](https://github.com/JKair) |
 
 
 --- 
