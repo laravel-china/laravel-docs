@@ -47,6 +47,41 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
             return $user->id == $post->user_id;
         });
     }
+   
+Gates 也可以使用 `Class@method` 形式作为回调字符串，比如控制器
+
+    /**
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+
+        Gate::define('update-post', 'PostPolicy@update');
+    }
+    
+
+#### Resource Gates
+
+你还可以使用 `resource` 方法一次性定义多个 `Gate` 能力
+
+    Gate::resource('posts', 'PostPolicy');
+    
+这与手动定义以下Gate定义相同：
+
+    Gate::define('posts.view', 'PostPolicy@view');
+    Gate::define('posts.create', 'PostPolicy@create');
+    Gate::define('posts.update', 'PostPolicy@update');
+    Gate::define('posts.delete', 'PostPolicy@delete');
+    
+默认情况下，`view`，`create`，`update`，和`delete`能力是被定义过的。你也可以通过将数组作为第三个参数传递给`resource`方法来定义其他功能。数组的键定义了该能力的名称，而该值定义了方法名称：
+
+    Gate::resource('posts', 'PostPolicy', [
+        'posts.photo' => 'updatePhoto',
+        'posts.image' => 'updateImage',
+    ]);
 
 <a name="authorizing-actions-via-gates"></a>
 ### 使用 gates 授权动作
@@ -325,3 +360,12 @@ Laravel 包含一个可以在请求到达路由或控制器之前就进行动作
     @cannot('create', Post::class)
         <!-- 当前用户不可以新建博客 -->
     @endcannot
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

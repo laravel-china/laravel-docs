@@ -97,3 +97,12 @@ Laravel 可以用 seed 类轻松地为数据库填充测试数据。所有的 se
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@houfei](https://github.com/houfei)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3472_1452945992.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 玩咖啡 & 铲屎奴 & 努力回头做码农 [@houfei](https://github.com/houfei) at Github |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

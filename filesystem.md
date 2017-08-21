@@ -379,3 +379,12 @@ Laravel 的 Flysystem 集成提供一系列开箱即用的驱动支持；然而 
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@Rambone](https://github.com/zuoRambo)  | <img class="avatar-66 rm-style" src="http://tva1.sinaimg.cn/crop.0.0.1002.1002.180/92d03bcdjw8f0asasf3m1j20ru0rvaeo.jpg">  |  译者  | php,go求职 简历请发zuoxiaojie@lianjia.com | 
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

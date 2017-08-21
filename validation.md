@@ -378,7 +378,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="named-error-bags"></a>
 ### 命名错误包
 
-如果你在一个一个页面中有多个表单，你也许会希望命名错误信息包 `MessageBag` ，错误信息包允许你从指定的表单中接收错误信息。简单的给 `withErrors` 方法传递第二个参数作为一个名字：
+如果你在一个页面中有多个表单，你也许会希望命名错误信息包 `MessageBag` ，错误信息包允许你从指定的表单中接收错误信息。简单的给 `withErrors` 方法传递第二个参数作为一个名字：
 
     return redirect('register')
                 ->withErrors($validator, 'login');
@@ -1104,3 +1104,12 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@王凯波](http://weibo.com/wangkaibo)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1924_1487053084.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 面向工资编程 😆 [@wangkaibo](https://github.com/wangkaibo/)  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

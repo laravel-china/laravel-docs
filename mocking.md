@@ -293,3 +293,12 @@ Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助
     }
 
 > {note} 不可以模拟 `Request` facade，测试时，如果需要传递指定的数据请使用 HTTP 辅助函数，例如 `get` 和 `post`。类似的，请在你的测试中通过调用 `Config::set` 来模拟 `Config` facade。
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

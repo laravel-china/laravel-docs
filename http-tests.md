@@ -193,3 +193,12 @@ Method  | Description
 `$response->assertExactJson(array $data);`  |  断言该响应包含完全匹配的 JSON 数据。
 `$response->assertJsonStructure(array $structure);`  |  断言该响应存在指定 JSON 结构。
 `$response->assertViewHas($key, $value = null);`  |  断言该响应视图存在指定数据。
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org
