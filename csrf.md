@@ -30,7 +30,7 @@ Laravel 为每个活跃用户的 Session 自动生成一个 CSRF 「令牌」。
 
 有时候你可能希望设置一组并不需要 CSRF 保护的 URI。例如，如果你正在使用 [Stripe](https://stripe.com) 处理付款并使用了他们的 webhook 系统，你会需要将 Stripe webhook 处理的路由排除在 CSRF 保护外，因为 Stripe 并不知道发送给你路由的 CSRF 令牌是什么。
 
-Typically, you should place these kinds of routes outside of the `web` middleware group that the `RouteServiceProvider` applies to all routes in the `routes/web.php` file. However, you may also exclude the routes by adding their URIs to the `$except` property of the `VerifyCsrfToken` middleware:
+一般地，你可以把这类路由放到 `web` 中间件外，因为 `RouteServiceProvider` 适用于 `routes/web.php` 中的所有路由。不过如果一定要这么做，你也可以将这类 URI 添加到 `VerifyCsrfToken` 中间件中的 `$except` 属性来排除对这类路由的 CSRF 保护：
 
     <?php
 
