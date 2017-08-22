@@ -248,9 +248,11 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 <a name="many-to-many"></a>
 ### 多对多
 
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
+多对多关联比 `hasOne` 和 `hasMany` 关联稍微复杂些。这种关联的一个例子就是具有许多角色的用户，而角色也被其他用户共享。例如，许多用户都可以有「管理员」角色。要定义这种关联，需要用到三个数据库表：`users`、`roles` 和 `role_user`。`role_user` 表是以相关联的两个模型数据表、依照字母顺序排列命名的，并且包含 `user_id` 和 `role_id` 字段。
 
 Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. For example, let's define the `roles` method on our `User` model:
+
+多对多关联是通过写一个方法定义的，在方法内部调用 `belongsToMany` 方法并返回其结果。例如，我们在 `User` 模型中定义一个 `roles` 方法：
 
     <?php
 
@@ -261,7 +263,7 @@ Many-to-many relationships are defined by writing a method that returns the resu
     class User extends Model
     {
         /**
-         * The roles that belong to the user.
+         * 获得用户的角色。
          */
         public function roles()
         {
@@ -269,7 +271,7 @@ Many-to-many relationships are defined by writing a method that returns the resu
         }
     }
 
-Once the relationship is defined, you may access the user's roles using the `roles` dynamic property:
+关联关系定义好后，我们就可以通过 `roles` 动态属性获得用户的角色了：
 
     $user = App\User::find(1);
 
@@ -277,21 +279,21 @@ Once the relationship is defined, you may access the user's roles using the `rol
         //
     }
 
-Of course, like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
+当然，如同所有其它的关联类型，您可以调用 `roles` 方法，利用链式调用对查询语句添加约束条件：
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
 
-As mentioned previously, to determine the table name of the relationship's joining table, Eloquent will join the two related model names in alphabetical order. However, you are free to override this convention. You may do so by passing a second argument to the `belongsToMany` method:
+如前所述，为了确定连接表表名，Eloquent 会按照字母顺序合并两个关联模型的名称。 当然，您可以自由地覆盖这个约定，通过给 `belongsToMany` 方法传递第二个参数的形式实现：
 
     return $this->belongsToMany('App\Role', 'role_user');
 
-In addition to customizing the name of the joining table, you may also customize the column names of the keys on the table by passing additional arguments to the `belongsToMany` method. The third argument is the foreign key name of the model on which you are defining the relationship, while the fourth argument is the foreign key name of the model that you are joining to:
+除了自定义连接表表名，您也可以通过给 `belongsToMany` 方法再次传递额外参数的形式来自定义连接表里的键的字段名称。第三个参数是定义此关联的模型在连接表里的键名，第四个参数是另一个模型在连接表里的键名：
 
     return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
 
-#### Defining The Inverse Of The Relationship
+#### 定义反向关联
 
-To define the inverse of a many-to-many relationship, you simply place another call to `belongsToMany` on your related model. To continue our user roles example, let's define the `users` method on the `Role` model:
+定义多对多关联的反向关联，您只要在对方模型里再次调用 `belongsToMany` 方法就可以了。让我们接着以用户角色为例，在 `Role` 模型中定义一个 `users` 方法。
 
     <?php
 
@@ -302,7 +304,7 @@ To define the inverse of a many-to-many relationship, you simply place another c
     class Role extends Model
     {
         /**
-         * The users that belong to the role.
+         * 获得此角色下的用户。
          */
         public function users()
         {
@@ -310,11 +312,11 @@ To define the inverse of a many-to-many relationship, you simply place another c
         }
     }
 
-As you can see, the relationship is defined exactly the same as its `User` counterpart, with the exception of simply referencing the `App\User` model. Since we're reusing the `belongsToMany` method, all of the usual table and key customization options are available when defining the inverse of many-to-many relationships.
+如你所见，除了引入的模型变为 `App\User` 外，其它与在 `User` 模型中定义的完全一样。由于我们重用了 `belongsToMany` 方法，自定义连接表表名和自定义连接表里的键的字段名称在这里同样适用。
 
-#### Retrieving Intermediate Table Columns
+#### 获得中间表字段
 
-As you have already learned, working with many-to-many relations requires the presence of an intermediate table. Eloquent provides some very helpful ways of interacting with this table. For example, let's assume our `User` object has many `Role` objects that it is related to. After accessing this relationship, we may access the intermediate table using the `pivot` attribute on the models:
+您已经学到，多对多关联需要有一个中间表支持，Eloquent 提供了一些有用的方法来和这张表进行交互。例如，假设我们的 `User` 对象关联了许多的 `Role` 对象。在获得这些关联对象后，可以使用模型的 `pivot` 属性访问中间表数据：
 
     $user = App\User::find(1);
 
@@ -322,27 +324,28 @@ As you have already learned, working with many-to-many relations requires the pr
         echo $role->pivot->created_at;
     }
 
-Notice that each `Role` model we retrieve is automatically assigned a `pivot` attribute. This attribute contains a model representing the intermediate table, and may be used like any other Eloquent model.
+需要注意的是，我们取得的每个 `Role` 模型对象，都会被自动赋予 `pivot` 属性，它代表中间表的一个模型对象，能像其它的 Eloquent 模型一样使用。
 
-By default, only the model keys will be present on the `pivot` object. If your pivot table contains extra attributes, you must specify them when defining the relationship:
+默认情况下，`pivot` 对象只包含两个关联模型的键。如果中间表里还有额外字段，则必须在定义关联时明确指出：
 
     return $this->belongsToMany('App\Role')->withPivot('column1', 'column2');
 
-If you want your pivot table to have automatically maintained `created_at` and `updated_at` timestamps, use the `withTimestamps` method on the relationship definition:
+如果您想让中间表自动维护 `created_at` 和 `updated_at` 时间戳，那么在定义关联时加上 `withTimestamps` 方法即可。
 
     return $this->belongsToMany('App\Role')->withTimestamps();
 
-#### Filtering Relationships Via Intermediate Table Columns
+#### 通过中间表过滤关联数据
 
-You can also filter the results returned by `belongsToMany` using the `wherePivot` and `wherePivotIn` methods when defining the relationship:
+在定义关联时，您可以使用 `wherePivot` 和 `wherePivotIn` 方法过滤 `belongsToMany` 返回的结果：
 
     return $this->belongsToMany('App\Role')->wherePivot('approved', 1);
 
     return $this->belongsToMany('App\Role')->wherePivotIn('priority', [1, 2]);
 
-#### Defining Custom Intermediate Table Models
+#### 定义自定义中间表模型
 
-If you would like to define a custom model to represent the intermediate table of your relationship, you may call the `using` method when defining the relationship. All custom models used to represent intermediate tables of relationships must extend the `Illuminate\Database\Eloquent\Relations\Pivot` class. For example, we may define a `Role` which uses a custom `UserRole` pivot model:
+如果您想定义一个自定义模型来表示关联关系中的中间表，可以在定义关联时调用 `using` 方法。所有自定义中间表模型都必须扩展自 `Illuminate\Database\Eloquent\Relations\Pivot` 类。例如，
+我们在写 `Role` 模型的关联时，使用自定义中间表模型 `UserRole`：
 
     <?php
 
@@ -353,7 +356,7 @@ If you would like to define a custom model to represent the intermediate table o
     class Role extends Model
     {
         /**
-         * The users that belong to the role.
+         * 获得此角色下的用户。
          */
         public function users()
         {
@@ -361,7 +364,7 @@ If you would like to define a custom model to represent the intermediate table o
         }
     }
 
-When defining the `UserRole` model, we will extend the `Pivot` class:
+当定义 `UserRole` 模型时，我们要扩展自 `Pivot` 类：
 
     <?php
 
@@ -375,9 +378,11 @@ When defining the `UserRole` model, we will extend the `Pivot` class:
     }
 
 <a name="has-many-through"></a>
-### Has Many Through
+### 远层一对多
 
 The "has-many-through" relationship provides a convenient shortcut for accessing distant relations via an intermediate relation. For example, a `Country` model might have many `Post` models through an intermediate `User` model. In this example, you could easily gather all blog posts for a given country. Let's look at the tables required to define this relationship:
+
+「远层一对多」关联提供了方便、简短的方式通过中间的关联来获取远层的关联。例如，一个 `Country` 模型可以通过中间的 `User` 模型获得多个 `Post` 模型。让我们来看看定义这种关联所需的数据表：
 
     countries
         id - integer
@@ -393,9 +398,9 @@ The "has-many-through" relationship provides a convenient shortcut for accessing
         user_id - integer
         title - string
 
-Though `posts` does not contain a `country_id` column, the `hasManyThrough` relation provides access to a country's posts via `$country->posts`. To perform this query, Eloquent inspects the `country_id` on the intermediate `users` table. After finding the matching user IDs, they are used to query the `posts` table.
+虽然 `posts` 表中不包含 `country_id` 字段，但 `hasManyThrough` 关联能让我们通过 `$country->posts` 访问到一个国家下所有用户发表的博文。为了完成这个查询，Eloquent 会先检查中间表 `users` 的 `country_id` 字段，找到所有匹配的用户 ID 后，使用这些 ID，在 `posts` 表中完成查找。 
 
-Now that we have examined the table structure for the relationship, let's define it on the `Country` model:
+现在，我们已经知道了定义这种关联所需的数据表结构，接下来，让我们在 `Country` 模型中定义它：
 
     <?php
 
@@ -406,7 +411,7 @@ Now that we have examined the table structure for the relationship, let's define
     class Country extends Model
     {
         /**
-         * Get all of the posts for the country.
+         * 获得此国家下所有用户发表的博文。
          */
         public function posts()
         {
@@ -414,9 +419,9 @@ Now that we have examined the table structure for the relationship, let's define
         }
     }
 
-The first argument passed to the `hasManyThrough` method is the name of the final model we wish to access, while the second argument is the name of the intermediate model.
+`hasManyThrough` 方法的第一个参数是我们最终希望访问的模型名称，而第二个参数是中间模型的名称。
 
-Typical Eloquent foreign key conventions will be used when performing the relationship's queries. If you would like to customize the keys of the relationship, you may pass them as the third and fourth arguments to the `hasManyThrough` method. The third argument is the name of the foreign key on the intermediate model. The fourth argument is the name of the foreign key on the final model. The fifth argument is the local key, while the sixth argument is the local key of the intermediate model:
+当执行关联查询时，通常会使用 Eloquent 约定的外键名。如果您想要自定义关联的键，可以通过给 `hasManyThrough` 方法传递第三个和第四个参数实现，第三个参数表示中间模型的外键名，第四个参数表示最终模型的外键名。第五个参数表示本地键名，而第六个参数表示中间模型的本地键名：
 
     class Country extends Model
     {
@@ -425,18 +430,18 @@ Typical Eloquent foreign key conventions will be used when performing the relati
             return $this->hasManyThrough(
                 'App\Post',
                 'App\User',
-                'country_id', // Foreign key on users table...
-                'user_id', // Foreign key on posts table...
-                'id', // Local key on countries table...
-                'id' // Local key on users table...
+                'country_id', // 用户表外键...
+                'user_id', // 博文表外键...
+                'id', // 国家表本地键...
+                'id' // 用户表本地键...
             );
         }
     }
 
 <a name="polymorphic-relations"></a>
-### Polymorphic Relations
+### 多态关联
 
-#### Table Structure
+#### 数据表结构
 
 Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "comment" both posts and videos. Using polymorphic relationships, you can use a single `comments` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
 
@@ -458,7 +463,7 @@ Polymorphic relations allow a model to belong to more than one other model on a 
 
 Two important columns to note are the `commentable_id` and `commentable_type` columns on the `comments` table. The `commentable_id` column will contain the ID value of the post or video, while the `commentable_type` column will contain the class name of the owning model. The `commentable_type` column is how the ORM determines which "type" of owning model to return when accessing the `commentable` relation.
 
-#### Model Structure
+#### 模型结构
 
 Next, let's examine the model definitions needed to build this relationship:
 
