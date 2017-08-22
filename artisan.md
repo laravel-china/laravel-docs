@@ -67,28 +67,28 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
     class SendEmails extends Command
     {
         /**
-         * The name and signature of the console command.
+         * 设置控制台命令的 signature 属性。
          *
          * @var string
          */
         protected $signature = 'email:send {user}';
 
         /**
-         * The console command description.
+         * 设置控制台命令的 description 属性。
          *
          * @var string
          */
         protected $description = 'Send drip e-mails to a user';
 
         /**
-         * The drip e-mail service.
+         * 设置邮件服务的 drip 属性。
          *
          * @var DripEmailer
          */
         protected $drip;
 
         /**
-         * Create a new command instance.
+         * 创建一个新的实例。
          *
          * @param  DripEmailer  $drip
          * @return void
@@ -101,7 +101,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
         }
 
         /**
-         * Execute the console command.
+         * 执行控制台命令。
          *
          * @return mixed
          */
@@ -164,7 +164,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 所有用户提供的参数及选项都被包含在大括号中。在下面的例子中，这个命令会定义了一个 **必须** 的参数： `user` ：
 
     /**
-     * The name and signature of the console command.
+     * 设置控制台命令的 signature 属性。
      *
      * @var string
      */
@@ -184,7 +184,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 选项，类似于参数，是用户输入的另一种格式，选项在命令前有两个连字符号 (`--`) 的前缀，有两种类型的选项：接收一个值和不接受值。选项不接收一个值作为布尔值的 「开关」 。让我们看一个关于这种类型的选项的例子：
 
     /**
-     * The name and signature of the console command.
+     * 设置控制台命令的 signature 属性。
      *
      * @var string
      */
@@ -200,7 +200,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 接下来，我们看下需要传递值的选项。如果用户必须为选项指定一个值，在选项的后面加上一个 `=` 的后缀：
 
     /**
-     * The name and signature of the console command.
+     * 设置控制台命令的 signature 属性。
      *
      * @var string
      */
@@ -244,7 +244,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 您可以为参数和选项分配描述，使用冒号将参数与描述分离开来。如果你需要一个小的额外的空间来定义你的命令，可以进行多行定义：
 
     /**
-     * The name and signature of the console command.
+     * 设置控制台命令的 signature 属性。
      *
      * @var string
      */
@@ -261,7 +261,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 在命令执行时，你可以使用 `argument` 和 `option` 方法获取命令的参数和选项：
 
     /**
-     * Execute the console command.
+     * 执行控制台命令。
      *
      * @return mixed
      */
@@ -292,7 +292,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 除了显示输出，您还可以要求用户在您的命令执行过程中提供输入。 `ask` 方法将会使用给定问题提示用户，接收用户的输入，然后将用户输入返回到你的命令：
 
     /**
-     * Execute the console command.
+     * 执行控制台命令。
      *
      * @return mixed
      */
@@ -333,7 +333,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 可以使用 `line` 、`info` 、 `comment` 、 `question` 和 `error` 方法来将输出发送到终端。每个方法都有适当的 ANSI 颜色来作为他们的标识。例如，使用 `info` 方法在终端显示一条绿色文本消息给用户：
 
     /**
-     * Execute the console command.
+     * 执行控制台命令。
      *
      * @return mixed
      */
@@ -437,7 +437,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 有时候你希望在一个已存在的 Artisan 命令中调用其它命令。你可以使用 `call` 方法， `call` 方法接受命令名称和命令参数的数组：
 
     /**
-     * Execute the console command.
+     * 执行控制台命令。
      *
      * @return mixed
      */
