@@ -48,6 +48,40 @@ Gates 是用来决定用户是否授权访问给定的动作的闭包函数，�
         });
     }
 
+Gates 也可以使用 `Class@method` 风格的回调字符串来定义，比如控制器:
+
+    /**
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+
+        Gate::define('update-post', 'PostPolicy@update');
+    }
+
+#### 资源 Gates
+
+你还可以使用 `resource` 方法一次性定义多个 Gate 功能:
+
+    Gate::resource('posts', 'PostPolicy');
+
+这与手动编写以下 Gate 定义相同：
+
+    Gate::define('posts.view', 'PostPolicy@view');
+    Gate::define('posts.create', 'PostPolicy@create');
+    Gate::define('posts.update', 'PostPolicy@update');
+    Gate::define('posts.delete', 'PostPolicy@delete');
+
+默认情况下将会定义 `view` ， `create` ， `update` ，和 `delete` 功能。 通过将数组作为第三个参数传递给 `resource` 方法，您可以覆盖或添加新功能到默认的功能。 数组的键定义能力的名称，而值定义方法名称。 例如，以下代码将创建两个新的Gate定义： `posts.image` 和 `posts.photo` ：
+
+    Gate::resource('posts', 'PostPolicy', [
+        'image' => 'updateImage',
+        'photo' => 'updatePhoto',
+    ]);
+
 <a name="authorizing-actions-via-gates"></a>
 ### 使用 gates 授权动作
 
