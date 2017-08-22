@@ -4,6 +4,7 @@
 - [编写 CSS](#writing-css)
 - [编写 JavaScript](#writing-javascript)
     - [编写 Vue 组件](#writing-vue-components)
+    - [使用 React](#using-react)
 
 <a name="introduction"></a>
 ## 简介
@@ -20,7 +21,7 @@ Laravel 并没有规定你使用哪个 JavaScript 或 CSS 预处理器，不过�
 
 Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用程序。事实上，你也可以完全不用 JavaScript。不过，Laravel 自带了用 [Vue](https://vuejs.org) 实现的基本脚手架代码来帮你更轻松的开始现代化 JavaScript 编码。Vue 提供了强大的组件化 API 用来构建健壮的 JavaScript 应用程序。
 
-#### Removing The Frontend Scaffolding
+#### 移除前端框架
 
 如果你想从你的应用程序中移除前端框架，可以使用 `preset` Artisan 命令。该命令加上 `none` 选项时，将从应用程序中删除 Bootstrap 和 Vue 框架，只留下一个空白的SASS文件和一些常用的JavaScript实用程序库:
 
