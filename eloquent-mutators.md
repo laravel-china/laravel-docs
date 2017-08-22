@@ -1,4 +1,4 @@
-# Eloquent: 修改器
+# Eloquent： 修改器
 
 - [简介](#introduction)
 - [访问器 & 修改器](#accessors-and-mutators)
@@ -7,11 +7,12 @@
 - [日期转换器](#date-mutators)
 - [属性类型转换](#attribute-casting)
     - [数组 & JSON 转换](#array-and-json-casting)
+    
 
 <a name="introduction"></a>
 ## 简介
 
-访问器和修改器可以让你修改 Eloquent 模型中的属性或者设置它们的值，例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption) 来加密一个被保存在数据库中的值，当你从 Eloquent 模型访问该属性时该值将被自动解密。
+当你在 Eloquent 模型实例中获取或设置某些属性值的时候,访问器和修改器允许你对 Eloquent 属性值进行格式化 。例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption) 来加密一个即将被保存在数据库中的值，当你从 Eloquent 模型访问该属性时其值将被自动解密。
 
 除了自定义访问器和修改器之外，Eloquent 也会自动将日期字段类型转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例或将 [文本字段类型转换成 JSON](#attribute-casting)。
 
@@ -42,8 +43,8 @@
             return ucfirst($value);
         }
     }
-
-如你所见，字段的原始值被传递到访问器中，让你可以编辑修改并返回结果。如果要访问被修改的值，则可以像这样来访问 `first_name` 属性：
+    
+如你所见，字段的原始值被传递到访问器中，允许你对它进行处理并返回结果。如果想获取被修改后的值，你可以在模型实例上访问 `first_name` 属性：
 
     $user = App\User::find(1);
 
@@ -52,7 +53,7 @@
 <a name="defining-a-mutator"></a>
 ### 定义一个修改器
 
-若要定义一个修改器，则须在模型上定义一个 `setFooAttribute` 方法。要访问的 `Foo` 字段需使用「驼峰式」来命名。让我们再来定义 `first_name` 属性的修改器。当我们尝试在模型上设置 `first_name` 的值时，将会自动调用此修改器：
+若要定义一个修改器，则须在模型上定义一个 `setFooAttribute` 方法。要访问的 `Foo` 字段需使用「驼峰式」来命名。让我们再来定义 `first_name` 属性的修改器。当我们尝试在模型上设置 `first_name` 的值时，该修改器将被自动调用：
 
     <?php
 
@@ -74,20 +75,20 @@
         }
     }
 
-修改器会获取属性已经被设置的值，让你可以操作该值并将其设置到 Eloquent 模型内部的 `$attributes` 属性上。举个例子，如果我们尝试将 `first_name` 属性设置成 `Sally`：
+修改器会获取属性已经被设置的值，允许你操作该值并将其设置到 Eloquent 模型内部的 `$attributes` 属性上。举个例子，如果我们尝试将 `first_name` 属性设置成 `Sally`：
 
     $user = App\User::find(1);
 
     $user->first_name = 'Sally';
 
-在这个例子中，`setFirstNameAttribute` 函数将会使用 `Sally` 作为参数来调用。修改器会对该名字使用 `strtolower` 函数并将其值设置于内部的 `$attributes` 数组。
+在这个例子中，`setFirstNameAttribute` 方法在调用的时候会接收 `Sally` 这个值作为参数。接着修改器会使用 `strtolower` 函数并将其值设置到内部的 `$attributes` 数组。
 
 <a name="date-mutators"></a>
 ## 日期转换器
 
-默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，它提供了各种各样的方法，并继承了 PHP 原生的 DateTime 类。
+默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，它继承了 PHP 原生的 DateTime 类，并提供了各种有用的方法。
 
-你可以在模型中自定义哪些字段需要被自动修改，或完全禁止修改，可通过重写模型的 `$dates` 属性来实现：
+你可以可通过重写模型的 `$dates` 属性，在模型中自定义哪些字段需要被自动修改，或完全禁止修改：
 
     <?php
 
@@ -108,8 +109,8 @@
             'deleted_at'
         ];
     }
-
-当某个字段被认为是日期时，你或许想将其数值设置成一个 UNIX 时间戳、日期字符串（`Y-m-d`）、日期时间（ `date-time` ）字符串，当然还有 `DateTime` 或 `Carbon` 实例，然后日期数值将会被自动保存到数据库中：
+    
+当某个字段被认为是日期格式时，你或许想将其数值设置成一个 UNIX 时间戳、日期字符串（`Y-m-d`）、日期时间（ `date-time` ）字符串，当然还有 `DateTime` 或 `Carbon` 实例，并且让日期数值自动保存到你的数据库表中：
 
     $user = App\User::find(1);
 
@@ -117,15 +118,15 @@
 
     $user->save();
 
-如上所述，在 `$dates` 属性中列出的所有属性被获取到时，都将会自动转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，让你可在属性上使用任何 `Carbon` 方法：
+就如上面所说的，当获取到的属性包含在 `$dates` 属性时，都将会自动转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，允许你在属性上使用任意的 `Carbon` 方法：
 
     $user = App\User::find(1);
 
     return $user->deleted_at->getTimestamp();
+    
+#### 日期格式
 
-#### 时间格式
-
-默认情况下，时间戳将会以 `'Y-m-d H:i:s'` 格式化。如果你想要自定义自己的时间戳格式，可在模型中设置 `$dateFormat` 属性。该属性定义了时间属性应如何被保存到数据库，以及模型应被序列化成一个数组或 JSON 格式：
+默认情况下，时间戳将会以 `'Y-m-d H:i:s'` 格式化。如果你想要自定义自己的时间戳格式，可在模型中设置 `$dateFormat` 属性。该属性决定了日期属性应以何种格式被保存到数据表中，以及模型应被序列化成数组或是 JSON 格式：
 
     <?php
 
@@ -146,7 +147,7 @@
 <a name="attribute-casting"></a>
 ## 属性类型转换
 
-`$casts` 属性在模型中提供了将属性转换为常见的数据类型的方法。`$casts` 属性应是一个数组，且键是那些需要被转换的属性名称，值则是代表字段要转换的类型。支持的转换的类型有：
+`$casts` 属性在模型中提供了一个便利的方法来将属性转换为常见的数据类型。`$casts` 属性应是一个数组，且数组的键是那些需要被转换的属性名称，值则是你希望转换的数据类型。支持转换数据类型有：
 
 + integer
 + real
@@ -161,7 +162,7 @@
 + datetime
 + timestamp
 
-例如，`is_admin` 属性以整数（`0` 或 `1`）被保存在我们的数据库中，让我们来把它转换为布尔值：
+例如，让我们转换 `is_admin` 属性，将整数（`0` 或 `1`）转换为布尔值类型：
 
     <?php
 
@@ -181,18 +182,18 @@
         ];
     }
 
-现在当你访问 `is_admin` 属性时，它将会被转换成布尔值，即便保存在数据库里的值是一个整数：
+现在当你访问 `is_admin` 属性时，它将会被转换成布尔值类型，即便保存在数据库里的的值是一个整数类型：
 
     $user = App\User::find(1);
 
     if ($user->is_admin) {
         //
     }
-
+    
 <a name="array-and-json-casting"></a>
 ### 数组 & JSON 转换
 
-若原本字段保存的是被序列化的 JSON，则 `array` 类型转换将会特别有用。例如，在你的数据库中有一个 `JSON` 或 `TEXT` 字段类型，其包含了 被序列化的 JSON，且对该属性添加了 `array` 类型转换。当你在 Eloquent 模型上访问该属性时，它将会被自动反序列化成一个 PHP 数组：
+如果一个字段是以被序列化的 JSON 来存储在数据库中, `array` 类型转换将会非常有用。例如，当你在 Eloquent 模型上访问的某个属性在你的数据库中有一个 `JSON` 或 `TEXT` 字段类型，它包含了 被序列化的 JSON，你又对该字段添加了 `array` 类型转换时，它将会被自动反序列化成一个 PHP 数组：
 
     <?php
 
@@ -211,8 +212,8 @@
             'options' => 'array',
         ];
     }
-
-一旦类型转换被定义，则可以访问 `options` 属性，它将会自动把 JSON 反序列化成一个 PHP 数组。当你设置 `options` 属性的值时，指定的数组将会被自动序列化成 JSON 以便进行保存：
+    
+一旦类型转换被定义，你就可以访问 `options` 属性，它将会自动把 JSON 反序列化成一个 PHP 数组。当你设置 `options` 属性的值时，接收到的数组将会被自动序列化成 JSON 以便进行保存：
 
     $user = App\User::find(1);
 
@@ -226,12 +227,4 @@
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@skyverd](https://laravel-china.org/users/79)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/79_1427370664.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 全桟工程师，[时光博客](https://skyverd.com) |
-
---- 
-
-> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
-> 
-> 文档永久地址： http://d.laravel-china.org
+| [@Ucer](http://codehaoshi.com)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/16042_1493680817.jpeg?imageView2/1/w/200/h/200">  |  翻译  | Php 工程师，[Code好事](http://codehaoshi.com) |
