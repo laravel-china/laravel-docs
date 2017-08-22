@@ -80,7 +80,7 @@ Laravel `package.json` 文件默认会包含一些依赖包来帮助你开始建
 当然，如果你对学习更多编写 Vue 组件的内容感兴趣，你可以读一下 [Vue 官方引导文档](http://vuejs.org/guide/)，它提供了一个透彻、易懂的文档让你一览 Vue 框架的概貌。
 
 <a name="#using-react"></a>
-### 使用 React
+## 使用 React
 如果你偏好用 React 来构建你的 JavaScript 应用程序，Laravel 很容易就能将 Vue 框架替换为 React 框架。在任何新建的 Laravel 应用程序下，你可以用 `preset` 命令加 `react` 选项:
 
     php artisan preset react
