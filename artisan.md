@@ -2,7 +2,7 @@
 
 - [介绍](#introduction)
 - [编写命令](#writing-commands)
-- [生成命令](#generating-commands)
+    - [生成命令](#generating-commands)
     - [命令结构](#command-structure)
     - [闭包命令](#closure-commands)
 - [定义预期的输入](#defining-input-expectations)
