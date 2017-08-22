@@ -1,57 +1,57 @@
 # Laravel 的 HTTP 会话机制
 
-- [Introduction](#introduction)
-    - [Configuration](#configuration)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Using The Session](#using-the-session)
-    - [Retrieving Data](#retrieving-data)
-    - [Storing Data](#storing-data)
-    - [Flash Data](#flash-data)
-    - [Deleting Data](#deleting-data)
-    - [Regenerating The Session ID](#regenerating-the-session-id)
-- [Adding Custom Session Drivers](#adding-custom-session-drivers)
-    - [Implementing The Driver](#implementing-the-driver)
-    - [Registering The Driver](#registering-the-driver)
+- [简介](#introduction)
+    - [配置](#configuration)
+    - [驱动条件](#driver-prerequisites)
+- [使用 Session](#using-the-session)
+    - [获取 Session 数据](#retrieving-data)
+    - [存储 Session 数据](#storing-data)
+    - [闪存数据到 Session](#flash-data)
+    - [删除 Session 数据](#deleting-data)
+    - [重新生成 Session ID](#regenerating-the-session-id)
+- [添加自定义 Session 驱动](#adding-custom-session-drivers)
+    - [实现驱动](#implementing-the-driver)
+    - [注册驱动](#registering-the-driver)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Since HTTP driven applications are stateless, sessions provide a way to store information about the user across multiple requests. Laravel ships with a variety of session backends that are accessed through an expressive, unified API. Support for popular backends such as [Memcached](https://memcached.org), [Redis](http://redis.io), and databases is included out of the box.
+由于 HTTP 是无状态的，Session 提供了一种在多个请求之间存储有关用户信息的方法。Laravel 附带支持了多种 Session 后端驱动，它们都可以通过语义化统一的 API 访问。Laravel 本身支持比较热门的 Session 后端驱动，如 [Memcached](https://memcached.org)、[Redis](http://redis.io) 和数据库。
 
 <a name="configuration"></a>
-### Configuration
+### 配置
 
-The session configuration file is stored at `config/session.php`. Be sure to review the options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications. In production applications, you may consider using the `memcached` or `redis` drivers for even faster session performance.
+Session 相关的配置文件存储在 `config/session.php`。请务必查看此文件中对于你可用的选项。默认设置下，Laravel 的配置是使用文件作为 Session 驱动，大多数情况下能够运行良好。在生产环境下，你可以考虑使用 `memcached` 或 `redis` 驱动来达到更出色的性能表现。
 
-The session `driver` configuration option defines where session data will be stored for each request. Laravel ships with several great drivers out of the box:
+Session 配置的 `driver` 的选项定义了每次请求的 Session 数据的存储位置。Laravel 附带了几个不错且可开箱即用的驱动：
 
 <div class="content-list" markdown="1">
-- `file` - sessions are stored in `storage/framework/sessions`.
-- `cookie` - sessions are stored in secure, encrypted cookies.
-- `database` - sessions are stored in a relational database.
-- `memcached` / `redis` - sessions are stored in one of these fast, cache based stores.
-- `array` - sessions are stored in a PHP array and will not be persisted.
+- `file` - 将 Session 保存在 `storage/framework/sessions`。
+- `cookie` - Session 保存在安全加密的 Cookie 中。
+- `database` - Session 保存在关系型数据库。
+- `memcached` / `redis` - 将 Sessions 保存在其中一个快速且基于缓存的存储系统中。
+- `array` - 将 Sessions 保存在简单的 PHP 数组中，并只存在于本次请求.
 </div>
 
-> {tip} The array driver is used during [testing](/docs/{{version}}/testing) and prevents the data stored in the session from being persisted.
+> {tip} 数组驱动一般用于 [测试](/docs/{{version}}/testing) 防止存储在 Session 的数据被持久化。
 
 <a name="driver-prerequisites"></a>
-### Driver Prerequisites
+### 驱动条件
 
-#### Database
+#### 数据库
 
-When using the `database` session driver, you will need to create a table to contain the session items. Below is an example `Schema` declaration for the table:
+使用 数据库 作为 Session 驱动时，你需要创建一张包含 Session 各项数据的表。以下例子是使用 `Schema` 建表：
 
     Schema::create('sessions', function ($table) {
         $table->string('id')->unique();
-        $table->unsignedInteger('user_id')->nullable();
+        $table->integer('user_id')->nullable();
         $table->string('ip_address', 45)->nullable();
         $table->text('user_agent')->nullable();
         $table->text('payload');
         $table->integer('last_activity');
     });
 
-You may use the `session:table` Artisan command to generate this migration:
+也可以使用 `Artisan` 的 `session:table` 命令生成一个迁移文件：
 
     php artisan session:table
 
@@ -59,15 +59,15 @@ You may use the `session:table` Artisan command to generate this migration:
 
 #### Redis
 
-Before using Redis sessions with Laravel, you will need to install the `predis/predis` package (~1.0) via Composer. You may configure your Redis connections in the `database` configuration file. In the `session` configuration file, the `connection` option may be used to specify which Redis connection is used by the session.
+在使用 Redis 作为 Session 驱动之前，你需要通过 Composer 安装 `predis/predis` 扩展包(~1.0)。你还需要在 `database` 配置文件中指定 Redis 连接参数信息。在 Session 配置文件中的 `connection` 选项中指定 Session 使用的 Redis 连接。
 
 <a name="using-the-session"></a>
-## Using The Session
+## 使用 Session
 
 <a name="retrieving-data"></a>
-### Retrieving Data
+### 获取 Session 数据
 
-There are two primary ways of working with session data in Laravel: the global `session` helper and via a `Request` instance. First, let's look at accessing the session via a `Request` instance, which can be type-hinted on a controller method. Remember, controller method dependencies are automatically injected via the Laravel [service container](/docs/{{version}}/container):
+Laravel 中有两种主要的方式使用 Session 数据的方式：一种是全局的辅助函数 `session`，另一种是通过 HTTP 请求实例。首先，我们先看一下第二种方法，就是通过具有控制器方法类型提示的 HTTP 请求实例来访问 Session。请记住，控制器方法的依赖关系会通过 Laravel 的 [服务容器](/docs/{{version}}/container)自动注入：
 
     <?php
 
@@ -79,7 +79,7 @@ There are two primary ways of working with session data in Laravel: the global `
     class UserController extends Controller
     {
         /**
-         * Show the profile for the given user.
+         * 展示用户个人信息
          *
          * @param  Request  $request
          * @param  int  $id
@@ -93,7 +93,7 @@ There are two primary ways of working with session data in Laravel: the global `
         }
     }
 
-When you retrieve a value from the session, you may also pass a default value as the second argument to the `get` method. This default value will be returned if the specified key does not exist in the session. If you pass a `Closure` as the default value to the `get` method and the requested key does not exist, the `Closure` will be executed and its result returned:
+当从 Session 获取值时，你也可以传递一个默认值作为 `get` 方法的第二个参数。如果 Session 中并不存在指定的键值便会返回传入的默认值。若传递一个闭包作为 `get` 方法的默认值且请求的键值并不存在时，此时 `get` 方法会返回这个闭包函数运行后的返回值：
 
     $value = $request->session()->get('key', 'default');
 
@@ -101,104 +101,104 @@ When you retrieve a value from the session, you may also pass a default value as
         return 'default';
     });
 
-#### The Global Session Helper
+#### 全局 Session 辅助函数
 
-You may also use the global `session` PHP function to retrieve and store data in the session. When the `session` helper is called with a single, string argument, it will return the value of that session key. When the helper is called with an array of key / value pairs, those values will be stored in the session:
+你也可以使用全局的 PHP 函数 `session` 来获取和存储 Session 数据。 使用单个字符串类型的值作为参数调用 `session` 函数时，它将返回字该符串参数对应的 Session 键值。当使用一个 key / value 键值对数组作为参数调用 `session` 函数时，传入的键值将会存入 Session：
 
     Route::get('home', function () {
-        // Retrieve a piece of data from the session...
+        // 获取 Session 中的一条数据...
         $value = session('key');
 
-        // Specifying a default value...
+        // 指定一个默认值...
         $value = session('key', 'default');
 
-        // Store a piece of data in the session...
+        // 存储一条数据至 Session 中...
         session(['key' => 'value']);
     });
 
-> {tip} There is little practical difference between using the session via an HTTP request instance versus using the global `session` helper. Both methods are [testable](/docs/{{version}}/testing) via the `assertSessionHas` method which is available in all of your test cases.
+> {tip} HTTP 请求实例与 `Session` 全局辅助函数使用 Session 并没有实质上的区别。两种方法都是可以通过 `assertSessionHas` 方法 [测试](/docs/{{version}}/testing) ，`assertSessionHas` 方法在所有的测试用例都是可用的。关于测试的更多信息，请阅读文档 [测试](/docs/{{version}}/testing)
 
-#### Retrieving All Session Data
+#### 获取所有 Session 数据
 
-If you would like to retrieve all the data in the session, you may use the `all` method:
+如果你想要获取所有的 Session 数据，可以使用 `all` 方法：
 
     $data = $request->session()->all();
 
-#### Determining If An Item Exists In The Session
+#### 判断某个 Session 值是否存在
 
-To determine if a value is present in the session, you may use the `has` method. The `has` method returns `true` if the value is present and is not `null`:
+使用 `has` 方法检查某个值是否存在于 Session 内，如果该值存在并且不为 null，那么则返回 true：
 
     if ($request->session()->has('users')) {
         //
     }
 
-To determine if a value is present in the session, even if its value is `null`, you may use the `exists` method. The `exists` method returns `true` if the value is present:
+在判断值是否在 Session 中是否存时，如果该值可能为 null，你需要使用 exists 方法，如果该值存在，那么则返回 true：
 
     if ($request->session()->exists('users')) {
         //
     }
 
 <a name="storing-data"></a>
-### Storing Data
+### 存储 Session 数据
 
-To store data in the session, you will typically use the `put` method or the `session` helper:
+存储数据到 Session，你可用使用 `put` 方法，或者 `session` 辅助函数。
 
-    // Via a request instance...
+    // 通过 HTTP 请求实例...
     $request->session()->put('key', 'value');
 
-    // Via the global helper...
+    // 通过全局辅助函数
     session(['key' => 'value']);
 
-#### Pushing To Array Session Values
+#### 保存数据进 Session 数组值中
 
-The `push` method may be used to push a new value onto a session value that is an array. For example, if the `user.teams` key contains an array of team names, you may push a new value onto the array like so:
+push 方法可以将一个新的值加入至一个 Session 数组内。例如，假设 user.teams 这个键是包含团队名称的数组，你可以将一个新的值加入此数组中。比如这样：
 
     $request->session()->push('user.teams', 'developers');
 
-#### Retrieving & Deleting An Item
+#### 从 Session 中取出并删除数据
 
-The `pull` method will retrieve and delete an item from the session in a single statement:
+`pull` 方法将把数据从 Session 内取出，并且删除：
 
     $value = $request->session()->pull('key', 'default');
 
 <a name="flash-data"></a>
-### Flash Data
+### 闪存数据到 Session
 
-Sometimes you may wish to store items in the session only for the next request. You may do so using the `flash` method. Data stored in the session using this method will only be available during the subsequent HTTP request, and then will be deleted. Flash data is primarily useful for short-lived status messages:
+有时候你想存入一条缓存的数据，让它只在下一次的请求内有效，则可以使用 `flash` 方法。使用这个方法保存 session，只能将数据保留到下个 HTTP 请求，然后就会被自动删除。闪存数据在短期的状态消息中很有用：
 
     $request->session()->flash('status', 'Task was successful!');
 
-If you need to keep your flash data around for several requests, you may use the `reflash` method, which will keep all of the flash data for an additional request. If you only need to keep specific flash data, you may use the `keep` method:
+如果需要保留闪存数据给更多请求，可以使用 `reflash` 方法，这将会将所有的闪存数据保留给额外的请求。如果想保留特定的闪存数据，则可以使用 `keep` 方法：
 
     $request->session()->reflash();
 
     $request->session()->keep(['username', 'email']);
 
 <a name="deleting-data"></a>
-### Deleting Data
+### 删除 Session 数据
 
-The `forget` method will remove a piece of data from the session. If you would like to remove all data from the session, you may use the `flush` method:
+`forget` 方法可以从 Session 内删除一条数据。如果你想删除 Session 内所有数据，则可以使用 `flush` 方法：
 
     $request->session()->forget('key');
 
     $request->session()->flush();
 
 <a name="regenerating-the-session-id"></a>
-### Regenerating The Session ID
+### 重新生成 Session ID
 
-Regenerating the session ID is often done in order to prevent malicious users from exploiting a [session fixation](https://en.wikipedia.org/wiki/Session_fixation) attack on your application.
+重新生成 Session ID，通常时为了防止恶意用户利用 [session fixation](https://en.wikipedia.org/wiki/Session_fixation) 对应用进行攻击。
 
-Laravel automatically regenerates the session ID during authentication if you are using the built-in `LoginController`; however, if you need to manually regenerate the session ID, you may use the `regenerate` method.
+如果你使用了内置函数 `LoginController`，那么 Laravel 会自动重新生成 Session ID，否则，你需要手动使用 `regenerate` 方法重新生成 Session ID
 
     $request->session()->regenerate();
 
 <a name="adding-custom-session-drivers"></a>
-## Adding Custom Session Drivers
+## 添加自定义 Session 驱动
 
 <a name="implementing-the-driver"></a>
-#### Implementing The Driver
+#### 实现驱动
 
-Your custom session driver should implement the `SessionHandlerInterface`. This interface contains just a few simple methods we need to implement. A stubbed MongoDB implementation looks something like this:
+你自定义的 Session 驱动必须实现 `SessionHandlerInterface` 接口。这个接口包含了一些基本需要实现的方法。一个基本的 MongoDB 实现应该看起来像这样：
 
     <?php
 
@@ -214,23 +214,23 @@ Your custom session driver should implement the `SessionHandlerInterface`. This 
         public function gc($lifetime) {}
     }
 
-> {tip} Laravel does not ship with a directory to contain your extensions. You are free to place them anywhere you like. In this example, we have created an `Extensions` directory to house the `MongoHandler`.
+> {tip} Laravel 默认没有附带扩展目录，你可以把它放在你喜欢的目录内。在下面这个例子中，我们创建了一个 `Extensions` 目录放置自定义的 `MongoHandler` 扩展。
 
-Since the purpose of these methods is not readily understandable, let's quickly cover what each of the methods do:
+接口中的这些方法不太容易容易理解。让我们来快速了解每个方法的作用：
 
 <div class="content-list" markdown="1">
-- The `open` method would typically be used in file based session store systems. Since Laravel ships with a `file` session driver, you will almost never need to put anything in this method. You can leave it as an empty stub. It is simply a fact of poor interface design (which we'll discuss later) that PHP requires us to implement this method.
-- The `close` method, like the `open` method, can also usually be disregarded. For most drivers, it is not needed.
-- The `read` method should return the string version of the session data associated with the given `$sessionId`. There is no need to do any serialization or other encoding when retrieving or storing session data in your driver, as Laravel will perform the serialization for you.
-- The `write` method should write the given `$data` string associated with the `$sessionId` to some persistent storage system, such as MongoDB, Dynamo, etc.  Again, you should not perform any serialization - Laravel will have already handled that for you.
-- The `destroy` method should remove the data associated with the `$sessionId` from persistent storage.
-- The `gc` method should destroy all session data that is older than the given `$lifetime`, which is a UNIX timestamp. For self-expiring systems like Memcached and Redis, this method may be left empty.
+- `open` 方法通常用于基于文件的 Session 存储系统。因为 Larvel 已经附带了一个 `file` 的驱动，所以在该方法中不需要放置任何代码。PHP 要求必需要有这个方法的实现，但你可以把这方法置空也没关系。
+- `close` 方法跟 `open` 方法很相似，通常也可以被忽略。对大多数的驱动而言，此方法并不是需要的。
+- `read` 方法应当返回与给定的 `$sessionId` 相匹配的 Session 数据的字符串版本。从这个自定义的驱动中获取或存储 Session 数据不需要做任何序列化或其它编码，因为 Laravel 已经为我们做了序列化。
+- `write` 将与 `$sessionId` 关联的特定 `$data` 字符串，写入到持久化存储系统，如 MongoDB、Dynamo 等等。再次重申，你不需要做任何序列化或其它编码，因为 Laravel 会自动处理这些事情。
+- `destroy` 方法从持久化存储中移除 `$sessionId` 对应的数据。
+- `gc` 方法能销毁 `$lifetime` 之前的所有数据，`$lifetime` 是一个 UNIX 的时间戳。对本身拥有过期机制的系统如 Memcached 和 Redis 而言，该方法可以留空。
 </div>
 
 <a name="registering-the-driver"></a>
-#### Registering The Driver
+#### 注册驱动
 
-Once your driver has been implemented, you are ready to register it with the framework. To add additional drivers to Laravel's session backend, you may use the `extend` method on the `Session` [facade](/docs/{{version}}/facades). You should call the `extend` method from the `boot` method of a [service provider](/docs/{{version}}/providers). You may do this from the existing `AppServiceProvider` or create an entirely new provider:
+在 Session 驱动实现了 `SessionHandlerInterface` 接口后，你还需要在框架中注册该驱动，将该扩展驱动添加到 Laravel Session 后端。你可以使用 `Session` Facade 的 `extend` 方法。在 [服务提供者](/docs/{{version}}/providers) 的 `boot` 方法内调用 `extend` 方法。你可用使用已经存在的 `AppServiceProvider` 或者创建一个新的提供者。
 
     <?php
 
@@ -243,7 +243,7 @@ Once your driver has been implemented, you are ready to register it with the fra
     class SessionServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * 提供注册后运行的服务。
          *
          * @return void
          */
@@ -256,7 +256,7 @@ Once your driver has been implemented, you are ready to register it with the fra
         }
 
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定。
          *
          * @return void
          */
@@ -266,4 +266,10 @@ Once your driver has been implemented, you are ready to register it with the fra
         }
     }
 
-Once the session driver has been registered, you may use the `mongo` driver in your `config/session.php` configuration file.
+一旦 Session 驱动被注册，则必须在 `config/session.php` 的配置文件内使用 `Mongo` 驱动。
+
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@wqer1019](https://laravel-china.org/users/5435)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9254545?v=4&s=100">  |  翻译  | laravel是世界上最优雅的框架，[@wqer1019](https://github.com/wqer1019) at Github  |
