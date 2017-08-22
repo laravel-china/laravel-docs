@@ -45,12 +45,12 @@ Laravel 的契约是一组定义框架核心服务的接口。例如，`Illumina
     class Repository
     {
         /**
-         * The cache instance.
+         * 缓存实例。
          */
         protected $cache;
 
         /**
-         * Create a new repository instance.
+         * 创建一个仓库实例。
          *
          * @param  \SomePackage\Cache\Memcached  $cache
          * @return void
@@ -61,7 +61,7 @@ Laravel 的契约是一组定义框架核心服务的接口。例如，`Illumina
         }
 
         /**
-         * Retrieve an Order by ID.
+         * 按照 Id 检索订单
          *
          * @param  int  $id
          * @return Order
@@ -89,12 +89,12 @@ Laravel 的契约是一组定义框架核心服务的接口。例如，`Illumina
     class Repository
     {
         /**
-         * The cache instance.
+         * 缓存实例。
          */
         protected $cache;
 
         /**
-         * Create a new repository instance.
+         * 创建一个仓库实例。
          *
          * @param  Cache  $cache
          * @return void
@@ -134,12 +134,12 @@ Laravel 中的许多类型的类都是通过 [服务容器](/docs/{{version}}/co
     class CacheOrderInformation
     {
         /**
-         * The Redis database implementation.
+         * Redis 数据库实现。
          */
         protected $redis;
 
         /**
-         * Create a new event handler instance.
+         * 创建事件处理器实例。
          *
          * @param  Database  $redis
          * @return void
@@ -150,7 +150,7 @@ Laravel 中的许多类型的类都是通过 [服务容器](/docs/{{version}}/co
         }
 
         /**
-         * Handle the event.
+         * 处理事件。
          *
          * @param  OrderWasPlaced  $event
          * @return void
