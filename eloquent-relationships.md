@@ -1,54 +1,54 @@
 # Eloquent: 关联
 
-- [Introduction](#introduction)
-- [Defining Relationships](#defining-relationships)
-    - [One To One](#one-to-one)
-    - [One To Many](#one-to-many)
-    - [One To Many (Inverse)](#one-to-many-inverse)
-    - [Many To Many](#many-to-many)
-    - [Has Many Through](#has-many-through)
-    - [Polymorphic Relations](#polymorphic-relations)
-    - [Many To Many Polymorphic Relations](#many-to-many-polymorphic-relations)
-- [Querying Relations](#querying-relations)
-    - [Relationship Methods Vs. Dynamic Properties](#relationship-methods-vs-dynamic-properties)
-    - [Querying Relationship Existence](#querying-relationship-existence)
-    - [Querying Relationship Absence](#querying-relationship-absence)
-    - [Counting Related Models](#counting-related-models)
-- [Eager Loading](#eager-loading)
-    - [Constraining Eager Loads](#constraining-eager-loads)
-    - [Lazy Eager Loading](#lazy-eager-loading)
-- [Inserting & Updating Related Models](#inserting-and-updating-related-models)
-    - [The `save` Method](#the-save-method)
-    - [The `create` Method](#the-create-method)
-    - [Belongs To Relationships](#updating-belongs-to-relationships)
-    - [Many To Many Relationships](#updating-many-to-many-relationships)
-- [Touching Parent Timestamps](#touching-parent-timestamps)
+- [简介](#introduction)
+- [定义关联](#defining-relationships)
+    - [一对一](#one-to-one)
+    - [一对多](#one-to-many)
+    - [一对多（反向）](#one-to-many-inverse)
+    - [多对多](#many-to-many)
+    - [远层一对多](#has-many-through)
+    - [多态关联](#polymorphic-relations)
+    - [多对多多态关联](#many-to-many-polymorphic-relations)
+- [查询关联](#querying-relations)
+    - [关联方法 Vs. 动态属性](#relationship-methods-vs-dynamic-properties)
+    - [基于存在的关联查询](#querying-relationship-existence)
+    - [基于不存在的关联查询](#querying-relationship-absence)
+    - [关联数据计数](#counting-related-models)
+- [预加载](#eager-loading)
+    - [为预加载添加约束条件](#constraining-eager-loads)
+    - [延迟预加载](#lazy-eager-loading)
+- [插入 & 更新关联模型](#inserting-and-updating-related-models)
+    - [`save` 方法](#the-save-method)
+    - [`create` 方法](#the-create-method)
+    - [更新 `belongsTo` 关联](#updating-belongs-to-relationships)
+    - [多对多关联](#updating-many-to-many-relationships)
+- [更新父级时间戳](#touching-parent-timestamps)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy, and supports several different types of relationships:
+数据库表通常相互关联。 例如，一篇博客文章可能有许多评论，或者一个订单对应一个下单用户。Eloquent 让这些关联的管理和使用变得简单，并支持多种类型的关联：
 
-- [One To One](#one-to-one)
-- [One To Many](#one-to-many)
-- [Many To Many](#many-to-many)
-- [Has Many Through](#has-many-through)
-- [Polymorphic Relations](#polymorphic-relations)
-- [Many To Many Polymorphic Relations](#many-to-many-polymorphic-relations)
+- [一对一](#one-to-one)
+- [一对多](#one-to-many)
+- [多对多](#many-to-many)
+- [远层一对多](#has-many-through)
+- [多态关联](#polymorphic-relations)
+- [多对多多态关联](#many-to-many-polymorphic-relations)
 
 <a name="defining-relationships"></a>
-## Defining Relationships
+## 定义关联
 
-Eloquent relationships are defined as methods on your Eloquent model classes. Since, like Eloquent models themselves, relationships also serve as powerful [query builders](/docs/{{version}}/queries), defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional constraints on this `posts` relationship:
+Eloquent 关联在 Eloquent 模型类中以方法的形式呈现。如同 Eloquent 模型本身，关联也可以作为强大的 [查询语句构造器](/docs/{{version}}/queries) 使用，提供了强大的链式调用和查询功能。例如，我们可以在 `posts` 关联的链式调用中附加一个约束条件：
 
     $user->posts()->where('active', 1)->get();
 
-But, before diving too deep into using relationships, let's learn how to define each type.
+不过，在深入使用关联之前，让我们先学习如何定义每种关联类型。
 
 <a name="one-to-one"></a>
-### One To One
+### 一对一
 
-A one-to-one relationship is a very basic relation. For example, a `User` model might be associated with one `Phone`. To define this relationship, we place a `phone` method on the `User` model. The `phone` method should call the `hasOne` method and return its result:
+一对一关联是最基本的关联关系。例如，一个 `User` 模型可能关联一个 `Phone` 模型。为了定义这个关联，我们要在 `User` 模型中写一个 `phone` 方法，在`phone` 方法内部调用 `hasOne` 方法并返回其结果：
 
     <?php
 
@@ -59,7 +59,7 @@ A one-to-one relationship is a very basic relation. For example, a `User` model 
     class User extends Model
     {
         /**
-         * Get the phone record associated with the user.
+         * 获得与用户关联的电话记录。
          */
         public function phone()
         {
@@ -67,21 +67,21 @@ A one-to-one relationship is a very basic relation. For example, a `User` model 
         }
     }
 
-The first argument passed to the `hasOne` method is the name of the related model. Once the relationship is defined, we may retrieve the related record using Eloquent's dynamic properties. Dynamic properties allow you to access relationship methods as if they were properties defined on the model:
+`hasOne` 方法的第一个参数是关联模型的类名。关联关系定义好后，我们就可以使用 Eloquent 动态属性获得相关的记录。您可以像在访问模型中定义的属性一样，使用动态属性：
 
     $phone = User::find(1)->phone;
 
-Eloquent determines the foreign key of the relationship based on the model name. In this case, the `Phone` model is automatically assumed to have a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
+Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent 假设 `Phone` 模型有一个 `user_id` 外键，如果外键名不是这个，可以通过给 `hasOne` 方法传递第二个参数覆盖默认使用的外键名： 
 
     return $this->hasOne('App\Phone', 'foreign_key');
 
-Additionally, Eloquent assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Eloquent will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
+此外，Eloquent 假定外键值是与父级 `id`（或自定义 `$primaryKey`）列的值相匹配的。 换句话说，Eloquent 将在 `Phone` 记录的 `user_id` 列中查找与用户表的 `id` 列相匹配的值。 如果您希望该关联使用 `id`以外的自定义键名，则可以通过给 `hasOne` 方法传递第三个参数的形式指定：
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
 
-#### Defining The Inverse Of The Relationship
+#### 定义反向关联
 
-So, we can access the `Phone` model from our `User`. Now, let's define a relationship on the `Phone` model that will let us access the `User` that owns the phone. We can define the inverse of a `hasOne` relationship using the `belongsTo` method:
+我们已经能从 `User` 模型访问到 `Phone` 模型了。现在，再在 `Phone` 模型中定义一个关联，此关联能让我们访问到拥有此电话的 `User` 模型。这时，使用的是与 `hasOne` 方法对应的 `belongsTo` 方法：
 
     <?php
 
@@ -92,7 +92,7 @@ So, we can access the `Phone` model from our `User`. Now, let's define a relatio
     class Phone extends Model
     {
         /**
-         * Get the user that owns the phone.
+         * 获得拥有此电话的用户。
          */
         public function user()
         {
@@ -100,20 +100,20 @@ So, we can access the `Phone` model from our `User`. Now, let's define a relatio
         }
     }
 
-In the example above, Eloquent will try to match the `user_id` from the `Phone` model to an `id` on the `User` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Phone` model is not `user_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+在上面的例子中，Eloquent 会尝试匹配 `Phone` 模型上的 `user_id` 至 `User` 模型上的 `id`。 它是通过检查关系方法的名称并使用 `_id`  作为后缀名来确定默认的外键名称。 但是，如果`Phone`模型的外键不是`user_id`，那么可以将自定义键名作为第二个参数传递给`belongsTo`方法：
 
     /**
-     * Get the user that owns the phone.
+     * 获得拥有此电话的用户。
      */
     public function user()
     {
         return $this->belongsTo('App\User', 'foreign_key');
     }
 
-If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
+如果父级模型没有使用 `id` 作为主键，或者是希望用不同的字段来连接子级模型，则可以通过给 `belongsTo` 方法传递第三个参数的形式指定父级数据表的自定义键：
 
     /**
-     * Get the user that owns the phone.
+     * 获得拥有此电话的用户。
      */
     public function user()
     {
@@ -121,44 +121,44 @@ If your parent model does not use `id` as its primary key, or you wish to join t
     }
 
 <a name="default-models"></a>
-#### Default Models
+#### 默认模型
 
-The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
+`belongsTo` 关联允许定义默认模型，这适应于当关联结果返回的是 `null` 的情况。这种设计模式通常称为 [空对象模式](https://en.wikipedia.org/wiki/Null_Object_pattern)，为您免去了额外的条件判断代码。在下面的例子中，`user` 关联如果没有找到博文的作者，就会返回一个空的 `App\User` 模型。
 
     /**
-     * Get the author of the post.
+     * 获得此博文的作者。
      */
     public function user()
     {
         return $this->belongsTo('App\User')->withDefault();
     }
 
-To populate the default model with attributes, you may pass an array or Closure to the `withDefault` method:
+您也可以通过传递数组或者使用闭包的方式，填充默认模型的属性：
 
     /**
-     * Get the author of the post.
+     * 获得此博文的作者。
      */
     public function user()
     {
         return $this->belongsTo('App\User')->withDefault([
-            'name' => 'Guest Author',
+            'name' => '游客',
         ]);
     }
 
     /**
-     * Get the author of the post.
+     * 获得此博文的作者。
      */
     public function user()
     {
         return $this->belongsTo('App\User')->withDefault(function ($user) {
-            $user->name = 'Guest Author';
+            $user->name = '游客';
         });
     }
 
 <a name="one-to-many"></a>
-### One To Many
+### 一对多
 
-A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
+「一对多」关联用于定义单个模型拥有任意数量的其它关联模型。例如，一篇博客文章可能会有无限多条评论。就像其它的 Eloquent 关联一样，一对多关联的定义也是在 Eloquent 模型中写一个方法：
 
     <?php
 
@@ -169,7 +169,7 @@ A "one-to-many" relationship is used to define relationships where a single mode
     class Post extends Model
     {
         /**
-         * Get the comments for the blog post.
+         * 获得此博客文章的评论。
          */
         public function comments()
         {
@@ -177,9 +177,9 @@ A "one-to-many" relationship is used to define relationships where a single mode
         }
     }
 
-Remember, Eloquent will automatically determine the proper foreign key column on the `Comment` model. By convention, Eloquent will take the "snake case" name of the owning model and suffix it with `_id`. So, for this example, Eloquent will assume the foreign key on the `Comment` model is `post_id`.
+记住，Eloquent 会自动确定 `Comment` 模型上正确的外键字段。按照约定，Eloquent 使用父级模型名的「snake case」形式、加上 `_id` 后缀名作为外键字段。对应到上面的场景，就是 Eloquent 假定 `Comment` 模型对应到 `Post` 模型上的那个外键字段是 `post_id`。
 
-Once the relationship has been defined, we can access the collection of comments by accessing the `comments` property. Remember, since Eloquent provides "dynamic properties", we can access relationship methods as if they were defined as properties on the model:
+关联关系定义好后，我们就可以通过访问 `comments` 属性获得评论集合。记住，因为 Eloquent 提供了「动态属性」，所以我们可以像在访问模型中定义的属性一样，访问关联方法：
 
     $comments = App\Post::find(1)->comments;
 
@@ -187,20 +187,20 @@ Once the relationship has been defined, we can access the collection of comments
         //
     }
 
-Of course, since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
+当然，由于所有的关联还可以作为查询语句构造器使用，因此你可以使用链式调用的方式、在 `comments` 方法上再添加额外的约束条件，获得评论集合：
 
     $comments = App\Post::find(1)->comments()->where('title', 'foo')->first();
 
-Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method:
+形如 `hasOne` 方法，您也可以在使用 `hasMany` 方法的时候，通过传递额外参数来覆盖默认的外键与本地键。
 
     return $this->hasMany('App\Comment', 'foreign_key');
 
     return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
 
 <a name="one-to-many-inverse"></a>
-### One To Many (Inverse)
+### 一对多（反向）
 
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent post. To define the inverse of a `hasMany` relationship, define a relationship function on the child model which calls the `belongsTo` method:
+现在，我们已经能获得一篇博文的所有评论，接着再定义一个通过评论获得所属博文的关联。这个关联是 `hasMany` 关联的反向关联，在子级模型中使用 `belongsTo` 方法定义它：
 
     <?php
 
@@ -211,7 +211,7 @@ Now that we can access all of a post's comments, let's define a relationship to 
     class Comment extends Model
     {
         /**
-         * Get the post that owns the comment.
+         * 获得此评论所属的博文。
          */
         public function post()
         {
@@ -219,26 +219,26 @@ Now that we can access all of a post's comments, let's define a relationship to 
         }
     }
 
-Once the relationship has been defined, we can retrieve the `Post` model for a `Comment` by accessing the `post` "dynamic property":
+关联关系定义好后，我们就可以在 `Comment` 模型上使用 `post` 「动态属性」获得 `Post` 模型了。
 
     $comment = App\Comment::find(1);
 
     echo $comment->post->title;
 
-In the example above, Eloquent will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+在上面的例子中，Eloquent 会尝试用 `Comment` 模型的 `post_id` 与 `Post` 模型的 `id` 进行匹配。默认外键名是 Eloquent 依据关联名、并在关联名后加上 `_id` 后缀确定的。当然，如果 `Comment` 模型的外键不是 `post_id`，那么可以将自定义键名作为第二个参数传递给`belongsTo`方法：
 
     /**
-     * Get the post that owns the comment.
+     * 获得此评论所属的博文。
      */
     public function post()
     {
         return $this->belongsTo('App\Post', 'foreign_key');
     }
 
-If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
+如果父级模型没有使用 `id` 作为主键，或者是希望用不同的字段来连接子级模型，则可以通过给 `belongsTo`方法传递第三个参数的形式指定父级数据表的自定义键：
 
     /**
-     * Get the post that owns the comment.
+     * 获得此评论所属的博文。
      */
     public function post()
     {
@@ -246,7 +246,7 @@ If your parent model does not use `id` as its primary key, or you wish to join t
     }
 
 <a name="many-to-many"></a>
-### Many To Many
+### 多对多
 
 Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
 
