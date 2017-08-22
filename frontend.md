@@ -61,7 +61,7 @@ Laravel `package.json` 文件默认会包含一些依赖包来帮助你开始建
 > {tip} `app.js` 会加载 `resources/assets/js/bootstrap.js` 文件来启动、 配置 Vue，Vue Resource，jQuery，以及其他的 JavaScript 依赖。如果你有额外的 JavaScript 依赖需要去配置，你也可以在这个文件中完成。
 
 <a name="writing-vue-components"></a>
-### 编写 Vue 组件
+## 编写 Vue 组件
 
 全新安装的 Laravel 程序默认会在 `resources/assets/js/components` 中包含一个 `Example.vue` 的 Vue 组件。`Example.vue` 文件是一个 [单文件 Vue 组件](https://vuejs.org/guide/application.html#Single-File-Components) 的示例，单文件 Vue 组件允许我们在同一个文件中编写 JavaScript 和 HTML 模板，它提供了一种非常方便的方式去构建 JavaScript 驱动的应用程序。这个示例组件注册在 `app.js` 文件。
 
