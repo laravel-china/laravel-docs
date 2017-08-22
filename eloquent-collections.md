@@ -169,5 +169,3 @@
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@springjk](https://laravel-china.org/users/4550)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4550_1464580958.png?imageView2/1/w/100/h/100">  |  翻译  | 再怎么说我也是我西北一匹狼 |
-
----
