@@ -4,7 +4,7 @@
 - [编写 CSS](#writing-css)
 - [编写 JavaScript](#writing-javascript)
     - [编写 Vue 组件](#writing-vue-components)
-    - [使用 React ](#using-react)
+    - [使用 React](#using-react)
 
 <a name="introduction"></a>
 ## 简介
@@ -13,13 +13,13 @@ Laravel 并没有规定你使用哪个 JavaScript 或 CSS 预处理器，不过�
 
 #### CSS
 
-[Laravel Mix](/docs/{{version}}/mix) 提供了一个简洁、富有表现力的 API 来编译 SASS 或 Less，这些 CSS 预处理语言扩充了 CSS 语言，增加了诸如变量、混合（mixins）及其他一些强大的功能让编写 CSS 代码变得更加有趣。
+[Laravel Mix](/docs/{{version}}/mix) 提供了一个简洁、富有表现力的 API 用以编译 SASS 或 Less，这些 CSS 预处理语言扩充了 CSS 语言，增加了诸如变量、混合（mixins）及其他一些强大的功能让编写 CSS 代码变得更加有趣。
 
 尽管我们会在这里简要的讨论 CSS 编译的内容，但是，你应该访问 [Laravel Mix 文档](/docs/{{version}}/mix) 获取更多关于编译 SASS 或 Less 的信息。
 
 #### JavaScript
 
-Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用程序。事实上，你也可以完全不用 JavaScript。不过，Laravel 自带了用 [Vue](https://vuejs.org) 实现的基本脚手架代码来帮你更轻松的开始现代化 JavaScript 编码。Vue 提供了强大的组件化 API 用来构建健壮的 JavaScript 应用程序。
+Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用程序。事实上，你也可以完全不用 JavaScript。不过，Laravel 自带了用 [Vue](https://vuejs.org) 实现的基本框架代码来帮你更轻松的开始现代化 JavaScript 编码。Vue 提供了强大的组件化 API 用来构建健壮的 JavaScript 应用程序。
 
 #### 移除前端框架
 
@@ -67,7 +67,7 @@ Laravel `package.json` 文件默认会包含一些依赖包来帮助你开始建
 
     Vue.component('example', require('./components/Example.vue'));
 
-在应用程序中使用示例组件，你只需要简单的将其放到你的 HTML 模板之中。例如，在你运行 `make:auth` Artisan 命令去生成应用的用户认证和注册的脚手架页面后，你可以把组件放到 `home.blade.php` Blade 模板：
+在应用程序中使用示例组件，你只需要简单的将其放到你的 HTML 模板之中。例如，在你运行 `make:auth` Artisan 命令去生成应用的用户认证和注册的框架页面后，你可以把组件放到 `home.blade.php` Blade 模板：
 
     @extends('layouts.app')
 
@@ -79,7 +79,7 @@ Laravel `package.json` 文件默认会包含一些依赖包来帮助你开始建
 
 当然，如果你对学习更多编写 Vue 组件的内容感兴趣，你可以读一下 [Vue 官方引导文档](http://vuejs.org/guide/)，它提供了一个透彻、易懂的文档让你一览 Vue 框架的概貌。
 
-<a name="#using-react"></a>
+<a name="using-react"></a>
 ### 使用 React
 如果你偏好用 React 来构建你的 JavaScript 应用程序，Laravel 很容易就能将 Vue 框架替换为 React 框架。在任何新建的 Laravel 应用程序下，你可以用 `preset` 命令加 `react` 选项:
 
