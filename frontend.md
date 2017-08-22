@@ -4,7 +4,7 @@
 - [编写 CSS](#writing-css)
 - [编写 JavaScript](#writing-javascript)
     - [编写 Vue 组件](#writing-vue-components)
-    - [使用 React](#using-react)
+    - [使用 React ](#using-react)
 
 <a name="introduction"></a>
 ## 简介
