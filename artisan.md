@@ -25,7 +25,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 
     php artisan list
 
-每个命令也包含了「帮助」界面，它会显示并概述命令可使的参数及选项。只需要在命令前面加上 `help` 即可显示命令帮助界面：
+每个命令也包含了「帮助」界面，它会显示并概述命令可使用的参数及选项。只需要在命令前面加上 `help` 即可显示命令帮助界面：
 
     php artisan help migrate
 
@@ -52,7 +52,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 
 命令生成以后，应先填写类的 `signature` 和 `description` 属性，之后在使用 `list` 命令的时候可以显示出来。执行命令的时候会调用 `handle` 方法，可以把你的命令逻辑写到这个方法中。
 
-> {tip} 为了更好的代码复用，保持你的控制台代码轻量并让它们延迟到应用服务中完成任务是个不错的做法。在下面的例子中，请注意到我们注入了一个服务类来完成发送邮件的重任。
+> {tip} 为了更好的代码复用，保持你的控制台代码轻量并让它们延迟到应用服务中完成是个不错的做法。在下面的例子中，请注意到我们注入了一个服务类来完成发送邮件的重任。
 
 让我们看一个简单的命令例子。注意：Command 类构造器允许注入任何依赖。Laravel 的 [服务容器](/docs/{{version}}/container) 将会自动注入构造函数中的所有带类型约束的依赖：
 
@@ -147,7 +147,7 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 
 #### 闭包命令描述
 
-当定义一个基于命令的闭包时，你可以使用 describe 方法来为命令添加描述。这个描述将会在你执行 php artisan list 或 php artisan help 命令时显示：When defining a Closure based command, you may use the `describe` method to add a description to the command. This description will be displayed when you run the `php artisan list` or `php artisan help` commands:
+当定义一个基于命令的闭包时，你可以使用 describe 方法来为命令添加描述。这个描述将会在你执行 php artisan list 或 php artisan help 命令时显示：
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -210,14 +210,14 @@ Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮
 
     php artisan email:send 1 --queue=default
 
-您可以在选项后面设定一个默认值。如果用户没有传递值，将会采用默认的值：
+您可以在选项后面设定一个默认值，如果用户没有传递值，将会采用这个默认值：
 
     email:send {user} {--queue=default}
 
 <a name="option-shortcuts"></a>
 #### 选项快捷键
 
-定义选项时，可以分配一个快捷键。你可以在选项前指定并且使用一个 `|` 分隔符将简写和完整选项名分开：
+定义选项时，可以分配一个快捷键。你可以在选项前指定，并且使用一个 `|` 分隔符将简写和完整选项名分开：
 
     email:send {user} {--Q|queue}
 
@@ -330,7 +330,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 <a name="writing-output"></a>
 ### 编写输出
 
-可以使用 `line` 、`info` 、 `comment` 、 `question` 和 `error` 方法来发送输出到终端。每个方法都有适当的 ANSI 颜色来作为他们的标识。例如，使用 `info` 方法在终端显示一条绿色文本消息给用户：
+可以使用 `line` 、`info` 、 `comment` 、 `question` 和 `error` 方法来将输出发送到终端。每个方法都有适当的 ANSI 颜色来作为他们的标识。例如，使用 `info` 方法在终端显示一条绿色文本消息给用户：
 
     /**
      * Execute the console command.
@@ -405,8 +405,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 <a name="programmatically-executing-commands"></a>
 ## 程序内部调用命令
 
-Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts the name of the command as the first argument, and an array of command parameters as the second argument. The exit code will be returned:
-有时您可能希望在 CLI 之外执行 Artisan 命令。例如，您可能希望从路由或控制器触发 Artisan 命令。 您可以在 `Artisan` facade 上使用 `call` 方法来完成。 `call` 方法接受命令的名称作为第一个参数，命令参数的数组作为第二个参数。 退出代码将被退回：
+有时您可能希望在 CLI 之外执行 Artisan 命令。例如，您可能希望从路由或控制器触发 Artisan 命令。您可以在 `Artisan` facade 上调用 `call` 方法来完成。 `call` 方法接受命令的名称作为第一个参数，命令参数的数组作为第二个参数。 退出代码将被退回：
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
