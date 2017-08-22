@@ -1,60 +1,60 @@
 # Laravel 的 Artisan 命令行工具
 
-- [Introduction](#introduction)
-- [Writing Commands](#writing-commands)
-    - [Generating Commands](#generating-commands)
-    - [Command Structure](#command-structure)
-    - [Closure Commands](#closure-commands)
-- [Defining Input Expectations](#defining-input-expectations)
-    - [Arguments](#arguments)
-    - [Options](#options)
-    - [Input Arrays](#input-arrays)
-    - [Input Descriptions](#input-descriptions)
-- [Command I/O](#command-io)
-    - [Retrieving Input](#retrieving-input)
-    - [Prompting For Input](#prompting-for-input)
-    - [Writing Output](#writing-output)
-- [Registering Commands](#registering-commands)
-- [Programmatically Executing Commands](#programmatically-executing-commands)
-    - [Calling Commands From Other Commands](#calling-commands-from-other-commands)
+- [介绍](#introduction)
+- [编写命令](#writing-commands)
+    - [生成命令](#generating-commands)
+    - [命令结构](#command-structure)
+    - [闭包命令](#closure-commands)
+- [定义预期的输入](#defining-input-expectations)
+    - [参数](#arguments)
+    - [选项](#options)
+    - [输入数组](#input-arrays)
+    - [输入说明](#input-descriptions)
+- [I/O 命令](#command-io)
+    - [获取输入](#retrieving-input)
+    - [输入提示](#prompting-for-input)
+    - [编写输出](#writing-output)
+- [注册命令](#registering-commands)
+- [程序内部调用命令](#programmatically-executing-commands)
+    - [命令中调用其它命令](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
+Artisan 是 Laravel 的命令行接口，它提供了许多实用的命令来帮助你开发 Laravel 应用， 要查看含有所有的 Artisan 命令的列表，可以使用 `list` 命令：
 
     php artisan list
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, simply precede the name of the command with `help`:
+每个命令也包含了「帮助」界面，它会显示并概述命令可使的参数及选项。只需要在命令前面加上 `help` 即可显示命令帮助界面：
 
     php artisan help migrate
 
 #### Laravel REPL
 
-All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+所有的 Laravel 应用都包括 Tinker ，一个基于 [PsySH](https://github.com/bobthecow/psysh) 开发的 REPL 包。 `Tinker` 让你可以在命令行中与你整个的 Laravel 应用进行交互，包括 Eloquent ORM ，任务，事件等等。运行 `tinker`  Artisan 命令进入 Tinker 环境：
 
     php artisan tinker
 
 <a name="writing-commands"></a>
-## Writing Commands
+## 编写命令
 
-In addition to the commands provided with Artisan, you may also build your own custom commands. Commands are typically stored in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.
+除 Artisan 提供的命令之外，还可以创建自定义命令。自定义命令默认存储在 `app/Console/Commands` 目录，当然，你也可以修改 composer.json 文件来指定你想要存放的目录。
 
 <a name="generating-commands"></a>
-### Generating Commands
+### 生成命令
 
-To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
+要创建一个新的命令，可以使用 `make:command` 命令。这个命令会 `app/Console/Commands` 目录里面创建一个命令类。 不必担心不存在这个目录，因为该目录会在第一次运行 `ake:command` 命令时自动创建。生成的命令将会包括所有默认存在的属性和方法：
 
     php artisan make:command SendEmails
 
 <a name="command-structure"></a>
-### Command Structure
+### 命令结构
 
-After generating your command, you should fill in the `signature` and `description` properties of the class, which will be used when displaying your command on the `list` screen. The `handle` method will be called when your command is executed. You may place your command logic in this method.
+命令生成以后，应先填写类的 `signature` 和 `description` 属性，之后在使用 `list` 命令的时候可以显示出来。执行命令的时候会调用 `handle` 方法，可以把你的命令逻辑写到这个方法中。
 
-> {tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example below, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
+> {tip} 为了更好的代码复用，保持你的控制台代码轻量并让它们延迟到应用服务中完成任务是个不错的做法。在下面的例子中，请注意到我们注入了一个服务类来完成发送邮件的重任。
 
-Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor:
+让我们看一个简单的命令例子。注意：Command 类构造器允许注入任何依赖。Laravel 的 [服务容器](/docs/{{version}}/container) 将会自动注入构造函数中的所有带类型约束的依赖：
 
     <?php
 
@@ -112,9 +112,9 @@ Let's take a look at an example command. Note that we are able to inject any dep
     }
 
 <a name="closure-commands"></a>
-### Closure Commands
+### 闭包命令
 
-Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
+闭包命令提供一个替代定义命令方法的类。同样的路由闭包是控制器的一种替代方法，这种命令闭包可以替换命令类。使用 app/Console/Kernel.php 文件的 commands 方法，需要 Laravel 在 routes/console.php 注册：Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
 
     /**
      * Register the Closure based commands for the application.
