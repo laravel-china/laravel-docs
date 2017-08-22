@@ -2,9 +2,9 @@
 
 - [介绍](#introduction)
 - [编写命令](#writing-commands)
- ? ?- [生成命令](#generating-commands)
- ? ?- [命令结构](#command-structure)
- ? ?- [闭包命令](#closure-commands)
+- [生成命令](#generating-commands)
+    - [命令结构](#command-structure)
+    - [闭包命令](#closure-commands)
 - [定义预期的输入](#defining-input-expectations)
     - [参数](#arguments)
     - [选项](#options)
@@ -458,7 +458,9 @@ Sometimes you may wish to execute an Artisan command outside of the CLI. For exa
     ]);
 
 ## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@laravelleon](https://laravel-china.org/users/18113)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18113_1503316311.png?imageView2/1/w/200/h/200">  |  翻译  | 专注于 php 和 Laravel，[@Leonzai](https://github.com/leonzai/) at Github  |
-| [@overtrue](https://github.com/overtrue)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/76_1451276555.png?imageView2/1/w/100/h/100">    |  Review | 大家可以  [加我微博](http://weibo.com/joychaocc) 保持联系 |
+| 用户名                                      | 头像                                       | 职能   | 签名                                       |
+| ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
+| [@laravelleon](https://laravel-china.org/users/18113) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18113_1503316311.png?imageView2/1/w/200/h/200"> | 翻译   | You may delay , but the time will not . [@Leonzai](https://github.com/leonzai/) at Github |
+
+
+
