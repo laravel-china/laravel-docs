@@ -1,12 +1,12 @@
 # Laravel 的辅助函数列表
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
+- [简介](#introduction)
+- [可用方法](#available-methods)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
+Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的很多方法都在 Laravel 框架中使用；如果你觉得方便，你可以在你的应用中自由的使用它们。
 
 <a name="available-methods"></a>
 ## Available Methods
