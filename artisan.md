@@ -459,7 +459,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 ## 译者署名
 | 用户名                                      | 头像                                       | 职能   | 签名                                       |
 | ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
-| [@laravelleon](https://laravel-china.org/users/18113) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18113_1503316311.png?imageView2/1/w/200/h/200"> | 翻译   | You may delay , but the time will not . [@Leonzai](https://github.com/leonzai/) at Github |
+| [@laravelleon](https://laravel-china.org/users/18113) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18113_1503316311.png?imageView2/1/w/100/h/100"> | 翻译   | You may delay , but the time will not . [@Leonzai](https://github.com/leonzai/) at Github |
 
 
 
