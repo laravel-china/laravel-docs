@@ -191,7 +191,7 @@ Method  | Description
 `$response->assertSessionMissing($key);`  |  断言该 Session 不包含指定的键。
 `$response->assertJson(array $data);`  |  断言该响应包含指定的 JSON 数据。
 `$response->assertJsonFragment(array $data);`  |  断言该响应包含指定的 JSON 片段。
-`$response->assertJsonMissing(array $data);`  |  断言该响应不包含包含指定的 JSON 片段。
+`$response->assertJsonMissing(array $data);`  |  断言该响应不包含指定的 JSON 片段。
 `$response->assertExactJson(array $data);`  |  断言该响应包含完全匹配指定的 JSON 数据。
 `$response->assertJsonStructure(array $structure);`  |  断言该响应存在指定的 JSON 结构。
 `$response->assertViewIs($value);`  |  断言该视图响应的视图名称为指定的值。
