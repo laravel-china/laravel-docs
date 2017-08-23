@@ -1,55 +1,76 @@
 # Laravel 发行说明
 
-- [Versioning Scheme](#versioning-scheme)
-- [Support Policy](#support-policy)
+- [版本控制方案](#versioning-scheme)
+- [支持策略](#support-policy)
 - [Laravel 5.5](#laravel-5.5)
 
 <a name="versioning-scheme"></a>
-## Versioning Scheme
+## 版本控制方案
 
-Laravel's versioning scheme maintains the following convention: `paradigm.minor.patch`. Minor framework releases are released every six months (January and July), while patch releases may be released as often as every week. Patch releases should **never** contain breaking changes.
+Laravel 的版本控制方案继续以下约定： `模式版本.小版本.补丁`。较小的框架发布每六个月一次 (每年一月和七月)，补丁发布可能每周一次。补丁版本应该 **永不** 做破坏性变更。
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.5.*`, since minor releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new minor release in one day or less.
+在应用程序中或者包中引用 Laravel 框架或者其中的组件时，你必须总是使用一个版本约束，例如 `5.5.*`，因为小版本变化框架会做破坏性变更。我们努力保证你升级一个新的小版本时使用 1 天或者更少的时间。
 
-Paradigm shifting releases are separated by many years and represent fundamental shifts in the framework's architecture and conventions. Currently, there is no paradigm shifting release under development.
+模式版本会持续许多年，代表框架的架构和底层结构。目前，在开发过程中没有模式版本变更的发布。
 
-#### Why Doesn't Laravel Use Semantic Versioning?
+#### 为什么不使用语义版本控制?
 
-On one hand, all optional components of Laravel (Cashier, Dusk, Valet, Socialite, etc.) **do** use semantic versioning. However, the Laravel framework itself does not. The reason for this is because semantic versioning is a "reductionist" way of determining if two pieces of code are compatible. Even when using semantic versioning, you still must install the upgraded package and run your automated test suite to know if anything is *actually* incompatible with your code base.
+一方面所有 Laravel 可选的组件 (Cashier, Dusk, Valet, Socialite, etc.) **规定** 使用语义版本控制。但是，框架本身没有使用。原因是语义版本是一种「简化」的方法，用于确定两段代码中是否兼容。即使是使用语义版本时，你仍然在安装升级包时运行自动化测试，以了解是否有任何东西 *实际上* 与代码不兼容。
 
-So, instead, the Laravel framework uses a versioning scheme that is more communicative of the actual scope of the release. Furthermore, since patch releases **never** contain intentional breaking changes, you should never receive a breaking change as long as your version constraints follow the `paradigm.minor.*` convention.
+所以相反的框架使用一个版本控制方案，它能更容易的与发布的实际相融合。此外，补丁版本发布 **永不** 包含破坏性变更，你为了不接收到破坏性变更必须保证 `版本.小版本.*` 约定.
 
 <a name="support-policy"></a>
-## Support Policy
+## 支持策略
 
-For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.
+LTS 发布版, 例如 Laravel 5.1, 会有 2 年的 bug  修复和 3 年的安全修复支持。这些发布版提供最长时间的支持和维护。
+
+普通版本，只提供 6 个月的 bug 修复和 1 年的安全修复支持。
+
+
+> [Laravel 的发布路线图](https://laravel-china.org/articles/2594/laravel-release-roadmap) - by [Summer](https://github.com/summerblue)
 
 <a name="laravel-5.5"></a>
 ## Laravel 5.5
 
-Laravel 5.5 continues the improvements made in Laravel 5.4 by adding package auto-detection, auto-registration of console commands, queued job chaining, renderable mailables, renderable and reportable exceptions, more consistent exception handling, database testing improvements, simpler custom validation rules, React front-end presets, `Route::view` and `Route::redirect` methods, "locks" for the Memcached and Redis cache drivers, on-demand notifications, headless Chrome support in Dusk, convenient Blade shortcuts, improved trusted proxy support, and more.
+Laravel 5.5 对 Laravel 5.4 继续改进，添加了：
 
-In addition, Laravel 5.5 coincides with the release of [Laravel Horizon](http://horizon.laravel.com), a beautiful new queue dashboard and configuration system for your Redis based Laravel queues.
+* 包自动检测
+* 控制台命令自动注册
+* 队列工作链
+* 可渲染邮件样式
+* 自定义异常报告
+* 更多一致异常处理
+* 数据库测试改进
+* 简单自定义验证规则
+* React 前端预配置，`Route::view` 和 `Route::redirect` 方法
+* Memcached 和 Redis「锁」机制
+* 按需通知功能
+* Dusk 的隐私模式 Chrome 支持
+* 方便的 Blade 改进，
+* 改进受信端口支持
+* 以及更多
 
-> {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.5/CHANGELOG-5.5.md).
+除此之外， Laravel 5.5 同时发布 [Laravel Horizon](http://horizon.laravel.com)，一个漂亮的新队列监控和配置系统用来管理你的 Redis 队列。
+
+> {tip} 这份文档总结了最值得注意的框架变更，需要了解更多的变更，还需查看 [on GitHub](https://github.com/laravel/framework/blob/5.5/CHANGELOG-5.5.md).
 
 ### Laravel Horizon
 
-Horizon provides a beautiful dashboard and code-driven configuration for your Laravel powered Redis queues. Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.
+Horizon 提供了一个漂亮的界面和代码驱动配置你的框架 Redis 队列。它允许你很容易监控队列系统关键指标，例如吞吐量，运行时间和失败任务。
 
-All of your worker configuration is stored in a single, simple configuration file, allowing your configuration to stay in source control where your entire team can collaborate.
+你所有的配置都存放一个简单的配置文件中，让你可以对配置文件进行版本控制，以更好的和你的团队能够协作。
 
-For more information on Horizon, check out the [full Horizon documentation](/docs/{{version}}/horizon)
+更多关于 Horizon 的信息，请查看 [full Horizon documentation](/docs/{{version}}/horizon)
 
-### Package Discovery
+### 包自动检测
 
-In previous versions of Laravel, installing a package typically required several additional steps such as adding the service provider to your `app` configuration file and registering any relevant facades. However, beginning with Laravel 5.5, Laravel can automatically detect and register service providers and facades for you.
+在之前的框架版本中，安装一个包通常需要几个步骤，例如添加服务提供者到 `app` 配置文件并注册相关门面。现在，在 Laravel 5.5 中框架可以为你自动检测和注册服务提供者和门面。
 
-For example, you can experience this by installing the popular `barryvdh/laravel-debugbar` package into your Laravel application. Once the package is installed via Composer, the debug bar will be available to your application with no additional configuration:
+例如，你可以通过安装 `barryvdh/laravel-debugbar` 这个包进行实验，通过 Composer 来安装它，debug 条可以在你的应用中启用但你无需在配置文件中添加配置它：
 
     composer require barryvdh/laravel-debugbar
 
-Package developers only need to add their service providers and facades to their package's `composer.json` file:
+包开发者只需要添加他们的服务提供者和门面到他们的包的 `composer.json` 文件中：
 
     "extra": {
         "laravel": {
@@ -59,11 +80,11 @@ Package developers only need to add their service providers and facades to their
         }
     },
 
-For more information on updating your packages to use service provider and facade discovery, check out the full documentation on [package development](/docs/{{version}}/packages).
+更多信息，请查看详细文档 [package development](/docs/{{version}}/packages).
 
-### Console Command Auto-Registration
+### 控制台命令自动注册
 
-When creating new console commands, you no longer are required to manually list them in the `$commands` property of your Console kernel. Instead, a new `load` method is called from the `commands` method of your kernel, which will scan the given directory for any console commands and register them automatically:
+当创建一个新的控制台命令，你不再需要必须手动把它们列入到你的 Console kernel 的 `$commands` 属性中，一个新的 `load` 方法会在 kernel 中调用 `commands` 方法，它将扫描给定的目录，并自动注册控制台命令：
 
     /**
      * Register the commands for the application.
@@ -77,34 +98,37 @@ When creating new console commands, you no longer are required to manually list 
         // ...
     }
 
-### New Frontend Presets
+### 新前端预配置
 
-While the basic Vue scaffolding is still included in Laravel 5.5, several new frontend preset options are now available. In a fresh Laravel application, you can swap the Vue scaffolding for React scaffolding using the `preset` command:
+虽然基本的 Vue 脚手架依然包含在 Laravel 5.5 中，几个新的前端配置选项现在也是可用的，一个新创建的应用，你可能会想更换 Vue 脚手架为 React 脚手架，那么使用 `preset` 命令就可以：
 
     php artisan preset react
 
-Or, you can remove the JavaScript and CSS framework scaffolding entirely using the `none` preset. This preset will leave your application with a plain Sass file and a few simple JavaScript utilities:
+或者，你可以移除 JavaScript 和 CSS 框脚手架完全的不使用它们，可以使用 `none`，这个预设配置会为你提供简单的 Sass 和简单的 JavaScript：
 
     php artisan preset none
 
-> {note} These commands are only intended to be run on fresh Laravel installations. They should not be used on existing applications.
+> {note} 这个命令只能用在新创建的框架中，不应该在一个已存在的应用中使用它。
 
-### Queued Job Chaining
+### 队列工作链
 
-Job chaining allows you to specify a list of queued jobs that should be run in sequence. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `withChain` method on any of your dispatchable jobs:
+工作链允许你指定一个队列工作列表，然后这个框架会按照规定顺序允许队列任务，如果一个工作序列失败，则会终止这个工作不再运行。执行队列工作链，你可以在 dispatchable 时使用 `withChain` 方法：
 
     ProvisionServer::withChain([
         new InstallNginx,
         new InstallPhp
     ])->dispatch();
 
-### Validation Rule Objects
+### 验证规则对象
 
-Validation rule objects provide a new, compact way of adding custom validation rules to your application. In previous versions of Laravel, the `Validator::extend` method was used to add custom validation rules via Closures. However, this can grow cumbersome. In Laravel 5.5, a new `make:rule` Artisan command will generate a new validation rule in the `app/Rules` directory:
+验证规则对象提供一个新的将自定义验证规则添加到应用程序的紧凑方式。在以前的框架版本中，`Validator::extend` 方法要想使用必须通过匿名函数添加一个自定义的验证规则。
+
+然而，这会增加麻烦，在 Laravel 5.5 中一个新的 `make:rule` Artisan 命令会创建一个新的验证规则在 `app/Rules` 目录中：
 
     php artisan make:rule ValidName
 
-A rule object only has two methods: `passes` and `message`. The `passes` method receives the attribute value and name, and should return `true` or `false` depending on whether the attribute value is valid or not. The `message` method should return the validation error message that should be used when validation fails:
+一个验证对象只含有两个方法：`passes` 和 `message`。`passes` 方法接收属性值和属性名，并应该返回布尔值，根据是否这个属性值通过或没通过验证。`message` 方法应该返回验证错误信息在验证未通过时：
+
 
     <?php
 
@@ -115,7 +139,7 @@ A rule object only has two methods: `passes` and `message`. The `passes` method 
     class ValidName implements Rule
     {
         /**
-         * Determine if the validation rule passes.
+         * 确定验证通过规则
          *
          * @param  string  $attribute
          * @param  mixed  $value
@@ -127,7 +151,7 @@ A rule object only has two methods: `passes` and `message`. The `passes` method 
         }
 
         /**
-         * Get the validation error message.
+         * 获取验证错误信息
          *
          * @return string
          */
@@ -137,7 +161,7 @@ A rule object only has two methods: `passes` and `message`. The `passes` method 
         }
     }
 
-Once the rule has been defined, you may use it by simply passing an instance of the rule object with your other validation rules:
+一旦规则定义，你就能简单的通过一个验证实例对象，将其应用在验证规则中：
 
     use App\Rules\ValidName;
 
@@ -145,13 +169,13 @@ Once the rule has been defined, you may use it by simply passing an instance of 
         'name' => ['required', new ValidName],
     ]);
 
-### Trusted Proxy Integration
+### 受信端口集成
 
-When running applications behind a load balancer that terminates TLS / SSL certificates, you may notice your application sometimes does not generate HTTPS links. Typically this is because your application is being forwarded traffic from your load balancer on port 80 and does not know it should generate secure links.
+当引用程序运行在负载均衡架构中终止 TLS / SSL，你会注意到你的应用有时不能创建 HTTPS 链接。这通常是因为你的应用流量被转发到负载均衡的 80 端口并且不知道它应该生成安全链接。
 
-To solve this, many Laravel users install the [Trusted Proxies](https://github.com/fideloper/TrustedProxy) package by Chris Fidao. Since this is such a common use case, Chris' package now ships with Laravel 5.5 by default.
+为了解决这个问题，许多 Laravel 安装使用 [Trusted Proxies](https://github.com/fideloper/TrustedProxy) Chris Fidao 编写的包. 因为这是一个常见情况，Chris 的包现在已经默认集成在 Laravel 5.5 中了。
 
-A new `App\Http\Middleware\TrustProxies` middleware is included in the default Laravel 5.5 application. This middleware allows you to quickly customize the proxies that should be trusted by your application:
+一个新的的中间件 `App\Http\Middleware\TrustProxies` 已经默认包含在 Lravel 5.5 中，这个中间件允许你快速自定义受信任的代理：
 
     <?php
 
@@ -163,14 +187,14 @@ A new `App\Http\Middleware\TrustProxies` middleware is included in the default L
     class TrustProxies extends Middleware
     {
         /**
-         * The trusted proxies for this application.
+         * 这个应用程序的可信代理
          *
          * @var array
          */
         protected $proxies;
 
         /**
-         * The current proxy header mappings.
+         * 当前代理头映射
          *
          * @var array
          */
@@ -183,17 +207,17 @@ A new `App\Http\Middleware\TrustProxies` middleware is included in the default L
         ];
     }
 
-### On-Demand Notifications
+### 按需通知
 
-Sometimes you may need to send a notification to someone who is not stored as a "user" of your application. Using the new `Notification::route` method, you may specify ad-hoc notification routing information before sending the notification:
+有时候你可能需要发送一个通知给一些人而不是程序的 「用户」，使用新的 `Notification::route` 方法，你可以在发送之前指定路由选择：
 
     Notification::route('mail', 'taylor@laravel.com')
                 ->route('nexmo', '5555555555')
                 ->send(new InvoicePaid($invoice));
 
-### Renderable Mailables
+### 可渲染邮件样式
 
-Mailables can now be returned directly from routes, allowing you to quickly preview your mailable's designs in the browser:
+邮件现在可直接从路由返回，允许你在浏览器快速预览你的邮件样式：
 
     Route::get('/mailable', function () {
         $invoice = App\Invoice::find(1);
@@ -201,12 +225,12 @@ Mailables can now be returned directly from routes, allowing you to quickly prev
         return new App\Mail\InvoicePaid($invoice);
     });
 
-### Renderable & Reportable Exceptions
+### 自定义异常报告
 
-In previous versions of Laravel, you may have had to resort to "type checking" in your exception handler in order to render a custom response for a given exception. For instance, you may have written code like this in your exception handler's `render` method:
+在之前的版本中，你可能不得不求助于异常处理中的「类型检查」，以便为给定异常呈现自定义响应。在实际中，你可能有在 `render` 方法中写这样的异常处理代码：
 
     /**
-     * Render an exception into an HTTP response.
+     * 渲染一个异常信息给一个 HTTP 响应
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
@@ -221,7 +245,8 @@ In previous versions of Laravel, you may have had to resort to "type checking" i
         return parent::render($request, $exception);
     }
 
-In Laravel 5.5, you may now define a `render` method directly on your exceptions. This allows you to place the custom response rendering logic directly on the exception, which helps avoid conditional logic accumulation in your exception handler. If you would like to also customize the reporting logic for the exception, you may define a `report` method on the class:
+在 Laravel 5.5 中，你可以现在定义一个 `render` 方法直接在你的异常类里，这个方法允许你自定义异常响应的渲染逻辑，这有助于避免异常处理程序中的条件逻辑积累。如果你想要定制改异常的报告逻辑，你可以定义一个 `report` 方法到这个类：
+
 
     <?php
 
@@ -232,7 +257,7 @@ In Laravel 5.5, you may now define a `render` method directly on your exceptions
     class SpecialException extends Exception
     {
         /**
-         * Report the exception.
+         * 报告异常
          *
          * @return void
          */
@@ -242,7 +267,7 @@ In Laravel 5.5, you may now define a `render` method directly on your exceptions
         }
 
         /**
-         * Report the exception.
+         * 渲染异常
          *
          * @param  \Illuminate\Http\Request
          * @return void
@@ -253,9 +278,9 @@ In Laravel 5.5, you may now define a `render` method directly on your exceptions
         }
     }
 
-### Request Validation
+### 请求验证
 
-The `Illuminate\Http\Request` object now provides a `validate` method, allowing you to quickly validate an incoming request from a route Closure or controller:
+`Illuminate\Http\Request` 对象现在提供一个 `validate` 方法, 允许你在匿名函数或控制器中验证传入的请求：
 
     use Illuminate\Http\Request;
 
@@ -268,9 +293,9 @@ The `Illuminate\Http\Request` object now provides a `validate` method, allowing 
         // ...
     });
 
-### Consistent Exception Handling
+### 一致异常处理
 
-Validation exception handling is now consistent throughout the framework. Previously, there were multiple locations in the framework that required customization to change the default format for JSON validation error responses. In addition, the default format for JSON validation responses in Laravel 5.5 now adheres the following convention:
+验证异常处理现在贯穿整个框架。以前，在框架多个位置需要定制，以更改 JSON 验证错误响应的默认格式。此外，Laravel 5.5 中 JSON 验证响应默认格式现在遵守以下约定：
 
     {
         "message": "The given data was invalid.",
@@ -286,12 +311,12 @@ Validation exception handling is now consistent throughout the framework. Previo
         }
     }
 
-All JSON validation error formatting can be controlled by defining a single method on your `App\Exceptions\Handler` class. For example, the following customization will format JSON validation responses using the Laravel 5.4 convention.
+所有的 JSON 验证错误格式化能够在一个方法中控制定义，这个方法在 `App\Exceptions\Handler` 类中。举个例子，下面的自定义将使用 Laravel 5.4 约定进行格式化 JSON 验证响应：
 
     use Illuminate\Validation\ValidationException;
 
     /**
-     * Convert a validation exception into a JSON response.
+     * 将验证异常转换为 JSON 响应
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Validation\ValidationException  $exception
@@ -302,33 +327,33 @@ All JSON validation error formatting can be controlled by defining a single meth
         return response()->json($exception->errors(), $exception->status);
     }
 
-### Cache Locks
+### Cache 锁
 
-The Redis and Memcached cache drivers now have support for obtaining and releasing atomic "locks". This provides a simple method of obtaining arbitrary locks without worrying about race conditions. For example, before performing a task, you may wish to obtain a lock so no other processes attempt the same task that is already in progress:
+框架现在为 Redis 和 Memcached 缓存提供 获得 和 释放 原子 「锁」。这提供了一种简单的方法来获取任意锁，而不必担心竞争条件。举个例子，在执行一个任务之前，你可能希望获得一个锁，以使其他进程在你执行时不尝试相同的任务：
 
     if (Cache::lock('lock-name', 60)->get()) {
-        // Lock obtained for 60 seconds, continue processing...
-
+        // 获得锁 60 秒，继续处理……
+        
         Cache::lock('lock-name')->release();
     } else {
-        // Lock was not able to be obtained...
+        // 无法获得锁……
     }
 
-Or, you may pass a Closure to the `get` method. The Closure will only be executed if the lock can be obtained and the lock will automatically be released after the Closure is executed:
+或者，你可以将一个匿名函数传递给 `get` 方法。这个匿名函数只有在获得锁是才会执行：
 
     Cache::lock('lock-name', 60)->get(function () {
-        // Lock obtained for 60 seconds...
+        // 获得锁 60 秒
     });
-
-In addition, you may "block" until the lock becomes available:
+    
+除此之外，你可以 「阻塞」直到锁可用为止:
 
     if (Cache::lock('lock-name', 60)->block(10)) {
-        // Wait for a maximum of 10 seconds for the lock to become available...
+        // 等待最长10秒的时间，锁可用
     }
 
-### Blade Improvements
+### Blade 改进
 
-Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade now provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+编写一个自定义条件指令时，定义它有时很复杂。因此 Blade 现在提供一个 `Blade::if` 方法允许你使用匿名函数快速自定义一个条件指令。举个例子，定义一个检查当前应用程序环境的自定义条件，我们可以在我们的 `AppServiceProvider` 的 `boot` 方法这样做：
 
     use Illuminate\Support\Facades\Blade;
 
@@ -344,32 +369,40 @@ Programming a custom directive is sometimes more complex than necessary when def
         });
     }
 
-Once the custom conditional has been defined, we can easily use it on our templates:
+一旦定义了自定义条件，我们就可以很容易地在模板上使用它：
 
     @env('local')
-        // The application is in the local environment...
+        // 应用是本地环境...
     @else
-        // The application is not in the local environment...
+        // 应用不是本地环境...
     @endenv
 
-In addition to the ability to easily define custom Blade conditional directives, new shortcuts have been added to quickly check the authentication status of the current user:
+除了增加容易定制的条件判断指令外，还新添加了快捷的快速检查当前用户的身份验证：
 
     @auth
-        // The user is authenticated...
+        // 当前用户已经登录...
     @endauth
 
     @guest
-        // The user is not authenticated...
+        // 当前用户未登录...
     @endguest
 
-### New Routing Methods
+### 新的路由选择方法
 
-If you are defining a route that redirects to another URI, you may now use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
+如果你定义了一个路由然后重定向到另一个 URI，你现在可以使用 `Route::redirect` 方法。这个方法提供方便快捷的重定向工作，而不必为执行简单的重定向定义完整的路由或控制器：
 
     Route::redirect('/here', '/there', 301);
 
-If your route only needs to return a view, you may now use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+如果你的路由仅仅需要返回一个视图，你可以现在使用 `Route::view` 方法，像 `redirect` 方法一样，这个方法提供方便快捷的视图显示而不必为执行简单的重定向定义完整的路由或控制器。`view` 方法接受一个 URI 作为第一个参数，第二个参数是视图的名称，除此之外，你可以提供一个数组数据作为可选参数传递给视图：
 
     Route::view('/welcome', 'welcome');
 
     Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+    
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@dongm2ez](https://github.com/dongm2ez)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9032795?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 欢迎在 [Github](https://github.com/dongm2ez) 上关注我 |
+
+
