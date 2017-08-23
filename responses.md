@@ -100,7 +100,7 @@
         return redirect('home/dashboard');
     });
 
-有时候你可能希望用户重定向到上一级页面，比如提交的表单无效是。这时你可以使用 全局辅助函数 `back` 完成。由于这个功能利用了 [Session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 Session 中间件：
+有时候你可能希望用户重定向到上一级页面，比如提交的表单无效的。这时你可以使用 全局辅助函数 `back` 完成。由于这个功能利用了 [Session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 Session 中间件：
 
     Route::post('user/profile', function () {
         // 验证请求...
@@ -111,7 +111,7 @@
 <a name="redirecting-named-routes"></a>
 ### 重定向至命名路由
 
-当你调用不带参数的 `redirect` 辅助函数时，会返回 `Illuminate\Routing\Redirector` 实例，这个实例允许你调用 `Redirector` 上的任何方法。例如生产一个 `RedirectResponse` 重定向到一个 命命路由 时，可以使用 `route` 方法：
+当你调用不带参数的 `redirect` 辅助函数时，会返回 `Illuminate\Routing\Redirector` 实例，这个实例允许你调用 `Redirector` 上的任何方法。例如生产一个 `RedirectResponse` 重定向到一个 命名路由 时，可以使用 `route` 方法：
 
     return redirect()->route('login');
 
