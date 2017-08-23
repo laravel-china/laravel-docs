@@ -30,7 +30,7 @@
 <a name="resetting-routing"></a>
 ## 路由
 
-Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` 这两个类中包含了发送重置密码链接邮件和重置密码的必要逻辑。所有重置密码需要用到的路由都会通过执行 `make:auth` 这个 Artisan 命令生成：
+Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` 这两个类中分别实现了通过邮件发送重置密码链接和重置密码的逻辑。所有重置密码需要用到的路由都会通过执行 `make:auth` 这个 Artisan 命令生成：
 
     php artisan make:auth
 
