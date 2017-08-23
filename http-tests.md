@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 为 HTTP 请求的生成和发送操作、输出的检查都提供了非常流利的 API。例如，你可以查看下面的这个测试用例:
+Laravel 为 HTTP 请求的生成和输出的检查都提供了非常流畅的 API。例如，你可以查看下面的这个测试用例:
 
     <?php
 
