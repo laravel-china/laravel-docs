@@ -191,7 +191,7 @@ View (Instance)  |  [Illuminate\View\View](https://laravel.com/api/{{version}}/I
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@clayidols](http://blog.clayidols.com)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18490_1503376296.jpeg?imageView2/1/w/100/h/100">  |  Review  |   痴呆哥哥  |
+| [@clayidols](http://blog.clayidols.com)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/21217903?v=4&s=460">  |  Review  |   痴呆哥哥  |
 
 --- 
 
