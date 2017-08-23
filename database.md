@@ -238,7 +238,7 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
 
     DB::commit();
 
-> {tip} Using the `DB` facade's transaction methods also controls transactions for the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
+> {tip}  使用 `DB` facade 的事务方法也适用于 [查询语句构造器](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent)。
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
