@@ -19,25 +19,25 @@
 <a name="resetting-database"></a>
 ## 数据库注意事项
 
-开始之前，请确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` 这个契约。当然，Laravel 框架中包含的 `App\User` 模型已经实现了这个接口，and uses the `Illuminate\Auth\Passwords\CanResetPassword` trait to include the methods needed to implement the interface.
+开始之前，请确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` 这个契约。当然，Laravel 框架中包含的 `App\User` 模型已经实现了这个接口，并且需要使用 `Illuminate\Auth\Passwords\CanResetPassword` 这个 trait 引入实现这个接口的方法。
 
-#### Generating The Reset Token Table Migration
+#### 生成重置令牌的数据表
 
-Next, a table must be created to store the password reset tokens. The migration for this table is included with Laravel out of the box, and resides in the `database/migrations` directory. So, all you need to do is run your database migrations:
+接下来，我们需要创建保存密码重置令牌的数据表。因为 Laravel 已经自带了用于生成这张表的迁移，就存放在 `database/migrations` 目录下， 因此你只需要运行下面的命令就能完成相应数据表的创建：
 
     php artisan migrate
 
 <a name="resetting-routing"></a>
-## Routing
+## 路由
 
-Laravel includes `Auth\ForgotPasswordController` and `Auth\ResetPasswordController` classes that contains the logic necessary to e-mail password reset links and reset user passwords. All of the routes needed to perform password resets may be generated using the `make:auth` Artisan command:
+Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController` 这两个类中包含了发送重置密码链接邮件和重置密码的必要逻辑。所有重置密码需要用到的路由都会通过执行 `make:auth` 这个 Artisan 命令生成：
 
     php artisan make:auth
 
 <a name="resetting-views"></a>
-## Views
+## 视图
 
-Again, Laravel will generate all of the necessary views for password reset when the `make:auth` command is executed. These views are placed in `resources/views/auth/passwords`. You are free to customize them as needed for your application.
+另外，当 Laravel 执行 `make:auth` 命令时，会在 `resources/views/auth/passwords` 目录下生成充值密码所需要的视图文件。当然你可以根据项目需求随意修改这些视图文件。
 
 <a name="after-resetting-passwords"></a>
 ## After Resetting Passwords
