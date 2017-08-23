@@ -136,7 +136,7 @@ Laravel 默认使用 `email` 字段来认证。如果你想用其他字段认证
     class ProfileController extends Controller
     {
         /**
-         * Update the user's profile.
+         * 更新用户的简介。
          *
          * @param  Request  $request
          * @return Response
@@ -332,7 +332,7 @@ To log a user into the application by their ID, you may use the `loginUsingId` m
     class AuthenticateOnceWithBasicAuth
     {
         /**
-         * Handle an incoming request.
+         * 处理传入的 request.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -367,7 +367,7 @@ To log a user into the application by their ID, you may use the `loginUsingId` m
     class AuthServiceProvider extends ServiceProvider
     {
         /**
-         * Register any application authentication / authorization services.
+         * 注册任意用户认证 / 用户授权服务。
          *
          * @return void
          */
@@ -376,7 +376,7 @@ To log a user into the application by their ID, you may use the `loginUsingId` m
             $this->registerPolicies();
 
             Auth::extend('jwt', function ($app, $name, array $config) {
-                // Return an instance of Illuminate\Contracts\Auth\Guard...
+                // 返回一个 Illuminate\Contracts\Auth\Guard 实例...
 
                 return new JwtGuard(Auth::createUserProvider($config['provider']));
             });
@@ -417,7 +417,7 @@ To log a user into the application by their ID, you may use the `loginUsingId` m
             $this->registerPolicies();
 
             Auth::provider('riak', function ($app, array $config) {
-                // Return an instance of Illuminate\Contracts\Auth\UserProvider...
+                // 返回一个 Illuminate\Contracts\Auth\UserProvider 实例...
 
                 return new RiakUserProvider($app->make('riak.connection'));
             });
