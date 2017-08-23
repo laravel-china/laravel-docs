@@ -1052,7 +1052,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-tap"></a>
 #### `tap()` {#collection-method}
 
-`tap` 函数接受两个参数：`$value` 和一个闭包。`$value` 将传递给这个闭包并且 `tap` 函数返回这个值。闭包的返回值是无关紧要。
+`tap` 函数接受两个参数：`$value` 和一个闭包。传入的 `$value` 将会作为闭包函数的传参，处理完后成为 `tap` 的返回值。闭包的返回值是无关紧要（不需要 `return` 关键词）。
 
     $user = tap(User::first(), function ($user) {
         $user->name = 'taylor';
