@@ -75,7 +75,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 
     return $this->hasOne('App\Phone', 'foreign_key');
 
-此外，Eloquent 假定外键值是与父级 `id`（或自定义 `$primaryKey`）列的值相匹配的。 换句话说，Eloquent 将在 `Phone` 记录的 `user_id` 列中查找与用户表的 `id` 列相匹配的值。 如果您希望该关联使用 `id`以外的自定义键名，则可以通过给 `hasOne` 方法传递第三个参数的形式指定：
+此外，Eloquent 假定外键值是与父级 `id`（或自定义 `$primaryKey`）列的值相匹配的。 换句话说，Eloquent 将在 `Phone` 记录的 `user_id` 列中查找与用户表的 `id` 列相匹配的值。 如果您希望该关联使用 `id`以外的自定义键名，则可以给 `hasOne` 方法传递第三个参数：
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
 
@@ -100,7 +100,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
         }
     }
 
-在上面的例子中，Eloquent 会尝试匹配 `Phone` 模型上的 `user_id` 至 `User` 模型上的 `id`。 它是通过检查关系方法的名称并使用 `_id`  作为后缀名来确定默认的外键名称。 但是，如果`Phone`模型的外键不是`user_id`，那么可以将自定义键名作为第二个参数传递给`belongsTo`方法：
+在上面的例子中，Eloquent 会尝试匹配 `Phone` 模型上的 `user_id` 至 `User` 模型上的 `id`。 它是通过检查关系方法的名称并使用 `_id`  作为后缀名来确定默认外键名称的。 但是，如果`Phone`模型的外键不是`user_id`，那么可以将自定义键名作为第二个参数传递给`belongsTo`方法：
 
     /**
      * 获得拥有此电话的用户。
@@ -123,20 +123,20 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 <a name="default-models"></a>
 #### 默认模型
 
-`belongsTo` 关联允许定义默认模型，这适应于当关联结果返回的是 `null` 的情况。这种设计模式通常称为 [空对象模式](https://en.wikipedia.org/wiki/Null_Object_pattern)，为您免去了额外的条件判断代码。在下面的例子中，`user` 关联如果没有找到博文的作者，就会返回一个空的 `App\User` 模型。
+`belongsTo` 关联允许定义默认模型，这适应于当关联结果返回的是 `null` 的情况。这种设计模式通常称为 [空对象模式](https://en.wikipedia.org/wiki/Null_Object_pattern)，为您免去了额外的条件判断代码。在下面的例子中，`user` 关联如果没有找到文章的作者，就会返回一个空的 `App\User` 模型。
 
     /**
-     * 获得此博文的作者。
+     * 获得此文章的作者。
      */
     public function user()
     {
         return $this->belongsTo('App\User')->withDefault();
     }
 
-您也可以通过传递数组或者使用闭包的方式，填充默认模型的属性：
+您也可以通过传递数组或者使用闭包的形式，填充默认模型的属性：
 
     /**
-     * 获得此博文的作者。
+     * 获得此文章的作者。
      */
     public function user()
     {
@@ -146,7 +146,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
     }
 
     /**
-     * 获得此博文的作者。
+     * 获得此文章的作者。
      */
     public function user()
     {
@@ -187,11 +187,11 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
         //
     }
 
-当然，由于所有的关联还可以作为查询语句构造器使用，因此你可以使用链式调用的方式、在 `comments` 方法上再添加额外的约束条件：
+当然，由于所有的关联还可以作为查询语句构造器使用，因此你可以使用链式调用的方式、在 `comments` 方法上添加额外的约束条件：
 
     $comments = App\Post::find(1)->comments()->where('title', 'foo')->first();
 
-形如 `hasOne` 方法，您也可以在使用 `hasMany` 方法的时候，通过传递额外参数来覆盖默认的外键与本地键。
+形如 `hasOne` 方法，您也可以在使用 `hasMany` 方法的时候，通过传递额外参数来覆盖默认使用的外键与本地键。
 
     return $this->hasMany('App\Comment', 'foreign_key');
 
@@ -200,7 +200,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 <a name="one-to-many-inverse"></a>
 ### 一对多（反向）
 
-现在，我们已经能获得一篇博文的所有评论，接着再定义一个通过评论获得所属博文的关联。这个关联是 `hasMany` 关联的反向关联，在子级模型中使用 `belongsTo` 方法定义它：
+现在，我们已经能获得一篇文章的所有评论，接着再定义一个通过评论获得所属文章的关联。这个关联是 `hasMany` 关联的反向关联，在子级模型中使用 `belongsTo` 方法定义它：
 
     <?php
 
@@ -211,7 +211,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
     class Comment extends Model
     {
         /**
-         * 获得此评论所属的博文。
+         * 获得此评论所属的文章。
          */
         public function post()
         {
@@ -228,7 +228,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 在上面的例子中，Eloquent 会尝试用 `Comment` 模型的 `post_id` 与 `Post` 模型的 `id` 进行匹配。默认外键名是 Eloquent 依据关联名、并在关联名后加上 `_id` 后缀确定的。当然，如果 `Comment` 模型的外键不是 `post_id`，那么可以将自定义键名作为第二个参数传递给`belongsTo`方法：
 
     /**
-     * 获得此评论所属的博文。
+     * 获得此评论所属的文章。
      */
     public function post()
     {
@@ -238,7 +238,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 如果父级模型没有使用 `id` 作为主键，或者是希望用不同的字段来连接子级模型，则可以通过给 `belongsTo`方法传递第三个参数的形式指定父级数据表的自定义键：
 
     /**
-     * 获得此评论所属的博文。
+     * 获得此评论所属的文章。
      */
     public function post()
     {
@@ -261,7 +261,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
     class User extends Model
     {
         /**
-         * 获得用户的角色。
+         * 获得此用户的角色。
          */
         public function roles()
         {
@@ -281,11 +281,11 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
 
-如前所述，为了确定连接表表名，Eloquent 会按照字母顺序合并两个关联模型的名称。 当然，您可以自由地覆盖这个约定，通过给 `belongsToMany` 方法传递第二个参数的形式实现：
+如前所述，为了确定连接表表名，Eloquent 会按照字母顺序合并两个关联模型的名称。 当然，您可以自由地覆盖这个约定，通过给 `belongsToMany` 方法指定第二个参数实现：
 
     return $this->belongsToMany('App\Role', 'role_user');
 
-除了自定义连接表表名，您也可以通过给 `belongsToMany` 方法再次传递额外参数的形式来自定义连接表里的键的字段名称。第三个参数是定义此关联的模型在连接表里的键名，第四个参数是另一个模型在连接表里的键名：
+除了自定义连接表表名，您也可以通过给 `belongsToMany` 方法再次传递额外参数来自定义连接表里的键的字段名称。第三个参数是定义此关联的模型在连接表里的键名，第四个参数是另一个模型在连接表里的键名：
 
     return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
 
@@ -378,7 +378,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 <a name="has-many-through"></a>
 ### 远层一对多
 
-「远层一对多」关联提供了方便、简短的方式通过中间的关联来获得远层的关联。例如，一个 `Country` 模型可以通过中间的 `User` 模型获得多个 `Post` 模型。让我们来看看定义这种关联所需的数据表：
+「远层一对多」关联提供了方便、简短的方式通过中间的关联来获得远层的关联。例如，一个 `Country` 模型可以通过中间的 `User` 模型获得多个 `Post` 模型。在这个例子中，您可以轻易地收集给定国家的所有博客文章。让我们来看看定义这种关联所需的数据表：
 
     countries
         id - integer
@@ -394,7 +394,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
         user_id - integer
         title - string
 
-虽然 `posts` 表中不包含 `country_id` 字段，但 `hasManyThrough` 关联能让我们通过 `$country->posts` 访问到一个国家下所有用户发表的博文。为了完成这个查询，Eloquent 会先检查中间表 `users` 的 `country_id` 字段，找到所有匹配的用户 ID 后，使用这些 ID，在 `posts` 表中完成查找。 
+虽然 `posts` 表中不包含 `country_id` 字段，但 `hasManyThrough` 关联能让我们通过 `$country->posts` 访问到一个国家下所有的用户文章。为了完成这个查询，Eloquent 会先检查中间表 `users` 的 `country_id` 字段，找到所有匹配的用户 ID 后，使用这些 ID，在 `posts` 表中完成查找。 
 
 现在，我们已经知道了定义这种关联所需的数据表结构，接下来，让我们在 `Country` 模型中定义它：
 
@@ -407,7 +407,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
     class Country extends Model
     {
         /**
-         * 获得此国家下所有用户发表的博文。
+         * 获得某个国家下所有的用户文章。
          */
         public function posts()
         {
@@ -427,7 +427,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
                 'App\Post',
                 'App\User',
                 'country_id', // 用户表外键...
-                'user_id', // 博文表外键...
+                'user_id', // 文章表外键...
                 'id', // 国家表本地键...
                 'id' // 用户表本地键...
             );
@@ -439,7 +439,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 
 #### 数据表结构
 
-多态关联允许一个模型在单个关联上属于多个其他模型。例如，想象一下使用您应用的用户可以「评论」博文和视频。使用多态关联，您可以用一个 `comments` 表同时满足这两个使用场景。让我们来看看构建这种关联所需的数据表结构：
+多态关联允许一个模型在单个关联上属于多个其他模型。例如，想象一下使用您应用的用户可以「评论」文章和视频。使用多态关联，您可以用一个 `comments` 表同时满足这两个使用场景。让我们来看看构建这种关联所需的数据表结构：
 
     posts
         id - integer
@@ -457,7 +457,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
         commentable_id - integer
         commentable_type - string
 
-`comments` 表中有两个需要注意的重要字段 `commentable_id` 和 `commentable_type`。`commentable_id` 用来保存博文或者视频的 ID 值，而 `commentable_type` 用来保存所属模型的类名。`commentable_type` 是在我们访问 `commentable` 关联时， 让 ORM 确定所属的模型是哪个「类型」。
+`comments` 表中有两个需要注意的重要字段 `commentable_id` 和 `commentable_type`。`commentable_id` 用来保存文章或者视频的 ID 值，而 `commentable_type` 用来保存所属模型的类名。`commentable_type` 是在我们访问 `commentable` 关联时， 让 ORM 确定所属的模型是哪个「类型」。
 
 #### 模型结构
 
@@ -483,7 +483,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
     class Post extends Model
     {
         /**
-         * 获得此博文的所有评论。
+         * 获得此文章的所有评论。
          */
         public function comments()
         {
@@ -504,7 +504,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
 
 #### 获取多态关联
 
-一旦您的数据库表准备好、模型定义完成后，就可以通过模型来访问关联了。例如，我们只要简单地使用 `comments` 动态属性，就可以获得某篇博文下的所有评论：
+一旦您的数据库表准备好、模型定义完成后，就可以通过模型来访问关联了。例如，我们只要简单地使用 `comments` 动态属性，就可以获得某篇文章下的所有评论：
 
     $post = App\Post::find(1);
 
@@ -517,8 +517,6 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
     $comment = App\Comment::find(1);
 
     $commentable = $comment->commentable;
-
-The `commentable` relation on the `Comment` model will return either a `Post` or `Video` instance, depending on which type of model owns the comment.
 
 `Comment` 模型的 `commentable` 关联会返回 `Post` 或者 `Video` 实例，这取决于评论所属的模型类型。
 
@@ -540,7 +538,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 
 #### 数据表结构
 
-除了传统的多态关联，您也可以定义「多对多」的多态关联。例如，`Post` 模型和 `Video` 模型可以共享一个多态关联至 `Tag` 模型。 使用多对多多态关联可以让您在博文和视频中共享唯一的标签列表。首先，我们来看看数据表结构：
+除了传统的多态关联，您也可以定义「多对多」的多态关联。例如，`Post` 模型和 `Video` 模型可以共享一个多态关联至 `Tag` 模型。 使用多对多多态关联可以让您在文章和视频中共享唯一的标签列表。首先，我们来看看数据表结构：
 
     posts
         id - integer
@@ -572,7 +570,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
     class Post extends Model
     {
         /**
-         * 获得此博文的所有标签。
+         * 获得此文章的所有标签。
          */
         public function tags()
         {
@@ -582,7 +580,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 
 #### 定义反向关联
 
-接下里，在 `Tag` 模型中，您应该为每个关联模型定义一个方法。在这个例子里，我们要顶一个 `posts` 方法和一个 `videos` 方法：
+接下里，在 `Tag` 模型中，您应该为每个关联模型定义一个方法。在这个例子里，我们要定义一个 `posts` 方法和一个 `videos` 方法：
 
     <?php
 
@@ -593,7 +591,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
     class Tag extends Model
     {
         /**
-         * 获得此标签下所有的博文。
+         * 获得此标签下所有的文章。
          */
         public function posts()
         {
@@ -611,7 +609,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 
 #### 获取关联
 
-一旦您的数据库表准备好、模型定义完成后，就可以通过模型来访问关联了。例如，我们只要简单地使用 `tags` 动态属性，就可以获得某篇博文的所有标签：
+一旦您的数据库表准备好、模型定义完成后，就可以通过模型来访问关联了。例如，我们只要简单地使用 `tags` 动态属性，就可以获得某篇文章下的所有标签：
 
     $post = App\Post::find(1);
 
@@ -643,7 +641,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
     class User extends Model
     {
         /**
-         * 获得此用户所有的博文。
+         * 获得此用户所有的文章。
          */
         public function posts()
         {
@@ -662,7 +660,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 <a name="relationship-methods-vs-dynamic-properties"></a>
 ### 关联方法 Vs. 动态属性
 
-如果您不需要给 Eloquent 关联查询添加额外约束条件，你可以简单的像访问属性一样访问关联。例如，我们刚刚的 `User` 和 `Post` 模型例子中，我们可以这样访问所有用户的博文：
+如果您不需要给 Eloquent 关联查询添加额外约束条件，你可以简单的像访问属性一样访问关联。例如，我们刚刚的 `User` 和 `Post` 模型例子中，我们可以这样访问所有用户的文章：
 
     $user = App\User::find(1);
 
@@ -677,22 +675,22 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 
 当获取模型记录时，您可能希望根据存在的关联对结果进行限制。例如，您想获得至少有一条评论的所有博客文章。为了实现这个功能，您可以给 `has` 方法传递关联名称：
 
-    // 获得至少有一条评论的所有博客文章...
+    // 获得所有至少有一条评论的文章...
     $posts = App\Post::has('comments')->get();
 
 您也可以指定一个运算符和数目，进一步自定义查询：
 
-    // 获得有三条或三条以上评论的所有博客文章...
+    // 获得所有有三条或三条以上评论的文章...
     $posts = Post::has('comments', '>=', 3)->get();
 
-也可以使用「点」符号构造嵌套的的 `has` 语句。例如，您可以获得所有至少有一条获赞评论的博客文章：
+也可以使用「点」符号构造嵌套的的 `has` 语句。例如，您可以获得所有至少有一条获赞评论的文章：
 
-    // 获得所有至少有一条获赞评论的博客文章...
+    // 获得所有至少有一条获赞评论的文章...
     $posts = Post::has('comments.votes')->get();
 
 如果您需要更高级的用法，可以使用 `whereHas`和 `orWhereHas` 方法在 `has` 查询里设置「where」条件。此方法可以让你增加自定义条件至关联约束中，例如对评论内容进行检查：
 
-    // 获得至少有一条评论内容满足 foo% 条件的所有博客文章
+    // 获得所有至少有一条评论内容满足 foo% 条件的文章
     $posts = Post::whereHas('comments', function ($query) {
         $query->where('content', 'like', 'foo%');
     })->get();
@@ -701,7 +699,6 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 ### 基于不存在的关联查询
 
 当获取模型记录时，您可能希望根据不存在的关联对结果进行限制。例如，您想获得 **没有** 任何评论的所有博客文章。为了实现这个功能，您可以给 `doesntHave` 方法传递关联名称：
-
 
     $posts = App\Post::doesntHave('comments')->get();
 
@@ -862,8 +859,6 @@ Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如�
 <a name="the-create-method"></a>
 ### `create` 方法
 
-In addition to the `save` and `saveMany` methods, you may also use the `create` method, which accepts an array of attributes, creates a model, and inserts it into the database. Again, the difference between `save` and `create` is that `save` accepts a full Eloquent model instance while `create` accepts a plain PHP `array`:
-
 除了 `save` 和 `saveMany` 方法，您也可以使用 `create` 方法，它接收一个属性数组、创建模型并插入数据库。还有，`save` 和 `create` 的不同之处在于，`save` 接收的是一个完整的 Eloquent 模型实例，而 `create` 接收的是一个纯 PHP 数组：
 
     $post = App\Post::find(1);
@@ -924,7 +919,7 @@ Eloquent 也提供了几个额外的辅助方法，让操作关联模型更加�
     // 移除用户的一个角色...
     $user->roles()->detach($roleId);
 
-    // 用户用户的所有角色...
+    // 移除用户的所有角色...
     $user->roles()->detach();
 
 为了方便，`attach` 和 `detach` 都允许传入 ID 数组：
@@ -954,7 +949,7 @@ Eloquent 也提供了几个额外的辅助方法，让操作关联模型更加�
 
 #### 切换关联
 
-多对多关联也提供了一个 `toggle` 方法用于「切换」给定 IDs 的附加状态。如果给定 ID 已附加，会被移除。同样的，如果给定 ID 已移除，就被附加：
+多对多关联也提供了一个 `toggle` 方法用于「切换」给定 IDs 的附加状态。如果给定 ID 已附加，就会被移除。同样的，如果给定 ID 已移除，就会被附加：
 
     $user->roles()->toggle([1, 2, 3]);
 
@@ -965,8 +960,6 @@ Eloquent 也提供了几个额外的辅助方法，让操作关联模型更加�
     App\User::find(1)->roles()->save($role, ['expires' => $expires]);
 
 #### 更新中间表记录
-
-If you need to update an existing row in your pivot table, you may use `updateExistingPivot` method. This method accepts the pivot record foreign key and an array of attributes to update:
 
 如果您需要更新中间表中已存在的记录，可以使用 `updateExistingPivot` 方法。此方法接收中间记录的外键和一个属性数组进行更新：
 
@@ -1007,7 +1000,7 @@ If you need to update an existing row in your pivot table, you may use `updateEx
 
     $comment = App\Comment::find(1);
 
-    $comment->text = 'Edit to this comment!';
+    $comment->text = '编辑了这条评论！';
 
     $comment->save();
 
