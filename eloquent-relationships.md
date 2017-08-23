@@ -1,4 +1,4 @@
-# Eloquent: 关联
+# Eloquent：关联
 
 - [简介](#introduction)
 - [定义关联](#defining-relationships)
@@ -820,7 +820,7 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 <a name="lazy-eager-loading"></a>
 ### 延迟预加载
 
-有时，您可能需要在获得父级模型后才去预加载关联数据。例如，当你需要来动态决定是否加载关联模型时，这可能有帮助：
+有时，您可能需要在获得父级模型后才去预加载关联数据。例如，当你需要来动态决定是否加载关联模型时，这可能很有帮助：
 
     $books = App\Book::all();
 
@@ -840,25 +840,23 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 <a name="the-save-method"></a>
 ### `save` 方法
 
-Eloquent provides convenient methods for adding new models to relationships. For example, perhaps you need to insert a new `Comment` for a `Post` model. Instead of manually setting the `post_id` attribute on the `Comment`, you may insert the `Comment` directly from the relationship's `save` method:
+Eloquent 提供了便捷的方法来将新的模型增加至关联中。例如，也许你需要为一个 `Post` 模型插入一个新的 `Comment`。这是你无须为 `Comment` 手动设置 `posts` 属性，直接在关联上使用 `save` 方法插入 `Comment` 即可：
 
-
-
-    $comment = new App\Comment(['message' => 'A new comment.']);
+    $comment = new App\Comment(['message' => '一条新的评论。']);
 
     $post = App\Post::find(1);
 
     $post->comments()->save($comment);
 
-Notice that we did not access the `comments` relationship as a dynamic property. Instead, we called the `comments` method to obtain an instance of the relationship. The `save` method will automatically add the appropriate `post_id` value to the new `Comment` model.
+需要注意的是，我们没有使用动态属性形式访问 `comments` 关联。相反，我们调用了 `comments` 方法获得关联实例。`save` 方法会自动在新的 `Comment` 模型中添加正确的 `post_id`值。
 
-If you need to save multiple related models, you may use the `saveMany` method:
+如果您需要保存多个关联模型，可以使用 `saveMany` 方法：
 
     $post = App\Post::find(1);
 
     $post->comments()->saveMany([
-        new App\Comment(['message' => 'A new comment.']),
-        new App\Comment(['message' => 'Another comment.']),
+        new App\Comment(['message' => '一条新的评论。']),
+        new App\Comment(['message' => '另一条评论。']),
     ]);
 
 <a name="the-create-method"></a>
@@ -866,31 +864,33 @@ If you need to save multiple related models, you may use the `saveMany` method:
 
 In addition to the `save` and `saveMany` methods, you may also use the `create` method, which accepts an array of attributes, creates a model, and inserts it into the database. Again, the difference between `save` and `create` is that `save` accepts a full Eloquent model instance while `create` accepts a plain PHP `array`:
 
+除了 `save` 和 `saveMany` 方法，您也可以使用 `create` 方法，它接收一个属性数组、创建模型并插入数据库。还有，`save` 和 `create` 的不同之处在于，`save` 接收的是一个完整的 Eloquent 模型实例，而 `create` 接收的是一个纯 PHP 数组：
+
     $post = App\Post::find(1);
 
     $comment = $post->comments()->create([
-        'message' => 'A new comment.',
+        'message' => '一条新的评论。',
     ]);
 
-> {tip} Before using the `create` method, be sure to review the documentation on attribute [mass assignment](/docs/{{version}}/eloquent#mass-assignment).
+> {tip} 在使用 `create` 方法前，请确认您已经浏览了本文档的 [批量赋值](/docs/{{version}}/eloquent#mass-assignment) 章节。
 
-You may use the `createMany` method to create multiple related models:
+您可以使用 `createMany` 方法保存多个关联模型：
 
     $post = App\Post::find(1);
 
     $post->comments()->createMany([
         [
-            'message' => 'A new comment.',
+            'message' => '一条新的评论。',
         ],
         [
-            'message' => 'Another new comment.',
+            'message' => '另一条新的评论。',
         ],
     ]);
 
 <a name="updating-belongs-to-relationships"></a>
-### Belongs To Relationships
+### 更新 `belongsTo` 关联
 
-When updating a `belongsTo` relationship, you may use the `associate` method. This method will set the foreign key on the child model:
+当更新 `belongsTo` 关联时，可以使用 `associate` 方法。此方法会在子模型中设置外键：
 
     $account = App\Account::find(10);
 
@@ -898,36 +898,36 @@ When updating a `belongsTo` relationship, you may use the `associate` method. Th
 
     $user->save();
 
-When removing a `belongsTo` relationship, you may use the `dissociate` method. This method will set the relationship's foreign key to `null`:
+当删除 `belongsTo` 关联时，可以使用 `dissociate`方法。此方法会设置关联外键为 `null`： 
 
     $user->account()->dissociate();
 
     $user->save();
 
 <a name="updating-many-to-many-relationships"></a>
-### Many To Many Relationships
+### 多对多关联
 
-#### Attaching / Detaching
+#### 附加 / 移除
 
-Eloquent also provides a few additional helper methods to make working with related models more convenient. For example, let's imagine a user can have many roles and a role can have many users. To attach a role to a user by inserting a record in the intermediate table that joins the models, use the `attach` method:
+Eloquent 也提供了几个额外的辅助方法，让操作关联模型更加便捷。例如：我们假设一个用户可以拥有多个角色，并且每个角色都可以被多个用户共享。给某个用户附加一个角色是通过向中间表插入一条记录实现的，使用 `attach` 方法：
 
     $user = App\User::find(1);
 
     $user->roles()->attach($roleId);
 
-When attaching a relationship to a model, you may also pass an array of additional data to be inserted into the intermediate table:
+使用 `attach` 方法时，您也可以通过传递一个数组参数向中间表写入额外数据：
 
     $user->roles()->attach($roleId, ['expires' => $expires]);
 
-Of course, sometimes it may be necessary to remove a role from a user. To remove a many-to-many relationship record, use the `detach` method. The `detach` method will remove the appropriate record out of the intermediate table; however, both models will remain in the database:
+当然，有时也需要移除用户的角色。删除多对多关联记录，使用 `detach` 方法。`detach` 方法会移除掉正确的记录；当然，这两个模型数据依然保存在数据库中：
 
-    // Detach a single role from the user...
+    // 移除用户的一个角色...
     $user->roles()->detach($roleId);
 
-    // Detach all roles from the user...
+    // 用户用户的所有角色...
     $user->roles()->detach();
 
-For convenience, `attach` and `detach` also accept arrays of IDs as input:
+为了方便，`attach` 和 `detach` 都允许传入 ID 数组：
 
     $user = App\User::find(1);
 
@@ -938,44 +938,48 @@ For convenience, `attach` and `detach` also accept arrays of IDs as input:
         2 => ['expires' => $expires]
     ]);
 
-#### Syncing Associations
+#### 同步关联
 
-You may also use the `sync` method to construct many-to-many associations. The `sync` method accepts an array of IDs to place on the intermediate table. Any IDs that are not in the given array will be removed from the intermediate table. So, after this operation is complete, only the IDs in the given array will exist in the intermediate table:
+您也可以使用 `sync` 方法来构造多对多关联。`sync` 方法可以接收 ID 数组，向中间表插入对应关联数据记录。所有没放在数组里的 IDs 都会从中间表里移除。所以，这步操作完成后，只有在数组里的 IDs 会被保留在中间表中。
 
     $user->roles()->sync([1, 2, 3]);
 
-You may also pass additional intermediate table values with the IDs:
+您可以通过 ID 传递其他额外的数据到中间表：
 
     $user->roles()->sync([1 => ['expires' => true], 2, 3]);
-
-If you do not want to detach existing IDs, you may use the `syncWithoutDetaching` method:
+ 
+如果您不想移除现有的 IDs，可以使用 `syncWithoutDetaching` 方法：
 
     $user->roles()->syncWithoutDetaching([1, 2, 3]);
 
-#### Toggling Associations
+#### 切换关联
 
-The many-to-many relationship also provides a `toggle` method which "toggles" the attachment status of the given IDs. If the given ID is currently attached, it will be detached. Likewise, if it is currently detached, it will be attached:
+多对多关联也提供了一个 `toggle` 方法用于「切换」给定 IDs 的附加状态。如果给定 ID 已附加，会被移除。同样的，如果给定 ID 已移除，就被附加：
 
     $user->roles()->toggle([1, 2, 3]);
 
-#### Saving Additional Data On A Pivot Table
+#### 在中间表上保存额外数据
 
-When working with a many-to-many relationship, the `save` method accepts an array of additional intermediate table attributes as its second argument:
+当处理多对多关联时，`save` 方法还可以使用第二个参数，它是一个属性数组，包含插入到中间表的额外字段数据。
 
     App\User::find(1)->roles()->save($role, ['expires' => $expires]);
 
-#### Updating A Record On A Pivot Table
+#### 更新中间表记录
 
 If you need to update an existing row in your pivot table, you may use `updateExistingPivot` method. This method accepts the pivot record foreign key and an array of attributes to update:
+
+如果您需要更新中间表中已存在的记录，可以使用 `updateExistingPivot` 方法。此方法接收中间记录的外键和一个属性数组进行更新：
 
     $user = App\User::find(1);
 
     $user->roles()->updateExistingPivot($roleId, $attributes);
 
 <a name="touching-parent-timestamps"></a>
-## Touching Parent Timestamps
+## 更新父级时间戳
 
 When a model `belongsTo` or `belongsToMany` another model, such as a `Comment` which belongs to a `Post`, it is sometimes helpful to update the parent's timestamp when the child model is updated. For example, when a `Comment` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Post`. Eloquent makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
+
+当一个模型 `belongsTo` 或者 `belongsToMany` 另一个模型，比如一个 `Comment` 属于一个 `Post`，有时更新子模型导致更新父模型时间戳非常有用。例如，当一个 `Comment` 模型更新时，您要自动「触发」父级 `Post` 模型的 `updated_at` 时间戳的更新，Eloquent 让它变得简单。只要在子模型加一个包含关联名称的 `touches` 属性即可：
 
     <?php
 
@@ -986,25 +990,30 @@ When a model `belongsTo` or `belongsToMany` another model, such as a `Comment` w
     class Comment extends Model
     {
         /**
-         * All of the relationships to be touched.
+         * 所有会被触发的关联。
          *
          * @var array
          */
         protected $touches = ['post'];
 
         /**
-         * Get the post that the comment belongs to.
+         * 获得此评论所属的文章。
          */
         public function post()
         {
             return $this->belongsTo('App\Post');
         }
     }
-
-Now, when you update a `Comment`, the owning `Post` will have its `updated_at` column updated as well, making it more convenient to know when to invalidate a cache of the `Post` model:
+ 
+现在，当你更新一个 `Comment` 时，对应父级 `Post` 模型的 `updated_at` 字段也会被同时更新，使其更方便得知何时让一个 `Post` 模型的缓存失效：
 
     $comment = App\Comment::find(1);
 
     $comment->text = 'Edit to this comment!';
 
     $comment->save();
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@baooab](https://laravel-china.org/users/17319)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/images/201708/11/17319/KbHzLBdgHs.png?imageView2/1/w/100/h/100">  |  翻译  | 我在 [这儿](https://github.com/baooab/) |
