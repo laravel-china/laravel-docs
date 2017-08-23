@@ -35,7 +35,7 @@ Laravel 为 HTTP 请求的生成和发送操作、输出的检查都提供了非
         }
     }
 
-`get` 方法会创建一个 `GET` 请求来请求你的应用，而 `assertStatus` 方法断言返回的响应是给定的 HTTP 状态码。除了这个简单的断言之外，Laravel 也包含检查响应标头、内容、JSON 结构等各种断言。
+`get` 方法会创建一个 `GET` 请求来请求你的应用，而 `assertStatus` 方法断言返回的响应是指定的 HTTP 状态码。除了这个简单的断言之外，Laravel 也包含检查响应标头、内容、JSON 结构等各种断言。
 
 <a name="session-and-authentication"></a>
 ## Session / 认证
@@ -181,18 +181,18 @@ Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了各种各样的�
 Method  | Description
 ------------- | -------------
 `$response->assertSuccessful();`  |  断言该响应具有成功的状态码。
-`$response->assertStatus($code);`  |  断言该响应具有给定的状态码。
-`$response->assertRedirect($uri);`  |  断言该响应被重定向至给定的 URI。
-`$response->assertHeader($headerName, $value = null);`  |  断言该响应存在给定的标头。
-`$response->assertCookie($cookieName, $value = null);`  |  断言该响应包含了给定的 Cookie。
-`$response->assertPlainCookie($cookieName, $value = null);`  |  断言该响应包含了给定的 Cookie（未加密）。
-`$response->assertSessionHas($key, $value = null);`  |  断言该 Session 包含指定数据。
-`$response->assertSessionHasErrors(array $keys, $errorBag = 'default');`  |  断言该 Session 包含给定字段的错误信息。
-`$response->assertSessionMissing($key);`  |  断言该 Session 不包含指定键。
-`$response->assertJson(array $data);`  |  断言该响应包含给定 JSON 数据。
-`$response->assertJsonFragment(array $data);`  |  断言该响应包含给定 JSON 片段。
-`$response->assertJsonMissing(array $data);`  |  断言该响应不包含包含给定 JSON 片段。
-`$response->assertExactJson(array $data);`  |  断言该响应包含完全匹配的 JSON 数据。
-`$response->assertJsonStructure(array $structure);`  |  断言该响应存在给定 JSON 结构。
-`$response->assertViewIs($value);`  |  断言该视图响应的视图名称为给定的值。
-`$response->assertViewHas($key, $value = null);`  |  断言该视图响应存在指定数据。
+`$response->assertStatus($code);`  |  断言该响应具有指定的状态码。
+`$response->assertRedirect($uri);`  |  断言该响应被重定向至指定的 URI。
+`$response->assertHeader($headerName, $value = null);`  |  断言该响应存在指定的标头。
+`$response->assertCookie($cookieName, $value = null);`  |  断言该响应包含了指定的 Cookie。
+`$response->assertPlainCookie($cookieName, $value = null);`  |  断言该响应包含了指定的 Cookie（未加密）。
+`$response->assertSessionHas($key, $value = null);`  |  断言该 Session 包含指定的数据。
+`$response->assertSessionHasErrors(array $keys, $errorBag = 'default');`  |  断言该 Session 包含指定的字段的错误信息。
+`$response->assertSessionMissing($key);`  |  断言该 Session 不包含指定的键。
+`$response->assertJson(array $data);`  |  断言该响应包含指定的 JSON 数据。
+`$response->assertJsonFragment(array $data);`  |  断言该响应包含指定的 JSON 片段。
+`$response->assertJsonMissing(array $data);`  |  断言该响应不包含包含指定的 JSON 片段。
+`$response->assertExactJson(array $data);`  |  断言该响应包含完全匹配指定的 JSON 数据。
+`$response->assertJsonStructure(array $structure);`  |  断言该响应存在指定的 JSON 结构。
+`$response->assertViewIs($value);`  |  断言该视图响应的视图名称为指定的值。
+`$response->assertViewHas($key, $value = null);`  |  断言该视图响应存在指定的数据。
