@@ -40,15 +40,15 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController`
 另外，当 Laravel 执行 `make:auth` 命令时，会在 `resources/views/auth/passwords` 目录下生成充值密码所需要的视图文件。当然你可以根据项目需求随意修改这些视图文件。
 
 <a name="after-resetting-passwords"></a>
-## After Resetting Passwords
+## 重置密码后
 
-Once you have defined the routes and views to reset your user's passwords, you may simply access the route in your browser at `/password/reset`. The `ForgotPasswordController` included with the framework already includes the logic to send the password reset link e-mails, while the `ResetPasswordController` includes the logic to reset user passwords.
+一旦你生成了用于重置用户密码的路由和视图，你就可以在浏览器中访问 `/password/reset` 这个路由来重置密码。框架中的 `ForgotPasswordController` 已经实现了通过邮件发送重置密码链接的逻辑，`ResetPasswordController` 实现了重置密码的逻辑。
 
-After a password is reset, the user will automatically be logged into the application and redirected to `/home`. You can customize the post password reset redirect location by defining a `redirectTo` property on the `ResetPasswordController`:
+重置密码后，用户就会自动登录并重定向到 `/home`。你可以修改 `ResetPasswordController` 中的 `redirectTo` 属性，从而自定义重置密码后重定向到的位置：
 
     protected $redirectTo = '/dashboard';
 
-> {note} By default, password reset tokens expire after one hour. You may change this via the password reset `expire` option in your `config/auth.php` file.
+> {note} 默认情况下，重置密码的令牌一小时后会失效。你可以修改 `config/auth.php` 文件中的 `expire` 选项来修改这个过期时间。
 
 <a name="password-customization"></a>
 ## Customization
