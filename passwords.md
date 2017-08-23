@@ -1,25 +1,25 @@
 # Laravel 的密码重设功能
 
-- [Introduction](#introduction)
-- [Database Considerations](#resetting-database)
-- [Routing](#resetting-routing)
-- [Views](#resetting-views)
-- [After Resetting Passwords](#after-resetting-passwords)
-- [Customization](#password-customization)
+- [简介](#introduction)
+- [数据库注意事项](#resetting-database)
+- [路由](#resetting-routing)
+- [视图](#resetting-views)
+- [重置密码后](#after-resetting-passwords)
+- [密码自定义](#password-customization)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
+> {tip} **想要快速上手此功能？** 首先在新的 Laravel 应用中运行 `php artisan make:auth` 命令， 然后在浏览器中打开 `http://your-app.dev/register`，或者任意一个在应用中分配的 URL。这个命令将会生成包括密码重置在内的整个认证系统。
 
-Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.
+大部分 web 应用为用户提供了充值密码的功能。Laravel 提供了方便的方法用于发送密码提醒并完成密码重置，而不需要在每个应用中重新实现。
 
-> {note} Before using the password reset features of Laravel, your user must use the `Illuminate\Notifications\Notifiable` trait.
+> {note} 在使用 Laravel 的密码重置功能之前，你必须在你的用户模型中使用 `Illuminate\Notifications\Notifiable` 这个 trait，也就是加入 `use Illuminate\Notifications\Notifiable` 这行代码，框架中自带的用户模型 App\User 中已添加。
 
 <a name="resetting-database"></a>
-## Database Considerations
+## 数据库注意事项
 
-To get started, verify that your `App\User` model implements the `Illuminate\Contracts\Auth\CanResetPassword` contract. Of course, the `App\User` model included with the framework already implements this interface, and uses the `Illuminate\Auth\Passwords\CanResetPassword` trait to include the methods needed to implement the interface.
+开始之前，请确认你的 `App\User` 模型实现了 `Illuminate\Contracts\Auth\CanResetPassword` 这个契约。当然，Laravel 框架中包含的 `App\User` 模型已经实现了这个接口，and uses the `Illuminate\Auth\Passwords\CanResetPassword` trait to include the methods needed to implement the interface.
 
 #### Generating The Reset Token Table Migration
 
