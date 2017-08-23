@@ -51,11 +51,11 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController`
 > {note} 默认情况下，重置密码的令牌一小时后会失效。你可以修改 `config/auth.php` 文件中的 `expire` 选项来修改这个过期时间。
 
 <a name="password-customization"></a>
-## Customization
+## 自定义
 
-#### Authentication Guard Customization
+#### 自定义认证 Guard
 
-In your `auth.php` configuration file, you may configure multiple "guards", which may be used to define authentication behavior for multiple user tables. You can customize the included `ResetPasswordController` to use the guard of your choice by overriding the `guard` method on the controller. This method should return a guard instance:
+在 `auth.php` 配置文件中，你可以配置多个「guards」参数，用于实现多个用户表的不同认证方式。你可以在 `ResetPasswordController` 中重写 `guard` 方法来选择指定的 guard 来完成认证。这个方法需要返回一个 guard 实例：
 
     use Illuminate\Support\Facades\Auth;
 
@@ -64,9 +64,9 @@ In your `auth.php` configuration file, you may configure multiple "guards", whic
         return Auth::guard('guard-name');
     }
 
-#### Password Broker Customization
+#### 自定义密码 Broker
 
-In your `auth.php` configuration file, you may configure multiple password "brokers", which may be used to reset passwords on multiple user tables. You can customize the included `ForgotPasswordController` and `ResetPasswordController` to use the broker of your choice by overriding the `broker` method:
+在 `auth.php` 配置文件中，你可以配置多个密码 "brokers"，用于多个表的密码重置。你可以通过重写 `ForgotPasswordController` 和 `ResetPasswordController` 中的 `broker` 方法来选择你想使用的自定义 broker：
 
     use Illuminate\Support\Facades\Password;
 
@@ -80,9 +80,9 @@ In your `auth.php` configuration file, you may configure multiple password "brok
         return Password::broker('name');
     }
 
-#### Reset Email Customization
+#### 自定义用于重置的邮箱（或者其他通知方式）
 
-You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `User` model. Within this method, you may send the notification using any notification class you choose. The password reset `$token` is the first argument received by the method:
+你可以方便的修改用于发送密码重置链接的通知类。首先，重写 `User` 模型中的 `sendPasswordResetNotification` 方法。在这个方法中，你可以选择任意的通知类来发送通知。这个方法的第一个参数为用于重置密码的令牌 `$token` ：
 
     /**
      * Send the password reset notification.
