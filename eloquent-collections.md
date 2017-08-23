@@ -165,6 +165,7 @@
 一旦你定义了 `newCollection` 方法，则可在任何 Eloquent 返回该模型的 `Collection` 实例时，接收到一个你的自定义集合的实例。如果你想要在应用程序的每个模型中使用自定义集合，则应该在所有的模型继承的模型基类中重写 `newCollection` 方法。
 
 ## 译者署名
+
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@springjk](https://laravel-china.org/users/4550)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4550_1464580958.png?imageView2/1/w/100/h/100">  |  翻译  | 再怎么说我也是我西北一匹狼 |
