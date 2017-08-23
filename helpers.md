@@ -199,7 +199,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-array-except"></a>
 #### `array_except()` {#collection-method}
 
-`array_except` 函数从数组中删除置顶的健值对：
+`array_except` 函数从数组中删除指定的健值对：
 
     $array = ['name' => 'Desk', 'price' => 100];
 
