@@ -977,8 +977,6 @@ If you need to update an existing row in your pivot table, you may use `updateEx
 <a name="touching-parent-timestamps"></a>
 ## 更新父级时间戳
 
-When a model `belongsTo` or `belongsToMany` another model, such as a `Comment` which belongs to a `Post`, it is sometimes helpful to update the parent's timestamp when the child model is updated. For example, when a `Comment` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Post`. Eloquent makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
-
 当一个模型 `belongsTo` 或者 `belongsToMany` 另一个模型，比如一个 `Comment` 属于一个 `Post`，有时更新子模型导致更新父模型时间戳非常有用。例如，当一个 `Comment` 模型更新时，您要自动「触发」父级 `Post` 模型的 `updated_at` 时间戳的更新，Eloquent 让它变得简单。只要在子模型加一个包含关联名称的 `touches` 属性即可：
 
     <?php
