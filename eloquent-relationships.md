@@ -781,7 +781,7 @@ Eloquent 会基于模型名决定外键名称。在当前场景中，Eloquent �
         echo $book->author->name;
     }
 
-整个操作，执行的两条查询如下：
+整个操作，只执行了两条查询：
 
     select * from books
 
