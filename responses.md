@@ -100,7 +100,7 @@
         return redirect('home/dashboard');
     });
 
-有时候你可能希望用户重定向到上一级页面，比如提交的表单无效的。这时你可以使用 全局辅助函数 `back` 完成。由于这个功能利用了 [Session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 Session 中间件：
+有时候你可能希望用户重定向到上一级页面，比如提交的表单是无效的。这时你可以使用 全局辅助函数 `back` 完成。由于这个功能利用了 [Session](/docs/{{version}}/session)，请确保调用 `back` 函数的路由是使用 `web` 中间件组或应用了所有的 Session 中间件：
 
     Route::post('user/profile', function () {
         // 验证请求...
