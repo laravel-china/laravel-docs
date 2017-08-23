@@ -65,7 +65,7 @@
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * 启动任意应用服务
          *
          * @return void
          */
@@ -75,7 +75,7 @@
         }
 
         /**
-         * Register the service provider.
+         * 注册服务提供者
          *
          * @return void
          */
@@ -102,25 +102,25 @@
     class ComposerServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定
          *
          * @return void
          */
         public function boot()
         {
-            // Using class based composers...
+            // 使用基于类的合成器...
             View::composer(
                 'profile', 'App\Http\ViewComposers\ProfileComposer'
             );
 
-            // Using Closure based composers...
+            // 使用基于闭包的合成器...
             View::composer('dashboard', function ($view) {
                 //
             });
         }
 
         /**
-         * Register the service provider.
+         * 注册服务器提供者
          *
          * @return void
          */
@@ -144,26 +144,26 @@
     class ProfileComposer
     {
         /**
-         * The user repository implementation.
+         * 实现用户仓库
          *
          * @var UserRepository
          */
         protected $users;
 
         /**
-         * Create a new profile composer.
+         * 创建一个新的配置文件合成器
          *
          * @param  UserRepository  $users
          * @return void
          */
         public function __construct(UserRepository $users)
         {
-            // Dependencies automatically resolved by service container...
+            // 依赖关系由服务容器自动解析...
             $this->users = $users;
         }
 
         /**
-         * Bind data to the view.
+         * 将数据绑定到视图。
          *
          * @param  View  $view
          * @return void
