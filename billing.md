@@ -644,3 +644,8 @@ Cashier 对于失败的支付自动进行取消订阅的处理，但是如果你
             'product' => 'Your Product',
         ]);
     });
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@孤雪飘寒](https://laravel-china.org/users/15752)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/15752_1493141445.jpeg">  |  翻译  | 全桟工程师，[Github](https://github.com/piaohan)，[CSDN](http://blog.csdn.net/msmile_my)|
