@@ -1,10 +1,10 @@
 # Laravel 源代码贡献指南
 
-- [Bug Reports](#bug-reports)
-- [Core Development Discussion](#core-development-discussion)
-- [Which Branch?](#which-branch)
-- [Security Vulnerabilities](#security-vulnerabilities)
-- [Coding Style](#coding-style)
+- [错误返回](#bug-reports)
+- [核心开发讨论](#core-development-discussion)
+- [选择分支?](#which-branch)
+- [安全漏洞](#security-vulnerabilities)
+- [编码风格](#coding-style)
     - [PHPDoc](#phpdoc)
     - [StyleCI](#styleci)
 
