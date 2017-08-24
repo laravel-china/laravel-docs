@@ -1,31 +1,31 @@
-# Laravel 的路由中间件
+﻿# Laravel 的路由中间件
 
-- [简介](#introduction)
-- [创建中间件](#defining-middleware)
-- [注册中间件](#registering-middleware)
-    - [全局中间件](#global-middleware)
-    - [为路由指定中间件](#assigning-middleware-to-routes)
-    - [中间件组](#middleware-groups)
-- [中间件参数](#middleware-parameters)
-- [Terminable 中间件](#terminable-middleware)
+- [简介](#简介)
+- [创建中间件](#创建中间件)
+- [注册中间件](#注册中间件)
+    - [全局中间件](#全局中间件)
+    - [为路由指定中间件](#为路由指定中间件)
+    - [中间件组](#中间件组)
+- [中间件参数](#中间件参数)
+- [Terminable 中间件](#terminable-中间件)
 
 <a name="introduction"></a>
-## 简介
+## Introduction
 
-Laravel 中间件提供了一种方便的机制来过滤进入应用的 HTTP 请求，例如，Laravel 包含验证用户身份权限的中间件。如果用户没有通过身份验证，中间件会重定向到登录页，引导用户登录。反之，中间件将允许该请求继续传递到应用程序。
+中间件提供了一套简便机制来过滤进入应用程序的 HTTP 请求。例如，Laravel中包含可以认证用户权限的中间件。若用户未认证，则跳转到登录界面。相反，若用户认证通过，则允许该请求继续传递到应用程序。
 
-当然，除了身份验证以外，中间件还可以被用来执行各式各样的任务，如：CORS 中间件负责为所有即将离开应用的响应添加适当的头信息；日志中间件可以记录所有传入应用的请求。
+当然，除了认证权限外，中间件还可用来处理各种任务。例如，CORS 中间件负责所有应用程序的相应添加合适的头部信息；日志中间件可记录所有传入应用程序的请求。
 
-Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。所有的中间件都放在 `app/Http/Middleware` 目录内。
+Laravel 已内置了一些中间件，含权限认证中间件、CSRF 防御等。这些中间件都放在 `app/Http/Middleware`  目录下。
 
-<a name="defining-middleware"></a>
+<a name="创建中间件"></a>
 ## 创建中间件
 
-使用 `make:middleware` 这个 Artisan 命令创建新的中间件：
+执行 Artisan 命令 `make:middleware` ，创建中间件。
 
     php artisan make:middleware CheckAge
 
-该命令将会在 `app/Http/Middleware` 目录内新建一个 `CheckAge` 类。在这个中间件内，我们仅允许请求的 `age` 参数大于 200 时访问该路由，否则，会将用户请求重定向到 `home` URI 。
+该命令将在项目的 `app/Http/Middleware` 目录下，新建一个 `CheckAge` 类。在该中间件中，我们只通过 `age` 参数大于 200 的请求。否则，将用户请求重定向到 `home` URI。
 
     <?php
 
@@ -36,7 +36,7 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
     class CheckAge
     {
         /**
-         * 处理传入的请求
+         * 处理传入请求
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -50,16 +50,15 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
 
             return $next($request);
         }
-
     }
 
-如你所见，若请求参数 `age` 小于等于 `200`，中间件将返回给客户端 HTTP 重定向，反之应用程序才会继续处理该请求。若将请求继续传递到应用程序（即允许通过中间件验证），只需将 `$request` 作为参数调用 `$next` 回调函数。
+如你所见，如果 `age` 参数小于或等于 `200` 时，中间件将返回 HTTP 重定向给客户端。否则，该请求将通过进入应用程序。为了请求能够传递到应用该程序（即中间件「通过」请求），只需调用回调函数 `$next`,并将 `$request` 作为参数即可。
 
-最好将中间件想象为一系列的「层」，HTTP 请求必须经过它们才会触发您的应用程序。每一层都可以检测接收的请求，甚至可以完全拒绝请求访问您的应用。
+最好将中间件看作是一系列的「层」，HTTP 请求在触及应用程序前先经过它们。每层都可认证请求，甚至可以完全拒绝请求继续访问。
 
-### 前置中间件 / 后置中间件
+### 前置/后置中间件
 
-中间件运行在请求之前或之后取决于中间件本身。例如，以下中间件会在请求被应用处理 **之前** 执行一些任务
+在请求前或后运行中间件取决于其本身。例如，下面这个中间件将会在请求被应用处理 **前** 执行。
 
     <?php
 
@@ -77,7 +76,7 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
         }
     }
 
-然而，这个中间件会在请求被应用处理 **之后** 执行它的任务：
+相反，这个中间件将会在请求被应用处理 **后** 执行。
 
     <?php
 
@@ -97,20 +96,20 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
         }
     }
 
-<a name="registering-middleware"></a>
+<a name="注册中间件"></a>
 ## 注册中间件
 
-<a name="global-middleware"></a>
+<a name="全局中间件"></a>
 ### 全局中间件
 
-如果你希望访问你应用的每个 HTTP 请求都经过某个中间件，只需将该中间件类列入 `app/Http/Kernel.php` 类里的 `$middleware` 属性。
+如果想要让每个进入应用的 HTTP 请求都通过某个中间件，只要将该中间件列入 `app/Http/Kernel.php` 类的 `$middleware` 属性中即可。
 
-<a name="assigning-middleware-to-routes"></a>
+<a name="为路由指定中间件"></a>
 ### 为路由指定中间件
 
-如果你想为特殊的路由指定中间件，首先应该在 `app/Http/Kernel.php` 文件内为该中间件指定一个 `键值`。默认情况下 `Kernel` 类的 `$routeMiddleware` 属性已经包含了 Laravel 内置的中间件条目。加入自定义的中间件，只需把它附加到此列表并指定你定义的`键值`即可。例如：
+如果你想要为特定的路由分配中间件，首先需在 `app/Http/Kernel.php` 文件中为该中间件指定一个 `键名`。`$routeMiddleware` 属性，默认包含 Laravel 框架所有的内置中间件。只需将要添加的中间件附加其后，然后为其指定 `键名` 即可。
 
-    // App\Http\Kernel 类内
+    // App\Http\Kernel 类内...
 
     protected $routeMiddleware = [
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
@@ -121,19 +120,19 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 
-一旦在 HTTP kernel 文件内定义了中间件，即可使用 `middleware` 方法将中间件分配给路由：
+一旦在 HTTP kernel 中定义了中间件，便可使用 `middleware` 方法来为路由指定中间件了。
 
     Route::get('admin/profile', function () {
         //
     })->middleware('auth');
 
-为路由指定多个中间件：
+可为路由指定多个中间件。
 
     Route::get('/', function () {
         //
     })->middleware('first', 'second');
 
-也可使用完整类名指定中间件：
+也可使用完整类名指定中间件。
 
     use App\Http\Middleware\CheckAge;
 
@@ -141,15 +140,15 @@ Laravel 已经内置了一些中间件，包括身份验证、CSRF 保护等。�
         //
     })->middleware(CheckAge::class);
 
-<a name="middleware-groups"></a>
+<a name="中间件组"></a>
 ### 中间件组
 
-有时您可能想要将多个中间件分组到同一个`键值`下，从而使它们更方便地分配给路由，你可以使用 HTTP kernel 的 `$middlewareGroups` 属性来实现。
+有些时候可能想要将某些中间归类，然后通过统一的 `键名` 来指定它们。只要使用 HTTP kernel 中的 `$middlewareGroups` 属性便可实现。
 
-Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用到 Web UI 和 API 路由的通用中间件：
+Laravel 自带开箱即用的 `web` 和 `api` 中间件组，当中包含了一些可能应用到 UI 和 API 路由的中间件。
 
     /**
-     * 应用的路由中间件组
+     * 应用程序的路由中间件组
      *
      * @var array
      */
@@ -169,7 +168,7 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
         ],
     ];
 
-中间件组可以像单个中间件一样使用相同的语法指定给路由和控制器。重申，路由组仅仅是为了使一次将多个中间件指定给某个路由的实现变得更加方便。
+类似于独立中间件，使用相同的语法为路由和控制器方法指定中间件组。再次说明，中间件组简便了一次性为路由指定多个中间件。
 
     Route::get('/', function () {
         //
@@ -179,14 +178,14 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
         //
     });
 
-> {tip} 开箱即用的 `web` 中间件组被自动应用于 `RouteServiceProvider` 中定义的 `routes/web.php` 路由组。
+> {tip} 开箱即用的 `web` 中间件组自动应用到 `RouteServiceProvider` 中定义的 `routes/web.php` 文件。
 
-<a name="middleware-parameters"></a>
+<a name="中间件参数"></a>
 ## 中间件参数
 
-中间件也可以接受其他附加的参数。例如，如果应用需要在运行特定操作前验证该用户具备该操作的权限的「角色」，你可以新建一个 `CheckRole` 中间件，该中间件接收「角色」名字作为附加参数。
+中间件可接收额外的参数。例如，当你的应用在执行特性的操作前，需要认证用户是否拥有该操作的「角色」。可创建一个 `checkRole` 中间件来接收角色名字作为额外参数。
 
-附加的中间件参数将在 `$next` 参数之后被传入：
+额外的中间件参数可在 `$next` 后传入中间件。
 
     <?php
 
@@ -197,7 +196,7 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
     class CheckRole
     {
         /**
-         * 处理传入的请求
+         * 处理传入请求
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -207,7 +206,7 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
         public function handle($request, Closure $next, $role)
         {
             if (! $request->user()->hasRole($role)) {
-                // Redirect...
+                // 重定向...
             }
 
             return $next($request);
@@ -215,16 +214,16 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
 
     }
 
-定义路由时，指定中间件参数可以通过冒号 `:` 来隔开中间件与参数，多个参数可以使用逗号分隔：
+定义路由时，用：来分隔中间件名和指定的中间件参数。多个参数使用逗号分开。
 
     Route::put('post/{id}', function ($id) {
         //
     })->middleware('role:editor');
 
-<a name="terminable-middleware"></a>
+<a name="Terminable 中间"></a>
 ## Terminable 中间件
 
-有些时候中间件需要在 HTTP 响应发送到浏览器后运行来处理一些任务。比如，Laravel 内置的「session」中间件存储的 session 数据是在响应被发送到浏览器之后才进行写入的。想实现这一点，你需要在中间件中定义一个 `terminate` 方法，它会在响应发送后自动被调用：
+有时候中间件想要在 HTTP 响应返回到浏览器后执行一些动作。例如，Laravel 内置的「session」中间件在响应发送到浏览器后存储 session 数据。为实现这种需求，只需在你的中间件中定义 `terminate` 方法即可。
 
     <?php
 
@@ -241,24 +240,21 @@ Laravel 带有开箱即用的 `web` 和 `api` 中间件，包含了可能应用�
 
         public function terminate($request, $response)
         {
-            // Store the session data...
+            // 存储 session 数据...
         }
     }
 
-`terminate` 方法必需接收请求及响应两个参数。一旦定义了 terminable 中间件，你便需要将它增加到 HTTP kernel 文件的全局中间件清单列表中。
+`terminate` 方法必须接收 request 和 response 两个参数。一旦定义了 terminable 中间件，须在 `app/Http/Kernel.php` 文件中的路由列表或全局中间件中添加它。
 
-中间件的 `terminate` 调用时，Laravel 会从 [服务容器](/docs/{{version}}/container) 中解析一个全新的中间件实例。如果你想在 `handle` 和 `terminate` 被调用时使用同一个中间件实例，可使用容器的 `singleton` 方法向容器注册中间件。
-
+当在中间件调用 `terminate` 方法时，Laravel 将从 [服务容器](/docs/5.5/container) 中解析一个新的实例。如果想要在调用 `handle` 和 `terminate` 方法时使用相同的实例，需使用容器的 `singleton` 方法向容器注册中间件。
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@王凯波](http://weibo.com/wangkaibo)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1924_1487053084.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 面向工资编程 😆 [@wangkaibo](https://github.com/wangkaibo/)  |
-
---- 
+| [@半夏](https://laravel-china.org/users/6928)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6928_1479451835.jpeg?imageView2/1/w/100/h/100">  |  翻译  | [@半夏](https://github.com/mintgreen1108) at Github  |
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
 > 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
 > 
 > 文档永久地址： http://d.laravel-china.org
