@@ -10,7 +10,7 @@
 ### 相关讨论
 
 * [Laravel 5.4 文档翻译召集](https://laravel-china.org/topics/3810)
-* [Laravel 5.4 中文文档翻译完成](#)
+* [Laravel 5.4 中文文档翻译完成](https://laravel-china.org/topics/3958/laravel-54-chinese-document-translation-completed)
 
 ## 排版规范
 
