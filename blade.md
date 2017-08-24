@@ -393,7 +393,7 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 
     @each('view.name', $jobs, 'job', 'view.empty')
 
-> {note} Views rendered via `@each` do not inherit the variables from the parent view. If the child view requires these variables, you should use `@foreach` and `@include` instead.
+> {note} 通过 `@each` 呈现的视图不会从父视图继承变量。 如果子视图需要这些变量，则应该使用 `@foreach` 和 `@include`。
 
 <a name="stacks"></a>
 ## 堆栈
@@ -487,7 +487,6 @@ Blade 甚至允许你使用 `directive` 方法来注册自己的命令。当 Bla
         });
     }
 
-Once the custom conditional has been defined, we can easily use it on our templates:
 一旦定义了自定义条件，就可以很轻松地在模板中使用：
 
     @env('local')
