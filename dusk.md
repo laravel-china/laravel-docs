@@ -216,7 +216,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
               ->visit('/home');
     });
 
-> {note} 使用`loginAs` 方法后, 该用户的 session 将会持久化供其他测试用例使用。
+> {note} 使用 `loginAs` 方法后, 该用户的 session 将会持久化供其他测试用例使用。
 
 <a name="interacting-with-elements"></a>
 ## 与元素交互
@@ -381,7 +381,7 @@ Dusk 提供了与表单和 input 元素交互的各种方法。首先，让我�
 
 #### 可用元素的作用域
 
-有时候，你可能想要等待与给定选择器匹配的元素，然后与这元素进行交互。例如，你可能需要等待某个模态窗口可用，然后在模态窗口中点击「OK」按钮。在这种情况下，可以使用 `whenAvailable` 方法。所有闭包中的操作都针对这个原始的元素：
+有时候，你可能想要等待与指定选择器匹配的元素，然后与这元素进行交互。例如，你可能需要等待某个模态窗口可用，然后在模态窗口中点击「OK」按钮。在这种情况下，可以使用 `whenAvailable` 方法。所有闭包中的操作都针对这个原始的元素：
 
     $browser->whenAvailable('.modal', function ($modal) {
         $modal->assertSee('Hello World')
@@ -436,8 +436,7 @@ Dusk 提供了与表单和 input 元素交互的各种方法。首先，让我�
 
 #### 等待回调
 
-Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
-Dusk 中的许多「等待」方法依赖于 `waitUsing` 方法。该方法可以等待一个回调返回 `true`。`waitUsing` 接受的参数为最大等待秒数、the interval at which the Closure should be evaluated、闭包以及一个可选的错误信息。
+Dusk 中的许多「等待」方法依赖于 `waitUsing` 方法。该方法可以等待一个回调返回 `true`。`waitUsing` 接受的参数为最大等待秒数、闭包的执行间隔、闭包以及一个可选的错误信息。
 
     $browser->waitUsing(10, 1, function () use ($something) {
         return $something->isReady();
@@ -452,45 +451,45 @@ Assertion  | Description
 ------------- | -------------
 `$browser->assertTitle($title)`  |  断言页面标题符合指定文本。
 `$browser->assertTitleContains($title)`  |  断言页面标题包含指定文本。
-`$browser->assertPathBeginsWith($path)`  |  Assert that the current URL path begins with given path.
-`$browser->assertPathIs('/home')`  |  Assert the current path matches the given path.
-`$browser->assertPathIsNot('/home')`  |  Assert the current path does not match the given path.
-`$browser->assertRouteIs($name, $parameters)`  |  Assert the current URL matches the given named route's URL.
-`$browser->assertQueryStringHas($name, $value)`  |  Assert the given query string parameter is present and has a given value.
-`$browser->assertQueryStringMissing($name)`  |  Assert the given query string parameter is missing.
-`$browser->assertHasQueryStringParameter($name)`  |  Assert that the given query string parameter is present.
+`$browser->assertPathBeginsWith($path)`  |  断言当前 URL 开始于指定的值。
+`$browser->assertPathIs('/home')`  |  断言当前 URL 为指定的值。
+`$browser->assertPathIsNot('/home')`  |  断言当前 URL 不是指定的值。
+`$browser->assertRouteIs($name, $parameters)`  |  断言当前 URL 为指定的路由生成。
+`$browser->assertQueryStringHas($name, $value)`  |  断言指定的查询条件为指定的值。
+`$browser->assertQueryStringMissing($name)`  |  断言不存在指定的查询条件。
+`$browser->assertHasQueryStringParameter($name)`  | 断言存在指定的查询条件。
 `$browser->assertHasCookie($name)`  |  断言存在指定 Cookie。
 `$browser->assertCookieValue($name, $value)`  |  断言指定 Cookie 为指定值。
 `$browser->assertPlainCookieValue($name, $value)`  |  断言一个未加密的 Cookie 为指定值。
 `$browser->assertSee($text)`  |  断言页面中存在指定文本。
 `$browser->assertDontSee($text)`  |  断言页面中不存在指定文本。
-`$browser->assertSeeIn($selector, $text)`  |  断言选择器中存在指定文本。
-`$browser->assertDontSeeIn($selector, $text)`  |  断言选择器中不存在指定文本。
-`$browser->assertSourceHas($code)`  |  Assert that the given source code is present on the page.
-`$browser->assertSourceMissing($code)`  |  Assert that the given source code is not present on the page.
+`$browser->assertSeeIn($selector, $text)`  |  断言匹配指定选择器中存在指定文本。
+`$browser->assertDontSeeIn($selector, $text)`  |  断言匹配指定选择器中不存在指定文本。
+`$browser->assertSourceHas($code)`  | 断言页面的源码中存在指定的值。
+`$browser->assertSourceMissing($code)`  |  断言页面的源码中不存在指定的值。
 `$browser->assertSeeLink($linkText)`  |  断言页面中存在指定链接。
 `$browser->assertDontSeeLink($linkText)`  |  断言页面中不存在指定链接。
-`$browser->assertSeeLink($link)`  |  Determine if the given link is visible.
-`$browser->assertInputValue($field, $value)`  |  Assert the given input field has the given value.
-`$browser->assertInputValueIsNot($field, $value)`  |  Assert the given input field does not have the given value.
-`$browser->assertChecked($field)`  |  Assert the given checkbox is checked.
-`$browser->assertNotChecked($field)`  |  Assert the given checkbox is not checked.
-`$browser->assertRadioSelected($field, $value)`  |  Assert the given radio field is selected.
-`$browser->assertRadioNotSelected($field, $value)` |  Assert the given radio field is not selected.
-`$browser->assertSelected($field, $value)`  |  Assert the given dropdown has the given value selected.
-`$browser->assertNotSelected($field, $value)`  |  Assert the given dropdown does not have the given value selected.
-`$browser->assertSelectHasOptions($field, $values)`  |  Assert that the given array of values are available to be selected.
-`$browser->assertSelectMissingOptions($field, $values)`  |  Assert that the given array of values are not available to be selected.
-`$browser->assertSelectHasOption($field, $value)`  |  Assert that the given value is available to be selected on the given field.
-`$browser->assertValue($selector, $value)`  |  Assert the element matching the given selector has the given value.
-`$browser->assertVisible($selector)`  |  Assert the element matching the given selector is visible.
-`$browser->assertMissing($selector)`  |  Assert the element matching the given selector is not visible.
-`$browser->assertDialogOpened($message)`  |  Assert that a JavaScript dialog with given message has been opened.
+`$browser->assertSeeLink($link)`  |  Determine if the given link is visible.???纳尼
+`$browser->assertInputValue($field, $value)`  |  断言指定的 input 输入框为指定的值。
+`$browser->assertInputValueIsNot($field, $value)`  |  断言指定的 input 输入框不为指定的值。
+`$browser->assertChecked($field)`  |  断言指定的复选框已被选中。
+`$browser->assertNotChecked($field)`  |  断言指定的复选框未被选中。
+`$browser->assertRadioSelected($field, $value)`  |  断言指定的单选框已被选中。
+`$browser->assertRadioNotSelected($field, $value)` |  断言指定的单选框未被选中。
+`$browser->assertSelected($field, $value)`  |  断言指定的下拉列表指定的值被选中。
+`$browser->assertNotSelected($field, $value)`  |  断言指定的下拉列表指定的值未被选中
+`$browser->assertSelectHasOptions($field, $values)`  |  断言指定数组中的值存在于指定的下拉列表的选项中。
+`$browser->assertSelectMissingOptions($field, $values)`  |  断言指定数组中的值不存在于指定的下拉列表的选项中。
+`$browser->assertSelectHasOption($field, $value)`  |  断言指定的值存在于指定的下拉列表的选项中。
+`$browser->assertValue($selector, $value)`  |  断言匹配指定选择器的元素为指定值。
+`$browser->assertVisible($selector)`  |  断言匹配指定选择器的元素是可见的。
+`$browser->assertMissing($selector)`  |  断言匹配指定选择器的元素是不可见的。
+`$browser->assertDialogOpened($message)`  |  断言消息为指定值的对话框已被打开。
 
 <a name="pages"></a>
 ## Pages
 
-有时候，测试有一些复杂的动作需要顺序执行。 这很容易让你的测试代码变得难读，并且难以理解。页面允许你定义语义化的动作行为，然后你可以在给定页面中使用单个方法。页面也允许你为你的应用或者单个页面定义简写的公共选择器。
+有时候，测试有一些复杂的动作需要顺序执行。 这很容易让你的测试代码变得难读，并且难以理解。页面允许你定义语义化的动作行为，然后你可以在指定页面中使用单个方法。页面也允许你为你的应用或者单个页面定义简写的公共选择器。
 
 <a name="generating-pages"></a>
 ### 创建页面
@@ -504,9 +503,9 @@ Assertion  | Description
 
 页面默认拥有 3 个方法： `url`， `assert` 和 `elements`。 在这里我们先详述 `url` 和 `assert` 方法。`elements` 方法将会 [在下面详细描述](#shorthand-selectors)。
 
-#### The `url` Method
+#### `url` 方法
 
-The `url` method should return the path of the URL that represents the page. Dusk will use this URL when navigating to the page in the browser:
+`url` 方法应该返回表示页面 URL 的路径。 Dusk 将会在浏览器中使用这个 URL 来导航到具体页面：
 
     /**
      * Get the URL for the page.
@@ -520,10 +519,10 @@ The `url` method should return the path of the URL that represents the page. Dus
 
 #### The `assert` Method
 
-The `assert` method may make any assertions necessary to verify that the browser is actually on the given page. Completing this method is not necessary; however, you are free to make these assertions if you wish. These assertions will be run automatically when navigating to the page:
+`assert` 方法可以作出任何断言来验证浏览器是否在指定页面上。这个方法并不是必须的。你可以根据你自己的需求来做出这些断言。这些断言会在你浏览到这个页面的时候自动执行：
 
     /**
-     * Assert that the browser is on the page.
+     * 断言浏览器是否正在指定页面。
      *
      * @return void
      */
@@ -533,15 +532,15 @@ The `assert` method may make any assertions necessary to verify that the browser
     }
 
 <a name="navigating-to-pages"></a>
-### Navigating To Pages
+### 导航至页面
 
-Once a page has been configured, you may navigate to it using the `visit` method:
+一旦页面配置好之后，你可以使用 `visit` 方法导航至页面：
 
     use Tests\Browser\Pages\Login;
 
     $browser->visit(new Login);
 
-Sometimes you may already be on a given page and need to "load" the page's selectors and methods into the current test context. This is common when pressing a button and being redirected to a given page without explicitly navigating to it. In this situation, you may use the `on` method to load the page:
+有时候，你可能已经在指定页面了，你需要的只是「加载」当前页面的选择器和方法到当前测试中来。常见的例子有：当你按下一个按钮的时候，你会被重定向至指定页面，而不是直接导航至指定页面。在这种情况下，你需要使用 `on` 方法来加载页面：
 
     use Tests\Browser\Pages\CreatePlaylist;
 
@@ -551,12 +550,12 @@ Sometimes you may already be on a given page and need to "load" the page's selec
             ->assertSee('@create');
 
 <a name="shorthand-selectors"></a>
-### Shorthand Selectors
+### 选择器简写
 
-The `elements` method of pages allows you to define quick, easy-to-remember shortcuts for any CSS selector on your page. For example, let's define a shortcut for the "email" input field of the application's login page:
+`elements` 方法允许你为页面中的任何 CSS 选择器定义简单易记的简写。例如，让我们为应用登录页中的 `email` 输入框定义一个简写：
 
     /**
-     * Get the element shortcuts for the page.
+     * 获取页面的元素简写。
      *
      * @return array
      */
@@ -567,16 +566,16 @@ The `elements` method of pages allows you to define quick, easy-to-remember shor
         ];
     }
 
-Now, you may use this shorthand selector anywhere you would use a full CSS selector:
+现在你可以用这个简写来代替之前在页面中使用的完整 CSS 选择器：
 
     $browser->type('@email', 'taylor@laravel.com');
 
-#### Global Shorthand Selectors
+#### 全局的选择器简写
 
-After installing Dusk, a base `Page` class will be placed in your `tests/Browser/Pages` directory. This class contains a `siteElements` method which may be used to define global shorthand selectors that should be available on every page throughout your application:
+安装 Dusk 之后，`Page` 基类存放在你的 `tests/Browser/Pages` 目录。该类中包含一个 `siteElements` 方法，这个方法可以用来定义全局的选择器简写，这样在你应用中每个页面都可以使用这些全局选择器简写了：
 
     /**
-     * Get the global element shortcuts for the site.
+     * 获取站点全局的选择器简写。
      *
      * @return array
      */
@@ -588,9 +587,9 @@ After installing Dusk, a base `Page` class will be placed in your `tests/Browser
     }
 
 <a name="page-methods"></a>
-### Page Methods
+### 页面方法
 
-In addition to the default methods defined on pages, you may define additional methods which may be used throughout your tests. For example, let's imagine we are building a music management application. A common action for one page of the application might be to create a playlist. Instead of re-writing the logic to create a playlist in each test, you may define a `createPlaylist` method on a page class:
+处理页面中已经定义的默认方法之外，你还可以定义在整个测试过程中会使用到的其他方法。例如，让我们假设一下我们正在开发一个音乐管理应用，在应用中都可能需要一个公共的方法来创建列表，而不是在每一页、每一个测试类中都重写一遍创建播放列表的逻辑，这时候你可以在你的页面类中定义一个 `createPlaylist` 方法：
 
     <?php
 
@@ -600,10 +599,10 @@ In addition to the default methods defined on pages, you may define additional m
 
     class Dashboard extends Page
     {
-        // Other page methods...
+        // 其他页面方法...
 
         /**
-         * Create a new playlist.
+         * 创建一个新的播放列表。
          *
          * @param  \Laravel\Dusk\Browser  $browser
          * @param  string  $name
@@ -617,7 +616,7 @@ In addition to the default methods defined on pages, you may define additional m
         }
     }
 
-Once the method has been defined, you may use it within any test that utilizes the page. The browser instance will automatically be passed to the page method:
+方法被定义之后，你可以在任何使用到该页的测试中使用这个方法了。浏览器实例会自动传递该页面方法：
 
     use Tests\Browser\Pages\Dashboard;
 
@@ -626,12 +625,12 @@ Once the method has been defined, you may use it within any test that utilizes t
             ->assertSee('My Playlist');
 
 <a name="continuous-integration"></a>
-## Continuous Integration
+## 持续集成
 
 <a name="running-tests-on-travis-ci"></a>
 ### Travis CI
 
-To run your Dusk tests on Travis CI, we will need to use the "sudo-enabled" Ubuntu 14.04 (Trusty) environment. Since Travis CI is not a graphical environment, we will need to take some extra steps in order to launch a Chrome browser. In addition, we will use `php artisan serve` to launch PHP's built-in web server:
+在 Travis CI 中运行 Dusk 时需要「sudo-enabled」的 Ubuntu 14.04 (Trusty) 环境。由于 Travis CI 不是图形环境，我们需要一些额外的步骤去启动 Chrome 浏览器，另外，我们需要使用 `php artisan serve` 命令去启动 PHP 的内置服务器。
 
     sudo: required
     dist: trusty
@@ -655,51 +654,51 @@ To run your Dusk tests on Travis CI, we will need to use the "sudo-enabled" Ubun
 
 #### CircleCI 1.0
 
-If you are using CircleCI 1.0 to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
+在 CircleCI 1.0 中运行 Dusk 时需要使用以下配置进行启动。与 TravisCI 相同，我们需要使用 `php artisan serve` 命令去启动 PHP 的内置服务器。
 
-	dependencies:
-	  pre:
-	      - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-	      - sudo dpkg -i google-chrome.deb
-	      - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-	      - rm google-chrome.deb
+    dependencies:
+      pre:
+        - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        - sudo dpkg -i google-chrome.deb
+        - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+        - rm google-chrome.deb
 
     test:
-        pre:
-            - "./vendor/laravel/dusk/bin/chromedriver-linux":
-                background: true
-            - cp .env.testing .env
-            - "php artisan serve":
-                background: true
+      pre:
+        - "./vendor/laravel/dusk/bin/chromedriver-linux":
+            background: true
+        - cp .env.testing .env
+        - "php artisan serve":
+            background: true
 
-        override:
-            - php artisan dusk
+      override:
+        - php artisan dusk
 
  #### CircleCI 2.0
 
- If you are using CircleCI 2.0 to run your Dusk tests, you may add these steps to your build:
+ 在 CircleCI 2.0 中运行 Dusk 时需要将以下 steps 添加至 build：
 
-     version: 2
-     jobs:
-         build:
-             steps:
-                - run: sudo apt-get install -y libsqlite3-dev
-                - run: cp .env.testing .env
-                - run: composer install -n --ignore-platform-reqs
-                - run: npm install
-                - run: npm run production
-                - run: vendor/bin/phpunit
+    version: 2
+    jobs:
+      build:
+        steps:
+          - run: sudo apt-get install -y libsqlite3-dev
+          - run: cp .env.testing .env
+          - run: composer install -n --ignore-platform-reqs
+          - run: npm install
+          - run: npm run production
+          - run: vendor/bin/phpunit
 
-                - run:
-                   name: Start Chrome Driver
-                   command: ./vendor/laravel/dusk/bin/chromedriver-linux
-                   background: true
+          - run:
+            name: Start Chrome Driver
+            command: ./vendor/laravel/dusk/bin/chromedriver-linux
+            background: true
 
-                - run:
-                   name: Run Laravel Server
-                   command: php artisan serve
-                   background: true
+          - run:
+            name: Run Laravel Server
+            command: php artisan serve
+            background: true
 
-                - run:
-                   name: Run Laravel Dusk Tests
-                   command: php artisan dusk
+          - run:
+            name: Run Laravel Dusk Tests
+            command: php artisan dusk
