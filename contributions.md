@@ -84,7 +84,7 @@ Laravel 遵循 [PSR-2](https://phphub.org/topics/2079) 编码规范和 [PSR-4](h
 <a name="styleci"></a>
 ### StyleCI
 
-别担心你的编码风格不够漂亮！所有 Pull Request 合并后 [StyleCI](https://styleci.io) 会自动将任何样式修正并合并到 Laravel 仓库中。这样使得我们可以专注于贡献内容本身而不是编码分割。
+别担心你的编码风格不够漂亮！所有 Pull Request 合并后 [StyleCI](https://styleci.io) 会自动将任何样式修正并合并到 Laravel 仓库中。这样使得我们可以专注于贡献内容本身而不是编码风格。
 
 ## 译者署名
 
