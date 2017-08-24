@@ -12,7 +12,7 @@
 <a name="introduction"></a>
 ## 简介
 
-当你在 Eloquent 模型实例中获取或设置某些属性值的时候,访问器和修改器允许你对 Eloquent 属性值进行格式化 。例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption) 来加密一个即将被保存在数据库中的值，当你从 Eloquent 模型访问该属性时其值将被自动解密。
+当你在 Eloquent 模型实例中获取或设置某些属性值的时候，访问器和修改器允许你对 Eloquent 属性值进行格式化。例如，你可能想要使用 [Laravel 加密器](/docs/{{version}}/encryption) 来加密一个即将被保存在数据库中的值，当你从 Eloquent 模型访问该属性时，其值将被自动解密。
 
 除了自定义访问器和修改器之外，Eloquent 也会自动将日期字段类型转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例或将 [文本字段类型转换成 JSON](#attribute-casting)。
 
@@ -88,7 +88,7 @@
 
 默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，它继承了 PHP 原生的 DateTime 类，并提供了各种有用的方法。
 
-你可以可通过重写模型的 `$dates` 属性，在模型中自定义哪些字段需要被自动修改，或完全禁止修改：
+你可以通过重写模型的 `$dates` 属性，自行定义哪些日期类型字段会被自动转换，或者完全禁止所有日期类型字段的转换：
 
     <?php
 
@@ -110,7 +110,7 @@
         ];
     }
     
-当某个字段被认为是日期格式时，你或许想将其数值设置成一个 UNIX 时间戳、日期字符串（`Y-m-d`）、日期时间（ `date-time` ）字符串，当然还有 `DateTime` 或 `Carbon` 实例，并且让日期数值自动保存到你的数据库表中：
+当某个字段被认为是日期格式时，你或许想将其数值设置成一个 UNIX 时间戳、日期字符串（`Y-m-d`）、日期时间（ `date-time` ）字符串，当然还有 `DateTime` 或 `Carbon` 实例，并且让日期值自动正确地保存到你的数据库中：
 
     $user = App\User::find(1);
 
@@ -126,7 +126,7 @@
     
 #### 日期格式
 
-默认情况下，时间戳将会以 `'Y-m-d H:i:s'` 格式化。如果你想要自定义自己的时间戳格式，可在模型中设置 `$dateFormat` 属性。该属性决定了日期属性应以何种格式被保存到数据表中，以及模型应被序列化成数组或是 JSON 格式：
+默认情况下，时间戳将会以 `'Y-m-d H:i:s'` 的形式格式化。如果你想要自定义自己的时间戳格式，可在模型中设置 `$dateFormat` 属性。该属性决定了日期属性应以何种格式被保存到数据表中，以及当模型被序列化成数组或是 JSON 格式时，这些日期属性以何种格式被保存：
 
     <?php
 
@@ -137,7 +137,7 @@
     class Flight extends Model
     {
         /**
-         * 模型的数据字段的保存格式。
+         * 模型的日期字段的保存格式。
          *
          * @var string
          */
@@ -162,7 +162,7 @@
 + datetime
 + timestamp
 
-例如，让我们转换 `is_admin` 属性，将整数（`0` 或 `1`）转换为布尔值类型：
+例如，让我们转换 `is_admin` 属性，将整数（`0` 或 `1`）转换为布尔值：
 
     <?php
 
