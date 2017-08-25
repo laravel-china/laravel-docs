@@ -29,9 +29,9 @@ Laravel 致力于让你在 PHP 开发过程中更加轻松愉快，这其中也�
 
 Laravel Homestead 是一个官方预封装的 Vagrant box，它为你提供了一个完美的开发环境，你无需在本地安装 PHP ，web 服务器，或其他服务软件。 Vagrant box 是完全一次性的，你不用担心系统被搞乱！如果有什么地方出错了，你可以在几分钟内销毁并重建 box ！
 
-Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，它里面包含了 Nginx Web 服务器、 PHP 7.1 、 MySQL 、 Postgres 、 Redis 、 Memcached 、 Node ， 以及一些有利于你开发 laravel 应用的其他程序。
+Homestead 可以运行在 Windows 、Mac 或 Linux 系统上，它里面包含了 Nginx Web 服务器、PHP 7.1 、MySQL 、Postgres 、Redis 、Memcached 、Node ，以及一些有利于你开发 laravel 应用的其他程序。
 
-> {note} 如果你使用的是 Windows 系统，你可能需要启用硬件虚拟化（VT-x）。这通常需要通过 BIOS 来启用它。如果你在一个 UEFI 系统上使用 Hyper-V，您可能还需要禁用 Hyper-V 才能启用 VT-x 。
+> {note} 如果你使用的是 Windows 系统，你可能需要启用硬件虚拟化（VT-x）。这通常需要通过 BIOS 来启用它。如果你在一个 UEFI 系统上使用 Hyper-V，您可能还需要禁用 Hyper-V 才能启用 VT-x。
 
 <a name="included-software"></a>
 ### 内置软件
@@ -58,7 +58,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，它里面包含�
 <a name="first-steps"></a>
 ### 第一步 
 
-在你使用 Homestead 环境之前，你必须先安装 [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) 、 [VMWare](https://www.vmware.com) 或者 [Parallels](http://www.parallels.com/products/desktop/) 中的一个，然后再安装 [Vagrant](https://www.vagrantup.com/downloads.html) 。上述软件均提供了针对不同操作系统的可视化安装包。
+在你使用 Homestead 环境之前，你必须先安装 [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) 、[VMWare](https://www.vmware.com) 或者 [Parallels](http://www.parallels.com/products/desktop/) 中的一个，然后再安装 [Vagrant](https://www.vagrantup.com/downloads.html)。上述软件均提供了针对不同操作系统的可视化安装包。
 
 若要使用 VMware provider，你需要同时购买 VMware Fusion / Workstation 以及 [VMware Vagrant 插件](https://www.vagrantup.com/vmware) 的软件授权，因为它们不是免费的。使用 VMware 的优势是：可以获得开箱即用的共享文件夹特性。
 
@@ -70,7 +70,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，它里面包含�
 
     vagrant box add laravel/homestead
 
-如果上面的命令运行失败，请先确保你已经安装了最新版本的 Vagrant 。
+如果上面的命令运行失败，请先确保你已经安装了最新版本的 Vagrant。
 
 > {note} 如果使用国内网络，可以复制终端上显示的 homestead box 下载地址手动下载并重命名。例如重命名为 virtualbox-3.0.0.box 
 
@@ -125,7 +125,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，它里面包含�
 
 #### 配置你的提供者
 
-`Homestead.yaml` 中的 `provider` 参数设置取决于你用的是哪一个 Vagrant 提供者 `virtualbox ` 、 `vmware_fusion` 、 `vmware_workstation` ，或者 `parallels` 。你可以根据自己的实际情况来设置提供者：
+`Homestead.yaml` 中的 `provider` 参数设置取决于你用的是哪一个 Vagrant 提供者 `virtualbox ` 、`vmware_fusion` 、`vmware_workstation` 或者 `parallels`。你可以根据自己的实际情况来设置提供者：
 
     provider: virtualbox
 
@@ -144,7 +144,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，它里面包含�
           to: /home/vagrant/Code
           type: "nfs"
 
-> {note} 如果使用 NFS ， 建议你安装 [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 插件。 这个插件会替你处理 box 中的文件或目录权限问题。
+> {note} 如果使用 NFS ，建议你安装 [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 插件。 这个插件会替你处理 box 中的文件或目录权限问题。
 
 你也可以在配置中传递任何 Vagrant [共享文件夹](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) 支持的参数，在 `options` 配置项下列出它们：
 
@@ -169,7 +169,7 @@ Homestead 可以运行在 Windows 、 Mac 或 Linux 系统上，它里面包含�
 
 #### 关于 Hosts 文件
 
-你必须将在 Nginx sites 中所添加的「域名」也添加到你本机电脑的 `hosts` 上。 `hosts` 文件会将请求重定向至 Homestead 环境中设置的本地域名。在 Mac 或 Linux 上，该文件通常会存放在 `/etc/hosts` 。在 Windows 上，则存放于 `C:\Windows\System32\drivers\etc\hosts` 。设置内容如下所示：
+你必须将在 Nginx sites 中所添加的「域名」也添加到你本机电脑的 `hosts` 上。 `hosts` 文件会将请求重定向至 Homestead 环境中设置的本地域名。在 Mac 或 Linux 上，该文件通常会存放在 `/etc/hosts`。在 Windows 上，则存放于 `C:\Windows\System32\drivers\etc\hosts`。设置内容如下所示：
 
     192.168.10.10  homestead.app
 
@@ -203,7 +203,7 @@ Windows:
 
     vendor\\bin\\homestead make
 
-接下来，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app` 。再次提醒：你仍然需要在 `/etc/hosts` 里配置 `homestead.app` 或其它想要使用的域名。
+接下来，在命令行中运行 `vagrant up` 并通过网页浏览器访问 `http://homestead.app`。再次提醒：你仍然需要在 `/etc/hosts` 里配置 `homestead.app` 或其它想要使用的域名。
 
 <a name="installing-mariadb"></a>
 ### 安装 MariaDB
@@ -225,7 +225,7 @@ Windows:
 <a name="accessing-homestead-globally"></a>
 ### 全局使用
 
-有时候你希望在文件系统的任何地方都可以使用 `vagrant up` 命令启动虚拟机，那么你需要添加以下代码到你的 Mac / Linux 系统的 Bash profile 文件里面。对于 Windows 系统，您可以通过在  `PATH` 环境变量中添加 「批处理」 文件的方式来实现此目的。下面这些脚本让你可以在文件系统的任何位置都能运行 Vagrant 命令，它相当于切换到 Homestead 目录运行 Vagrant 命令：
+有时候你希望在文件系统的任何地方都可以使用 `vagrant up` 命令启动虚拟机，那么你需要添加以下代码到你的 Mac / Linux 系统的 Bash profile 文件里面。对于 Windows 系统，您可以通过在  `PATH` 环境变量中添加「批处理」文件的方式来实现此目的。下面这些脚本让你可以在文件系统的任何位置都能运行 Vagrant 命令，它相当于切换到 Homestead 目录运行 Vagrant 命令：
 
 #### Mac / Linux
 
@@ -289,19 +289,19 @@ Windows:
 <a name="site-types"></a>
 #### 网站类型
 
-Homestead 支持多种类型的网站，允许您轻松地运行那些不基于 Laravel 的项目。 例如，我们可以使用 「symfony2」 配置项，轻松地在 Homestead 中添加 Symfony 应用程序：
+Homestead 支持多种类型的网站，允许您轻松地运行那些不基于 Laravel 的项目。 例如，我们可以使用「symfony2」配置项，轻松地在 Homestead 中添加 Symfony 应用程序：
 
     sites:
         - map: symfony2.app
           to: /home/vagrant/Code/Symfony/web
           type: symfony2
 
-支持的站点类型有： `apache`， `laravel` （默认）， `proxy`， `silverstripe`，`statamic`， `symfony2`， 和 `symfony4`。
+支持的站点类型有： `apache`、`laravel`（默认）、`proxy`、`silverstripe`、`statamic`、`symfony2` 和 `symfony4`。
 
 <a name="site-parameters"></a>
 #### 网站参数
 
-你还可以使用 「params」 配置项，添加额外的 Nginx `fastcgi_param` 值到你的网站。例如添加一个名称为 「FOO」 值为 「BAR」 的额外配置。
+你还可以使用「params」配置项，添加额外的 Nginx `fastcgi_param` 值到你的网站。例如添加一个名称为「FOO」值为「BAR」的额外配置。
 
     sites:
         - map: homestead.app
@@ -367,7 +367,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 
 > {note} 这个特性仅与 Nginx 兼容。
 
-Homestead 6 支持在同一个虚拟机上引入多个不同版本的 PHP 。您需要在 Homestead.yaml 配置文件中为某个站点指明需要使用的 PHP 版本即可。 可用的 PHP 版本有：「5.6」，「7.0」，「7.1」
+Homestead 6 支持在同一个虚拟机上引入多个不同版本的 PHP。您需要在 Homestead.yaml 配置文件中为某个站点指明需要使用的 PHP 版本即可。 可用的 PHP 版本有：「5.6」、「7.0」、「7.1」
 
     sites:
         - map: homestead.app
