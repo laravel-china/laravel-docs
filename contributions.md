@@ -20,19 +20,19 @@
 Laravel 源代码托管在 GitHub 上面，并且每个 Laravel 的项目都有自己的代码仓库：
 
 <div class="content-list" markdown="1">
-- [Laravel Application](https://github.com/laravel/laravel)
+- [Laravel 应用](https://github.com/laravel/laravel)
 - [Laravel Art](https://github.com/laravel/art)
-- [Laravel Documentation](https://github.com/laravel/docs)
+- [Laravel 文档](https://github.com/laravel/docs)
 - [Laravel Cashier](https://github.com/laravel/cashier)
-- [Laravel Cashier for Braintree](https://github.com/laravel/cashier-braintree)
+- [Braintree 版 Laravel Cashier](https://github.com/laravel/cashier-braintree)
 - [Laravel Envoy](https://github.com/laravel/envoy)
-- [Laravel Framework](https://github.com/laravel/framework)
+- [Laravel 框架](https://github.com/laravel/framework)
 - [Laravel Homestead](https://github.com/laravel/homestead)
-- [Laravel Homestead Build Scripts](https://github.com/laravel/settler)
+- [Laravel Homestead 构建脚本](https://github.com/laravel/settler)
 - [Laravel Passport](https://github.com/laravel/passport)
 - [Laravel Scout](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
-- [Laravel Website](https://github.com/laravel/laravel.com)
+- [Laravel 网站](https://github.com/laravel/laravel.com)
 </div>
 
 <a name="core-development-discussion"></a>
