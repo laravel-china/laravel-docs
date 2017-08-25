@@ -86,9 +86,7 @@
 <a name="date-mutators"></a>
 ## 日期转换器
 
-默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，它继承了 PHP 原生的 DateTime 类，并提供了各种有用的方法。
-
-你可以通过重写模型的 `$dates` 属性，自行定义哪些日期类型字段会被自动转换，或者完全禁止所有日期类型字段的转换：
+默认情况下，Eloquent 将会把 `created_at` 和 `updated_at` 字段转换成 [Carbon](https://github.com/briannesbitt/Carbon) 实例，它继承了 PHP 原生的 DateTime 类，并提供了各种有用的方法。你可以通过重写模型的 `$dates` 属性，自行定义哪些日期类型字段会被自动转换，或者完全禁止所有日期类型字段的转换：
 
     <?php
 
@@ -193,7 +191,7 @@
 <a name="array-and-json-casting"></a>
 ### 数组 & JSON 转换
 
-如果一个字段是以被序列化的 JSON 来存储在数据库中, `array` 类型转换将会非常有用。例如，当你在 Eloquent 模型上访问的某个属性在你的数据库中有一个 `JSON` 或 `TEXT` 字段类型，它包含了 被序列化的 JSON，你又对该字段添加了 `array` 类型转换时，它将会被自动反序列化成一个 PHP 数组：
+如果一个字段是以被序列化的 JSON 来存储在数据库中, `array` 类型转换将会非常有用。例如，当你在 Eloquent 模型上访问的某个属性在数据库里是一个 `JSON` 或 `TEXT` 字段类型，它包含了被序列化的 JSON，而且你对该字段添加了 `array` 类型转换，那么它将会自动反序列化成一个 PHP 数组：
 
     <?php
 
