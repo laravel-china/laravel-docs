@@ -1,77 +1,77 @@
-# Laravel 的文件系统和云存储功能集成
+# 文件存储
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-    - [The Public Disk](#the-public-disk)
-    - [The Local Driver](#the-local-driver)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Obtaining Disk Instances](#obtaining-disk-instances)
-- [Retrieving Files](#retrieving-files)
-    - [File URLs](#file-urls)
-    - [File Metadata](#file-metadata)
-- [Storing Files](#storing-files)
-    - [File Uploads](#file-uploads)
-    - [File Visibility](#file-visibility)
-- [Deleting Files](#deleting-files)
-- [Directories](#directories)
-- [Custom Filesystems](#custom-filesystems)
+- [简介](#introduction)
+- [配置](#configuration)
+    - [公共磁盘](#the-public-disk)
+    - [本地驱动](#the-local-driver)
+    - [驱动之前](#driver-prerequisites)
+- [获取磁盘实例](#obtaining-disk-instances)
+- [检索文件](#retrieving-files)
+    - [文件 URLs](#file-urls)
+    - [文件元数据](#file-metadata)
+- [保存文件](#storing-files)
+    - [文件上传](#file-uploads)
+    - [文件可见性](#file-visibility)
+- [删除文件](#deleting-files)
+- [目录](#directories)
+- [自定义文件系统](#custom-filesystems)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel provides a powerful filesystem abstraction thanks to the wonderful [Flysystem](https://github.com/thephpleague/flysystem) PHP package by Frank de Jonge. The Laravel Flysystem integration provides simple to use drivers for working with local filesystems, Amazon S3, and Rackspace Cloud Storage. Even better, it's amazingly simple to switch between these storage options as the API remains the same for each system.
+Laravel 提供了一个强大的文件系统抽象，这得益于 Frank de Jonge 强大的 [Flysystem](https://github.com/thephpleague/flysystem) 扩展包。Laravel 文件系统集成为使用本地文件系统、Amazon S3 和 Rackspace 云存储提供了简单易用的驱动程序。更棒的是，由于每个系统的 API 保持不变，所以在这些存储选项之间切换是非常简单的。
 
 <a name="configuration"></a>
-## Configuration
+## 配置
 
-The filesystem configuration file is located at `config/filesystems.php`. Within this file you may configure all of your "disks". Each disk represents a particular storage driver and storage location. Example configurations for each supported driver are included in the configuration file. So, simply modify the configuration to reflect your storage preferences and credentials.
+文件系统的配置文件位于 `config/filesystems.php`。在这个文件中你可以配置所有「磁盘」。每个磁盘代表特定的存储驱动及存储位置。每种支持的驱动程序的示例配置都包含在配置文件中。因此，只需要修改配置即可反映你的存储偏好和凭据。
 
-Of course, you may configure as many disks as you like, and may even have multiple disks that use the same driver.
+当然，你可以根据需要配置多个磁盘，甚至你还可以使多个磁盘共用同一个驱动。
 
 <a name="the-public-disk"></a>
-### The Public Disk
+### 公共磁盘
 
-The `public` disk is intended for files that are going to be publicly accessible. By default, the `public` disk uses the `local` driver and stores these files in `storage/app/public`. To make them accessible from the web, you should create a symbolic link from `public/storage` to `storage/app/public`. This convention will keep your publicly accessible files in one directory that can be easily shared across deployments when using zero down-time deployment systems like [Envoyer](https://envoyer.io).
+`public` 磁盘适用于要公开访问的文件。默认情况下， `public` 磁盘使用 `local` 驱动，并且将这些文件存储在 `storage/app/public` 目录下。为了使它们能通过网络访问，你需要创建 `public/storage` 到 `storage/app/public` 的符号链接。这种方式能把可公开访问文件都保留在同一个目录下，以便在使用零停机时间部署系统如[Envoyer](https://envoyer.io/) 的时候，就可以轻松地在不同的部署之间共享这些文件。
 
-To create the symbolic link, you may use the `storage:link` Artisan command:
+你可以使用 Artisan 命令 `storage:link` 来创建符号链接：
 
     php artisan storage:link
 
-Of course, once a file has been stored and the symbolic link has been created, you can create a URL to the files using the `asset` helper:
+当然，一旦一个文件被存储并且已经创建了符号链接，你就可以使用辅助函数 `asset` 来创建文件的 URL：
 
     echo asset('storage/file.txt');
 
 <a name="the-local-driver"></a>
-### The Local Driver
+### 本地驱动
 
-When using the `local` driver, all file operations are relative to the `root` directory defined in your configuration file. By default, this value is set to the `storage/app` directory. Therefore, the following method would store a file in `storage/app/file.txt`:
+使用 `local` 驱动时，所有文件操作都你在配置文件中定义的 `root` 目录相关。该目录的默认值是 `storage/app`。因此，以下方法会把文件存储在 `storage/app/file.txt` 中：
 
     Storage::disk('local')->put('file.txt', 'Contents');
 
 <a name="driver-prerequisites"></a>
-### Driver Prerequisites
+### 驱动之前
 
-#### Composer Packages
+#### Composer 包
 
-Before using the S3 or Rackspace drivers, you will need to install the appropriate package via Composer:
+在使用 S3 或 Rackspace 的驱动之前，你需要通过 Composer 安装相应的软件包：
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
-#### S3 Driver Configuration
+#### S3 驱动配置
 
-The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials.
+S3 驱动的配置信息位于 `config/filesystems.php` 配置文件中。该文件包含 S3 驱动程序的配置数组示例。你可根据自己的 S3 配置和凭证自由修改该数组。
 
-#### FTP Driver Configuration
+#### FTP 驱动配置
 
-Laravel's Flysystem integrations works great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a FTP filesystem, you may use the example configuration below:
+Laravel 的文件系统集成能很好的支持 FTP，不过 FTP 的配置示例并没有被包含在框架默认的 `filesystems.php` 文件中。需要的话可以使用下面的示例配置：
 
     'ftp' => [
         'driver'   => 'ftp',
         'host'     => 'ftp.example.com',
         'username' => 'your-username',
         'password' => 'your-password',
-
+    
         // Optional FTP Settings...
         // 'port'     => 21,
         // 'root'     => '',
@@ -80,9 +80,9 @@ Laravel's Flysystem integrations works great with FTP; however, a sample configu
         // 'timeout'  => 30,
     ],
 
-#### Rackspace Driver Configuration
+#### Rackspace 驱动配置
 
-Laravel's Flysystem integrations works great with Rackspace; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a Rackspace filesystem, you may use the example configuration below:
+Laravel 的文件系统集成也能很好的支持 Rackspace，不过 Rackspace 的配置示例也没被包含在框架默认的 `filesystems.php` 文件中。需要的话可以使用下面的示例配置：
 
     'rackspace' => [
         'driver'    => 'rackspace',
@@ -95,51 +95,51 @@ Laravel's Flysystem integrations works great with Rackspace; however, a sample c
     ],
 
 <a name="obtaining-disk-instances"></a>
-## Obtaining Disk Instances
+## 获取磁盘实例
 
-The `Storage` facade may be used to interact with any of your configured disks. For example, you may use the `put` method on the facade to store an avatar on the default disk. If you call methods on the `Storage` facade without first calling the `disk` method, the method call will automatically be passed to the default disk:
+`Storage` facade 用于和所有已配置的磁盘进行交互。例如，你可以使用 facade 的 `put` 方法将头像保存到默认磁盘上。调 `Storage` facade 的方法前若未先调用 `disk` 方法，此方法会被自动传递给默认磁盘。如果没有先调用 `disk` 方法就调用了 `Storage` facade 上的方法，那调用的方法会自动被传递到默认磁盘：
 
     use Illuminate\Support\Facades\Storage;
 
     Storage::put('avatars/1', $fileContents);
 
-If your applications interacts with multiple disks, you may use the `disk` method on the `Storage` facade to work with files on a particular disk:
+如果应用程序和多个磁盘交互，则可以使用 `Storage` facade 上的 `disk` 方法来处理特定磁盘上的文件：
 
     Storage::disk('s3')->put('avatars/1', $fileContents);
 
 <a name="retrieving-files"></a>
-## Retrieving Files
+## 检索文件
 
-The `get` method may be used to retrieve the contents of a file. The raw string contents of the file will be returned by the method. Remember, all file paths should be specified relative to the "root" location configured for the disk:
+`get` 方法可以用于检索文件的内容，此方法返回该文件的原始字符串内容。 切记，所有文件路径的指定都应该相对于为磁盘配置的 `root` 目录：
 
     $contents = Storage::get('file.jpg');
 
-The `exists` method may be used to determine if a file exists on the disk:
+`exists` 方法可以用来判断磁盘上是否存在指定的文件：
 
     $exists = Storage::disk('s3')->exists('file.jpg');
 
 <a name="file-urls"></a>
-### File URLs
+### 文件 URLs
 
-When using the `local` or `s3` drivers, you may use the `url` method to get the URL for the given file. If you are using the `local` driver, this will typically just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` driver, the fully qualified remote URL will be returned:
+当使用 `local` 或者 `s3` 驱动时，你可以使用 `url` 方法来获取给定文件的 URL。如果你使用的是 `local` 驱动，一般只是在给定的路径前面加上 `/storage` 并返回一个相对的 URL 到那个文件。如果使用的是 `s3` 驱动，会返回完整的远程 URL：
 
     use Illuminate\Support\Facades\Storage;
 
     $url = Storage::url('file1.jpg');
 
-> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) at `public/storage` which points to the `storage/app/public` directory.
+> {note} 切记，如果使用的是 `local` 驱动，则所有想被公开访问的文件都应该放在 `storage/app/public` 目录下。此外，你应该在 `public/storage` [创建一个符号链接 ](#the-public-disk) 来指向 `storage/app/public` 目录。
 
-#### Temporary URLs
+#### 临时 URLs
 
-For files stored using the `s3` driver, you may create a temporary URL to a given file using the `temporaryUrl` method. This methods accepts a path and a `DateTime` instance specifying when the URL should expire:
+对于使用 `s3` 驱动来存储的文件，可以使用 `temporaryUrl` 方法创建给定文件的临时 URL 。这个方法接收路径和 `DateTime` 实例来指定 URL 何时过期：
 
     $url = Storage::temporaryUrl(
         'file1.jpg', Carbon::now()->addMinutes(5)
     );
 
-#### Local URL Host Customization
+#### 自定义本地 URL 主机
 
-If you would like to pre-define the host for files stored on a disk using the `local` driver, you may add a `url` option to the disk's configuration array:
+如果要使用 `local` 驱动为存储在磁盘上的文件预定义主机，可以向磁盘配置数组添加一个 `url` 选项：
 
     'public' => [
         'driver' => 'local',
@@ -149,22 +149,22 @@ If you would like to pre-define the host for files stored on a disk using the `l
     ],
 
 <a name="file-metadata"></a>
-### File Metadata
+### 文件元数据
 
-In addition to reading and writing files, Laravel can also provide information about the files themselves. For example, the `size` method may be used to get the size of the file in bytes:
+除了读写文件，Laravel 还可以提供有关文件本身的信息。例如，`size` 方法可用来获取文件的大小（以字节为单位）：
 
     use Illuminate\Support\Facades\Storage;
 
     $size = Storage::size('file1.jpg');
 
-The `lastModified` method returns the UNIX timestamp of the last time the file was modified:
+`lastModified` 方法返回最后一次文件被修改的 UNIX 时间戳：
 
     $time = Storage::lastModified('file1.jpg');
 
 <a name="storing-files"></a>
-## Storing Files
+## 保存文件
 
-The `put` method may be used to store raw file contents on a disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Using streams is greatly recommended when dealing with large files:
+`put` 方法可用于将原始文件内容保存到磁盘上。你也可以传递 PHP 的 `resource` 给 put 方法，它将使用文件系统下的底层流支持。强烈建议在处理大文件时使用流：
 
     use Illuminate\Support\Facades\Storage;
 
@@ -172,44 +172,44 @@ The `put` method may be used to store raw file contents on a disk. You may also 
 
     Storage::put('file.jpg', $resource);
 
-#### Automatic Streaming
+#### 自动流式传输
 
-If you would like Laravel to automatically manage streaming a given file to your storage location, you may use the `putFile` or `putFileAs` method. This method accepts either a `Illuminate\Http\File` or `Illuminate\Http\UploadedFile` instance and will automatically stream the file to your desired location:
+如果你想 Laravel 自动管理将给定文件流式传输到你想要的存储位置，你可以使用 `putFile` 或 `putFileAs` 方法。这个方法接受 `Illuminate\HTTP\File` 或 `Illuminate\HTTP\UploadedFile` 实例，并自动将文件流式传输到你想要的位置：
 
     use Illuminate\Http\File;
 
-    // Automatically generate a unique ID for file name...
+    // 自动为文件名生成唯一的 ID...
     Storage::putFile('photos', new File('/path/to/photo'));
-
-    // Manually specify a file name...
+    
+    // 手动指定文件名...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
+关于 `putFile` 方法有些重要的事情要注意。请注意，我们只指定一个目录名，而不是文件名。默认情况下，`putFile` 方法将生成唯一的 ID 作为文件名。该文件的路径将被 `putFile` 方法返回，因此可以将路径（包括生成的文件名）存储在数据库中。
 
-The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
+`putFile` 和 `putFileAs` 方法也接受一个参数来指定存储文件的「可见性」。如果你将文件存储在诸如 S3 的云盘上，并且该文件可以公开访问，这是特别有用的：
 
     Storage::putFile('photos', new File('/path/to/photo'), 'public');
 
-#### Prepending & Appending To Files
+#### 前置&追加
 
-The `prepend` and `append` methods allow you to write to the beginning or end of a file:
+`prepend` 及 `append` 方法允许你写入内容到文件的开头或结尾：
 
     Storage::prepend('file.log', 'Prepended Text');
 
     Storage::append('file.log', 'Appended Text');
 
-#### Copying & Moving Files
+#### 复制 & 移动
 
-The `copy` method may be used to copy an existing file to a new location on the disk, while the `move` method may be used to rename or move an existing file to a new location:
+`copy` 方法可用于将现有文件复制到磁盘的新位置，而 `move` 方法可用于重命名或将现有文件移动到新位置：
 
     Storage::copy('old/file1.jpg', 'new/file1.jpg');
 
     Storage::move('old/file1.jpg', 'new/file1.jpg');
 
 <a name="file-uploads"></a>
-### File Uploads
+### 文件上传
 
-In web applications, one of the most common use-cases for storing files is storing user uploaded files such as profile pictures, photos, and documents. Laravel makes it very easy to store uploaded files using the `store` method on an uploaded file instance. Simply call the `store` method with the path at which you wish to store the uploaded file:
+在 Web 应用中，存储文件最常见的例子之一就是存储用户上传的文件，如个人资料图片、照片和文档。 Laravel 可以使用文件上传实例的 `store` 方法来存储上传的文件。只需使用你想存储上传文件的路径调用 `store` 方法：
 
     <?php
 
@@ -217,11 +217,11 @@ In web applications, one of the most common use-cases for storing files is stori
 
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
-
+    
     class UserAvatarController extends Controller
     {
         /**
-         * Update the avatar for the user.
+         * 更新用户头像。
          *
          * @param  Request  $request
          * @return Response
@@ -229,60 +229,60 @@ In web applications, one of the most common use-cases for storing files is stori
         public function update(Request $request)
         {
             $path = $request->file('avatar')->store('avatars');
-
+    
             return $path;
         }
     }
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
+关于这个例有些注意事项。我们只指定目录名，而不是文件名。默认情况下，`store` 方法将生成唯一的 ID 来作为文件名。该文件的路径将被 `store` 方法返回，因此你可以在数据库中存储路径及生成的文件名。
 
-You may also call the `putFile` method on the `Storage` facade to perform the same file manipulation as the example above:
+你也可以调用 `Storage` facade 的 `putFile` 方法来执行和上面例子相同的文件操作：
 
     $path = Storage::putFile('avatars', $request->file('avatar'));
 
-#### Specifying A File Name
+#### 指定文件名
 
-If you would not like a file name to be automatically assigned to your stored file, you may use the `storeAs` method, which receives the path, the file name, and the (optional) disk as its arguments:
+如果你不喜欢自动生成的文件名，你可以使用 `storeAs` 方法，它接收的路径、文件名、磁盘（可选的）作为它的参数：
 
     $path = $request->file('avatar')->storeAs(
         'avatars', $request->user()->id
     );
 
-Of course, you may also use the `putFileAs` method on the `Storage` facade, which will perform the same file manipulation as the example above:
+当然，你也可以使用 `Storage` facade 的 `putFileAs` 方法，和上面例子的文件操作有相同效果：
 
     $path = Storage::putFileAs(
         'avatars', $request->file('avatar'), $request->user()->id
     );
 
-#### Specifying A Disk
+#### 指定磁盘
 
-By default, this method will use your default disk. If you would like to specify another disk, pass the disk name as the second argument to the `store` method:
+默认情况下，此方法将使用默认的磁盘。如果你想指定其他磁盘，就将磁盘名称作为第二个参数传递给 `store` 方法：
 
     $path = $request->file('avatar')->store(
         'avatars/'.$request->user()->id, 's3'
     );
 
 <a name="file-visibility"></a>
-### File Visibility
+### 文件可见性
 
-In Laravel's Flysystem integration, "visibility" is an abstraction of file permissions across multiple platforms. Files may either be declared `public` or `private`. When a file is declared `public`, you are indicating that the file should generally be accessible to others. For example, when using the S3 driver, you may retrieve URLs for `public` files.
+在 Laravel 的文件系统集成里，「可见性」 是跨多个平台的文件权限的抽象。文件可能被声明为 `public` 或 `private` 。当一个文件声明为 `public` 时，就意味着文件通常可以被其他人访问。例如，使用 S3 驱动时，你可检索 `public` 文件的 URL。
 
-You can set the visibility when setting the file via the `put` method:
+你可通过 `put` 方法在设置文件时指定它的可见性：
 
     use Illuminate\Support\Facades\Storage;
 
     Storage::put('file.jpg', $contents, 'public');
 
-If the file has already been stored, its visibility can be retrieved and set via the `getVisibility` and `setVisibility` methods:
+如果文件已经被保存，可以通过 `getVisibility` 和 `setVisibility` 方法检索和设置其可见性。
 
     $visibility = Storage::getVisibility('file.jpg');
 
     Storage::setVisibility('file.jpg', 'public')
 
 <a name="deleting-files"></a>
-## Deleting Files
+## 删除文件
 
-The `delete` method accepts a single filename or an array of files to remove from the disk:
+`delete` 方法接受文件名或文件名数组参数来删除磁盘中相应的文件：
 
     use Illuminate\Support\Facades\Storage;
 
@@ -291,11 +291,11 @@ The `delete` method accepts a single filename or an array of files to remove fro
     Storage::delete(['file1.jpg', 'file2.jpg']);
 
 <a name="directories"></a>
-## Directories
+## 目录
 
-#### Get All Files Within A Directory
+#### 获取目录中的所有文件
 
-The `files` method returns an array of all of the files in a given directory. If you would like to retrieve a list of all files within a given directory including all sub-directories, you may use the `allFiles` method:
+`files` 方法返回给定目录下的所有文件的数组。如果你想检索包含所有子目录在内的给定目录中的所有文件的列表，可以使用 `allFiles` 方法：
 
     use Illuminate\Support\Facades\Storage;
 
@@ -303,37 +303,37 @@ The `files` method returns an array of all of the files in a given directory. If
 
     $files = Storage::allFiles($directory);
 
-#### Get All Directories Within A Directory
+#### 获取目录内所有目录
 
-The `directories` method returns an array of all the directories within a given directory. Additionally, you may use the `allDirectories` method to get a list of all directories within a given directory and all of its sub-directories:
+`directories` 方法返回给定目录下的所有目录的数组。另外，你可以使用 `allDirectories` 方法获取给定目录及其所有子目录中的所有目录的列表：
 
     $directories = Storage::directories($directory);
 
-    // Recursive...
+    // 递归...
     $directories = Storage::allDirectories($directory);
 
-#### Create A Directory
+#### 创建目录
 
-The `makeDirectory` method will create the given directory, including any needed sub-directories:
+`makeDirectory` 方法将创建给定的目录，包括任何所需的子目录：
 
     Storage::makeDirectory($directory);
 
-#### Delete A Directory
+#### 删除目录
 
-Finally, the `deleteDirectory` may be used to remove a directory and all of its files:
+最后，`deleteDirectory` 方法可用于删除目录及其所有文件：
 
     Storage::deleteDirectory($directory);
 
 <a name="custom-filesystems"></a>
-## Custom Filesystems
+## 自定义文件系统
 
-Laravel's Flysystem integration provides drivers for several "drivers" out of the box; however, Flysystem is not limited to these and has adapters for many other storage systems. You can create a custom driver if you want to use one of these additional adapters in your Laravel application.
+Laravel 的文件系统集成提供一系列开箱即用的驱动支持；然而文件系统不仅限于此，它还拥有其它存储系统的适配器。如果你想在 Laravel 的应用中使用额外的存储适配器，可以创建自定义驱动。
 
-In order to set up the custom filesystem you will need a Flysystem adapter. Let's add a community maintained Dropbox adapter to our project:
+为了设置自定义文件系统，你需要一个文件系统适配器。让我们添加一个社区维护的 Dropbox 适配器到我们的项目中：
 
     composer require spatie/flysystem-dropbox
 
-Next, you should create a [service provider](/docs/{{version}}/providers) such as `DropboxServiceProvider`. In the provider's `boot` method, you may use the `Storage` facade's `extend` method to define the custom driver:
+接下来，你需要创建一个[服务提供器](/docs/{{version}}/providers)，如 DropboxServiceProvider。并在该提供器的 `boot` 方法使用 `Storage` facade 的 `extend` 方法自定义你的驱动程序。
 
     <?php
 
@@ -344,11 +344,11 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
     use Spatie\Dropbox\Client as DropboxClient;
     use Illuminate\Support\ServiceProvider;
     use Spatie\FlysystemDropbox\DropboxAdapter;
-
+    
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * 执行注册后引导服务。
          *
          * @return void
          */
@@ -358,13 +358,13 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
                 $client = new DropboxClient(
                     $config['authorizationToken']
                 );
-
+    
                 return new Filesystem(new DropboxAdapter($client));
             });
         }
-
+    
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定。
          *
          * @return void
          */
@@ -374,6 +374,21 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
         }
     }
 
-The first argument of the `extend` method is the name of the driver and the second is a Closure that receives the `$app` and `$config` variables. The resolver Closure must return an instance of `League\Flysystem\Filesystem`. The `$config` variable contains the values defined in `config/filesystems.php` for the specified disk.
+`extend` 方法的第一个参数是驱动程序的名称，第二个参数是接收 `$app` 及 `$config` 变量的闭包。该解析闭包必须返回 `League\Flysystem\Filesystem` 的实例。`$config` 变量包含了特定磁盘在 `config/filesystems.php` 中定义的值。
 
-Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystems.php` configuration file.
+一旦通过创建服务提供器注册扩展名后，你就可以在 `config/filesystem.php` 配置文件中使用 `dropbox` 驱动程序。
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+| --- | --- | --- | --- |
+| [@Godruoyi](https://segmentfault.com/blog/godruoyi) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5359_1470894290.jpeg?imageView2/1/w/200/h/200"> | 翻译   | 听大悲咒敲代码的二楞徐                         |
+| [@Rambone](https://github.com/zuoRambo)  | <img class="avatar-66 rm-style" src="http://tva1.sinaimg.cn/crop.0.0.1002.1002.180/92d03bcdjw8f0asasf3m1j20ru0rvaeo.jpg"> | 翻译   | php,go求职 简历请发zuoxiaojie@lianjia.com |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： http://d.laravel-china.org
