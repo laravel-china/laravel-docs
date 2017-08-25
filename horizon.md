@@ -199,3 +199,9 @@ Horizon 包含一个 metrics 仪表盘，它可以提供任务和队列等待时
     {
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
+
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  | [欢迎加入蛋壳公寓](http://www.dankegongyu.com/about/join.html?from=laravel-doc-55)  |
