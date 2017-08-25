@@ -94,3 +94,8 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController`
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@lockdown56](https://laravel-china.org/users/7083)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7083_1503468748.jpg?imageView2/1/w/380/h/380">  |  翻译  | 农闲出来敲代码，农忙回家种玉米 |
