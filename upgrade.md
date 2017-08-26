@@ -32,7 +32,7 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### `authorizeResouce` 控制器方法
 
-当将一个复合的模型名称传递给 `authorizeResource` 方法时，路由将会以「蛇底法」（snake case）的方式对其进行分割，与资源控制器的行为相匹配。
+当将一个复合的模型名称传递给 `authorizeResource` 方法时，路由将会以「蛇形命名」（snake case）的方式对其进行分割，与资源控制器的行为相匹配。
 
 #### `before` 策略方法
 
@@ -71,7 +71,7 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### Model `is` 方法
 
-如果您重写了 Eloquent 模型的 `is` 方法 ，您应该移除方法中 `Model` 的类型提示 。这样 `is` 方法就能将 `null` 作为参数接收。
+如果您重写了 Eloquent 模型的 `is` 方法 ，您应该移除方法中 `Model` 的类型绑定 。这将允许 `is` 方法使用 `null` 作为参数。
 
     /**
      * 判断两个模型是否具有相同的ID且属于同一个表。
@@ -92,7 +92,7 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 原本在 `Illuminate\Database\Eloquent\Relations\Pivot` 类中的 protected `$parent` 属性 已被重命名为 `$pivotParent` 。
 
-#### Relationship `create` 方法
+#### 关联 `create` 方法
 
 `BelongsToMany` ，`HasOneOrMany` ， 以及 `MorphOneOrMany` 类中， `create` 方法为 `$attributes` 参数提供了一个默认值。如果您重写了这些方法，您应更新您的签名以与新的定义相匹配。
 
@@ -101,9 +101,9 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
         //
     }
 
-#### Soft Deleted 模型
+#### 软删除模型
 
-当删除一个 「soft deleted」 模型时，该模型的 `exists` 属性将保持 `true` 。
+当删除一个 「软删除」 模型时，该模型的 `exists` 属性将保持为 `true` 。
 
 #### `withCount` 列的格式化
 
