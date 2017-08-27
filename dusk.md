@@ -469,7 +469,6 @@ Assertion  | Description
 `$browser->assertSourceMissing($code)`  |  断言页面的源码中不存在指定的值。
 `$browser->assertSeeLink($linkText)`  |  断言页面中存在指定链接。
 `$browser->assertDontSeeLink($linkText)`  |  断言页面中不存在指定链接。
-`$browser->assertSeeLink($link)`  |  Determine if the given link is visible.???纳尼
 `$browser->assertInputValue($field, $value)`  |  断言指定的 input 输入框为指定的值。
 `$browser->assertInputValueIsNot($field, $value)`  |  断言指定的 input 输入框不为指定的值。
 `$browser->assertChecked($field)`  |  断言指定的复选框已被选中。
