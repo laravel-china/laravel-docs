@@ -140,7 +140,7 @@ Dusk 默认会尝试自动运行 ChromeDriver。如果在你特定的系统中�
 <a name="environment-handling"></a>
 ### 环境处理
 
-在你项目的根目录创建 `.env.dusk.{environment}` 文件来强制 Dusk 使用自己的的环境文件来运行测试。简单来说，如果你想要以 `local` 环境来运行 `duck` 命令，你需要创建一个 `.env.dusk.local` 文件。
+在你项目的根目录创建 `.env.dusk.{environment}` 文件来强制 Dusk 使用自己的的环境文件来运行测试。简单来说，如果你想要以 `local` 环境来运行 `dusk` 命令，你需要创建一个 `.env.dusk.local` 文件。
 
 运行测试的时候，Dusk 会备份你的 `.env` 文件，然后重命名你的 Dusk 环境文件为 `.env`。一旦测试结束之后，将会恢复你的 `.env` 文件。
 
