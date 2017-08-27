@@ -63,7 +63,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
     use App\User;
     use App\DripEmailer;
     use Illuminate\Console\Command;
-    
+
     class SendEmails extends Command
     {
         /**
@@ -72,21 +72,21 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
          * @var string
          */
         protected $signature = 'email:send {user}';
-    
+
         /**
          * 控制台命令说明。
          *
          * @var string
          */
         protected $description = 'Send drip e-mails to a user';
-    
+
         /**
          * 邮件服务的 drip 属性。
          *
          * @var DripEmailer
          */
         protected $drip;
-    
+
         /**
          * 创建一个新的命令实例。
          *
@@ -96,10 +96,10 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
         public function __construct(DripEmailer $drip)
         {
             parent::__construct();
-    
+
             $this->drip = $drip;
         }
-    
+
         /**
          * 执行控制台命令。
          *
@@ -140,7 +140,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 
     use App\User;
     use App\DripEmailer;
-    
+
     Artisan::command('email:send {user}', function (DripEmailer $drip, $user) {
         $drip->send(User::find($user));
     });
@@ -174,7 +174,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 
     // 可选参数...
     email:send {user?}
-    
+
     // 带有默认值的可选参数...
     email:send {user=foo}
 
@@ -267,7 +267,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
     public function handle()
     {
         $userId = $this->argument('user');
-    
+
         //
     }
 
@@ -279,7 +279,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 
     // 检索特定选项...
     $queueName = $this->option('queue');
-    
+
     // 检索所有选项...
     $options = $this->options();
 
@@ -367,10 +367,10 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 
     foreach ($users as $user) {
         $this->performTask($user);
-    
+
         $bar->advance();
     }
-    
+
     $bar->finish();
 
 更多信息请查阅 [Symfony 进度条组件文档](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html) 。
@@ -389,7 +389,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
     {
         $this->load(__DIR__.'/Commands');
         $this->load(__DIR__.'/MoreCommands');
-    
+
         // ...
     }
 
@@ -402,13 +402,13 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 <a name="programmatically-executing-commands"></a>
 ## 以编程方式执行命令
 
-有时你可能希望在 CLI 之外执行 Artisan 命令。例如，你可能希望从路由或控制器触发 Artisan 命令。你可以使用 `Artisan` facade 上的 `call` 方法来完成。 `call` 方法接受命令的名称作为第一个参数，命令参数的数组作为第二个参数。 
+有时你可能希望在 CLI 之外执行 Artisan 命令。例如，你可能希望从路由或控制器触发 Artisan 命令。你可以使用 `Artisan` facade 上的 `call` 方法来完成。 `call` 方法接受命令的名称作为第一个参数，命令参数的数组作为第二个参数。结束码会被返回：
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
             'user' => 1, '--queue' => 'default'
         ]);
-    
+
         //
     });
 
@@ -418,7 +418,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
         Artisan::queue('email:send', [
             'user' => 1, '--queue' => 'default'
         ]);
-    
+
         //
     });
 
@@ -443,7 +443,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
         $this->call('email:send', [
             'user' => 1, '--queue' => 'default'
         ]);
-    
+
         //
     }
 
@@ -456,4 +456,4 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 | --- | --- | --- | --- |
-| [@laravelleon](https://laravel-china.org/users/18113) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18113_1503316311.png?imageView2/1/w/100/h/100"> | 翻译   | You may delay , but the time will not . [@Leonzai](https://github.com/leonzai/) at Github |
+| [@laravelleon](https://laravel-china.org/users/18113) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18113_1503316311.png?imageView2/1/w/100/h/100"> | 翻译 | You may delay , but the time will not . [@Leonzai](https://github.com/leonzai/) at Github |

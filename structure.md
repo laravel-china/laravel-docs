@@ -1,4 +1,4 @@
-# Laravel 的文件夹结构
+# 文件夹结构
 
 - [简介](#introduction)
 - [根目录](#the-root-directory)
@@ -148,7 +148,7 @@
 <a name="the-notifications-directory"></a>
 #### `Notifications` 目录
 
-`Notifications` 目录默认不存在，它会在你运行 Artisan 命令 `make:notification` 时生成。`Notifications` 目录包含应用发送的所有「事务性」通知，比如关于在应用中发生的事件的简单通知。Laravel 的通知功能是通过各种驱动（例如邮件、Slack、短信）发送通知，或是存储在数据库中。
+`Notifications` 目录默认不存在，它会在你运行 Artisan 命令 `make:notification` 时生成。`Notifications` 目录包含应用发送的所有「事务性」通知，比如关于在应用中发生的事件的简单通知。Laravel 的通知功能抽象了通知发送，可以通过各种驱动（例如邮件、Slack、短信）发送通知，或是存储在数据库中。
 
 <a name="the-policies-directory"></a>
 #### `Policies` 目录
@@ -170,4 +170,4 @@
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 | --- | --- | --- | --- |
-| [@huiren](https://laravel-china.org/users/5583) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5583_1472366142.png?imageView2/1/w/100/h/100"> | 翻译   | 认领翻译，只是起点。 |
+| [@huiren](https://laravel-china.org/users/5583) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5583_1472366142.png?imageView2/1/w/100/h/100"> | 翻译 | 认领翻译，只是起点。 |
