@@ -45,7 +45,7 @@ Eloquent 返回的所有多结果集都是 `Illuminate\Database\Eloquent\Collect
         column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
         column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
     }
-    
+
     #collection-method-list a {
         display: block;
     }
@@ -147,7 +147,7 @@ Eloquent 返回的所有多结果集都是 `Illuminate\Database\Eloquent\Collect
 
     use App\CustomCollection;
     use Illuminate\Database\Eloquent\Model;
-    
+
     class User extends Model
     {
         /**
@@ -166,6 +166,6 @@ Eloquent 返回的所有多结果集都是 `Illuminate\Database\Eloquent\Collect
 
 ## 译者署名
 
-| 用户名                                      | 头像                                       | 职能   | 签名            |
-| ---------------------------------------- | ---------------------------------------- | ---- | ------------- |
-| [@springjk](https://laravel-china.org/users/4550) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4550_1464580958.png?imageView2/1/w/100/h/100"> | 翻译   | 再怎么说我也是我西北一匹狼 |
+| 用户名 | 头像 | 职能 | 签名 |
+| --- | --- | --- | --- |
+| [@springjk](https://laravel-china.org/users/4550) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4550_1464580958.png?imageView2/1/w/100/h/100"> | 翻译 | 再怎么说我也是我西北一匹狼 |
