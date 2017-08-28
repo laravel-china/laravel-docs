@@ -1,25 +1,25 @@
 # Laravel 测试之：测试模拟器
 
-- [Introduction](#introduction)
-- [Bus Fake](#bus-fake)
-- [Event Fake](#event-fake)
-- [Mail Fake](#mail-fake)
-- [Notification Fake](#notification-fake)
-- [Queue Fake](#queue-fake)
-- [Storage Fake](#storage-fake)
-- [Facades](#mocking-facades)
+- [介绍](#introduction)
+- [任务模拟](#bus-fake)
+- [事件模拟](#event-fake)
+- [邮件模拟](#mail-fake)
+- [通知模拟](#notification-fake)
+- [队列模拟](#queue-fake)
+- [Storage 模拟](#storage-fake)
+- [Facades 模拟](#mocking-facades)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that dispatches an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners, since the event listeners can be tested in their own test case.
+测试 Laravel 应用时，有时候你可能想要「模拟」实现应用的部分功能的行为，从而避免该部分在测试过程中真正执行。例如，控制器执行过程中会触发一个事件（ Events ），你想要模拟这个事件的监听器，从而避免该事件在测试这个控制器时真正执行。如上可以让你仅测试控制器的 HTTP 响应情况，而不用去担心触发事件。当然，你可以在单独的测试中测试该事件的逻辑。
 
-Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. Of course, you are free to use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
+Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助函数。这些辅助函数基于 Mockery 封装而成，使用非常简单，无需你手动调用复杂的 Mockery 函数。当然，你也可以使用 [Mockery](http://docs.mockery.io/en/latest/) 或者 PHPUnit 创建自己的模拟器。
 
 <a name="bus-fake"></a>
-## Bus Fake
+## 任务模拟
 
-As an alternative to mocking, you may use the `Bus` facade's `fake` method to prevent jobs from being dispatched. When using fakes, assertions are made after the code under test is executed:
+你可以使用 `Bus` facade 的 `fake` 方法来模拟任务执行，测试的时候任务不会被真实执行。使用 fakes 的时候，断言一般出现在测试代码的后面：
 
     <?php
 
@@ -38,21 +38,21 @@ As an alternative to mocking, you may use the `Bus` facade's `fake` method to pr
         {
             Bus::fake();
 
-            // Perform order shipping...
+            // 处理订单发货...
 
             Bus::assertDispatched(ShipOrder::class, function ($job) use ($order) {
                 return $job->order->id === $order->id;
             });
 
-            // Assert a job was not dispatched...
+            // 断言任务并没有被执行...
             Bus::assertNotDispatched(AnotherJob::class);
         }
     }
 
 <a name="event-fake"></a>
-## Event Fake
+## 事件模拟
 
-As an alternative to mocking, you may use the `Event` facade's `fake` method to prevent all event listeners from executing. You may then assert that events were dispatched and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+你可以使用 `Event` facade 的 `fake` 方法来模拟事件监听，测试的时候不会触发事件监听器运行。然后你就可以断言事件运行了，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面:
 
     <?php
 
@@ -69,13 +69,13 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
     class ExampleTest extends TestCase
     {
         /**
-         * Test order shipping.
+         * 测试订单发货.
          */
         public function testOrderShipping()
         {
             Event::fake();
 
-            // Perform order shipping...
+            // 处理订单发货...
 
             Event::assertDispatched(OrderShipped::class, function ($e) use ($order) {
                 return $e->order->id === $order->id;
@@ -86,9 +86,9 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
     }
 
 <a name="mail-fake"></a>
-## Mail Fake
+## 邮件模拟
 
-You may use the `Mail` facade's `fake` method to prevent mail from being sent. You may then assert that [mailables](/docs/{{version}}/mail) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+你可以使用 `Mail` facade 的 `fake` 方法来模拟邮件发送，测试时不会真的发送邮件。然后你可以断言 [mailables](/docs/{{version}}/mail) 发送给了用户，甚至可以检查他们收到的数据. 使用 fakes 时，断言一般在测试代码的后面：
 
     <?php
 
@@ -107,36 +107,36 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
         {
             Mail::fake();
 
-            // Perform order shipping...
+            // 处理订单发货...
 
             Mail::assertSent(OrderShipped::class, function ($mail) use ($order) {
                 return $mail->order->id === $order->id;
             });
 
-            // Assert a message was sent to the given users...
+            // 断言一封邮件已经发送给了指定用户...
             Mail::assertSent(OrderShipped::class, function ($mail) use ($user) {
                 return $mail->hasTo($user->email) &&
                        $mail->hasCc('...') &&
                        $mail->hasBcc('...');
             });
-
-            // Assert a mailable was sent twice...
+				
+            // 断言 mailable 发送了2次...
             Mail::assertSent(OrderShipped::class, 2);
 
-            // Assert a mailable was not sent...
+            // 断言 mailable 没有发送...
             Mail::assertNotSent(AnotherMailable::class);
         }
     }
 
-If you are queueing mailables for delivery in the background, you should use the `assertQueued` method instead of `assertSent`:
+如果你是用后台任务队执行 mailables 的发送，你应该用 `assertQueued` 方法来代替 `assertSent`：
 
     Mail::assertQueued(...);
     Mail::assertNotQueued(...);
-
+    
 <a name="notification-fake"></a>
-## Notification Fake
+## 通知模拟
 
-You may use the `Notification` facade's `fake` method to prevent notifications from being sent. You may then assert that [notifications](/docs/{{version}}/notifications) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+你可以使用 `Notification` facade 的 `fake` 方法来模拟通知发送，测试的时候并不会真的发送通知。然后你可以断言 [通知](/docs/{{version}}/notifications) 已经发送给你的用户，甚至可以检查他们收到的数据。使用 fakes 时, 断言一般出现在测试代码的后面.
 
     <?php
 
@@ -155,7 +155,7 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
         {
             Notification::fake();
 
-            // Perform order shipping...
+            // 处理订单发货...
 
             Notification::assertSentTo(
                 $user,
@@ -165,12 +165,12 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
                 }
             );
 
-            // Assert a notification was sent to the given users...
+            // 断言通知已经发送给了指定用户...
             Notification::assertSentTo(
                 [$user], OrderShipped::class
             );
 
-            // Assert a notification was not sent...
+            // 断言通知没有发送...
             Notification::assertNotSentTo(
                 [$user], AnotherNotification::class
             );
@@ -178,9 +178,9 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
     }
 
 <a name="queue-fake"></a>
-## Queue Fake
+## 队列模拟
 
-As an alternative to mocking, you may use the `Queue` facade's `fake` method to prevent jobs from being queued. You may then assert that jobs were pushed to the queue and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+你可以使用 `Queue` facade 的 `fake` 方法来模拟任务队列，测试的时候并不会真的把任务放入队列。然后你可以断言任务被放进了队列，甚至可以检查它们收到的数据。使用 fakes 的时候，断言一般出现在测试代码的后面。
 
     <?php
 
@@ -199,27 +199,27 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
         {
             Queue::fake();
 
-            // Perform order shipping...
+            // 处理订单发货...
 
             Queue::assertPushed(ShipOrder::class, function ($job) use ($order) {
                 return $job->order->id === $order->id;
             });
 
-            // Assert a job was pushed to a given queue...
+            // 断言任务进入了指定队列...
             Queue::assertPushedOn('queue-name', ShipOrder::class);
-
-            // Assert a job was pushed twice...
+				
+            // 断言任务进入了2次...
             Queue::assertPushed(ShipOrder::class, 2);
-
-            // Assert a job was not pushed...
+            
+            // 断言任务没有进入队列...
             Queue::assertNotPushed(AnotherJob::class);
         }
     }
 
 <a name="storage-fake"></a>
-## Storage Fake
+## Storage 模拟
 
-The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `UploadedFile` class, greatly simplifies the testing of file uploads. For example:
+利用 `Storage` facade 的 `fake` 方法，你可以轻松地生成一个模拟的磁盘，结合 `UploadedFile` 类的文件生成工具，极大地简化了文件上传测试。例如：
 
     <?php
 
@@ -242,20 +242,18 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
                 'avatar' => UploadedFile::fake()->image('avatar.jpg')
             ]);
 
-            // Assert the file was stored...
+            // 断言文件已存储
             Storage::disk('avatars')->assertExists('avatar.jpg');
 
-            // Assert a file does not exist...
+            // 断言文件不存在
             Storage::disk('avatars')->assertMissing('missing.jpg');
         }
     }
 
-> {tip} By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead.
-
 <a name="mocking-facades"></a>
-## Facades
+## Facades 模拟
 
-Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may be mocked. This provides a great advantage over traditional static methods and grants you the same testability you would have if you were using dependency injection. When testing, you may often want to mock a call to a Laravel facade in one of your controllers. For example, consider the following controller action:
+不同于传统的静态函数的调用， [facades](/docs/{{version}}/facades) 也是可以被模拟的，相对静态函数来说这是个巨大的优势，即使你在使用依赖注入，测试时依然会非常方便。在很多测试中，你可能经常想在控制器中模拟对 Laravel facade 的调用。比如下面控制器中的行为：
 
     <?php
 
@@ -266,7 +264,7 @@ Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may
     class UserController extends Controller
     {
         /**
-         * Show a list of all users of the application.
+         * 显示网站的所有用户
          *
          * @return Response
          */
@@ -278,7 +276,7 @@ Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may
         }
     }
 
-We can mock the call to the `Cache` facade by using the `shouldReceive` method, which will return an instance of a [Mockery](https://github.com/padraic/mockery) mock. Since facades are actually resolved and managed by the Laravel [service container](/docs/{{version}}/container), they have much more testability than a typical static class. For example, let's mock our call to the `Cache` facade's `get` method:
+我们可以通过 `shouldReceive` 方法来模拟 `Cache` facade ，此函数会返回一个 [Mockery](https://github.com/padraic/mockery) 实例，由于对 facade 的调用实际上都是由 Laravel 的 [服务容器](/docs/{{version}}/container) 管理的，所以 facade 能比传统的静态类表现出更好的测试便利性。接下来，让我们来模拟一下 `Cache` facade 的 `get` 方法的调用：
 
     <?php
 
@@ -305,4 +303,4 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
         }
     }
 
-> {note} You should not mock the `Request` facade. Instead, pass the input you desire into the HTTP helper methods such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, simply call the `Config::set` method in your tests.
+> {note} 不可以模拟 `Request` facade，测试时，如果需要传递指定的数据请使用 HTTP 辅助函数，例如 `get` 和 `post`。类似的，请在你的测试中通过调用 `Config::set` 来模拟 `Config` facade。
