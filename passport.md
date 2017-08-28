@@ -701,7 +701,7 @@ Passport 的 `actingAs` 方法可以用于指定当前认证的用户及其授�
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@Kirisky](https://github.com/kirisky)  | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/2202271?v=4&amp;s=460">  |  翻译  | 部分关键字翻译参考 [@KevinDiamen](https://github.com/KevinDiamen)  |
+| [@Kirisky](https://github.com/kirisky)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18491_1503379318.jpeg?imageView2/1/w/200/h/200">  |  翻译  | 部分关键字翻译参考 [@KevinDiamen](https://github.com/KevinDiamen)  |
 
 
 --- 
