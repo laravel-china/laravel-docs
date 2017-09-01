@@ -4,6 +4,7 @@
 - [路由参数](#route-parameters)
     - [必选路由参数](#required-parameters)
     - [可选路由参数](#parameters-optional-parameters)
+    - [正则表达式约束](#parameters-regular-expression-constraints)
 - [命名路由](#named-routes)
 - [路由组](#route-groups)
     - [中间件](#route-group-middleware)
@@ -96,6 +97,44 @@
     Route::get('user/{name?}', function ($name = 'John') {
         return $name;
     });
+<a name="parameters-regular-expression-constraints"></a>
+### 正则表达式约束
+
+您可以使用where路由实例上的方法来约束路由参数的格式。该where方法接受参数的名称和定义如何约束参数的正则表达式：
+
+	Route::get('user/{name}', function ($name) {
+		//
+	})->where('name', '[A-Za-z]+');
+
+	Route::get('user/{id}', function ($id) {
+		//
+	})->where('id', '[0-9]+');
+
+	Route::get('user/{id}/{name}', function ($id, $name) {
+		//
+	})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+#### 全局约束
+
+如果您希望路由参数始终受到给定的正则表达式约束，则可以使用该pattern方法。您应该在以下boot方法中定义这些模式RouteServiceProvider：
+
+	/**
+	 * Define your route model bindings, pattern filters, etc.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		Route::pattern('id', '[0-9]+');
+
+		parent::boot();
+	}
+
+一旦定义了模式，它将自动应用于使用该参数名称的所有路由：
+
+	Route::get('user/{id}', function ($id) {
+		// Only executed if {id} is numeric...
+	});
 
 <a name="named-routes"></a>
 ## 命名路由
