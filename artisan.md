@@ -43,7 +43,7 @@ Artisan 是 Laravel 自带的命令行接口，它提供了许多实用的命令
 <a name="generating-commands"></a>
 ### 生成命令
 
-要创建一个新的命令，可以使用 Artisan 命令 `make:command`。这个命令会在 `app/Console/Commands` 目录中创建一个新的命令类。 不必担心应用中不存在这个目录，因为它会在你第一次运行 Artisan 命令 `ake:command` 时创建。生成的命令会包括所有命令中默认存在的属性和方法：
+要创建一个新的命令，可以使用 Artisan 命令 `make:command`。这个命令会在 `app/Console/Commands` 目录中创建一个新的命令类。 不必担心应用中不存在这个目录，因为它会在你第一次运行 Artisan 命令 `make:command` 时创建。生成的命令会包括所有命令中默认存在的属性和方法：
 
     php artisan make:command SendEmails
 
