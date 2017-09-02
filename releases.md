@@ -7,7 +7,7 @@
 <a name="versioning-scheme"></a>
 ## 版本控制方案
 
-Laravel 的版本控制方案继续以下约定： `主版本号.次版本号.修订号`。次版本号的框架会在每六个月发布一次 (二月和八月)，修订号发布可能会每周发布一次。而修订号版本 **不** 应该包含破坏性更改。
+Laravel 的版本控制方案继续以下约定： `主版本号.次版本号.修订号`。次版本号的框架会在每六个月发布一次 (二月和八月)，修订号发布可能会每周发布一次。而修订号版本**不**应该包含破坏性更改。
 
 当你从应用程序中或者在包中引用 Laravel 框架或其组件时，应始终使用版本约束，例如 `5.5.*`，因为 Laravel 的次版本号会包括突破性更改。但是，我们会努力确保你可以在一天或更短时间内完成更新。
 
@@ -15,9 +15,9 @@ Laravel 的版本控制方案继续以下约定： `主版本号.次版本号.�
 
 #### 为什么 Laravel 不使用语义版本控制？
 
-一方面，Laravel 所有可选的组件（Cashier、Dusk、Valet、Socialite 等等）都使用语义版本控制。然而 Laravel 框架本身并没有这样做。原因是语义版本控制是确定两段代码是否兼容的「简化」方法。即使是使用语义版本控制，你仍然必须安装升级包并运行你的自动化测试组建，来确定 *事实上* 是否有任何异常与代码不兼容。
+一方面，Laravel 所有可选的组件（Cashier、Dusk、Valet、Socialite 等等）都使用语义版本控制。然而 Laravel 框架本身并没有这样做。原因是语义版本控制是确定两段代码是否兼容的「简化」方法。即使是使用语义版本控制，你仍然必须安装升级包并运行你的自动化测试组建，来确定*事实上*是否有任何异常与代码不兼容。
 
-相反，Laravel 框架使用的版本控制方案更适合实际的发布。此外，因为修订版本的发布 **不** 包含破坏性变更，只要你的版本遵循 `主版本号.次版本号.*` 的约定， 你就不会接收到破坏性变更。
+相反，Laravel 框架使用的版本控制方案更适合实际的发布。此外，因为修订版本的发布**不**包含破坏性变更，只要你的版本遵循 `主版本号.次版本号.*` 的约定， 你就不会接收到破坏性变更。
 
 <a name="support-policy"></a>
 ## 支持策略
@@ -490,3 +490,12 @@ Redis 和 Memcached 缓存驱动程序现在支持获取和释放原子「锁」
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@dongm2ez](https://github.com/dongm2ez)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9032795?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 欢迎在 [Github](https://github.com/dongm2ez) 上关注我 |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： http://d.laravel-china.org
