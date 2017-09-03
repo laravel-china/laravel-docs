@@ -230,7 +230,7 @@ return [
         'link' => '/docs/{{version}}/eloquent-mutators'
     ],
     [
-        'text' => 'API Resources',
+        'text' => 'API 资源',
         'link' => '/docs/{{version}}/eloquent-resources'
     ],
     [

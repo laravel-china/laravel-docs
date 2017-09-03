@@ -1,44 +1,44 @@
-# Eloquent: API Resources
+# Eloquent: API 资源
 
-- [Introduction](#introduction)
-- [Generating Resources](#generating-resources)
-- [Concept Overview](#concept-overview)
-- [Writing Resources](#writing-resources)
-    - [Data Wrapping](#data-wrapping)
-    - [Pagination](#pagination)
-    - [Conditional Attributes](#conditional-attributes)
-    - [Conditional Relationships](#conditional-relationships)
-    - [Adding Meta Data](#adding-meta-data)
-- [Resource Responses](#resource-responses)
+- [简介](#introduction)
+- [生成资源](#generating-resources)
+- [概念综述](#concept-overview)
+- [编写资源](#writing-resources)
+    - [数据包裹](#data-wrapping)
+    - [分页](#pagination)
+    - [条件属性](#conditional-attributes)
+    - [条件关联](#conditional-relationships)
+    - [添加元数据](#adding-meta-data)
+- [资源响应](#resource-responses)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-When building an API, you may need a transformation layer that sits between your Eloquent models and the JSON responses that are actually returned to your application's users. Laravel's resource classes allow you to expressively and easily transform your models and model collections into JSON.
+当构建 API 时，你往往需要一个转换层来联结你的 Eloquent 模型和实际返回给用户的 JSON 响应。 Laravel 的资源类能够让你以更直观简便的方式将模型和模型集合转化成 JSON 。
 
 <a name="generating-resources"></a>
-## Generating Resources
+## 生成资源
 
-To generate a resource class, you may use the `make:resource` Artisan command. By default, resources will be placed in the `app/Http/Resources` directory of your application. Resources extend the `Illuminate\Http\Resources\Json\Resource` class:
+你可以使用 `make:resource` Artisan 命令来生成资源类。默认情况下生成的资源都会被放置在框架 `app/Http/Resources` 文件夹下。资源继承 `Illuminate\Http\Resources\Json\Resource` 类：
 
     php artisan make:resource User
 
-#### Resource Collections
+#### 资源集合
 
-In addition to generating resources that transform individual models, you may generate resources that are responsible for transforming collections of models. This allows your response to include links and other meta information that is relevant to an entire collection of a given resource.
+除了生成资源转换单个模型外，你还可以生成资源集合用来转换模型的集合。这允许你在响应中包含与给定资源相关的链接与其他元信息。
 
-To create a resource collection, you should use the `--collection` flag when creating the resource. Or, simply including the word `Collection` in the resource name will indicate to Laravel that it should create a collection resource. Collection resources extend the `Illuminate\Http\Resources\Json\ResourceCollection` class:
+你需要在生成资源时添加 `--collection` 标志以生成一个资源集合。你也可以直接在资源的名称中包含 `Collection` 向 Laravel 表示应该生成一个资源集合。资源集合继承 `Illuminate\Http\Resources\Json\ResourceCollection` 类：
 
     php artisan make:resource Users --collection
 
     php artisan make:resource UserCollection
 
 <a name="concept-overview"></a>
-## Concept Overview
+## 概念综述
 
-> {tip} This is a high-level overview of resources and resource collections. You are highly encouraged to read the other sections of this documentation to gain a deeper understanding of the customization and power offered to you by resources.
+> {tip} 这是对资源和资源集合的概述。强烈建议你阅读本文档的其他部分，以深入了解如何更好地自定义和使用资源。
 
-Before diving into all of the options available to you when writing resources, let's first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `User` resource class:
+在深入了解如何定制化编写你的资源之前，让我们先来看看在 Laravel 中如何使用资源。一个资源类表示一个单一模型需要被转换成 JSON 格式。例如，现在我们有一个简单的 `User` 资源类：
 
     <?php
 
@@ -49,7 +49,7 @@ Before diving into all of the options available to you when writing resources, l
     class User extends Resource
     {
         /**
-         * Transform the resource into an array.
+         * 将资源转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -66,7 +66,7 @@ Before diving into all of the options available to you when writing resources, l
         }
     }
 
-Every resource class defines a `toArray` method which returns the array of attributes that should be converted to JSON when sending the response. Notice that we can access model properties directly from the `$this` variable. This is because a resource class will automatically proxy property and method access down to the underlying model for convenient access. Once the resource is defined, it may be returned from a route or controller:
+每一个资源类都定义了一个 `toArray` 方法，在发送响应时它会返回应该被转化成 JSON 的属性数组。注意在这里我们可以直接使用 `$this` 变量来访问模型属性。这是因为资源类将自动代理属性和方法到底层模型以方便访问。你可以在路由或控制器中返回已定义的资源：
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -75,9 +75,9 @@ Every resource class defines a `toArray` method which returns the array of attri
         return new UserResource(User::find(1));
     });
 
-### Resource Collections
+### 资源集合
 
-If you are returning a collection of resources or a paginated response, you may use the `collection` method when creating the resource instance in your route or controller:
+你可以在路由或控制器中使用 `collection` 方法来创建资源实例，以返回多个资源的集合或分页响应：
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -86,11 +86,11 @@ If you are returning a collection of resources or a paginated response, you may 
         return UserResource::collection(User::all());
     });
 
-Of course, this does not allow any addition of meta data that may need to be returned with the collection. If you would like to customize the resource collection response, you may create a dedicated resource to represent the collection:
+使用如上方法，你将不能添加任何附加的元数据和集合一起返回。如果你需要自定义资源集合响应，你需要创建一个资源集合来返回多个模型的集合：
 
     php artisan make:resource UserCollection
 
-Once the resource collection class has been generated, you may easily define any meta data that should be included with the response:
+你可以轻松的在已生成的资源集合类中定义任何你想在响应中返回的元数据：
 
     <?php
 
@@ -101,7 +101,7 @@ Once the resource collection class has been generated, you may easily define any
     class UserCollection extends ResourceCollection
     {
         /**
-         * Transform the resource collection into an array.
+         * 将资源集合转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -117,7 +117,7 @@ Once the resource collection class has been generated, you may easily define any
         }
     }
 
-After defining your resource collection, it may be returned from a route or controller:
+你可以在路由或控制器中返回已定义的资源集合：
 
     use App\User;
     use App\Http\Resources\UserCollection;
@@ -127,11 +127,11 @@ After defining your resource collection, it may be returned from a route or cont
     });
 
 <a name="writing-resources"></a>
-## Writing Resources
+## 编写资源
 
-> {tip} If you have not read the [concept overview](#concept-overview), you are highly encouraged to do so before proceeding with this documentation.
+> {tip} 如果你还没有阅读过 [概念综述](#concept-overview) , 那么强烈建议你在继续使用本文档前阅读这个部分。
 
-In essence, resources are simple. They only need to transform a given model into an array. So, each resource contains a `toArray` method which translates your model's attributes into an API friendly array that can be returned to your users:
+从本质上来说，资源的作用很简单。它们只需要将一个给定的模型转换成一个数组。所以每一个资源都包含一个 `toArray` 方法用来将你的模型属性转换成可以返回给用户的 API 友好的数组：
 
     <?php
 
@@ -142,7 +142,7 @@ In essence, resources are simple. They only need to transform a given model into
     class User extends Resource
     {
         /**
-         * Transform the resource into an array.
+         * 将资源转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -159,7 +159,7 @@ In essence, resources are simple. They only need to transform a given model into
         }
     }
 
-Once a resource has been defined, it may be returned directly from a route or controller:
+你可以在路由或控制器中返回已定义的资源：
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -168,12 +168,12 @@ Once a resource has been defined, it may be returned directly from a route or co
         return new UserResource(User::find(1));
     });
 
-#### Relationships
+#### 关联
 
-If you would like to include related resources in your response, you may simply add them to the array returned by your `toArray` method. In this example, we will use the `Post` resource's `collection` method to add the user's blog posts to the resource response:
+如果你希望在响应中包含关联资源，你只需要简单的将它们添加到 `toArray` 方法返回的数组中。在下面这个例子里，我们将使用 `Post` 资源的 `collection` 方法将用户的文章添加到资源响应中：
 
     /**
-     * Transform the resource into an array.
+     * 将资源转换成数组。
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -190,11 +190,11 @@ If you would like to include related resources in your response, you may simply 
         ];
     }
 
-> {tip} If you would like to include relationships only when they have already been loaded, check out the documentation on [conditional relationships](#conditional-relationships).
+> {tip} 如果你只想在关联已经加载时添加关联资源，请查看文档 [条件关联](#conditional-relationships) 。
 
-#### Resource Collections
+#### 资源集合
 
-While resources translate a single model into an array, resource collections translate a collection of models into an array. It is not absolutely necessary to define a resource collection class for each one of your model types since all resources provide a `collection` method to generate an "ad-hoc" resource collection on the fly:
+资源是将单个模型转换成数组，而资源集合是将多个模型的集合转换成数组。所有的资源都提供了一个 `collection` 方法来生成一个 「临时」 资源集合，所以你没有必要为每一个模型类型都编写一个资源集合类：
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -203,7 +203,7 @@ While resources translate a single model into an array, resource collections tra
         return UserResource::collection(User::all());
     });
 
-However, if you need to customize the meta data returned with the collection, it will be necessary to define a resource collection:
+如果你需要自定义返回集合的元数据，则需要定义一个资源集合：
 
     <?php
 
@@ -214,7 +214,7 @@ However, if you need to customize the meta data returned with the collection, it
     class UserCollection extends ResourceCollection
     {
         /**
-         * Transform the resource collection into an array.
+         * 将资源集合转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -230,7 +230,7 @@ However, if you need to customize the meta data returned with the collection, it
         }
     }
 
-Like singular resources, resource collections may be returned directly from routes or controllers:
+和单个资源一样，你可以在路由或控制器中直接返回资源集合：
 
     use App\User;
     use App\Http\Resources\UserCollection;
@@ -240,9 +240,9 @@ Like singular resources, resource collections may be returned directly from rout
     });
 
 <a name="data-wrapping"></a>
-### Data Wrapping
+### 数据包裹
 
-By default, your outer-most resource is wrapped in a `data` key when the resource response is converted to JSON. So, for example, a typical resource collection response looks like the following:
+默认情况下，当资源响应被转换成 JSON 时，顶层资源将会被包裹在 `data` 键中。因此一个典型的资源集合响应如下所示：
 
     {
         "data": [
@@ -259,7 +259,7 @@ By default, your outer-most resource is wrapped in a `data` key when the resourc
         ]
     }
 
-If you would like to disable the wrapping of the outer-most resource, you may use the `withoutWrapping` method on the base resource class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/docs/{{version}}/providers) that is loaded on every request to your application:
+你可以使用资源基类的 `withoutWrapping` 方法来禁用顶层资源的包裹。你应该在 `AppServiceProvider` 或其他在程序每一个请求中都会被加载的 [服务提供者](/docs/{{version}}/providers) 中调用此方法：
 
     <?php
 
@@ -271,7 +271,7 @@ If you would like to disable the wrapping of the outer-most resource, you may us
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * 在注册后进行服务的启动。
          *
          * @return void
          */
@@ -281,7 +281,7 @@ If you would like to disable the wrapping of the outer-most resource, you may us
         }
 
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定。
          *
          * @return void
          */
@@ -291,13 +291,13 @@ If you would like to disable the wrapping of the outer-most resource, you may us
         }
     }
 
-> {note} The `withoutWrapping` method only affects the outer-most response and will not remove `data` keys that you manually add to your own resource collections.
+> {note}  `withoutWrapping` 方法只会禁用顶层资源的包裹，不会删除你手动添加到资源集合中的 `data` 键。
 
-### Wrapping Nested Resources
+### 包裹嵌套资源
 
-You have total freedom to determine how your resource's relationships are wrapped. If you would like all resource collections to wrapped in a `data` key, regardless of their nesting, you should define a resource collection class for each resource and return the collection with in a `data` key.
+你有绝对的自由决定你的资源关联如何被包裹。如果你希望无论怎样嵌套，都将所有资源集合包裹在 `data` 键中，那么你需要为每个资源都定义一个资源集合类，并将返回的集合包裹在 `data` 键中。
 
-Of course, you may be wondering if this will cause your outer-most resource to wrapped in two `data` keys. Don't worry, Laravel will never let your resources be accidentally double-wrapped, so you don't have to be concerned about the nesting level of the resource collection you are transforming:
+当然，你可能会担心这样顶层资源将会被包裹在两个 `data` 键中。请放心， Laravel 将永远不会让你的资源被双层包裹，因此你不必担心被转换的资源集合会被多重嵌套：
 
     <?php
 
@@ -308,7 +308,7 @@ Of course, you may be wondering if this will cause your outer-most resource to w
     class CommentsCollection extends ResourceCollection
     {
         /**
-         * Transform the resource collection into an array.
+         * 将资源集合转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -319,9 +319,9 @@ Of course, you may be wondering if this will cause your outer-most resource to w
         }
     }
 
-### Data Wrapping And Pagination
+### 数据包裹和分页
 
-When returning paginated collections in a resource response, Laravel will wrap your resource data in a `data` key even if the `withoutWrapping` method has been called. This is because paginated responses always contain `meta` and `links` keys with information about the paginator's state:
+当在资源响应中返回分页集合时，即使你调用了 `withoutWrapping` 方法， Laravel 也会将你的资源数据包裹在 `data` 键中。这是因为分页响应中总会有 `meta` 和 `links` 键包含着分页状态信息：
 
     {
         "data": [
@@ -354,9 +354,9 @@ When returning paginated collections in a resource response, Laravel will wrap y
     }
 
 <a name="pagination"></a>
-### Pagination
+### 分页
 
-You may always pass a paginator instance to the `collection` method of a resource or to a custom resource collection:
+你可以将分页实例传递给资源的 `collection` 方法或者自定义的资源集合：
 
     use App\User;
     use App\Http\Resources\UserCollection;
@@ -365,7 +365,7 @@ You may always pass a paginator instance to the `collection` method of a resourc
         return new UserCollection(User::paginate());
     });
 
-Paginated responses always contain `meta` and `links` keys with information about the paginator's state:
+分页响应中总有 `meta` 和 `links` 键包含着分页状态信息：
 
     {
         "data": [
@@ -398,12 +398,12 @@ Paginated responses always contain `meta` and `links` keys with information abou
     }
 
 <a name="conditional-attributes"></a>
-### Conditional Attributes
+### 条件属性
 
-Sometimes you may wish to only include an attribute in a resource response if a given condition is met. For example, you may wish to only include a value if the current user is an "administrator". Laravel provides a variety of helper methods to assist you in this situation. The `when` method may be used to conditionally add an attribute to a resource response:
+有些时候，你可能希望在给定条件满足时添加属性到资源响应里。例如，你可能希望如果当前用户是 「管理员」 时添加某个值到资源响应中。在这种情况下 Laravel 提供了一些辅助方法来帮助你解决问题。 `when` 方法可以被用来有条件地向资源响应添加属性：
 
     /**
-     * Transform the resource into an array.
+     * 将资源转换成数组。
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -420,22 +420,22 @@ Sometimes you may wish to only include an attribute in a resource response if a 
         ];
     }
 
-In this example, the `secret` key will only be returned in the final resource response if the `$this->isAdmin()` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response entirely before it is sent back to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
+在上面这个例子中，只有当 `$this->isAdmin()` 方法返回 `true` 时， `secret` 键才会最终在资源响应中被返回。如果该方法返回 `false` ，则 `secret` 键将会在资源响应被发送给客户端之前被删除。 `when` 方法可以使你避免使用条件语句拼接数组，转而用更优雅的方式来编写你的资源。
 
-The `when` method also accepts a Closure as its second argument, allowing you to calculate the resulting value only if the given condition is `true`:
+ `when` 方法也接受闭包作为其第二个参数，只有在给定条件为 `true` 时，才从闭包中计算返回的值：
 
     'secret' => $this->when($this->isAdmin(), function () {
         return 'secret-value';
     }),
 
-> {tip} Remember, method calls on resources proxy down to the underlying model instance. So, in this case, the `isAdmin` method is proxying to the underlying Eloquent model that was originally given to the resource.
+> {tip} 记住，你在资源上调用的方法将被代理到底层模型实例。所以在这种情况下，你调用的 `isAdmin` 方法实际上是调用最初传递给资源的 Eloquent 模型上的方法。
 
-#### Merging Conditional Attributes
+#### 有条件地合并数据
 
-Sometimes you may have several attributes that should only be included in the resource response based on the same condition. In this case, you may use the `mergeWhen` method to include the attributes in the response only when the given condition is `true`:
+有些时候，你可能希望在给定条件满足时添加多个属性到资源响应里。在这种情况下，你可以使用 `mergeWhen` 方法在给定的条件为 `true` 时将多个属性添加到响应中：
 
     /**
-     * Transform the resource into an array.
+     * 将资源转换成数组。
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -455,19 +455,19 @@ Sometimes you may have several attributes that should only be included in the re
         ];
     }
 
-Again, if the given condition is `false`, these attributes will be removed from the resource response entirely before it is sent to the client.
+同理，如果给定的条件为 `false` 时，则这些属性将会在资源响应被发送给客户端之前被删除。
 
-> {note} The `mergeWhen` method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.
+> {note} 在混合字符串和数字键的数组中你不应该使用 `mergeWhen` 方法。此外，它不应该在不按顺序排列的数字键的数组中被使用。
 
 <a name="conditional-relationships"></a>
-### Conditional Relationships
+### 条件关联
 
-In addition to conditionally loading attributes, you may conditionally include relationships on your resource responses based on if the relationship has already been loaded on the model. This allows your controller to decide which relationships should be loaded on the model and your resource can easily include them only when they have actually been loaded.
+除了有条件地添加属性之外，你还可以根据模型关联是否已加载来有条件的在你的资源响应中包含关联。这允许你在控制器中决定加载哪些模型关联，这样你的资源可以在模型关联被加载后才添加它们。
 
-Ultimately, this makes it easier to avoid "N+1" query problems within your resources. The `whenLoaded` method may be used to conditionally load a relationship. In order to avoid unnecessarily loading relationships, this method accepts the name of the relationship instead of the relationship itself:
+这样做可以避免在你的资源中出现 「N+1」 查询问题。你应该使用 `whenLoaded` 方法来有条件的加载关联。为了避免加载不必要的关联，此方法接受关联的名称而不是关联本身作为其参数：
 
     /**
-     * Transform the resource into an array.
+     * 将资源转换成数组。
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -484,14 +484,14 @@ Ultimately, this makes it easier to avoid "N+1" query problems within your resou
         ];
     }
 
-In this example, if the relationship has not been loaded, the `posts` key will be removed from the resource response entirely before it is sent to the client.
+在上面这个例子中，如果关联没有被加载，则 `posts` 键将会在资源响应被发送给客户端之前被删除。
 
-#### Conditional Pivot Information
+#### 条件中间表信息
 
-In addition to conditionally including relationship information in your resource responses, you may conditionally include data from the intermediate tables of many-to-many relationships using the `whenPivotLoaded` method. The `whenPivotLoaded` method accepts the name of the pivot table as its first argument. The second argument should be a Closure that defines the value to be returned if the pivot information is available on the model:
+除了在你的资源响应中有条件地包含关联外，你还可以使用 `whenPivotLoaded` 方法有条件地从多对多关联的中间表中添加数据。 `whenPivotLoaded` 方法第一个参数为中间表的名称。第二个参数应为当模型中间表信息可用时返回要添加数据的闭包：
 
     /**
-     * Transform the resource into an array.
+     * 将资源转换成数组。
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -508,12 +508,12 @@ In addition to conditionally including relationship information in your resource
     }
 
 <a name="adding-meta-data"></a>
-### Adding Meta Data
+### 添加元数据
 
-Some JSON API standards require the addition of meta data to your resource and resource collections responses. This often includes things like `links` to the resource or related resources, or meta data about the resource itself. If you need to return additional meta data about a resource, simply include it in your `toArray` method. For example, you might include `link` information when transforming a resource collection:
+一些 JSON API 标准需要你在资源和资源集合响应中添加元数据。这通常包括资源或相关资源的 `links` ，或一些关于资源本身的元数据。如果你需要返回有关资源的其他元数据，只需要将它们包含在 `toArray` 方法中即可。例如在转换资源集合时你可能需要添加 `links` 信息：
 
     /**
-     * Transform the resource into an array.
+     * 将资源转换成数组。
      *
      * @param  \Illuminate\Http\Request
      * @return array
@@ -528,11 +528,11 @@ Some JSON API standards require the addition of meta data to your resource and r
         ];
     }
 
-When returning additional meta data from your resources, you never have to worry about accidentally overriding the `links` or `meta` keys that are automatically added by Laravel when returning paginated responses. Any additional `links` you define will simply be merged with the links provided by the paginator.
+当添加额外元数据到你的资源中时，你不必担心会覆盖 Laravel 在返回分页响应时自动添加的 `links` 或 `meta` 键。你添加的任何其他 `links` 会与分页响应添加的 `links` 相合并。
 
-#### Top Level Meta Data
+#### 顶层元数据
 
-Sometimes you may wish to only include certain meta data with a resource response if the resource is the outer-most resource being returned. Typically, this includes meta information about the response as a whole. To define this meta data, add a `with` method to your resource class. This method should return an array of meta data to be included with the resource response only when the resource is the outer-most resource being rendered:
+有时候你可能希望当资源被作为顶层资源返回时添加某些元数据到资源响应中。这通常包括整个响应的元信息。你可以在资源类中添加 `with` 方法来定义元数据。此方法应返回一个元数据数组，当资源被作为顶层资源渲染时，这个数组将会被包含在资源响应中：
 
     <?php
 
@@ -543,7 +543,7 @@ Sometimes you may wish to only include certain meta data with a resource respons
     class UserCollection extends ResourceCollection
     {
         /**
-         * Transform the resource collection into an array.
+         * 将资源集合转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -554,7 +554,7 @@ Sometimes you may wish to only include certain meta data with a resource respons
         }
 
         /**
-         * Get additional data that should be returned with the resource array.
+         * 返回应该和资源一起返回的其他数据数组。
          *
          * @param \Illuminate\Http\Request  $request
          * @return array
@@ -569,9 +569,9 @@ Sometimes you may wish to only include certain meta data with a resource respons
         }
     }
 
-#### Adding Meta Data When Constructing Resources
+#### 构造资源时添加元数据
 
-You may also add top-level data when constructing resource instances in your route or controller. The `additional` method, which is available on all resources, accepts an array of data that should be added to the resource response:
+你还可以在路由或控制器中构造资源实例时添加顶层数据。所有资源都可以使用 `additional` 方法来接受应该被添加到资源响应中的数据数组：
 
     return (new UserCollection(User::all()->load('roles')))
                     ->additional(['meta' => [
@@ -579,9 +579,9 @@ You may also add top-level data when constructing resource instances in your rou
                     ]]);
 
 <a name="resource-responses"></a>
-## Resource Responses
+## 资源响应
 
-As you have already read, resources may be returned directly from routes and controllers:
+就像你已经知道那样，资源可以直接在路由和控制器中被返回：
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -590,7 +590,7 @@ As you have already read, resources may be returned directly from routes and con
         return new UserResource(User::find(1));
     });
 
-However, sometimes you may need to customize the outgoing HTTP response before it is sent to the client. There are two ways to accomplish this. First, you may chain the `response` method onto the resource. This method will return an `Illuminate\Http\Response` instance, allowing you full control of the response's headers:
+但是有些时候你可能需要自定义发送给客户端的 HTTP 响应。你有两种选择。第一，你可以在资源上链式调用 `response` 方法。此方法将返回 `Illuminate\Http\Response` 实例，允许你自定义响应头信息：
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -601,7 +601,7 @@ However, sometimes you may need to customize the outgoing HTTP response before i
                     ->header('X-Value', 'True');
     });
 
-Alternatively, you may define a `withResponse` method within the resource itself. This method will be called when the resource is returned as the outer-most resource in a response:
+或者你也可以在资源中定义一个 `withResponse` 方法。此方法将会在资源被作为顶层资源在响应中返回时被调用：
 
     <?php
 
@@ -612,7 +612,7 @@ Alternatively, you may define a `withResponse` method within the resource itself
     class User extends Resource
     {
         /**
-         * Transform the resource into an array.
+         * 将资源转换成数组。
          *
          * @param  \Illuminate\Http\Request
          * @return array
@@ -625,7 +625,7 @@ Alternatively, you may define a `withResponse` method within the resource itself
         }
 
         /**
-         * Customize the outgoing response for the resource.
+         * 自定义资源响应。
          *
          * @param  \Illuminate\Http\Request
          * @param  \Illuminate\Http\Response
@@ -636,3 +636,8 @@ Alternatively, you may define a `withResponse` method within the resource itself
             $response->header('X-Value', 'True');
         }
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@young](https://laravel-china.org/users/4236)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4236_1461228940.png?imageView2/1/w/200/h/200">  |  翻译  | 18届应届生 [求工作](https://xiayang.me/hireme)，Laravel、PHP、web后端开发方向 |
