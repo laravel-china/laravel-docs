@@ -47,7 +47,7 @@ Laravel 利用 Vance Lucas 的 PHP 库 [DotEnv](https://github.com/vlucas/phpdot
     if (App::environment('local')) {
         // 环境为 local
     }
-    
+
     if (App::environment(['local', 'staging'])) {
         // 环境为 local 或 staging
     }
@@ -105,3 +105,12 @@ Laravel 利用 Vance Lucas 的 PHP 库 [DotEnv](https://github.com/vlucas/phpdot
 | 用户名 | 头像 | 职能 | 签名 |
 | --- | --- | --- | --- |
 | [@痛饮狂歌](https://laravel-china.org/users/7636) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7636_1500076845.png?imageView2/1/w/100/h/100"> | 翻译 | 独立开发者，全栈工程师 |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： http://d.laravel-china.org

@@ -10,11 +10,11 @@ return [
         'link' => '/docs/{{version}}/releases'
     ],
     [
-        'text' => '升级说明',
+        'text' => '升级指南',
         'link' => '/docs/{{version}}/upgrade'
     ],
     [
-        'text' => '贡献导引',
+        'text' => '贡献指南',
         'link' => '/docs/{{version}}/contributions'
     ],
     [
@@ -228,6 +228,10 @@ return [
     [
         'text' => '修改器',
         'link' => '/docs/{{version}}/eloquent-mutators'
+    ],
+    [
+        'text' => 'API 资源',
+        'link' => '/docs/{{version}}/eloquent-resources'
     ],
     [
         'text' => '序列化',

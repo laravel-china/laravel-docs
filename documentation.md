@@ -64,6 +64,7 @@
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
     - [修改器](/docs/{{version}}/eloquent-mutators)
+    - [API 资源](/docs/{{version}}/eloquent-resources)
     - [序列化](/docs/{{version}}/eloquent-serialization)
 - ## 测试相关
     - [快速入门](/docs/{{version}}/testing)
