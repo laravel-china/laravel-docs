@@ -1,4 +1,4 @@
-# Laravel 升级索引
+# 升级指南
 
 - [从 5.4 升级至 5.5.0](#upgrade-5.5.0)
 
@@ -8,19 +8,21 @@
 
 #### 预计升级耗时：1小时
 
-> {note}我们尽量罗列出每一个不兼容的变更。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分会真正影响到你的应用程序。
+> {note}我们尽量记录每一个可能的破坏性变化。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分可能会影响到你的应用程序。
 
 ### 更新依赖
 
-在 `composer.json` 文件中将您的 `laravel/framework` 更新为 `5.5.*` 。 此外, 您应该更新 `phpunit/phpunit` 依赖关系到 `~6.0`。
+在 `composer.json` 文件中将 `laravel/framework` 更新为 `5.5.*` 。 此外，你还应该将 `phpunit/phpunit` 依赖关系更新到 `~6.0`。
+
+> {tip} 如果你是通过使用 `laravel new` 来安装 Laravel 程序，则应该使用命令 `composer global update` 来更新 Laravel 安装程序包。
 
 #### Laravel Dusk
 
-Laravel Dusk `2.0.0` 已经发布，该版本同时兼容 Laravel 5.5 和 headless Chrome 模式的测试。
+Laravel Dusk `2.0.0` 已经发布，该版本同时兼容 Laravel 5.5 和 Chrome 的 headless 模式测试。
 
 #### Pusher
 
-Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
+Pusher 事件广播驱动现在需要 `~3.0`  版本的 Pusher SDK。
 
 ### Artisan
 
@@ -28,30 +30,34 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 该方法已重命名为 `handle` 方法。
 
+#### `optimize` 命令
+
+随着对 PHP 操作码缓存的最新改进，不再需要优化 Artisan 命令。你应该从部署脚本中删除对此命令的任何引用，因为它在未来的 Laravel 版本中会被删除。
+
 ### 用户授权
 
 #### `authorizeResouce` 控制器方法
 
-当将一个复合的模型名称传递给 `authorizeResource` 方法时，路由将会以「蛇形命名」（snake case）的方式对其进行分割，与资源控制器的行为相匹配。
+当将一个大驼峰命名的模型名称传递给 `authorizeResource` 方法时，为了和资源控制器的行为相匹配，生成的路由会用蛇形命名法来命名。
 
 #### `before` 策略方法
 
-如果类中不包含名称与当前确认的功能名相同的方法， `before` 方法将不会被调用。
+如果类中不包含与给定名称相匹配的方法，则不会调用策略类的 `before` 方法。
 
 ### 缓存
 
 #### 数据库驱动
 
-如果您正在使用数据库缓存驱动，在您第一次部署升级至 Laravel 5.5 的应用时，应先运行 `php artisan cache:clear` 命令。
+如果你正在使用数据库缓存驱动，那在你第一次部署升级至 Laravel 5.5时，应该先运行 `php artisan cache:clear` 命令。
 
 ### Eloquent
 
 #### `belongsToMany` 方法
 
-如果您在您的 Eloquent 模型中重写了 `belongsToMany` 方法，您应当更新您的方法签名来映射新增的参数：
+如果你在 Eloquent 模型中重写了 `belongsToMany` 方法，应该更新方法签名来映射新增的参数：
 
     /**
-     * 定义一个多对多的关系。
+     * 定义多对多关系。
      *
      * @param  string  $related
      * @param  string  $table
@@ -69,12 +75,12 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
         //
     }
 
-#### Model `is` 方法
+#### 模型的 `is` 方法
 
-如果您重写了 Eloquent 模型的 `is` 方法 ，您应该移除方法中 `Model` 的类型绑定 。这将允许 `is` 方法使用 `null` 作为参数。
+如果你重写了 Eloquent 模型的 `is` 方法 ，则应该从该方法中删除 `Model` 的类型提示。这将允许 `is` 方法接受 `null` 作为参数。
 
     /**
-     * 判断两个模型是否具有相同的ID且属于同一个表。
+     * 确定两个模型是否具有相同的ID并且属于同一个表。
      *
      * @param  \Illuminate\Database\Eloquent\Model|null  $model
      * @return bool
@@ -84,17 +90,17 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
         //
     }
 
-#### Model `$events` 属性
+#### 模型 `$events` 属性
 
-由于大量的用户需要定义名为 `events` 的关联，这将与旧的属性名相冲突，所以模型中的 `$events` 属性已被重命名为 `$dispatchesEvents`。
+模型上的 `$events` 属性应该重命名为 `$dispatchesEvents`。由于大量用户需要定义事件关系，导致与旧属性名称的冲突，因此进行了更改。
 
-#### Pivot `$parent` 属性
+#### 中间表 `$parent` 属性
 
-原本在 `Illuminate\Database\Eloquent\Relations\Pivot` 类中的 protected `$parent` 属性 已被重命名为 `$pivotParent` 。
+`Illuminate\Database\Eloquent\Relations\Pivot` 类中受保护的 `$parent` 属性已被重命名为 `$pivotParent` 。
 
 #### 关联 `create` 方法
 
-`BelongsToMany` ，`HasOneOrMany` ， 以及 `MorphOneOrMany` 类中， `create` 方法为 `$attributes` 参数提供了一个默认值。如果您重写了这些方法，您应更新您的签名以与新的定义相匹配。
+`BelongsToMany`、`HasOneOrMany` 以及 `MorphOneOrMany` 类中的 `create` 方法已被修改为 `$attributes` 参数提供默认值。如果你重写了这些方法，你应该更新你的签名来匹配新的定义。
 
     public function create(array $attributes = [])
     {
@@ -103,21 +109,21 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### 软删除模型
 
-当删除一个 「软删除」 模型时，该模型的 `exists` 属性将保持为 `true` 。
+删除 「软删除」 模型时，模型上的 `exists` 属性将保持为 `true` 。
 
-#### `withCount` 列的格式化
+#### `withCount` 列格式化
 
-当使用别名时，`withCount` 方法将不再自动在生成的列名中添加 `_count`。例如，在 Laravel 5.4 中，以下查询会将一个 `bar_count` 列添加到结果中：
+当使用别名时，`withCount` 方法将不再自动将 `_count` 附加到生成的列名称上。例如，在 Laravel 5.4 中，以下查询会将 `bar_count` 列添加到查询中：
 
     $users = User::withCount('foo as bar')->get();
 
-但是在 Laravel 5.5 中，别名将严格按照给定的方式使用。如果您想在结果栏中添加 `_count` ，则必须在定义该别名时就指定该后缀：
+但是在 Laravel 5.5 中，别名将严格按照给定的方式使用。如果要将 `_count` 追加到结果列，则必须在定义别名时指定该后缀：
 
     $users = User::withCount('foo as bar_count')->get();
 
-### 异常处理格式
+### 异常格式
 
-在 Laravel 5.5 中，所有的异常，包括验证异常，都被异常处理机制转换成 HTTP 响应。另外，JSON 验证错误的默认格式已经更改。新的格式符合以下规则：
+在 Laravel 5.5 中，所有的异常（包括验证异常）都被异常处理程序转换成 HTTP 响应。另外，验证错误默认返回的 JSON 格式已经更改。新格式遵循以下规则：
 
     {
         "message": "The given data was invalid.",
@@ -133,7 +139,7 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
         }
     }
 
-如果您想沿用 Laravel 5.4 的 JSON 错误提示格式，只需将以下方法添加到 `App\Exceptions\Handler` 类中即可：
+但是，如果你想沿用 Laravel 5.4 错误提示的  JSON 格式，则可以将以下方法添加到 `App\Exceptions\Handler` 类中：
 
     use Illuminate\Validation\ValidationException;
 
@@ -151,16 +157,16 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### JSON 身份验证尝试
 
-这一改变同样作用于通过 JSON 进行的失败的身份验证所返回的错误信息格式。在 Laravel 5.5 中，JSON 身份验证失败返回的错误信息将遵循上述的新格式。
+此更改也会影响通过 JSON 进行的身份验证尝试的验证错误返回的格式。在 Laravel 5.5 中，身份验证失败的 JSON 将按照上述新的格式约定返回错误消息。
 
-#### Form 表单请求的注意事项
+#### 表单请求注意事项
 
-现在您在自定义个人表单请求的响应格式时，应重写该表单请求的 `failedValidation` 方法 ，并抛出一个包含您自定义响应的 `HttpResponseException` 例子。
+现在自定义了单个表单请求的响应格式，应重写该表单请求的 `failedValidation` 方法 ，并抛出一个包含自定义响应的 `HttpResponseException` 实例。
 
     use Illuminate\Http\Exceptions\HttpResponseException;
 
     /**
-     * 验证失败的处理尝试
+     * 处理失败的验证尝试。
      *
      * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return void
@@ -176,16 +182,16 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### `files` 方法
 
-`files` 方法现在与 `allFiles` 方法类似，会返回一个关于 `SqlFileInfo` 对象的数组。之前的 `files` 方法会返回一个关于路径名称的字符串数组。
+`files` 方法与 `allFiles` 方法类似，会返回一个 `SqlFileInfo` 对象的数组。之前的 `files` 方法会返回一个字符串路径名的数组。
 
 ### 邮件
 
-#### 未用的参数
+#### 未使用的参数
 
-未使用的参数 `$data` 和 `$callback` 已从 `Illuminate\Contracts\Mail\MailQueue` 合约中的 `queue` 和 `later` 方法中移除。
+未使用的 `$data` 和 `$callback` 参数已从 `Illuminate\Contracts\Mail\MailQueue` 契约的 `queue` 和 `later` 方法中删除
 
     /**
-     * 队列中加入一条新的需发送邮件
+     * 在队列中发送新的电子邮件
      *
      * @param  string|array|MailableContract  $view
      * @param  string  $queue
@@ -194,7 +200,7 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
     public function queue($view, $queue = null);
 
     /**
-     * 队列中加入一条新的需在n秒后发送的邮件
+     * n 秒后在队列中发送新的电子邮件
      *
      * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string|array|MailableContract  $view
@@ -207,47 +213,47 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### `has` 方法
 
-`$request->has` 方法现在对于空字符串和 `null` 将返回 `true` 。新添加了一个 `$request->filled` 方法提供了之前的 `has` 方法的功能。
+`$request->has` 方法现在对于空字符串和 `null` 将返回 `true`。新添加的 `$request->filled` 方法提供了之前的 `has` 方法的行为。
 
 #### `intersect` 方法
 
-`intersect` 方法已被移除。您可以在调用 `array_filter` 时使用 `$request->only` 来代替该方法：
+`intersect` 方法已被移除。你只需在调用 `$request->only` 时使用 `array_filter` 来代替该方法：
 
     return array_filter($request->only('foo'));
 
 #### `only` 方法
 
-`only` 方法现在只会返回请求的有效载荷中实际存在的属性。如果您想保留该方法的旧功能，可以使用 `all` 方法来替代。
+`only` 方法现在只会返回请求中实际存在的属性。如果你想保留该方法的旧功能，可以使用 `all` 方法来替代。
 
     return $request->all('foo');
 
-#### The `request()` Helper
+#### 辅助函数 `request()`
 
-`request` helper 将不再检索嵌套的密钥。如果有需要，可以使用 request 中的 `input` 方法来达成此目的：
+辅助函数 `request` 将不再检索嵌套的键。如果有需要，你可以使用 `request` 中的 `input` 方法来达成此目的：
 
     return request()->input('filters.date');
 
 ### 测试
 
-#### 授权声明
+#### 认证声明
 
-为了更好的保证框架声明的一致性，一些授权声明被重命名了：
+一些认证断言被重命名为与框架的其他断言更好的一致性：
 
 <!-- <div class="content-list" markdown="1"> -->
-- `seeIsAuthenticated` 重命名为 `assertAuthenticated` ；
-- `dontSeeIsAuthenticated` 重命名为 `assertGuest` ；
-- `seeIsAuthenticatedAs` 重命名为 `assertAuthenticatedAs` ；
-- `seeCredentials` 重命名为 `assertCredentials` ；
-- `dontSeeCredentials` 重命名为 `assertInvalidCredentials` 。
-<!-- </div> -->
+- `seeIsAuthenticated` 被重命名为 `assertAuthenticated` ；
+- `dontSeeIsAuthenticated` 被重命名为 `assertGuest` ；
+- `seeIsAuthenticatedAs` 被重命名为 `assertAuthenticatedAs` ；
+- `seeCredentials` 被重命名为 `assertCredentials` ；
+- `dontSeeCredentials` 被重命名为 `assertInvalidCredentials` 。
+  <!-- </div> -->
 
-#### 邮件伪造
+#### 伪造邮件
 
-如果您在请求期间使用 Mail Fake 来确定是否有可用的邮件 **队列** ，那么您现在应该使用 `Mail :: assertQueued` 而不是 `Mail :: assertSent` 。 这种区别允许您明确声明邮件已在后台排队等待发送，而不是在请求期间发送。
+如果你使用伪造 Mail 来请求中是否有可用的**队列** ，则应该使用 `Mail::assertQueued` 来代替 `Mail::assertSent` 。 这种区别允许你明确声明邮件已在队列中等待发送，而不是在请求期间发送。
 
 ### 翻译
 
-#### 关于 `LoaderInterface`
+#### `LoaderInterface`
 
 `Illuminate\Translation\LoaderInterface` 该接口已被移动至 `Illuminate\Contracts\Translation\Loader`。
 
@@ -255,21 +261,33 @@ Pusher 事件的广播驱动现在要求 Pusher SDK 的版本为 `~3.0`。
 
 #### 验证方法
 
-所有的验证方法已由 `protected` 改为 `public` 。
+所有的验证器的验证方法已由 `protected` 改为 `public` 。
 
 ### 视图
 
-#### 关于 「with」 后的动态变量
+#### 动态的 「with」 变量
 
-当允许动态的 `__call` 方法与一个视图共享变量时，该变量将会自动以驼峰法命名。举例如下：
+当允许动态的 `__call` 方法与视图共享变量时，该变量将会自动使用驼峰式命名。举例如下：
 
     return view('pool')->withMaximumVotes(100);
 
-变量 `maximumVotes` 在模板中将以该形式被调用：
+`maximumVotes` 变量可以在模板中访问，如下所示：
 
     {{ $maximumVotes }}
+### 其他
+
+你还可以查看 `laravel/laravel` 在 GitHub 中的更改。虽然这些更改不是必需的，但你可能希望将这些文件与应用程序保持同步。本升级指南中将介绍其中一些更改，而其他的则不会被介绍，例如更改配置文件或注释。你可以使用 [GitHub 的比较工具](https://github.com/laravel/laravel/compare/5.4...master) 轻松查看你在意的变更的内容。
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@我做我的梦](https://laravel-china.org/users/18485)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18485_1503368993.jpeg?imageView2/1/w/100/h/100">  |  翻译  | A new to Laravel，and hope Laravel is the last framework for me. |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： http://d.laravel-china.org

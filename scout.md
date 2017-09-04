@@ -315,7 +315,7 @@ Scout 允许你在搜索查询中增加简单的「where」语句。目前，这
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 | ---| --- | --- | --- |
-| [@Insua](https://phphub.org/users/3853) | <img class="avatar-66 rm-style" src="http://upload.jianshu.io/users/upload_avatars/2587416/ec8cb56a3c48?imageMogr2/auto-orient/strip | imageView2/1/w/380/h/380"> | 翻译   |
+| [@Insua](https://phphub.org/users/3853) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3853_1457586148.jpeg?imageView2/1/w/100/h/100"/> | 翻译 | happay coding with laravel+vue |
 
 ---
 

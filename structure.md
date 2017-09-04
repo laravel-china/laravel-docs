@@ -85,7 +85,7 @@
 <a name="the-storage-directory"></a>
 #### `Storage` 目录
 
-`storage` 目录包含编译的 Blade 模板、基于文件的会话和文件缓存、以及框架生成的其他文件。这个目录被细分成 `app `、 `framework` 和 `logs` 三个子目录。`app` 目录可以用来存储应用生成的任何文件。`framework` 目录用来存储框架生成的文件和缓存。最后，`logs` 目录包含应用的日志文件。
+`storage` 目录包含编译的 Blade 模板、基于文件的会话和文件缓存、以及框架生成的其他文件。这个目录被细分成 `app `、`framework` 和 `logs` 三个子目录。`app` 目录可以用来存储应用生成的任何文件。`framework` 目录用来存储框架生成的文件和缓存。最后，`logs` 目录包含应用的日志文件。
 
 `storage/app/public` 可以用来存储用户生成的文件，比如需要公开访问的用户头像。你应该创建一个 `public/storage` 的软链接指向这个目录。你可以直接通过 `php artisan storage:link` 命令来创建此链接。
 
@@ -138,7 +138,7 @@
 <a name="the-listeners-directory"></a>
 #### `Listeners` 目录
 
-`Listeners` 目录默认是不存在的，它会在你运行 Artisan 命令 `event:generate` 或 `make:listenr` 时生成。`Listeners` 目录包含了用来处理「[事件](/docs/{{version}}/events)」的类。事件监听器接收事件实例并执行响应该事件被触发的逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
+`Listeners` 目录默认是不存在的，它会在你运行 Artisan 命令 `event:generate` 或 `make:listenr` 时生成。`Listeners` 目录包含了用来处理 [事件](/docs/{{version}}/events) 的类。事件监听器接收事件实例并执行响应该事件被触发的逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
 
 <a name="the-mail-directory"></a>
 #### `Mail` 目录
@@ -171,3 +171,12 @@
 | 用户名 | 头像 | 职能 | 签名 |
 | --- | --- | --- | --- |
 | [@huiren](https://laravel-china.org/users/5583) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5583_1472366142.png?imageView2/1/w/100/h/100"> | 翻译 | 认领翻译，只是起点。 |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： http://d.laravel-china.org

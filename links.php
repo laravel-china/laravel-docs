@@ -10,11 +10,11 @@ return [
         'link' => '/docs/{{version}}/releases'
     ],
     [
-        'text' => '升级说明',
+        'text' => '升级指南',
         'link' => '/docs/{{version}}/upgrade'
     ],
     [
-        'text' => '贡献导引',
+        'text' => '贡献指南',
         'link' => '/docs/{{version}}/contributions'
     ],
     [
