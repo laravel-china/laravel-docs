@@ -33,7 +33,7 @@
 <a name="introduction"></a>
 ## 介绍
 
-在 Laravel 中，实现基于传统表单的登陆和授权已经非常简单，但是如何满足 API 场景下的授权需求呢？在 API 场景里通常通过令牌来实现用户授权，而非维护请求之间的 Session 状态。现在 Laravel 项目中可以使用 Passport 轻而易举地实现 API 授权过程，通过 Passport 可以在几分钟之内为你的应用程序添加完整的 OAuth2 服务端实现。 Passport 基于 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 实现，该项目的维护人是 Alex Bilbie 。
+在 Laravel 中，实现基于传统表单的登陆和授权已经非常简单，但是如何满足 API 场景下的授权需求呢？在 API 场景里通常通过令牌来实现用户授权，而非维护请求之间的 Session 状态。现在 Laravel 项目中可以使用 Passport 轻而易举地实现 API 授权过程，通过 Passport 可以在几分钟之内为你的应用程序添加完整的 OAuth2 服务端实现。 Passport 基于 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 该项目的维护人是 [Alex Bilbie](https://github.com/alexbilbie)。
 
 > {note} 本文档假定你已熟悉 OAuth2 。如果你并不了解 OAuth2 ，阅读之前请先熟悉下 OAuth2 的常用术语和基本特征。
 
@@ -52,7 +52,7 @@ Passport 使用服务提供者注册内部的数据库迁移脚本目录，所�
 
     php artisan migrate
 
-> {note} 如果你不打算使用 Passport 的默认迁移，你应该在`AppServiceProvider`的`register`方法中调用`Passport :: ignoreMigrations`方法。 你可以导出这个默认迁移用`php artisan vendor:publish --tag=passport-migrations`命令。
+> {note} 如果你不打算使用 Passport 的默认迁移，你应该在 `AppServiceProvider` 的 `register` 方法中调用 `Passport :: ignoreMigrations` 方法。 你可以导出这个默认迁移用 `php artisan vendor:publish --tag=passport-migrations` 命令。
 
 接下来，你需要运行 `passport:install` 命令来创建生成安全访问令牌时用到的加密密钥，同时，这条命令也会创建「私人访问」客户端和「密码授权」客户端：
 
@@ -126,7 +126,7 @@ Passport 使用服务提供者注册内部的数据库迁移脚本目录，所�
 
 > {note} 如果想要使用 Passport 的 Vue 组件，那么你必须使用 [Vue](https://vuejs.org) Javascript 框架，另外这些组件还用到了 Bootstrap CSS 框架。当然你也可以不使用上面的任何工具，但在实现你自己的前端部分时，Passport 的 Vue 组件仍旧有很高的参考价值。
 
-Passport 配备了一些可以让你的用户自行创建客户端和私人访问令牌的 JSON API。所以，你可以自己花费时间来编写一些前端代码来使用这些 API。当然在 Passport 中也已经预制了一些 [Vue](https://vuejs.org) 组件，你可以直接使用这些示例代码，也可以基于这些代码实现自己的前端部分。
+Passport 配备了一些可以让你的用户自行创建客户端和私人访问令牌的 JSON API。所以，你可以自己花时间来编写一些前端代码来使用这些 API。当然在 Passport 中也已经预制了一些 [Vue](https://vuejs.org) 组件，你可以直接使用这些示例代码，也可以基于这些代码实现自己的前端部分。
 
 使用 Artisan 命令 `vendor:publish` 来发布 Passport 的 Vue 组件：
 
@@ -158,7 +158,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 <a name="deploying-passport"></a>
 ### 部署 Passport
 
-首次将Passport部署到你的应用服务器时，你可能需要运行 `passport:keys` 命令。这个命令生成一个加密密钥，Passport使用该密钥生成访问令牌。该密钥一般不会被保存在版本控制中：
+第一次部署 Passport 到生产服务器时，可能会需要运行 `passport:keys` 命令。该命令生成 Passport 所需要的加密密钥，来产生访问令牌。这些生成的密钥往往不保存在源码控制中：
 
     php artisan passport:keys
 
@@ -242,7 +242,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 
 #### `PUT /oauth/clients/{client-id}`
 
-此接口用于更新客户端信息。它需要两部分数据：客户端的名称和 `redirect` 链接。当用户允许或拒绝授权请求后，用户都会被重定向到这个 `redirect` 链接。此接口会返回被更新客户端实例的信息：
+此接口用于更新客户端信息。它需要两部分数据：客户端的 `name` 和 `redirect` 链接。当用户允许或拒绝授权请求后，用户都会被重定向到这个 `redirect` 链接。此接口会返回被更新客户端实例的信息：
 
     const data = {
         name: 'New Client Name',
@@ -284,7 +284,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
-> {tip} 注意，路由 `/oauth/authorize` 已经在 `Passport::routes` 方法中定义，所以无需再次定义。
+> {tip} 注意，路由 `/oauth/authorize` 已经在 `Passport::routes` 方法中定
 
 #### 确认授权请求
 
@@ -296,7 +296,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 
 #### 将授权码转换为访问令牌
 
-用户允许授权请求后，用户将会被重定向回接入应用程序，然后接入应用将通过 `POST` 请求向你的应用程序申请访问令牌，此次请求需要携带用户允许授权时产生的授权码。在下面的例子中，我们使用 Guzzle HTTP 库来实现这次 `POST` 请求：
+用户允许授权请求后，用户将会被重定向会接入应用程序，然后接入应用将通过 `POST` 请求向你的应用程序申请访问令牌，此次请求需要携带用户允许授权时产生的授权码。在下面的例子中，我们使用 Guzzle HTTP 库来实现这次 `POST` 请求：
 
     Route::get('/callback', function (Request $request) {
         $http = new GuzzleHttp\Client;
@@ -314,7 +314,8 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
         return json_decode((string) $response->getBody(), true);
     });
 
-接口 `/oauth/token` 的 JSON 响应中会包含 `access_token` 、`refresh_token` 和 `expires_in` 属性。`expires_in` 的值即当前访问令牌的有效期（单位：秒）。
+
+接口 `/oauth/token` 的 JSON 相应中会包含 `access_token` 、`refresh_token` 和 `expires_in` 属性。`expires_in` 的值即当前访问令牌的有效期（单位：秒）。
 
 > {tip} 如上 `/oauth/authorize` 路由，`/oauth/token` 已经在 `Passport::routes` 方法中定义，所以无需再次定义。
 
@@ -342,7 +343,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和私人访�
 <a name="password-grant-tokens"></a>
 ## 密码授权令牌
 
-OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）和密码获取访问令牌，自有应用比如你的手机客户端。这样就允许自有应用无需跳转步骤即可通过整个 OAuth2 的授权过程。
+OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）和密码获取访问令牌，自有应用比如你的手机客户端。这样就允许自由应用无需跳转步骤即可通过整个 OAuth2 的授权过程。
 
 <a name="creating-a-password-grant-client"></a>
 ### 创建密码授权客户端
@@ -392,14 +393,14 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
 <a name="implicit-grant-tokens"></a>
 ## 简化授权令牌
 
-简化授权和通过授权码授权相似; 区别是, 不需要通过授权码去获取令牌而是把令牌直接返回客户端。主要用在无法安全存储证书场景中，这种授权在 JavaScript 和 移动应用 是最常用的。 开启授权, 在 `AuthServiceProvider` 中调用 `enableImplicitGrant` 方法:
+简化授权和通过授权码授权相似; 区别是, 不需要通过授权码去获取令牌而是把令牌直接返回客户端. 主要用在无法安全存储证书场景中，这种授权在 JavaScript 和 移动应用 是最常用的. 开启授权, 在 `AuthServiceProvider` 中调用 `enableImplicitGrant` 方法:
 
     /**
      * Register any authentication / authorization services.
      *
      * @return void
      */
-    public function boot()
+    public function boot() 
     {
         $this->registerPolicies();
 
@@ -408,7 +409,9 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
         Passport::enableImplicitGrant();
     }
 
+
 调用上面方法开启授权后, 开发者可以通过自己的应用把 client ID 当做参数去请求一个令牌。在你的应用程序 `/oauth/authorize` 的接口中应该有一个重定向请求像下面这样:
+
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -421,12 +424,16 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
+
 > {tip} 记住, 这个 `/oauth/authorize` 接口已经定义在 `Passport::routes` 中，所以无需再次手动定义。
+
 
 <a name="client-credentials-grant-tokens"></a>
 ## 客户端证书授权令牌
 
+
 客户端证书授权适用于机器对机器认证，例如，你可以在通过API执行脚本任务中使用此授权。要使用这种授权，你首先需要在 `app/Http/Kernel.php` 的 `$routeMiddleware` 变量中添加新的中间件：
+
 
     use Laravel\Passport\Http\Middleware\CheckClientCredentials::class;
 
@@ -436,11 +443,14 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
 
 然后将这个中间件附加到路由中：
 
+
     Route::get('/user', function(Request $request) {
         ...
     })->middleware('client');
 
+
 要获取令牌，向 `oauth/token` 接口发出请求:
+
 
     $guzzle = new GuzzleHttp\Client;
 
@@ -458,7 +468,9 @@ OAuth2 密码授权机制可以让自有应用基于邮箱地址（用户名）�
 <a name="personal-access-tokens"></a>
 ## 私人访问令牌
 
+
 有些时候你的用户可能想发布一个访问令牌自己使用，又不想经历通常的授权跳转流程，这时候如果能让用户在你的应用程序中自行发放访问令牌，在试验 API 接口或者在简单的授权演示中，是一个不错的解决方案。
+
 
 > {note} 私人访问令牌总是永久有效的，`tokensExpireIn` 和 `refreshTokensExpireIn` 方法不会影响它的有效期。
 
@@ -501,6 +513,7 @@ Passport 中也有用来管理私人访问令牌的 JSON API，你可以基于�
 
 此接口返回当前授权用户创建的所有私人访问令牌。主要用途是列出当前用户所有访问令牌，方便用户修改或删除：
 
+
     axios.get('/oauth/personal-access-tokens')
         .then(response => {
             console.log(response.data);
@@ -535,7 +548,7 @@ Passport 中也有用来管理私人访问令牌的 JSON API，你可以基于�
 <a name="via-middleware"></a>
 ### 通过中间件
 
-Passport 包含一个 [验证保护机制](/docs/{{version}}/authentication#adding-custom-guards) 可以验证请求中的的访问令牌。前面将 `api` 中的保护机制改为为 `passport` 后，你只要给需要验证访问令牌的路由添加 `auth:api` 中间件，该机制将发挥作用：
+Passport 包含一个 [验证保护机制](/docs/{{version}}/authentication#adding-custom-guards) 可以验证请求中的的访问令牌。 前面i将 `api` 中的保护机制改为为 `passport` 后，你只要给需要验证访问令牌的路由添加 `auth:api` 中间件，该机制将发挥作用：
 
     Route::get('/user', function () {
         //
@@ -544,7 +557,8 @@ Passport 包含一个 [验证保护机制](/docs/{{version}}/authentication#addi
 <a name="passing-the-access-token"></a>
 ### 传递访问令牌
 
-接入应用在调用 Passport 保护下的路由时，需要将访问令牌作为 `Bearer` 令牌放在请求头 `Authorization` 中。在下面的例子中，我们使用 Guzzle HTTP 库来实现请求：
+
+接入应用在调用 Passport 保护下的路由时，需要将访问令牌作为 `Bearer` 令牌放在请求头 `Authorization` 中。在下面的例子中，我们使用 Guzzle HTTP 库来实现这次 `POST` 请求：
 
     $response = $client->request('GET', '/api/user', [
         'headers' => [
@@ -559,7 +573,8 @@ Passport 包含一个 [验证保护机制](/docs/{{version}}/authentication#addi
 <a name="defining-scopes"></a>
 ### 定义作用域
 
-当 API 客户端接入特定用户时，可以通过作用域来限定其访问权限。例如在你编写的电子商务应用中，不是所有的用户都需要拥有下订单的权限。相反，你需要授权客户只有查询发货状态的权限。换言之，作用域能够让你的用户限制第三方应用的行为，从而保障自身的利益。
+
+当 API 客户端接入特定用户时，可以通过作用域来限定其访问权限。例如在你编写的电子商务应用中，一些接入应用可以获取订单的发货状态而不能创建订单。换言之，作用域能够让你的用户限制第三方应用的行为，从而保障自身的利益。
 
 你可以使用 `Passport::tokensCan` 方法来定义 API 的作用域，定义代码需要放置在 `AuthServiceProvider` 的 `boot` 方法中。`tokensCan` 方法接受一个包含作用域名称、描述的数组作为参数。作用域描述将会在授权确认页中直接展示给用户，你可以将其定义为任何你需要的内容：
 
@@ -642,7 +657,8 @@ Passport 包含两个检查作用域的中间件，通过访问令牌请求时�
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-Passport 的这个中间件将会在你所有的对外响应中添加一个 `laravel_token` cookie ，该 cookie 将包含一个加密后的 JWT ，Passport 可以根据此数据判断你 JavaScript 应用的授权状态。至此，你可以无需传递访问令牌直接请求应用程序的 API 了：
+
+Passport 的这个中间件将会在你所有的对外请求中添加一个 `laravel_token` cookie ，该 cookie 将包含一个加密后的 [JWT](https://jwt.io/) ，Passport 可以根据此数据判断你 JavaScript 应用的授权状态。至此，你可以无需传递访问令牌直接请求应用程序的 API 了：
 
     axios.get('/user')
         .then(response => {
@@ -697,11 +713,14 @@ Passport 的 `actingAs` 方法可以用于指定当前认证的用户及其授�
         $response->assertStatus(200);
     }
     
-    
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
+
+| [@Kirisky](https://github.com/kirisky)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18491_1503379318.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 部分关键字翻译参考 [@KevinDiamen](https://github.com/KevinDiamen)  |
+
 | Cloes  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6187_1477389867.jpg?imageView2/1/w/100/h/100">  |  翻译  |  我的[github](https://github.com/cloes)  |
+
 
 
 --- 
