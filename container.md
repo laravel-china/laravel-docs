@@ -1,10 +1,10 @@
-# Laravel 服务容器解析
+# 服务容器
 
 - [简介](#introduction)
 - [绑定](#binding)
     - [绑定基础](#binding-basics)
-    - [绑定接口至实现](#binding-interfaces-to-implementations)
-    - [情境绑定](#contextual-binding)
+    - [绑定接口实现](#binding-interfaces-to-implementations)
+    - [上下文绑定](#contextual-binding)
     - [标记](#tagging)
 - [解析](#resolving)
     - [Make 方法](#the-make-method)
@@ -15,7 +15,7 @@
 <a name="introduction"></a>
 ## 简介
 
-Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依赖注入是一个花俏的名词，它实质上是指：类的依赖通过构造器或在某些情况下通过「setter」方法进行「注入」。
+Laravel 服务容器是用于管理类的依赖和执行依赖注入的工具。依赖注入这个花俏名词实质上是指：类的依赖项通过构造函数，或者某些情况下通过「setter」方法「注入」到类中。
 
 来看一个简单的例子:
 
@@ -30,7 +30,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     class UserController extends Controller
     {
         /**
-         * user repository 的实现。
+         * 用户存储库的实现。
          *
          * @var UserRepository
          */
@@ -48,7 +48,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
         }
 
         /**
-         * 显示指定用户的详细信息。
+         * 显示指定用户的 profile。
          *
          * @param  int  $id
          * @return Response
@@ -61,9 +61,9 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
         }
     }
 
-在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要 **注入** 可以获取 users 的服务。在这种情况下， `UserRepository` 可能是通过使用 [Eloquent](/docs/{{version}}/eloquent) 来从数据库中获取 user 信息。因为 `UserRepository` 是通过注入获取，所以我们可以容易地切换为其他实现。当测试应用程序时，我们还可以轻松地 「mock」 ，或创建假的 `UserRepository` 实例。
+在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要**注入**可以获取 users 的服务。在这种情况下，`UserRepository` 可能是使用 [Eloquent](/docs/{{version}}/eloquent) 从数据库中获取 user 信息。因为存储库是通过 `UserRepository` 注入的，所以我们可以轻易地将其切换为另一个实现。这种注入方式的便利之处还体现在当我们为应用编写测试时，我们还可以轻松地「模拟」或创建 `UserRepository` 的虚拟实现。
 
-在构建强大的应用程序和为 Laravel 核心贡献代码时，必须深入理解 Laravel 的服务容器。
+想要构建强大的大型应用，至关重要的一件事是：要深刻的理解 Laravel 服务容器。当然，为 Laravel 的核心代码做出贡献也一样。
 
 
 <a name="binding"></a>
@@ -72,23 +72,23 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="binding-basics"></a>
 ### 绑定基础
 
-几乎所有服务容器的绑定都是在 [服务提供者](/docs/{{version}}/providers) 中进行的，所以下面的例子将示范在该情景中使用容器。
+因为几乎所有服务容器都是在 [服务提供器](/docs/{{version}}/providers) 中注册绑定的，所以文档中大多数例子都是使用了在服务提供器中绑定的容器。
 
-> {tip} 但是，如果类没有依赖任何接口，那么就没有必要将类绑定到容器中了。容器绑定时，并不需要指定如何构建这些类，因为容器中会通过 PHP 的反射自动解析对象。
+> {tip} 如果类没有依赖任何接口，就没有必要将类绑定到容器中。容器不需要指定如何构建这些对象，因为它可以使用反射自动解析这些对象。
 
 #### 简单绑定
 
-在服务提供者中，你经常可以通过 `$this->app` 属性访问容器。我们可以通过 `bind` 方法注册一个绑定，通过传递注册类或接口的名称、及返回该实例的 `Closure` 作为参数：
+在服务提供器中，你可以通过 `$this->app` 属性访问容器。我们可以通过 `bind` 方法注册绑定，传递我们想要注册的类或接口名称再返回类的实例的 `Closure` ：
 
     $this->app->bind('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
     });
 
-注意，我们将获得的容器本身作为参数传递到解析器中，这样就可以使用容器来解决绑定对象对容器的子依赖。
+注意，我们接受容器本身作为解析器的参数。然后，我们可以使用容器来解析正在构建的对象的子依赖。
 
 #### 绑定一个单例
 
-通过 `singleton` 方法可以绑定一个只会被解析一次的类或接口到容器中。且后面的调用都会从容器中返回相同的实例：
+`singleton` 方法将类或接口绑定到只能解析一次的容器中。绑定的单例被解析后，相同的对象实例会在随后的调用中返回到容器中：
 
     $this->app->singleton('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
@@ -96,7 +96,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 
 #### 绑定实例
 
-你也可以使用 `instance` 方法绑定一个已经存在的对象至容器中。后面的调用都会从容器中返回指定的实例：
+你也可以使用 `instance` 方法将现有对象实例绑定到容器中。给定的实例会始终在随后的调用中返回到容器中：
 
     $api = new HelpSpot\API(new HttpClient);
 
@@ -104,28 +104,29 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 
 #### 绑定初始数据
 
-有时，你的类不仅需要注入类，还需要注入一些原始数据，如一个整数。此时，你可以容易地通过情景绑定注入需要的任何值：
+当你有一个类不仅需要接受一个注入类，还需要注入一个基本值（比如整数）。你可以使用上下文绑定来轻松注入你的类需要的任何值：
 
     $this->app->when('App\Http\Controllers\UserController')
               ->needs('$variableName')
               ->give($value);
 
 <a name="binding-interfaces-to-implementations"></a>
-绑定接口至实现
 
-服务容器有一个强大的功能，就是将一个指定接口的实现绑定到接口上。例如，如果我们有一个 `EventPusher` 接口和一个它的实现类 `RedisEventPusher` 。编写完接口的 `RedisEventPusher` 实现类后，我们就可以在服务容器中像下面例子一样注册它：
+### 绑定接口到实现
+
+服务容器有一个强大的功能，就是将接口绑定到给定实现。例如，如果我们有一个 `EventPusher` 接口和一个 `RedisEventPusher` 实现。编写完接口的 `RedisEventPusher` 实现后，我们就可以在服务容器中注册它，像这样：
 
     $this->app->bind(
         'App\Contracts\EventPusher',
         'App\Services\RedisEventPusher'
     );
 
-这么做会告诉容器当一个类需要 `EventPusher` 接口的实例时， `RedisEventPusher` 的实例将会被容器注入。现在我们就可以在构造函数中，或者任何其他需要通过容器注入依赖的地方，使用 `EventPusher` 接口的类型提示：
+这么做相当于告诉容器：当一个类需要实现 `EventPusher` 时，应该注入 `RedisEventPusher`。现在我们就可以在构造函数或者任何其他通过服务容器注入依赖项的地方使用类型提示注入 `EventPusher` 接口：
 
     use App\Contracts\EventPusher;
 
     /**
-     * Create a new class instance.
+     * 创建一个新的类实例
      *
      * @param  EventPusher  $pusher
      * @return void
@@ -136,9 +137,9 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     }
 
 <a name="contextual-binding"></a>
-### 情境绑定
+### 上下文绑定
 
-有时候，你可能有两个类使用到相同的接口，但你希望每个类都能注入不同的实现。例如，两个控制器可能需要依赖不同的 `Illuminate\Contracts\Filesystem\Filesystem` [契约](/docs/{{version}}/contracts) 的实现类。 Laravel 为此定义了一种简单、平滑的接口：
+有时候，你可能有两个类使用了相同的接口，但你希望每个类都能注入不同的实现。例如，两个控制器可能需要依赖不同的 `Illuminate\Contracts\Filesystem\Filesystem` [契约](/docs/{{version}}/contracts) 实现。  Laravel 提供了一个简单、优雅的接口来定义这个行为：
 
     use Illuminate\Support\Facades\Storage;
     use App\Http\Controllers\PhotoController;
@@ -160,7 +161,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="tagging"></a>
 ### 标记
 
-有时候，你可能需要解析某个「分类」下的所有绑定。例如，你正在构建一个报表的聚合器，它需要接受不同 `Report` 接口的实例。分别注册了 `Report` 实例后，你可以使用 `tag` 方法为他们赋予一个标签：
+有时候，你可能需要解析某个「分类」下的所有绑定。例如，你正在构建一个报表的聚合器，它接收一个包含不同 `Report` 接口实现的数组。注册了 `Report` 实现后，你可以使用 `tag` 方法为其分配标签：
 
     $this->app->bind('SpeedReport', function () {
         //
@@ -172,7 +173,7 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 
     $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
 
-一旦服务被标记后，你可以通过 `tagged` 方法轻松地将它们全部解析：
+服务被标记后，你可以通过 `tagged` 方法轻松地将它们全部解析：
 
     $this->app->bind('ReportAggregator', function ($app) {
         return new ReportAggregator($app->tagged('reports'));
@@ -184,24 +185,24 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="the-make-method"></a>
 #### `make` 方法
 
-你可以在服务容器外使用 `make` 方法来获得一个实例化的类。它接受你希望解析的类或是接口名称作为参数：
+你可以使用 `make` 方法将容器中的类实例解析出来。`make` 方法接受要解析的类或接口的名称：
 
     $api = $this->app->make('HelpSpot\API');
 
-如果你的代码不能直接使用 `$app` 变量，你可以使用全局的 `resolve` 助手：
+如果你的代码处于不能访问 `$app` 变量的位置，你可以使用全局的辅助函数 `resolve`：
 
     $api = resolve('HelpSpot\API');
 
-如果你的某些类依赖的属性不能通过容器去解析, 则可以通过将它们作为关联数组传递到 `makeWith` 方法中来注入它们。
+如果你的某些类的依赖项不能通过容器去解析，那你可以通过将它们作为关联数组传递到 `makeWith` 方法来注入它们。
 
     $api = $this->app->makeWith('HelpSpot\API', ['id' => 1]);
 
 <a name="automatic-injection"></a>
 #### 自动注入
 
-另外，并且也是重要的，你可以在类的构造函数中对依赖使用「类型提示」，依赖的类将会被容器自动进行解析，包括在 [控制器](/docs/{{version}}/controllers) ， [事件监听器](/docs/{{version}}/events) ， [队列任务](/docs/{{version}}/queues) ， [中间件](/docs/{{version}}/middleware) 等地方。 事实上，这也是大部分类被容器解析的方式。
+你可以简单地使用「类型提示」的方式在由容器解析的类的构造函数中添加依赖项，包括 [控制器](/docs/{{version}}/controllers)、[事件监听器](/docs/{{version}}/events)、[队列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware) 等。 事实上，这是你的大多数对象也应该由容器解析。
 
-例如，你可以在控制器的构造函数中对应用程序定义的 `Repository` 使用类型提示。这样 `Repository` 实例会被自动解析并注入到类中：
+例如，你可以在控制器的构造函数中对应用程序定义的存储库使用类型提示。存储库会被自动解析并注入到类中：
 
     <?php
 
@@ -212,12 +213,12 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
     class UserController extends Controller
     {
         /**
-         * user repository 实例。
+         * 用户存储库实例。
          */
         protected $users;
 
         /**
-         * 控制器构造方法。
+         * 创建一个新的控制器实例。
          *
          * @param  UserRepository  $users
          * @return void
@@ -242,23 +243,23 @@ Laravel 服务容器是管理类依赖和运行依赖注入的有力工具。依
 <a name="container-events"></a>
 ## 容器事件
 
-每当服务容器解析一个对象时就会触发一个事件。你可以使用 `resolving` 方法监听这个事件：
+每当服务容器解析一个对象时触发一个事件。你可以使用 `resolving` 方法监听这个事件：
 
     $this->app->resolving(function ($object, $app) {
-        // 解析任何类型的对象时都会调用该方法...
+        // 当容器解析任何类型的对象时调用...
     });
 
     $this->app->resolving(HelpSpot\API::class, function ($api, $app) {
-        // 解析「HelpSpot\API」类型的对象时调用...
+        // 当容器解析类型为「HelpSpot\API」的对象时调用...
     });
 
-如你所见，被解析的对象会被传递至回调中，让你在对象被传递到消费者前可以设置任何额外属性到对象上。
-
+如你所见，被解析的对象会被传递给回调中，让你在对象被传递出去之前可以在对象上设置任何属性。
 
 <a name="psr-11"></a>
+
 ## PSR-11
 
-Laravel 的服务容器实现了[PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md)的接口。因此，你可以使用PSR-11接口的类型提示去实例化一个容器：
+Laravel 的服务容器实现了 [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) 接口。因此，你可以对 PSR-11容器接口类型提示来获取 Laravel 容器的实例：
 
     use Psr\Container\ContainerInterface;
 
@@ -268,18 +269,19 @@ Laravel 的服务容器实现了[PSR-11](https://github.com/php-fig/fig-standard
         //
     });
 
-> {note} 如果标签没有绑定在容器当中，那么调用 `get` 方法将会抛出一个错误。
+> {note} 如果标签没有明确绑定到容器中，那么调用 `get` 方法时会抛出异常。
 
 ## 译者署名
+
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@kair](http://www.jianshu.com/u/7fdb641c0d01)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18390_1502954686.jpeg?imageView2/1/w/100/h/100">  |  翻译  | [@kair](https://github.com/JKair) |
+| [@kair](http://www.jianshu.com/u/7fdb641c0d01) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18390_1502954686.jpeg?imageView2/1/w/100/h/100"> | 翻译 | [@kair](https://github.com/JKair) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
 
-
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
-> 
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
 > 文档永久地址： http://d.laravel-china.org
