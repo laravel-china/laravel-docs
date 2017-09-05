@@ -50,7 +50,7 @@ return [
         'link' => '/docs/{{version}}/container'
     ],
     [
-        'text' => '服务提供者',
+        'text' => '服务提供器',
         'link' => '/docs/{{version}}/providers'
     ],
     [
