@@ -369,7 +369,7 @@ Laravel 默认会使用事件的类名作为广播名称来广播事件。不过
 <a name="only-to-others"></a>
 ### 只广播给他人
 
-W当创建一个使用到事件广播的应用程序时，你可以用 `broadcast` 函数来替代 `event` 函数。和 `event` 函数一样，`broadcast` 函数将事件分发到服务端侦听器：
+当创建一个使用到事件广播的应用程序时，你可以用 `broadcast` 函数来替代 `event` 函数。和 `event` 函数一样，`broadcast` 函数将事件分发到服务端侦听器：
 
     broadcast(new ShippingStatusUpdated($update));
 
