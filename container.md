@@ -61,7 +61,7 @@ Laravel 服务容器是用于管理类的依赖和执行依赖注入的工具。
         }
     }
 
-在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要**注入**可以获取 users 的服务。在这种情况下，`UserRepository` 可能是使用 [Eloquent](/docs/{{version}}/eloquent) 从数据库中获取 user 信息。因为存储库是通过 `UserRepository` 注入的，所以我们可以轻易地将其切换为另一个实现。这种注入方式的便利之处还体现在当我们为应用编写测试时，我们还可以轻松地「模拟」或创建 `UserRepository` 的虚拟实现。
+在这个例子中，控制器 `UserController` 需要从数据源中获取 users 。因此，我们要**注入**可以获取 users 的服务。在这种情况下，`UserRepository` 可能是使用 [Eloquent](/docs/{{version}}/eloquent) 从数据库中获取 user 信息。因为 Repository 是通过 `UserRepository` 注入的，所以我们可以轻易地将其切换为另一个实现。这种注入方式的便利之处还体现在当我们为应用编写测试时，我们还可以轻松地「模拟」或创建 `UserRepository` 的虚拟实现。
 
 想要构建强大的大型应用，至关重要的一件事是：要深刻的理解 Laravel 服务容器。当然，为 Laravel 的核心代码做出贡献也一样。
 
@@ -202,7 +202,7 @@ Laravel 服务容器是用于管理类的依赖和执行依赖注入的工具。
 
 你可以简单地使用「类型提示」的方式在由容器解析的类的构造函数中添加依赖项，包括 [控制器](/docs/{{version}}/controllers)、[事件监听器](/docs/{{version}}/events)、[队列任务](/docs/{{version}}/queues)、[中间件](/docs/{{version}}/middleware) 等。 事实上，这是你的大多数对象也应该由容器解析。
 
-例如，你可以在控制器的构造函数中对应用程序定义的存储库使用类型提示。存储库会被自动解析并注入到类中：
+例如，你可以在控制器的构造函数中对应用程序定义的 Repository 使用类型提示。Repository 会被自动解析并注入到类中：
 
     <?php
 

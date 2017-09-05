@@ -144,7 +144,7 @@
 
 - Package 扩展包
 - Packagist (开源项目名称，不翻)
-- Provider 提供者
+- Provider 提供器
 - Prefix 前缀
 - Presenter (不翻)
 - Pipeline 管道
@@ -173,7 +173,7 @@
 - Service 服务
 - Service Container 服务容器
 - Service Providers 服务提供者
-- Session (不翻)
+- Session 会话
 - Seed 数据填充
 - Scheduler 计划器
 - Scout (不翻)
@@ -207,10 +207,10 @@
 - Webpack (不翻)
 
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： http://d.laravel-china.org

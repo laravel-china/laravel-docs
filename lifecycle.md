@@ -34,8 +34,6 @@ HTTP 内核的 `handle` 方法的方法签名非常简单：接收 `Request` 并
 
 最重要的内核引导操作之一是加载应用程序的 [服务提供器](/docs/{{version}}/providers)。应用程序的所有服务提供器都在 `config/app.php` 配置文件的 `providers` 数组中配置。首先，所有提供器都会调用 `register` 方法，接着，由 `boot` 方法负责调用所有被注册提供器。
 
-#### One of the most important Kernel bootstrapping actions is loading the [service providers](/docs/{{version}}/providers) for your application. All of the service providers for the application are configured in the `config/app.php` configuration file's `providers` array. First, the `register` method will be called on all providers, then, once all providers have been registered, the `boot` method will be called.
-
 服务提供器负责引导所有框架的各种组件，如数据库、队列、验证和路由组件。也就是说，框架提供的每个功能都它们来引导并配置。因此也可以说，服务提供器是整个 Laravel 引导过程中最重要的方面。
 
 #### 分配请求
