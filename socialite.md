@@ -18,8 +18,6 @@ Laravel 社会化登录通过 Facebook ， Twitter ，Google ，LinkedIn ，GitH
 
 **我们不接受新的适配器。**
 
-**如果你使用 Laravel 5.3 或更低版本，请使用 [Socialite 2.0](https://github.com/laravel/socialite/tree/2.0)。**
-
 社区驱动的社会化登录提供商网站上可以找到为其他平台提供的适配器列表。
 
 <a name="license"></a>
@@ -102,18 +100,11 @@ class LoginController extends Controller
 }
 ```
 
- `redirect` 方法负责发送用户到 OAuth 提供商，而 `user` 方法将读取传入的请求并从提供商处检索用户信息。在重定向用户之前，你还可以加入附加的 `scope` 方法来设置请求的「scope」。这个方法会覆盖所有现有的范围。
+ `redirect` 方法负责发送用户到 OAuth 提供商，而 `user` 方法将读取传入的请求并从提供商处检索用户信息。在重定向用户之前，你还可以使用 `scope` 方法来设置请求的「scope」。这个方法会覆盖所有现有的范围。
  
 ```php
 return Socialite::driver('github')
             ->scopes(['scope1', 'scope2'])->redirect();
-```
-
-你可以使用 `setScopes` 方法覆盖所有已经存在的 scopes：
-
-```php
-return Socialite::driver('github')
-            ->setScopes(['scope1', 'scope2'])->redirect();
 ```
 
 当然，你需要定义通往你的控制器方法的路由。

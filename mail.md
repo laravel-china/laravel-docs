@@ -13,7 +13,6 @@
     - [生成 Markdown 格式的邮件](#generating-markdown-mailables)
     - [编写 Markdown 格式的邮件](#writing-markdown-messages)
     - [自定义组件](#customizing-the-components)
-    - [在浏览器中预览邮件](#previewing-mailables-in-the-browser)
 - [发送邮件](#sending-mail)
     - [队列邮件](#queueing-mail)
 - [邮件与本地开发](#mail-and-local-development)
@@ -395,17 +394,6 @@ Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你�
 在导出组件之后，`resources/views/vendor/mail/html/themes` 文件夹将包含一个默认的 `default.css` 文件。你可以在这个文件中自定义 CSS ，你定义的这些样式将会在 Markdown 格式消息体转换成 HTML 格式时自动得到应用。
 
 > {tip} 如果你想为 Markdown 组件构建一个全新的主题，只要写一个新的 CSS 文件，放在 `html/themes` 文件夹，然后在你的 `mail` 配置文件中改变 `theme` 选项就可以了。
-
-<a name="previewing-mailables-in-the-browser"></a>
-## 在浏览器中预览邮件
-
-当你设计一个邮件模板时，可以很方便地在浏览器中快速预览渲染出来的邮件，就像典型的 Blade 模板一样。为此， Laravel 允许你直接从路由闭包或者控制器中返回任何的邮件。当邮件被返回时，他会被渲染并显示在浏览器中，允许你快速预览其设计，而不必发送到实际的电子邮件地址。
-
-    Route::get('/mailable', function () {
-        $invoice = App\Invoice::find(1);
-
-        return new App\Mail\InvoicePaid($invoice);
-    });
 
 <a name="sending-mail"></a>
 ## 发送邮件
