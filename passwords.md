@@ -12,7 +12,7 @@
 
 > {tip} **想要快速上手此功能？** 首先在新的 Laravel 应用中运行 `php artisan make:auth` 命令， 然后在浏览器中打开 `http://your-app.dev/register`，或者任意一个在应用中分配的 URL。这个命令将会生成包括密码重置在内的整个认证系统。
 
-大部分 web 应用为用户提供了充值密码的功能。Laravel 提供了方便的方法发送密码重置链接并完成密码重置，而不需要在每个应用中重新实现。
+大部分 web 应用为用户提供了重置密码的功能。Laravel 提供了方便的方法发送密码重置链接并完成密码重置，而不需要在每个应用中重新实现。
 
 > {note} 在使用 Laravel 的密码重置功能之前，你必须在你的用户模型中使用 `Illuminate\Notifications\Notifiable` 这个 trait，也就是加入 `use Illuminate\Notifications\Notifiable` 这行代码，框架中自带的用户模型 App\User 中已添加。
 
