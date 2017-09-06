@@ -96,4 +96,4 @@ Laravel 可以用 seed 类轻松地为数据库填充测试数据。所有的 se
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@houfei](https://github.com/houfei)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3472_1452945992.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 玩咖啡 & 铲屎奴 & 努力回头做码农 [@houfei](https://github.com/houfei) at Github |
+| [@wqer1019](https://laravel-china.org/users/5435)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9254545?v=4&s=100">  |  翻译  | laravel是世界上最优雅的框架，[@wqer1019](https://github.com/wqer1019) at Github  |

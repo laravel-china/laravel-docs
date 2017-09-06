@@ -12,14 +12,14 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 <a name="configuration"></a>
 ## 设置
 
-在使用 Laravel 加密之前, 你必须先设置 `config/app.php`  配置文件中的  `key` 选项。由于 Artisan 控制台会使用 PHP 的安全机制为你随机生成  key ，你可以直接使用  `php artisan key:generate`  命令去生成 key 。如果没有适当地设置这个值，所有被 Laravel 加密的值都将是不安全的。
+在使用 Laravel 加密之前, 你必须先设置 `config/app.php` 配置文件中的 `key` 选项。由于 Artisan 控制台会使用 PHP 的安全机制为你随机生成 key ，你可以直接使用 `php artisan key:generate` 命令去生成 key 。如果没有适当地设置这个值，所有被 Laravel 加密的值都将是不安全的。
 
 <a name="using-the-encrypter"></a>
 ## 基本用法
 
 #### 加密一个值
 
-你可以借助  `encrypt`  辅助函数来加密一个值。这些值都会使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过后的值都会被签署文件消息验证码 (MAC)，以检测加密字符串是否被篡改过：
+你可以借助 encrypt 辅助函数来加密一个值。这些值都会使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过后的值都会被签署文件消息验证码 (MAC)，以检测加密字符串是否被篡改过：
 
     <?php
 
@@ -28,7 +28,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
     use App\User;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
-    
+
     class UserController extends Controller
     {
         /**
@@ -41,7 +41,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
         public function storeSecret(Request $request, $id)
         {
             $user = User::findOrFail($id);
-    
+
             $user->fill([
                 'secret' => encrypt($request->secret)
             ])->save();
@@ -50,7 +50,7 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 
 #### 不进行序列化的加密解密方法
 
-加密值在加密期间通过 `serialize` 传递，这也就允许对对象和数组进行加密。由此，非PHP客户端接收到加密值将需要 `unserialize`  数据。如果您希望在不进行序列化的情况下加密和解密值，可以使用 `Crypt` facade的 `encryptString` 和 `decryptString` 方法：
+加密值在加密期间通过 `serialize` 传递，这也就允许对对象和数组进行加密。由此，非PHP客户端接收到加密值将需要 `unserialize` 数据。如果您希望在不进行序列化的情况下加密和解密值，可以使用 `Crypt` facade 的 `encryptString` 和 `decryptString` 方法：
 
     use Illuminate\Support\Facades\Crypt;
 
@@ -73,4 +73,4 @@ Laravel 是利用 OpenSSL 去提供 AES-256 和 AES-128 的加密。强烈建议
 ## 译者署名
 | 用户名                                      | 头像                                       | 职能   | 签名                                       |
 | ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
-| [@GanymedeNil](https://github.com/GanymedeNil) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6859_1487055454.jpg?imageView2/1/w/100/h/100"> | 翻译   | 我不是Full Stack Developer 2333  [@GanymedeNil](http://weibo.com/jinhongyang) |
+| [@GanymedeNil](https://github.com/GanymedeNil) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6859_1487055454.jpg?imageView2/1/w/100/h/100"> | 翻译   | 争做一个 Full Stack Developer  [@GanymedeNil](http://weibo.com/jinhongyang) |

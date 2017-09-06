@@ -21,7 +21,7 @@
 <a name="configuration"></a>
 ### 配置
 
-Session 相关的配置文件存储在 `config/session/php`。请务必查看此文件中对于你可用的选项。默认设置下，Laravel 的配置是使用文件作为 Session 驱动，大多数情况下能够运行良好。在生产环境下，你可以考虑使用 `memcached` 或 `redis` 驱动来达到更出色的性能表现。
+Session 相关的配置文件存储在 `config/session.php`。请务必查看此文件中对于你可用的选项。默认设置下，Laravel 的配置是使用文件作为 Session 驱动，大多数情况下能够运行良好。在生产环境下，你可以考虑使用 `memcached` 或 `redis` 驱动来达到更出色的性能表现。
 
 Session 配置的 `driver` 的选项定义了每次请求的 Session 数据的存储位置。Laravel 附带了几个不错且可开箱即用的驱动：
 
@@ -267,3 +267,9 @@ push 方法可以将一个新的值加入至一个 Session 数组内。例如，
     }
 
 一旦 Session 驱动被注册，则必须在 `config/session.php` 的配置文件内使用 `Mongo` 驱动。
+
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@wqer1019](https://laravel-china.org/users/5435)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/9254545?v=4&s=100">  |  翻译  | laravel是世界上最优雅的框架，[@wqer1019](https://github.com/wqer1019) at Github  |

@@ -1,23 +1,22 @@
-- 前言
+- ## 前言
     - [翻译说明](/docs/{{version}}/about)
     - [发行说明](/docs/{{version}}/releases)
     - [升级说明](/docs/{{version}}/upgrade)
     - [贡献导引](/docs/{{version}}/contributions)
     - [API 文档](/api/{{version}})
-- 入门指南
+- ## 入门指南
     - [安装](/docs/{{version}}/installation)
     - [配置信息](/docs/{{version}}/configuration)
     - [文件夹结构](/docs/{{version}}/structure)
-    - [请求周期](/docs/{{version}}/lifecycle)
-- 开发环境部署
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
-- 核心概念
+- ## 核心架构
+    - [请求周期](/docs/{{version}}/lifecycle)
     - [服务容器](/docs/{{version}}/container)
     - [服务提供者](/docs/{{version}}/providers)
     - [Facades](/docs/{{version}}/facades)
     - [Contracts](/docs/{{version}}/contracts)
-- HTTP 层
+- ## 基础功能
     - [路由](/docs/{{version}}/routing)
     - [中间件](/docs/{{version}}/middleware)
     - [CSRF 保护](/docs/{{version}}/csrf)
@@ -27,24 +26,24 @@
     - [视图](/docs/{{version}}/views)
     - [Session](/docs/{{version}}/session)
     - [表单验证](/docs/{{version}}/validation)
-- 前端
+    - [错误与日志](/docs/{{version}}/errors)
+- ## 前端开发
     - [Blade 模板](/docs/{{version}}/blade)
     - [本地化](/docs/{{version}}/localization)
     - [前端指南](/docs/{{version}}/frontend)
     - [编辑资源 Mix](/docs/{{version}}/mix)
-- 安全
+- ## 安全相关
     - [用户认证](/docs/{{version}}/authentication)
     - [API 认证](/docs/{{version}}/passport)
     - [用户授权](/docs/{{version}}/authorization)
     - [加密解密](/docs/{{version}}/encryption)
     - [哈希](/docs/{{version}}/hashing)
     - [重置密码](/docs/{{version}}/passwords)
-- 综合话题
+- ## 综合话题
     - [Artisan 命令行](/docs/{{version}}/artisan)
     - [广播系统](/docs/{{version}}/broadcasting)
     - [缓存系统](/docs/{{version}}/cache)
     - [集合](/docs/{{version}}/collections)
-    - [错误与日志](/docs/{{version}}/errors)
     - [事件系统](/docs/{{version}}/events)
     - [文件存储](/docs/{{version}}/filesystem)
     - [辅助函数](/docs/{{version}}/helpers)
@@ -53,28 +52,30 @@
     - [扩展包开发](/docs/{{version}}/packages)
     - [队列](/docs/{{version}}/queues)
     - [任务调度](/docs/{{version}}/scheduling)
-- 数据库
+- ## 数据库
     - [快速入门](/docs/{{version}}/database)
     - [查询构造器](/docs/{{version}}/queries)
     - [分页](/docs/{{version}}/pagination)
     - [数据库迁移](/docs/{{version}}/migrations)
     - [数据填充](/docs/{{version}}/seeding)
     - [Redis](/docs/{{version}}/redis)
-- Eloquent ORM
+- ## Eloquent ORM
     - [快速入门](/docs/{{version}}/eloquent)
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
     - [修改器](/docs/{{version}}/eloquent-mutators)
+    - [API 资源](/docs/{{version}}/eloquent-resources)
     - [序列化](/docs/{{version}}/eloquent-serialization)
-- 测试
+- ## 测试相关
     - [快速入门](/docs/{{version}}/testing)
     - [HTTP 测试](/docs/{{version}}/http-tests)
     - [浏览器测试 Dusk](/docs/{{version}}/dusk)
     - [数据库测试](/docs/{{version}}/database-testing)
     - [测试模拟器](/docs/{{version}}/mocking)
-- 官方扩展包
+- ## 官方扩展包
     - [Cashier 交易工具包](/docs/{{version}}/billing)
     - [Envoy 部署工具](/docs/{{version}}/envoy)
+    - [Horizon](/docs/{{version}}/horizon)
     - [Passport OAuth 认证](/docs/{{version}}/passport)
     - [Scout 全文搜索](/docs/{{version}}/scout)
-    - [Socialite 社会化登录](https://github.com/laravel/socialite)
+    - [Socialite 社会化登录](/docs/{{version}}/socialite)

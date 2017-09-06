@@ -9,12 +9,13 @@
     - [广播名称](#broadcast-name)
     - [广播数据](#broadcast-data)
     - [广播队列](#broadcast-queue)
+    - [广播条件](#broadcast-conditions)
 - [频道授权](#authorizing-channels)
     - [定义授权路由](#defining-authorization-routes)
     - [定义授权回调](#defining-authorization-callbacks)
 - [对事件进行广播](#broadcasting-events)
     - [只广播给他人](#only-to-others)
-- [接收广播](#receiving-broadcasts)
+- [接受广播](#receiving-broadcasts)
     - [安装 Laravel Echo](#installing-laravel-echo)
     - [对事件进行监听](#listening-for-events)
     - [退出频道](#leaving-a-channel)
@@ -31,18 +32,18 @@
 
 在现代的 web 应用程序中，WebSockets 被用来实现需要实时、即时更新的接口。当服务器上的数据被更新后，更新信息将通过 WebSocket 连接发送到客户端等待处理。相比于不停地轮询应用程序，WebSocket 是一种更加可靠和高效的选择。
 
-为了帮助你建立这类应用，Laravel 将通过 WebSocket 连接来使「广播」[事件](/docs/{{version}}/events) 变得更加轻松。广播事件允许你在服务端代码和客户端 JavaScript 应用之间共享相同的事件名。
+为了帮助你建立这类应用, Laravel 将通过 WebSocket 连接来使「广播」[事件](/docs/{{version}}/events) 变得更加轻松。广播事件允许你在服务端代码和客户端 JavaScript 应用之间共享相同的事件名。
 
 > {tip} 在深入了解事件广播之前，请确认你已阅读所有关于 Laravel [事件和侦听器](/docs/{{version}}/events) 的文档。
 
 <a name="configuration"></a>
 ### 配置
 
-所有关于事件广播的配置都被保存在 `config/broadcasting.php` 文件中。Laravel 自带了几个广播驱动器：[Pusher](https://pusher.com)， [Redis](/docs/{{version}}/redis)， 和一个用于本地开发与调试的 `log` 驱动器。另外，还有一个 `null` 驱动器可以让你完全关闭广播功能。每一个驱动的示例配置都可以在 `config/broadcasting.php` 文件中被找到。
+所有关于事件广播的配置都被保存在 `config/broadcasting.php` 文件中。 Laravel 自带了几个广播驱动器：[Pusher](https://pusher.com), [Redis](/docs/{{version}}/redis), 和一个用于本地开发与调试的 `log` 驱动器。另外，还有一个 `null` 驱动器可以让你完全关闭广播功能。每一个驱动的示例配置都可以在 `config/broadcasting.php` 文件中被找到。
 
 #### 广播服务提供者
 
-在对事件进行广播之前，你必须先注册 `App\Providers\BroadcastServiceProvider`。对于一个全新安装的 Laravel 应用程序，你只需在 `config/app.php` 配置文件的 `providers` 数组中取消对该提供者的注释即可。该提供者将允许你注册广播授权路由和回调。
+在对事件进行广播之前，你必须先注册 `App\Providers\BroadcastServiceProvider`。对于一个全新安装的 Laravel 应用程序，你只需在 `config/app.php` 配置文件的 `providers`  数组中取消对该提供者的注释即可。该提供者将允许你注册广播授权路由和回调。
 
 #### CSRF 令牌
 
@@ -57,19 +58,22 @@
 
 如果你使用 [Pusher](https://pusher.com) 对事件进行广播，请用 Composer 包管理器来安装 Pusher PHP SDK：
 
-    composer require pusher/pusher-php-server
+    composer require pusher/pusher-php-server "~3.0"
 
-然后，你需要在 `config/broadcasting.php` 配置文件中填写你的 Pusher 证书。该文件中已经包含了一个 Pusher 示例配置，你只需指定 Pusher key、secret 和 application ID 即可。`config/broadcasting.php` 中的 `pusher` 配置项同时也允许你指定 Pusher 支持的 `options`，例如 cluster：
+然后，你需要在 `config/broadcasting.php` 配置文件中填写你的 Pusher 证书。该文件中已经包含了一个 Pusher 示例配置，你只需指定 Pusher key、secret 和 application ID 即可。`config/broadcasting.php` 中的 `pusher` 配置项同时也允许你指定 Pusher 支持的 `options` ，例如 cluster：
 
     'options' => [
         'cluster' => 'eu',
         'encrypted' => true
     ],
 
-当把 Pusher 与 [Laravel Echo](#installing-laravel-echo) 一起使用时，你应该在实例化 Echo 对象时指定 broadcaster 为 `pusher`：
+当把 Pusher 和 [Laravel Echo](#installing-laravel-echo) 一起使用时，你应该在 `resources/assets/js/bootstrap.js` 文件中实例化 Echo 对象时指定 `pusher` 作为所需要的 broadcaster :
+
 
     import Echo from "laravel-echo"
-
+    
+    window.Pusher = require('pusher-js');
+    
     window.Echo = new Echo({
         broadcaster: 'pusher',
         key: 'your-pusher-key'
@@ -83,7 +87,7 @@
 
 Redis 广播器会使用 Redis 的「生产者/消费者」特性来广播消息；尽管如此，你仍需将它与 WebSocket 服务器一起使用。WebSocket 服务器会从 Redis 接收消息，然后再将消息广播到你的 WebSocket 频道上去。
 
-当 Redis 广播器发布一个事件时，该事件会被发布到它指定的频道上去，传输的数据是一个采用 JSON 编码的字符串。该字符串包含了事件名、`data` 数据和生成该事件套接字 ID 的用户（如果可用的话）。
+当 Redis 广播器发布一个事件时，该事件会被发布到它指定的频道上去，传输的数据是一个采用 JSON 编码的字符串。该字符串包含了事件名、 `data` 数据和生成该事件套接字 ID 的用户（如果可用的话）。
 
 #### Socket.IO
 
@@ -91,32 +95,33 @@ Redis 广播器会使用 Redis 的「生产者/消费者」特性来广播消息
 
     <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 
-接着，你需要在实例化 Echo 时指定 `socket.io` 连接器和 `host` 。
+接着，你需要在实例化 Echo 时指定 `socket.io` 连接器和 `host`。
+
 
     import Echo from "laravel-echo"
-
+    
     window.Echo = new Echo({
         broadcaster: 'socket.io',
         host: window.location.hostname + ':6001'
     });
 
-最后，你需要运行一个与 Laravel 兼容的 Socket.IO 服务器。Laravel 官方并没有实现 Socket.IO 服务器；不过，可以选择一个由社区驱动维护的项目 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server)，目前托管在 GitHub。
+最后，你需要运行一个与 Laravel 兼容的 Socket.IO 服务器。Laravel 官方并没有实现 Socket.IO 服务器；不过，可以选择一个由社区驱动维护的项目 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) ，目前托管在 GitHub。
 
 #### 对队列的要求
 
-在开始广播事件之前，你还需要配置和运行 [队列侦听器](/docs/{{version}}/queues)。所有的事件广播都是通过队列任务来完成的，因此应用程序的响应时间不会受到明显影响。
+在开始广播事件之前，你还需要配置和运行 [队列侦听器](/docs/{{version}}/queues) 。所有的事件广播都是通过队列任务来完成的，因此应用程序的响应时间不会受到明显影响。
 
 <a name="concept-overview"></a>
 ## 概念综述
 
-Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的 Larevel 事件广播到客户端的 JavaScript 应用程序。当前的 Laravel 自带了 [Pusher](http://pusher.com) and Redis 驱动。通过使用 [Laravel Echo](#installing-laravel-echo) 的 Javascript 包，我们可以很方便地在客户端消费事件。
+Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的 Larevel 事件广播到客户端的 JavaScript 应用程序。当前的 Laravel 自带了 [Pusher](https://pusher.com) 和 Redis 驱动。通过使用 [Laravel Echo](#installing-laravel-echo) 的 Javascript 包，我们可以很方便地在客户端消费事件。
 
 事件通过「频道」来广播，这些频道可以被指定为公开的或私有的。任何访客都可以订阅一个不需要认证和授权的公开频道；然而，如果想订阅一个私有频道，那么该用户必须通过认证，并获得该频道的授权。
 
 <a name="using-example-application"></a>
 ### 使用示例程序
 
-让我们先用一个电子商务网站作为例子来概览一下事件广播。我们不会讨论如何配置 [Pusher](http://pusher.com) 和 [Laravel Echo](#echo) 的细节，因为这些会在本文档的其他章节被详细介绍。
+让我们先用一个电子商务网站作为例子来概览一下事件广播。我们不会讨论如何配置 [Pusher](https://pusher.com) 或者 [Laravel Echo](#installing-laravel-echo) 的细节，因为这些会在本文档的其他章节被详细介绍。
 
 在我们的应用程序中，让我们假设有一个允许用户查看订单配送状态的页面。有一个 `ShippingStatusUpdated` 事件会在配送状态更新时被触发：
 
@@ -126,17 +131,18 @@ Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的
 
 当用户在查看自己的订单时，我们不希望他们必须通过刷新页面才能看到状态更新。我们希望一旦有更新时就主动将更新信息广播到客户端。所以，我们必须让 `ShippingStatusUpdated` 事件实现 `ShouldBroadcast` 接口。这会让 Laravel 在事件被触发时广播该事件：
 
+
     <?php
-
+    
     namespace App\Events;
-
+    
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Broadcasting\PresenceChannel;
     use Illuminate\Broadcasting\InteractsWithSockets;
     use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
+    
     class ShippingStatusUpdated implements ShouldBroadcast
     {
         /**
@@ -167,9 +173,9 @@ Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的
         return $user->id === Order::findOrNew($orderId)->user_id;
     });
 
-`channel` 方法接收两个参数：频道名称和一个回调函数，该回调通过返回 `true` 或 `false` 来表示用户是否被授权监听该频道。
+`channel` 方法接收两个参数：频道名称和一个回调函数，该回调通过返回 `true` 或者 `false` 来表示用户是否被授权监听该频道。
 
-所有的授权回调接收当前被认证的用户作为第一个参数，任何额外的通配符参数作为后续参数。在本例中，我们使用 `{orderId}` 占位符来表示频道名称的「ID」部分是通配符。
+所有的授权回调接收当前被认证的用户作为第一个参数，任何额外的通配符参数作为后续参数。在本例中，我们使用  `{orderId}` 占位符来表示频道名称的「ID」部分是通配符。
 
 #### 对事件广播进行监听
 
@@ -185,25 +191,26 @@ Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的
 
 要告知 Laravel 一个给定的事件是广播类型，只需在事件类中实现 `Illuminate\Contracts\Broadcasting\ShouldBroadcast` 接口即可。该接口已经被导入到所有由框架生成的事件类中，所以你可以很方便地将它添加到你自己的事件中。
 
-`ShouldBroadcast` 接口要求你实现一个方法：`broadcastOn`。`broadcastOn` 方法返回一个频道或一个频道数组，事件会被广播到这些频道。频道必须是 `Channel`、`PrivateChannel` 或 `PresenceChannel` 的实例。`Channel` 实例表示任何用户都可以订阅的公开频道，而 `PrivateChannels` 和 `PresenceChannels` 则表示需要 [频道授权](#authorizing-channels) 的私有频道：
+`ShouldBroadcast` 接口要求你实现一个方法：`broadcastOn`. `broadcastOn` 方法返回一个频道或一个频道数组，事件会被广播到这些频道。频道必须是 `Channel`、`PrivateChannel` 或 `PresenceChannel` 的实例。`Channel` 实例表示任何用户都可以订阅的公开频道，而 `PrivateChannels` 和 `PresenceChannels` 则表示需要 [频道授权](#authorizing-channels) 的私有频道：
+
 
     <?php
-
+    
     namespace App\Events;
-
+    
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Broadcasting\PresenceChannel;
     use Illuminate\Broadcasting\InteractsWithSockets;
     use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
+    
     class ServerCreated implements ShouldBroadcast
     {
         use SerializesModels;
-
+    
         public $user;
-
+    
         /**
          * 创建一个新的事件实例
          *
@@ -213,7 +220,7 @@ Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的
         {
             $this->user = $user;
         }
-
+    
         /**
          * 指定事件在哪些频道上进行广播
          *
@@ -225,7 +232,7 @@ Laravel 的事件广播允许你使用基于驱动的 WebSockets 将服务端的
         }
     }
 
-然后，你只需要像你平时那样 [触发事件](/docs/{{version}}/events)。一旦事件被触发，一个 [队列任务](/docs/{{version}}/queues) 会自动广播事件到你指定的广播驱动器上。
+然后，你只需要像你平时那样 [触发事件](/docs/{{version}}/events) 。一旦事件被触发，一个 [队列任务](/docs/{{version}}/queues) 会自动广播事件到你指定的广播驱动器上。
 
 <a name="broadcast-name"></a>
 ### 广播名称
@@ -241,6 +248,13 @@ Laravel 默认会使用事件的类名作为广播名称来广播事件。不过
     {
         return 'server.created';
     }
+
+如果您使用 `broadcastAs` 方法自定义广播名称，你需要在你使用订阅事件的时候为事件类加上 `.` 前缀。这将指示 Echo 不要将应用程序的命名空间添加到事件中：
+
+    .listen('.server.created', function (e) {
+        ....
+    });
+
 
 <a name="broadcast-data"></a>
 ### 广播数据
@@ -272,13 +286,38 @@ Laravel 默认会使用事件的类名作为广播名称来广播事件。不过
 
 默认情况下，每一个广播事件都被添加到默认的队列上，默认的队列连接在 `queue.php` 配置文件中指定。你可以通过在事件类中定义一个 `broadcastQueue` 属性来自定义广播器使用的队列。该属性用于指定广播使用的队列名称：
 
-
     /**
      * 指定事件被放置在哪个队列上
      *
      * @var string
      */
     public $broadcastQueue = 'your-queue-name';
+
+如果要使用 `sync` 队列而不是默认队列驱动程序广播你的事件，你可以实现 `ShouldBroadcastNow` 接口而不是 `ShouldBroadcast`:
+
+
+    <?php
+    
+    use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+    
+    class ShippingStatusUpdated implements ShouldBroadcastNow
+    {
+        //
+    }
+<a name="broadcast-conditions"></a>
+### 广播条件
+
+有时，你想在给定条件为 true ，才广播你的事件。你可以通过在事件类中添加一个 `broadcastWhen` 方法来定义这些条件：
+
+    /**
+     * Determine if this event should broadcast.
+     *
+     * @return bool
+     */
+    public function broadcastWhen()
+    {
+        return $this->value > 100;
+    }
 
 <a name="authorizing-channels"></a>
 ## 频道授权
@@ -288,7 +327,7 @@ Laravel 默认会使用事件的类名作为广播名称来广播事件。不过
 <a name="defining-authorization-routes"></a>
 ### 定义授权路由
 
-幸运的是，我们可以在 Laravel 里很容易地定义路由来响应频道授权请求。在 `BroadcastServiceProvider` 中，你会看到一个对 `Broadcast::routes` 方法的调用。该方法会注册 `/broadcasting/auth` 路由来处理授权请求：
+幸运的是，我们可以在 Laravel 里很容易地定义路由来响应频道授权请求。在 `BroadcastServiceProvider` 中，你会看到一个对  `Broadcast::routes` 方法的调用。该方法会注册 `/broadcasting/auth` 路由来处理授权请求：
 
     Broadcast::routes();
 
@@ -307,14 +346,15 @@ Laravel 默认会使用事件的类名作为广播名称来广播事件。不过
 
 `channel` 方法接收两个参数：频道名称和一个回调函数，该回调通过返回 `true` 或 `false` 来表示用户是否被授权监听该频道。
 
-所有的授权回调接收当前被认证的用户作为第一个参数，任何额外的通配符参数作为后续参数。在本例中，我们使用 `{orderId}` 占位符来表示频道名称的「ID」部分是通配符。
+所有的授权回调接收当前被认证的用户作为第一个参数，任何额外的通配符参数作为后续参数。在本例中，我们使用  `{orderId}` 占位符来表示频道名称的「ID」部分是通配符。
 
 #### 授权回调模型绑定
 
-就像 HTTP 路由一样，频道路由也可以利用显式或隐式[路由模型绑定](/docs/{{version}}/routing#route-model-binding)。例如，相比于接收一个字符串或数字类型的 order ID，你也可以请求一个真正的 `Order` 模型实例:
+就像 HTTP 路由一样，频道路由也可以利用显式或隐式 [路由模型绑定](/docs/{{version}}/routing#route-model-binding)。例如，相比于接收一个字符串或数字类型的 order ID，你也可以请求一个真正的 `Order` 模型实例:
+
 
     use App\Order;
-
+    
     Broadcast::channel('order.{order}', function ($user, Order $order) {
         return $user->id === $order->user_id;
     });
@@ -366,11 +406,11 @@ Laravel Echo 是一个 JavaScript 库，它使得订阅频道和监听由 Larave
 
     npm install --save laravel-echo pusher-js
 
-一旦 Echo 被安装好，你就可以在你应用程序的 JavaScript 中创建一个全新的 Echo 实例。做这件事的一个理想地方是在 `resources/assets/js/bootstrap.js` 文件的底部，Laravel 框架自带了该文件：
+一旦 Echo 被安装好，你就可以在你应用程序的 JavaScript 中创建一个全新的 Echo 实例。做这件事的一个理想地方是在  `resources/assets/js/bootstrap.js` 文件的底部，Laravel 框架自带了该文件：
 
 
     import Echo from "laravel-echo"
-
+    
     window.Echo = new Echo({
         broadcaster: 'pusher',
         key: 'your-pusher-key'
@@ -388,7 +428,7 @@ Laravel Echo 是一个 JavaScript 库，它使得订阅频道和监听由 Larave
 <a name="listening-for-events"></a>
 ### 对事件进行监听
 
-一旦你安装好并实例化了 Echo，你就可以开始监听事件广播了。首先，使用 `chennel` 方法来获取一个频道实例，然后调用 `listen` 方法来监听指定的事件：
+一旦你安装好并实例化了 Echo，你就可以开始监听事件广播了。首先，使用 `channel` 方法来获取一个频道实例，然后调用  `listen` 方法来监听指定的事件：
 
     Echo.channel('orders')
         .listen('OrderShipped', (e) => {
@@ -435,11 +475,11 @@ Presence 频道是在私有频道的安全性基础上，额外暴露出有哪�
 <a name="joining-a-presence-channel"></a>
 ### 授权 Presence 频道
 
-Presence 频道也是私有频道；因此，用户必须 [获得授权后才能访问他们](#authorizing-channels)。与私有频道不同的是，在给 presence 频道定义授权回调函数时，如果一个用户已经加入了该频道，那么不应该返回 `true`，而应该返回一个关于该用户信息的数组。
+Presence 频道也是私有频道；因此，用户必须 [获取授权后才能访问他们](#authorizing-channels)。与私有频道不同的是，在给 presence 频道定义授权回调函数时，如果一个用户已经加入了该频道，那么不应该返回 `true`，而应该返回一个关于该用户信息的数组。
 
 由授权回调函数返回的数据能够在你的 JavaScript 应用程序中被 presence 频道事件侦听器所使用。如果用户没有获得加入该 presence 频道的授权，那么你应该返回 `false` 或 `null`：
 
-    Broadcast::channel('chat.*', function ($user, $roomId) {
+    Broadcast::channel('chat.{roomId}', function ($user, $roomId) {
         if ($user->canJoinRoom($roomId)) {
             return ['id' => $user->id, 'name' => $user->name];
         }
@@ -448,7 +488,7 @@ Presence 频道也是私有频道；因此，用户必须 [获得授权后才能
 <a name="joining-presence-channels"></a>
 ### 加入 Presence 频道
 
-你可以用 Echo 的 `join` 方法来加入 presence 频道。`join` 方法会返回一个实现了 `PresenceChannel` 的对象，它通过暴露 `listen` 方法，允许你订阅 `here`、`joining` 和 `leaving` 事件。
+你可以用 Echo 的 `join` 方法来加入 presence 频道。`join` 方法会返回一个实现了 `PresenceChannel` 的对象，它通过暴露  `listen` 方法，允许你订阅 `here`、`joining` 和 `leaving` 事件。
 
     Echo.join(`chat.${roomId}`)
         .here((users) => {
@@ -514,7 +554,7 @@ Presence 频道可以像公开和私有频道一样接收事件。使用一个�
 <a name="notifications"></a>
 ## 消息通知
 
-将 [消息通知](/docs/{{version}}/notifications) 和事件广播一同使用，你的 JavaScript 应用程序可以在不刷新页面的情况下接收新的消息通知。首先，请先阅读关于如何使用 [广播消息通知频道](/docs/{{version}}/notifications#broadcast-notifications) 的文档。
+将 [消息通知](/docs/{{version}}/notifications) 和事件广播一同使用，你的 JavaScript 应用程序可以在不刷新页面的情况下接收新的消息通知。首先，请先阅读关于如何使用 [the broadcast notification channel](/docs/{{version}}/notifications#broadcast-notifications) 的文档。
 
 一旦你将一个消息通知配置为使用广播频道，你需要使用 Echo 的 `notification` 方法来监听广播事件。谨记，频道名称应该和接收消息通知的实体类名相匹配：
 
@@ -523,4 +563,9 @@ Presence 频道可以像公开和私有频道一样接收事件。使用一个�
             console.log(notification.type);
         });
 
-在本例中，所有通过 `broadcast` 频道发送到 `App\User` 实例的消息通知都会被该回调接收到。一个针对 `App.User.{id}` 频道的授权回调函数已经被包含在 Laravel 的 `BroadcastServiceProvider` 中了。
+在本例中，所有通过 `broadcast` 频道发送到 `App\User` 实例的消息通知都会被该回调接收到。一个针对 `App.User.{id}` 频道的授权回调函数已经被包含在 `Laravel` 的 `BroadcastServiceProvider` 中了。
+
+## 译者署名
+| 用户名                                      | 头像                                       | 职能   | 签名                                       |
+| ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
+| [@沈益飞](https://laravel-china.org/users/13655) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/13655_1490162781.png?imageView2/1/w/100/h/100"> | 翻译   | [@m809745357](https://github.com/m809745357) at Github |

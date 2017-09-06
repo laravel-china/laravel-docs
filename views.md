@@ -8,7 +8,7 @@
 <a name="creating-views"></a>
 ## 创建视图
 
-视图的用途是用来存放应用程序中 HTML 内容，并且能够将你的控制器层（或应用逻辑层）与展现层分开。视图文件目录为 `resources/views` ，示例视图如下：
+视图包含你应用程序的HTML内容，并且能够将你的控制器层逻辑（或应用层逻辑）与展现层逻辑分开。视图文件存放于 `resources/views`目录下 ，一个简单的视图示例如下：
 
     <!-- 此视图文件位置：resources/views/greeting.blade.php -->
 
@@ -18,21 +18,21 @@
         </body>
     </html>
 
-上述视图文件位置为 `resources/views/greeting.blade.php` ，我们可以通过全局函数 `view` 来使用这个视图，如下：
+该视图文件位于 `resources/views/greeting.blade.php` ，我们可以通过全局函数 `view` 来使用这个它，比如：
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
 
-如你所见，`view` 函数中，第一个参数是 `resources/views` 目录中视图文件的文件名，第二个参数是一个数组，数组中的数据可以直接在视图文件中使用。在上面示例中，我们将 `name` 变量传递到了视图中，并在视图中使用 [Blade 模板语言](/docs/{{version}}/blade) 打印出来。
+如你所见，`view` 函数中，传入的第一个参数对应着 `resources/views` 目录中视图文件的文件名，第二个参数是一个数组，数组中的数据用于在视图文件中使用。在示例中，我们将 `name` 变量传递到视图中，并在视图中使用 [Blade 模板语言](/docs/{{version}}/blade) 打印出来。
 
-当然，视图文件也可能存放在 `resources/views` 的子目录中，你可以使用英文句点 `.` 来引用深层子目录中的视图文件。例如，一个视图的位置为 `resources/views/admin/profile.blade.php` ，使用示例如下：
+当然，视图文件也嵌套在 `resources/views` 目录的子目录中，英文句点 `.` 可以用来引用嵌套的视图。例如，一个位于 `resources/views/admin/profile.blade.php`的视图 ，可以这样引用它：
 
     return view('admin.profile', $data);
 
-#### 判断视图文件是否存在
+#### 判断一个视图文件是否存在
 
-如果需要判断一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果视图文件存在，则返回值为 `true` ：
+如果需要判断一个视图文件是否存在，你可以使用 `View` Facade 上的 `exists` 方法来判定，如果视图文件存在，该方法会返回 `true` ：
 
     use Illuminate\Support\Facades\View;
 
@@ -41,20 +41,20 @@
     }
 
 <a name="passing-data-to-views"></a>
-## 传递数据到视图
+## 传递数据至视图
 
-如上述例子中，你可以使用数组将数据传递到视图文件：
+如上述例子所示，你可以使用数组将数据传递到视图：
 
     return view('greetings', ['name' => 'Victoria']);
 
-当使用上面方式传递数据时，第二个参数（ `$data` ）必须是键值对数组（关联数组）。在视图文件中，你可以通过对应的关键字（ `$key` ）取用相应的数据值，例如 `<?php echo $key; ?>`。如果只需要传递特定数据而非一个臃肿的数组到视图文件，可以使用 `with` 辅助函数，示例如下：
+当用这种方式传递数据时，第二个参数（ `$data` ）必须是键\值对数组。在视图文件中，你可以通过对应的关键字（ `$key` ）取用相应的数据值，例如 `<?php echo $key; ?>`。如果只需要传递单个数据片段而非整个数组到视图，您可以使用 `with` 方法：
 
     return view('greeting')->with('name', 'Victoria');
 
 <a name="sharing-data-with-all-views"></a>
 #### 把数据共享给所有视图
 
-有时候可能需要共享特定的数据给应用程序中所有的视图，那这时候你需要 `View` Facade 的 `share` 方法。通常需要将所有 `share` 方法的调用代码放到 [服务提供者](/docs/{{version}}/providers) 的 `boot` 方法中，此时你可以选择使用 `AppServiceProvider` 或创建独立的 [服务提供者](/docs/{{version}}/providers) 。示例代码如下：
+有时，您可能需要共享一段数据给应用程序的所有视图，您可以使用`View` Facade 的 `share` 方法。通常需要将所有 `share` 方法的调用代码放到 [服务提供者](/docs/{{version}}/providers) 的 `boot` 方法中，此时你可以选择使用 `AppServiceProvider` 或创建独立的 [服务提供者](/docs/{{version}}/providers) 。示例代码如下：
 
     <?php
 
@@ -65,7 +65,7 @@
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * 启动任意应用服务
          *
          * @return void
          */
@@ -75,7 +75,7 @@
         }
 
         /**
-         * Register the service provider.
+         * 注册服务提供者
          *
          * @return void
          */
@@ -88,9 +88,9 @@
 <a name="view-composers"></a>
 ## 视图合成器
 
-视图合成器是在视图渲染时调用的一些回调或者类方法。如果你需要在某些视图渲染时绑定一些数据上去，那么视图合成器就是你的的不二之选，另外他还可以帮你将这些绑定逻辑整理到特定的位置。
+视图合成器是在一个视图被渲染时调用的一些回调或者类方法。如果你需要在某些视图被渲染时绑定一些数据上去，那么视图合成器就是你的的不二之选，另外他还可以帮你将这些绑定逻辑整理到特定的位置。
 
-下面例子中，我们会在一个 [服务提供者](/docs/{{version}}/providers) 中注册一些视图合成器。同时使用 `View` Facade 来访问 `Illuminate\Contracts\View\Factory` contract 的底层实现。注意：Laravel 没有存放视图合成器的默认目录，但你可以根据自己的喜好来重新组织，例如：`App\Http\ViewComposers`。
+在下面这个例子中，我们会在一个 [服务提供者](/docs/{{version}}/providers) 中注册一些视图合成器。同时使用 `View` Facade 来访问 `Illuminate\Contracts\View\Factory` contract 的底层实现。注意：Laravel 没有存放视图合成器的默认目录，但你可以根据自己的喜好来重新组织，例如：`App\Http\ViewComposers`。
 
     <?php
 
@@ -102,25 +102,25 @@
     class ComposerServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定
          *
          * @return void
          */
         public function boot()
         {
-            // Using class based composers...
+            // 使用基于类的合成器...
             View::composer(
                 'profile', 'App\Http\ViewComposers\ProfileComposer'
             );
 
-            // Using Closure based composers...
+            // 使用基于闭包的合成器...
             View::composer('dashboard', function ($view) {
                 //
             });
         }
 
         /**
-         * Register the service provider.
+         * 注册服务器提供者
          *
          * @return void
          */
@@ -144,26 +144,26 @@
     class ProfileComposer
     {
         /**
-         * The user repository implementation.
+         * 实现用户仓库
          *
          * @var UserRepository
          */
         protected $users;
 
         /**
-         * Create a new profile composer.
+         * 创建一个新的配置文件合成器
          *
          * @param  UserRepository  $users
          * @return void
          */
         public function __construct(UserRepository $users)
         {
-            // Dependencies automatically resolved by service container...
+            // 依赖关系由服务容器自动解析...
             $this->users = $users;
         }
 
         /**
-         * Bind data to the view.
+         * 将数据绑定到视图。
          *
          * @param  View  $view
          * @return void
@@ -195,11 +195,7 @@
 
 #### 视图构造器
 
-视图 **构造器** 和视图合成器非常相似。不同之处在于：视图构造器在视图实例化时执行，而视图合成器在视图渲染时执行。如下，可以使用 `creator` 方法来注册一个视图塑造器：
+视图 **构造器** 和视图合成器非常相似。不同之处在于：视图构造器在视图实例化时执行，而视图合成器在视图渲染时执行。要注册一个视图塑造器，可以使用 `creator`方法，如下：
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
 
-## 译者署名
-| 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-| [@zyxcba](https://github.com/cmzz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/6111715?v=3&s=100">  |  翻译  | [最新最好玩的微信小程序](http://wewx.cn) - WxStore 开源微信小程序商城 |

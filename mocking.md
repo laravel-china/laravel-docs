@@ -6,6 +6,7 @@
 - [邮件模拟](#mail-fake)
 - [通知模拟](#notification-fake)
 - [队列模拟](#queue-fake)
+- [Storage 模拟](#storage-fake)
 - [Facades 模拟](#mocking-facades)
 
 <a name="introduction"></a>
@@ -118,12 +119,20 @@ Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助
                        $mail->hasCc('...') &&
                        $mail->hasBcc('...');
             });
+				
+            // 断言 mailable 发送了2次...
+            Mail::assertSent(OrderShipped::class, 2);
 
             // 断言 mailable 没有发送...
             Mail::assertNotSent(AnotherMailable::class);
         }
     }
 
+如果你是用后台任务队执行 mailables 的发送，你应该用 `assertQueued` 方法来代替 `assertSent`：
+
+    Mail::assertQueued(...);
+    Mail::assertNotQueued(...);
+    
 <a name="notification-fake"></a>
 ## 通知模拟
 
@@ -196,11 +205,48 @@ Laravel 针对事件、任务和 facades 的模拟提供了开箱即用的辅助
                 return $job->order->id === $order->id;
             });
 
-            // 断言任务进入了指定队列
+            // 断言任务进入了指定队列...
             Queue::assertPushedOn('queue-name', ShipOrder::class);
-
-            // 断言任务没有进入队列
+				
+            // 断言任务进入了2次...
+            Queue::assertPushed(ShipOrder::class, 2);
+            
+            // 断言任务没有进入队列...
             Queue::assertNotPushed(AnotherJob::class);
+        }
+    }
+
+<a name="storage-fake"></a>
+## Storage 模拟
+
+利用 `Storage` facade 的 `fake` 方法，你可以轻松地生成一个模拟的磁盘，结合 `UploadedFile` 类的文件生成工具，极大地简化了文件上传测试。例如：
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+    class ExampleTest extends TestCase
+    {
+        public function testAvatarUpload()
+        {
+            Storage::fake('avatars');
+
+            $response = $this->json('POST', '/avatar', [
+                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            ]);
+
+            // 断言文件已存储
+            Storage::disk('avatars')->assertExists('avatar.jpg');
+
+            // 断言文件不存在
+            Storage::disk('avatars')->assertMissing('missing.jpg');
         }
     }
 

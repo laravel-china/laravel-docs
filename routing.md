@@ -1,6 +1,8 @@
 # Laravel HTTP 路由功能
 
 - [基本路由](#basic-routing)
+    - [重定向路由](#redirect-routes)
+    - [视图路由](#view-routes)
 - [路由参数](#route-parameters)
     - [必选路由参数](#required-parameters)
     - [可选路由参数](#parameters-optional-parameters)
@@ -30,7 +32,12 @@
 
 所有的 Laravel 路由都在 `routes` 目录中的路由文件中定义，这些文件都由框架自动加载。在 `routes/web.php` 文件中定义你的 web 页面路由。这些路由都会应用 `web` 中间件组，其提供了诸如 `Session` 和 `CSRF` 保护等特性。定义在 `routes/api.php` 中的路由都是无状态的，并且会应用 `api` 中间件组。
 
-大多数的应用构建，都是以在 `routes/web.php` 文件定义路由开始的。
+大多数的应用构建，都是以在 `routes/web.php` 文件定义路由开始的。文件 `routes/web.php` 中定义的路由可以通过在浏览器中输入路由对应的URL访问。例如，你可以在浏览器中输入 `http://your-app.dev/user` 来访问以下路由：
+
+    Route::get('/user', 'UsersController@index');
+
+文件 `routes/api.php` 中定义的路由通过 `RouteServiceProvider` 被嵌套到一个路由组里面。在这个路由组里，会自动添加URL前缀 `/api` 
+到每一个此文件中定义的路由上，这样你就无需再手动添加了。你可以在 `RouteServiceProvider` 类中修改此前缀以及其他路由组参数。
 
 #### 可用的路由方法
 
@@ -62,6 +69,22 @@
         ...
     </form>
 
+<a name="redirect-routes"></a>
+### 重定向路由
+
+定义一个重定向路由，需要使用 `Route::redirect` 方法。此方法让你快速地实现重定向，而不再需要去定义一个完整的路由或者控制器。
+
+    Route::redirect('/here', '/there', 301);
+
+<a name="view-routes"></a>
+### 视图路由
+
+如果你的路由只需要返回一个视图，可以使用  `Route::view` 方法。它和 `redirect` 一样方便，不需要定义一个完整的路由或控制器。`view` 方法有三个参数，其中前两个是必填参数，分别是 URL 和视图名称。第三个参数选填，可以传入一个数组，数组中的数据会被传递给视图。
+
+    Route::view('/welcome', 'welcome');
+
+    Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+
 <a name="route-parameters"></a>
 ## 路由参数
 
@@ -80,9 +103,7 @@
         //
     });
 
-路由的参数通常都会被放在 `{}` 内，并且参数名只能为字母，当运行路由时，参数会通过路由闭包来传递。
-
-> **注意：** 路由参数不能包含 `-` 字符。请用下划线 (`_`) 替换。
+路由的参数通常都会被放在 `{}` 内，并且参数名只能为字母，同时路由参数不能包含 `-`，请用下划线 (`_`) 代替。路由参数会按顺序依次被注入到路由回调/控制器中 - 不受回调/控制器的参数名称的影响
 
 <a name="parameters-optional-parameters"></a>
 ### 可选路由参数
@@ -140,7 +161,7 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 <a name="named-routes"></a>
 ## 命名路由
 
-命名路由可以方便的生成 `URL` 或者重定向，你可以在定义路由后使用 `name` 方法实现：
+命名路由可以方便的生成 `URL` 或者重定向到指定的路由，你可以在定义路由后使用 `name` 方法实现：
 
     Route::get('user/profile', function () {
         //
@@ -150,7 +171,7 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 
     Route::get('user/profile', 'UserController@showProfile')->name('profile');
 
-#### 为命名路由生成 `URL`
+#### 为命名路由生成  `URL`
 
 为路由指定了名称后，我们可以使用全局辅助函数 `route` 来生成 `URL` 或者重定向到该条路由：
 
@@ -168,6 +189,26 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 
     $url = route('profile', ['id' => 1]);
 
+#### 检查当前路由
+
+如果你想判断当前请求是否指向了某个路由，你可以调用 Route 实例的 `named` 方法。例如，你可以在路由中间件中检查当前路由。
+
+    /**
+     * 处理一次请求。
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if ($request->route()->named('profile')) {
+            //
+        }
+
+        return $next($request);
+    }
+
 <a name="route-groups"></a>
 ## 路由组
 
@@ -176,15 +217,15 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 <a name="route-group-middleware"></a>
 ### 中间件
 
-要给路由组中定义的所有路由分配中间件，可以在路由组中使用 `middleware` 键，中间件将会依照列表内指定的顺序运行：
+要给路由组中定义的所有路由分配中间件，可以在路由组中使用 `middleware` 方法，中间件将会依照列表内指定的顺序运行：
 
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('/', function ()    {
-            // 使用 `Auth` 中间件
+    Route::middleware(['first', 'second'])->group(function () {
+        Route::get('/', function () {
+            // 使用 `first` 和 `second` 中间件
         });
 
         Route::get('user/profile', function () {
-            // 使用 `Auth` 中间件
+            // 使用 `first` 和 `second` 中间件
         });
     });
 
@@ -193,7 +234,7 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 
 另一个常见的例子是，为控制器组指定公共的 `PHP` 命名空间。这时使用 `namespace` 参数来指定组内所有控制器的公共命名空间：
 
-    Route::group(['namespace' => 'Admin'], function () {
+    Route::namespace('Admin')->group(function () {
         // 在 "App\Http\Controllers\Admin" 命名空间下的控制器
     });
 
@@ -204,7 +245,7 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 
 路由组也可以用作子域名的通配符，子域名可以像 URI 一样当作路由组的参数，因此允许把捕获的子域名一部分用于我们的路由或控制器。可以使用路由组属性的 `domain` 键声明子域名。
 
-    Route::group(['domain' => '{account}.myapp.com'], function () {
+    Route::domain('{account}.myapp.com')->group(function () {
         Route::get('user/{id}', function ($account, $id) {
             //
         });
@@ -213,10 +254,10 @@ Pattern 一旦被定义，便会自动应用到所有使用该参数名称的路
 <a name="route-group-prefixes"></a>
 ### 路由前缀
 
-通过路由组数组属性中的 `prefix` 键可以给每个路由组中的路由加上指定的 URI 前缀，例如，我们可以给路由组中所有的 URI 加上路由前缀 `admin` :
+通过路由组数组属性中的 `prefix` 方法可以给每个路由组中的路由加上指定的 URI 前缀。例如，我们可以给路由组中所有的 URI 加上路由前缀 `admin`：
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('users', function ()    {
+    Route::prefix('admin')->group(function () {
+        Route::get('users', function () {
             // 匹配包含 "/admin/users" 的 URL
         });
     });
@@ -244,7 +285,7 @@ Laravel 会自动解析定义在路由或控制器方法（方法包含和路由
 如果你想要隐式模型绑定除 `id` 以外的数据库字段，你可以重写 Eloquent 模型类的 `getRouteKeyName` 方法：
 
     /**
-     * 为路由模型获取键名
+     * 为路由模型获取键名。
      *
      * @return string
      */
@@ -256,7 +297,7 @@ Laravel 会自动解析定义在路由或控制器方法（方法包含和路由
 <a name="explicit-binding"></a>
 ### 显式绑定
 
-使用路由的 `model` 方法来为已有参数声明 class 。你应该在 `RouteServiceProvider` 类中的 `boot` 方法内定义这些显式绑定：
+使用路由的 `model` 方法来为已有参数声明 class。你应该在 `RouteServiceProvider` 类中的 `boot` 方法内定义这些显式绑定：
 
     public function boot()
     {
@@ -275,7 +316,6 @@ Laravel 会自动解析定义在路由或控制器方法（方法包含和路由
 
 > **注意：**如果在数据库不存在对应 ID 的数据，就会自动抛出一个 404 异常。
 
-
 #### 自定义解析逻辑
 
 如果你想要使用自定义的解析逻辑，需要使用 `Route::bind` 方法，传递到 `bind` 方法的闭包会获取到 URI 请求参数中的值，并且返回你想要在该路由中注入的类实例：
@@ -292,7 +332,7 @@ Laravel 会自动解析定义在路由或控制器方法（方法包含和路由
 <a name="form-method-spoofing"></a>
 ## 表单方法伪造
 
-HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义要在 HTML 表单中调用的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。 `_method` 字段的值将被作为 HTTP 的请求方法使用：
+HTML 表单不支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义要在 HTML 表单中调用的 `PUT`、`PATCH` 或 `DELETE` 路由时，你将需要在表单中增加隐藏的 `_method` 字段。`_method` 字段的值将被作为 HTTP 的请求方法使用：
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">
@@ -306,7 +346,7 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义要
 <a name="accessing-the-current-route"></a>
 ## 获取当前路由信息
 
-你可以使用 `Route` 上的 `current`, `currentRouteName`, and `currentRouteAction` 方法来访问处理当前输入请求的路由信息：
+你可以使用 `Route` 上的 `current`，`currentRouteName` 和 `currentRouteAction` 方法来访问处理当前输入请求的路由信息：
 
     $route = Route::current();
 
@@ -314,9 +354,9 @@ HTML 表单没有支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义要
 
     $action = Route::currentRouteAction();
 
-完整的方法列表请参考 [Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
+完整的方法列表请参考 [Route facade 底层类](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 和 [Route 实例](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html)
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@zhouzihanntu](https://github.com/zhouzihanntu)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/14007659?v=3&s=460">  |  翻译  |   |
+| [@卡卡卡么](https://laravel-china.org/users/18466)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18466_1503308973.jpeg?imageView2/1/w/100/h/100">  |  翻译  |  PHP & Python 开发工程师，[Github](https://github.com/jiannanjiang)，[segmentfault](https://segmentfault.com/u/maketea) 欢迎交流  |

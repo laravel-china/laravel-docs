@@ -9,6 +9,7 @@
     - [Blade & JavaScript 框架](#blade-and-javascript-frameworks)
 - [控制结构](#control-structures)
     - [If 语句](#if-statements)
+    - [Switch 语句](#switch-statements)
     - [循环](#loops)
     - [循环变量](#the-loop-variable)
     - [注释](#comments)
@@ -18,6 +19,7 @@
 - [堆栈](#stacks)
 - [服务注入](#service-injection)
 - [扩充 Blade](#extending-blade)
+    - [自定义 If 语句](#custom-if-statements)
 
 <a name="introduction"></a>
 ## 简介
@@ -30,7 +32,7 @@ Blade 是 Laravel 提供的一个既简单又强大的模板引擎。和其他�
 <a name="defining-a-layout"></a>
 ### 定义页面布局
 
-Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。 
+Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
 为方便开始，让我们先通过一个简单的例子来上手。首先，我们需要确认一个 "master" 的页面布局。因为大多数 web 应用是在不同的页面中使用相同的布局方式，我们可以很方便的定义这个 Blade 布局视图：
 
@@ -60,7 +62,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
 当定义子页面时，你可以使用 Blade 提供的 `@extends` 命令来为子页面指定其所 「继承」 的页面布局。 当子页面继承布局之后，即可使用 `@section` 命令将内容注入于布局的 `@section` 区块中。切记，在上面的例子里，布局中使用 `@yield` 的地方将会显示这些区块中的内容：
 
-    <!-- Stored in resources/views/child.blade.php -->
+    <!-- 文件保存于 resources/views/child.blade.php -->
 
     @extends('layouts.app')
 
@@ -69,7 +71,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
     @section('sidebar')
         @@parent
 
-        <p>This is appended to the master sidebar.</p>
+        <p>这将被添加到主侧边栏。</p>
     @endsection
 
     @section('content')
@@ -103,6 +105,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
 有些时候它对于定义组件的多个 slots 是非常有帮助的。让我们修改我们的警告组件，让它支持注入一个「标题」。 已命名的 slots 将显示「相对应」名称的变量的值:
 
+
     <!-- /resources/views/alert.blade.php -->
 
     <div class="alert alert-danger">
@@ -115,7 +118,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
     @component('alert')
         @slot('title')
-            拒绝
+            Forbidden
         @endslot
 
         你没有权限访问这个资源！
@@ -146,23 +149,11 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
     The current UNIX timestamp is {{ time() }}.
 
-> {note} Blade `{{ }}` 语法会自动调用 PHP `htmlentities` 函数来避免 XSS 攻击。
+> {note} Blade `{{ }}` 语法会自动调用 PHP `htmlspecialchars` 函数来避免 XSS 攻击。
 
-#### 当数据存在时输出
+#### 显示未被转义的数据
 
-有时候你可能想要输出一个变量，但是你并不确定这个变量是否已经被定义，我们可以用像这样的冗长 PHP 代码表达：
-
-    {{ isset($name) ? $name : 'Default' }}
-
-事实上，Blade 提供了更便捷的方式来代替这种三元运算符表达式：
-
-    {{ $name or 'Default' }}
-
-在这个例子中，如果 `$name` 变量存在，它的值将被显示出来。但是，如果它不存在，则会显示 `Default` 。
-
-#### 显示未转义过的数据
-
-在默认情况下，Blade 模板中的 `{{ }}` 表达式将会自动调用 PHP `htmlentities` 函数来转义数据以避免 XSS 的攻击。如果你不想你的数据被转义，你可以使用下面的语法：
+在默认情况下，Blade 模板中的 `{{ }}` 表达式将会自动调用 PHP `htmlspecialchars` 函数来转义数据以避免 XSS 的攻击。如果你不想你的数据被转义，你可以使用下面的语法：
 
     Hello, {!! $name !!}.
 
@@ -182,6 +173,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 #### `@verbatim` 指令
 
 如果你需要在页面中大片区块中展示 JavaScript 变量，你可以使用 `@verbatim` 指令来包裹 HTML 内容，这样你就不需要为每个需要解析的变量增加 `@` 符号前缀了：
+
 
     @verbatim
         <div class="container">
@@ -213,6 +205,47 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
         你尚未登录。
     @endunless
 
+除了已经讨论的条件指令之外，`@isset` 和 `@empty`指令也可以用作各自PHP功能的方便的快捷方式：
+
+    @isset($records)
+        // $records is defined and is not null...
+    @endisset
+
+    @empty($records)
+        // $records is "empty"...
+    @endempty
+
+#### 身份验证快捷方式
+
+The `@auth` and `@guest` directives may be used to quickly determine if the current user is authenticated or is a guest:
+`@auth` 和 `@guest` 指令可以用来快速确定当前用户是通过身份认证证的用户还是游客：
+
+    @auth
+        // 用户已经通过身份认证...
+    @endauth
+
+    @guest
+        // 用户没有通过身份认证...
+    @endguest
+
+<a name="switch-statements"></a>
+### Switch 语句
+
+可以使用 `@switch`，`@case`，`@break`，`@default` 和 `@endswitch` 指令来构建 Switch 语句：
+
+    @switch($i)
+        @case(1)
+            First case...
+            @break
+
+        @case(2)
+            Second case...
+            @break
+
+        @default
+            Default case...
+    @endswitch
+
 <a name="loops"></a>
 ### 循环
 
@@ -233,7 +266,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
     @endforelse
 
     @while (true)
-        <p>我永远都在跑循环。</p>
+        <p>死循环了。</p>
     @endwhile
 
 > {tip} 当循环时，你可以使用 [循环变量](#the-loop-variable) 来获取循环中有价值的信息，比如循环中的首次或最后的迭代。
@@ -269,11 +302,11 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
     @foreach ($users as $user)
         @if ($loop->first)
-            This is the first iteration.
+            这是第一个迭代。
         @endif
 
         @if ($loop->last)
-            This is the last iteration.
+            这是最后一个迭代。
         @endif
 
         <p>This is user {{ $user->id }}</p>
@@ -291,7 +324,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。
 
 `$loop` 变量也包含了其它各种有用的属性：
 
-属性  | 描述
+Property  | Description
 ------------- | -------------
 `$loop->index`  |  当前循环所迭代的索引，起始为 0。
 `$loop->iteration`  |  当前迭代数，起始为 1。
@@ -341,6 +374,10 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 
     @includeIf('view.name', ['some' => 'data'])
 
+如果你想根据给定的布尔条件 `@include` 一个视图，你可以使用 `@includeWhen` 指令：
+
+    @includeWhen($boolean, 'view.name', ['some' => 'data'])
+
 > {note} 请避免在 Blade 视图中使用 `__DIR__` 及 `__FILE__` 常量，因为他们会引用视图被缓存的位置。
 
 <a name="rendering-views-for-collections"></a>
@@ -355,6 +392,8 @@ Blade 也允许在页面中定义注释，然而，跟 HTML 的注释不同的�
 你也可以传递第四个参数到 `@each` 命令。当需要迭代的数组为空时，将会使用这个参数提供的视图来渲染。
 
     @each('view.name', $jobs, 'job', 'view.empty')
+
+> {note} 通过 `@each` 呈现的视图不会从父视图继承变量。 如果子视图需要这些变量，则应该使用 `@foreach` 和 `@include`。
 
 <a name="stacks"></a>
 ## 堆栈
@@ -425,7 +464,48 @@ Blade 甚至允许你使用 `directive` 方法来注册自己的命令。当 Bla
 
 如你所见，我们可以使用链式调用 `format` 方法的表述方式传递到指令。所以，在这个例子里，最终该指令生成了的 PHP 代码如下：
 
-    <?php echo $var->format('m/d/Y H:i'); ?>
+    <?php echo ($var)->format('m/d/Y H:i'); ?>
 
 > {note} 在更新 Blade 指令的逻辑后，你将需要删除所有已缓存的 Blade 视图，使用 `view:clear` Artisan 命令来清除被缓存的视图。
 
+<a name="custom-if-statements"></a>
+### 自定义 If 语句
+
+有时候设计自定义指令会比定义简单的自定义条件语句复杂很多，但是它又非常必要。因此，Blade提供了一个 `Blade::if` 方法，它允许你使用闭包快速定义自定义条件指令。 例如，让我们定义一个自定义条件来检查当前的应用程序环境。可以在 `AppServiceProvider` 的 `boot` 方法中这样做：
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::if('env', function ($environment) {
+            return app()->environment($environment);
+        });
+    }
+
+一旦定义了自定义条件，就可以很轻松地在模板中使用：
+
+    @env('local')
+        // The application is in the local environment...
+    @else
+        // The application is not in the local environment...
+    @endenv
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [Wayne John](https://github.com/boxshadow) | <img class="avatar-66 rm-style" src="https://avatars1.githubusercontent.com/u/8577474?s=100"> | 翻译 | 基于 Laravel 的社交开源系统 [ThinkSNS+](https://github.com/slimkit/thinksns-plus) 欢迎 Star。  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： http://d.laravel-china.org

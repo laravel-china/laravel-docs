@@ -5,11 +5,12 @@
     - [使用迁移](#using-migrations)
     - [使用事务](#using-transactions)
 - [创建模型工厂](#writing-factories)
-    - [多种模型工厂状态](#factory-states)
+    - [工厂状态](#factory-states)
 - [在测试中使用模型工厂](#using-factories)
     - [创建模型](#creating-models)
     - [持久化模型](#persisting-models)
     - [模型关联](#relationships)
+- [可用的断言方法](#available-assertions)
 
 <a name="introduction"></a>
 ## 简介
@@ -24,6 +25,8 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
             'email' => 'sally@example.com'
         ]);
     }
+       
+你也可以使用 `assertDatabaseMissing` 辅助函数来断言数据不在数据库中。
 
 当然，使用 `assertDatabaseHas` 方法及其它的辅助函数只是为了方便。你也可以随意使用 PHPUnit 内置的所有断言方法来扩充测试。
 
@@ -99,7 +102,7 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
 <a name="writing-factories"></a>
 ## 创建模型工厂
 
-测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/ModelFactory.php` 文件。此文件包含一个现成的模型工厂定义：
+测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/UserFactory.php` 文件。此文件包含一个现成的模型工厂定义：
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         static $password;
@@ -114,18 +117,26 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
 
 闭包内为模型工厂的定义，你可以返回模型中所有属性的默认测试值。在该闭包内会接收到 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库的实例，它可以让你很方便的生成各种随机数据以进行测试。
 
-当然，你也可以随意将自己其他的模型工厂增加至 `ModelFactory.php` 文件。你也可以在 `database/factories` 里为每一个数据模型创建对应的模型工厂类，如 `UserFactory.php` 和 `CommentFactory.php`。 在 `factories` 目录中的文件都会被 Laravel 自动加载。
+为了更好的组织代码，你也可以自己为每个数据模型创建对应的模型工厂类。比如说，你可以在 `database/factories` 文件夹下创建 `UserFactory.php` 和 `CommentFactory.php` 文件。在 `factories` 目录中的文件都会被 Laravel 自动加载。
 
 <a name="factory-states"></a>
-### 多种模型工厂状态
+### 工厂状态
 
-模型工厂状态可以让你任意组合你的模型工厂，仅需要做出适当差异化的修改，就可以达到让模型拥有多种不同的状态。例如，你的 `用户` 模型中可以修改某个默认属性值来达到标识一种 `拖欠债务` 的状态。你可以使用 `state` 方法来进行这种状态转换：
+工厂状态可以让你任意组合你的模型工厂，仅需要做出适当差异化的修改，就可以达到让模型拥有多种不同的状态。例如，你的 `用户` 模型中可以修改某个默认属性值来达到标识一种 `欠款` 的状态。你可以使用 `state` 方法来进行这种状态转换。对于简单的工厂状态，你可以直接传入要修改的属性数组。
 
-    $factory->state(App\User::class, 'delinquent', function ($faker) {
+    $factory->state(App\User::class, 'delinquent', [
+        'account_status' => 'delinquent',
+    ]);
+
+如果你的工厂状态需要计算或者需要使用 `$faker` 实例，你可以使用闭包方法来实现状态属性的修改：
+
+    $factory->state(App\User::class, 'address', function ($faker) {
         return [
-            'account_status' => 'delinquent',
+            'address' => $faker->address,
         ];
     });
+    
+        
 
 <a name="using-factories"></a>
 ## 在测试中使用模型工厂
@@ -166,7 +177,7 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
 <a name="persisting-models"></a>
 ### 持久化模型
 
-你不仅可使用 `create` 方法来创建模型实例，而且也可以使用 Eloquent 的 `save` 方法来将它们保存至数据库：
+`create` 方法不仅会创建模型实例，同时会使用 Eloquent 的 `save` 方法来将它们保存至数据库：
 
     public function testDatabase()
     {
@@ -224,3 +235,14 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
             }
         ];
     });
+
+<a name="available-assertions"></a>
+## 可用的断言方法
+
+Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了一些数据库断言方法：
+
+方法名  | 描述
+------------- | -------------
+`$this->assertDatabaseHas($table, array $data);`  |  断言数据库里含有指定表。
+`$this->assertDatabaseMissing($table, array $data);`  |  断言表里没有指定数据。
+`$this->assertSoftDeleted($table, array $data);`  |  断言指定记录已经被软删除。
