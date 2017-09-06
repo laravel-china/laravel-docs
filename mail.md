@@ -2,8 +2,8 @@
 
 - [简介](#introduction)
     - [驱动前提](#driver-prerequisites)
-- [生成 Mailables](#generating-mailables)
-- [编写 Mailables](#writing-mailables)
+- [生成 Mailable](#generating-mailables)
+- [编写 Mailable](#writing-mailables)
     - [配置发送者](#configuring-the-sender)
     - [配置视图](#configuring-the-view)
     - [视图数据](#view-data)
@@ -14,7 +14,7 @@
     - [生成 Markdown 格式的邮件](#generating-markdown-mailables)
     - [编写 Markdown 格式的邮件](#writing-markdown-messages)
     - [自定义组件](#customizing-the-components)
-    - [在浏览器中预览邮件](#previewing-mailables-in-the-browser)
+- [在浏览器中预览邮件](#previewing-mailables-in-the-browser)
 - [发送邮件](#sending-mail)
     - [队列邮件](#queueing-mail)
 - [邮件与本地开发](#mail-and-local-development)
@@ -66,14 +66,14 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 <a name="generating-mailables"></a>
 ## 生成 mailables
 
-在 Laravel 中，每种类型的邮件都代表一个「mailables」对象。这些对象存储在 `app/Mail` 目录中。如果在你的应用中没有看见这个目录，别担心，在首次使用 `make:mail` 命令创建 mailables 类时这个目录会被创建，例如：
+在 Laravel 中，每种类型的邮件都代表一个「Mailable」对象。这些对象存储在 `app/Mail` 目录中。如果在你的应用中没有看见这个目录，别担心，在首次使用 `make:mail` 命令创建 Mailable 类时这个目录会被创建，例如：
 
     php artisan make:mail OrderShipped
 
 <a name="writing-mailables"></a>
-## 编写 mailables
+## 编写 Mailable
 
-所有的 「mailables」类都在其 `build` 方法中完成配置。在这个方法内，你可以调用其他各种方法，如 `from` 、 `subject` 、 `view` 和 `attach` 来配置完成邮件的详情。
+所有的 「Mailable」类都在其 `build` 方法中完成配置。在这个方法里，你可以调用其他各种方法，如 `from` 、 `subject` 、 `view` 和 `attach` 来配置完成邮件的详情。
 
 <a name="configuring-the-sender"></a>
 ### 配置发送者
@@ -187,7 +187,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### 通过 `with` 方法：
 
-你可以使用 `with` 方法来传递数据给模板。一般情况下，你仍然是使用 mailable 类的构造函数来接受数据传参。然而你需要为这些数据属性设置 `protected` 或 `private`  声明，否则这些数据会被自动加载到模板中。接下来你可以使用 `with` 方法接受键值数组传参来传递数据给模板，就如控制器里为视图传参一样：
+你可以使用 `with` 方法来传递数据给模板。一般情况下，你仍然是使用 Mailable 类的构造函数来接受数据传参。然而你需要为这些数据属性设置 `protected` 或 `private`  声明，否则这些数据会被自动加载到模板中。接下来你可以使用 `with` 方法接受键值数组传参来传递数据给模板，就如控制器里为视图传参一样：
 
     <?php
 
@@ -310,19 +310,39 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
         <img src="{{ $message->embedData($data, $name) }}">
     </body>
 
-<a name="markdown-mailables"></a>
-## Markdown 格式的 Mailables 类
+<a name="customizing-the-swiftmailer-message"></a>
+### 自定义 SwiftMailer 消息
 
-Markdown 格式的 mailable 消息允许你从预编译的模板和你的 mailables 类中的邮件提醒组件中受益。因为消息是用 Markdown 格式写的， Laravel 能为消息体渲染出漂亮、响应式的 HTML 模板，也能自动生成一个纯文本的副本。
+`Mailable` 基类的 `withSwiftMessage` 方法允许你注册一个回调，该回调将在邮件发送之前调用，参数是原始 SwiftMailer 消息实例。这让你有机会在邮件发送之前自定义消息：
+
+        /**
+         * Build the message.
+         *
+         * @return $this
+         */
+        public function build()
+        {
+            $this->view('emails.orders.shipped');
+
+            $this->withSwiftMessage(function ($message) {
+                $message->getHeaders()
+                        ->addTextHeader('Custom-Header', 'HeaderValue');
+            });
+        }
+
+<a name="markdown-mailables"></a>
+## Markdown 格式的 Mailable 类
+
+Markdown 格式的 Mailable 消息允许你从预编译的模板和你的 Mailable 类中的邮件提醒组件中受益。因为消息是用 Markdown 格式写的， Laravel 能为消息体渲染出漂亮、响应式的 HTML 模板，也能自动生成一个纯文本的副本。
 
 <a name="generating-markdown-mailables"></a>
-### 生成 Markdown 格式的 Mailables
+### 生成 Markdown 格式的 Mailable
 
-要生成一个包含友好的 Markdown 模板的 mailable 类，你在使用  `make:mail` 这个 Artisan 命令时，要加上 `--markdown` 选项：
+要生成一个包含友好的 Markdown 模板的 Mailable 类，你在使用  `make:mail` 这个 Artisan 命令时，要加上 `--markdown` 选项：
 
     php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 
-然后，在使用 `build` 方法配置 mailable 时，用 `markdown` 方法来换掉 `view` 方法， `markdown` 方法接受一个 Markdown 模板的名称和一个将在模板中可用的选项数组：
+然后，在使用 `build` 方法配置 Mailable 时，用 `markdown` 方法来换掉 `view` 方法， `markdown` 方法接受一个 Markdown 模板的名称和一个将在模板中可用的选项数组：
 
     /**
      * 构建消息。
@@ -338,7 +358,7 @@ Markdown 格式的 mailable 消息允许你从预编译的模板和你的 mailab
 <a name="writing-markdown-messages"></a>
 ### 编写 Markdown 格式的消息
 
-Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你轻松地构建邮件消息，同时利用 Laravel 的预制组件。
+Markdown Mailable 使用 Blade 组件和 Markdown 语法的组合，允许你轻松地构建邮件消息，同时利用 Laravel 的预制组件。
 
     @component('mail::message')
     # Order Shipped
@@ -355,7 +375,7 @@ Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你�
 
 #### 按钮组件
 
-按钮连组件渲染一个居中的连接按钮，组件接受两个参数，一个 `url` 和一个可选的 `color` 。支持的颜色有 `blue` 、 `green` 、 和 `red` 。你可以在邮件消息体中加入随便多个你想要的按钮。
+按钮组件渲染一个居中的连接按钮，组件接受两个参数，一个 `url` 和一个可选的 `color` 。支持的颜色有 `blue` 、 `green` 、 和 `red` 。你可以在邮件消息体中加入随便多个你想要的按钮。
 
     @component('mail::button', ['url' => $url, 'color' => 'green'])
     View Order
@@ -474,7 +494,7 @@ Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你�
 
 #### 推送到特定队列
 
-因为所有 mailable 类是通过 `make:mail` 命令生成并使用 `Illuminate\Bus\Queueable` trait ，你可以在任何 mailable 类实现中调用 `onQueue` 来指定队列名称，还有 `onConnection` 方法来指定队列链接名称：
+因为所有 Mailable 类是通过 `make:mail` 命令生成并使用 `Illuminate\Bus\Queueable` trait ，你可以在任何 Mailable 类实现中调用 `onQueue` 来指定队列名称，还有 `onConnection` 方法来指定队列链接名称：
 
     $message = (new OrderShipped($order))
                     ->onConnection('sqs')
@@ -487,7 +507,7 @@ Markdown mailables 使用 Blade 组件和 Markdown 语法的组合，允许你�
 
 #### 默认队列
 
-如果你的 mailable 类想要默认使用队列，你可以在类中实现 `ShouldQueue` 接口契约。现在，即便你调用 `send` 方法来发送邮件， mailable 类仍将邮件放入队列中发送。
+如果你的 Mailable 类想要默认使用队列，你可以在类中实现 `ShouldQueue` 接口契约。现在，即便你调用 `send` 方法来发送邮件， Mailable 类仍将邮件放入队列中发送。
 
     use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -539,3 +559,4 @@ Laravel 会在发送邮件消息之前触发一个事件。切记，这个事件
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@qufo](https://github.com/qufo)  | <img class="avatar-66 rm-style" src="https://avatars1.githubusercontent.com/u/2526883?v=3&s=460?imageView2/1/w/100/h/100">  |  翻译  | 欢迎共同探讨。[@Qufo](https://github.com/qufo) |
+| [@limxx](https://github.com/limxx)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/16585030?v=4&s=400">  |  翻译  | Winter is coming. |
