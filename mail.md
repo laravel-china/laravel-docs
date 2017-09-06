@@ -430,6 +430,17 @@ When designing a mailable's template, it is convenient to quickly preview the re
         return new App\Mail\InvoicePaid($invoice);
     });
 
+<a name="previewing-mailables-in-the-browser"></a>
+## 在浏览器中预览邮件
+
+当你设计一个邮件模板时，可以很方便地在浏览器中快速预览渲染出来的邮件，就像典型的 Blade 模板一样。为此， Laravel 允许你直接从路由闭包或者控制器中返回任何的邮件。当邮件被返回时，他会被渲染并显示在浏览器中，允许你快速预览其设计，而不必发送到实际的电子邮件地址。
+
+    Route::get('/mailable', function () {
+        $invoice = App\Invoice::find(1);
+
+        return new App\Mail\InvoicePaid($invoice);
+    });
+
 <a name="sending-mail"></a>
 ## Sending Mail
 
