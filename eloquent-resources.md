@@ -640,4 +640,4 @@
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@young](https://laravel-china.org/users/4236)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4236_1461228940.png?imageView2/1/w/200/h/200">  |  翻译  | 18届应届生 [求工作](https://xiayang.me/hireme)，Laravel、PHP、web后端开发方向 |
+| [@young](https://laravel-china.org/users/4236)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4236_1461228940.png?imageView2/1/w/200/h/200">  |  翻译  | 18届应届生 [求工作](https://xiayang.me/hire-me)，Laravel、PHP、web后端开发方向 |
