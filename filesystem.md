@@ -385,10 +385,11 @@ Laravel 的文件系统集成提供一系列开箱即用的驱动支持；然而
 | [@Godruoyi](https://segmentfault.com/blog/godruoyi) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5359_1470894290.jpeg?imageView2/1/w/200/h/200"> | 翻译   | 听大悲咒敲代码的二楞徐                         |
 | [@Rambone](https://github.com/zuoRambo)  | <img class="avatar-66 rm-style" src="http://tva1.sinaimg.cn/crop.0.0.1002.1002.180/92d03bcdjw8f0asasf3m1j20ru0rvaeo.jpg"> | 翻译   | php,go求职 简历请发zuoxiaojie@lianjia.com |
 
----
+
+--- 
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
->
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
->
-> 文档永久地址： http://d.laravel-china.org
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

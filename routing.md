@@ -360,3 +360,12 @@ HTML 表单不支持 `PUT`、`PATCH` 或 `DELETE` 动作。所以在定义要在
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@卡卡卡么](https://laravel-china.org/users/18466)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18466_1503308973.jpeg?imageView2/1/w/100/h/100">  |  翻译  |  PHP & Python 开发工程师，[Github](https://github.com/jiannanjiang)，[segmentfault](https://segmentfault.com/u/maketea) 欢迎交流  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

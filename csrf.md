@@ -79,3 +79,12 @@ Laravel 将当前的 CSRF 令牌存储在由框架生成的每个响应中包含
 |---|---|---|---|
 | [@王凯波](http://weibo.com/wangkaibo)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/1924_1487053084.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 面向工资编程  [@wangkaibo](https://github.com/wangkaibo/)  |
 | [@Lichmaker](https://laravel-china.org/users/16370)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/16370_1499995124.jpg?imageView2/1/w/100/h/100">    |  翻译 | Happy Coding! :) 我的微博：[神经考拉君](http://weibo.com/1779555595/) |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

@@ -1090,10 +1090,11 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 | [Seven Du](https://github.com/medz) | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/5564821?s=300"> | 翻译 | 基于 Laravel 的社交开源系统 [ThinkSNS+](https://github.com/slimkit/thinksns-plus) 欢迎 Star。  |
 
 
+
 --- 
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
 > 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
 > 
-> 文档永久地址： http://d.laravel-china.org
+> 文档永久地址： https://d.laravel-china.org

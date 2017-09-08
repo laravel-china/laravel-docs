@@ -913,10 +913,11 @@ Laravel 提供了开箱即用的通知频道，但是你可能会想编写自己
 | [@carlclone](https://laravel-china.org/users/7283)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7283_1481302280.jpeg?imageView2/1/w/200/h/200">  |  翻译  |  [@carlclone](https://github.com/carlclone) at Github  |
 
 
+
 --- 
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
 > 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/3810/laravel-54-document-translation-come-and-join-the-translation)。
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
 > 
-> 文档永久地址： http://d.laravel-china.org
+> 文档永久地址： https://d.laravel-china.org

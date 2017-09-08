@@ -3,13 +3,13 @@
 
 为了更好的阅读文档，请查看 [Laravel China 文档导读](https://laravel-china.org/topics/2095)。
 
-此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生，本次 5.5 版本翻译的完整参与人员列表请见 ：[Laravel 5.5 译者](https://laravel-china.org/roles/11) 。
+此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生，本次 5.5 版本翻译的完整参与人员列表请见 ：[Laravel 5.5 译者](https://laravel-china.org/roles/12) 。
 
 > 感谢这些可爱的译者，感谢他们的热情。
 
 ### 相关讨论
 
-* [Laravel 5.5 文档翻译召集](https://laravel-china.org/topics/5756)
+* [Laravel 5.5 文档翻译召集](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)
 * [Laravel 5.5 中文文档翻译完成](#)
 
 ## 排版规范
