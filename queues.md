@@ -212,7 +212,7 @@ Laravel 队列为不同的后台队列服务提供统一的 API，例如 Beansta
 <a name="job-chaining"></a>
 ### 工作链
 
-工作连允许你指定应该按顺序运行的队列列表。如果一个任务失败了，则其余任务将不会运行。你可以在分发任务的时候使用 `withChain` 方法来执行具有工作链的队列任务。
+工作链允许你指定应该按顺序运行的队列列表。如果一个任务失败了，则其余任务将不会运行。你可以在分发任务的时候使用 `withChain` 方法来执行具有工作链的队列任务。
 
     ProcessPodcast::withChain([
         new OptimizePodcast,
