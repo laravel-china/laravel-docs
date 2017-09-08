@@ -47,10 +47,10 @@ Laravel 自带了一些中间件，包括身份验证、CSRF 保护等。所有�
             if ($request->age <= 200) {
                 return redirect('home');
             }
-    
+
             return $next($request);
         }
-    
+
     }
 
 如你所见，若给定的 `age` 小于等于 `200`，那中间件将返回一个 HTTP 重定向到客户端；否则，请求将进一步传递到应用中。要让请求继续传递到应用程序中（即允许「通过」中间件验证的），只需使用 `$request` 作为参数去调用回调函数 `$next` 。
@@ -72,7 +72,7 @@ Laravel 自带了一些中间件，包括身份验证、CSRF 保护等。所有�
         public function handle($request, Closure $next)
         {
             // 执行动作
-    
+
             return $next($request);
         }
     }
@@ -90,9 +90,9 @@ Laravel 自带了一些中间件，包括身份验证、CSRF 保护等。所有�
         public function handle($request, Closure $next)
         {
             $response = $next($request);
-    
+
             // 执行动作
-    
+
             return $response;
         }
     }
@@ -164,7 +164,7 @@ Laravel 自带的 `web` 和 `api` 中间件组包含了你可能会应用到 Web
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-    
+
         'api' => [
             'throttle:60,1',
             'auth:api',
@@ -176,7 +176,7 @@ Laravel 自带的 `web` 和 `api` 中间件组包含了你可能会应用到 Web
     Route::get('/', function () {
         //
     })->middleware('web');
-    
+
     Route::group(['middleware' => ['web']], function () {
         //
     });
@@ -211,10 +211,10 @@ Laravel 自带的 `web` 和 `api` 中间件组包含了你可能会应用到 Web
             if (! $request->user()->hasRole($role)) {
                 // 重定向...
             }
-    
+
             return $next($request);
         }
-    
+
     }
 
 定义路由时通过一个 `:` 来隔开中间件名称和参数来指定中间件参数。多个参数就使用逗号分隔：
@@ -240,7 +240,7 @@ Laravel 自带的 `web` 和 `api` 中间件组包含了你可能会应用到 Web
         {
             return $next($request);
         }
-    
+
         public function terminate($request, $response)
         {
             // Store the session data...
@@ -254,14 +254,15 @@ Laravel 自带的 `web` 和 `api` 中间件组包含了你可能会应用到 Web
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
-| --- | --- | --- | --- |
-| [@半夏](https://laravel-china.org/users/6928) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6928_1479451835.jpeg?imageView2/1/w/100/h/100"> | 翻译   | [@半夏](https://github.com/mintgreen1108) |
+|---|---|---|---|
+| [@半夏](https://laravel-china.org/users/6928) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6928_1479451835.jpeg?imageView2/1/w/100/h/100"> |  翻译  | [@半夏](https://github.com/mintgreen1108) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
 
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org
