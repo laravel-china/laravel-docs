@@ -1,102 +1,105 @@
 # Laravel 的资源任务编译器 Laravel Mix
 
-- [Introduction](#introduction)
-- [Installation & Setup](#installation)
-- [Running Mix](#running-mix)
-- [Working With Stylesheets](#working-with-stylesheets)
+- [简介](#introduction)
+- [安装与配置](#installation)
+- [运行 Mix](#running-mix)
+- [使用样式](#working-with-stylesheets)
     - [Less](#less)
     - [Sass](#sass)
     - [Stylus](#stylus)
     - [PostCSS](#postcss)
-    - [Plain CSS](#plain-css)
-    - [URL Processing](#url-processing)
-    - [Source Maps](#css-source-maps)
-- [Working With JavaScript](#working-with-scripts)
-    - [Vendor Extraction](#vendor-extraction)
-    - [React](#react)
-    - [Vanilla JS](#vanilla-js)
-    - [Custom Webpack Configuration](#custom-webpack-configuration)
-- [Copying Files & Directories](#copying-files-and-directories)
-- [Versioning / Cache Busting](#versioning-and-cache-busting)
-- [Browsersync Reloading](#browsersync-reloading)
-- [Environment Variables](#environment-variables)
-- [Notifications](#notifications)
+    - [纯 CSS](#plain-css)
+    - [URL 处理](#url-processing)
+    - [资源地图](#css-source-maps)
+- [使用脚本](#working-with-scripts)
+    - [提取 Vendor](#vendor-extraction)
+    - [React](#react-support)
+    - [原生 JS](#vanilla-js)
+    - [自定义 Webpack 配置](#custom-webpack-configuration)
+- [复制文件与目录](#copying-files-and-directories)
+- [版本与缓存清除](#versioning-and-cache-busting)
+- [Browsersync 自动加载刷新](#browsersync-reloading)
+- [环境变量](#environment-variables)
+- [通知](#notifications)
+
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-[Laravel Mix](https://github.com/JeffreyWay/laravel-mix) provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
+Laravel Mix 提供了简洁流畅的 API，让你能够为你的 Laravel 应用定义 Webpack 的编译任务。Mix 支持许多常见的 CSS 与 JavaScript 预处理器，通过简单的方法，你可以轻松的管理资源。例如：
 
     mix.js('resources/assets/js/app.js', 'public/js')
-       .sass('resources/assets/sass/app.scss', 'public/css');
+        .sass('resources/assets/sass/app.scss', 'public/css');
 
-If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application. Of course, you are free to use any asset pipeline tool you wish, or even none at all.
+如果你曾经对于使用 Webpack 及编译资源感到困惑，那么你绝对会爱上 Laravel Mix。当然，在 Laravel 应用开发中使用 Mix 并不是必须的，你也可以选择任何你喜欢的资源编译工具，或者不使用任何工具。
 
 <a name="installation"></a>
-## Installation & Setup
+## 安装
 
-#### Installing Node
+#### 安装 Node
 
-Before triggering Mix, you must first ensure that Node.js and NPM are installed on your machine.
+在开始使用 Mix 之前，你必须先确定你的开发环境上有安装 Node.js 和 NPM。
 
     node -v
     npm -v
 
-By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install the latest version of Node and NPM using simple graphical installers from [their download page](https://nodejs.org/en/download/).
+
+默认情况下, Laravel Homestead 会包含你所需的一切。当然，如果你没有使用 Vagrant，那么你可以浏览 [nodejs](https://nodejs.org/en/download/) 下载可视化的安装工具来安装最新版的 Node 和 NPM.
 
 #### Laravel Mix
 
-The only remaining step is to install Laravel Mix. Within a fresh installation of Laravel, you'll find a `package.json` file in the root of your directory structure. The default `package.json` file includes everything you need to get started. Think of this like your `composer.json` file, except it defines Node dependencies instead of PHP. You may install the dependencies it references by running:
+剩下的只需要安装 Laravel Mix！随着新安装的 Laravel, 你会发现根目录下有个名为 `package.json` 的文件。就如同 `composer.json` 文件, 只不过 `package.json` 文件定义的是 Node 的依赖，而不是 PHP。你可以使用以下的命令安装依赖扩展包：
 
     npm install
 
-If you are developing on a Windows system or you are running your VM on a Windows host system, you may need to run the `npm install` command with the `--no-bin-links` switch enabled:
+如果你使用的是 Windows 系统或运行在 Windows 系统上的 VM, 你需要在运行 `npm install` 命令时将 `--no-bin-links` 开启：
 
     npm install --no-bin-links
 
 <a name="running-mix"></a>
-## Running Mix
+## 使用
 
-Mix is a configuration layer on top of [Webpack](https://webpack.js.org), so to run your Mix tasks you only need to execute one of the NPM scripts that is included with the default Laravel `package.json` file:
+Mix 基于 [Webpack](https://webpack.js.org) 的配置， 所以运行定义于 `package.json` 文件中的 NPM 脚本即可执行 Mix 的编译任务:
 
-    // Run all Mix tasks...
+    // 运行所有 Mix 任务...
     npm run dev
 
-    // Run all Mix tasks and minify output...
+    // 运行所有 Mix 任务和压缩资源输出
     npm run production
 
-#### Watching Assets For Changes
+#### 监控资源文件修改
 
-The `npm run watch` command will continue running in your terminal and watch all relevant files for changes. Webpack will then automatically recompile your assets when it detects a change:
+`npm run watch` 会在你的终端里持续运行，监控资源文件是否有发生改变。在 watch 命令运行的情况下，一旦资源文件发生变化，Webpack 会自动重新编译：
+
 
     npm run watch
 
-You may find that in certain environments Webpack isn't updating when your files change. If this is the case on your system, consider using the `watch-poll` command:
+你可能会发现，在某些环境下，当你改变了你的文件的时候而 Webpack 并没有同步更新。如果在你的系统中出现了这个问题，你可以考虑使用 `watch-poll` 命令：
 
     npm run watch-poll
 
 <a name="working-with-stylesheets"></a>
-## Working With Stylesheets
+## 使用样式
 
-The `webpack.mix.js` file is your entry point for all asset compilation. Think of it as a light configuration wrapper around Webpack. Mix tasks can be chained together to define exactly how your assets should be compiled.
+项目根目录的 `webpack.mix.js` 文件是资源编译的入口。可以把它看作是 Webpack 的配置文件。Mix 任务可以使用链式调用的写法来定义你的资源文件该如何进行编译。
 
 <a name="less"></a>
 ### Less
 
-The `less` method may be used to compile [Less](http://lesscss.org/) into CSS. Let's compile our primary `app.less` file to `public/css/app.css`.
+`less` 方法可以让你将 [Less](http://lesscss.org/) 编译为 CSS。下面的命令可以把 `app.less` 编译为 `public/css/app.css`。
 
     mix.less('resources/assets/less/app.less', 'public/css');
 
-Multiple calls to the `less` method may be used to compile multiple files:
+多次调用 `less` 方法可以编译多个文件:
 
     mix.less('resources/assets/less/app.less', 'public/css')
        .less('resources/assets/less/admin.less', 'public/css');
 
-If you wish to customize the file name of the compiled CSS, you may pass a full file path as the second argument to the `less` method:
+如果你想自定义编译后的 CSS 文件名, 你可以传递一个完整的路径到 `less` 方法的第二个参数:
 
     mix.less('resources/assets/less/app.less', 'public/stylesheets/styles.css');
 
-If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
+如果你需要重写 [底层 Less 插件选项](https://github.com/webpack-contrib/less-loader#options)，你可以传递一个对象到 `mix.less()` 的第三个参数：
 
     mix.less('resources/assets/less/app.less', 'public/css', {
         strictMath: true
@@ -105,16 +108,16 @@ If you need to override the [underlying Less plug-in options](https://github.com
 <a name="sass"></a>
 ### Sass
 
-The `sass` method allows you to compile [Sass](http://sass-lang.com/) into CSS. You may use the method like so:
+`sass` 方法可以让你将 [Sass](http://sass-lang.com/) 编译为 CSS。你可以使用此方法：
 
     mix.sass('resources/assets/sass/app.scss', 'public/css');
 
-Again, like the `less` method, you may compile multiple Sass files into their own respective CSS files and even customize the output directory of the resulting CSS:
+同样的，如同 `less` 方法, 你可以将多个 Sass 文件编译为多个 CSS 文件，甚至可以自定义生成的 CSS 的输出目录：
 
     mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
 
-Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
+另外 [Node-Sass 插件选项](https://github.com/sass/node-sass#options) 可以通过传递第三个参数来重写：
 
     mix.sass('resources/assets/sass/app.sass', 'public/css', {
         precision: 5
@@ -123,11 +126,11 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 <a name="stylus"></a>
 ### Stylus
 
-Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
+类似于 Less 和 Sass，`stylus` 方法允许你编译 [Stylus](http://stylus-lang.com/) 为 CSS：
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css');
 
-You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
+你也可以安装其他的 Stylus 插件，例如 [Rupture](https://github.com/jescalan/rupture)。首先，通过 NPM(`npm install rupture`) 来安装插件，然后在调用 `mix.stylus()` 的时候引用插件：
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
         use: [
@@ -138,7 +141,7 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 <a name="postcss"></a>
 ### PostCSS
 
-[PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+[PostCSS](http://postcss.org/)，一个用来转换 CSS 的强大工具，已经包含在 Laravel Mix 中。默认， Mix 利用了流行的 [Autoprefixer](https://github.com/postcss/autoprefixer) 插件来自动添加所需要的 CSS3 供应商前缀。不过，你也可以自由添加任何适合你应用程序的插件。首先，通过 NPM 来安装想要的插件，然后在你的 `webpack.mix.js` 文件中引用：
 
     mix.sass('resources/assets/sass/app.scss', 'public/css')
        .options({
@@ -148,9 +151,9 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
        });
 
 <a name="plain-css"></a>
-### Plain CSS
+### 纯 CSS
 
-If you would just like to concatenate some plain CSS stylesheets into a single file, you may use the `styles` method.
+如果你只是想将一些纯 CSS 样式合并成单个的文件, 你可以使用 `styles` 方法。
 
     mix.styles([
         'public/css/vendor/normalize.css',
@@ -158,78 +161,78 @@ If you would just like to concatenate some plain CSS stylesheets into a single f
     ], 'public/css/all.css');
 
 <a name="url-processing"></a>
-### URL Processing
+### URL 处理
 
-Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
+由于 Laravel Mix 是建立在 Webpack 之上，所以了解一些 Webpack 概念就非常有必要。编译 CSS 的时候，Webpack 会重写和优化那些你样式表中调用 `url()` 的地方。 虽然可能一开始听起来觉得奇怪，不过这确实是一个强大的功能。试想一下我们编译一个包含相对路径图片的 Sass 文件:
 
     .example {
         background: url('../images/example.png');
     }
 
-> {note} Absolute paths for any given `url()` will be excluded from URL-rewriting. For example, `url('/images/thing.png')` or `url('http://example.com/images/thing.png')` won't be modified.
+> {note} `url()` 方法会在 URL 重写中排除绝对路径。例如 `url('/images/thing.png')` 或者 `url('http://example.com/images/thing.png')` 不会被修改。
 
-By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
+Laravel Mix 和 Webpack 默认会找到 `example.png`，把它复制到你的 `public/images` 目录下，然后在你生成的样式表中重写  `url()`。这样，你编译之后的 CSS 会变成：
 
     .example {
       background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
     }
 
-As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+与此功能相同，可能你的现在的文件夹结构已经按照你喜欢的方式来配置。如果是这种情况，你可以像这样来禁用 `url()` 重写：
 
     mix.sass('resources/assets/app/app.scss', 'public/css')
        .options({
           processCssUrls: false
        });
 
-With this addition to your `webpack.mix.js` file, Mix will no longer match any `url()` or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
+如果在你的 `webpack.mix.js` 文件这样配置之后，Mix 将不再匹配 `url()` 或者复制 assets 到你的 public 目录。换句话来说，编译后的 CSS 跟你原来输入的看起来一样：
 
     .example {
         background: url("../images/thing.png");
     }
 
 <a name="css-source-maps"></a>
-### Source Maps
+### 资源地图
 
-Though disabled by default, source maps may be activated by calling the `mix.sourceMaps()` method in your `webpack.mix.js` file. Though it comes with a compile/performance cost, this will provide extra debugging information to your browser's developer tools when using compiled assets.
+source maps 默认状态下是禁用的，你可以通过在 `webpack.mix.js` 文件中调用 `mix.sourceMaps()` 方法来开启。它会带来一些编译成本，但在使用编译后的资源文件时可以更方便的在浏览器中进行调试：
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sourceMaps();
 
 <a name="working-with-scripts"></a>
-## Working With JavaScript
+## 使用脚本
 
-Mix provides several features to help you work with your JavaScript files, such as compiling ECMAScript 2015, module bundling, minification, and simply concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
+Mix 也提供了一些函数来帮助你使用 JavaScript 文件，像是编译 ECMAScript 2015、模块编译、压缩、及简单的串联纯 JavaScript 文件。更棒的是，这些都不需要自定义的配置：
 
     mix.js('resources/assets/js/app.js', 'public/js');
 
-With this single line of code, you may now take advantage of:
+这一行简单的代码，支持：
 
 <div class="content-list" markdown="1">
-- ES2015 syntax.
+- ECMAScript 2015 语法.
 - Modules
-- Compilation of `.vue` files.
-- Minification for production environments.
+- 编译 `.vue` 文件.
+- 针对生产环境压缩代码.
 </div>
 
 <a name="vendor-extraction"></a>
 ### Vendor Extraction
 
-One potential downside to bundling all application-specific JavaScript with your vendor libraries is that it makes long-term caching more difficult. For example, a single update to your application code will force the browser to re-download all of your vendor libraries even if they haven't changed.
+将应用程序的 JavaScript 与依赖库捆绑在一起的一个潜在缺点是，使得长期缓存更加困难。如，对应用程序代码的单独更新将强制浏览器重新下载所有依赖库，即使它们没有更改。
 
-If you intend to make frequent updates to your application's JavaScript, you should consider extracting all of your vendor libraries into their own file. This way, a change to your application code will not affect the caching of your large `vendor.js` file. Mix's `extract` method makes this a breeze:
+如果你打算频繁更新应用程序的 JavaScript，应该考虑将所有的依赖库提取到单独文件中。这样，对应用程序代码的更改不会影响 vendor.js 文件的缓存。Mix 的 `extract` 方法可以轻松做到：
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .extract(['vue'])
 
-The `extract` method accepts an array of all libraries or modules that you wish to extract into a `vendor.js` file. Using the above snippet as an example, Mix will generate the following files:
+`extract` 方法接受你希望提取到 `vendor.js` 文件中的所有的依赖库或模块的数组。使用以上代码片段作为示例，Mix 将生成以下文件：
 
 <div class="content-list" markdown="1">
-- `public/js/manifest.js`: *The Webpack manifest runtime*
-- `public/js/vendor.js`: *Your vendor libraries*
-- `public/js/app.js`: *Your application code*
+- `public/js/manifest.js`: *Webpack 显示运行时*
+- `public/js/vendor.js`: *依赖库*
+- `public/js/app.js`: *应用代码*
 </div>
 
-To avoid JavaScript errors, be sure to load these files in the proper order:
+为了避免 `JavaScript` 错误，请务必按正确的顺序加载这些文件：
 
     <script src="/js/manifest.js"></script>
     <script src="/js/vendor.js"></script>
@@ -238,34 +241,34 @@ To avoid JavaScript errors, be sure to load these files in the proper order:
 <a name="react"></a>
 ### React
 
-Mix can automatically install the Babel plug-ins necessary for React support. To get started, replace your `mix.js()` call with `mix.react()`:
+Mix 可以自动安装 Babel 插件来支持 React。你只需要替换你的 `mix.js()` 变成 `mix.react()` 即可：
 
     mix.react('resources/assets/js/app.jsx', 'public/js');
 
-Behind the scenes, Mix will download and include the appropriate `babel-preset-react` Babel plug-in.
+在背后，React 会自动下载，并且自动下载适当的 `babel-preset-react` Babel 插件。
 
 <a name="vanilla-js"></a>
-### Vanilla JS
+### 原生 JS
 
-Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
+类似使用 `mix.styles()` 来组合多个样式表一样，你也可以使用 `scripts()` 方法来合并并且压缩多个 JavaScript 文件：
 
     mix.scripts([
         'public/js/admin.js',
         'public/js/dashboard.js'
     ], 'public/js/all.js');
 
-This option is particularly useful for legacy projects where you don't require Webpack compilation for your JavaScript.
+这个选项对于那些没有使用 Webpack 的历史项目非常有用。
 
-> {tip} A slight variation of `mix.scripts()` is `mix.babel()`. Its method signature is identical to `scripts`; however, the concatenated file will receive Babel compilation, which translates any ES2015 code to vanilla JavaScript that all browsers will understand.
+> {tip} `mix.babel()` 和 `mix.scripts()` 有点稍微不一样。`babel` 方法用法和 `scripts` 一样；不过，这些文件会经过 Babel 编译，把所有 ES2015 的代码转换为原生 JavaScript，这样所有浏览器都能识别。
 
 <a name="custom-webpack-configuration"></a>
-### Custom Webpack Configuration
+### 自定义 Webpack 配置
 
-Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` file to get you up and running as quickly as possible. Occasionally, you may need to manually modify this file. You might have a special loader or plug-in that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
+Laravel Mix 默认引用了一个预先配置的 `webpack.config.js` 文件，以便尽快启动和运行。有时，你可能需要手动修改此文件。例如，你可能有一个特殊的加载器或插件需要被引用，或者也许你喜欢使用 Stylus 而不是 Sass。在这种情况下，你有两个选择：
 
-#### Merging Custom Configuration
+#### 合并
 
-Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is a particularly appealing choice, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
+Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpack` 配置以覆盖默认配置。这是一个非常好的选择，你不需要复制和维护 `webpack.config.js` 文件。webpackConfig 方法接受一个对象，该对象应包含要应用的任何 [Webpack 配置项](https://webpack.js.org/configuration/)：
 
     mix.webpackConfig({
         resolve: {
@@ -275,73 +278,80 @@ Mix provides a useful `webpackConfig` method that allows you to merge any short 
         }
     });
 
-#### Custom Configuration Files
+#### 自定义配置文件
 
-If you would like completely customize your Webpack configuration, copy the `node_modules/laravel-mix/setup/webpack.config.js` file to your project's root directory. Next, point all of the `--config` references in your `package.json` file to the newly copied configuration file. If you choose to take this approach to customization, any future upstream updates to Mix's `webpack.config.js` must be manually merged into your customized file.
+请把 `node_modules/laravel-mix/setup/webpack.config.js` 复制一份到项目根目录下，然后在 `package.json` 文件中将所有 `--config` 指定的值（搜索 `config` 关键词）都修改为根目录。后续如果你更新 Mix 版本，需要手工合并 `webpack.config.js` 文件。
 
 <a name="copying-files-and-directories"></a>
-## Copying Files & Directories
+## 复制文件与目录
 
-The `copy` method may be used to copy files and directories to new locations. This can be useful when a particular asset within your `node_modules` directory needs to be relocated to your `public` folder.
+`copy` 方法可以复制文件与目录至新位置。当 `node_modules` 目录中的特定资源需要复制到 `public` 文件夹时会很有用。
 
     mix.copy('node_modules/foo/bar.css', 'public/css/bar.css');
 
-When copying a directory, the `copy` method will flatten the directory's structure. To maintain the directory's original structure, you should use the `copyDirectory` method instead:
+想要拷贝文件夹，请使用 `copyDirectory` 方法：
 
     mix.copyDirectory('assets/img', 'public/img');
 
 <a name="versioning-and-cache-busting"></a>
-## Versioning / Cache Busting
+## 版本与缓存清除
 
-Many developers suffix their compiled assets with a timestamp or unique token to force browsers to load the fresh assets instead of serving stale copies of the code. Mix can handle this for you using the `version` method.
+许多的开发者会在它们编译后的资源文件中加上时间戳或是唯一的 token，强迫浏览器加载全新的资源文件以取代提供的旧版本代码副本。你可以使用 version 方法让 Mix 处理它们。
 
-The `version` method will automatically append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
+`version` 方法为你的文件名称加上唯一的哈希值，以防止文件被缓存：
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .version();
 
-After generating the versioned file, you won't know the exact file name. So, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to load the appropriately hashed asset. The `mix` function will automatically determine the current name of the hashed file:
+在为文件生成版本之后，你将不知道确切的文件名。因此，你应该在你的视图 中使用 Laravel 的全局 `mix` PHP 辅助函数来正确加载名称被哈希后的文件。 `mix` 函数会自动判断被哈希的文件名称：
 
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
-Because versioned files are usually unnecessary in development, you may instruct the versioning process to only run during `npm run production`:
+在开发中通常是不需要版本化，你可能希望仅在运行 `npm run production` 的时候进行版本化：
 
     mix.js('resources/assets/js/app.js', 'public/js');
 
-    if (mix.inProduction()) {
+    if (mix.config.inProduction) {
         mix.version();
     }
 
 <a name="browsersync-reloading"></a>
-## Browsersync Reloading
+## Browsersync 自动加载刷新
 
-[BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
+[BrowserSync](https://browsersync.io/) 可以监控你的文件变化，并且无需手动刷新就可以把你的变化注入到浏览器中。你可以通过调用 `mix.browserSync()` 方法来启用这个功能支持：
 
     mix.browserSync('my-domain.dev');
 
-    // Or...
+    // 或者...
 
     // https://browsersync.io/docs/options
     mix.browserSync({
         proxy: 'my-domain.dev'
     });
 
-You may pass either a string (proxy) or object (BrowserSync settings) to this method. Next, start Webpack's dev server using the `npm run watch` command. Now, when you modify a script or PHP file, watch as the browser instantly refreshes the page to reflect your changes.
+你可以通过传递一个字符串 (代理) 或者一个对象 (BrowserSync 设置) 给这个方法。接着，使用 `npm run watch` 命令来开启 Webpack 的开发服务器。现在，当你修改一个脚本或者 PHP 文件，看着浏览器立即刷新出来的页面来反馈你的改变。
 
 <a name="environment-variables"></a>
-## Environment Variables
+## 环境变量
 
-You may inject environment variables into Mix by prefixing a key in your `.env` file with `MIX_`:
+你可以在 `.env` 文件中将 key 增加前缀 `MIX_` 来注入 Mix 环境变量：
 
     MIX_SENTRY_DSN_PUBLIC=http://example.com
 
-After the variable has been defined in your `.env` file, you may access via the `process.env` object. If the value changes while you are running a `watch` task, you will need to restart the task:
+你可以使用 `process.env` 对象来获取在 `.env` 中定义的 Mix 环境变量：
 
     process.env.MIX_SENTRY_DSN_PUBLIC
 
 <a name="notifications"></a>
-## Notifications
+## 通知
 
-When available, Mix will automatically display OS notifications for each bundle. This will give you instant feedback, as to whether the compilation was successful or not. However, there may be instances when you'd prefer to disable these notifications. One such example might be triggering Mix on your production server. Notifications may be deactivated, via the `disableNotifications` method.
-
+在可用的时候，Mix 会将每个包的编译是否成功以系统通知的方式反馈给你。如果你希望停用这些通知，可以通过 `disableNotifications` 方法实现：
+    
     mix.disableNotifications();
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@zyxcba](https://github.com/cmzz)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/6111715?v=3&s=100">  |  翻译  | [考拉客](http://kaolake.net) - 考拉微商店主加盟立返100元！ |
+
+
