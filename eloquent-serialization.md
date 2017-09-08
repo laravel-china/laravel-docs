@@ -1,60 +1,60 @@
 # Eloquent: 序列化
 
-- [Introduction](#introduction)
-- [Serializing Models & Collections](#serializing-models-and-collections)
-    - [Serializing To Arrays](#serializing-to-arrays)
-    - [Serializing To JSON](#serializing-to-json)
-- [Hiding Attributes From JSON](#hiding-attributes-from-json)
-- [Appending Values To JSON](#appending-values-to-json)
+- [简介](#introduction)
+- [序列化模型 & 集合](#serializing-models-and-collections)
+    - [序列化成数组](#serializing-to-arrays)
+    - [序列化成 JSON](#serializing-to-json)
+- [隐藏来自 JSON 的属性](#hiding-attributes-from-json)
+- [添加参数到 JSON 中](#appending-values-to-json)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-When building JSON APIs, you will often need to convert your models and relationships to arrays or JSON. Eloquent includes convenient methods for making these conversions, as well as controlling which attributes are included in your serializations.
+当你在创建 JSON API 的时候，经常会需要将模型和关联转换成数组或 JSON。Eloquent 提供了一些便捷的方法来让我们可以完成这些转换，以及控制哪些属性需要被包括在序列化中。
 
 <a name="serializing-models-and-collections"></a>
-## Serializing Models & Collections
+## 序列化模型 & 集合
 
 <a name="serializing-to-arrays"></a>
-### Serializing To Arrays
+### 序列化成数组
 
-To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-relationships) to an array, you should use the `toArray` method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to arrays:
+如果要将模型还有其加载的[关联](/docs/{{version}}/eloquent-relationships)转换成一个数组，则可以使用 toArray 方法。这个方法是递归的，因此，所有属性和关联（包含关联中的关联）都会被转换成数组：
 
     $user = App\User::with('roles')->first();
 
     return $user->toArray();
 
-You may also convert entire [collections](/docs/{{version}}/eloquent-collections) of models to arrays:
+你也可以将整个[集合](/docs/{{version}}/eloquent-collections)转换成数组：
 
     $users = App\User::all();
 
     return $users->toArray();
 
 <a name="serializing-to-json"></a>
-### Serializing To JSON
+### 序列化成 JSON
 
-To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON:
+如果要将模型转换成 JSON，则可以使用 `toJson` 方法。如同 `toArray`方法一样， `toJson`  方法也是递归的。因此，所有的属性以及关联都会被转换成 JSON：
 
     $user = App\User::find(1);
 
     return $user->toJson();
 
-Alternatively, you may cast a model or collection to a string, which will automatically call the `toJson` method on the model or collection:
+或者，你也可以强制把一个模型或集合转型成一个字符串，它将会自动调用 `toJson` 方法：
 
     $user = App\User::find(1);
 
     return (string) $user;
 
-Since models and collections are converted to JSON when cast to a string, you can return Eloquent objects directly from your application's routes or controllers:
+当模型或集合被转型成字符串时，模型或集合便会被转换成 JSON 格式，因此你可以直接从应用程序的路由或者控制器中返回 Eloquent 对象：
 
     Route::get('users', function () {
         return App\User::all();
     });
 
 <a name="hiding-attributes-from-json"></a>
-## Hiding Attributes From JSON
+## 隐藏来自 JSON 的属性
 
-Sometimes you may wish to limit the attributes, such as passwords, that are included in your model's array or JSON representation. To do so, add a `$hidden` property to your model:
+有时候你可能会想要限制包含在模型数组或 JSON 表示中的属性，比如说密码。则可以通过在模型中增加 `$hidden` 属性定义来实现：
 
     <?php
 
@@ -72,9 +72,9 @@ Sometimes you may wish to limit the attributes, such as passwords, that are incl
         protected $hidden = ['password'];
     }
 
-> {note} When hiding relationships, use the relationship's method name.
+> {note} 当你要对关联进行隐藏时，需使用关联的 方法 名称，而不是它的动态属性名称。
 
-Alternatively, you may use the `visible` property to define a white-list of attributes that should be included in your model's array and JSON representation. All other attributes will be hidden when the model is converted to an array or JSON:
+另外，你也可以使用 `visible` 属性来定义应该包含在你的模型数组和 JSON 表示中的属性白名单。白名单外的其他属性将隐藏，不会出现在转换后的数组或 JSON 中：
 
     <?php
 
@@ -92,20 +92,20 @@ Alternatively, you may use the `visible` property to define a white-list of attr
         protected $visible = ['first_name', 'last_name'];
     }
 
-#### Temporarily Modifying Attribute Visibility
+#### 临时修改属性的可见度
 
-If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance for convenient method chaining:
+你可以在模型实例后使用 `makeVisible` 方法来显示通常隐藏的属性，且为了便于使用， `makeVisible` 方法会返回一个模型实例：
 
     return $user->makeVisible('attribute')->toArray();
 
-Likewise, if you would like to make some typically visible attributes hidden on a given model instance, you may use the `makeHidden` method.
+相应的，你可以在模型实例后使用 `makeHidden` 方法来隐藏通常显示的属性：
 
     return $user->makeHidden('attribute')->toArray();
 
 <a name="appending-values-to-json"></a>
-## Appending Values To JSON
+## 添加参数到 JSON 中
 
-Occasionally, when casting models to an array or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an [accessor](/docs/{{version}}/eloquent-mutators) for the value:
+有时候，在转换模型到 数组 或 JSON 时，你希望添加一个在数据库中没有对应字段的属性。首先你需要为这个值定义一个  [访问器](/docs/{{version}}/eloquent-mutators)：
 
     <?php
 
@@ -126,7 +126,7 @@ Occasionally, when casting models to an array or JSON, you may wish to add attri
         }
     }
 
-After creating the accessor, add the attribute name to the `appends` property on the model. Note that attribute names are typically referenced in "snake case", even though the accessor is defined using "camel case":
+访问器创建成功后，只需添加该属性到改模型的 `appends` 属性中。注意，属性名称通常遵循 「Snake Case」, 的命名方式，即是访问器的名称是基于 「Camel Case」 的命名方式。
 
     <?php
 
@@ -144,4 +144,10 @@ After creating the accessor, add the attribute name to the `appends` property on
         protected $appends = ['is_admin'];
     }
 
-Once the attribute has been added to the `appends` list, it will be included in both the model's array and JSON representations. Attributes in the `appends` array will also respect the `visible` and `hidden` settings configured on the model.
+一旦属性被添加到 `appends` 清单，便会将模型中的数组和 JSON 这两种形式都包含进去。在 `appends`  数组中的属性也遵循模型中 `visible` 和 `hidden` 设置。
+
+
+## 译者署名
+| 用户名                                      | 头像                                       | 职能   | 签名                                       |
+| ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
+| [@GanymedeNil](https://github.com/GanymedeNil) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6859_1487055454.jpg?imageView2/1/w/100/h/100"> | 翻译   | 争做一个 Full Stack Developer  [@GanymedeNil](http://weibo.com/jinhongyang) |

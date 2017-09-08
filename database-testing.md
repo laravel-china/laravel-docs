@@ -1,44 +1,44 @@
 # Laravel 测试之 - 数据库测试
 
-- [Introduction](#introduction)
-- [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
-    - [Using Migrations](#using-migrations)
-    - [Using Transactions](#using-transactions)
-- [Writing Factories](#writing-factories)
-    - [Factory States](#factory-states)
-- [Using Factories](#using-factories)
-    - [Creating Models](#creating-models)
-    - [Persisting Models](#persisting-models)
-    - [Relationships](#relationships)
-- [Available Assertions](#available-assertions)
+- [简介](#introduction)
+- [每次测试后重置数据库](#resetting-the-database-after-each-test)
+    - [使用迁移](#using-migrations)
+    - [使用事务](#using-transactions)
+- [创建模型工厂](#writing-factories)
+    - [工厂状态](#factory-states)
+- [在测试中使用模型工厂](#using-factories)
+    - [创建模型](#creating-models)
+    - [持久化模型](#persisting-models)
+    - [模型关联](#relationships)
+- [可用的断言方法](#available-assertions)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `assertDatabaseHas` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
+Laravel 提供了多种有用的工具来让你更容易的测试使用数据库的应用程序。首先，你可以使用 `assertDatabaseHas` 辅助函数，来断言数据库中是否存在与指定条件互相匹配的数据。举例来说，如果我们想验证 `users` 数据表中是否存在 `email` 值为 `sally@example.com` 的数据，我们可以按照以下的方式来做测试：
 
     public function testDatabase()
     {
-        // Make call to application...
+        // 创建调用至应用程序...
 
         $this->assertDatabaseHas('users', [
             'email' => 'sally@example.com'
         ]);
     }
+       
+你也可以使用 `assertDatabaseMissing` 辅助函数来断言数据不在数据库中。
 
-You can also used the `assertDatabaseMissing` helper to assert that data does not exist in the database.
-
-Of course, the `assertDatabaseHas` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
+当然，使用 `assertDatabaseHas` 方法及其它的辅助函数只是为了方便。你也可以随意使用 PHPUnit 内置的所有断言方法来扩充测试。
 
 <a name="resetting-the-database-after-each-test"></a>
-## Resetting The Database After Each Test
+## 每次测试后重置数据库
 
-It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests.
+在每次测试结束后都需要对数据进行重置，这样前面的测试数据就不会干扰到后面的测试。
 
 <a name="using-migrations"></a>
-### Using Migrations
+### 使用迁移
 
-One approach to resetting the database state is to rollback the database after each test and migrate it before the next test. Laravel provides a simple `DatabaseMigrations` trait that will automatically handle this for you. Simply use the trait on your test class and everything will be handled for you:
+其中有一种方式就是在每次测试后都还原数据库，并在下次测试前运行迁移。Laravel 提供了简洁的 `DatabaseMigrations` trait，它会自动帮你处理好这些操作。你只需在测试类中使用此 trait 即可：
 
     <?php
 
@@ -54,7 +54,7 @@ One approach to resetting the database state is to rollback the database after e
         use DatabaseMigrations;
 
         /**
-         * A basic functional test example.
+         * 基本的功能测试示例。
          *
          * @return void
          */
@@ -67,9 +67,9 @@ One approach to resetting the database state is to rollback the database after e
     }
 
 <a name="using-transactions"></a>
-### Using Transactions
+### 使用事务
 
-Another approach to resetting the database state is to wrap each test case in a database transaction. Again, Laravel provides a convenient `DatabaseTransactions` trait that will automatically handle this for you:
+另一个方式，就是将每个测试案例都包含在数据库事务中。Laravel 提供了一个简洁的 `DatabaseTransactions` trait 来自动帮你处理好这些操作。
 
     <?php
 
@@ -85,7 +85,7 @@ Another approach to resetting the database state is to wrap each test case in a 
         use DatabaseTransactions;
 
         /**
-         * A basic functional test example.
+         * 基本的功能测试示例。
          *
          * @return void
          */
@@ -97,12 +97,12 @@ Another approach to resetting the database state is to wrap each test case in a 
         }
     }
 
-> {note} By default, this trait will only wrap the default database connection in a transaction. If your application is using multiple database connections, you should define a `$connectionsToTransact` property on your test class. This property should be an array of connection names to execute the transactions on.
+> {note} 此 trait 的事务只包含默认的数据库连接。 如果你的应用程序使用多个数据库连接，你需要在你的测试类中定义一个 `$connectionsToTransact` 属性，然后你就可以把你测试中需要用到的数据库连接名称以数组的形式放到这个属性中。
 
 <a name="writing-factories"></a>
-## Writing Factories
+## 创建模型工厂
 
-When testing, you may need to insert a few records into your database before executing your test. Instead of manually specifying the value of each column when you create this test data, Laravel allows you to define a default set of attributes for each of your [Eloquent models](/docs/{{version}}/eloquent) using model factories. To get started, take a look at the `database/factories/UserFactory.php` file in your application. Out of the box, this file contains one factory definition:
+测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/UserFactory.php` 文件。此文件包含一个现成的模型工厂定义：
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         static $password;
@@ -115,89 +115,91 @@ When testing, you may need to insert a few records into your database before exe
         ];
     });
 
-Within the Closure, which serves as the factory definition, you may return the default test values of all attributes on the model. The Closure will receive an instance of the [Faker](https://github.com/fzaninotto/Faker) PHP library, which allows you to conveniently generate various kinds of random data for testing.
+闭包内为模型工厂的定义，你可以返回模型中所有属性的默认测试值。在该闭包内会接收到 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库的实例，它可以让你很方便的生成各种随机数据以进行测试。
 
-You may also create additional factory files for each model for better organization. For example, you could create `UserFactory.php` and `CommentFactory.php` files within your `database/factories` directory. All of the files within the `factories` directory will automatically be loaded by Laravel.
+为了更好的组织代码，你也可以自己为每个数据模型创建对应的模型工厂类。比如说，你可以在 `database/factories` 文件夹下创建 `UserFactory.php` 和 `CommentFactory.php` 文件。在 `factories` 目录中的文件都会被 Laravel 自动加载。
 
 <a name="factory-states"></a>
-### Factory States
+### 工厂状态
 
-States allow you to define discrete modifications that can be applied to your model factories in any combination. For example, your `User` model might have a `delinquent` state that modifies one of its default attribute values. You may define your state transformations using the `state` method. For simple states, you may pass an array of attribute modifications:
+工厂状态可以让你任意组合你的模型工厂，仅需要做出适当差异化的修改，就可以达到让模型拥有多种不同的状态。例如，你的 `用户` 模型中可以修改某个默认属性值来达到标识一种 `欠款` 的状态。你可以使用 `state` 方法来进行这种状态转换。对于简单的工厂状态，你可以直接传入要修改的属性数组。
 
     $factory->state(App\User::class, 'delinquent', [
         'account_status' => 'delinquent',
     ]);
 
-If your state requires calculation or a `$faker` instance, you may use a Closure to calculate the state's attribute modifications:
+如果你的工厂状态需要计算或者需要使用 `$faker` 实例，你可以使用闭包方法来实现状态属性的修改：
 
     $factory->state(App\User::class, 'address', function ($faker) {
         return [
             'address' => $faker->address,
         ];
     });
+    
+        
 
 <a name="using-factories"></a>
-## Using Factories
+## 在测试中使用模型工厂
 
 <a name="creating-models"></a>
-### Creating Models
+### 创建模型
 
-Once you have defined your factories, you may use the global `factory` function in your tests or seed files to generate model instances. So, let's take a look at a few examples of creating models. First, we'll use the `make` method to create models but not save them to the database:
+在模型工厂定义后，就可以在测试或是数据库的填充文件中，通过全局的 `factory` 函数来生成模型实例。接着让我们先来看看几个创建模型的例子。首先我们会使用 `make` 方法创建模型，但不将它们保存至数据库：
 
     public function testDatabase()
     {
         $user = factory(App\User::class)->make();
 
-        // Use model in tests...
+        // 在测试中使用模型...
     }
 
-You may also create a Collection of many models or create models of a given type:
+你也可以创建一个含有多个模型的集合，或创建一个指定类型的模型：
 
-    // Create three App\User instances...
+    // 创建一个 App\User 实例
     $users = factory(App\User::class, 3)->make();
 
-#### Applying States
+#### 应用模型工厂状态
 
-You may also apply any of your [states](#factory-states) to the models. If you would like to apply multiple state transformations to the models, you should specify the name of each state you would like to apply:
+你可能需要在你的模型中应用不同的 [模型工厂状态](#factory-states)。如果你想模型加上多种不同的状态，你只须指定每个你想添加的状态名称即可：
 
     $users = factory(App\User::class, 5)->states('delinquent')->make();
 
     $users = factory(App\User::class, 5)->states('premium', 'delinquent')->make();
 
-#### Overriding Attributes
+#### 重写模型属性
 
-If you would like to override some of the default values of your models, you may pass an array of values to the `make` method. Only the specified values will be replaced while the rest of the values remain set to their default values as specified by the factory:
+如果你想重写模型中的某些默认值，则可以传递一个包含数值的数组至 `make` 方法。只有指定的数值会被替换，其它剩余的数值则会按照模型工厂指定的默认值来设置：
 
     $user = factory(App\User::class)->make([
         'name' => 'Abigail',
     ]);
 
 <a name="persisting-models"></a>
-### Persisting Models
+### 持久化模型
 
-The `create` method not only creates the model instances but also saves them to the database using Eloquent's `save` method:
+`create` 方法不仅会创建模型实例，同时会使用 Eloquent 的 `save` 方法来将它们保存至数据库：
 
     public function testDatabase()
     {
-        // Create a single App\User instance...
+        // 创建一个 App\User 实例
         $user = factory(App\User::class)->create();
 
-        // Create three App\User instances...
+        // 创建 3 个 App\User 实例
         $users = factory(App\User::class, 3)->create();
 
-        // Use model in tests...
+        // 在测试中使用模型...
     }
 
-You may override attributes on the model by passing an array to the `create` method:
+同样的，你可以在数组传递至 `create` 方法时重写模型的属性
 
     $user = factory(App\User::class)->create([
         'name' => 'Abigail',
     ]);
 
 <a name="relationships"></a>
-### Relationships
+### 模型关联
 
-In this example, we'll attach a relation to some created models. When using the `create` method to create multiple models, an Eloquent [collection instance](/docs/{{version}}/eloquent-collections) is returned, allowing you to use any of the convenient functions provided by the collection, such as `each`:
+在本例中，我们还会增加关联至我们所创建的模型。当使用 `create` 方法创建多个模型时，它会返回一个 Eloquent [集合实例](/docs/{{version}}/eloquent-collections)，让你能够使用集合所提供的便利函数，像是 `each`：
 
     $users = factory(App\User::class, 3)
                ->create()
@@ -205,9 +207,9 @@ In this example, we'll attach a relation to some created models. When using the 
                     $u->posts()->save(factory(App\Post::class)->make());
                 });
 
-#### Relations & Attribute Closures
+#### 关联和属性闭包
 
-You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
+你可以使用闭包参数来创建模型关联。例如如果你想在创建一个 `Post` 的顺便创建一个 `User` 实例：
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -219,7 +221,7 @@ You may also attach relationships to models using Closure attributes in your fac
         ];
     });
 
-These Closures also receive the evaluated attribute array of the factory that defines them:
+这些闭包也可以获取到生成的模型工厂包含的属性数组：
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -235,12 +237,12 @@ These Closures also receive the evaluated attribute array of the factory that de
     });
 
 <a name="available-assertions"></a>
-## Available Assertions
+## 可用的断言方法
 
-Laravel provides several database assertions for your [PHPUnit](https://phpunit.de/) tests:
+Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了一些数据库断言方法：
 
-Method  | Description
+方法名  | 描述
 ------------- | -------------
-`$this->assertDatabaseHas($table, array $data);`  |  Assert that a table in the database contains the given data.
-`$this->assertDatabaseMissing($table, array $data);`  |  Assert that a table in the database does not contain the given data.
-`$this->assertSoftDeleted($table, array $data);`  |  Assert that the given record has been soft deleted.
+`$this->assertDatabaseHas($table, array $data);`  |  断言数据库里含有指定表。
+`$this->assertDatabaseMissing($table, array $data);`  |  断言表里没有指定数据。
+`$this->assertSoftDeleted($table, array $data);`  |  断言指定记录已经被软删除。
