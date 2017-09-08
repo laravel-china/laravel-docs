@@ -10,16 +10,12 @@ return [
         'link' => '/docs/{{version}}/releases'
     ],
     [
-        'text' => '升级指南',
+        'text' => '升级说明',
         'link' => '/docs/{{version}}/upgrade'
     ],
     [
-        'text' => '贡献指南',
+        'text' => '贡献导引',
         'link' => '/docs/{{version}}/contributions'
-    ],
-    [
-        'text' => 'API 文档',
-        'link' => '/api/{{version}}'
     ],
     [
         'text' => '安装',
@@ -50,7 +46,7 @@ return [
         'link' => '/docs/{{version}}/container'
     ],
     [
-        'text' => '服务提供器',
+        'text' => '服务提供者',
         'link' => '/docs/{{version}}/providers'
     ],
     [
@@ -280,5 +276,6 @@ return [
     [
         'text' => 'Socialite 社会化登录',
         'link' => '/docs/{{version}}/socialite'
-    ],
+    ]
 ];
+
