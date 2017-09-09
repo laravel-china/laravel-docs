@@ -24,6 +24,7 @@
     - [请求](/docs/{{version}}/requests)
     - [响应](/docs/{{version}}/responses)
     - [视图](/docs/{{version}}/views)
+    - [重定向](/docs/{{version}}/redirects)
     - [Session](/docs/{{version}}/session)
     - [表单验证](/docs/{{version}}/validation)
     - [错误与日志](/docs/{{version}}/errors)

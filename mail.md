@@ -64,7 +64,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
     ],
 
 <a name="generating-mailables"></a>
-## 生成 mailables
+## 生成 Mailable
 
 在 Laravel 中，每种类型的邮件都代表一个「Mailable」对象。这些对象存储在 `app/Mail` 目录中。如果在你的应用中没有看见这个目录，别担心，在首次使用 `make:mail` 命令创建 Mailable 类时这个目录会被创建，例如：
 
@@ -136,7 +136,7 @@ Laravel 基于 [SwiftMailer](http://swiftmailer.org) 函数库提供了一套干
 
 #### 通过公共属性
 
-通常，你会希望传递一些数据来渲染你的邮件的 HTML 。那么有两种方法可以让视图获得数据，第一种，mailable 类任何公共属性都可以在视图中使用。所以，例如你可以传递数据到 mailable 类的构造函数并且在类中定义数据的公共属性：
+通常，你会希望传递一些数据来渲染你的邮件的 HTML 。那么有两种方法可以让视图获得数据，第一种，Mailable 类任何公共属性都可以在视图中使用。所以，例如你可以传递数据到 Mailable 类的构造函数并且在类中定义数据的公共属性：
 
     <?php
 
@@ -429,7 +429,7 @@ Markdown Mailable 使用 Blade 组件和 Markdown 语法的组合，允许你轻
 <a name="sending-mail"></a>
 ## 发送邮件
 
-要发送邮件，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `to` 方法。 `to` 方法接受一个邮件地址，一个 user 实现或一个 users 集合。如果传递一个对象或集合，mailer 将自动使用 `email` 和 `name` 属性来设置邮件收件人，所以确保你的对象里有这些属性。一旦指定收件人，你可以传递一个实现到 mailable 类的 `send` 方法：
+要发送邮件，使用 `Mail` [facade](/docs/{{version}}/facades) 的 `to` 方法。 `to` 方法接受一个邮件地址，一个 user 实现或一个 users 集合。如果传递一个对象或集合，mailer 将自动使用 `email` 和 `name` 属性来设置邮件收件人，所以确保你的对象里有这些属性。一旦指定收件人，你可以传递一个实现到 Mailable 类的 `send` 方法：
 
     <?php
 
