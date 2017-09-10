@@ -86,6 +86,10 @@ return [
         'link' => '/docs/{{version}}/views'
     ],
     [
+        'text' => '重定向',
+        'link' => '/docs/{{version}}/redirects'
+    ],
+    [
         'text' => 'Session',
         'link' => '/docs/{{version}}/session'
     ],
