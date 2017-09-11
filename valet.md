@@ -72,8 +72,6 @@ Valet 和 Homestead 都是配置 Laravel 开发环境的绝佳选择。选择哪
 
 - 通过 Composer 使用 `composer global require laravel/valet` 安装 Valet。确保 `~/.composer/vendor/bin` 目录位于系统的「PATH」中。
 
-- Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
-
 - 运行 `valet install` 命令来配置和安装 Valet 和 DnsMasq，并注册 Valet 后台随机启动。
 
   </div>
