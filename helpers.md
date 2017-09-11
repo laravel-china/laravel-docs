@@ -959,7 +959,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
-`logger` 函数可以将一个 `debug` 级别的消息写入到乳汁中：
+`logger` 函数可以将一个 `debug` 级别的消息写入到日志中：
 
     logger('Debug message');
 
