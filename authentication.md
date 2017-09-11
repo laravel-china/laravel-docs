@@ -120,7 +120,7 @@ Laravel 默认使用 `email` 字段来认证。如果你想用其他字段认证
 
     // 获取当前已认证的用户...
     $user = Auth::user();
-    
+
     // 获取当前已认证的用户 ID...
     $id = Auth::id();
 
@@ -341,7 +341,7 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
         {
             return Auth::onceBasic() ?: $next($request);
         }
-    
+
     }
 
 接着，[注册路由中间件](/docs/{{version}}/middleware#registering-middleware) ，然后将它附加到路由：
@@ -362,7 +362,7 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
     ／use App\Services\Auth\JwtGuard;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-    
+
     class AuthServiceProvider extends ServiceProvider
     {
         /**
@@ -373,10 +373,10 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
         public function boot()
         {
             $this->registerPolicies();
-    
+
             Auth::extend('jwt', function ($app, $name, array $config) {
                 // 返回一个 Illuminate\Contracts\Auth\Guard 实例...
-    
+
                 return new JwtGuard(Auth::createUserProvider($config['provider']));
             });
         }
@@ -403,7 +403,7 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
     use Illuminate\Support\Facades\Auth;
     use App\Extensions\RiakUserProvider;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-    
+
     class AuthServiceProvider extends ServiceProvider
     {
         /**
@@ -414,10 +414,10 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
         public function boot()
         {
             $this->registerPolicies();
-    
+
             Auth::provider('riak', function ($app, array $config) {
                 // 返回 Illuminate\Contracts\Auth\UserProvider 实例...
-    
+
                 return new RiakUserProvider($app->make('riak.connection'));
             });
         }
@@ -458,7 +458,7 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
         public function updateRememberToken(Authenticatable $user, $token);
         public function retrieveByCredentials(array $credentials);
         public function validateCredentials(Authenticatable $user, array $credentials);
-    
+
     }
 
 `retrieveById` 函数通常接收代表用户的键，例如 MySQL 数据库中自增的 ID。应该通过该方法检索和返回与 ID 匹配的`Authenticatable` 的实现实例。
@@ -488,7 +488,7 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
         public function getRememberToken();
         public function setRememberToken($value);
         public function getRememberTokenName();
-    
+
     }
 
 这个接口很简单。`getAuthIdentifierName` 方法返回用户的「主键」字段的名称，而 `getAuthIdentifier` 方法返回用户的「主键」。重申一次，在 MySQL 后台，这个主键是指自增的主键。`getAuthPassword` 应该要返回用户的散列密码。这个接口允许认证系统和任何用户类一起工作，不用管你在使用什么 ORM 或存储抽象层。默认情况下，Laravel 的 `app` 目录中包含一个 `User` 类来实现此接口，因此你可以参考这个类来实现一个实例。
@@ -507,32 +507,42 @@ Laravel 在认证过程中引发了各种各样的 [事件](/docs/{{version}}/ev
         'Illuminate\Auth\Events\Registered' => [
             'App\Listeners\LogRegisteredUser',
         ],
-    
+
         'Illuminate\Auth\Events\Attempting' => [
             'App\Listeners\LogAuthenticationAttempt',
         ],
-    
+
         'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\LogAuthenticated',
         ],
-    
+
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
         ],
-    
+
         'Illuminate\Auth\Events\Failed' => [
             'App\Listeners\LogFailedLogin',
         ],
-    
+
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\LogSuccessfulLogout',
         ],
-    
+
         'Illuminate\Auth\Events\Lockout' => [
             'App\Listeners\LogLockout',
         ],
     ];
+    
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 | --- | --- | --- | --- |
 | [@iwzh](https://github.com/iwzh) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3762_1456807721.jpeg?imageView2/1/w/200/h/200"> | 翻译 | 码不能停 [@iwzh](https://github.com/iwzh) at Github |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

@@ -48,7 +48,8 @@ Gates 是用来决定用户是否授权执行给定的动作的闭包函数，�
         });
     }
 
-Gates 也可以使用 `Class@method` 形式作为回调字符串，比如控制器
+
+Gates 也可以使用 `Class@method` 风格的回调字符串来定义，比如控制器:
 
     /**
      * Register any authentication / authorization services.
@@ -62,19 +63,22 @@ Gates 也可以使用 `Class@method` 形式作为回调字符串，比如控制�
         Gate::define('update-post', 'PostPolicy@update');
     }
 
-#### Resource Gates
 
-你还可以使用 `resource` 方法一次定义多个 Gate 能力：
+#### 资源 Gates
+
+你还可以使用 `resource` 方法一次性定义多个 Gate 功能:
 
     Gate::resource('posts', 'PostPolicy');
-这与手动定义以下 Gate 定义相同：
+
+这与手动编写以下 Gate 定义相同：
 
     Gate::define('posts.view', 'PostPolicy@view');
     Gate::define('posts.create', 'PostPolicy@create');
     Gate::define('posts.update', 'PostPolicy@update');
     Gate::define('posts.delete', 'PostPolicy@delete');
 
-默认情况下， `view`、 `create`、 `update` 和 `delete` 能力是被定义过的。你也可以通过将数组作为第三个参数传递给 `resource` 方法来定义其它功能。 数组的键定义了该能力的名称，而该值定义了方法名称。例如，以下代码将创建两个新的 Gate 能力 - `posts.image` 和 `posts.photo`：
+
+默认情况下将会定义 `view` ， `create` ， `update` ，和 `delete` 功能。 通过将数组作为第三个参数传递给 `resource` 方法，您可以覆盖或添加新功能到默认的功能。 数组的键定义能力的名称，而值定义方法名称。 例如，以下代码将创建两个新的Gate定义： `posts.image` 和 `posts.photo` ：
 
     Gate::resource('posts', 'PostPolicy', [
         'image' => 'updateImage',
@@ -363,3 +367,12 @@ Laravel 包含一个可以在请求到达路由或控制器之前就进行动作
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@iwzh](https://github.com/iwzh) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3762_1456807721.jpeg?imageView2/1/w/200/h/200"> |  翻译 | 码不能停 [@iwzh](https://github.com/iwzh) at Github  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

@@ -205,3 +205,12 @@ Horizon 包含一个 metrics 仪表盘，它可以提供任务和队列等待时
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@zhwei](https://github.com/zhwei)  | <img class="avatar-66 rm-style" src="https://avatars3.githubusercontent.com/u/1446459?v=3&s=100">  |  翻译  | [欢迎加入蛋壳公寓](http://www.dankegongyu.com/about/join.html?from=laravel-doc-55)  |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

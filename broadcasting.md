@@ -369,7 +369,7 @@ Laravel 默认会使用事件的类名作为广播名称来广播事件。不过
 <a name="only-to-others"></a>
 ### 只广播给他人
 
-W当创建一个使用到事件广播的应用程序时，你可以用 `broadcast` 函数来替代 `event` 函数。和 `event` 函数一样，`broadcast` 函数将事件分发到服务端侦听器：
+当创建一个使用到事件广播的应用程序时，你可以用 `broadcast` 函数来替代 `event` 函数。和 `event` 函数一样，`broadcast` 函数将事件分发到服务端侦听器：
 
     broadcast(new ShippingStatusUpdated($update));
 
@@ -569,3 +569,12 @@ Presence 频道可以像公开和私有频道一样接收事件。使用一个�
 | 用户名                                      | 头像                                       | 职能   | 签名                                       |
 | ---------------------------------------- | ---------------------------------------- | ---- | ---------------------------------------- |
 | [@沈益飞](https://laravel-china.org/users/13655) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/13655_1490162781.png?imageView2/1/w/100/h/100"> | 翻译   | [@m809745357](https://github.com/m809745357) at Github |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

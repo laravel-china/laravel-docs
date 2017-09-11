@@ -24,6 +24,7 @@
     - [请求](/docs/{{version}}/requests)
     - [响应](/docs/{{version}}/responses)
     - [视图](/docs/{{version}}/views)
+    - [重定向](/docs/{{version}}/redirects)
     - [Session](/docs/{{version}}/session)
     - [表单验证](/docs/{{version}}/validation)
     - [错误与日志](/docs/{{version}}/errors)
@@ -64,6 +65,7 @@
     - [模型关联](/docs/{{version}}/eloquent-relationships)
     - [Eloquent 集合](/docs/{{version}}/eloquent-collections)
     - [修改器](/docs/{{version}}/eloquent-mutators)
+    - [API 资源](/docs/{{version}}/eloquent-resources)
     - [序列化](/docs/{{version}}/eloquent-serialization)
 - ## 测试相关
     - [快速入门](/docs/{{version}}/testing)

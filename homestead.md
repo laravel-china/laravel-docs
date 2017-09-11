@@ -4,7 +4,7 @@
 - [安装与设置](#installation-and-setup)
     - [第一步](#first-steps)
     - [配置 Homestead](#configuring-homestead)
-    - [启动 Vagrant 盒子](#launching-the-vagrant-box)
+    - [启动 Vagrant Box](#launching-the-vagrant-box)
     - [根据项目安装](#per-project-installation)
     - [安装 MariaDB](#installing-mariadb)
 - [常见用法](#daily-usage)
@@ -27,7 +27,7 @@
 
 Laravel 努力使整个 PHP 开发体验更加愉快，包括你的本地开发环境。[Vagrant](https://www.vagrantup.com) 提供了一种简单、优雅的方式来管理和配置虚拟机。
 
-Laravel Homestead 是一个官方预封装的 Vagrant box，它为你提供了一个完美的开发环境，你无需在本地安装 PHP 、web 服务器或任何服务软件。 Vagrant box 是完全一次性的，不用担心会搞乱你的操作系统！如果有什么地方出错了，你可以在几分钟内销毁并重建该 box ！
+Laravel Homestead 是一个官方预封装的 Vagrant Box，它为你提供了一个完美的开发环境，你无需在本地安装 PHP 、web 服务器或任何服务软件。 Vagrant Box 是完全一次性的，不用担心会搞乱你的操作系统！如果有什么地方出错了，你可以在几分钟内销毁并重建该 Box ！
 
 Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了 Nginx Web 服务器、PHP 7.1、MySQL、PostgresSQL、Redis、Memcached、Node 以及开发 laravel 应用所需的东西。
 
@@ -64,9 +64,9 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了
 
 若要使用 Parallels 提供器，你需要安装 [Parallels Vagrant 插件](https://github.com/Parallels/vagrant-parallels)。这是免费的。
 
-#### 安装 Homestead Vagrant 盒子
+#### 安装 Homestead Vagrant Box
 
-当安装完 VirtualBox／VMware 以及 Vagrant 后，你可以在终端使用下面的命令将 `laravel/homestead` 盒子添加到 Vagrant 中安装。下载盒子需要几分钟的时间，具体取决于你的互联网连接速度：
+当安装完 VirtualBox／VMware 以及 Vagrant 后，你可以在终端使用下面的命令将 `laravel/homestead`  Box 添加到 Vagrant 中安装。下载 Box 需要几分钟的时间，具体取决于你的互联网连接速度：
 
     vagrant box add laravel/homestead
 
@@ -76,7 +76,7 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了
 
 #### 安装 Homestead
 
-你可以简单使用 Git 克隆代码库来安装 Homestead。建议将代码库克隆到用户「home」目录下的 `Homestead` 文件夹中。这样 Homestead 盒子就可以作为所有 Laravel 项目的主机：
+你可以简单使用 Git 克隆代码库来安装 Homestead。建议将代码库克隆到用户「home」目录下的 `Homestead` 文件夹中。这样 Homestead  Box 就可以作为所有 Laravel 项目的主机：
 
     cd ~
     git clone https://github.com/laravel/homestead.git Homestead
@@ -119,7 +119,7 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了
           to: /home/vagrant/Code
           type: "nfs"
 
-> {note} 使用 NFS 时，建议你安装 [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 插件。这个插件会替你处理 Homestead 盒子中的文件或目录权限问题。
+> {note} 使用 NFS 时，建议你安装 [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 插件。这个插件会替你处理 Homestead Box 中的文件或目录权限问题。
 
  你也可以通过在 `options` 下方列出 Vagrant 的 [共享文件夹](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) 支持的任何选项：
 
@@ -140,20 +140,20 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了
         - map: homestead.app
           to: /home/vagrant/Code/Laravel/public
 
-如果你在配置 Homestead 盒子之后更改了 `sites` 属性，那么应该重新运行 `vagrant reload --provision` 来更新虚拟机上的 Nginx 配置。
+如果你在配置 Homestead Box 之后更改了 `sites` 属性，那么应该重新运行 `vagrant reload --provision` 来更新虚拟机上的 Nginx 配置。
 
 #### 关于 Hosts 文件
 
-你必须将在 Nginx 站点中所添加的「域名」也添加到你机器的 `hosts` 上。 `hosts` 文件会将 Homestead 站点的请求重定向到 Homestead 盒子中。在 Mac 或 Linux 上，该文件位于 `/etc/hosts`。在 Windows 上，它位于 `C:\Windows\System32\drivers\etc\hosts`。添加的内容如下所示：
+你必须将在 Nginx 站点中所添加的「域名」也添加到你机器的 `hosts` 上。 `hosts` 文件会将 Homestead 站点的请求重定向到 Homestead Box 中。在 Mac 或 Linux 上，该文件位于 `/etc/hosts`。在 Windows 上，它位于 `C:\Windows\System32\drivers\etc\hosts`。添加的内容如下所示：
 
     192.168.10.10  homestead.app
 
-请确保列出的 IP 地址是你 `Homestead.yaml` 文件中的 IP 地址。将域名设置到 `hosts` 文件并启动 Vagrant 盒子后，你就可以通过 Web 浏览器访问该站点：
+请确保列出的 IP 地址是你 `Homestead.yaml` 文件中的 IP 地址。将域名设置到 `hosts` 文件并启动 Vagrant Box后，你就可以通过 Web 浏览器访问该站点：
 
     http://homestead.app
 
 <a name="launching-the-vagrant-box"></a>
-### 启动 Vagrant 盒子
+### 启动 Vagrant Box
 
 根据你的喜好完成 `Homestead.yaml` 的编辑后，再从 Homestead 目录运行 `vagrant up` 命令。Vagrant 将启动虚拟机并自动配置你的共享文件夹和 Nginx 站点。
 
@@ -162,7 +162,7 @@ Homestead 可以在任何 Windows、Mac 或 Linux 系统上运行，它包括了
 <a name="per-project-installation"></a>
 ### 根据项目安装
 
-除了全局安装 Homestead 并且在所有项目共享相同的 Homestead 盒子外，你可以为每个项目配置 Homestead 实例。通过在项目下创建 `Vagrantfile`，可以实现为每个项目分别安装上 Homestead ，其他项目成员只需要简单地运行 `vagrant up` 就能都拥有同样的开发环境。
+除了全局安装 Homestead 并且在所有项目共享相同的 Homestead Box 外，你可以为每个项目配置 Homestead 实例。通过在项目下创建 `Vagrantfile`，可以实现为每个项目分别安装上 Homestead ，其他项目成员只需要简单地运行 `vagrant up` 就能都拥有同样的开发环境。
 
 要将 Homestead 直接安装到项目中，需要使用 Composer:
 
@@ -230,12 +230,12 @@ Windows:
 
 你可以通过在 Homestead 目录运行 `vagrant ssh` 命令来连接虚拟主机。
 
-你可能需要频繁地使用 SSH 连接 Homestead 主机，可以尝试着利用上述「功能」来快速地使用 SSH 连接 Homestead 盒子。
+你可能需要频繁地使用 SSH 连接 Homestead 主机，可以尝试着利用上述「功能」来快速地使用 SSH 连接 Homestead Box 。
 
 <a name="connecting-to-databases"></a>
 ### 连接数据库
 
-在盒子中已经为 MySQL 和 Postgres 配置好了一个数据库 `homestead`。为了更方便的使用它，Laravel 中的 `.env` 文件将框架配置成默认使用此数据库。
+在 Box 中已经为 MySQL 和 Postgres 配置好了一个数据库 `homestead`。为了更方便的使用它，Laravel 中的 `.env` 文件将框架配置成默认使用此数据库。
 
 要从主机的数据库客户端连接到 MySQL 或 Postgres，就连接到 `127.0.0.1` 和端口 `33060` (MySQL) 或 `54320` (Postgres)。账号密码分别是 `homestead`／`secret`
 
@@ -311,7 +311,7 @@ Laravel 提供了便利的方式来 [调度 Cron 任务](/docs/{{version}}/sched
 
 #### 转发更多端口
 
-你可以根据需要转发更多端口给 Vagrant 盒子，并指定其协议：
+你可以根据需要转发更多端口给 Vagrant Box，并指定其协议：
 
     ports:
         - send: 50000
@@ -378,7 +378,7 @@ Homestead 6 支持在同一个虚拟机上引入多个版本的 PHP。你可以�
 <a name="updating-homestead"></a>
 ## 更新 Homestead
 
-你可以通过两个简单的步骤更新 Homestead。首先，使用 `vagrant box update` 命令更新 Vgrant 盒子:
+你可以通过两个简单的步骤更新 Homestead。首先，使用 `vagrant box update` 命令更新 Vgrant Box :
 
     vagrant box update
 
@@ -393,7 +393,7 @@ Homestead 6 支持在同一个虚拟机上引入多个版本的 PHP。你可以�
 
 > {tip} 如果你需要一个旧版本的 PHP，请在尝试使用旧版本的 Homestead 之前，先阅读文档 <a href="#multiple-php-versions">多个 PHP 版本</a> 上的文档。
 
-你可以通过添加以下内容添加到 `Homestead.yaml` 文件中来覆盖 Homestead 使用的盒子版本:
+你可以通过添加以下内容添加到 `Homestead.yaml` 文件中来覆盖 Homestead 使用的 Box 版本:
 
     version: 0.6.0
 
@@ -406,7 +406,7 @@ Homestead 6 支持在同一个虚拟机上引入多个版本的 PHP。你可以�
     cpus: 4
     provider: virtualbox
 
-当你使用较旧版本的 Homestead 盒子时，你需要确保将其与 Homestead 源代码的兼容版本进行匹配。下面的图表展示了支持的盒子版本，使用哪个版本的 Homestead 源代码以及提供的 PHP 版本
+当你使用较旧版本的 Homestead Box 时，你需要确保将其与 Homestead 源代码的兼容版本进行匹配。下面的图表展示了支持的 Box 版本，使用哪个版本的 Homestead 源代码以及提供的 PHP 版本
 
 |         | Homestead Version | Box Version |
 | ------- | ----------------- | ----------- |
@@ -434,10 +434,11 @@ Homestead 默认将 `natdnshostresolver` 设置为 `on`。这允许 Homestead �
 | [WangYan](http://blog.wangyan.org)  | <img class="avatar-66 rm-style" src="http://imgcdn.wangyan.org/a/120x120.jpg">  |  翻译  | [About Me](http://blog.wangyan.org/about) |
 | [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
 
----
+
+--- 
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
->
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
->
-> 文档永久地址： http://d.laravel-china.org
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

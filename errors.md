@@ -255,3 +255,12 @@ Monolog 还提供了多种额外的 handler 用来记录日志。如果需要，
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 |<br>[@ChrisonWang](https://github.com/ChrisonWang)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/16531947?v=4&s=80">  |  <br>翻译  | <br>[@王欣](https://www.linkedin.com/in/ChrisonWang/) at LinkedIn|
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

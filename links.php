@@ -10,16 +10,12 @@ return [
         'link' => '/docs/{{version}}/releases'
     ],
     [
-        'text' => '升级指南',
+        'text' => '升级说明',
         'link' => '/docs/{{version}}/upgrade'
     ],
     [
-        'text' => '贡献指南',
+        'text' => '贡献导引',
         'link' => '/docs/{{version}}/contributions'
-    ],
-    [
-        'text' => 'API 文档',
-        'link' => '/api/{{version}}'
     ],
     [
         'text' => '安装',
@@ -88,6 +84,10 @@ return [
     [
         'text' => '视图',
         'link' => '/docs/{{version}}/views'
+    ],
+    [
+        'text' => '重定向',
+        'link' => '/docs/{{version}}/redirects'
     ],
     [
         'text' => 'Session',
@@ -230,6 +230,10 @@ return [
         'link' => '/docs/{{version}}/eloquent-mutators'
     ],
     [
+        'text' => 'API 资源',
+        'link' => '/docs/{{version}}/eloquent-resources'
+    ],
+    [
         'text' => '序列化',
         'link' => '/docs/{{version}}/eloquent-serialization'
     ],
@@ -276,5 +280,6 @@ return [
     [
         'text' => 'Socialite 社会化登录',
         'link' => '/docs/{{version}}/socialite'
-    ],
+    ]
 ];
+

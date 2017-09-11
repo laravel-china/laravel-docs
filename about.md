@@ -3,13 +3,13 @@
 
 为了更好的阅读文档，请查看 [Laravel China 文档导读](https://laravel-china.org/topics/2095)。
 
-此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生，本次 5.5 版本翻译的完整参与人员列表请见 ：[Laravel 5.5 译者](https://laravel-china.org/roles/11) 。
+此文档由 [Laravel China 社区](https://laravel-china.org) 用户协同翻译产生，本次 5.5 版本翻译的完整参与人员列表请见 ：[Laravel 5.5 译者](https://laravel-china.org/roles/12) 。
 
 > 感谢这些可爱的译者，感谢他们的热情。
 
 ### 相关讨论
 
-* [Laravel 5.5 文档翻译召集](https://laravel-china.org/topics/5756)
+* [Laravel 5.5 文档翻译召集](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)
 * [Laravel 5.5 中文文档翻译完成](#)
 
 ## 排版规范
@@ -33,7 +33,7 @@
 - Artisan (命令，不翻)
 - Argument 参数
 - Assets 资源文件
-- Authorization 用户授权
+- Authorization 用户认证
 - Adapter 接口
 
 ### B
@@ -48,15 +48,15 @@
 - Call 调用
 - Callback 回调
 - Classes 类
-- CLI 命令行接口
+- CLI 命令行界面
 - Command 命令
 - Command Line 命令行
 - Component 组件
 - Console 终端
 - Context 情境
-- Controller  控制器
+- Controller 控制器
 - Controller Action 控制器行为
-- constructor 类构造器
+- constructor 构造函数
 - Cookie (不翻)
 - Composer (开源项目名称，不翻)
 - Credentials 凭证
@@ -69,14 +69,14 @@
 ### D
 
 - Database-Transactions  数据库事务
-- Deferred Providers 延迟提供者
+- Deferred Providers 延迟提供器
 - Driver 驱动
 - Dependency Injection 依赖注入
 
 ### E
 
 - Event 事件
-- Extend 扩展
+- Extend 拓展／继承
 - Extension 扩展
 - Eloquent (不翻)
 - Exception 异常
@@ -94,7 +94,7 @@
 ### G
 
 - Guide 指南
-- Guard 保卫
+- Guard 看守器
 
 ### H
 
@@ -122,8 +122,8 @@
 ### L
 
 - Laravel (不翻)
-- Listener 侦听器
-- Library 函数库
+- Listener 监听器
+- Library 类库
 
 ### M
 
@@ -144,7 +144,7 @@
 
 - Package 扩展包
 - Packagist (开源项目名称，不翻)
-- Provider 提供者
+- Provider 提供器
 - Prefix 前缀
 - Presenter (不翻)
 - Pipeline 管道
@@ -154,7 +154,7 @@
 ### Q
 
 - Queue 队列
-- Query Builder 查询语句构造器
+- Query Builder 查询构造器
 
 ### R
 
@@ -172,10 +172,10 @@
 - Schema 数据库结构
 - Service 服务
 - Service Container 服务容器
-- Service Providers 服务提供者
-- Session (不翻)
+- Service Providers 服务提供器
+- Session 会话 (可不翻)
 - Seed 数据填充
-- Scheduler 计划器
+- Scheduler 调度器
 - Scout (不翻)
 
 ### T
@@ -211,6 +211,6 @@
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
 > 
-> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org] 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
 > 
-> 文档永久地址： http://d.laravel-china.org
+> 文档永久地址： https://d.laravel-china.org
