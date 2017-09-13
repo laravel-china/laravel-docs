@@ -1672,7 +1672,7 @@
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@逸侨](http://yiqiao.me)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/6688591">  |  翻译  | 学的慢，但一直再走~。QQ 群：[319347221](//shang.qq.com/wpa/qunwpa?idkey=ee3bb560b41ebdb59188263f353926494f1248c7137d3338dda180fa1ce25354) 欢迎大家加入，个人Blog：[yiqiao](http://yiqiao.me) |
-| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review,翻译  | Stay Hungry. Stay Foolish. |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
 
 --- 
 
