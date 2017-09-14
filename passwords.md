@@ -37,7 +37,7 @@ Laravel 在 `Auth\ForgotPasswordController` 和 `Auth\ResetPasswordController`
 <a name="resetting-views"></a>
 ## 视图
 
-另外，当 Laravel 执行 `make:auth` 命令时，会在 `resources/views/auth/passwords` 目录下生成充值密码所需要的视图文件。当然你可以根据项目需求随意修改这些视图文件。
+另外，当 Laravel 执行 `make:auth` 命令时，会在 `resources/views/auth/passwords` 目录下生成重置密码所需要的视图文件。当然你可以根据项目需求随意修改这些视图文件。
 
 <a name="after-resetting-passwords"></a>
 ## 重置密码后
