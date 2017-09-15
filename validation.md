@@ -488,9 +488,7 @@ Laravel 提供了几种不同的方法来验证传入应用程序的数据。默
 [Boolean](#rule-boolean)
 [Confirmed](#rule-confirmed)
 [Date](#rule-date)
-
 [Date Equals](#rule-date-equals)
-
 [Date Format](#rule-date-format)
 [Different](#rule-different)
 [Digits](#rule-digits)
