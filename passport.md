@@ -715,11 +715,9 @@ Passport 的 `actingAs` 方法可以用于指定当前认证的用户及其授�
     
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
-|---|---|---|---|
-
-| [@Kirisky](https://github.com/kirisky)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18491_1503379318.jpeg?imageView2/1/w/100/h/100">  |  翻译  | 部分关键字翻译参考 [@KevinDiamen](https://github.com/KevinDiamen)  |
-
-| Cloes  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6187_1477389867.jpg?imageView2/1/w/100/h/100">  |  翻译  |  我的[github](https://github.com/cloes)  |
+| --- | --- | --- | --- |
+| [@Kirisky](https://github.com/kirisky) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18491_1503379318.jpeg?imageView2/1/w/100/h/100"> | 翻译 |部分关键字翻译参考 [@KevinDiamen](https://github.com/KevinDiamen) |
+| Cloes  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6187_1477389867.jpg?imageView2/1/w/100/h/100"> |  翻译  |  我的[github](https://github.com/cloes) |
 
 
 
