@@ -205,7 +205,7 @@
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
-| [@shamiao](https://laravel-china.org/users/7034)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7034_1480130781.jpg">  | 修正 | Make developers great again. |
+| [@shamiao](https://laravel-china.org/users/7034)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7034_1480130781.jpeg">  | 修正 | Make developers great again. |
 
 ---
 
