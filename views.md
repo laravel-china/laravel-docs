@@ -3,7 +3,7 @@
 - [创建视图](#creating-views)
 - [向视图传递数据](#passing-data-to-views)
     - [与所有视图共享数据](#sharing-data-with-all-views)
-- [视图 Composer](#view-composers)
+- [视图合成器](#view-composers)
 
 <a name="creating-views"></a>
 ## 创建视图
@@ -87,11 +87,11 @@
     }
 
 <a name="view-composers"></a>
-## 视图 Composer
+## 视图合成器
 
-视图 Composer 是在渲染视图时调用的回调或者类方法。如果你每次渲染视图时都要绑定视图的数据，视图 Composer 可以帮你将这些逻辑整理到特定的位置。
+视图合成器是在渲染视图时调用的回调或者类方法。如果你每次渲染视图时都要绑定视图的数据，视图合成器可以帮你将这些逻辑整理到特定的位置。
 
-在下面这个例子中，我们会在一个 [服务提供器](/docs/{{version}}/providers) 中注册视图 Composer，使用 `View` Facade 来访问底层的 `Illuminate\Contracts\View\Factory` 契约实现。默认情况下，Laravel 没有存放视图 Composer 的目录，你需要根据喜好来重新建立目录，例如：`App\Http\ViewComposers`。
+在下面这个例子中，我们会在一个 [服务提供器](/docs/{{version}}/providers) 中注册视图合成器，使用 `View` Facade 来访问底层的 `Illuminate\Contracts\View\Factory` 契约实现。默认情况下，Laravel 没有存放视图合成器的目录，你需要根据喜好来重新建立目录，例如：`App\Http\ViewComposers`。
 
     <?php
 
@@ -131,9 +131,9 @@
         }
     }
 
-> {note} 注意，如果你创建了新的一个服务提供器来存放你视图 composer 的注册项，那么你需要将这个服务提供器添加到配置文件 `config/app.php` 的 `providers` 数组中。
+> {note} 注意，如果你创建了新的一个服务提供器来存放你注册视图合成器的代码，那么你需要将这个服务提供器添加到配置文件 `config/app.php` 的 `providers` 数组中。
 
-到此我们已经注册了视图 composer，每次渲染 `profile` 视图时，都会执行 `ProfileComposer@compose` 方法。那么下面我们来定义这个 composer 类吧。
+到此我们已经注册了视图合成器，每次渲染 `profile` 视图时都会执行 `ProfileComposer@compose` 方法。那么下面我们来定义视图合成器的这个类吧：
 
     <?php
 
@@ -175,20 +175,20 @@
         }
     }
 
-在渲染视图之前，使用 `Illuminate\View\View` 实例调用 Composer 的 `compose` 方法。你可以使用 `with` 方法将数据绑定到视图。
+视图合成器的 `compose` 方法会在视图渲染之前被调用，并传入一个 `Illuminate\View\View` 实例。你可以使用 `with` 方法将数据绑定到视图。
 
-> {tip} 所有的视图 composers 都会通过 [服务容器](/docs/{{version}}/container) 进行解析，所以你可以在 composer 的构造函数中类型提示需要注入的依赖项。
+> {tip} 所有的视图合成器都会通过 [服务容器](/docs/{{version}}/container) 进行解析，所以你可以在视图合成器的构造函数中类型提示需要注入的依赖项。
 
-#### 在多个视图中加入 Composer
+#### 将视图构造器添加到多个视图
 
-通过将一组视图作为第一个参数传入 `composer` 方法在多个视图中加入视图 Composer：
+通过将一组视图作为第一个参数传入 `composer` 方法，将一个视图合成器添加到多个视图：
 
     View::composer(
         ['profile', 'dashboard'],
         'App\Http\ViewComposers\MyViewComposer'
     );
 
-`composer` 方法同时也接受通配符 `*`，可以让你将一个 composer 添加到所有视图：
+`composer` 方法同时也接受通配符 `*`，表示将一个视图合成器添加到所有视图：
 
     View::composer('*', function ($view) {
         //
@@ -196,7 +196,7 @@
 
 #### 视图构造器
 
-视图**构造器**和视图 composer 非常相似。而不同之处在于：视图构造器在视图实例化之后立即执行，而视图 composer 是在视图渲染时执行。要注册视图构造器，可以使用 `creator` 方法：
+视图**构造器**和视图合成器非常相似。唯一不同之处在于：视图构造器在视图实例化之后立即执行，而视图合成器在视图即将渲染时执行。使用 `creator` 方法注册视图构造器：
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
 
@@ -205,6 +205,7 @@
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
+| [@shamiao](https://laravel-china.org/users/7034)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7034_1480130781.jpg">  | 修正 | Make developers great again. |
 
 ---
 
