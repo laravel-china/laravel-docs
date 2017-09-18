@@ -762,7 +762,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
 使用 HTTPS 协议生成资源文件的 URL:
 
-    echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip');
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
