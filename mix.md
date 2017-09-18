@@ -311,7 +311,7 @@ Mix 提供了一个有用的 `webpackConfig` 方法，允许合并任何 `Webpac
 
     mix.js('resources/assets/js/app.js', 'public/js');
 
-    if (mix.config.inProduction) {
+    if (mix.inProduction) {
         mix.version();
     }
 
