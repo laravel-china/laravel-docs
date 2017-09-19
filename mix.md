@@ -10,7 +10,7 @@
     - [PostCSS](#postcss)
     - [纯 CSS](#plain-css)
     - [URL 处理](#url-processing)
-    - [文件映射](#css-source-maps)
+    - [资源映射](#css-source-maps)
 - [使用 JavaScript](#working-with-scripts)
     - [提取 Vendor](#vendor-extraction)
     - [React](#react-support)
@@ -188,9 +188,9 @@ Laravel Mix 自带了一个用来转换 CSS 的强大工具 [PostCSS](http://pos
     }
 
 <a name="css-source-maps"></a>
-### 文件映射
+### 资源映射
 
-默认情况下文件映射是禁用的，可以在 `webpack.mix.js` 文件中调用 `mix.sourceMaps()` 方法来开启它。尽管它会带来一些编译／性能的成本，但在使用编译资源时，可以为使用浏览器的开发人员工具提供额外的调试信息：
+默认情况下资源映射是禁用的，可以在 `webpack.mix.js` 文件中调用 `mix.sourceMaps()` 方法来开启它。尽管它会带来一些编译／性能的成本，但在使用编译资源时，可以为使用浏览器的开发人员工具提供额外的调试信息：
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sourceMaps();

@@ -2,7 +2,7 @@
 
 - [简介](#introduction)
     - [数据库注意事项](#introduction-database-considerations)
-- [认证快速入门](#authentication-quickstart)
+- [快速认证](#authentication-quickstart)
     - [路由](#included-routing)
     - [视图](#included-views)
     - [认证](#included-authenticating)
@@ -44,7 +44,7 @@ Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已
 此外，你要验证的用户（或等效的）表要包含一个可空的、长度为 100 的字符串 `remember_token`。这个字段将用于存储当用户登录应用并勾选「记住我」时的令牌。
 
 <a name="authentication-quickstart"></a>
-## 认证快速入门
+## 快速认证
 
 Laravel 自带几个预构建的认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内。`RegisterController` 处理新用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理用于重置密码的邮件链接，而 `ResetPasswordController` 包含重置密码的逻辑。这些控制器都使用 trait 来引入所必要的方法。对于大多数应用而言，你根本不需要修改这些控制器。
 
@@ -94,7 +94,7 @@ Laravel 默认使用 `email` 字段来认证。如果你想用其他字段认证
 
 #### 自定义看守器
 
-你还可以自定义用于认证和注册用户的「看守器」。要实现这一功能，需要在 `LoginController`、`RegisterController` 和 `ResetPasswordController` 中定义 `guard` 方法。该方法需要返回一个 guard 实例：
+你还可以自定义用于认证和注册用户的「看守器」。要实现这一功能，需要在 `LoginController`、`RegisterController` 和 `ResetPasswordController` 中定义 `guard` 方法。该方法需要返回一个看守器实例：
 
     use Illuminate\Support\Facades\Auth;
 
