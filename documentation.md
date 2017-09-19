@@ -10,6 +10,7 @@
     - [文件夹结构](/docs/{{version}}/structure)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
+    - [部署](/docs/{{version}}/deployment)
 - ## 核心架构
     - [请求周期](/docs/{{version}}/lifecycle)
     - [服务容器](/docs/{{version}}/container)
@@ -24,7 +25,7 @@
     - [请求](/docs/{{version}}/requests)
     - [响应](/docs/{{version}}/responses)
     - [视图](/docs/{{version}}/views)
-    - [重定向](/docs/{{version}}/redirects)
+    - [URL](/docs/{{version}}/urls)
     - [Session](/docs/{{version}}/session)
     - [表单验证](/docs/{{version}}/validation)
     - [错误与日志](/docs/{{version}}/errors)
