@@ -1,4 +1,4 @@
-# 哈希
+# Laravel 的哈希加密
 
 - [简介](#introduction)
 - [基本用法](#basic-usage)

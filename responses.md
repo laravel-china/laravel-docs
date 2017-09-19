@@ -1,4 +1,4 @@
-# 请求响应
+# Laravel 的请求响应
 
 - [创建响应](#creating-responses)
     - [为响应增加头信息](#attaching-headers-to-responses)

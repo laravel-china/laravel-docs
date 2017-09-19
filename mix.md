@@ -1,4 +1,4 @@
-# 资源编译器 Laravel Mix
+# Laravel 的资源任务编译器 Laravel Mix
 
 - [简介](#introduction)
 - [安装 & 配置](#installation)

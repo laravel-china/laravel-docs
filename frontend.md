@@ -1,4 +1,4 @@
-# JavaScript＆CSS 脚手架
+# Laravel 的前端资源处理 JavaScript＆CSS 构建
 
 - [简介](#introduction)
 - [编写 CSS](#writing-css)

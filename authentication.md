@@ -1,4 +1,4 @@
-# 用户认证
+# Laravel 的用户认证系统
 
 - [简介](#introduction)
     - [数据库注意事项](#introduction-database-considerations)

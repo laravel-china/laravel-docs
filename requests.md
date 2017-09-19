@@ -1,4 +1,4 @@
-# HTTP 请求
+# Laravel 的 HTTP 请求
 
 - [获取请求](#accessing-the-request)
     - [请求路径 & 方法](#request-path-and-method)

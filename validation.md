@@ -1,4 +1,4 @@
-# 验证
+# Laravel 的表单验证机制详解
 
 - [简介](#introduction)
 - [快速验证](#validation-quickstart)

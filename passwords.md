@@ -1,4 +1,4 @@
-# 密码重置
+# Laravel 的密码重置功能
 
 - [简介](#introduction)
 - [数据库注意事项](#resetting-database)

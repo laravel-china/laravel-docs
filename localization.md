@@ -1,4 +1,4 @@
-# 本地化
+# Laravel 的本地化功能
 
 - [简介](#introduction)
 - [定义翻译字符串](#defining-translation-strings)

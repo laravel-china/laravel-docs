@@ -1,4 +1,4 @@
-# 控制器
+# Laravel 的 HTTP 控制器
 
 - [简介](#introduction)
 - [基础控制器](#basic-controllers)

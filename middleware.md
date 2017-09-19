@@ -1,4 +1,4 @@
-# 中间件
+# Laravel 的路由中间件
 
 - [简介](#introduction)
 - [定义中间件](#defining-middleware)
