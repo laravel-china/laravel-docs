@@ -138,7 +138,7 @@
 <a name="the-listeners-directory"></a>
 #### `Listeners` 目录
 
-`Listeners` 目录默认是不存在的，它会在你运行 Artisan 命令 `event:generate` 或 `make:listenr` 时生成。`Listeners` 目录包含了用来处理 [事件](/docs/{{version}}/events) 的类。事件监听器接收事件实例并执行响应该事件被触发的逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
+`Listeners` 目录默认是不存在的，它会在你运行 Artisan 命令 `event:generate` 或 `make:listener` 时生成。`Listeners` 目录包含了用来处理 [事件](/docs/{{version}}/events) 的类。事件监听器接收事件实例并执行响应该事件被触发的逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
 
 <a name="the-mail-directory"></a>
 #### `Mail` 目录
