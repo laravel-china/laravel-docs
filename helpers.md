@@ -566,7 +566,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-kebab-case"></a>
 #### `kebab_case()` {#collection-method}
 
-`lebab_case` 函数将给定的字符串转换为 `短横线隔开式`：
+`kebab_case` 函数将给定的字符串转换为 `短横线隔开式`：
 
     $value = kebab_case('fooBar');
 
@@ -762,7 +762,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
 使用 HTTPS 协议生成资源文件的 URL:
 
-    echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip');
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
@@ -959,7 +959,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
-`logger` 函数可以将一个 `debug` 级别的消息写入到乳汁中：
+`logger` 函数可以将一个 `debug` 级别的消息写入到日志中：
 
     logger('Debug message');
 

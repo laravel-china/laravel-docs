@@ -197,7 +197,7 @@
 - Vagrant Box (开源项目名称，不翻)
 - View 视图
 - Vendor 供应商
-- View Composer 视图组件
+- View Composer/Creator 视图合成器/构造器
 
 ### W
 

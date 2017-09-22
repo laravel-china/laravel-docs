@@ -1,4 +1,4 @@
-# 文件存储
+# Laravel 的文件系统和云存储功能集成
 
 - [简介](#introduction)
 - [配置](#configuration)
@@ -71,7 +71,7 @@ Laravel 的文件系统集成能很好的支持 FTP，不过 FTP 的配置示例
         'host'     => 'ftp.example.com',
         'username' => 'your-username',
         'password' => 'your-password',
-    
+
         // Optional FTP Settings...
         // 'port'     => 21,
         // 'root'     => '',
@@ -180,7 +180,7 @@ Laravel 的文件系统集成也能很好的支持 Rackspace，不过 Rackspace 
 
     // 自动为文件名生成唯一的 ID...
     Storage::putFile('photos', new File('/path/to/photo'));
-    
+
     // 手动指定文件名...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
@@ -217,7 +217,7 @@ Laravel 的文件系统集成也能很好的支持 Rackspace，不过 Rackspace 
 
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
-    
+
     class UserAvatarController extends Controller
     {
         /**
@@ -229,7 +229,7 @@ Laravel 的文件系统集成也能很好的支持 Rackspace，不过 Rackspace 
         public function update(Request $request)
         {
             $path = $request->file('avatar')->store('avatars');
-    
+
             return $path;
         }
     }
@@ -344,7 +344,7 @@ Laravel 的文件系统集成提供一系列开箱即用的驱动支持；然而
     use Spatie\Dropbox\Client as DropboxClient;
     use Illuminate\Support\ServiceProvider;
     use Spatie\FlysystemDropbox\DropboxAdapter;
-    
+
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
@@ -358,11 +358,11 @@ Laravel 的文件系统集成提供一系列开箱即用的驱动支持；然而
                 $client = new DropboxClient(
                     $config['authorizationToken']
                 );
-    
+
                 return new Filesystem(new DropboxAdapter($client));
             });
         }
-    
+
         /**
          * 在容器中注册绑定。
          *
@@ -386,10 +386,10 @@ Laravel 的文件系统集成提供一系列开箱即用的驱动支持；然而
 | [@Rambone](https://github.com/zuoRambo)  | <img class="avatar-66 rm-style" src="http://tva1.sinaimg.cn/crop.0.0.1002.1002.180/92d03bcdjw8f0asasf3m1j20ru0rvaeo.jpg"> | 翻译   | php,go求职 简历请发zuoxiaojie@lianjia.com |
 
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org

@@ -38,6 +38,10 @@ return [
         'link' => '/docs/{{version}}/valet'
     ],
     [
+        'text' => '部署',
+        'link' => '/docs/{{version}}/deployment'
+    ],
+    [
         'text' => '请求周期',
         'link' => '/docs/{{version}}/lifecycle'
     ],
@@ -86,8 +90,8 @@ return [
         'link' => '/docs/{{version}}/views'
     ],
     [
-        'text' => '重定向',
-        'link' => '/docs/{{version}}/redirects'
+        'text' => '生成 URL',
+        'link' => '/docs/{{version}}/urls'
     ],
     [
         'text' => 'Session',

@@ -1,17 +1,17 @@
 # Laravel 的表单验证机制详解
 
 - [简介](#introduction)
-- [快速上手](#validation-quickstart)
+- [快速验证](#validation-quickstart)
     - [定义路由](#quick-defining-the-routes)
     - [创建控制器](#quick-creating-the-controller)
     - [编写验证逻辑](#quick-writing-the-validation-logic)
     - [显示验证错误](#quick-displaying-the-validation-errors)
-    - [有关可选字段的注意事项](#a-note-on-optional-fields)
+    - [可选字段上的注意事项](#a-note-on-optional-fields)
 - [表单请求验证](#form-request-validation)
     - [创建表单请求](#creating-form-requests)
     - [授权表单请求](#authorizing-form-requests)
     - [自定义错误消息](#customizing-the-error-messages)
-- [手动创建表单验证](#manually-creating-validators)
+- [手动创建验证器](#manually-creating-validators)
     - [自动重定向](#automatic-redirection)
     - [命名错误包](#named-error-bags)
     - [验证后钩子](#after-validation-hook)
@@ -25,30 +25,30 @@
     - [使用扩展](#using-extensions)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel 提供了多种不同的验证方法来对应用程序传入的数据进行验证。默认情况下，Laravel 的基类控制器使用 `ValidatesRequests` Trait，它提供了方便的方法使用各种强大的验证规则来验证传入的 HTTP 请求数据。
+Laravel 提供了几种不同的方法来验证传入应用程序的数据。默认情况下，Laravel 的控制器基类使用 `ValidatesRequests` Trait，它提供了一种方便的方法使用各种强大的验证规则来验证传入的 HTTP 请求。
 
 <a name="validation-quickstart"></a>
-## 快速上手
+## 快速验证
 
-为了了解 Laravel 强大验证特性，我们先来看看一个完整的表单验证并返回错误消息的示例。
+为了解 Laravel 强大的验证功能，我们先来看看一个完整的验证表单并返回错误消息的示例。
 
 <a name="quick-defining-the-routes"></a>
 ### 定义路由
 
-首先，我们假定在 `routes/web.php` 文件中定义了以下路由：
+首先，假设我们在 `routes/web.php` 文件中定义了以下路由：
 
     Route::get('post/create', 'PostController@create');
 
     Route::post('post', 'PostController@store');
 
-`GET` 路由会显示一个用于创建新博客文章的表单，`POST` 路由则会将新的博客文章保存到数据库。
+`GET` 路由用来显示一个供用户创建新的博客文章的表单，`POST` 路由则是会将新的博客文章保存到数据库。
 
 <a name="quick-creating-the-controller"></a>
 ### 创建控制器
 
-下一步，我们来看一个处理这些路由的简单的控制器。我们将 `store` 方法置空：
+下一步，我们来看一个处理这些路由的控制器。我们将 `store` 方法置空：
 
     <?php
 
@@ -77,14 +77,14 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
          */
         public function store(Request $request)
         {
-            // 验证以及保存博客发表文章...
+            // 验证以及保存博客文章...
         }
     }
 
 <a name="quick-writing-the-validation-logic"></a>
 ### 编写验证逻辑
 
-现在我们准备开始编写 `store` 逻辑方法来验证我们博客发布的新文章。我们将使用 `Illuminate\Http\Request` 对象提供的 `validate` 方法 。如果验证通过，你的代码就可以正常的运行。若验证失败，则会抛出异常错误消息并自动将一个对应的错误响应返回给用户。在一般的 HTTP 请求下，都会生成一个重定向响应，而对于 AJAX 请求则会发送 JSON 响应。
+现在我们准备开始在 `store` 方法中编写逻辑来验证新的博客文章。为此，我们将使用 `Illuminate\Http\Request` 对象提供的 `validate` 方法 。如果验证通过，你的代码就可以正常的运行。但是如果验证失败，就会抛出异常，并自动将对应的错误响应返回给用户。在典型的 HTTP 请求的情况下，会生成一个重定向响应，而对于 AJAX 请求则会发送 JSON 响应。
 
 让我们接着回到 `store` 方法来深入理解 `validate` 方法：
 
@@ -104,7 +104,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         // 文章内容是符合规则的，存入数据库
     }
 
-如你所见，我们将所需的验证规则传递至 `validate` 方法中。另外再提醒一次，如果验证失败，将会自动生成一个对应的响应。如果验证通过，那我们的控制器将会继续正常运行。
+如你所见，我们将所需的验证规则传递至 `validate` 方法中。另外再提醒一次，如果验证失败，会自动生成一个对应的响应。如果验证通过，那我们的控制器将会继续正常运行。
 
 #### 在第一次验证失败后停止
 
@@ -115,11 +115,11 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         'body' => 'required',
     ]);
 
-在这个例子里，如果 `title` 字段没有通过 `required` 的验证规则，那么 `unique` 这个规则将不会被检测了。将按规则被分配的顺序来验证规则。
+在这个例子里，如果 `title` 字段没有通过 `unique`，那么不会检查 `max` 规则。规则会按照分配的顺序来验证。
 
-#### 嵌套属性的注解
+#### 关于数组数据的注意事项
 
-如果你的 HTTP 请求包含一个 「嵌套的」 参数，你可以在验证规则中通过 「点」 语法来指定这些参数。
+如果你的 HTTP 请求包含一个 「嵌套」 参数（即数组），那你可以在验证规则中通过 「点」 语法来指定这些参数。
 
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
@@ -130,13 +130,13 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="quick-displaying-the-validation-errors"></a>
 ### 显示验证错误
 
-如果本次请求的参数未通过我们指定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误会被自动 [闪存至 session](/docs/{{version}}/session#flash-data)。
+如果传入的请求参数未通过给定的验证规则呢？正如前面所提到的，Laravel 会自动把用户重定向到先前的位置。另外，所有的验证错误信息会被自动 [闪存至 session](/docs/{{version}}/session#flash-data)。
 
-再者，请注意在 `GET` 路由中，我们无需显式的将错误信息和视图绑定起来。这是因为 Lavarel 会检查在 Session 数据中的错误信息，然后如果错误信息存在的话，则自动将它们与视图绑定起来。变量 `$errors` 会成为 `Illuminate\Support\MessageBag` 的一个实例对象。要获取关于这个对象的更多信息，请[查阅这个文档](#working-with-error-messages)。
+重申一次，我们不必在 `GET` 路由中将错误消息显式绑定到视图。因为 Lavarel 会检查在 Session 数据中的错误信息，并自动将其绑定到视图（如果存在）。而其中的变量 `$errors` 是 `Illuminate\Support\MessageBag` 的一个实例。要获取关于这个对象的更多信息，请 [查阅这个文档](#working-with-error-messages)。
 
-> {tip} `$errors` 变量被 `Illuminate\View\Middleware\ShareErrorsFromSession` 中间件绑定到视图，该中间件由 `web` 中间件组提供。**当这个中间件被应用后，在你的视图中就可以获取到 `$error` 变量**，可以使你方便的假定 `$errors` 变量总是已经被定义好并且可以安全的使用。
+> {tip} `$errors` 变量被由Web中间件组提供的 `Illuminate\View\Middleware\ShareErrorsFromSession` 中间件绑定到视图。**当这个中间件被应用后，在你的视图中就可以获取到 `$error` 变量**，可以使一直假定 `$errors` 变量存在并且可以安全地使用。
 
-所以，在我们的例子中，当验证失败的时候，用户将会被重定向到 `create` 方法，让我们在视图中显示错误信息：
+所以，在我们的例子中，当验证失败的时候，用户将会被重定向到控制器的 `create` 方法，让我们在视图中显示错误信息：
 
     <!-- /resources/views/post/create.blade.php -->
 
@@ -155,9 +155,9 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
     <!-- 创建文章表单 -->
 
 <a name="a-note-on-optional-fields"></a>
-### 有关可选字段的注意事项
+### 可选字段上的注意事项
 
-默认情况下，Laravel 会在你的应用中的全局中间件栈中包含 `TrimStrings` 和 `ConvertEmptyStringsToNull` 中间件。这些中间件在 `App\Http\Kernel` 类中。因此，如果您不希望验证程序将「null」值视为无效的，您通常需要将「可选」的请求字段标记为 `nullable`。
+默认情况下，Laravel 在你应用的全局中间件堆栈中包含在 `App\Http\Kernel` 类中的 `TrimStrings` 和 `ConvertEmptyStringsToNull` 中间件。因此，如果你不希望验证程序将 `null` 值视为无效的，那就将「可选」的请求字段标记为 `nullable`。
 
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
@@ -165,14 +165,12 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         'publish_at' => 'nullable|date',
     ]);
 
-在这个例子里，我们指定 `publish_at` 字段可以为 `null` 或者一个有效的日期格式。如果 `nullable` 的修饰词没有添加到规则定义中，验证器会认为 `null` 是一个无效的日期格式。
-
-
+在这个例子里，我们指定 `publish_at` 字段可以为 `null` 或者一个有效的日期格式。如果 `nullable` 的修饰词没有被添加到规则定义中，验证器会认为 `null` 是一个无效的日期格式。
 
 <a name="quick-ajax-requests-and-validation"></a>
-#### AJAX 请求验证
+#### AJAX 请求 & 验证
 
-在这个例子中，我们使用一种传统的方式来将数据发送到应用程序上，然而很多程序使用AJAX发送请求。当我们在 AJAX 的请求中使用 `validate` 方法时，Laravel 并不会生成一个重定向响应，而是会生成一个包含所有错误验证的 JSON 响应。这个 JSON 响应会包含一个 422 HTTP 状态码被发送出去。
+在这个例子中，我们使用传统的表单将数据发送到应用程序。但实际情况中，很多程序都会使用 AJAX 来发送请求。当我们对 AJAX 的请求中使用 `validate` 方法时，Laravel 并不会生成一个重定向响应，而是会生成一个包含所有验证错误信息的 JSON 响应。这个 JSON 响应会包含一个 HTTP 状态码 422 被发送出去。
 
 <a name="form-request-validation"></a>
 ## 表单请求验证
@@ -180,11 +178,11 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="creating-form-requests"></a>
 ### 创建表单请求
 
-在更复杂的验证情境中，你可能会想要创建一个「表单请求（ form request ）」。表单请求是一个自定义的请求类，里面包含着验证逻辑。要创建一个表单请求类，可使用 Artisan 命令行命令 `make:request` ：
+面对更复杂的验证情境中，你可以创建一个「表单请求」来处理更为复杂的逻辑。表单请求是包含验证逻辑的自定义请求类。可使用 Artisan 命令 `make:request` 来创建表单请求类：
 
     php artisan make:request StoreBlogPost
 
-新生成的类保存在 `app/Http/Requests` 目录下。如果这个目录不存在，那么将会在你运行 `make:request` 命令时创建出来。让我们添加一些验证规则到 `rules` 方法中：
+新生成的类保存在 `app/Http/Requests` 目录下。如果这个目录不存在，运行 `make:request` 命令时它会被创建出来。让我们添加一些验证规则到 `rules` 方法中：
 
     /**
      * 获取适用于请求的验证规则。
@@ -199,7 +197,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         ];
     }
 
-验证规则是如何运行的呢？你所需要做的就是在控制器方法中利用类型提示传入请求。传入的请求会在控制器方法被调用前进行验证，意思就是说你不会因为验证逻辑而把控制器弄得一团糟：
+验证规则是如何运行的呢？你所需要做的就是在控制器方法中类型提示传入的请求。在调用控制器方法之前验证传入的表单请求，这意味着你不需要在控制器中写任何验证逻辑：
 
     /**
      * 保存传入的博客文章。
@@ -212,13 +210,15 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         // The incoming request is valid...
     }
 
-如果验证失败，就会生成一个重定向响应把用户返回到先前的位置。这些错误会被闪存到 Session，所以这些错误都可以显示出来。如果进来的是 AJAX 请求的话，则会传回一个 HTTP 响应，其中包含了 422 状态码和验证错误的 JSON 数据。
+如果验证失败，就会生成一个让用户返回到先前的位置的重定向响应。这些错误也会被闪存到 Session 中，以便这些错误都可以在页面中显示出来。如果传入的请求是 AJAX，会向用户返回具有 422 状态代码和验证错误信息的 JSON 数据的 HTTP 响应。
 
 #### 添加表单请求后钩子
 
-如果你想在表单请求「之后」添加钩子，你可以使用 `withValidator` 方法。这个方法接收一个完整的验证类，允许你在实际判断验证规则调之前调用验证类的所有方法：
+如果你想在表单请求「之后」添加钩子，可以使用 `withValidator` 方法。这个方法接收一个完整的验证构造器，允许你在验证结果返回之前调用任何方法：
 
     /**
+     * 配置验证器实例。
+     *
      * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
@@ -234,7 +234,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="authorizing-form-requests"></a>
 ### 授权表单请求
 
-表单的请求类内包含了 `authorize` 方法。在这个方法中，你可以确认用户是否真的通过了授权，以便更新指定数据。比方说，你可以判断，当一个用户试图去更新一篇文章的评论时，他是否具备对应的权限：
+表单请求类内也包含了 `authorize` 方法。在这个方法中，你可以检查经过身份验证的用户确定其是否具有更新给定资源的权限。比方说，你可以判断用户是否拥有更新文章评论的权限：
 
     /**
      * 判断用户是否有权限做出此请求。
@@ -248,16 +248,16 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         return $comment && $this->user()->can('update', $comment);
     }
 
-由于所有的表单请求都是扩展于基础的 Laravel 中的 request 类，所以我们可以使用 `user` 方法去获取当前认证登录的用户。同时请注意上述例子中对 `route` 方法的调用。这个方法授权你获取调用的路由规则中的 URI 参数，譬如下面例子中的`｛comment｝`参数：
+由于所有的表单请求都是继承了 Laravel 中的请求基类，所以我们可以使用 `user` 方法去获取当前认证登录的用户。同时请注意上述例子中对 `route` 方法的调用。这个方法允许你在被调用的路由上获取其定义的 URI 参数，譬如下面例子中的 `{comment}` 参数：
 
     Route::post('comment/{comment}');
 
-如果 `authorize` 方法返回 `false`，则会自动返回一个 HTTP 响应，其中包含 403 状态码，而你的控制器方法也将不会被运行。
+如果 `authorize` 方法返回 `false`，则会自动返回一个包含 403 状态码的 HTTP 响应，也不会运行控制器的方法。
 
-如果你打算在应用程序的其它部分处理授权逻辑，只需从 `authorize` 方法返回 `true` ：
+如果你打算在应用程序的其它部分也能处理授权逻辑，只需从 `authorize` 方法返回 `true` ：
 
     /**
-     * 判断用户是否有权限做出此请求。
+     * 判断用户是否有权限进行此请求。
      *
      * @return bool
      */
@@ -270,10 +270,10 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="customizing-the-error-messages"></a>
 ### 自定义错误消息
 
-你可以通过重写表单请求的 `messages` 方法来自定义错误消息。此方法必须返回一个数组，其中含有成对的属性或规则以及对应的错误消息：
+你可以通过重写表单请求的 `messages` 方法来自定义错误消息。此方法应该如下所示返回属性/规则对数组及其对应错误消息：
 
     /**
-     * 获取已定义验证规则的错误消息。
+     * 获取已定义的验证规则的错误消息。
      *
      * @return array
      */
@@ -286,9 +286,9 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
     }
 
 <a name="manually-creating-validators"></a>
-## 手动创建验证请求
+## 手动创建验证器
 
-如果你不想要使用 request 对象中的 `validate` 方法，你可以手动通过`validator` [Facade](/docs/{{version}}/facades) 创建一个 validator 实例。Facade 中的 `make` 方法生成一个新的 `validator` 实例：
+如果你不想要使用请求上使用 `validate` 方法，你可以通过 `validator` [Facade](/docs/{{version}}/facades) 手动创建一个验证器实例。用 Facade 上的 `make` 方法生成一个新的验证器实例：
 
     <?php
 
@@ -323,14 +323,14 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         }
     }
 
-第一个传给 `make` 方法的参数是验证数据。第二个参数则是数据的验证规则。
+传给 `make` 方法的第一个参数是要验证的数据。第二个参数则是该数据的验证规则。
 
-如果请求没有通过验证，则可以使用 `withErrors` 方法把错误消息闪存到 Session。在进行重定向之后，`$errors` 变量可以在视图中自动共用，让你可以轻松地显示这些消息并返回给用户。`withErrors` 方法接收 validator、`MessageBag`，或 PHP `array`。
+如果请求没有通过验证，则可以使用 `withErrors` 方法把错误消息闪存到 Session。使用这个方法进行重定向之后，`$errors` 变量会自动与视图中共享，你可以将这些消息显示给用户。`withErrors` 方法接收验证器、`MessageBag` 或 PHP `array`。
 
 <a name="automatic-redirection"></a>
 ### 自动重定向
 
-如果你想手动创建一个验证器实例，但希望继续享用 request 对象中 `validates` 方法提供的自动跳转功能，那么你可以调用一个现存的验证器实例中的 `validate` 方法。如果验证失败了，用户会被自动重定向，或者在 AJAX 请求中，一个 JSON 格式的响应将会被返回：
+如果想手动创建验证器实例，又想利用请求中 `validates` 方法提供的自动重定向，那么你可以在现有的验证器实例上调用 `validate` 方法。如果验证失败，用户会自动重定向，如果是 AJAX 请求，将会返回 JSON 格式的响应：
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -340,19 +340,19 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="named-error-bags"></a>
 ### 命名错误包
 
-如果你在一个页面中有多个表单，你也许会希望命名错误信息包 `MessageBag` ，错误信息包允许你从指定的表单中接收错误信息。简单的给 `withErrors` 方法传递第二个参数作为一个名字：
+如果你一个页面中有多个表单，你可以命名错误信息的 `MessageBag` 来检索特定表单的错误消息。只需给 `withErrors` 方法传递一个名字作为第二个参数：
 
     return redirect('register')
                 ->withErrors($validator, 'login');
 
-然后你能从 `$errors` 变量中获取到 `MessageBag` 实例：
+然后你能从 `$errors` 变量中获取命名的 `MessageBag` 实例：
 
     {{ $errors->login->first('email') }}
 
 <a name="after-validation-hook"></a>
 ### 验证后钩子
 
-验证器允许你在验证完成之后附加回调函数。这使得你可以容易的执行进一步验证，甚至可以在消息集合中添加更多的错误信息。使用它只需在验证实例中使用 `after` 方法：
+验证器还允许你添加在验证完成之后运行的回调函数。以便你进行进一步的验证，甚至是在消息集合中添加更多的错误消息。使用它只需在验证实例上使用 `after` 方法：
 
     $validator = Validator::make(...);
 
@@ -369,7 +369,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="working-with-error-messages"></a>
 ## 处理错误消息
 
-调用 `Validator` 实例的 `errors` 方法，会得到一个 `Illuminate\Support\MessageBag` 的实例，里面有许多可让你操作错误消息的便利方法。`$errors` 变量可以自动的被所有的视图获取，并且它是一个MessageBag类的实例。自动对所有视图可用的 `$errors` 变量也是 `MessageBag` 类的一个实例。
+在 `Validator` 实例上调用 `errors` 方法后，会得到一个 `Illuminate\Support\MessageBag` 实例，该实例具有各种方便的处理错误消息的方法。`$errors` 变量是自动提供给所有视图的 `MessageBag` 类的一个实例。
 
 #### 查看特定字段的第一个错误消息
 
@@ -381,21 +381,21 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 
 #### 查看特定字段的所有错误消息
 
-如果你想以数组的形式获取指定字段的所有信息，则可以使用 `get` 方法：
+如果你想以数组的形式获取指定字段的所有错误消息，则可以使用 `get` 方法：
 
     foreach ($errors->get('email') as $message) {
         //
     }
 
-如果你正在验证的一个表单字段类型是数组，你可以使用 `*` 来获取每个元素的所有错误信息：
+如果要验证表单的数组字段，你可以使用 `*` 来获取每个数组元素的所有错误消息：
 
     foreach ($errors->get('attachments.*') as $message) {
         //
     }
 
-#### 查看所有字段的所有错误消息
+#### 查看所有字段的错误消息
 
-如果你想要得到所有字段的消息数组，则可以使用 `all` 方法：
+如果你想要得到所有字段的错误消息，可以使用 `all` 方法：
 
     foreach ($errors->all() as $message) {
         //
@@ -403,7 +403,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 
 #### 判断特定字段是否含有错误消息
 
-可以使用 `has` 方法来检测一个给定的字段是否存在错误信息：
+可以使用 `has` 方法来检测一个给定的字段是否存在错误消息：
 
     if ($errors->has('email')) {
         //
@@ -412,7 +412,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="custom-error-messages"></a>
 ### 自定义错误消息
 
-如果有需要的话，你也可以自定义错误的验证消息来取代默认的验证消息。有几种方法可以指定自定义消息。首先，你需要先通过传递三个参数到 `Validator::make` 方法来自定义验证消息：
+如果有需要的话，你也可以自定义错误消息取代默认值进行验证。有几种方法可以指定自定义消息。首先，你可以将自定义消息作为第三个参数传递给 `Validator::make` 方法：
 
     $messages = [
         'required' => 'The :attribute field is required.',
@@ -420,7 +420,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 
     $validator = Validator::make($input, $rules, $messages);
 
-在这个例子中，`:attribute` 占位符会被通过验证的字段实际名称所取代。除此之外，你还可以使用验证提示消息中的其他占位符。例如：
+在这个例子中，`:attribute` 占位符会被验证字段的实际名称取代。除此之外，你还可以在验证消息中使用其他占位符。例如：
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
@@ -429,18 +429,18 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         'in'      => 'The :attribute must be one of the following types: :values',
     ];
 
-#### 指定自定义消息到特定的属性
+#### 为给定属性指定自定义消息
 
-有时候你可能只想对特定的字段自定义错误消息。只需在属性名称后加上「.」符号和指定验证的规则即可：
+有时候你可能只想为特定的字段自定义错误消息。只需在属性名称后使用「点」语法来指定验证的规则即可：
 
     $messages = [
         'email.required' => 'We need to know your e-mail address!',
     ];
 
 <a name="localization"></a>
-#### 在语言文件中指定自定义的消息提示
+#### 在语言文件中指定自定义消息
 
-多数情况下，你会在语言文件中指定自定义的消息提示，而不是将定制的消息传递给 `Validator` 。实现它需要在语言文件 `resources/lang/xx/validation.php` 中，将定制的消息添加到 `custom` 数组。
+现实中大多数情况下，我们可能不仅仅只是将自定义消息传递给 `Validator`，而是想要会使用不同的语言文件来指定自定义消息。实现它需要在 `resources/lang/xx/validation.php` 语言文件中将定制的消息添加到 `custom` 数组。
 
     'custom' => [
         'email' => [
@@ -448,9 +448,9 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         ],
     ],
 
-#### 在语言文件中自定义属性
+#### 在语言文件中指定自定义属性
 
-如果希望将验证消息的`:attribute` 部分替换为自定义属性名称，则可以在 `resources/lang/xx/validation.php` 语言文件的 `attributes` 数组中指定自定义名称：
+如果要使用自定义属性名称替换验证消息的 `:attribute` 部分，就在 `resources/lang/xx/validation.php` 语言文件的 `attributes` 数组中指定自定义名称：
 
     'attributes' => [
         'email' => 'email address',
@@ -459,7 +459,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="available-validation-rules"></a>
 ## 可用的验证规则
 
-以下是所有可用的验证规则清单与功能：
+以下是所有可用的验证规则及其功能的清单：
 
 <style>
     .collection-method-list > p {
@@ -488,6 +488,7 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 [Boolean](#rule-boolean)
 [Confirmed](#rule-confirmed)
 [Date](#rule-date)
+[Date Equals](#rule-date-equals)
 [Date Format](#rule-date-format)
 [Different](#rule-different)
 [Digits](#rule-digits)
@@ -532,98 +533,103 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="rule-accepted"></a>
 #### accepted
 
-验证字段值是否为 _yes_、 _on_、 _1_、或 _true_。这在确认「服务条款」是否同意时相当有用。
+验证的字段必须为 _yes_、 _on_、 _1_、或 _true_。这在确认「服务条款」是否同意时相当有用。
 
 <a name="rule-active-url"></a>
 #### active_url
 
-根据 PHP 函数 `dns_get_record`，判断要验证的字段必须具有有效的 A 或 AAAA 记录。
+相当于使用了 PHP 函数 `dns_get_record`，验证的字段必须具有有效的 A 或 AAAA 记录。
 
 <a name="rule-after"></a>
 #### after:_date_
 
-验证字段是否是在指定日期之后。这个日期将会通过 `strtotime` 函数来验证。
+验证的字段必须是给定日期后的值。这个日期将会通过 PHP 函数 `strtotime` 来验证。
 
     'start_date' => 'required|date|after:tomorrow'
-
-作为替换 `strtotime` 传递的日期字符串，你可以指定其它的字段来比较日期：
+你也可以指定其它的字段来比较日期：
 
     'finish_date' => 'required|date|after:start_date'
 
 <a name="rule-after-or-equal"></a>
 #### after\_or\_equal:_date_
 
-验证字段必需是等于指定日期或在指定日期之后。更多信息请参见 [after](#rule-after) 规则。
+验证的字段必须等于给定日期之后的值。更多信息请参见 [after](#rule-after) 规则。
 
 <a name="rule-alpha"></a>
 #### alpha
 
-验证字段值是否仅包含字母字符。
+验证的字段必须完全是字母的字符。
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 
-验证字段值是否仅包含字母、数字、破折号（ - ）以及下划线（ _ ）。
+验证的字段可能具有字母、数字、破折号（ - ）以及下划线（ _ ）。
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 
-验证字段值是否仅包含字母、数字。
+验证的字段必须完全是字母、数字。
 
 <a name="rule-array"></a>
 #### array
 
-验证字段必须是一个 PHP 数组。
+验证的字段必须是一个 PHP 数组。
 
 <a name="rule-before"></a>
 #### before:_date_
 
-验证字段是否是在指定日期之前。这个日期将会通过 `strtotime` 函数来验证。
+验证的字段必须是给定日期之前的值。这个日期将会通过 PHP 函数 `strtotime` 来验证。
 
 <a name="rule-before-or-equal"></a>
 #### before\_or\_equal:_date_
 
-验证字段是否是在指定日期之前。这个日期将会使用 PHP `strtotime` 函数来验证。
+验证的字段必须是给定日期之前或之前的值。这个日期将会使用 PHP 函数 `strtotime` 来验证。
 
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-验证字段值的大小是否介于指定的 _min_ 和 _max_ 之间。字符串、数字、数组或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+验证的字段的大小必须在给定的 _min_ 和 _max_ 之间。字符串、数字、数组或是文件大小的计算方式都用 [`size`](#rule-size) 方法进行评估。
 
 <a name="rule-boolean"></a>
 #### boolean
 
-验证字段值是否能够转换为布尔值。可接受的参数为 `true`、`false`、`1`、`0`、`"1"` 以及 `"0"`。
+验证的字段必须能够被转换为布尔值。可接受的参数为 `true`、`false`、`1`、`0`、`"1"` 以及 `"0"`。
 
 <a name="rule-confirmed"></a>
 #### confirmed
 
-验证字段值必须和 `foo_confirmation` 的字段值一致。例如，如果要验证的字段是 `password`，就必须和输入数据里的 `password_confirmation` 的值保持一致。
+验证的字段必须和 `foo_confirmation` 的字段值一致。例如，如果要验证的字段是 `password`，输入中必须存在匹配的 `password_confirmation` 字段。
 
 <a name="rule-date"></a>
 #### date
 
-验证字段值是否为有效日期，会根据 PHP 的 `strtotime` 函数来做验证。
+验证的字段值必须是通过 PHP 函数 `strtotime` 校验的有效日期。
+
+<a name="rule-date-equals"></a>
+
+#### date_equals:*date*
+
+验证的字段必须等于给定的日期。该日期会被传递到 PHP 函数 `strtotime`。
 
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-验证字段值符合指定的日期格式 (_format_)。你应该只使用 `date` 或 `date_format` 当中的 **其中一个** 用于验证，而不应该同时使用两者。
+验证的字段必须与给定的格式相匹配。你应该只使用 `date` 或 `date_format` **其中一个**用于验证，而不应该同时使用两者。
 
 <a name="rule-different"></a>
 #### different:_field_
 
-验证字段值是否和指定的字段 (_field_) 有所不同。
+验证的字段值必须与字段 (_field_) 的值不同。
 
 <a name="rule-digits"></a>
 #### digits:_value_
 
-验证字段值是否为 _numeric_ 且长度为 _value_。
+验证的字段必须是数字，并且必须具有确切的值。
 
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-验证字段值的长度是否在 _min_ 和 _max_ 之间。
+验证的字段的长度必须在给定的 _min_ 和 _max_ 之间。
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -632,14 +638,12 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 
     'avatar' => 'dimensions:min_width=100,min_height=200'
 
-可用的规则为： _min\_width_， _max\_width_ ， _min\_height_ ， _max\_height_ ， _width_ ， _height_ ， _ratio_ 。
+可用的规则为： _min\_width_、 _max\_width_ 、 _min\_height_ 、 _max\_height_ 、 _width_ 、 _height_ 、 _ratio_。
 
-比例应该使用宽度除以高度的方式出现。能够使用 3/2 这样的形式设置，也可以使用 1.5 这样的浮点方式：
+比例应该使用宽度除以高度的方式来约束。这样可以通过 3/2 这样的语句或像 1.5 这样的浮点的约束：
 
     'avatar' => 'dimensions:ratio=3/2'
-
-
-由于此规则需要多个参数，因此您可以 `Rule::dimensions` 方法来构造规则：
+由于此规则需要多个参数，因此你可以 `Rule::dimensions` 方法来构造可读性高的规则：
 
     use Illuminate\Validation\Rule;
 
@@ -653,33 +657,33 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="rule-distinct"></a>
 #### distinct
 
-当你在验证数组的时候，你可以指定某个值必须是唯一的：
+验证数组时，指定的字段不能有任何重复值。
 
     'foo.*.id' => 'distinct'
 
 <a name="rule-email"></a>
 #### email
 
-验证字段值是否符合 e-mail 格式。
+验证的字段必须符合 e-mail 地址格式。
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
 
-验证字段值是否存在指定的数据表中。
+验证的字段必须存在于给定的数据库表中。
 
 #### Exists 规则的基本使用方法
 
     'state' => 'exists:states'
 
-#### 指定一个特定的字段名称
+#### 指定自定义字段名称
 
     'state' => 'exists:states,abbreviation'
 
-有时，您可能需要指定要用于 `exists` 查询的特定数据库连接。你可以使用点「.」语法将数据库连接名称添加到数据表前面来实现这个目的：
+如果你需要指定 `exists` 方法用来查询的数据库。你可以通过使用「点」语法将数据库的名称添加到数据表前面来实现这个目的：
 
     'email' => 'exists:connection.staff,email'
 
-如果您想自定义由验证规则执行的查询，您可以使用 `Rule` 类流畅地定义规则。在这个例子中，我们还将使用数组指定验证规则，而不是使用 `|` 字符来分隔它们：
+如果要自定义验证规则执行的查询，可以使用 `Rule` 类来定义规则。在这个例子中，我们使用数组指定验证规则，而不是使用 `|` 字符来分隔它们：
 
     use Illuminate\Validation\Rule;
 
@@ -695,22 +699,22 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="rule-file"></a>
 #### file
 
-必须是成功上传的文件。
+验证的字段必须是成功上传的文件。
 
 <a name="rule-filled"></a>
 #### filled
 
-验证的字段必须带有内容。
+验证的字段在存在时不能为空。
 
 <a name="rule-image"></a>
 #### image
 
-验证字段文件必须为图片格式（ jpeg、png、bmp、gif、或 svg ）。
+验证的文件必须是一个图像（ jpeg、png、bmp、gif、或 svg ）。
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
 
-验证字段值是否有在指定的列表里面。因为这个规则通常需要你 `implode` 一个数组，`Rule::in` 方法可以用来流利地构造规则：
+验证的字段必须包含在给定的值列表中。因为这个规则通常需要你 `implode` 一个数组，`Rule::in` 方法可以用来构造规则：
 
     use Illuminate\Validation\Rule;
 
@@ -724,103 +728,106 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="rule-in-array"></a>
 #### in_array:_anotherfield_
 
-验证的字段必须存在于 _anotherfield_ 的值中。
+验证的字段必须存在于另一个字段（anotherfield）的值中。
 
 <a name="rule-integer"></a>
 #### integer
 
-验证字段值是否是整数。
+验证的字段必须是整数。
 
 <a name="rule-ip"></a>
 #### ip
 
-验证字段值是否符合 IP address 的格式。
+验证的字段必须是 IP 地址。
 
 #### ipv4
 
-验证字段值是否符合 IPv4 的格式。
+验证的字段必须是 IPv4 地址。
 
 #### ipv6
 
-验证字段值是否符合 IPv6 的格式。
+验证的字段必须是 IPv6 地址。
 
 <a name="rule-json"></a>
 #### json
 
-验证字段是否是一个有效的 JSON 字符串。
+验证的字段必须是有效的 JSON 字符串。
 
 <a name="rule-max"></a>
 #### max:_value_
 
-字段值必须小于或等于 _value_。字符串、数字、数组或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+验证中的字段必须小于或等于 _value_。字符串、数字、数组或是文件大小的计算方式都用 [`size`](#rule-size) 方法进行评估。
 
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
 
-验证的文件必须是这些 MIME 类型中的一个：
+验证的文件必须与给定 MIME 类型之一匹配：
 
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
 
-要确定上传文件的MIME类型，会读取文件的内容，并且框架将尝试猜测 MIME 类型，这可能与客户端提供的 MIME 类型不同。
+要确定上传文件的 MIME 类型，会读取文件的内容来判断 MIME 类型，这可能与客户端提供的 MIME 类型不同。
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
 
-验证字段文件的 MIME 类型是否符合列表中指定的格式。
+验证的文件必须具有与列出的其中一个扩展名相对应的 MIME 类型。
 
 #### MIME 规则基本用法
 
     'photo' => 'mimes:jpeg,bmp,png'
-
 即使你可能只需要验证指定扩展名，但此规则实际上会验证文件的 MIME 类型，其通过读取文件的内容以猜测它的 MIME 类型。
 
-完整的 MIME 类型及对应的扩展名列表可以在下方链接找到：[https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+这个过程看起来只需要你指定扩展名，但实际上该规则是通过读取文件的内容并判断其 MIME 的类型来验证的。
+
+可以在以下链接中找到完整的 MIME 类型列表及其相应的扩展名：
+
+[https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="rule-min"></a>
 #### min:_value_
 
-字段值必须大于或等于 _value_。字符串、数字、数组或是文件大小的计算方式和 [`size`](#rule-size) 规则相同。
+验证中的字段必须具有最小值。字符串、数字、数组或是文件大小的计算方式都用 [`size`](#rule-size) 方法进行评估。
 
 <a name="rule-nullable"></a>
 #### nullable
 
-验证的字段可以为 `null`。这在验证基本数据类型，如字符串和整型这些能包含 `null` 值的数据类型中特别有用。
+验证的字段可以为 `null`。这在验证基本数据类型时特别有用，例如可以包含空值的字符串和整数。
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 
-验证字段值必须不在给定的值列表中出现。`Rule::notIn`方法在构建规则的时候也许有用：
+验证的字段不能包含在给定的值列表中。`Rule::notIn` 方法可以用来构建规则：
 
-	use Illuminate\Validation\Rule;
-	
-	Validator::make($data, [
-	    'toppings' => [
-	        'required',
-	        Rule::notIn(['sprinkles', 'cherries']),
-	    ],
-	]);
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'toppings' => [
+            'required',
+            Rule::notIn(['sprinkles', 'cherries']),
+        ],
+    ]);
 
 <a name="rule-numeric"></a>
 #### numeric
 
-验证字段值是否为数字。
+验证的字段必须是数字。
 
 <a name="rule-present"></a>
 #### present
 
-验证的字段必须出现，但数据可以为空。
+验证的字段必须存在于输入数据中，但可以为空。
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
-验证字段值是否符合指定的正则表达式。
+验证的字段必须与给定的正则表达式匹配。
 
-**Note:** 当使用 `regex` 规则时，你必须使用数组，而不是使用管道分隔符，特别是当正则表达式含有管道符号时。
+**注意**： 当使用 `regex` 规则时，你必须使用数组，而不是使用 `|` 分隔符，特别是如果正则表达式包含 `|` 字符。
 
 <a name="rule-required"></a>
 #### required
 
-验证字段必须存在输入数据，且不为空。字段符合下方任一条件时即为「空」：
+验证的字段必须存在于输入数据中，而不是空。如果满足以下条件之一，则字段被视为「空」：
 
 <div class="content-list" markdown="1">
 
@@ -834,73 +841,73 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...
 
-如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，此字段为必填。
+如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，则验证的字段必须存在且不为空。
 
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，此字段为不必填。
+如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，验证中的字段必须存在且不为空。
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
 
-如果指定的字段中的 _任意一个_ 有值且不为空，则此字段为必填。
+验证的字段必须存在，并且只有当其他指定的字段存在时才能为空。
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
 
-如果指定的 _所有_ 字段都有值，则此字段为必填。
+验证的字段必须存在，并且只有当所有其他指定的字段都存在时才能为空。
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
 
-如果缺少 _任意一个_ 指定的字段，则此字段为必填。
+验证的字段必须存在，并且只有当其他指定的字段不存在时才能为空。
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
 
-如果所有指定的字段 _都没有_ 值，则此字段为必填。
+验证的字段必须存在，并且只有当所有其他指定的字段不存在时才能为空。
 
 <a name="rule-same"></a>
 #### same:_field_
 
-验证字段值和指定的 字段（ _field_ ） 值是否相同。
+给定字段必须与验证的字段匹配。
 
 <a name="rule-size"></a>
 #### size:_value_
 
-验证字段值的大小是否符合指定的 _value_ 值。对于字符串来说，_value_ 为字符数。对于数字来说，_value_ 为某个整数值。对于数组来说， _size_ 对应的是数组的 `count` 函数值。对文件来说，_size_ 对应的是文件大小（单位 kb ）。
+验证的字段必须具有与给定值匹配的大小。对于字符串来说，_value_ 对应于字符数。对于数字来说，_value_ 对应于给定的整数值。对于数组来说， _size_ 对应的是数组的 `count` 值。对文件来说，_size_ 对应的是文件大小（单位 kb ）。
 
 <a name="rule-string"></a>
 #### string
 
-验证字段值的类型是否为字符串。如果你允许字段的值为 `null` ，那么你应该将 `nullable` 规则附加到字段中。
+验证的字段必须是字符串。如果要允许该字段的值为 `null` ，就将 `nullable` 规则附加到该字段中。
 
 <a name="rule-timezone"></a>
 #### timezone
 
-验证字段值是否是有效的时区，会根据 PHP 的 `timezone_identifiers_list` 函数来判断。
+验证的字段必须是有效的时区标识符，会根据 PHP 函数 `timezone_identifiers_list` 来判断。
 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-在指定的数据表中，验证字段必须是唯一的。如果没有指定 `column`，将会使用字段本身的名称。
+验证的字段在给定的数据库表中必须是唯一的。如果没有指定 `column`，将会使用字段本身的名称。
 
-**指定一个特定的字段名称：**
+**指定自定义字段名称：**
 
     'email' => 'unique:users,email_address'
 
 **自定义数据库连接**
 
-有时，您可能需要为验证程序所做的数据库查询设置自定义连接。如上面所示，如上所示，将 `unique：users` 设置为验证规则将使用默认数据库连接来查询数据库。如果要修改数据库连接，请使用「点」语法指定连接和表名：
+有时，你可能需要为验证程序创建的数据库查询设置自定义连接。上面的例子中，将 `unique：users` 设置为验证规则，等于使用默认数据库连接来查询数据库。如果要对其进行修改，请使用「点」语法指定连接和表名：
 
     'email' => 'unique:connection.users,email_address'
 
 **强迫 Unique 规则忽略指定 ID：**
 
-有时候，你希望在进行字段唯一性验证时对指定 ID 进行忽略。例如，在「更新个人资料」页面会包含用户名、邮箱和地点。这时你会想要验证更新的 E-mail 值是否为唯一的。如果用户仅更改了用户名字段而没有改 E-mail 字段，就不需要抛出验证错误，因为此用户已经是这个 E-mail 的拥有者了。
+如果你想在进行字段唯一性验证时忽略指定 ID 。例如，在「更新个人资料」页面会包含用户名、邮箱和地点。这时你会想要验证更新的 E-mail 值是否唯一。如果用户仅更改了用户名字段而没有改 E-mail 字段，就不需要抛出验证错误，因为此用户已经是这个 E-mail 的拥有者了。
 
-为了指示验证器忽略用户的ID，我们将使用 `Rule` 类流畅地定义规则。 在这个例子中，我们还将通过数组来指定验证规则，而不是使用 `|` 字符来分隔：
+使用 `Rule` 类定义规则来指示验证器忽略用户的 ID。 这个例子中通过数组来指定验证规则，而不是使用 `|` 字符来分隔：
 
     use Illuminate\Validation\Rule;
 
@@ -911,13 +918,13 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         ],
     ]);
 
-如果你的数据表使用的主键名称不是 `id`，则可以在调用 `ignore` 方法时指定列的名称：
+如果你的数据表使用的主键名称不是 `id`，那就在调用 `ignore` 方法时指定字段的名称：
 
     'email' => Rule::unique('users')->ignore($user->id, 'user_id')
 
 **增加额外的 Where 语句：**
 
-你也可以通过 `where` 方法指定额外的查询约束条件。例如，我们添加 `account_id` 为 `1` 约束条件：
+你也可以通过 `where` 方法指定额外的查询条件。例如，我们添加 `account_id` 为 `1` 的约束：
 
     'email' => Rule::unique('users')->where(function ($query) {
         $query->where('account_id', 1);
@@ -926,26 +933,26 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="rule-url"></a>
 #### url
 
-验证字段必需是有效的 URL 格式。
+验证的字段必须是有效的 URL。
 
 <a name="conditionally-adding-rules"></a>
 ## 按条件增加规则
 
-#### 当字段存在的时候进行验证
+#### 存在才验证
 
-在某些情况下，你可能 **只想** 在输入数据中有此字段时才进行验证。可通过增加 `sometimes` 规则到规则列表来实现：
+在某些情况下，只有在该字段存在于输入数组中时，才可以对字段执行验证检查。可通过增加 `sometimes` 到规则列表来实现：
 
     $v = Validator::make($data, [
         'email' => 'sometimes|required|email',
     ]);
 
-在上面的例子中，`email` 字段的验证只会在 `$data` 数组有此字段时才会进行。
+在上面的例子中，`email` 字段只有在 `$data` 数组中存在时才会被验证。
 
-> {tip} 如果你尝试验证一个总是存在但是可能为空的字段，请查阅 [可选字段的说明](#a-note-on-optional-fields)。
+> {tip} 如果你尝试验证应该始终存在但可能为空的字段，请查阅 [可选字段的注意事项](#a-note-on-optional-fields)。
 
 #### 复杂的条件验证
 
-有时候你可能希望增加更复杂的验证条件，例如，你可以希望某个指定字段在另一个字段的值超过 100 时才为必填。或者当某个指定字段有值时，另外两个字段要拥有符合的特定值。增加这样的验证条件并不难。首先，利用你熟悉的 _static rules_ 来创建一个 `Validator` 实例：
+有时候你可能需要增加基于更复杂的条件逻辑的验证规则。例如，你可以希望某个指定字段在另一个字段的值超过 100 时才为必填。或者当某个指定字段存在时，另外两个字段才能具有给定的值。增加这样的验证条件并不难。首先，使用静态规则创建一个 `Validator` 实例：
 
     $v = Validator::make($data, [
         'email' => 'required|email',
@@ -958,32 +965,32 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
         return $input->games >= 100;
     });
 
-传入 `sometimes` 方法的第一个参数是我们要用条件认证的字段名称。第二个参数是我们想使用的验证规则。`闭包` 作为第三个参数传入，如果其返回 `true`，则额外的规则就会被加入。这个方法可以轻松的创建复杂的条件式验证。你甚至可以一次对多个字段增加条件式验证：
+传入 `sometimes` 方法的第一个参数是要用来验证的字段名称。第二个参数是我们想使用的验证规则。`闭包` 作为第三个参数传入，如果其返回 `true`，则额外的规则就会被加入。这个方法可以轻松地创建复杂的条件验证。你甚至可以一次对多个字段增加条件验证：
 
     $v->sometimes(['reason', 'cost'], 'required', function ($input) {
         return $input->games >= 100;
     });
 
-> {tip} 传入 `闭包` 的 `$input` 参数是 `Illuminate\Support\Fluent` 实例，可用来访问你的输入或文件对象。
+> {tip} 传入 `闭包` 的 `$input` 参数是 `Illuminate\Support\Fluent` 的一个实例，可用来访问你的输入或文件对象。
 
 <a name="validating-arrays"></a>
 ## 验证数组
 
-验证基于数组的表单输入字段并不一定是一件痛苦的事情。你可以使用「.」来验证一个数组中的属性。例如，如果 HTTP 请求中包含一个 `photos[profile]` 字段，你可以使用下面的方法：
+验证表单的输入为数组的字段也不难。你可以使用「点」语法来验证数组中的属性。例如，如果传入的 HTTP 请求中包含 `photos[profile]` 字段，可以如下验证：
 
-	$validator = Validator::make($request->all(), [
-	    'photos.profile' => 'required|image',
-	]);
+    $validator = Validator::make($request->all(), [
+        'photos.profile' => 'required|image',
+    ]);
 
 
-你也可以验证数组中的每一个元素。要验证指定数组输入字段中的每一个 email 是否唯一，可以这么做：
+你还可以验证数组中的每个元素。例如，要验证指定数组输入字段中的每一个 email 是唯一的，可以这么做：
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users',
         'person.*.first_name' => 'required_with:person.*.last_name',
     ]);
 
-同理，你在语言文件定义验证信息的时候可以使用星号 `*` 字符，可以更加容易的在基于数组格式的字段中使用相同的验证信息：
+同理，你可以在语言文件定义验证信息时使用 `*` 字符，为基于数组的字段使用单个验证消息：
 
     'custom' => [
         'person.*.email' => [
@@ -997,13 +1004,13 @@ Laravel 提供了多种不同的验证方法来对应用程序传入的数据进
 <a name="using-rule-objects"></a>
 ### 使用规则对象
 
-Laravel 提供了许多有用的验证规则。但你可能想自定义一些规则。注册自定义验证规则的方法之一，就是使用规则对象。要生成一个新的规则对象，可以使用 `make:rule` Artisan 命令。接下来，我们使用这个命令来生成一个验证字符串是否是大写的验证对象。Laravel 会将新的规则对象存放在 `app/Rules` 目录：
+Laravel 提供了许多有用的验证规则，同时也支持自定义规则。注册自定义验证规则的方法之一，就是使用规则对象。可以使用 Artisan 命令 `make:rule` 来生成新的规则对象。接下来，让我们用这个命令生成一个验证字符串是大写的规则。Laravel 会将新的规则存放在 `app/Rules` 目录中：
 
-	php artisan make:rule Uppercase
+    php artisan make:rule Uppercase
 
-一旦规则对象生成了，我们就可以定义它的行为。一个规则对象包含两个方法： `passes` 和 `message` 。 `passes`方法接收属性值和名称，以及根据属性值是否符合规则而返回 `true` 或者 `false` 。 `message` 方法返回验证不通过时应该使用的错误信息。
+一旦创建了规则，我们就可以定义它的行为。规则对象包含两个方法： `passes` 和 `message` 。 `passes` 方法接收属性值和名称，并根据属性值是否符合规则而返回 `true` 或者 `false`。 `message` 应返回验证失败时应使用的验证错误消息：
 
-	<?php
+    <?php
 
     namespace App\Rules;
 
@@ -1034,7 +1041,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         }
     }
 
-当然，如果你希望从翻译文件中返回验证错误信息，你可以从 `message` 方法中调用 `trans` 辅助函数。
+当然，如果你希望从翻译文件中返回一个错误信息，你可以从 `message` 方法中调用辅助函数 `trans`：
 
     /**
      * 获取验证错误信息。
@@ -1046,7 +1053,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         return trans('validation.uppercase');
     }
 
-一旦规则对象被定义好后，你可以通过传递一个规则实例的方式，将其和其他验证规则附加到一个验证器：
+一旦规则对象被定义好后，你可以通过将规则对象的实例传递给其他验证规则来将其附加到验证器：
 
     use App\Rules\Uppercase;
 
@@ -1057,7 +1064,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
 <a name="using-extensions"></a>
 ### 使用扩展
 
-另外一个注册自定义验证规则的方法，就是使用 `Validator` [Facade](/docs/{{version}}/facades) 中的 `extend` 方法。让我们在 [服务提供者](/docs/{{version}}/providers) 中使用这个方法来注册自定义的验证规则：
+另外一个注册自定义验证规则的方法，就是使用 `Validator` [Facade](/docs/{{version}}/facades) 中的 `extend` 方法。让我们在 [服务提供器](/docs/{{version}}/providers) 中使用这个方法来注册自定义验证规则：
 
     <?php
 
@@ -1069,7 +1076,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * 启动任意应用程序服务。
+         * 引导任何应用服务。
          *
          * @return void
          */
@@ -1081,7 +1088,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         }
 
         /**
-         * 注册服务容器。
+         * 注册服务提供器。
          *
          * @return void
          */
@@ -1091,7 +1098,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         }
     }
 
-自定义的验证闭包接收四个参数：要被验证的属性名称 `$attribute`，属性的值 `$value`，传入验证规则的参数数组 `$parameters`，及 `Validator` 实例。
+自定义的验证闭包接收四个参数：要被验证的属性名称 `$attribute`、属性的值 `$value`、传入验证规则的参数数组 `$parameters`、及 `Validator` 实例。
 
 除了使用闭包，你也可以传入类和方法到 `extend` 方法中：
 
@@ -1099,7 +1106,7 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
 
 #### 自定义错误消息
 
-另外你可能还需要为自定义规则来定义一个错误消息。这可以通过使用自定义内联消息数组或是在验证语言包中加入新的规则来实现。此消息应该被放在数组的第一级，而不是被放在 `custom` 数组内，这是仅针对特定属性的错误消息:
+你还需要为自定义规则定义错误消息。这可以通过使用自定义内联消息数组或是在验证语言文件中加入新的规则来实现。此消息应该被放在数组的第一级，而不是被放在 `custom` 数组内，这是仅针对特定属性的错误消息:
 
     "foo" => "你的输入是无效的!",
 
@@ -1107,10 +1114,10 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
 
     // 其余的验证错误消息...
 
-当你在创建自定义验证规则时，你可能需要定义占位符来取代错误消息。你可以像上面所描述的那样通过 `Validator` Facade 来使用 `replacer` 方法创建一个自定义验证器。通过 [服务提供者](/docs/{{version}}/providers) 中的 `boot` 方法可以实现：
+创建自定义验证规则时，可能需要为错误消息定义自定义替换占位符。你可以像上面所描述的那样通过 `Validator` Facade 来使用 `replacer` 方法创建一个自定义验证器。你可以在 [服务提供器](/docs/{{version}}/providers) 中的 `boot` 方法中执行此操作：
 
     /**
-     * 启动任意应用程序服务。
+     * 引导任何应用服务。
      *
      * @return void
      */
@@ -1123,36 +1130,34 @@ Laravel 提供了许多有用的验证规则。但你可能想自定义一些规
         });
     }
 
-#### 隐式扩展功能
+#### 隐式扩展
 
-默认情况下，若有一个类似 [`required`](#rule-required) 这样的规则，当此规则被验证的属性不存在或包含空值时，其一般的验证规则（包括自定扩展功能）都将不会被运行。例如，当 integer 规则的值为 null 时 [`unique`](#rule-unique) 将不会被运行：
+默认情况下，当所要验证的属性不存在或包含由 [`required`](#rule-required) 规则定义的空值时，将不会运行正常的验证规则（包括自定义扩展）。例如，[`unique`](#rule-unique) 规则不会针对 `null` 运行：
 
     $rules = ['name' => 'unique'];
 
     $input = ['name' => null];
 
     Validator::make($input, $rules)->passes(); // true
-
-如果要在属性为空时依然运行此规则，则此规则必须暗示该属性为必填。要创建一个「隐式」扩展功能，可以使用 `Validator::extendImplicit()` 方法：
+即使属性为空的规则也可以运行，该规则必须意味着该属性是必需的。要创建这样一个「隐式」扩展，可以使用 `Validator::extendImplicit()` 方法：
 
     Validator::extendImplicit('foo', function ($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
 
-> {note} 一个「隐式」扩展功能只会 _暗示_ 该属性为必填。它的实际属性是否为无效属性或空属性主要取决于你。
+> {note} 「隐式」扩展只 _暗示_ 该属性是必需的。是否使一个丢失或为空的属性无效主要取决于你。
 
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| Cloes  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6187_1477389867.jpg?imageView2/1/w/100/h/100">  |  翻译  |  我的[github](https://github.com/cloes)  |
+| Cloes | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6187_1477389867.jpg?imageView2/1/w/100/h/100"> | 翻译   | 我的[github](https://github.com/cloes) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
 
-
-
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org

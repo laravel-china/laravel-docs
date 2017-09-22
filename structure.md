@@ -1,4 +1,4 @@
-# 文件夹结构
+# Laravel 的文件夹结构
 
 - [简介](#introduction)
 - [根目录](#the-root-directory)
@@ -138,7 +138,7 @@
 <a name="the-listeners-directory"></a>
 #### `Listeners` 目录
 
-`Listeners` 目录默认是不存在的，它会在你运行 Artisan 命令 `event:generate` 或 `make:listenr` 时生成。`Listeners` 目录包含了用来处理 [事件](/docs/{{version}}/events) 的类。事件监听器接收事件实例并执行响应该事件被触发的逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
+`Listeners` 目录默认是不存在的，它会在你运行 Artisan 命令 `event:generate` 或 `make:listener` 时生成。`Listeners` 目录包含了用来处理 [事件](/docs/{{version}}/events) 的类。事件监听器接收事件实例并执行响应该事件被触发的逻辑。例如，`UserRegistered` 事件可能由 `SendWelcomeEmail` 监听器处理。
 
 <a name="the-mail-directory"></a>
 #### `Mail` 目录
@@ -174,10 +174,10 @@
 | [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
 
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org

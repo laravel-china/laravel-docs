@@ -1,4 +1,4 @@
-# 集合
+# Laravel 的集合 Collection
 
 - [简介](#introduction)
     - [创建集合](#creating-collections)
@@ -38,7 +38,7 @@
         column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
         column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
     }
-    
+
     #collection-method-list a {
         display: block;
     }
@@ -138,7 +138,7 @@
     #collection-method code {
         font-size: 14px;
     }
-    
+
     #collection-method:not(.first-collection-method) {
         margin-top: 50px;
     }
@@ -243,9 +243,9 @@
         ['product' => 'Desk', 'price' => 200],
         ['product' => 'Chair', 'price' => 100],
     ]);
-    
+
     $collection->contains('product', 'Bookcase');
-    
+
     // false
 
 最后，你也可以传递一个回调到 `contains` 方法来执行自己的真实测试：
@@ -255,7 +255,7 @@
     $collection->contains(function ($value, $key) {
         return $value > 5;
     });
-    
+
     // false
 
 `contains` 方法在检查项目值时使用「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。 相反 [`containsStrict`](https://laravel.com/docs/5.5/collections#method-containsstrict) 方法则是使用「严格」比较进行过滤。
@@ -299,16 +299,16 @@
         'type' => 'fruit',
         'remain' => 6
     ]);
-    
+
     $diff = $collection->diffAssoc([
         'color' => 'yellow',
         'type' => 'fruit',
         'remain' => 3,
         'used' => 6
     ]);
-    
+
     $diff->all();
-    
+
     // ['color' => 'orange', 'remain' => 6]
 
 <a name="method-diffkeys"></a>
@@ -323,16 +323,16 @@
         'four' => 40,
         'five' => 50,
     ]);
-    
+
     $diff = $collection->diffKeys([
         'two' => 2,
         'four' => 4,
         'six' => 6,
         'eight' => 8,
     ]);
-    
+
     $diff->all();
-    
+
     // ['one' => 10, 'three' => 30, 'five' => 50]
 
 <a name="method-each"></a>
@@ -360,7 +360,7 @@
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
     });
-    
+
     // false
 
 <a name="method-except"></a>
@@ -388,9 +388,9 @@
     $filtered = $collection->filter(function ($value, $key) {
         return $value > 2;
     });
-    
+
     $filtered->all();
-    
+
     // [3, 4]
 
 如果没有提供回调函数，集合中所有返回 `false` 的元素都会被移除：
@@ -411,7 +411,7 @@
     collect([1, 2, 3, 4])->first(function ($value, $key) {
         return $value > 2;
     });
-    
+
     // 3
 
 你也可以不传入参数使用 `first` 方法以获取集合中第一个元素。如果集合是空的，则会返回 `null`：
@@ -430,13 +430,13 @@
         ['school' => 'Arkansas'],
         ['age' => 28]
     ]);
-    
+
     $flattened = $collection->flatMap(function ($values) {
         return array_map('strtoupper', $values);
     });
-    
+
     $flattened->all();
-    
+
     // ['name' => 'SALLY', 'school' => 'ARKANSAS', 'age' => '28'];
 
 <a name="method-flatten"></a>
@@ -462,11 +462,11 @@
             ['name' => 'Galaxy S7', 'brand' => 'Samsung']
         ],
     ]);
-    
+
     $products = $collection->flatten(1);
-    
+
     $products->values()->all();
-    
+
     /*
         [
             ['name' => 'iPhone 6S', 'brand' => 'Apple'],
@@ -541,7 +541,7 @@
     $collection->get('email', function () {
         return 'default-value';
     });
-    
+
     // default-value
 
 <a name="method-groupby"></a>
@@ -554,11 +554,11 @@
         ['account_id' => 'account-x10', 'product' => 'Bookcase'],
         ['account_id' => 'account-x11', 'product' => 'Desk'],
     ]);
-    
+
     $grouped = $collection->groupBy('account_id');
-    
+
     $grouped->toArray();
-    
+
     /*
         [
             'account-x10' => [
@@ -576,9 +576,9 @@
     $grouped = $collection->groupBy(function ($item, $key) {
         return substr($item['account_id'], -3);
     });
-    
+
     $grouped->toArray();
-    
+
     /*
         [
             'x10' => [
@@ -611,9 +611,9 @@
         ['account_id' => 1, 'product' => 'Desk'],
         ['account_id' => 2, 'product' => 'Chair'],
     ]);
-    
+
     $collection->implode('product', ', ');
-    
+
     // Desk, Chair
 
 
@@ -644,13 +644,13 @@
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
     ]);
-    
+
     $intersect = $collection->intersectKey([
         'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
     ]);
-    
+
     $intersect->all();
-    
+
     // ['type' => 'screen', 'year' => 2009]
 
 <a name="method-isempty"></a>
@@ -680,11 +680,11 @@
         ['product_id' => 'prod-100', 'name' => 'desk'],
         ['product_id' => 'prod-200', 'name' => 'chair'],
     ]);
-    
+
     $keyed = $collection->keyBy('product_id');
-    
+
     $keyed->all();
-    
+
     /*
         [
             'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -697,9 +697,9 @@
     $keyed = $collection->keyBy(function ($item) {
         return strtoupper($item['product_id']);
     });
-    
+
     $keyed->all();
-    
+
     /*
         [
             'PROD-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -716,11 +716,11 @@
         'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
         'prod-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
     ]);
-    
+
     $keys = $collection->keys();
-    
+
     $keys->all();
-    
+
     // ['prod-100', 'prod-200']
 
 <a name="method-last"></a>
@@ -731,7 +731,7 @@
     collect([1, 2, 3, 4])->last(function ($value, $key) {
         return $value < 3;
     });
-    
+
     // 2
 
 
@@ -751,9 +751,9 @@
     $multiplied = $collection->map(function ($item, $key) {
         return $item * 2;
     });
-    
+
     $multiplied->all();
-    
+
     // [2, 4, 6, 8, 10]
 
 > {note} 像其他集合方法一样，`map` 返回一个新的集合实例；它不会修改它所调用的集合。如果你想改变原集合，得使用 [`transform`](#method-transform) 方法。
@@ -776,13 +776,13 @@
             'email' => 'jane@example.com'
         ]
     ]);
-    
+
     $keyed = $collection->mapWithKeys(function ($item) {
         return [$item['email'] => $item['name']];
     });
-    
+
     $keyed->all();
-    
+
     /*
         [
             'john@example.com' => 'John',
@@ -917,7 +917,7 @@
     $piped = $collection->pipe(function ($collection) {
         return $collection->sum();
     });
-    
+
     // 6
 
 <a name="method-pluck"></a>
@@ -929,11 +929,11 @@
         ['product_id' => 'prod-100', 'name' => 'Desk'],
         ['product_id' => 'prod-200', 'name' => 'Chair'],
     ]);
-    
+
     $plucked = $collection->pluck('name');
-    
+
     $plucked->all();
-    
+
     // ['Desk', 'Chair']
 
 你也可以通过传入第二个参数来指定生成的集合的键：
@@ -1052,7 +1052,7 @@
     $total = $collection->reduce(function ($carry, $item) {
         return $carry + $item;
     });
-    
+
     // 6
 
 第一次迭代时 `$carry` 的数值为 `null`；你也可以通过传入第二个参数到 `reduce` 来指定它的初始值：
@@ -1060,7 +1060,7 @@
     $collection->reduce(function ($carry, $item) {
         return $carry + $item;
     }, 4);
-    
+
     // 10
 
 <a name="method-reject"></a>
@@ -1073,9 +1073,9 @@
     $filtered = $collection->reject(function ($value, $key) {
         return $value > 2;
     });
-    
+
     $filtered->all();
-    
+
     // [1, 2]
 
 与 `reject` 相反的方法，查看 [`filter`](#method-filter) 。
@@ -1115,7 +1115,7 @@
     $collection->search(function ($item, $key) {
         return $item > 5;
     });
-    
+
     // 2
 
 <a name="method-shift"></a>
@@ -1197,11 +1197,11 @@
         ['name' => 'Chair', 'price' => 100],
         ['name' => 'Bookcase', 'price' => 150],
     ]);
-    
+
     $sorted = $collection->sortBy('price');
-    
+
     $sorted->values()->all();
-    
+
     /*
         [
             ['name' => 'Chair', 'price' => 100],
@@ -1217,13 +1217,13 @@
         ['name' => 'Chair', 'colors' => ['Black']],
         ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
     ]);
-    
+
     $sorted = $collection->sortBy(function ($product, $key) {
         return count($product['colors']);
     });
-    
+
     $sorted->values()->all();
-    
+
     /*
         [
             ['name' => 'Chair', 'colors' => ['Black']],
@@ -1310,9 +1310,9 @@
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
         ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
     ]);
-    
+
     $collection->sum('pages');
-    
+
     // 1272
 
 另外，你也可以传入回调来决定要用集合中的哪些值进行求和：
@@ -1322,11 +1322,11 @@
         ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
         ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
     ]);
-    
+
     $collection->sum(function ($product) {
         return count($product['colors']);
     });
-    
+
     // 6
 
 <a name="method-take"></a>
@@ -1363,7 +1363,7 @@
             Log::debug('Values after sorting', $collection->values()->toArray());
         })
         ->shift();
-    
+
     // 1
 
 <a name="method-times"></a>
@@ -1374,9 +1374,9 @@
     $collection = Collection::times(10, function ($number) {
         return $number * 9;
     });
-    
+
     $collection->all();
-    
+
     // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
 
 使用这个方法可以与工厂结合使用创建出 [Eloquent](/docs/{{version}}/eloquent) 模型：
@@ -1384,9 +1384,9 @@
     $categories = Collection::times(3, function ($number) {
         return factory(Category::class)->create(['name' => 'Category #'.$number]);
     });
-    
+
     $categories->all();
-    
+
     /*
         [
             ['id' => 1, 'name' => 'Category #1'],
@@ -1433,9 +1433,9 @@
     $collection->transform(function ($item, $key) {
         return $item * 2;
     });
-    
+
     $collection->all();
-    
+
     // [2, 4, 6, 8, 10]
 
 > {note} 与大多数集合的方法不同，`transform` 会修改集合本身。如果你想创建新的集合，就改用 [`map`](#method-map) 方法。
@@ -1475,11 +1475,11 @@
         ['name' => 'Galaxy S6', 'brand' => 'Samsung', 'type' => 'phone'],
         ['name' => 'Galaxy Gear', 'brand' => 'Samsung', 'type' => 'watch'],
     ]);
-    
+
     $unique = $collection->unique('brand');
-    
+
     $unique->values()->all();
-    
+
     /*
         [
             ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
@@ -1492,9 +1492,9 @@
     $unique = $collection->unique(function ($item) {
         return $item['brand'].$item['type'];
     });
-    
+
     $unique->values()->all();
-    
+
     /*
         [
             ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
@@ -1520,11 +1520,11 @@
         10 => ['product' => 'Desk', 'price' => 200],
         11 => ['product' => 'Desk', 'price' => 200]
     ]);
-    
+
     $values = $collection->values();
-    
+
     $values->all();
-    
+
     /*
         [
             0 => ['product' => 'Desk', 'price' => 200],
@@ -1542,9 +1542,9 @@
     $collection->when(true, function ($collection) {
         return $collection->push(4);
     });
-    
+
     $collection->all();
-    
+
     // [1, 2, 3, 4]
 
 <a name="method-where"></a>
@@ -1558,11 +1558,11 @@
         ['product' => 'Bookcase', 'price' => 150],
         ['product' => 'Door', 'price' => 100],
     ]);
-    
+
     $filtered = $collection->where('price', 100);
-    
+
     $filtered->all();
-    
+
     /*
         [
             ['product' => 'Chair', 'price' => 100],
@@ -1588,11 +1588,11 @@
         ['product' => 'Bookcase', 'price' => 150],
         ['product' => 'Door', 'price' => 100],
     ]);
-    
+
     $filtered = $collection->whereIn('price', [150, 200]);
-    
+
     $filtered->all();
-    
+
     /*
         [
             ['product' => 'Bookcase', 'price' => 150],
@@ -1618,11 +1618,11 @@
         ['product' => 'Bookcase', 'price' => 150],
         ['product' => 'Door', 'price' => 100],
     ]);
-    
+
     $filtered = $collection->whereNotIn('price', [150, 200]);
-    
+
     $filtered->all();
-    
+
     /*
         [
             ['product' => 'Chair', 'price' => 100],
@@ -1667,11 +1667,17 @@
 
     return $users->sum->votes;
 
+## 译者署名
 
---- 
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@逸侨](http://yiqiao.me)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/6688591">  |  翻译  | 学的慢，但一直再走~。QQ 群：[319347221](//shang.qq.com/wpa/qunwpa?idkey=ee3bb560b41ebdb59188263f353926494f1248c7137d3338dda180fa1ce25354) 欢迎大家加入，个人Blog：[yiqiao](http://yiqiao.me) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org

@@ -1,4 +1,4 @@
-# Laravel Scout
+# Laravel 的搜索系统 Scout
 
 - [简介](#introduction)
 - [安装](#installation)
@@ -49,7 +49,7 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
 
     use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
-    
+
     class Post extends Model
     {
         use Searchable;
@@ -87,11 +87,11 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
 
     use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
-    
+
     class Post extends Model
     {
         use Searchable;
-    
+
         /**
          * Get the index name for the model.
          *
@@ -104,7 +104,7 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
     }
 
 <a name="configuring-searchable-data"></a>
-### 配置可搜索的数据 
+### 配置可搜索的数据
 
 默认情况下，「索引」会从模型的 `toArray` 方法中读取数据来做持久化。如果要自定义同步到搜索索引的数据，可以覆盖模型上的 `toSearchableArray` 方法：
 
@@ -114,11 +114,11 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
 
     use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
-    
+
     class Post extends Model
     {
         use Searchable;
-    
+
         /**
          * Get the indexable data array for the model.
          *
@@ -127,9 +127,9 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
         public function toSearchableArray()
         {
             $array = $this->toArray();
-    
+
             // Customize array...
-    
+
             return $array;
         }
     }
@@ -161,10 +161,10 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
 
     // 使用 Eloquent 查询构造器增加...
     App\Order::where('price', '>', 100)->searchable();
-    
+
     // 使用模型关系增加记录...
     $user->orders()->searchable();
-    
+
     // 使用集合增加记录...
     $orders->searchable();
 
@@ -185,10 +185,10 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
 
     // 使用 Eloquent 查询语句更新...
     App\Order::where('price', '>', 100)->searchable();
-    
+
     // 你也可以使用模型关系更新...
     $user->orders()->searchable();
-    
+
     // 你也可以使用集合更新...
     $orders->searchable();
 
@@ -205,10 +205,10 @@ Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索�
 
     // 通过 Eloquent 查询删除...
     App\Order::where('price', '>', 100)->unsearchable();
-    
+
     // 通过模型关系删除...
     $user->orders()->unsearchable();
-    
+
     // 通过集合删除...
     $orders->unsearchable();
 
@@ -270,7 +270,7 @@ Scout 允许你在搜索查询中增加简单的「where」语句。目前，这
             {{ $order->price }}
         @endforeach
     </div>
-    
+
     {{ $orders->links() }}
 
 <a name="custom-engines"></a>
@@ -310,7 +310,7 @@ Scout 允许你在搜索查询中增加简单的「where」语句。目前，这
 
 引擎注册后，你可以在 `config/scout.php` 配置文件中指定它为默认的 Scout `driver`：
 
-    'driver' => 'mysql',  
+    'driver' => 'mysql',
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
@@ -318,10 +318,10 @@ Scout 允许你在搜索查询中增加简单的「where」语句。目前，这
 | [@Insua](https://phphub.org/users/3853) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3853_1457586148.jpeg?imageView2/1/w/100/h/100"/> | 翻译 | happay coding with laravel+vue |
 
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org

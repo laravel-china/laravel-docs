@@ -1,8 +1,8 @@
-# 用户认证
+# Laravel 的用户认证系统
 
 - [简介](#introduction)
     - [数据库注意事项](#introduction-database-considerations)
-- [认证快速入门](#authentication-quickstart)
+- [快速认证](#authentication-quickstart)
     - [路由](#included-routing)
     - [视图](#included-views)
     - [认证](#included-authenticating)
@@ -15,7 +15,7 @@
 - [HTTP 基础认证](#http-basic-authentication)
     - [无状态 HTTP 基础认证](#stateless-http-basic-authentication)
 - [社交认证](https://github.com/laravel/socialite)
-- [增加自定义 Guards](#adding-custom-guards)
+- [增加自定义看守器](#adding-custom-guards)
 - [增加自定义用户提供器](#adding-custom-user-providers)
     - [用户提供器契约](#the-user-provider-contract)
     - [认证契约](#the-authenticatable-contract)
@@ -44,7 +44,7 @@ Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已
 此外，你要验证的用户（或等效的）表要包含一个可空的、长度为 100 的字符串 `remember_token`。这个字段将用于存储当用户登录应用并勾选「记住我」时的令牌。
 
 <a name="authentication-quickstart"></a>
-## 认证快速入门
+## 快速认证
 
 Laravel 自带几个预构建的认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内。`RegisterController` 处理新用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理用于重置密码的邮件链接，而 `ResetPasswordController` 包含重置密码的逻辑。这些控制器都使用 trait 来引入所必要的方法。对于大多数应用而言，你根本不需要修改这些控制器。
 
@@ -94,7 +94,7 @@ Laravel 默认使用 `email` 字段来认证。如果你想用其他字段认证
 
 #### 自定义看守器
 
-你还可以自定义用于认证和注册用户的「看守器」。要实现这一功能，需要在 `LoginController`、`RegisterController` 和 `ResetPasswordController` 中定义 `guard` 方法。该方法需要返回一个 guard 实例：
+你还可以自定义用于认证和注册用户的「看守器」。要实现这一功能，需要在 `LoginController`、`RegisterController` 和 `ResetPasswordController` 中定义 `guard` 方法。该方法需要返回一个看守器实例：
 
     use Illuminate\Support\Facades\Auth;
 
@@ -532,17 +532,17 @@ Laravel 在认证过程中引发了各种各样的 [事件](/docs/{{version}}/ev
             'App\Listeners\LogLockout',
         ],
     ];
-    
+
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 | --- | --- | --- | --- |
 | [@iwzh](https://github.com/iwzh) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3762_1456807721.jpeg?imageView2/1/w/200/h/200"> | 翻译 | 码不能停 [@iwzh](https://github.com/iwzh) at Github |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
 
-
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org

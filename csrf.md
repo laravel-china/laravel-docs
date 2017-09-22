@@ -1,4 +1,4 @@
-# CSRF 保护
+# Laravel 下的伪造跨站请求保护 CSRF
 
 - [简介](#csrf-introduction)
 - [CSRF 白名单](#csrf-excluding-uris)
