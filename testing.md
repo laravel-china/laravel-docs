@@ -11,7 +11,7 @@ Laravel 天生就具有测试的基因。事实上，Laravel 默认就支持用 
 
 默认在你应用的 `tests` 目录下包含了两个子目录： `Feature` 和 `Unit`。单元测试是针对你代码中相对独立而且非常少的一部分代码来进行测试。实际上，大多数单元测试可能都是针对某一个方法来进行的。功能测试是针对你代码中大部分的代码来进行测试，包括几个对象的相互作用，甚至是一个完整的 HTTP 请求 JSON 实例。
 
-在 `Feature` 和 `Unit` 目录中都有提供一个 `ExampleTest.php` 的示例文件。安装新的 Laravel 应用程序之后，只需在命令行上运行 `phpunit` 就可以进行测试。
+在 `Feature` 和 `Unit` 目录中都有提供一个 `ExampleTest.php` 的示例文件。安装新的 Laravel 应用程序之后，只需在命令行上运行 `phpunit`(如使用composer安装laravel请使用`vendor/bin/phpunit`) 就可以进行测试。
 
 <a name="environment"></a>
 ## 测试环境
@@ -31,7 +31,7 @@ Laravel 天生就具有测试的基因。事实上，Laravel 默认就支持用 
     // 在 Unit 目录下创建一个测试类...
     php artisan make:test UserTest --unit
 
-测试类生成之后，你就可以像平常使用 PHPUnit 一样来定义测试方法。要运行测试只需要在终端上运行 `phpunit` 命令即可：
+测试类生成之后，你就可以像平常使用 PHPUnit 一样来定义测试方法。要运行测试只需要在终端上运行 `phpunit`(如使用composer安装laravel请使用`vendor/bin/phpunit`)  命令即可：
 
     <?php
 
