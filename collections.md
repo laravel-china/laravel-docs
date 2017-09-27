@@ -1040,7 +1040,7 @@
 
     $random->all();
 
-    // [0 => 1, 1 => 2, 4 => 5] - (retrieved randomly)
+    // [2, 4, 5] - (retrieved randomly)
 
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
