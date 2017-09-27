@@ -199,7 +199,7 @@
 <a name="method-collapse"></a>
 #### `collapse()` {#collection-method}
 
-`collapse` 方法将多个数组合并成一个：
+`collapse` 方法将多个数组的集合合并成一个数组的集合：
 
     $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
