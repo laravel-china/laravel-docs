@@ -123,7 +123,7 @@
 <a name="the-exceptions-directory"></a>
 #### `Exceptions` 目录
 
-`Exceptions` 目录包含了应用的异常处理器，也是应用跑出异常的好地方。如果想自定义记录或者渲染异常的方式，你就要修改此目录下的 Handler 类。
+`Exceptions` 目录包含了应用的异常处理器，也是应用抛出异常的好地方。如果想自定义记录或者渲染异常的方式，你就要修改此目录下的 Handler 类。
 
 <a name="the-http-directory"></a>
 #### `Http` 目录
