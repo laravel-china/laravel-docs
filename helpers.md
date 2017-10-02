@@ -809,7 +809,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-abort"></a>
 #### `abort()` {#collection-method}
 
-`abort` 函数将会跑出一个 HTTP 异常并且由异常处理程序处理：
+`abort` 函数将会抛出一个 HTTP 异常并且由异常处理程序处理：
 
     abort(401);
 
