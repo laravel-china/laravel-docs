@@ -28,7 +28,7 @@ HTTP 内核继承了 `Illuminate\Foundation\Http\Kernel` 类，它定义了在�
 
 HTTP 内核还定义了所有请求被应用程序处理之前必须经过的 HTTP 中间件的列表。这些中间件处理 [HTTP 会话](/docs/{{version}}/session) 的读写、确定应用程序是否处于维护模式、[验证 CSRF 令牌](/docs/{{version}}/csrf)等。
 
-HTTP 内核的 `handle` 方法的方法签名非常简单：接收 `Request` 并返回 `Response`。可以把内核当作是代表整个应用程序的大黑盒，给它 HTTP 请求，它就返回 HTTP 响应。
+HTTP 内核的标志性 `handle` 方法是相当简单的：接收 `Request` 并返回 `Response`。可以把内核当作是代表整个应用程序的大黑盒，给它 HTTP 请求，它就返回 HTTP 响应。
 
 #### 服务提供器
 
