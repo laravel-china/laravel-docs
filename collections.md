@@ -73,7 +73,7 @@
 [has](#method-has)
 [implode](#method-implode)
 [intersect](#method-intersect)
-[intersectKey](#method-intersectkey)
+[intersectByKeys](#method-intersectByKeys)
 [isEmpty](#method-isempty)
 [isNotEmpty](#method-isnotempty)
 [keyBy](#method-keyby)
@@ -636,16 +636,16 @@
 
     // [0 => 'Desk', 2 => 'Chair']
 
-<a name="method-intersectkey"></a>
-#### `intersectKey()` {#collection-method}
+<a name="method-intersectByKeys"></a>
+#### `intersectByKeys()` {#collection-method}
 
-`intersectKey` 方法删除原集合中不存在于给定「数组」或集合中的任何键。
+`intersectByKeys` 方法删除原集合中不存在于给定「数组」或集合中的任何键。
 
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
     ]);
 
-    $intersect = $collection->intersectKey([
+    $intersect = $collection->intersectByKeys([
         'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
     ]);
 
