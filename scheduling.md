@@ -193,7 +193,7 @@ Laravel 调度器为任务调度输出提供多种便捷方法。首先，通过
              ->pingBefore($url)
              ->thenPing($url);
 
-使用 `pingBefore($url)`` 或 `thenPing($url)`` 功能需要 Guzzle HTTP 函数库的支持。可在 `composer.json` 文件中加入以下代码来安装 Guzzle：
+使用 `pingBefore($url)` 或 `thenPing($url)` 功能需要 Guzzle HTTP 函数库的支持。可在 `composer.json` 文件中加入以下代码来安装 Guzzle：
 
     composer require guzzlehttp/guzzle
 
