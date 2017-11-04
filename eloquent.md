@@ -724,7 +724,7 @@ Eloquent 模型会触发许多事件，让你在模型的生命周期的多个�
 
 当一个新模型被初次保存将会触发 `creating` 以及 `created` 事件。如果一个模型已经存在于数据库且调用了 `save` 方法，将会触发 `updating` 和 `updated` 事件。在这两种情况下都会触发 `saving` 和 `saved` 事件。
 
-开始前，在你的 Eloquent 模型上定义一个 `$events` 属性，将 Eloquent 模型的生命周期的多个点映射到你的 [服务提供者](/docs/{{version}}/providers) 。
+开始前，在你的 Eloquent 模型上定义一个 `$dispatchesEvents` 属性，将 Eloquent 模型的生命周期的多个点映射到你的 [服务提供者](/docs/{{version}}/providers) 。
 
 
 	<?php
@@ -745,7 +745,7 @@ Eloquent 模型会触发许多事件，让你在模型的生命周期的多个�
          *
          * @var array
          */
-        protected $events = [
+        protected $dispatchesEvents = [
             'saved' => UserSaved::class,
             'deleted' => UserDeleted::class,
         ];
