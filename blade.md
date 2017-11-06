@@ -60,21 +60,24 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。为方便开始，
 
 当定义子视图时，你可以使用 Blade 提供的 `@extends` 命令来为子视图指定应该 「继承」 的布局。 继承 Blade 布局的视图可使用 `@section` 命令将内容注入于布局的 `@section` 中。而「主」布局中使用 `@yield` 的地方会显示这些子视图中的  `@section` 间的内容：
 
-    <!-- 文件保存于 resources/views/child.blade.php -->
+````
+<!-- Stored in resources/views/layouts/app.blade.php -->
 
-    @extends('layouts.app')
+<html>
+    <head>
+        <title>App Name - @yield('title')</title>
+    </head>
+    <body>
+        @section('sidebar')
+            This is the master sidebar.
+        @show
 
-    @section('title', 'Page Title')
-
-    @section('sidebar')
-        @parent
-
-        <p>这将被添加到主侧边栏。</p>
-    @endsection
-
-    @section('content')
-        <p>This is my body content.</p>
-    @endsection
+        <div class="container">
+            @yield('content')
+        </div>
+    </body>
+</html>
+````
 
 在上面的例子里，`@section` 中的 `sidebar` 使用 `@parent` 命令在「主」布局的 `@section('sidebar')` 中增加内容（不是覆盖）。渲染视图时，`@parent` 指令会被替换为「主」布局中 `@section('sidebar')` 间的内容。
 
@@ -517,8 +520,8 @@ Blade 甚至允许你使用 `directive` 方法来定义自定义指令。当 Bla
 
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [Wayne John](https://github.com/boxshadow) | <img class="avatar-66 rm-style" src="https://avatars1.githubusercontent.com/u/8577474?s=100"> | 翻译   | 基于 Laravel 的社交开源系统 [ThinkSNS+](https://github.com/slimkit/thinksns-plus) 欢迎 Star。 |
-| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
+| [Wayne John](https://github.com/boxshadow) | <img class="avatar-66 rm-style" src="https://avatars1.githubusercontent.com/u/8577474?s=100"> | 翻译 | 基于 Laravel 的社交开源系统 [ThinkSNS+](https://github.com/slimkit/thinksns-plus) 欢迎 Star。|
+| [@JokerLinly](https://laravel-china.org/users/5350) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg"> | Review | Stay Hungry. Stay Foolish. |
 
 ---
 
