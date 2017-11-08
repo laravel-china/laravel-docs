@@ -269,7 +269,7 @@
 <a name="implicit-binding"></a>
 ### 隐式绑定
 
-Laravel 会自动解析定义在路由或控制器行为中与类型提示的变量名匹配的路由段名称的 Eloquent 模型。例如：
+Laravel 会自动解析定义在路由或控制器行为中与声明的变量名匹配的路由段名称的 Eloquent 模型。例如：
 
     Route::get('api/users/{user}', function (App\User $user) {
         return $user->email;
