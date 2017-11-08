@@ -79,7 +79,7 @@ Blade 的两个主要优点是 _模板继承_ 和 _区块_ 。为方便开始，
 </html>
 ````
 
-在上面的例子里，`@section` 中的 `sidebar` 使用 `@parent` 命令在「主」布局的 `@section('sidebar')` 中增加内容（不是覆盖）。渲染视图时，`@parent` 指令会被替换为「主」布局中 `@section('sidebar')` 间的内容。
+在上面的例子里，`@section` 中的 `sidebar` 使用 `@@parent` 命令在「主」布局的 `@section('sidebar')` 中增加内容（不是覆盖）。渲染视图时，`@@parent` 指令会被替换为「主」布局中 `@section('sidebar')` 间的内容。
 
 > {tip} 与上一个示例相反，此侧边栏部分以 `@endsection` 而不是 `@show` 结尾。 `@endsection` 指令只定义一个区块，而 `@show` 则是定义并立即生成该区块。
 
