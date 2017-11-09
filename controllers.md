@@ -184,6 +184,19 @@ Laravel 资源路由将典型的「CRUD」路由分配给具有单行代码的�
         'create', 'store', 'update', 'destroy'
     ]]);
 
+#### API资源路由
+
+当声明用于 APIs 的资源路由时，通常需要排除显示 HTML 模板的路由（如 `create` 和 `edit` ）。为了方便起见，你可以使用 `apiResource` 方法自动排除这两个路由：
+
+    Route::apiResource('photo', 'PhotoController');
+    
+你可以传递一个数组给 `apiResources` 方法来注册多个API资源控制器：
+
+    Route::apiResources([
+        'photos' => 'PhotoController',
+        'posts' => 'PostController'
+    ]);
+
 <a name="restful-naming-resource-routes"></a>
 ### 命名资源路由
 
