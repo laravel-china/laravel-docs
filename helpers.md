@@ -41,6 +41,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 [array_pluck](#method-array-pluck)
 [array_prepend](#method-array-prepend)
 [array_pull](#method-array-pull)
+[array_random](#method-array-random)
 [array_set](#method-array-set)
 [array_sort](#method-array-sort)
 [array_sort_recursive](#method-array-sort-recursive)
@@ -69,6 +70,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
 <div class="collection-method-list" markdown="1">
 
+[__](#method-__)
 [camel_case](#method-camel-case)
 [class_basename](#method-class-basename)
 [e](#method-e)
@@ -113,9 +115,12 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 [abort](#method-abort)
 [abort_if](#method-abort-if)
 [abort_unless](#method-abort-unless)
+[app](#method-app)
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
+[blank](#method-blank)
+[broadcast](#method-broadcast)
 [cache](#method-cache)
 [collect](#method-collect)
 [config](#method-config)
@@ -126,10 +131,14 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
+[filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
 [method_field](#method-method-field)
+[now](#method-now)
 [old](#method-old)
+[optional](#method-optional)
+[policy](#method-policy)
 [redirect](#method-redirect)
 [report](#method-report)
 [request](#method-request)
@@ -137,8 +146,10 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 [retry](#method-retry)
 [session](#method-session)
 [tap](#method-tap)
+[today](#method-today)
 [value](#method-value)
 [view](#method-view)
+[with](#method-with)
 
 </div>
 
@@ -344,6 +355,23 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
     // $array: ['price' => 100]
 
+<a name="method-array-random"></a>
+#### `array_random()` {#collection-method}
+
+`array_random` 函数从数组中返回一个随机值：
+
+    $array = [1, 2, 3, 4, 5];
+
+    $random = array_random($array);
+
+    // 4 - (随机获取)
+
+你也可以设定返回项目的数量作为可选的第二个参数。需要注意提供这个参数会返回数组，即使你只想要一个项目：
+
+    $items = array_random($array, 2);
+
+    // [2, 5] - (随机获取)
+
 <a name="method-array-set"></a>
 #### `array_set()` {#collection-method}
 
@@ -526,6 +554,17 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
 <a name="strings"></a>
 ## 字符串
+
+<a name="method-__"></a>
+#### `__()` {#collection-method}
+
+`__` 函数使用你的 [本地化文件](/docs/{{version}}/localization) 来翻译给定的键或字符串：
+
+    echo __('Welcome to our application');
+
+    echo __('messages.welcome');
+
+如果指定的键不存在， `__` 会简单的返回给定的键。所以，按照上面的例子，如果本地化的键不存在， `__` 方法会返回 `messages.welcome` 。
 
 <a name="method-camel-case"></a>
 #### `camel_case()` {#collection-method}
@@ -727,14 +766,19 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
 `trans` 函数使用你的 [本地化文件](/docs/{{version}}/localization) 来翻译给定的语句：
 
-    echo trans('validation.required'):
+    echo trans('messages.welcome');
+
+如果指定的键不存在，`trans` 会简单的返回给定的键。所以，按照上面的例子，如果本地化的键不存在， `trans` 方法会返回 `messages.welcome` 。
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
 `trans_choice` 函数根据给定数量来决定翻译指定语句是复数形式还是单数形式：
 
-    $value = trans_choice('foo.bar', $count);
+    echo trans_choice('messages.notifications', $unreadCount);
+
+如果指定的键不存在，`trans_choice` 会简单的返回给定的键。所以，按照上面的例子，如果本地化的键不存在， `trans_choice` 方法会返回 `messages.notifications` 。
+
 
 <a name="urls"></a>
 ## URLs
@@ -831,6 +875,17 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
     abort_unless(Auth::user()->isAdmin(), 403);
 
+<a name="method-app"></a>
+#### `app()` {#collection-method}
+
+`app` 函数返回 [服务容器](/docs/{{version}}/container) 实例
+
+    $container = app();
+
+你可以传入一个类或接口的名字，会在容器中解析：
+
+    $api = app('HelpSpot\API');
+
 <a name="method-auth"></a>
 #### `auth()` {#collection-method}
 
@@ -851,6 +906,33 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 `bcrypt` 使用 Bcrypt 对给定的值进行散列。你可以使用它替代 `Hash` facade：
 
     $password = bcrypt('my-secret-password');
+
+<a name="method-blank"></a>
+#### `blank()` {#collection-method}
+
+`blank` 函数返回给定的值是否是「空」：
+
+    blank('');
+    blank('   ');
+    blank(null);
+    blank(collect());
+
+    // true
+
+    blank(0);
+    blank(true);
+    blank(false);
+
+    // false
+
+要使用 `blank` 相反的功能，请看 [filled](/docs/{{version}}/helpers#method-filled) 方法。
+
+<a name="method-broadcast"></a>
+#### `broadcast()` {#collection-method}
+
+`broadcast` 方法广播给定的事件到它的监听器：
+
+    broadcast(new UserRegistered($user));
 
 <a name="method-cache"></a>
 #### `cache()` {#collection-method}
@@ -945,6 +1027,27 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
     $user = factory(App\User::class)->make();
 
+<a name="method-filled"></a>
+#### `filled()` {#collection-method}
+
+`filled` 函数返回给定的值是否不是「空」：
+
+    filled(0);
+    filled(true);
+    filled(false);
+
+    // true
+
+    filled('');
+    filled('   ');
+    filled(null);
+    filled(collect());
+
+    // false
+
+要使用 `filled` 相反的功能，请看 [blank](/docs/{{version}}/helpers#method-blank) 方法。
+
+
 <a name="method-info"></a>
 #### `info()` {#collection-method}
 
@@ -980,6 +1083,13 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
         {{ method_field('DELETE') }}
     </form>
 
+<a name="method-now"></a>
+#### `now()` {#collection-method}
+
+`now` 函数会生成一个当前时间的 `Illuminate\Support\Carbon` 实例:
+
+    $now = now();
+
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
@@ -988,6 +1098,22 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
     $value = old('value');
 
     $value = old('value', 'default');
+
+<a name="method-optional"></a>
+#### `optional()` {#collection-method}
+
+`optional` 函数可以接受任何参数并且允许你对那个对象访问属性或者调用方法。如果给定的对象是 `null` ， 那么属性和方法的调用会简单地返回 `null` 而不是导致一个错误：
+
+    return optional($user->address)->street;
+
+    {!! old('name', optional($user)->name) !!}
+
+<a name="method-policy"></a>
+#### `policy()` {#collection-method}
+
+`policy` 方法为给定的对象获取一个 [策略](/docs/{{version}}/authorization#creating-policies) 实例：
+
+    $policy = policy(App\User::class);
 
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
@@ -1029,7 +1155,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 `retry` 函数尝试执行给定的回调，直到到达给定的最大尝试次数。如果回调没有派出异常并且有返回值则返回返回值。如果回调抛出异常，它将自动重试。如果超过最大尝试次数，则抛出异常。
 
     return retry(5, function () {
-        // 在 100ms 左右尝试 5 次... 
+        // 在 100ms 左右尝试 5 次...
     }, 100);
 
 <a name="method-session"></a>
@@ -1060,6 +1186,13 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
         $user->save();
     });
 
+<a name="method-today"></a>
+#### `today()` {#collection-method}
+
+`today` 函数会生成一个当天日期的 `Illuminate\Support\Carbon` 实例:
+
+    $today = today();
+
 如果没有传递闭包给 `tap` 函数，你可以调用给定 `$value` 上任何方法。不管方法中定义的实际返回值是什么，你调用的方法返回值始终 `$value`。例如，Eloquent `update` 一般返回一个整数。而我们可以通过 `tap` 函数链式调用 `update` 的方式返回模型本身：
 
     $user = tap($user)->update([
@@ -1083,6 +1216,27 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
     return view('auth.login');
 
+<a name="method-with"></a>
+#### `with()` {#collection-method}
+
+`with` 函数会返回给定的值。如果这个函数的第二个参数传入一个闭包，闭包会被执行并且它的结果会被返回：
+
+    $callback = function ($value) {
+        return (is_numeric($value)) ? $value * 2 : 0;
+    };
+
+    $result = with(5, $callback);
+
+    // 10
+
+    $result = with(null, $callback);
+
+    // 0
+
+    $result = with(5, null);
+
+    // 5
+
 ## 译者署名
 
 | 用户名 | 头像 | 职能 | 签名 |
@@ -1091,10 +1245,10 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 
 
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org
