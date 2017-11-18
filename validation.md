@@ -695,7 +695,7 @@ Laravel 提供了多种不同的处理方法来对应用程序传入的数据进
 <a name="rule-in-array"></a>
 #### in_array:_anotherfield_
 
-The field under validation must exist in _anotherfield_'s values.
+验证的字段必须存在在另外一个字段中。
 
 <a name="rule-integer"></a>
 #### integer
