@@ -636,7 +636,7 @@ Laravel 包含各种各样的全局「辅助」PHP 函数，这些方法中的�
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-`str_finish` 函数判断一个字符串是否以给定值结尾，返回以给定值结尾的字符串：
+`str_finish` 函数将给定字符串以给定值结尾返回（如果它尚未以给定值结尾）：
 
     $string = str_finish('this/string', '/');
     
