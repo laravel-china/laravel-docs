@@ -927,17 +927,15 @@ $value = str_contains('This is my name', ['my', 'foo']);
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-`str_finish` 函数将给定值的单个实例添加到字符串，如果它尚未以给定的值结束：
+`str_finish` 函数将给定字符串以给定值结尾返回（如果它尚未以给定值结尾）：
 
-````
-$adjusted = str_finish('this/string', '/');
-
-// this/string/
-
-$adjusted = str_finish('this/string/', '/');
-
-// this/string/
-````
+    $string = str_finish('this/string', '/');
+    
+    // this/string/
+    
+    $string2 = str_finish('this/string/', '/');
+    
+    // this/string/
 
 <a name="method-str-is"></a>
 #### `str_is()` {#collection-method}
