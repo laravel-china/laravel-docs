@@ -1034,7 +1034,7 @@ $replaced = str_replace_first('the', 'a', 'the quick brown fox jumps over the la
 <a name="method-str-replace-last"></a>
 #### `str_replace_last()` {#collection-method}
 
-The `str_replace_last` 函数替换字符串中最后一次出现的给定值：
+`str_replace_last` 函数替换字符串中最后一次出现的给定值：
 
 ````
 $replaced = str_replace_last('the', 'a', 'the quick brown fox jumps over the lazy dog');
@@ -1247,7 +1247,7 @@ abort_if(! Auth::user()->isAdmin(), 403);
 
 #### `abort_unless()` {#collection-method}
 
-如果给定的布尔表达式计算结果为 `false`， `abort_unless` 函数将抛出一个 HTTP 异常：
+如果给定的布尔表达式计算结果为 `false`，`abort_unless` 函数将抛出一个 HTTP 异常：
 
 ````
 abort_unless(Auth::user()->isAdmin(), 403);
