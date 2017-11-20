@@ -929,13 +929,15 @@ $value = str_contains('This is my name', ['my', 'foo']);
 
 `str_finish` 函数将给定字符串以给定值结尾返回（如果它尚未以给定值结尾）：
 
-    $string = str_finish('this/string', '/');
-    
-    // this/string/
-    
-    $string2 = str_finish('this/string/', '/');
-    
-    // this/string/
+````
+$string = str_finish('this/string', '/');
+
+// this/string/
+
+$string2 = str_finish('this/string/', '/');
+
+// this/string/
+````
 
 <a name="method-str-is"></a>
 #### `str_is()` {#collection-method}
