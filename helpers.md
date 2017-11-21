@@ -1811,7 +1811,7 @@ throw_unless(
 <a name="method-trait-uses-recursive"></a>
 #### `trait_uses_recursive()` {#collection-method}
 
-`trait_uses_recursive` 函数返回特征使用的所有 trait：
+`trait_uses_recursive` 函数返回一个类使用的所有 trait：
 
 ````
 $traits = trait_uses_recursive(\Illuminate\Notifications\Notifiable::class);
