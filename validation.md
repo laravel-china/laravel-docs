@@ -841,32 +841,32 @@ Laravel 提供了几种不同的方法来验证传入应用程序的数据。默
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...
 
-如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，则验证的字段必须存在且不为空。
+如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，被验证的字段必须存在且不为空。
 
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，验证中的字段必须存在且不为空。
+如果指定的其它字段（ _anotherfield_ ）等于任何一个 _value_ 时，被验证的字段不必存在。
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
 
-验证的字段必须存在，并且只有当其他指定的字段存在时才能为空。
+只要在指定的其他字段中有任意一个字段存在时，被验证的字段就必须存在并且不能为空。
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
 
-验证的字段必须存在，并且只有当所有其他指定的字段都存在时才能为空。
+只有当所有的其他指定字段全部存在时，被验证的字段才必须存在并且不能为空。
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
 
-验证的字段必须存在，并且只有当其他指定的字段不存在时才能为空。
+只要在其他指定的字段中有任意一个字段不存在，被验证的字段就必须存在且不为空。
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
 
-验证的字段必须存在，并且只有当所有其他指定的字段不存在时才能为空。
+只有当所有的其他指定的字段都不存在时，被验证的字段才必须存在且不为空。
 
 <a name="rule-same"></a>
 #### same:_field_
