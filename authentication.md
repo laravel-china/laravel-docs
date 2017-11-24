@@ -1,101 +1,100 @@
 # Laravel 的用户认证系统
 
-- [Introduction](#introduction)
-    - [Database Considerations](#introduction-database-considerations)
-- [Authentication Quickstart](#authentication-quickstart)
-    - [Routing](#included-routing)
-    - [Views](#included-views)
-    - [Authenticating](#included-authenticating)
-    - [Retrieving The Authenticated User](#retrieving-the-authenticated-user)
-    - [Protecting Routes](#protecting-routes)
-    - [Login Throttling](#login-throttling)
-- [Manually Authenticating Users](#authenticating-users)
-    - [Remembering Users](#remembering-users)
-    - [Other Authentication Methods](#other-authentication-methods)
-- [HTTP Basic Authentication](#http-basic-authentication)
-    - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
-- [Social Authentication](https://github.com/laravel/socialite)
-- [Adding Custom Guards](#adding-custom-guards)
-- [Adding Custom User Providers](#adding-custom-user-providers)
-    - [The User Provider Contract](#the-user-provider-contract)
-    - [The Authenticatable Contract](#the-authenticatable-contract)
-- [Events](#events)
+- [简介](#introduction)
+    - [数据库注意事项](#introduction-database-considerations)
+- [快速认证](#authentication-quickstart)
+    - [路由](#included-routing)
+    - [视图](#included-views)
+    - [认证](#included-authenticating)
+    - [检索认证用户](#retrieving-the-authenticated-user)
+    - [保护路由](#protecting-routes)
+    - [登录限制](#login-throttling)
+- [手动认证用户](#authenticating-users)
+    - [记住用户](#remembering-users)
+    - [其它认证方法](#other-authentication-methods)
+- [HTTP 基础认证](#http-basic-authentication)
+    - [无状态 HTTP 基础认证](#stateless-http-basic-authentication)
+- [社交认证](https://github.com/laravel/socialite)
+- [增加自定义看守器](#adding-custom-guards)
+- [增加自定义用户提供器](#adding-custom-user-providers)
+    - [用户提供器契约](#the-user-provider-contract)
+    - [认证契约](#the-authenticatable-contract)
+- [事件](#events)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
+> {tip} **想要快点开始？** 只需在新的 Laravel 应用上运行 `php artisan make:auth` 和 `php artisan migrate` 命令。然后可以用浏览器访问 `http://your-app.dev/register` 或者你在程序中定义的其它 URL 。这两个命令就可以构建好整个认证系统。
 
-Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
+Laravel 中实现用户认证非常简单。实际上，几乎所有东西都已经为你配置好了。其配置文件位于 `config/auth.php`，其中包含了用于调整认证服务行为的注释清晰的选项配置。
 
-At its core, Laravel's authentication facilities are made up of "guards" and "providers". Guards define how users are authenticated for each request. For example, Laravel ships with a `session` guard which maintains state using session storage and cookies.
+其核心是由 Laravel 的认证组件的「看守器」和「提供器」组成。看守器定义了该如何认证每个请求中用户。例如，Laravel 自带的 `session` 看守器会使用 session 存储和 cookies 来维护状态。
 
-Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users using Eloquent and the database query builder. However, you are free to define additional providers as needed for your application.
+提供器中定义了该如何从持久化的存储数据中检索用户。Laravel 自带支持使用 Eloquent 和数据库查询构造器来检索用户。当然，你可以根据需要自定义其他提供器。
 
-Don't worry if this all sounds confusing now! Many applications will never need to modify the default authentication configuration.
+不过对大多数应用而言，可能永远都不需要修改默认身份认证配置。
 
 <a name="introduction-database-considerations"></a>
-### Database Considerations
+### 数据库注意事项
 
-By default, Laravel includes an `App\User` [Eloquent model](/docs/{{version}}/eloquent) in your `app` directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the `database` authentication driver which uses the Laravel query builder.
+默认情况下，Laravel 在 `app` 目录中包含了一个 [Eloquent 模型](/docs/{{version}}/eloquent) `App\User`。这个模型和默认的 Eloquent 认证驱动一起使用。如果你的应用不使用 Eloquent，也可以使用 Laravel 查询构造器的 `database` 认证驱动。
 
-When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length. Maintaining the default string column length of 255 characters would be a good choice.
+为 `App\User` 模型创建数据库表结构时，确保密码字段长度至少为 60 个字符以及默认字符串列长度为 255 个字符。
 
-Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for users that select the "remember me" option when logging into your application.
+此外，你要验证的用户（或等效的）表要包含一个可空的、长度为 100 的字符串 `remember_token`。这个字段将用于存储当用户登录应用并勾选「记住我」时的令牌。
 
 <a name="authentication-quickstart"></a>
-## Authentication Quickstart
+## 快速认证
 
-Laravel ships with several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
+Laravel 自带几个预构建的认证控制器，它们被放置在 `App\Http\Controllers\Auth` 命名空间内。`RegisterController` 处理新用户注册，`LoginController` 处理用户认证，`ForgotPasswordController` 处理用于重置密码的邮件链接，而 `ResetPasswordController` 包含重置密码的逻辑。这些控制器都使用 trait 来引入所必要的方法。对于大多数应用而言，你根本不需要修改这些控制器。
 
 <a name="included-routing"></a>
-### Routing
+### 路由
 
-Laravel provides a quick way to scaffold all of the routes and views you need for authentication using one simple command:
+Laravel 提供了一个简单的命令来快速生成身份验证所需的路由和视图：
 
     php artisan make:auth
 
-This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
+该命令最好在新的应用下使用，它会生成布局、注册和登录视图以及所有的认证接口的路由。同时它还会生成 `HomeController` 来处理应用的登录请求。
 
 <a name="included-views"></a>
-### Views
+### 视图
 
-As mentioned in the previous section, the `php artisan make:auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+`php artisan make:auth` 命令会在 `resources/views/auth` 目录创建所有认证需要的视图。
 
-The `make:auth` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
+同时，`make:auth` 命令还创建了 `resources/views/layouts` 目录，该目录包含了应用的基本布局视图。所有这些视图都是用 Bootstrap CSS 框架，你也可以根据需要对其自定义。
 
 <a name="included-authenticating"></a>
-### Authenticating
+### 认证
 
-Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may simply access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
+现在你已经为自带的认证控制器设置好了路由和视图，可以为应用注册和验证新用户了。你可以简单地在浏览器中访问应用，因为身份验证控制器已包含了（通过 traits）验证现有用户并将新用户存储在数据库中的逻辑了。
 
-#### Path Customization
+#### 自定义路径
 
-When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect location by defining a `redirectTo` property on the `LoginController`, `RegisterController`, and `ResetPasswordController`:
+当用户成功通过身份认证后，他们会被重定向到 `/home` URI。你可以通过在 `LoginController`、`RegisterController` 和 `ResetPasswordController`中设置 `redirectTo` 属性来自定义重定向的位置：
 
     protected $redirectTo = '/';
-
-If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
+如果重定向路径需要自定义生成逻辑，你可以定义 `redirectTo` 方法来代替 `redirectTo` 属性：
 
     protected function redirectTo()
     {
         return '/path';
     }
 
-> {tip} The `redirectTo` method will take precedence over the `redirectTo` attribute.
+> {tip} `redirectTo` 方法优先于 `redirectTo` 属性。
 
-#### Username Customization
+#### 自定义用户名
 
-By default, Laravel uses the `email` field for authentication. If you would like to customize this, you may define a `username` method on your `LoginController`:
+Laravel 默认使用 `email` 字段来认证。如果你想用其他字段认证，可以在 `LoginController` 里面定义一个 `username` 方法：
 
     public function username()
     {
         return 'username';
     }
 
-#### Guard Customization
+#### 自定义看守器
 
-You may also customize the "guard" that is used to authenticate and register users. To get started, define a `guard` method on your `LoginController`, `RegisterController`, and `ResetPasswordController`. The method should return a guard instance:
+你还可以自定义用于认证和注册用户的「看守器」。要实现这一功能，需要在 `LoginController`、`RegisterController` 和 `ResetPasswordController` 中定义 `guard` 方法。该方法需要返回一个看守器实例：
 
     use Illuminate\Support\Facades\Auth;
 
@@ -104,28 +103,28 @@ You may also customize the "guard" that is used to authenticate and register use
         return Auth::guard('guard-name');
     }
 
-#### Validation / Storage Customization
+#### 自定义验证／存储
 
-To modify the form fields that are required when a new user registers with your application, or to customize how new users are stored into your database, you may modify the `RegisterController` class. This class is responsible for validating and creating new users of your application.
+要修改新用户在应用注册时所需的表单字段，或者自定义如何将新用户存储到数据库中，你可以修改 `RegisterController` 类。该类负责验证和创建应用的新用户。
 
-The `validator` method of the `RegisterController` contains the validation rules for new users of the application. You are free to modify this method as you wish.
+`RegisterController` 的 `validator` 方法包含了应用验证新用户的规则，你可以按需要自定义该方法。
 
-The `create` method of the `RegisterController` is responsible for creating new `App\User` records in your database using the [Eloquent ORM](/docs/{{version}}/eloquent). You are free to modify this method according to the needs of your database.
+`RegisterController` 的 `create` 方法负责使用 [Eloquent ORM](/docs/{{version}}/eloquent) 在数据库中创建新的 `App\User` 记录。你可以根据数据库的需要自定义该方法。
 
 <a name="retrieving-the-authenticated-user"></a>
-### Retrieving The Authenticated User
+### 检索认证用户
 
-You may access the authenticated user via the `Auth` facade:
+你可以通过 `Auth` facade 来访问认证的用户：
 
     use Illuminate\Support\Facades\Auth;
 
-    // Get the currently authenticated user...
+    // 获取当前已认证的用户...
     $user = Auth::user();
 
-    // Get the currently authenticated user's ID...
+    // 获取当前已认证的用户 ID...
     $id = Auth::id();
 
-Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods:
+或者，你还可以通过 `Illuminate\Http\Request` 实例来访问已认证的用户。请记住，类型提示的类会被自动注入到您的控制器方法中：
 
     <?php
 
@@ -136,48 +135,48 @@ Alternatively, once a user is authenticated, you may access the authenticated us
     class ProfileController extends Controller
     {
         /**
-         * Update the user's profile.
+         * 更新用户的简介。
          *
          * @param  Request  $request
          * @return Response
          */
         public function update(Request $request)
         {
-            // $request->user() returns an instance of the authenticated user...
+            // $request->user() 返回已认证的用户的实例...
         }
     }
 
-#### Determining If The Current User Is Authenticated
+#### 确定当前用户是否认证
 
-To determine if the user is already logged into your application, you may use the `check` method on the `Auth` facade, which will return `true` if the user is authenticated:
+你可以使用 `Auth` facade 的 `check` 方法来检查用户是否登录，如果已经认证，将会返回 `true`：
 
     use Illuminate\Support\Facades\Auth;
 
     if (Auth::check()) {
-        // The user is logged in...
+        // 用户已登录...
     }
 
-> {tip} Even though it is possible to determine if a user is authenticated using the `check` method, you will typically use a middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on [protecting routes](/docs/{{version}}/authentication#protecting-routes).
+> {tip} 即使可以使用 `check` 方法确定用户是否被认证，在允许用户访问某些路由／控制器之前，通常还是会使用中间件来验证用户是否进行身份验证。要了解更多信息，请查看有关 [保护路由](/docs/{{version}}/authentication#protecting-routes) 的文档。
 
 <a name="protecting-routes"></a>
-### Protecting Routes
+### 保护路由
 
-[Route middleware](/docs/{{version}}/middleware) can be used to only allow authenticated users to access a given route. Laravel ships with an `auth` middleware, which is defined at `Illuminate\Auth\Middleware\Authenticate`. Since this middleware is already registered in your HTTP kernel, all you need to do is attach the middleware to a route definition:
+[路由中间件](/docs/{{version}}/middleware) 用于只允许通过认证的用户访问指定的路由。Laravel 自带了在 `Illuminate\Auth\Middleware\Authenticate` 中定义的 `auth` 中间件。由于这个中间件已经在 HTTP 内核中注册，所以只需要将中间件附加到路由定义中：
 
     Route::get('profile', function () {
-        // Only authenticated users may enter...
+        // 只有认证过的用户可以...
     })->middleware('auth');
 
-Of course, if you are using [controllers](/docs/{{version}}/controllers), you may call the `middleware` method from the controller's constructor instead of attaching it in the route definition directly:
+当然，如果使用 [控制器](/docs/{{version}}/controllers)，则可以在构造器中调用 `middleware` 方法来代替在路由中直接定义：
 
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-#### Specifying A Guard
+#### 指定看守器
 
-When attaching the `auth` middleware to a route, you may also specify which guard should be used to authenticate the user. The guard specified should correspond to one of the keys in the `guards` array of your `auth.php` configuration file:
+将 `auth` 中间件添加到路由时，还需要指定使用哪个看守器来认证用户。指定的看守器对应配置文件 `auth.php` 中 `guards` 数组的某个键：
 
     public function __construct()
     {
@@ -185,16 +184,16 @@ When attaching the `auth` middleware to a route, you may also specify which guar
     }
 
 <a name="login-throttling"></a>
-### Login Throttling
+### 登录限制
 
-If you are using Laravel's built-in `LoginController` class, the `Illuminate\Foundation\Auth\ThrottlesLogins` trait will already be included in your controller. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address.
+Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundation\Auth\ThrottlesLogins` trait。默认情况下，如果用户在进行几次尝试后仍不能提供正确的凭证，该用户将在一分钟内无法进行登录。这个限制基于用户的用户名／邮件地址和 IP 地址。
 
 <a name="authenticating-users"></a>
-## Manually Authenticating Users
+## 手动认证用户
 
-Of course, you are not required to use the authentication controllers included with Laravel. If you choose to remove these controllers, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
+当然，不一定要使用 Laravel 内置的认证控制器。如果选择删除这些控制器，你可以直接调用 Laravel 的认证类来管理用户认证。别担心，这简单得很。
 
-We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method:
+我们可以通过 `Auth` [facade](/docs/{{version}}/facades) 来访问 Laravel 的认证服务，因此需要确认类的顶部引入了 `Auth` facade。接下来让我们看一下 `attempt` 方法：
 
     <?php
 
@@ -205,123 +204,123 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
     class LoginController extends Controller
     {
         /**
-         * Handle an authentication attempt.
+         * 处理身份认证尝试.
          *
          * @return Response
          */
         public function authenticate()
         {
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
-                // Authentication passed...
+                // 认证通过...
                 return redirect()->intended('dashboard');
             }
         }
     }
 
-The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the hashed `password` value passed to the method via the array. If the two hashed passwords match an authenticated session will be started for the user.
+`attempt` 方法会接受一个键值对数组作为其第一个参数。这个数组的值将用来在数据库表中查找用户。所以在上面的例子中，用户将被 `email` 字段的值检索。如果用户被找到了，数据库中存储的散列密码将与通过数组传递给方法的散列 `password` 进行比较。 如果两个散列密码匹配，就会为用户启动一个已认证的会话。
 
-The `attempt` method will return `true` if authentication was successful. Otherwise, `false` will be returned.
+如果认证成功，`attempt` 方法将返回 `true`，反之则返回 `false`。
 
-The `intended` method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.
+在由身份验证中间件拦截之前，重定向器上的 `intended` 方法将重定向到用户尝试访问的 URL。如果该 URL 无效，会给该方法传递回退 URI。
 
-#### Specifying Additional Conditions
+#### 指定额外条件
 
-If you wish, you may also add extra conditions to the authentication query in addition to the user's e-mail and password. For example, we may verify that user is marked as "active":
+除了用户的电子邮件和密码之外，你还可以向身份验证查询添加额外的条件。例如，我们可能会验证用户是否被标记为「活动」状态：
 
     if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
-        // The user is active, not suspended, and exists.
+        // 用户处于活动状态，不被暂停，并且存在。
     }
 
-> {note} In these examples, `email` is not a required option, it is merely used as an example. You should use whatever column name corresponds to a "username" in your database.
+> {note} 在这些例子中，`email` 不是必需的选项，仅作为示例使用。你应该使用与数据库中的「用户名」对应的任何字段的名称。
 
-#### Accessing Specific Guard Instances
+#### 访问指定的看守器实例
 
-You may specify which guard instance you would like to utilize using the `guard` method on the `Auth` facade. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.
+可以通过 `Auth` facade 的 `guard` 方法来指定要使用哪个看守器实例。这允许你使用完全独立的可认证模型或用户表来管理应用的抽离出来的身份验证。
 
-The guard name passed to the `guard` method should correspond to one of the guards configured in your `auth.php` configuration file:
+传递给 `guard` 方法的看守器名称应该与 `auth.php` 配置文件中 guards 中的其中一个值相对应：
 
     if (Auth::guard('admin')->attempt($credentials)) {
         //
     }
 
-#### Logging Out
+#### 注销用户
 
-To log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
+要让用户从应用中注销，可以在 `Auth` facade 上使用 `logout` 方法。这会清除用户会话中的身份验证信息：
 
     Auth::logout();
 
 <a name="remembering-users"></a>
-### Remembering Users
+### 记住用户
 
-If you would like to provide "remember me" functionality in your application, you may pass a boolean value as the second argument to the `attempt` method, which will keep the user authenticated indefinitely, or until they manually logout. Of course, your `users` table must include the string `remember_token` column, which will be used to store the "remember me" token.
+如果你想要在应用中提供「记住我」的功能 ， 则可以传递一个布尔值作为 `attempt` 方法的第二个参数，这会使在用户手动注销前一直保持已验证状态。当然，`users` 数据表必须包含 `remember_token` 字段，这是用来保存「记住我」的令牌。
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
-        // The user is being remembered...
+        // 这个用户被记住了...
     }
 
-> {tip} If you are using the built-in `LoginController` that is shipped with Laravel, the proper logic to "remember" users is already implemented by the traits used by the controller.
+> {tip} 如果你使用 Laravel 内置的 `LoginController`，则「记住」用户的逻辑已经由控制器使用的 traits 来实现。
 
-If you are "remembering" users, you may use the `viaRemember` method to determine if the user was authenticated using the "remember me" cookie:
+如果你「记住」用户，可以使用 `viaRemember` 方法来检查这个用户是否使用「记住我」 cookie 进行认证：
 
     if (Auth::viaRemember()) {
         //
     }
 
 <a name="other-authentication-methods"></a>
-### Other Authentication Methods
+### 其它认证方法
 
-#### Authenticate A User Instance
+#### 验证用户实例
 
-If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). Of course, the `App\User` model included with Laravel already implements this interface:
+如果需要将现有用户实例记录到应用，可以使用用户实例调用 `login` 方法。给定的对象必须实现了 `Illuminate\Contracts\Auth\Authenticatable` [契约](/docs/{{version}}/contracts) 。当然，Laravel 自带的 `App\User` 模型已经实现了这个接口：
 
     Auth::login($user);
 
-    // Login and "remember" the given user...
+    // 登录并且「记住」给定用户...
     Auth::login($user, true);
 
-Of course, you may specify the guard instance you would like to use:
+当然，你也可以指定要使用的看守器实例：
 
     Auth::guard('admin')->login($user);
 
-#### Authenticate A User By ID
+#### 通过 ID 验证用户
 
-To log a user into the application by their ID, you may use the `loginUsingId` method. This method simply accepts the primary key of the user you wish to authenticate:
+你可以使用 `loginUsingId` 方法通过其 ID 将用户记录到应用中。这个方法只接受要验证的用户的主键：
 
     Auth::loginUsingId(1);
 
-    // Login and "remember" the given user...
+    //登录并且「记住」给定的用户...
     Auth::loginUsingId(1, true);
 
-#### Authenticate A User Once
+#### 仅验证用户一次
 
-You may use the `once` method to log a user into the application for a single request. No sessions or cookies will be utilized, which means this method may be helpful when building a stateless API:
+你可以使用 `once` 方法将用户记录到单个请求的应用中。不会使用任何会话或 cookies， 这个对于构建无状态的 API 非常的有用：
 
     if (Auth::once($credentials)) {
         //
     }
 
 <a name="http-basic-authentication"></a>
-## HTTP Basic Authentication
+## HTTP 基础认证
 
-[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
+[HTTP 基础认证](https://en.wikipedia.org/wiki/Basic_access_authentication) 提供一种快速方式来认证应用的用户，而且不需要设置专用的「登录」页面。开始之前，先把 `auth.basic` [中间件](/docs/{{version}}/middleware) 添加到你的路由。`auth.basic` 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
 
     Route::get('profile', function () {
-        // Only authenticated users may enter...
+        // 只有认证过的用户可进入...
     })->middleware('auth.basic');
 
-Once the middleware has been attached to the route, you will automatically be prompted for credentials when accessing the route in your browser. By default, the `auth.basic` middleware will use the `email` column on the user record as the "username".
+中间件被增加到路由后，在浏览器中访问路由时，将自动提示你输入凭证。默认情况下，`auth.basic` 中间件将会使用用户记录上的 `email` 字段作为「用户名」。
 
-#### A Note On FastCGI
+#### FastCGI 的注意事项
 
-If you are using PHP FastCGI, HTTP Basic authentication may not work correctly out of the box. The following lines should be added to your `.htaccess` file:
+如果使用了 PHP FastCGI，HTTP 基础认证可能无法正常工作。你需要将下面这几行加入你 `.htaccess` 文件中:
 
     RewriteCond %{HTTP:Authorization} ^(.+)$
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 <a name="stateless-http-basic-authentication"></a>
-### Stateless HTTP Basic Authentication
+### 无状态 HTTP 基础认证
 
-You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, [define a middleware](/docs/{{version}}/middleware) that calls the `onceBasic` method. If no response is returned by the `onceBasic` method, the request may be passed further into the application:
+你可以使用 HTTP 基础认证，而不在会话中设置用户标识符 cookie，这对于 API 认证来说特别有用。为此，请 [定义一个中间件](/docs/{{version}}/middleware) 并调用 `onceBasic` 方法。如果 `onceBasic` 方法没有返回任何响应的话，这个请求可以进一步传递到应用程序中：
 
     <?php
 
@@ -332,7 +331,7 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
     class AuthenticateOnceWithBasicAuth
     {
         /**
-         * Handle an incoming request.
+         * 处理传入的请求。
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next
@@ -345,29 +344,29 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
     }
 
-Next, [register the route middleware](/docs/{{version}}/middleware#registering-middleware) and attach it to a route:
+接着，[注册路由中间件](/docs/{{version}}/middleware#registering-middleware) ，然后将它附加到路由：
 
     Route::get('api/user', function () {
-        // Only authenticated users may enter...
+        // 只有认证过的用户可以进入...
     })->middleware('auth.basic.once');
 
 <a name="adding-custom-guards"></a>
-## Adding Custom Guards
+## 增加自定义的看守器
 
-You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place this call to `provider` within a [service provider](/docs/{{version}}/providers). Since Laravel already ships with an `AuthServiceProvider`, we can place the code in that provider:
+你可以使用 `Auth` facade 的 `extend` 方法来定义自己的身份验证提供器。 你需要在 [服务提供器](/docs/{{version}}/providers) 中调用这个提供器。由于 Laravel 已经配备了 `AuthServiceProvider`，我们可以把代码放在这个提供器中：
 
     <?php
 
     namespace App\Providers;
 
-    use App\Services\Auth\JwtGuard;
+    ／use App\Services\Auth\JwtGuard;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {
         /**
-         * Register any application authentication / authorization services.
+         * 注册任意应用认证／授权服务。
          *
          * @return void
          */
@@ -376,14 +375,14 @@ You may define your own authentication guards using the `extend` method on the `
             $this->registerPolicies();
 
             Auth::extend('jwt', function ($app, $name, array $config) {
-                // Return an instance of Illuminate\Contracts\Auth\Guard...
+                // 返回一个 Illuminate\Contracts\Auth\Guard 实例...
 
                 return new JwtGuard(Auth::createUserProvider($config['provider']));
             });
         }
     }
 
-As you can see in the example above, the callback passed to the `extend` method should return an implementation of `Illuminate\Contracts\Auth\Guard`. This interface contains a few methods you will need to implement to define a custom guard. Once your custom guard has been defined, you may use this guard in the `guards` configuration of your `auth.php` configuration file:
+正如上面的代码所示，传递给 `extend` 方法的回调应该返回 `Illuminate\Contracts\Auth\Guard` 的实现的实例。 这个接口包含你需要实现的方法来定义一个自定义看守器。定义完之后，你可以在 `auth.php` 配置文件的 `guards` 配置中使用这个看守器：
 
     'guards' => [
         'api' => [
@@ -393,9 +392,9 @@ As you can see in the example above, the callback passed to the `extend` method 
     ],
 
 <a name="adding-custom-user-providers"></a>
-## Adding Custom User Providers
+## 添加自定义用户提供器
 
-If you are not using a traditional relational database to store your users, you will need to extend Laravel with your own authentication user provider. We will use the `provider` method on the `Auth` facade to define a custom user provider:
+如果你没有使用传统的关系型数据库来存储用户信息，则需要使用自己的用户认证提供器来扩展 Laravel。我们使用 `Auth` facade 上的 `provider` 方法定义自定义用户提供器：
 
     <?php
 
@@ -408,7 +407,7 @@ If you are not using a traditional relational database to store your users, you 
     class AuthServiceProvider extends ServiceProvider
     {
         /**
-         * Register any application authentication / authorization services.
+         * 注册任何应用认证／授权服务。
          *
          * @return void
          */
@@ -417,14 +416,14 @@ If you are not using a traditional relational database to store your users, you 
             $this->registerPolicies();
 
             Auth::provider('riak', function ($app, array $config) {
-                // Return an instance of Illuminate\Contracts\Auth\UserProvider...
+                // 返回 Illuminate\Contracts\Auth\UserProvider 实例...
 
                 return new RiakUserProvider($app->make('riak.connection'));
             });
         }
     }
 
-After you have registered the provider using the `provider` method, you may switch to the new user provider in your `auth.php` configuration file. First, define a `provider` that uses your new driver:
+使用 `provider` 方法注册用户提供器后，你可以在配置文件 `auth.php`中切换到新的用户提供器。首先，定义一个使用新驱动的 `provider`：
 
     'providers' => [
         'users' => [
@@ -432,7 +431,7 @@ After you have registered the provider using the `provider` method, you may swit
         ],
     ],
 
-Finally, you may use this provider in your `guards` configuration:
+最后，你可以在 `guards` 配置中使用这个提供器：
 
     'guards' => [
         'web' => [
@@ -442,11 +441,11 @@ Finally, you may use this provider in your `guards` configuration:
     ],
 
 <a name="the-user-provider-contract"></a>
-### The User Provider Contract
+### 用户提供器契约
 
-The `Illuminate\Contracts\Auth\UserProvider` implementations are only responsible for fetching a `Illuminate\Contracts\Auth\Authenticatable` implementation out of a persistent storage system, such as MySQL, Riak, etc. These two interfaces allow the Laravel authentication mechanisms to continue functioning regardless of how the user data is stored or what type of class is used to represent it.
+`Illuminate\Contracts\Auth\UserProvider` 的实现只负责从永久存储系统（如 MySQL、Riak 等）中获取 `Illuminate\Contracts\Auth\Authenticatable` 的实现实例。这两个接口允许 Laravel 认证机制继续运行，无论用户数据如何被存储或使用什么类型的类实现它。
 
-Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
+让我们来看看 `Illuminate\Contracts\Auth\UserProvider` 契约：
 
     <?php
 
@@ -462,20 +461,20 @@ Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
 
     }
 
-The `retrieveById` function typically receives a key representing the user, such as an auto-incrementing ID from a MySQL database. The `Authenticatable` implementation matching the ID should be retrieved and returned by the method.
+`retrieveById` 函数通常接收代表用户的键，例如 MySQL 数据库中自增的 ID。应该通过该方法检索和返回与 ID 匹配的`Authenticatable` 的实现实例。
 
-The `retrieveByToken` function retrieves a user by their unique `$identifier` and "remember me" `$token`, stored in a field `remember_token`. As with the previous method, the `Authenticatable` implementation should be returned.
+`retrieveByToken` 函数通过其唯一的 `$identifier` 来检索用户，并将「记住我」 `$token` 存储在 `remember_token` 字段中。与以前的方法一样，应该返回 `Authenticatable` 实现的实例。
 
-The `updateRememberToken` method updates the `$user` field `remember_token` with the new `$token`. The new token can be either a fresh token, assigned on a successful "remember me" login attempt, or when the user is logging out.
+`updateRememberToken` 方法使用新的 `$token` 更新了 `$user` 的 `remember_token` 字段。当使用「记住我」尝试登录成功时，或用户登出时，这个新的令牌可以是全新的。
 
-The `retrieveByCredentials` method receives the array of credentials passed to the `Auth::attempt` method when attempting to sign into an application. The method should then "query" the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a "where" condition on `$credentials['username']`. The method should then return an implementation of `Authenticatable`. **This method should not attempt to do any password validation or authentication.**
+在尝试登录应用程序时，`retrieveByCredentials` 方法接收传递给 `Auth::attempt` 方法的凭据数组。然后该方法将「查询」底层持久存储匹配用户的这些凭据。通常，此方法会在 `$credentials['username']` 上运行「where」条件的查询。这个方法应该需要返回 `Authenticatable` 的实现的实例。**此方法不应该尝试任何密码验证或认证。**
 
-The `validateCredentials` method should compare the given `$user` with the `$credentials` to authenticate the user. For example, this method should probably use `Hash::check` to compare the value of `$user->getAuthPassword()` to the value of `$credentials['password']`. This method should return `true` or `false` indicating on whether the password is valid.
+`validateCredentials` 方法将给定的 `$user` 和 `$credentials` 进行匹配，以此来验证用户。例如，这个方法可以使用 `Hash::check` 比较 `$user->getAuthPassword()` 的值及 `$credentials['password']` 的值。此方法通过返回 `true` 或 `false` 来显示密码是否有效。
 
 <a name="the-authenticatable-contract"></a>
-### The Authenticatable Contract
+### 认证契约
 
-Now that we have explored each of the methods on the `UserProvider`, let's take a look at the `Authenticatable` contract. Remember, the provider should return implementations of this interface from the `retrieveById` and `retrieveByCredentials` methods:
+现在我们已经探讨了 `UserProvider` 中的每个方法，让我们来看看 `Authenticatable` 契约。记住，提供器需要从 `retrieveById` 和 `retrieveByCredentials` 方法来返回这个接口的实现：
 
     <?php
 
@@ -492,15 +491,15 @@ Now that we have explored each of the methods on the `UserProvider`, let's take 
 
     }
 
-This interface is simple. The `getAuthIdentifierName` method should return the name of the "primary key" field of the user and the `getAuthIdentifier` method should return the "primary key" of the user. In a MySQL back-end, again, this would be the auto-incrementing primary key. The `getAuthPassword` should return the user's hashed password. This interface allows the authentication system to work with any User class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes a `User` class in the `app` directory which implements this interface, so you may consult this class for an implementation example.
+这个接口很简单。`getAuthIdentifierName` 方法返回用户的「主键」字段的名称，而 `getAuthIdentifier` 方法返回用户的「主键」。重申一次，在 MySQL 后台，这个主键是指自增的主键。`getAuthPassword` 应该要返回用户的散列密码。这个接口允许认证系统和任何用户类一起工作，不用管你在使用什么 ORM 或存储抽象层。默认情况下，Laravel 的 `app` 目录中包含一个 `User` 类来实现此接口，因此你可以参考这个类来实现一个实例。
 
 <a name="events"></a>
-## Events
+## 事件
 
-Laravel raises a variety of [events](/docs/{{version}}/events) during the authentication process. You may attach listeners to these events in your `EventServiceProvider`:
+Laravel 在认证过程中引发了各种各样的 [事件](/docs/{{version}}/events)。你可以在 `EventServiceProvider` 中对这些事件做监听：
 
     /**
-     * The event listener mappings for the application.
+     * 应用程序的事件监听器映射。
      *
      * @var array
      */
@@ -533,3 +532,17 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
             'App\Listeners\LogLockout',
         ],
     ];
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+| --- | --- | --- | --- |
+| [@iwzh](https://github.com/iwzh) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3762_1456807721.jpeg?imageView2/1/w/200/h/200"> | 翻译 | 码不能停 [@iwzh](https://github.com/iwzh) at Github |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

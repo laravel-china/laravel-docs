@@ -1,14 +1,14 @@
 # Laravel 的集合 Collection
 
-- [Introduction](#introduction)
-    - [Creating Collections](#creating-collections)
-- [Available Methods](#available-methods)
-- [Higher Order Messages](#higher-order-messages)
+- [简介](#introduction)
+    - [创建集合](#creating-collections)
+- [可用的方法](#available-methods)
+- [高阶消息传递](#higher-order-messages)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper for working with arrays of data. For example, check out the following code. We'll use the `collect` helper to create a new collection instance from the array, run the `strtoupper` function on each element, and then remove all empty elements:
+`Illuminate\Support\Collection` 类提供了一个更具可读性的、更便于处理数组数据的封装。具体例子看下面的代码。我们使用了 `collect` 函数从数组中创建新的集合实例，对其中的每个元素运行 `strtoupper` 函数之后再移除所有的空元素：
 
     $collection = collect(['taylor', 'abigail', null])->map(function ($name) {
         return strtoupper($name);
@@ -17,22 +17,21 @@ The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper 
         return empty($name);
     });
 
-
-As you can see, the `Collection` class allows you to chain its methods to perform fluent mapping and reducing of the underlying array. In general, collections are immutable, meaning every `Collection` method returns an entirely new `Collection` instance.
+正如你看到的，`Collection` 类允许你链式调用其方法，以达到在底层数组上优雅地执行 map 和 reject 操作。一般来说，集合是不可改变的，这意味着每个 `Collection` 方法都会返回一个全新的 `Collection` 实例。
 
 <a name="creating-collections"></a>
-### Creating Collections
+### 创建集合
 
-As mentioned above, the `collect` helper returns a new `Illuminate\Support\Collection` instance for the given array. So, creating a collection is as simple as:
+如上所述，辅助函数 `collect` 会为给定的数组返回一个新的 `Illuminate\Support\Collection` 实例。也就是说，创建一个集合就这么简单：
 
     $collection = collect([1, 2, 3]);
 
-> {tip} The results of [Eloquent](/docs/{{version}}/eloquent) queries are always returned as `Collection` instances.
+> {tip} 默认情况下， [Eloquent](/docs/{{version}}/eloquent) 查询的结果返回的内容都是 `Collection` 实例。
 
 <a name="available-methods"></a>
-## Available Methods
+## 可用的方法
 
-For the remainder of this documentation, we'll discuss each method available on the `Collection` class. Remember, all of these methods may be chained to fluently manipulating the underlying array. Furthermore, almost every method returns a new `Collection` instance, allowing you to preserve the original copy of the collection when necessary:
+这个文档接下来的内容，我们会探讨 `Collection` 类每个可用的方法。记住，所有方法都可以以方法链的形式优雅地操纵数组。而且，几乎所有的方法都会返回新的 `Collection` 实例，允许你在必要时保存集合的原始副本。
 
 <style>
     #collection-method-list > p {
@@ -74,7 +73,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [has](#method-has)
 [implode](#method-implode)
 [intersect](#method-intersect)
-[intersectKey](#method-intersectkey)
+[intersectByKeys](#method-intersectByKeys)
 [isEmpty](#method-isempty)
 [isNotEmpty](#method-isnotempty)
 [keyBy](#method-keyby)
@@ -133,7 +132,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 </div>
 
 <a name="method-listing"></a>
-## Method Listing
+## 方法列表
 
 <style>
     #collection-method code {
@@ -148,7 +147,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 <a name="method-all"></a>
 #### `all()` {#collection-method .first-collection-method}
 
-The `all` method returns the underlying array represented by the collection:
+`all` 方法返回该集合表示的底层 `数组`：
 
     collect([1, 2, 3])->all();
 
@@ -157,12 +156,12 @@ The `all` method returns the underlying array represented by the collection:
 <a name="method-average"></a>
 #### `average()` {#collection-method}
 
-Alias for the [`avg`](#method-avg) method.
+[`avg`](#method-avg) 方法的别名。
 
 <a name="method-avg"></a>
 #### `avg()` {#collection-method}
 
-The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Average) of a given key:
+`avg` 方法返回给定键的 [平均值](https://en.wikipedia.org/wiki/Average)：
 
     $average = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo');
 
@@ -175,7 +174,7 @@ The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Avera
 <a name="method-chunk"></a>
 #### `chunk()` {#collection-method}
 
-The `chunk` method breaks the collection into multiple, smaller collections of a given size:
+`chunk` 方法将集合拆成多个指定大小的小集合：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7]);
 
@@ -185,20 +184,22 @@ The `chunk` method breaks the collection into multiple, smaller collections of a
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](https://getbootstrap.com/css/#grid). Imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
+这个方法特别适用在使用网格系统时的 [视图](/docs/{{version}}/views)，如 [Bootstrap](http://getbootstrap.com/css/#grid)。想像你有一个 [Eloquent](/docs/{{version}}/eloquent) 模型的集合要在网格中显示：
 
-    @foreach ($products->chunk(3) as $chunk)
-        <div class="row">
-            @foreach ($chunk as $product)
-                <div class="col-xs-4">{{ $product->name }}</div>
-            @endforeach
-        </div>
-    @endforeach
+```HTML
+@foreach ($products->chunk(3) as $chunk)
+    <div class="row">
+        @foreach ($chunk as $product)
+            <div class="col-xs-4">{{ $product->name }}</div>
+        @endforeach
+    </div>
+@endforeach
+```
 
 <a name="method-collapse"></a>
 #### `collapse()` {#collection-method}
 
-The `collapse` method collapses a collection of arrays into a single, flat collection:
+`collapse` 方法将多个数组的集合合并成一个数组的集合：
 
     $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -211,7 +212,7 @@ The `collapse` method collapses a collection of arrays into a single, flat colle
 <a name="method-combine"></a>
 #### `combine()` {#collection-method}
 
-The `combine` method combines the keys of the collection with the values of another array or collection:
+`combine` 方法可以将一个集合的值作为「键」，再将另一个数组或者集合的值作为「值」合并成一个集合：
 
     $collection = collect(['name', 'age']);
 
@@ -224,7 +225,7 @@ The `combine` method combines the keys of the collection with the values of anot
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}
 
-The `contains` method determines whether the collection contains a given item:
+`contains` 方法判断集合是否包含给定的项目：
 
     $collection = collect(['name' => 'Desk', 'price' => 100]);
 
@@ -236,7 +237,7 @@ The `contains` method determines whether the collection contains a given item:
 
     // false
 
-You may also pass a key / value pair to the `contains` method, which will determine if the given pair exists in the collection:
+你也可以用 `contains` 方法匹配一对键/值，即判断给定的配对是否存在于集合中：
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -247,7 +248,7 @@ You may also pass a key / value pair to the `contains` method, which will determ
 
     // false
 
-Finally, you may also pass a callback to the `contains` method to perform your own truth test:
+最后，你也可以传递一个回调到 `contains` 方法来执行自己的真实测试：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -257,17 +258,17 @@ Finally, you may also pass a callback to the `contains` method to perform your o
 
     // false
 
-The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`containsStrict`](#method-containsstrict) method to filter using "strict" comparisons.
+`contains` 方法在检查项目值时使用「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。 相反 [`containsStrict`](https://laravel.com/docs/5.5/collections#method-containsstrict) 方法则是使用「严格」比较进行过滤。
 
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {#collection-method}
 
-This method has the same signature as the [`contains`](#method-contains) method; however, all values are compared using "strict" comparisons.
+此方法和 [`contains`](#method-contains) 方法类似，但是它却是使用了「严格」比较来比较所有值。
 
 <a name="method-count"></a>
 #### `count()` {#collection-method}
 
-The `count` method returns the total number of items in the collection:
+`count` 方法返回该集合内的项目总数：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -278,7 +279,7 @@ The `count` method returns the total number of items in the collection:
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
-The `diff` method compares the collection against another collection or a plain PHP `array` based on its values. This method will return the values in the original collection that are not present in the given collection:
+`diff` 方法将集合与其它集合或纯 PHP 数组进行值的比较，然后返回原集合中存在而给定集合中不存在的值：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -291,29 +292,29 @@ The `diff` method compares the collection against another collection or a plain 
 <a name="method-diffassoc"></a>
 #### `diffAssoc()` {#collection-method}
 
-The `diffAssoc` method compares the collection against another collection or a plain PHP `array` based on its keys and values. This method will return the key / value pairs in the original collection that are not present in the given collection:
+`diffAssoc` 该方法与另外一个集合或基于它的键和值的 PHP 数组进行比较。这个方法会返回原集合不存在于给定集合中的键值对 ：
 
     $collection = collect([
         'color' => 'orange',
         'type' => 'fruit',
         'remain' => 6
     ]);
-    
+
     $diff = $collection->diffAssoc([
         'color' => 'yellow',
         'type' => 'fruit',
         'remain' => 3,
         'used' => 6
     ]);
-    
+
     $diff->all();
-    
+
     // ['color' => 'orange', 'remain' => 6]
 
 <a name="method-diffkeys"></a>
 #### `diffKeys()` {#collection-method}
 
-The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys. This method will return the key / value pairs in the original collection that are not present in the given collection:
+`diffKeys` 方法与另外一个集合或 PHP 数组的「键」进行比较，然后返回原集合中存在而给定的集合中不存在「键」所对应的键值对：
 
     $collection = collect([
         'one' => 10,
@@ -337,13 +338,13 @@ The `diffKeys` method compares the collection against another collection or a pl
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 
-The `each` method iterates over the items in the collection and passes each item to a callback:
+`each` 迭代集合中的内容并将其传递到回调函数中：
 
     $collection = $collection->each(function ($item, $key) {
         //
     });
 
-If you would like to stop iterating through the items, you may return `false` from your callback:
+如果你想要中断对内容的迭代，那就从回调中返回 `false`：
 
     $collection = $collection->each(function ($item, $key) {
         if (/* some condition */) {
@@ -354,7 +355,7 @@ If you would like to stop iterating through the items, you may return `false` fr
 <a name="method-every"></a>
 #### `every()` {#collection-method}
 
-The `every` method may be used to verify that all elements of a collection pass a given truth test:
+`every` 方法可用于验证集合中每一个元素都通过给定的真实测试：
 
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
@@ -365,7 +366,7 @@ The `every` method may be used to verify that all elements of a collection pass 
 <a name="method-except"></a>
 #### `except()` {#collection-method}
 
-The `except` method returns all items in the collection except for those with the specified keys:
+`except` 方法返回集合中除了指定键以外的所有项目：
 
     $collection = collect(['product_id' => 1, 'price' => 100, 'discount' => false]);
 
@@ -375,12 +376,12 @@ The `except` method returns all items in the collection except for those with th
 
     // ['product_id' => 1]
 
-For the inverse of `except`, see the [only](#method-only) method.
+与 `except` 相反的方法，请查看 [only](#method-only)。
 
 <a name="method-filter"></a>
 #### `filter()` {#collection-method}
 
-The `filter` method filters the collection using the given callback, keeping only those items that pass a given truth test:
+`filter` 方法使用给定的回调函数过滤集合的内容，只留下那些通过给定真实测试的内容：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -392,7 +393,7 @@ The `filter` method filters the collection using the given callback, keeping onl
 
     // [3, 4]
 
-If no callback is supplied, all entries of the collection that are equivalent to `false` will be removed:
+如果没有提供回调函数，集合中所有返回 `false` 的元素都会被移除：
 
     $collection = collect([1, 2, 3, null, false, '', 0, []]);
 
@@ -400,12 +401,12 @@ If no callback is supplied, all entries of the collection that are equivalent to
 
     // [1, 2, 3]
 
-For the inverse of `filter`, see the [reject](#method-reject) method.
+与 `filter` 相反的方法，可以查看 [reject](#method-reject)。
 
 <a name="method-first"></a>
 #### `first()` {#collection-method}
 
-The `first` method returns the first element in the collection that passes a given truth test:
+`first` 方法返回集合中通过给定真实测试的第一个元素：
 
     collect([1, 2, 3, 4])->first(function ($value, $key) {
         return $value > 2;
@@ -413,7 +414,7 @@ The `first` method returns the first element in the collection that passes a giv
 
     // 3
 
-You may also call the `first` method with no arguments to get the first element in the collection. If the collection is empty, `null` is returned:
+你也可以不传入参数使用 `first` 方法以获取集合中第一个元素。如果集合是空的，则会返回 `null`：
 
     collect([1, 2, 3, 4])->first();
 
@@ -422,7 +423,7 @@ You may also call the `first` method with no arguments to get the first element 
 <a name="method-flatmap"></a>
 #### `flatMap()` {#collection-method}
 
-The `flatMap` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level:
+`flatMap` 方法遍历集合并将其中的每个值传递到给定的回调。可以通过回调修改每个值的内容再返回出来，从而形成一个新的被修改过内容的集合。然后你就可以用 `all()` 打印修改后的数组：
 
     $collection = collect([
         ['name' => 'Sally'],
@@ -441,7 +442,7 @@ The `flatMap` method iterates through the collection and passes each value to th
 <a name="method-flatten"></a>
 #### `flatten()` {#collection-method}
 
-The `flatten` method flattens a multi-dimensional collection into a single dimension:
+`flatten` 方法将多维集合转为一维的：
 
     $collection = collect(['name' => 'taylor', 'languages' => ['php', 'javascript']]);
 
@@ -451,7 +452,7 @@ The `flatten` method flattens a multi-dimensional collection into a single dimen
 
     // ['taylor', 'php', 'javascript'];
 
-You may optionally pass the function a "depth" argument:
+你还可以选择性地传入「深度」参数：
 
     $collection = collect([
         'Apple' => [
@@ -473,12 +474,12 @@ You may optionally pass the function a "depth" argument:
         ]
     */
 
-In this example, calling `flatten` without providing the depth would have also flattened the nested arrays, resulting in `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`. Providing a depth allows you to restrict the levels of nested arrays that will be flattened.
+在这个例子里，调用 `flatten` 方法时不传入深度参数的话也会将嵌套数组转成一维的，然后返回 `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`。传入深度参数能让你限制设置返回数组的层数。
 
 <a name="method-flip"></a>
 #### `flip()` {#collection-method}
 
-The `flip` method swaps the collection's keys with their corresponding values:
+`flip` 方法将集合中的键和对应的数值进行互换：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -491,7 +492,7 @@ The `flip` method swaps the collection's keys with their corresponding values:
 <a name="method-forget"></a>
 #### `forget()` {#collection-method}
 
-The `forget` method removes an item from the collection by its key:
+`forget` 方法通过给定的键来移除掉集合中对应的内容：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -501,12 +502,12 @@ The `forget` method removes an item from the collection by its key:
 
     // ['framework' => 'laravel']
 
-> {note} Unlike most other collection methods, `forget` does not return a new modified collection; it modifies the collection it is called on.
+> {note} 与大多数集合的方法不同，`forget` 不会返回修改过后的新集合；它会直接修改原来的集合。
 
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
 
-The `forPage` method returns a new collection containing the items that would be present on a given page number. The method accepts the page number as its first argument and the number of items to show per page as its second argument:
+`forPage` 方法返回给定页码上显示的项目的新集合。这个方法接受页码作为其第一个参数和每页显示的项目数作为其第二个参数。
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -519,7 +520,7 @@ The `forPage` method returns a new collection containing the items that would be
 <a name="method-get"></a>
 #### `get()` {#collection-method}
 
-The `get` method returns the item at a given key. If the key does not exist, `null` is returned:
+`get` 方法返回给定键的项目。如果该键不存在，则返回 `null`：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -527,7 +528,7 @@ The `get` method returns the item at a given key. If the key does not exist, `nu
 
     // taylor
 
-You may optionally pass a default value as the second argument:
+你可以选择性地传递默认值作为第二个参数：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -535,7 +536,7 @@ You may optionally pass a default value as the second argument:
 
     // default-value
 
-You may even pass a callback as the default value. The result of the callback will be returned if the specified key does not exist:
+你甚至可以将回调函数当作默认值。如果指定的键不存在，就会返回回调的结果：
 
     $collection->get('email', function () {
         return 'default-value';
@@ -546,7 +547,7 @@ You may even pass a callback as the default value. The result of the callback wi
 <a name="method-groupby"></a>
 #### `groupBy()` {#collection-method}
 
-The `groupBy` method groups the collection's items by a given key:
+`groupBy` 方法根据给定的键对集合内的项目进行分组：
 
     $collection = collect([
         ['account_id' => 'account-x10', 'product' => 'Chair'],
@@ -570,7 +571,7 @@ The `groupBy` method groups the collection's items by a given key:
         ]
     */
 
-In addition to passing a string `key`, you may also pass a callback. The callback should return the value you wish to key the group by:
+除了传入一个字符串的「键」，你还可以传入一个回调。该回调应该返回你希望用来分组的键的值。
 
     $grouped = $collection->groupBy(function ($item, $key) {
         return substr($item['account_id'], -3);
@@ -593,7 +594,7 @@ In addition to passing a string `key`, you may also pass a callback. The callbac
 <a name="method-has"></a>
 #### `has()` {#collection-method}
 
-The `has` method determines if a given key exists in the collection:
+`has` 方法判断集合中是否存在给定的键：
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk']);
 
@@ -604,7 +605,7 @@ The `has` method determines if a given key exists in the collection:
 <a name="method-implode"></a>
 #### `implode()` {#collection-method}
 
-The `implode` method joins the items in a collection. Its arguments depend on the type of items in the collection. If the collection contains arrays or objects, you should pass the key of the attributes you wish to join, and the "glue" string you wish to place between the values:
+`implode` 方法合并集合中的项目。其参数取决于集合中项目的类型。如果集合包含数组或对象，你应该传入你希望连接的属性的键，以及你希望放在值之间用来「拼接」的字符串：:
 
     $collection = collect([
         ['account_id' => 1, 'product' => 'Desk'],
@@ -615,7 +616,8 @@ The `implode` method joins the items in a collection. Its arguments depend on th
 
     // Desk, Chair
 
-If the collection contains simple strings or numeric values, simply pass the "glue" as the only argument to the method:
+
+如果集合包含简单的字符串或数值，只需要传入「拼接」用的字符串作为该方法的唯一参数即可：
 
     collect([1, 2, 3, 4, 5])->implode('-');
 
@@ -624,7 +626,7 @@ If the collection contains simple strings or numeric values, simply pass the "gl
 <a name="method-intersect"></a>
 #### `intersect()` {#collection-method}
 
-The `intersect` method removes any values from the original collection that are not present in the given `array` or collection. The resulting collection will preserve the original collection's keys:
+`intersect` 方法从原集合中删除不在给定「数组」或集合中的任何值。最终的集合会保留原集合的键：
 
     $collection = collect(['Desk', 'Sofa', 'Chair']);
 
@@ -634,16 +636,16 @@ The `intersect` method removes any values from the original collection that are 
 
     // [0 => 'Desk', 2 => 'Chair']
 
-<a name="method-intersectkey"></a>
-#### `intersectKey()` {#collection-method}
+<a name="method-intersectByKeys"></a>
+#### `intersectByKeys()` {#collection-method}
 
-The `intersectKey` method removes any keys from the original collection that are not present in the given `array` or collection:
+`intersectByKeys` 方法删除原集合中不存在于给定「数组」或集合中的任何键。
 
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
     ]);
 
-    $intersect = $collection->intersectKey([
+    $intersect = $collection->intersectByKeys([
         'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
     ]);
 
@@ -654,7 +656,7 @@ The `intersectKey` method removes any keys from the original collection that are
 <a name="method-isempty"></a>
 #### `isEmpty()` {#collection-method}
 
-The `isEmpty` method returns `true` if the collection is empty; otherwise, `false` is returned:
+如果集合是空的，`isEmpty` 方法返回 `true`，否则返回 `false`：
 
     collect([])->isEmpty();
 
@@ -663,7 +665,7 @@ The `isEmpty` method returns `true` if the collection is empty; otherwise, `fals
 <a name="method-isnotempty"></a>
 #### `isNotEmpty()` {#collection-method}
 
-The `isNotEmpty` method returns `true` if the collection is not empty; otherwise, `false` is returned:
+如果集合不是空的，`isNotEmpty` 方法会返回 `true`：否则返回 `false`：
 
     collect([])->isNotEmpty();
 
@@ -672,7 +674,7 @@ The `isNotEmpty` method returns `true` if the collection is not empty; otherwise
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
-The `keyBy` method keys the collection by the given key. If multiple items have the same key, only the last one will appear in the new collection:
+`keyBy` 方法以给定的键作为集合的键。如果多个项目具有相同的键，则只有最后一个项目会显示在新集合中：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'desk'],
@@ -690,7 +692,7 @@ The `keyBy` method keys the collection by the given key. If multiple items have 
         ]
     */
 
-You may also pass a callback to the method. The callback should return the value to key the collection by:
+你也可以传入一个回调方法，回调返回的值会作为该集合的键：
 
     $keyed = $collection->keyBy(function ($item) {
         return strtoupper($item['product_id']);
@@ -708,7 +710,7 @@ You may also pass a callback to the method. The callback should return the value
 <a name="method-keys"></a>
 #### `keys()` {#collection-method}
 
-The `keys` method returns all of the collection's keys:
+`keys` 方法返回集合的所有键：
 
     $collection = collect([
         'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -724,7 +726,7 @@ The `keys` method returns all of the collection's keys:
 <a name="method-last"></a>
 #### `last()` {#collection-method}
 
-The `last` method returns the last element in the collection that passes a given truth test:
+`last` 方法返回集合中通过给定真实测试的最后一个元素：
 
     collect([1, 2, 3, 4])->last(function ($value, $key) {
         return $value < 3;
@@ -732,7 +734,8 @@ The `last` method returns the last element in the collection that passes a given
 
     // 2
 
-You may also call the `last` method with no arguments to get the last element in the collection. If the collection is empty, `null` is returned:
+
+你也可以不传入参数调用 `last` 方法来获取集合中最后一个元素。如果集合是空的，返回 `null`：
 
     collect([1, 2, 3, 4])->last();
 
@@ -741,7 +744,7 @@ You may also call the `last` method with no arguments to get the last element in
 <a name="method-map"></a>
 #### `map()` {#collection-method}
 
-The `map` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items:
+`map` 方法遍历集合并将每一个值传入给定的回调。该回调可以任意修改项目并返回，从而形成新的被修改过项目的集合：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -753,12 +756,13 @@ The `map` method iterates through the collection and passes each value to the gi
 
     // [2, 4, 6, 8, 10]
 
-> {note} Like most other collection methods, `map` returns a new collection instance; it does not modify the collection it is called on. If you want to transform the original collection, use the [`transform`](#method-transform) method.
+> {note} 像其他集合方法一样，`map` 返回一个新的集合实例；它不会修改它所调用的集合。如果你想改变原集合，得使用 [`transform`](#method-transform) 方法。
+
 
 <a name="method-mapwithkeys"></a>
 #### `mapWithKeys()` {#collection-method}
 
-The `mapWithKeys` method iterates through the collection and passes each value to the given callback. The callback should return an associative array containing a single key / value pair:
+`mapWithKeys` 方法遍历集合并将每个值传入给定的回调。回调应该返回包含一个键值对的关联数组：
 
     $collection = collect([
         [
@@ -789,7 +793,7 @@ The `mapWithKeys` method iterates through the collection and passes each value t
 <a name="method-max"></a>
 #### `max()` {#collection-method}
 
-The `max` method returns the maximum value of a given key:
+`max` 方法返回给定键的最大值：
 
     $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
 
@@ -802,7 +806,7 @@ The `max` method returns the maximum value of a given key:
 <a name="method-median"></a>
 #### `median()` {#collection-method}
 
-The `median` method returns the [median value](https://en.wikipedia.org/wiki/Median) of a given key:
+`median` 方法返回给定键的 [中间值](https://en.wikipedia.org/wiki/Median) ：
 
     $median = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->median('foo');
 
@@ -815,7 +819,7 @@ The `median` method returns the [median value](https://en.wikipedia.org/wiki/Med
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-The `merge` method merges the given array or collection with the original collection. If a string key in the given items matches a string key in the original collection, the given items's value will overwrite the value in the original collection:
+`merge` 方法将给定数组或集合合并到原集合。如果给定项目中的字符串键与原集合中的字符串键匹配，给定的项目的值将会覆盖原集合中的值：
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 
@@ -825,7 +829,7 @@ The `merge` method merges the given array or collection with the original collec
 
     // ['product_id' => 1, 'price' => 200, 'discount' => false]
 
-If the given items's keys are numeric, the values will be appended to the end of the collection:
+如果给定的项目的键是数字，这些值将被追加到集合的末尾：
 
     $collection = collect(['Desk', 'Chair']);
 
@@ -838,7 +842,7 @@ If the given items's keys are numeric, the values will be appended to the end of
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
-The `min` method returns the minimum value of a given key:
+`min` 方法返回给定键的最小值：
 
     $min = collect([['foo' => 10], ['foo' => 20]])->min('foo');
 
@@ -851,7 +855,7 @@ The `min` method returns the minimum value of a given key:
 <a name="method-mode"></a>
 #### `mode()` {#collection-method}
 
-The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(statistics)) of a given key:
+`mode` 方法返回给定键的 [众数值](https://en.wikipedia.org/wiki/Mode_(statistics))：
 
     $mode = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->mode('foo');
 
@@ -864,15 +868,14 @@ The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(s
 <a name="method-nth"></a>
 #### `nth()` {#collection-method}
 
-The `nth` method creates a new collection consisting of every n-th element:
+`nth` 方法创建由每隔 n 个元素组成一个新的集合：
 
     $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
 
     $collection->nth(4);
 
     // ['a', 'e']
-
-You may optionally pass an offset as the second argument:
+你也可以选择传入一个偏移位置作为第二个参数
 
     $collection->nth(4, 1);
 
@@ -881,7 +884,7 @@ You may optionally pass an offset as the second argument:
 <a name="method-only"></a>
 #### `only()` {#collection-method}
 
-The `only` method returns the items in the collection with the specified keys:
+`only` 方法返回集合中给定键的所有项目：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
 
@@ -891,12 +894,12 @@ The `only` method returns the items in the collection with the specified keys:
 
     // ['product_id' => 1, 'name' => 'Desk']
 
-For the inverse of `only`, see the [except](#method-except) method.
+与 `only` 相反的方法，请查看 [except](#method-only)。
 
 <a name="method-partition"></a>
 #### `partition()` {#collection-method}
 
-The `partition` method may be combined with the `list` PHP function to separate elements that pass a given truth test from those that do not:
+`partition` 方法可以和PHP 中的 `list` 方法结合使用，来分开通过指定条件的元素以及那些不通过指定条件的元素：
 
     $collection = collect([1, 2, 3, 4, 5, 6]);
 
@@ -907,7 +910,7 @@ The `partition` method may be combined with the `list` PHP function to separate 
 <a name="method-pipe"></a>
 #### `pipe()` {#collection-method}
 
-The `pipe` method passes the collection to the given callback and returns the result:
+`pipe` 方法将集合传给给定的回调并返回结果：
 
     $collection = collect([1, 2, 3]);
 
@@ -920,7 +923,7 @@ The `pipe` method passes the collection to the given callback and returns the re
 <a name="method-pluck"></a>
 #### `pluck()` {#collection-method}
 
-The `pluck` method retrieves all of the values for a given key:
+`pluck` 方法获取集合中给定键对应的所有值：
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -933,7 +936,7 @@ The `pluck` method retrieves all of the values for a given key:
 
     // ['Desk', 'Chair']
 
-You may also specify how you wish the resulting collection to be keyed:
+你也可以通过传入第二个参数来指定生成的集合的键：
 
     $plucked = $collection->pluck('name', 'product_id');
 
@@ -944,7 +947,7 @@ You may also specify how you wish the resulting collection to be keyed:
 <a name="method-pop"></a>
 #### `pop()` {#collection-method}
 
-The `pop` method removes and returns the last item from the collection:
+`pop` 方法移除并返回集合中的最后一个项目：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -959,7 +962,7 @@ The `pop` method removes and returns the last item from the collection:
 <a name="method-prepend"></a>
 #### `prepend()` {#collection-method}
 
-The `prepend` method adds an item to the beginning of the collection:
+`prepend` 方法将给定的值添加到集合的开头：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -969,7 +972,7 @@ The `prepend` method adds an item to the beginning of the collection:
 
     // [0, 1, 2, 3, 4, 5]
 
-You may also pass a second argument to set the key of the prepended item:
+你也可以传递第二个参数来设置前置项的键：
 
     $collection = collect(['one' => 1, 'two' => 2]);
 
@@ -982,7 +985,7 @@ You may also pass a second argument to set the key of the prepended item:
 <a name="method-pull"></a>
 #### `pull()` {#collection-method}
 
-The `pull` method removes and returns an item from the collection by its key:
+`pull` 方法把给定键对应的值从集合中移除并返回：
 
     $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
 
@@ -997,7 +1000,7 @@ The `pull` method removes and returns an item from the collection by its key:
 <a name="method-push"></a>
 #### `push()` {#collection-method}
 
-The `push` method appends an item to the end of the collection:
+`push` 方法把给定值添加到集合的末尾：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -1010,7 +1013,7 @@ The `push` method appends an item to the end of the collection:
 <a name="method-put"></a>
 #### `put()` {#collection-method}
 
-The `put` method sets the given key and value in the collection:
+`put` 方法在集合内设置给定的键值对：
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -1023,7 +1026,7 @@ The `put` method sets the given key and value in the collection:
 <a name="method-random"></a>
 #### `random()` {#collection-method}
 
-The `random` method returns a random item from the collection:
+`random` 方法从集合中返回一个随机项：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1031,18 +1034,18 @@ The `random` method returns a random item from the collection:
 
     // 4 - (retrieved randomly)
 
-You may optionally pass an integer to `random` to specify how many items you would like to randomly retrieve. A collection of items is always returned when explicitly passing the number of items you wish to receive:
+你可以选择性传入一个整数到 `random` 来指定要获取的随机项的数量。只要你显式传递你希望接收的数量时，则会返回项目的集合：
 
     $random = $collection->random(3);
 
     $random->all();
 
-    // [2, 4, 5] - (retrieved randomly)
+    // [0 => 1, 1 => 2, 4 => 5] - (retrieved randomly)
 
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
 
-The `reduce` method reduces the collection to a single value, passing the result of each iteration into the subsequent iteration:
+`reduce` 方法将每次迭代的结果传递给下一次迭代直到集合减少为单个值：
 
     $collection = collect([1, 2, 3]);
 
@@ -1052,7 +1055,7 @@ The `reduce` method reduces the collection to a single value, passing the result
 
     // 6
 
-The value for `$carry` on the first iteration is `null`; however, you may specify its initial value by passing a second argument to `reduce`:
+第一次迭代时 `$carry` 的数值为 `null`；你也可以通过传入第二个参数到 `reduce` 来指定它的初始值：
 
     $collection->reduce(function ($carry, $item) {
         return $carry + $item;
@@ -1063,7 +1066,7 @@ The value for `$carry` on the first iteration is `null`; however, you may specif
 <a name="method-reject"></a>
 #### `reject()` {#collection-method}
 
-The `reject` method filters the collection using the given callback. The callback should return `true` if the item should be removed from the resulting collection:
+`reject` 方法使用指定的回调过滤集合。如果回调返回 `true` ，就会把对应的项目从集合中移除：
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -1075,12 +1078,12 @@ The `reject` method filters the collection using the given callback. The callbac
 
     // [1, 2]
 
-For the inverse of the `reject` method, see the [`filter`](#method-filter) method.
+与 `reject` 相反的方法，查看 [`filter`](#method-filter) 。
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}
 
-The `reverse` method reverses the order of the collection's items:
+`reverse` 方法倒转集合中项目的顺序：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1093,7 +1096,7 @@ The `reverse` method reverses the order of the collection's items:
 <a name="method-search"></a>
 #### `search()` {#collection-method}
 
-The `search` method searches the collection for the given value and returns its key if found. If the item is not found, `false` is returned.
+`search` 方法搜索给定的值并返回它的键。如果找不到，则返回 `false`：
 
     $collection = collect([2, 4, 6, 8]);
 
@@ -1101,13 +1104,13 @@ The `search` method searches the collection for the given value and returns its 
 
     // 1
 
-The search is done using a "loose" comparison, meaning a string with an integer value will be considered equal to an integer of the same value. To use "strict" comparison, pass `true` as the second argument to the method:
+搜索使用「宽松」比较完成，这意味着具有整数值的字符串会被认为等于相同值的整数。要使用「严格」比较，就传入 `true` 作为该方法的第二个参数：
 
     $collection->search('4', true);
 
     // false
 
-Alternatively, you may pass in your own callback to search for the first item that passes your truth test:
+另外，你可以通过回调来搜索第一个通过真实测试的项目：
 
     $collection->search(function ($item, $key) {
         return $item > 5;
@@ -1118,7 +1121,7 @@ Alternatively, you may pass in your own callback to search for the first item th
 <a name="method-shift"></a>
 #### `shift()` {#collection-method}
 
-The `shift` method removes and returns the first item from the collection:
+`shift` 方法移除并返回集合的第一个项目：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1133,7 +1136,7 @@ The `shift` method removes and returns the first item from the collection:
 <a name="method-shuffle"></a>
 #### `shuffle()` {#collection-method}
 
-The `shuffle` method randomly shuffles the items in the collection:
+`shuffle` 方法随机排序集合中的项目：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1146,7 +1149,7 @@ The `shuffle` method randomly shuffles the items in the collection:
 <a name="method-slice"></a>
 #### `slice()` {#collection-method}
 
-The `slice` method returns a slice of the collection starting at the given index:
+`slice` 方法返回集合中给定值后面的部分：
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
@@ -1156,7 +1159,7 @@ The `slice` method returns a slice of the collection starting at the given index
 
     // [5, 6, 7, 8, 9, 10]
 
-If you would like to limit the size of the returned slice, pass the desired size as the second argument to the method:
+如果你想限制返回内容的大小，就将期望的大小作为第二个参数传递给方法：
 
     $slice = $collection->slice(4, 2);
 
@@ -1164,12 +1167,12 @@ If you would like to limit the size of the returned slice, pass the desired size
 
     // [5, 6]
 
-The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the [`values`](#method-values) method to reindex them.
+默认情况下，返回的内容将会保留原始键。假如你不希望保留原始的键，你可以使用 `values` 方法来重新建立索引。
 
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
 
-The `sort` method sorts the collection. The sorted collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
+`sort` 方法对集合进行排序。排序后的集合保留着原数组的键，所以在这个例子中我们使用 [`values`](#method-values) 方法来把键重置为连续编号的索引。
 
     $collection = collect([5, 3, 1, 2, 4]);
 
@@ -1179,14 +1182,15 @@ The `sort` method sorts the collection. The sorted collection keeps the original
 
     // [1, 2, 3, 4, 5]
 
-If your sorting needs are more advanced, you may pass a callback to `sort` with your own algorithm. Refer to the PHP documentation on [`usort`](https://secure.php.net/manual/en/function.usort.php#refsect1-function.usort-parameters), which is what the collection's `sort` method calls under the hood.
+如果你有更高级的排序需求，你可以传入回调来用你自己的算法进行`排序`。请参阅 PHP 文档的 [`usort`](http://php.net/manual/en/function.usort.php#refsect1-function.usort-parameters)，这是集合的 `sort` 方法在底层所调用的。
 
-> {tip} If you need to sort a collection of nested arrays or objects, see the [`sortBy`](#method-sortby) and [`sortByDesc`](#method-sortbydesc) methods.
+> {tip} 如果要对嵌套数组或对象的集合进行排序，参考 [`sortBy`](#method-sortby) 和 [`sortByDesc`](#method-sortbydesc) 方法。
+
 
 <a name="method-sortby"></a>
 #### `sortBy()` {#collection-method}
 
-The `sortBy` method sorts the collection by the given key. The sorted collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
+`sortBy` 方法以给定的键对集合进行排序。排序后的集合保留了原数组键，所以在这个例子中，我们使用 [`values`](#method-values) 方法将键重置为连续编号的索引：
 
     $collection = collect([
         ['name' => 'Desk', 'price' => 200],
@@ -1206,7 +1210,7 @@ The `sortBy` method sorts the collection by the given key. The sorted collection
         ]
     */
 
-You can also pass your own callback to determine how to sort the collection values:
+你还可以传入自己的回调以决定如何对集合的值进行排序：
 
     $collection = collect([
         ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
@@ -1231,12 +1235,12 @@ You can also pass your own callback to determine how to sort the collection valu
 <a name="method-sortbydesc"></a>
 #### `sortByDesc()` {#collection-method}
 
-This method has the same signature as the [`sortBy`](#method-sortby) method, but will sort the collection in the opposite order.
+这个方法与 [`sortBy`](#method-sortby) 方法一样，但是会以相反的顺序来对集合进行排序：
 
 <a name="method-splice"></a>
 #### `splice()` {#collection-method}
 
-The `splice` method removes and returns a slice of items starting at the specified index:
+`splice` 方法删除并返回从给定值后的内容，原集合也会受到影响：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1250,7 +1254,7 @@ The `splice` method removes and returns a slice of items starting at the specifi
 
     // [1, 2]
 
-You may pass a second argument to limit the size of the resulting chunk:
+你可以传入第二个参数以限制被删除内容的大小：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1264,7 +1268,7 @@ You may pass a second argument to limit the size of the resulting chunk:
 
     // [1, 2, 4, 5]
 
-In addition, you can pass a third argument containing the new items to replace the items removed from the collection:
+此外，你可以传入含有新项目的第三个参数来代替集合中删除的项目：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1281,7 +1285,7 @@ In addition, you can pass a third argument containing the new items to replace t
 <a name="method-split"></a>
 #### `split()` {#collection-method}
 
-The `split` method breaks a collection into the given number of groups:
+`split` 方法将集合按给定的值拆分：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1294,13 +1298,13 @@ The `split` method breaks a collection into the given number of groups:
 <a name="method-sum"></a>
 #### `sum()` {#collection-method}
 
-The `sum` method returns the sum of all items in the collection:
+`sum` 方法返回集合内所有项目的总和：
 
     collect([1, 2, 3, 4, 5])->sum();
 
     // 15
 
-If the collection contains nested arrays or objects, you should pass a key to use for determining which values to sum:
+如果集合包含嵌套数组或对象，则应该传入一个键来指定要进行求和的值：
 
     $collection = collect([
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
@@ -1311,7 +1315,7 @@ If the collection contains nested arrays or objects, you should pass a key to us
 
     // 1272
 
-In addition, you may pass your own callback to determine which values of the collection to sum:
+另外，你也可以传入回调来决定要用集合中的哪些值进行求和：
 
     $collection = collect([
         ['name' => 'Chair', 'colors' => ['Black']],
@@ -1328,7 +1332,7 @@ In addition, you may pass your own callback to determine which values of the col
 <a name="method-take"></a>
 #### `take()` {#collection-method}
 
-The `take` method returns a new collection with the specified number of items:
+`take` 方法返回给定数量项目的新集合：
 
     $collection = collect([0, 1, 2, 3, 4, 5]);
 
@@ -1338,7 +1342,7 @@ The `take` method returns a new collection with the specified number of items:
 
     // [0, 1, 2]
 
-You may also pass a negative integer to take the specified amount of items from the end of the collection:
+你也可以传入负整数从集合末尾开始获取指定数量的项目：
 
     $collection = collect([0, 1, 2, 3, 4, 5]);
 
@@ -1351,7 +1355,7 @@ You may also pass a negative integer to take the specified amount of items from 
 <a name="method-tap"></a>
 #### `tap()` {#collection-method}
 
-The `tap` method passes the collection to the given callback, allowing you to "tap" into the collection at a specific point and do something with the items while not affecting the collection itself:
+`tap` 方法将集合传递给回调，在特定点「tap」集合。此举能让你对集合中的项目执行某些操作，而不影响集合本身：
 
     collect([2, 4, 3, 1, 5])
         ->sort()
@@ -1365,7 +1369,7 @@ The `tap` method passes the collection to the given callback, allowing you to "t
 <a name="method-times"></a>
 #### `times()` {#collection-method}
 
-The static `times` method creates a new collection by invoking the callback a given amount of times:
+静态 `times` 方法通过回调在给定次数内创建一个新的集合：
 
     $collection = Collection::times(10, function ($number) {
         return $number * 9;
@@ -1375,7 +1379,7 @@ The static `times` method creates a new collection by invoking the callback a gi
 
     // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
 
-This method can be useful when combined with factories to create [Eloquent](/docs/{{version}}/eloquent) models:
+使用这个方法可以与工厂结合使用创建出 [Eloquent](/docs/{{version}}/eloquent) 模型：
 
     $categories = Collection::times(3, function ($number) {
         return factory(Category::class)->create(['name' => 'Category #'.$number]);
@@ -1394,7 +1398,7 @@ This method can be useful when combined with factories to create [Eloquent](/doc
 <a name="method-toarray"></a>
 #### `toArray()` {#collection-method}
 
-The `toArray` method converts the collection into a plain PHP `array`. If the collection's values are [Eloquent](/docs/{{version}}/eloquent) models, the models will also be converted to arrays:
+`toArray` 方法将集合转换成 PHP `数组`。如果集合的值是 [Eloquent](/docs/{{version}}/eloquent) 模型，那也会被转换成数组：
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -1406,12 +1410,12 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
         ]
     */
 
-> {note} `toArray` also converts all of the collection's nested objects to an array. If you want to get the raw underlying array, use the [`all`](#method-all) method instead.
+> {note} `toArray` 也会将所有集合的嵌套对象转换为数组。如果你想获取原数组，就改用 [`all`](#method-all) 方法。
 
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}
 
-The `toJson` method converts the collection into a JSON serialized string:
+`toJson` 方法将集合转换成 JSON 字符串：
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -1422,7 +1426,7 @@ The `toJson` method converts the collection into a JSON serialized string:
 <a name="method-transform"></a>
 #### `transform()` {#collection-method}
 
-The `transform` method iterates over the collection and calls the given callback with each item in the collection. The items in the collection will be replaced by the values returned by the callback:
+`transform` 方法迭代集合并对集合内的每个项目调用给定的回调。而集合的内容也会被回调返回的值取代：
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1434,12 +1438,12 @@ The `transform` method iterates over the collection and calls the given callback
 
     // [2, 4, 6, 8, 10]
 
-> {note} Unlike most other collection methods, `transform` modifies the collection itself. If you wish to create a new collection instead, use the [`map`](#method-map) method.
+> {note} 与大多数集合的方法不同，`transform` 会修改集合本身。如果你想创建新的集合，就改用 [`map`](#method-map) 方法。
 
 <a name="method-union"></a>
 #### `union()` {#collection-method}
 
-The `union` method adds the given array to the collection. If the given array contains keys that are already in the original collection, the original collection's values will be preferred:
+`union` 方法将给定的数组添加到集合中。如果给定的数组中含有与原集合一样的键，则原集合的值不会被改变：
 
     $collection = collect([1 => ['a'], 2 => ['b']]);
 
@@ -1452,7 +1456,7 @@ The `union` method adds the given array to the collection. If the given array co
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}
 
-The `unique` method returns all of the unique items in the collection. The returned collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
+`unique` 方法返回集合中所有唯一的项目。返回的集合保留着原数组的键，所以在这个例子中，我们使用 [`values`](#method-values) 方法来把键重置为连续编号的索引。
 
     $collection = collect([1, 1, 2, 2, 3, 4, 2]);
 
@@ -1462,7 +1466,7 @@ The `unique` method returns all of the unique items in the collection. The retur
 
     // [1, 2, 3, 4]
 
-When dealing with nested arrays or objects, you may specify the key used to determine uniqueness:
+处理嵌套数组或对象时，你可以指定用来决定唯一性的键：
 
     $collection = collect([
         ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
@@ -1483,7 +1487,7 @@ When dealing with nested arrays or objects, you may specify the key used to dete
         ]
     */
 
-You may also pass your own callback to determine item uniqueness:
+你也可以传入自己的回调来确定项目的唯一性：
 
     $unique = $collection->unique(function ($item) {
         return $item['brand'].$item['type'];
@@ -1500,17 +1504,17 @@ You may also pass your own callback to determine item uniqueness:
         ]
     */
 
-The `unique` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`uniqueStrict`](#method-uniquestrict) method to filter using "strict" comparisons.
+在检查项目值时 `unique` 方法使用的是「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。使用 [`uniqueStrict`](#method-uniquestrict) 可以进行「严格」比较 。
 
 <a name="method-uniquestrict"></a>
 #### `uniqueStrict()` {#collection-method}
 
-This method has the same signature as the [`unique`](#method-unique) method; however, all values are compared using "strict" comparisons.
+这个方法的使用和 [`unique`](#method-unique) 方法类似，只是使用了「严格」比较来过滤。
 
 <a name="method-values"></a>
 #### `values()` {#collection-method}
 
-The `values` method returns a new collection with the keys reset to consecutive integers:
+`values` 方法返回键被重置为连续编号的新集合：
 
     $collection = collect([
         10 => ['product' => 'Desk', 'price' => 200],
@@ -1531,7 +1535,7 @@ The `values` method returns a new collection with the keys reset to consecutive 
 <a name="method-when"></a>
 #### `when()` {#collection-method}
 
-The `when` method will execute the given callback when the first argument given to the method evaluates to `true`:
+`when` 方法当传入的第一个参数为 `true` 的时，将执行给定的回调：
 
     $collection = collect([1, 2, 3]);
 
@@ -1546,7 +1550,7 @@ The `when` method will execute the given callback when the first argument given 
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 
-The `where` method filters the collection by a given key / value pair:
+`where` 方法通过给定的键值过滤集合：
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1566,17 +1570,17 @@ The `where` method filters the collection by a given key / value pair:
         ]
     */
 
-The `where` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereStrict`](#method-wherestrict) method to filter using "strict" comparisons.
+比较数值的时候，`where` 方法使用「宽松」比较，意味着具有整数值的字符串将被认为等于相同值的整数。使用 [`whereStrict`](#method-wherestrict) 方法来进行「严格」比较过滤。
 
 <a name="method-wherestrict"></a>
 #### `whereStrict()` {#collection-method}
 
-This method has the same signature as the [`where`](#method-where) method; however, all values are compared using "strict" comparisons.
+这个方法与 [`where`](#method-where) 方法一样；但是会以「严格」比较来匹配所有值：
 
 <a name="method-wherein"></a>
 #### `whereIn()` {#collection-method}
 
-The `whereIn` method filters the collection by a given key / value contained within the given array:
+`whereIn` 方法通过给定的键值数组来过滤集合：
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1596,17 +1600,17 @@ The `whereIn` method filters the collection by a given key / value contained wit
         ]
     */
 
-The `whereIn` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereInStrict`](#method-whereinstrict) method to filter using "strict" comparisons.
+`whereIn` 方法在检查项目值时使用「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。你可以使用 [`whereInStrict`](#method-whereinstrict) 做「严格」比较。
 
 <a name="method-whereinstrict"></a>
 #### `whereInStrict()` {#collection-method}
 
-This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "strict" comparisons.
+此方法的使用和 [`whereIn`](#method-wherein) 方法类似，只是使用了「严格」比较来匹配所有值。
 
 <a name="method-wherenotin"></a>
 #### `whereNotIn()` {#collection-method}
 
-The `whereNotIn` method filters the collection by a given key / value not contained within the given array:
+`whereNotIn` 通过集合中不包含的给定键值对进行：
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1626,17 +1630,17 @@ The `whereNotIn` method filters the collection by a given key / value not contai
         ]
     */
 
-The `whereNotIn` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereNotInStrict`](#method-wherenotinstrict) method to filter using "strict" comparisons.
+`whereNotIn` 方法在检查项目值时使用「宽松」比较，意味着具有整数值的字符串将被视为等于相同值的整数。你可以使用 [`whereNotInStrict`](#method-wherenotinstrict) 做比较 `严格` 的匹配。
 
 <a name="method-wherenotinstrict"></a>
 #### `whereNotInStrict()` {#collection-method}
 
-This method has the same signature as the [`whereNotIn`](#method-wherenotin) method; however, all values are compared using "strict" comparisons.
+此方法的使用和 [`whereNotIn`](#method-wherenotin) 方法类似，只是使用了「严格」比较来匹配所有值。
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}
 
-The `zip` method merges together the values of the given array with the values of the original collection at the corresponding index:
+`zip` 方法将给定数组的值与相应索引处的原集合的值合并在一起：
 
     $collection = collect(['Chair', 'Desk']);
 
@@ -1647,18 +1651,33 @@ The `zip` method merges together the values of the given array with the values o
     // [['Chair', 100], ['Desk', 200]]
 
 <a name="higher-order-messages"></a>
-## Higher Order Messages
+## 高阶消息传递
 
-Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
+集合也提供对「高阶消息传递」的支持，即对集合执行常见操作的快捷方式。支持高阶消息传递的集合方法有：`average`， `avg`， `contains`， `each`， `every`， `filter`， `first`， `flatMap`， `map`， `partition`， `reject`， `sortBy`， `sortByDesc` 和 `sum`。
 
-Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
+每个高阶消息都能作为集合实例的动态属性来访问。例如，使用 `each` 高阶消息传递在集合中的每个对象上调用一个方法：
 
     $users = User::where('votes', '>', 500)->get();
 
     $users->each->markAsVip();
 
-Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
+同样，我们可以使用 `sum` 高阶消息来收集集合中「投票」总数：
 
     $users = User::where('group', 'Development')->get();
 
     return $users->sum->votes;
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@逸侨](http://yiqiao.me)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/6688591">  |  翻译  | 学的慢，但一直再走~。QQ 群：[319347221](//shang.qq.com/wpa/qunwpa?idkey=ee3bb560b41ebdb59188263f353926494f1248c7137d3338dda180fa1ce25354) 欢迎大家加入，个人Blog：[yiqiao](http://yiqiao.me) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

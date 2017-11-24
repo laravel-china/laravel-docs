@@ -1,70 +1,68 @@
-# Laravel 的前端资源处理 JavaScript 和 CSS 构建
+# Laravel 的前端资源处理 JavaScript＆CSS 构建
 
-- [Introduction](#introduction)
-- [Writing CSS](#writing-css)
-- [Writing JavaScript](#writing-javascript)
-    - [Writing Vue Components](#writing-vue-components)
-    - [Using React](#using-react)
+- [简介](#introduction)
+- [编写 CSS](#writing-css)
+- [编写 JavaScript](#writing-javascript)
+    - [编写 Vue 组件](#writing-vue-components)
+    - [使用 React](#using-react)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/) and [Vue](https://vuejs.org) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
+Laravel 并没有规定你使用哪个 JavaScript 或 CSS 预处理器，不过它还是提供了对大多数应用都很适用的 [Bootstrap](http://getbootstrap.com) 和 [Vue](https://vuejs.org) 来作为默认的起点。默认情况下，Laravel 使用 [NPM](https://npmjs.org) 安装这两个前端依赖。
 
 #### CSS
 
-[Laravel Mix](/docs/{{version}}/mix) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable. In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Mix documentation](/docs/{{version}}/mix) for more information on compiling SASS or Less.
+[Laravel Mix](/docs/{{version}}/mix) 提供了一个内容丰富且简洁的 API 用以编译 SASS 或 Less，这些 CSS 预处理语言扩充了 CSS 语言，增加了诸如变量、mixins 及其他一些功能强大的扩展让编写 CSS 代码变得更加有趣。尽管我们会在这里简要的讨论 CSS 编译的内容，但你应该查阅 [Laravel Mix 文档](/docs/{{version}}/mix) 获取更多关于编译 SASS 或 Less 的信息。
 
 #### JavaScript
 
-Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components. As with CSS, we may use Laravel Mix to easily compile JavaScript components into a single, browser-ready JavaScript file.
+Laravel 并不需要你使用特定的 JavsScript 框架或者库来构建应用程序。事实上，你也可以完全不用 JavaScript。不过，Laravel 自带了一些基本的脚手架，能更容易地使用 [Vue](https://vuejs.org) 编写 JavaScript。Vue 提供了健壮的组件化 API 用来构建强大的 JavaScript 应用程序。与 CSS 一样，我们可以使用 Laravel Mix 轻松地将 JavaScript 组件编译成一个浏览器可使用的 JavaScript 文件。
 
-#### Removing The Frontend Scaffolding
+#### 移除前端脚手架
 
-If you would like to remove the frontend scaffolding from your application, you may use the `preset` Artisan command. This command, when combined with the `none` option, will remove the Bootstrap and Vue scaffolding from your application, leaving only a blank SASS file and a few common JavaScript utility libraries:
+如果要从你的应用程序中移除前端脚手架，可以使用 Artisan 命令 `preset`。该命令加上 `none` 选项时，将从应用程序中删除 Bootstrap 和 Vue 脚手架，只留下一个空白的 SASS 文件和一些常用的 JavaScript 实用程序库:
 
     php artisan preset none
-
 <a name="writing-css"></a>
-## Writing CSS
+## 编写 CSS
 
-Laravel's `package.json` file includes the `bootstrap-sass` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is simply provided as a good starting point for those who choose to use it.
+ Laravel 的 `package.json` 文件引入了 `bootstrap-sass` 依赖包，可以帮助你使用 Bootstrap 构建应用程序的前端原型。不过，你可以根据自己应用程序的需要在 `package.json` 灵活的添加或者移除依赖包。你不是一定要使用 Bootstrap 框架来构建你的 Laravel 应用程序，它只是给那些想用它的人提供一个很好的起点。
 
-Before compiling your CSS, install your project's frontend dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
+在编译 CSS 代码之前，需要你先使用  [Node 包管理工具(NPM)](https://www.npmjs.org/) 来安装项目的前端依赖：
 
     npm install
 
-Once the dependencies have been installed using `npm install`, you can compile your SASS files to plain CSS using [Laravel Mix](/docs/{{version}}/mix#working-with-stylesheets). The `npm run dev` command will process the instructions in your `webpack.mix.js` file. Typically, your compiled CSS will be placed in the `public/css` directory:
+使用 `npm install` 成功安装依赖后，你就可以使用 [Laravel Mix](/docs/{{version}}/mix#working-with-stylesheets) 来将 SASS 文件编译为纯 CSS。`npm run dev` 命令会处理 `webpack.mix.js` 文件中的指令。通常情况下，编译好的 CSS 代码会被放置在 `public/css` 目录：
 
     npm run dev
 
-The default `webpack.mix.js` included with Laravel will compile the `resources/assets/sass/app.scss` SASS file. This `app.scss` file imports a file of SASS variables and loads Bootstrap, which provides a good starting point for most applications. Feel free to customize the `app.scss` file however you wish or even use an entirely different pre-processor by [configuring Laravel Mix](/docs/{{version}}/mix).
+Laravel 自带的 `webpack.mix.js` 默认会编译 `resources/assets/sass/app.scss` SASS 文件。`app.scss` 文件导入了一个包含 SASS 变量的文件，并加载 Bootstrap，这对大多数程序来说很方便。你也可以根据自己的需要去定制 `app.scss` 文件的内容，甚至使用完全不同的预处理器，详细配置见 [配置 Laravel Mix](/docs/{{version}}/mix)。
 
 <a name="writing-javascript"></a>
-## Writing JavaScript
+## 编写 JavaScript
 
-All of the JavaScript dependencies required by your application can be found in the `package.json` file in the project's root directory. This file is similar to a `composer.json` file except it specifies JavaScript dependencies instead of PHP dependencies. You can install these dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
+在项目根目录中的 `package.json` 可以找到应用程序的所有 JavaScript 依赖。它和 `composer.json` 文件类似，不同的是它指定的是 JavaScript 的依赖而不是 PHP 的依赖。使用 [Node 包管理器 (NPM)](https://npmjs.org) 来安装这些依赖包：
 
     npm install
+> {tip} 默认情况下，Laravel `package.json` 文件默认会包含一些依赖包来帮助你构建 JavaScript 应用程序，例如 `vue` 和 `axios` 。你可以根据需要在 `package.json` 中添加或者移除依赖。
 
-> {tip} By default, the Laravel `package.json` file includes a few packages such as `vue` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
-
-Once the packages are installed, you can use the `npm run dev` command to [compile your assets](/docs/{{version}}/mix). Webpack is a module bundler for modern JavaScript applications. When you run the `npm run dev` command, Webpack will execute the instructions in your `webpack.mix.js` file:
+安装依赖之后，就可以使用  `npm run dev`  命令来 [编译资源文件](/docs/{{version}}/mix) 。Webpack 是一个为现代 JavaScript 应用而生的模块构建工具。当你运行 `npm run dev` 命令时，Webpack 会执行 `webpack.mix.js` 文件中的指令：
 
     npm run dev
 
-By default, the Laravel `webpack.mix.js` file compiles your SASS and the `resources/assets/js/app.js` file. Within the `app.js` file you may register your Vue components or, if you prefer a different framework, configure your own JavaScript application. Your compiled JavaScript will typically be placed in the `public/js` directory.
+默认情况下，Laravel 的 `webpack.mix.js` 会编译 SASS 文件和 `resources/assets/js/app.js` 文件。你可以在 `app.js` 文件中注册你的 Vue 组件，或者如果你更喜欢其他的框架，请配置自己的 JavaScript 应用程序。编译好的 JavaScript 文件通常会放置在 `public/js` 目录。
 
-> {tip} The `app.js` file will load the `resources/assets/js/bootstrap.js` file which bootstraps and configures Vue, Axios, jQuery, and all other JavaScript dependencies. If you have additional JavaScript dependencies to configure, you may do so in this file.
+> {tip} `app.js` 会加载 `resources/assets/js/bootstrap.js` 文件来启动并 配置 Vue、Axios、jQuery 以及其他的 JavaScript 依赖。如果你有其他的 JavaScript 依赖需要去配置，你也可以在这个文件中完成。
 
 <a name="writing-vue-components"></a>
-### Writing Vue Components
+### 编写 Vue 组件
 
-By default, fresh Laravel applications contain an `Example.vue` Vue component located in the `resources/assets/js/components` directory. The `Example.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/single-file-components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
+新 Laravel 程序默认会在 `resources/assets/js/components` 中包含一个 `Example.vue` 的 Vue 组件。`Example.vue` 文件是在同一文件中定义其 JavaScript 和 HTML 模板的 [单文件 Vue 组件](https://vuejs.org/guide/application.html#Single-File-Components) 的示例。它为构建 JavaScript 驱动的应用程序提供了非常方便的方法。这个示例组件已经在 `app.js` 文件中注册：
 
     Vue.component('example', require('./components/Example.vue'));
 
-To use the component in your application, you may simply drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
+在应用程序中使用组件，你只需要简单的将其放到你的 HTML 模板之中。例如，运行 Artisan 命令 `make:auth` 去生成应用的用户认证和注册的框架页面后，可以把组件放到 `home.blade.php` Blade 模板中：
 
     @extends('layouts.app')
 
@@ -72,14 +70,28 @@ To use the component in your application, you may simply drop it into one of you
         <example></example>
     @endsection
 
-> {tip} Remember, you should run the `npm run dev` command each time you change a Vue component. Or, you may run the `npm run watch` command to monitor and automatically recompile your components each time they are modified.
+> {tip} 谨记，每次修改 Vue 组件后都应该运行 `npm run dev` 命令。或者，你可以使用 `npm run watch` 命令来监控并在每次文件被修改时自动重新编译组件。
 
-Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
+当然，如果你对编写 Vue 组件的内容感兴趣，你可以读一下 [Vue 文档](http://vuejs.org/guide/)，该文档内容全面又易于阅读。
 
-### Using React
-
-If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding. On any fresh Laravel application, you may use the `preset` command with the `react` option:
+<a name="using-react"></a>
+### 使用 React
+如果你喜欢用 React 来构建你的 JavaScript 应用程序，Laravel 很容易就能将 Vue 脚手架替换为 React 脚手架。在任何新建的 Laravel 应用程序下，你可以用 `preset` 命令加 `react` 选项:
 
     php artisan preset react
 
-This single command will remove the Vue scaffolding and replace it with React scaffolding, including an example component.
+该命令将移除 Vue 脚手架并用 React 脚手架替换， 包括 Laravel 自带的示例组件。
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

@@ -1,46 +1,47 @@
 # Laravel 的搜索系统 Scout
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-    - [Queueing](#queueing)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Configuration](#configuration)
-    - [Configuring Model Indexes](#configuring-model-indexes)
-    - [Configuring Searchable Data](#configuring-searchable-data)
-- [Indexing](#indexing)
-    - [Batch Import](#batch-import)
-    - [Adding Records](#adding-records)
-    - [Updating Records](#updating-records)
-    - [Removing Records](#removing-records)
-    - [Pausing Indexing](#pausing-indexing)
-- [Searching](#searching)
-    - [Where Clauses](#where-clauses)
-    - [Pagination](#pagination)
-- [Custom Engines](#custom-engines)
+- [简介](#introduction)
+- [安装](#installation)
+    - [队列](#queueing)
+    - [驱动之前](#driver-prerequisites)
+- [配置](#configuration)
+    - [配置模型索引](#configuring-model-indexes)
+    - [配置可搜索的数据](#configuring-searchable-data)
+- [索引](#indexing)
+    - [批量导入](#batch-import)
+    - [添加记录](#adding-records)
+    - [更新记录](#updating-records)
+    - [删除记录](#removing-records)
+    - [暂停索引](#pausing-indexing)
+- [搜索](#searching)
+    - [Where 语句](#where-clauses)
+    - [分页](#pagination)
+- [自定义引擎](#custom-engines)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel Scout provides a simple, driver based solution for adding full-text search to your [Eloquent models](/docs/{{version}}/eloquent). Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records.
+Laravel Scout 为 [Eloquent 模型](/docs/{{version}}/eloquent) 的全文搜索提供了一个简单的、基于驱动程序的解决方案。使用模型观察员，Scout 会自动同步你的搜索索引和 Eloquent 记录。
 
-Currently, Scout ships with an [Algolia](https://www.algolia.com/) driver; however, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
+目前，Scout 自带了一个 [Algolia](https://www.algolia.com/) 驱动；而编写自定义驱动程序很简单，你可以自由地使用自己的搜索实现来扩展 Scout。
 
 <a name="installation"></a>
-## Installation
+## 安装
 
-First, install the Scout via the Composer package manager:
+首先，使用 composer 包管理器来安装 Scout：
 
     composer require laravel/scout
 
-Next, you should add the `ScoutServiceProvider` to the `providers` array of your `config/app.php` configuration file:
+接下来，你需要将 `ScoutServiceProvider` 添加到你的配置文件 `config/app.php` 的 `providers` 数组中：
 
     Laravel\Scout\ScoutServiceProvider::class,
 
-After registering the Scout service provider, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
+注册好 Scout 的服务提供器之后，你还需使用Artisan 命令 `vendor:publish` 生成 Scout 的配置文件。这个命令会在你的 `config` 目录下生成 `scout.php` 配置文件：
 
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 
-Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to make searchable. This trait will register a model observer to keep the model in sync with your search driver:
+
+最后，将 `Laravel\Scout\Searchable` trait 加到你想要搜索的模型中。这个 trait 会注册一个模型观察者来保持搜索驱动程序与模型的同步：
 
     <?php
 
@@ -55,30 +56,30 @@ Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to
     }
 
 <a name="queueing"></a>
-### Queueing
+### 队列
 
-While not strictly required to use Scout, you should strongly consider configuring a [queue driver](/docs/{{version}}/queues) before using the library. Running a queue worker will allow Scout to queue all operations that sync your model information to your search indexes, providing much better response times for your application's web interface.
+虽然不是严格要求使用 Scout，但在使用这个库之前，强烈建议你配置一个 [队列驱动程序](/docs/{{version}}/queues)。使用队列来对处理 Scout 将所有模型信息同步到搜索索引的操作，会极大的减少 Web 页面的响应时间。
 
-Once you have configured a queue driver, set the value of the `queue` option in your `config/scout.php` configuration file to `true`:
+一旦配置了队列驱动程序，就要在 `config/scout.php` 配置文件中设置 `queue` 的值为 `true`：
 
     'queue' => true,
 
 <a name="driver-prerequisites"></a>
-### Driver Prerequisites
+### 驱动之前
 
 #### Algolia
 
-When using the Algolia driver, you should configure your Algolia `id` and `secret` credentials in your `config/scout.php` configuration file. Once your credentials have been configured, you will also need to install the Algolia PHP SDK via the Composer package manager:
+使用 Algolia 驱动时，需要在 `config/scout.php` 配置文件配置你的 Algolia `id` 和 `secret` 凭证。配置好凭证之后， 还需要使用 Composer 包管理器安装 Algolia PHP SDK ：
 
     composer require algolia/algoliasearch-client-php
 
 <a name="configuration"></a>
-## Configuration
+## 配置
 
 <a name="configuring-model-indexes"></a>
-### Configuring Model Indexes
+### 配置模型索引
 
-Each Eloquent model is synced with a given search "index", which contains all of the searchable records for that model. In other words, you can think of each index like a MySQL table. By default, each model will be persisted to an index matching the model's typical "table" name. Typically, this is the plural form of the model name; however, you are free to customize the model's index by overriding the `searchableAs` method on the model:
+每个 Eloquent 模型与给定的搜索「索引」同步，这个「索引」包含该模型的所有可搜索记录。换句话说，你可以把每一个「索引」设想为一张 MySQL 数据表。默认情况下，每个模型都会被持久化到与模型的「表」名（通常是模型名称的复数形式）相匹配的索引。你也可以通过覆盖模型上的 `searchableAs` 方法来自定义模型的索引：
 
     <?php
 
@@ -103,9 +104,9 @@ Each Eloquent model is synced with a given search "index", which contains all of
     }
 
 <a name="configuring-searchable-data"></a>
-### Configuring Searchable Data
+### 配置可搜索的数据
 
-By default, the entire `toArray` form of a given model will be persisted to its search index. If you would like to customize the data that is synchronized to the search index, you may override the `toSearchableArray` method on the model:
+默认情况下，「索引」会从模型的 `toArray` 方法中读取数据来做持久化。如果要自定义同步到搜索索引的数据，可以覆盖模型上的 `toSearchableArray` 方法：
 
     <?php
 
@@ -134,19 +135,19 @@ By default, the entire `toArray` form of a given model will be persisted to its 
     }
 
 <a name="indexing"></a>
-## Indexing
+## 索引
 
 <a name="batch-import"></a>
-### Batch Import
+### 批量导入
 
-If you are installing Scout into an existing project, you may already have database records you need to import into your search driver. Scout provides an `import` Artisan command that you may use to import all of your existing records into your search indexes:
+如果你想要将 Scout 安装到现有的项目中，你可能已经有了想要导入搜索驱动的数据库记录。使用 Scout 提供的Artisan 命令 `import` 把所有现有记录导入到搜索索引里：
 
     php artisan scout:import "App\Post"
 
 <a name="adding-records"></a>
-### Adding Records
+### 添加记录
 
-Once you have added the `Laravel\Scout\Searchable` trait to a model, all you need to do is `save` a model instance and it will automatically be added to your search index. If you have configured Scout to [use queues](#queueing) this operation will be performed in the background by your queue worker:
+当你将 `Laravel\Scout\Searchable`  trait 添加到模型中，你需要做的是 `save` 一个模型实例，它就会自动添加到你的搜索索引。如果你已经将 Scout 配置为 [使用队列](#queueing)，那这个操作会在后台由你的队列工作进程来执行：
 
     $order = new App\Order;
 
@@ -154,80 +155,79 @@ Once you have added the `Laravel\Scout\Searchable` trait to a model, all you nee
 
     $order->save();
 
-#### Adding Via Query
+#### 使用队列添加
 
-If you would like to add a collection of models to your search index via an Eloquent query, you may chain the `searchable` method onto an Eloquent query. The `searchable` method will [chunk the results](/docs/{{version}}/eloquent#chunking-results) of the query and add the records to your search index. Again, if you have configured Scout to use queues, all of the chunks will be added in the background by your queue workers:
+如果你想通过 Eloquent 查询构造器将模型集合添加到搜索索引中，你也可以在 Eloquent 查询构造器上链式调用 `searchable` 方法。`searchable` 会把构造器的查询 [结果分块](/docs/{{version}}/eloquent#chunking-results) 并且将记录添加到你的搜索索引里。同样的，如果你已经配置 Scout 为使用队列，则所有的数据块将在后台由你的队列工作进程添加：
 
-    // Adding via Eloquent query...
+    // 使用 Eloquent 查询构造器增加...
     App\Order::where('price', '>', 100)->searchable();
 
-    // You may also add records via relationships...
+    // 使用模型关系增加记录...
     $user->orders()->searchable();
 
-    // You may also add records via collections...
+    // 使用集合增加记录...
     $orders->searchable();
 
-The `searchable` method can be considered an "upsert" operation. In other words, if the model record is already in your index, it will be updated. If it does not exist in the search index, it will be added to the index.
+`searchable` 方法可以被看做是「更新插入」的操作。换句话说，如果模型记录已经在你的索引里了，它就会被更新。如果搜索索引中不存在，则将其添加到索引中。
 
 <a name="updating-records"></a>
-### Updating Records
+### 更新记录
 
-To update a searchable model, you only need to update the model instance's properties and `save` the model to your database. Scout will automatically persist the changes to your search index:
+要更新可搜索的模型，只需要更新模型实例的属性并将模型 `save` 到数据库。Scout 会自动将更新同步到你的搜索索引中：
 
     $order = App\Order::find(1);
 
-    // Update the order...
+    // 更新 order...
 
     $order->save();
 
-You may also use the `searchable` method on an Eloquent query to update a collection of models. If the models do not exist in your search index, they will be created:
+你也可以在 Eloquent 查询语句上使用 `searchable` 方法来更新一个模型的集合。如果这个模型不存在你检索的索引里，就会被创建：
 
-    // Updating via Eloquent query...
+    // 使用 Eloquent 查询语句更新...
     App\Order::where('price', '>', 100)->searchable();
 
-    // You may also update via relationships...
+    // 你也可以使用模型关系更新...
     $user->orders()->searchable();
 
-    // You may also update via collections...
+    // 你也可以使用集合更新...
     $orders->searchable();
 
 <a name="removing-records"></a>
-### Removing Records
+### 删除记录
 
-To remove a record from your index, simply `delete` the model from the database. This form of removal is even compatible with [soft deleted](/docs/{{version}}/eloquent#soft-deleting) models:
+简单地使用 `delete` 从数据库中删除该模型就可以移除索引里的记录。这种删除形式甚至与 [软删除](/docs/{{version}}/eloquent#soft-deleting) 的模型兼容:
 
     $order = App\Order::find(1);
 
     $order->delete();
 
-If you do not want to retrieve the model before deleting the record, you may use the `unsearchable` method on an Eloquent query instance or collection:
+如果你不想在删除记录之前检索模型，可以在 Eloquent 查询实例或集合上使用 `unsearchable` 方法：
 
-    // Removing via Eloquent query...
+    // 通过 Eloquent 查询删除...
     App\Order::where('price', '>', 100)->unsearchable();
 
-    // You may also remove via relationships...
+    // 通过模型关系删除...
     $user->orders()->unsearchable();
 
-    // You may also remove via collections...
+    // 通过集合删除...
     $orders->unsearchable();
 
 <a name="pausing-indexing"></a>
-### Pausing Indexing
+### 暂停索引
 
-Sometimes you may need to perform a batch of Eloquent operations on a model without syncing the model data to your search index. You may do this using the `withoutSyncingToSearch` method. This method accepts a single callback which will be immediately executed. Any model operations that occur within the callback will not be synced to the model's index:
+你可能需要在执行一批 Eloquent 操作的时候，不同步模型数据到搜索索引。此时你可以使用 `withoutSyncingToSearch` 方法来执行此操作。这个方法接受一个立即执行的回调。该回调中所有的操作都不会同步到模型的索引：
 
     App\Order::withoutSyncingToSearch(function () {
-        // Perform model actions...
+        // 执行模型动作...
     });
 
 <a name="searching"></a>
-## Searching
+## 搜索
 
-You may begin searching a model using the `search` method. The search method accepts a single string that will be used to search your models. You should then chain the `get` method onto the search query to retrieve the Eloquent models that match the given search query:
+你可以使用 `search` 方法来搜索模型。`search` 方法接受一个用于搜索模型的字符串。你还需在搜索查询上链式调用 `get` 方法，才能用给定的搜索语句查询与之匹配的 Eloquent 模型：
 
     $orders = App\Order::search('Star Trek')->get();
-
-Since Scout searches return a collection of Eloquent models, you may even return the results directly from a route or controller and they will automatically be converted to JSON:
+Scout 搜索返回 Eloquent 模型的集合，因此你可以直接从路由或控制器返回结果，它们会被自动转换成 JSON 格式：
 
     use Illuminate\Http\Request;
 
@@ -235,35 +235,35 @@ Since Scout searches return a collection of Eloquent models, you may even return
         return App\Order::search($request->search)->get();
     });
 
-If you would like to get the raw results before they are converted to Eloquent models, you should use the `raw` method:
+如果你想在它们返回 Eloquent 模型前得到原结果，你应该使用`raw` 方法:
 
     $orders = App\Order::search('Star Trek')->raw();
 
-Search queries will typically be performed on the index specified by the model's [`searchableAs`](#configuring-model-indexes) method. However, you may use the `within` method to specify a custom index that should be searched instead:
+搜索查询通常会在模型的 [`searchableAs`](#configuring-model-indexes) 方法指定的索引上执行。当然，你也可以使用 `within` 方法指定应该搜索的自定义索引:
 
     $orders = App\Order::search('Star Trek')
         ->within('tv_shows_popularity_desc')
         ->get();
 
 <a name="where-clauses"></a>
-### Where Clauses
+### Where 语句
 
-Scout allows you to add simple "where" clauses to your search queries. Currently, these clauses only support basic numeric equality checks, and are primarily useful for scoping search queries by a tenant ID. Since a search index is not a relational database, more advanced "where" clauses are not currently supported:
+Scout 允许你在搜索查询中增加简单的「where」语句。目前，这些语句只支持基本的数值等式检查，并且主要是用于根据拥有者的 ID 进行的范围搜索查询。由于搜索索引不是关系型数据库，因此当前不支持更高级的「where」语句：
 
     $orders = App\Order::search('Star Trek')->where('user_id', 1)->get();
 
 <a name="pagination"></a>
-### Pagination
+### 分页
 
-In addition to retrieving a collection of models, you may paginate your search results using the `paginate` method. This method will return a `Paginator` instance just as if you had [paginated a traditional Eloquent query](/docs/{{version}}/pagination):
+除了检索模型的集合，你也可以使用 `paginate` 方法对搜索结果进行分页。这个方法会返回一个就像 [传统的 Eloquent 查询分页](/docs/{{version}}/pagination) 一样的 `Paginator`  实例：
 
     $orders = App\Order::search('Star Trek')->paginate();
 
-You may specify how many models to retrieve per page by passing the amount as the first argument to the `paginate` method:
+你可以通过将数量作为第一个参数传递给 `paginate` 方法来指定每页检索多少个模型：
 
     $orders = App\Order::search('Star Trek')->paginate(15);
 
-Once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade) just as if you had paginated a traditional Eloquent query:
+获取到检索结果后，就可以使用 [Blade](/docs/{{version}}/blade) 来渲染分页链接从而显示结果，就像传统的 Eloquent 查询分页一样：
 
     <div class="container">
         @foreach ($orders as $order)
@@ -274,11 +274,11 @@ Once you have retrieved the results, you may display the results and render the 
     {{ $orders->links() }}
 
 <a name="custom-engines"></a>
-## Custom Engines
+## 自定义引擎
 
-#### Writing The Engine
+#### 写引擎
 
-If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains five methods your custom engine must implement:
+如果内置的 Scout 搜索引擎不能满足你的需求，你可以写自定义的引擎并且将它注册到 Scout。你的引擎需要继承 `Laravel\Scout\Engines\Engine` 抽象类，这个抽象类包含了你自定义的引擎必须要实现的五种方法：
 
     use Laravel\Scout\Builder;
 
@@ -288,16 +288,16 @@ If one of the built-in Scout search engines doesn't fit your needs, you may writ
     abstract public function paginate(Builder $builder, $perPage, $page);
     abstract public function map($results, $model);
 
-You may find it helpful to review the implementations of these methods on the `Laravel\Scout\Engines\AlgoliaEngine` class. This class will provide you with a good starting point for learning how to implement each of these methods in your own engine.
+在 `Laravel\Scout\Engines\AlgoliaEngine` 类里查看这些方法会对你有较大的帮助。这个类会为你在学习如何在自定义引擎中实现这些方法提供一个好的起点。
 
-#### Registering The Engine
+#### 注册引擎
 
-Once you have written your custom engine, you may register it with Scout using the `extend` method of the Scout engine manager. You should call the `extend` method from the `boot` method of your `AppServiceProvider` or any other service provider used by your application. For example, if you have written a `MySqlSearchEngine`, you may register it like so:
+一旦你写好了自定义引擎，你可以用 Scout 引擎管理的 `extend` 方法将它注册到 Scout。你只需要从 `AppServiceProvider` 下的 `boot` 方法或者应用中使用的任何一个服务提供器调用 `extend` 方法。举个例子，如果你写好了一个 `MySqlSearchEngine`，你可以像这样去注册它：
 
     use Laravel\Scout\EngineManager;
 
     /**
-     * Bootstrap any application services.
+     * 引导任何应用服务。
      *
      * @return void
      */
@@ -308,6 +308,20 @@ Once you have written your custom engine, you may register it with Scout using t
         });
     }
 
-Once your engine has been registered, you may specify it as your default Scout `driver` in your `config/scout.php` configuration file:
+引擎注册后，你可以在 `config/scout.php` 配置文件中指定它为默认的 Scout `driver`：
 
     'driver' => 'mysql',
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+| ---| --- | --- | --- |
+| [@Insua](https://phphub.org/users/3853) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/3853_1457586148.jpeg?imageView2/1/w/100/h/100"/> | 翻译 | happay coding with laravel+vue |
+
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

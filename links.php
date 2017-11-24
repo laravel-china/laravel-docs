@@ -18,10 +18,6 @@ return [
         'link' => '/docs/{{version}}/contributions'
     ],
     [
-        'text' => 'API 文档',
-        'link' => '/api/{{version}}'
-    ],
-    [
         'text' => '安装',
         'link' => '/docs/{{version}}/installation'
     ],
@@ -40,6 +36,10 @@ return [
     [
         'text' => 'Valet',
         'link' => '/docs/{{version}}/valet'
+    ],
+    [
+        'text' => '部署',
+        'link' => '/docs/{{version}}/deployment'
     ],
     [
         'text' => '请求周期',
@@ -88,6 +88,10 @@ return [
     [
         'text' => '视图',
         'link' => '/docs/{{version}}/views'
+    ],
+    [
+        'text' => '生成 URL',
+        'link' => '/docs/{{version}}/urls'
     ],
     [
         'text' => 'Session',
@@ -230,6 +234,10 @@ return [
         'link' => '/docs/{{version}}/eloquent-mutators'
     ],
     [
+        'text' => 'API 资源',
+        'link' => '/docs/{{version}}/eloquent-resources'
+    ],
+    [
         'text' => '序列化',
         'link' => '/docs/{{version}}/eloquent-serialization'
     ],
@@ -276,5 +284,6 @@ return [
     [
         'text' => 'Socialite 社会化登录',
         'link' => '/docs/{{version}}/socialite'
-    ],
+    ]
 ];
+

@@ -1,25 +1,25 @@
 # Laravel 的加密解密机制
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Using The Encrypter](#using-the-encrypter)
+- [简介](#introduction)
+- [设置](#configuration)
+- [使用](#using-the-encrypter)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel's encrypter uses OpenSSL to provide AES-256 and AES-128 encryption. You are strongly encouraged to use Laravel's built-in encryption facilities and not attempt to roll your own "home grown" encryption algorithms. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified once encrypted.
+Laravel 的加密机制使用 OpenSSL 提供 AES-256 和 AES-128 的加密。强烈建议你使用 Laravel 内置的加密机制，而不是用其他的加密算法。所有 Laravel 加密之后的结果都会使用消息认证码 (MAC) 去签名，使其底层值不能在加密后修改。
 
 <a name="configuration"></a>
-## Configuration
+## 设置
 
-Before using Laravel's encrypter, you must set a `key` option in your `config/app.php` configuration file. You should use the `php artisan key:generate` command to generate this key since this Artisan command will use PHP's secure random bytes generator to build your key. If this value is not properly set, all values encrypted by Laravel will be insecure.
+在使用 Laravel 的加密程序之前, 你必须先设置 `config/app.php` 配置文件中的 `key` 选项。运行 Artisan命令 `php artisan key:generate`，它会使用 PHP 的安全随机字节生成器来构建密钥。如果这个 key 值没有被正确设置，则所有由 Laravel 加密的值都将是不安全的。
 
 <a name="using-the-encrypter"></a>
-## Using The Encrypter
+## 使用
 
-#### Encrypting A Value
+#### 加密一个值
 
-You may encrypt a value using the `encrypt` helper. All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:
+你可以使用辅助函数 `encrypt` 来加密一个值。所有加密值都使用 OpenSSL 与 `AES-256-CBC` 来进行加密。此外，所有加密过的值都会使用消息认证码（MAC）进行签名，以检测加密字符串是否被篡改过：
 
     <?php
 
@@ -32,7 +32,7 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
     class UserController extends Controller
     {
         /**
-         * Store a secret message for the user.
+         * 存储用户保密信息
          *
          * @param  Request  $request
          * @param  int  $id
@@ -48,9 +48,9 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
         }
     }
 
-#### Encrypting Without Serialization
+#### 无序列化加密
 
-Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data. If you would like to encrypt and decrypt values without serialization, you may use the `encryptString` and `decryptString` methods of the `Crypt` facade:
+加密值在加密期间通过 `serialize` 传递，这允许对象和数组的加密。因此，接收加密值的非PHP客户端将需要 `unserialize` 数据。如果想在不序列化的情况下加密和解密值，可以使用 `Crypt` Facade 的 `encryptString` 和 `decryptString` 方法：
 
     use Illuminate\Support\Facades\Crypt;
 
@@ -58,9 +58,9 @@ Encrypted values are passed through `serialize` during encryption, which allows 
 
     $decrypted = Crypt::decryptString($encrypted);
 
-#### Decrypting A Value
+#### 解密一个值
 
-You may decrypt values using the `decrypt` helper. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
+你可以使用辅助函数 `decrypt` 来解密一个值。如果该值不能被正确解密，例如当 MAC 无效时，会抛出异常 `Illuminate\Contracts\Encryption\DecryptException`：
 
     use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -69,3 +69,17 @@ You may decrypt values using the `decrypt` helper. If the value can not be prope
     } catch (DecryptException $e) {
         //
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@GanymedeNil](https://github.com/GanymedeNil) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6859_1487055454.jpg"> | 翻译 | 争做一个 Full Stack Developer  [@GanymedeNil](http://weibo.com/jinhongyang) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

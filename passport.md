@@ -1,64 +1,64 @@
 # Laravel 的 API 认证系统 Passport
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-    - [Frontend Quickstart](#frontend-quickstart)
-    - [Deploying Passport](#deploying-passport)
-- [Configuration](#configuration)
-    - [Token Lifetimes](#token-lifetimes)
-- [Issuing Access Tokens](#issuing-access-tokens)
-    - [Managing Clients](#managing-clients)
-    - [Requesting Tokens](#requesting-tokens)
-    - [Refreshing Tokens](#refreshing-tokens)
-- [Password Grant Tokens](#password-grant-tokens)
-    - [Creating A Password Grant Client](#creating-a-password-grant-client)
-    - [Requesting Tokens](#requesting-password-grant-tokens)
-    - [Requesting All Scopes](#requesting-all-scopes)
-- [Implicit Grant Tokens](#implicit-grant-tokens)
-- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
-- [Personal Access Tokens](#personal-access-tokens)
-    - [Creating A Personal Access Client](#creating-a-personal-access-client)
-    - [Managing Personal Access Tokens](#managing-personal-access-tokens)
-- [Protecting Routes](#protecting-routes)
-    - [Via Middleware](#via-middleware)
-    - [Passing The Access Token](#passing-the-access-token)
-- [Token Scopes](#token-scopes)
-    - [Defining Scopes](#defining-scopes)
-    - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
-    - [Checking Scopes](#checking-scopes)
-- [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
-- [Events](#events)
-- [Testing](#testing)
+- [介绍](#introduction)
+- [安装](#installation)
+    - [前端快速上手](#frontend-quickstart)
+    - [部署 Passport](#deploying-passport)
+- [配置](#configuration)
+    - [令牌的使用期限](#token-lifetimes)
+- [发放访问令牌](#issuing-access-tokens)
+    - [管理客户端](#managing-clients)
+    - [请求令牌](#requesting-tokens)
+    - [刷新令牌](#refreshing-tokens)
+- [密码授权令牌](#password-grant-tokens)
+    - [创建密码授权客户端](#creating-a-password-grant-client)
+    - [请求密码授权令牌](#requesting-password-grant-tokens)
+    - [请求所有作用域](#requesting-all-scopes)
+- [简化授权令牌](#implicit-grant-tokens)
+- [客户端授权令牌](#client-credentials-grant-tokens)
+- [个人访问令牌](#personal-access-tokens)
+    - [创建个人访问令牌的客户端](#creating-a-personal-access-client)
+    - [管理个人访问令牌](#managing-personal-access-tokens)
+- [路由保护](#protecting-routes)
+    - [通过中间件](#via-middleware)
+    - [传递访问令牌](#passing-the-access-token)
+- [令牌作用域](#token-scopes)
+    - [定义作用域](#defining-scopes)
+    - [给令牌分配作用域](#assigning-scopes-to-tokens)
+    - [检查作用域](#checking-scopes)
+- [使用 JavaScript 接入 API](#consuming-your-api-with-javascript)
+- [事件](#events)
+- [测试](#testing)
 
 <a name="introduction"></a>
-## Introduction
+## 介绍
 
-Laravel already makes it easy to perform authentication via traditional login forms, but what about APIs? APIs typically use tokens to authenticate users and do not maintain session state between requests. Laravel makes API authentication a breeze using Laravel Passport, which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Alex Bilbie.
+在 Laravel 中，实现基于传统表单的登陆和授权已经非常简单，但是如何满足 API 场景下的授权需求呢？在 API 场景里通常通过令牌来实现用户授权，而非维护请求之间的 Session 状态。在 Laravel 项目中使用 Passport 可以轻而易举地实现 API 授权认证，Passport 可以在几分钟之内为你的应用程序提供完整的 OAuth2 服务端实现。Passport 是基于由 [Alex Bilbie](https://github.com/alexbilbie) 维护的 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 建立的。
 
-> {note} This documentation assumes you are already familiar with OAuth2. If you do not know anything about OAuth2, consider familiarizing yourself with the general terminology and features of OAuth2 before continuing.
+> {note} 本文档假定你已熟悉 OAuth2 。如果你并不了解 OAuth2 ，阅读之前请先熟悉下 OAuth2 的常用术语和功能。
 
 <a name="installation"></a>
-## Installation
+## 安装
 
-To get started, install Passport via the Composer package manager:
+使用 Composer 安装 Passport ：
 
     composer require laravel/passport
 
-Next, register the Passport service provider in the `providers` array of your `config/app.php` configuration file:
+接下来，将 Passport 的服务提供者注册到配置文件 `config/app.php` 的 `providers` 数组中：
 
     Laravel\Passport\PassportServiceProvider::class,
 
-The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
+Passport 服务提供器使用框架注册自己的数据库迁移目录，因此在注册提供器后，就应该运行 Passport 的迁移命令来自动创建存储客户端和令牌的数据表：
 
     php artisan migrate
 
-> {note} If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using `php artisan vendor:publish --tag=passport-migrations`.
+> {note} 如果你不打算使用 Passport 的默认迁移，你应该在 `AppServiceProvider` 的 `register` 方法中调用 `Passport::ignoreMigrations` 方法。 你可以用这个命令 `php artisan vendor:publish --tag=passport-migrations` 导出默认迁移。
 
-Next, you should run the `passport:install` command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
+接下来，运行 `passport:install` 命令来创建生成安全访问令牌时所需的加密密钥，同时，这条命令也会创建用于生成访问令牌的「个人访问」客户端和「密码授权」客户端：
 
     php artisan passport:install
 
-After running this command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
+上面命令执行后，请将 `Laravel\Passport\HasApiTokens` Trait 添加到 `App\User` 模型中，这个 Trait 会给你的模型提供一些辅助函数，用于检查已认证用户的令牌和使用范围：
 
     <?php
 
@@ -73,7 +73,7 @@ After running this command, add the `Laravel\Passport\HasApiTokens` trait to you
         use HasApiTokens, Notifiable;
     }
 
-Next, you should call the `Passport::routes` method within the `boot` method of your `AuthServiceProvider`. This method will register the routes necessary to issue access tokens and revoke access tokens, clients, and personal access tokens:
+接下来，在 `AuthServiceProvider` 的 `boot` 方法中调用 `Passport::routes` 函数。这个函数会注册发出访问令牌并撤销访问令牌、客户端和个人访问令牌所必需的路由：
 
     <?php
 
@@ -86,7 +86,7 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
     class AuthServiceProvider extends ServiceProvider
     {
         /**
-         * The policy mappings for the application.
+         * 应用程序的策略映射。
          *
          * @var array
          */
@@ -107,7 +107,7 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
         }
     }
 
-Finally, in your `config/auth.php` configuration file, you should set the `driver` option of the `api` authentication guard to `passport`. This will instruct your application to use Passport's `TokenGuard` when authenticating incoming API requests:
+最后，将配置文件 `config/auth.php` 中授权看守器 `guards` 的 `api` 的 `driver` 选项改为 `passport`。此调整会让你的应用程序在在验证传入的 API 的请求时使用 Passport 的 `TokenGuard` 来处理：
 
     'guards' => [
         'web' => [
@@ -122,17 +122,17 @@ Finally, in your `config/auth.php` configuration file, you should set the `drive
     ],
 
 <a name="frontend-quickstart"></a>
-### Frontend Quickstart
+### 前端快速上手
 
-> {note} In order to use the Passport Vue components, you must be using the [Vue](https://vuejs.org) JavaScript framework. These components also use the Bootstrap CSS framework. However, even if you are not using these tools, the components serve as a valuable reference for your own frontend implementation.
+> {note} 如果想要使用 Passport 的 Vue 组件，那么你必须使用 [Vue](https://vuejs.org) Javascript 框架，另外这些组件还用到了 Bootstrap CSS 框架。当然你也可以不使用上面的任何工具，但在实现你自己的前端部分时，Passport 的 Vue 组件仍旧有很高的参考价值。
 
-Passport ships with a JSON API that you may use to allow your users to create clients and personal access tokens. However, it can be time consuming to code a frontend to interact with these APIs. So, Passport also includes pre-built [Vue](https://vuejs.org) components you may use as an example implementation or starting point for your own implementation.
+Passport 配备了一些可以让你的用户自行创建客户端和个人访问令牌的 JSON API。然而，编写一些前端代码来与这些 API 进行交互很是耗时。因此 Passport 也引入了预先构建的 [Vue](https://vuejs.org) 组件，你可以直接使用，也可以基于这些代码实现自己的前端部分。
 
-To publish the Passport Vue components, use the `vendor:publish` Artisan command:
+使用 Artisan 命令 `vendor:publish` 来发布 Passport 的 Vue 组件：
 
     php artisan vendor:publish --tag=passport-components
 
-The published components will be placed in your `resources/assets/js/components` directory. Once the components have been published, you should register them in your `resources/assets/js/app.js` file:
+已发布的组件将被放置在 `resources/assets/js/components` 目录中，可以在 `resources/assets/js/app.js` 文件中注册它们：
 
     Vue.component(
         'passport-clients',
@@ -149,26 +149,26 @@ The published components will be placed in your `resources/assets/js/components`
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-After registering the components, make sure to run `npm run dev` to recompile your assets. Once you have recompiled your assets, you may drop the components into one of your application's templates to get started creating clients and personal access tokens:
+这些组件注册后，运行 `npm run dev` 命令以确保重新编译你的资源。重新编译资源后，你可以将这些组件放入应用程序的模板中，然后开始创建客户端和个人访问令牌：
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
 
 <a name="deploying-passport"></a>
-### Deploying Passport
+### 部署 Passport
 
-When deploying Passport to your production servers for the first time, you will likely need to run the `passport:keys` command. This command generates the encryption keys Passport needs in order to generate access token. The generated keys are not typically kept in source control:
+第一次将 Passport 部署到生产服务器时，需要运行 `passport:keys` 命令。该命令生成 Passport 所需要的用来产生访问令牌的加密密钥。生成的这些密钥不会保存在源码控制中：
 
     php artisan passport:keys
 
 <a name="configuration"></a>
-## Configuration
+## 配置
 
 <a name="token-lifetimes"></a>
-### Token Lifetimes
+### 令牌的有效期
 
-By default, Passport issues long-lived access tokens that never need to be refreshed. If you would like to configure a shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
+默认情况下，Passport 发放的访问令牌是永久有效的，不需要刷新。但是如果你想自定义访问令牌的有效期，可以使用 `tokensExpireIn` 和 `refreshTokensExpireIn` 方法。上述两个方法同样需要在 `AuthServiceProvider` 的 `boot` 方法中调用：
 
     use Carbon\Carbon;
 
@@ -189,32 +189,32 @@ By default, Passport issues long-lived access tokens that never need to be refre
     }
 
 <a name="issuing-access-tokens"></a>
-## Issuing Access Tokens
+## 发放访问令牌
 
-Using OAuth2 with authorization codes is how most developers are familiar with OAuth2. When using authorization codes, a client application will redirect a user to your server where they will either approve or deny the request to issue an access token to the client.
+熟悉 OAuth2 的开发者一定知道， OAuth2 中必不可少的部分就是授权码。当使用授权码时，客户端应用程序会将用户重定向到你的服务器，他们将批准或拒绝向客户端发出访问令牌的请求。
 
 <a name="managing-clients"></a>
-### Managing Clients
+### 管理客户端
 
-First, developers building applications that need to interact with your application's API will need to register their application with yours by creating a "client". Typically, this consists of providing the name of their application and a URL that your application can redirect to after users approve their request for authorization.
+首先，构建需要与应用程序 API 交互的应用程序，开发人员将需要通过创建一个「客户端」来注册自己的应用程序。一般来说，这包括在用户批准其授权请求后，提供其应用程序的名称和应用程序可以重定向到的 URL。
 
-#### The `passport:client` Command
+#### `passport:client` 命令
 
-The simplest way to create a client is using the `passport:client` Artisan command. This command may be used to create your own clients for testing your OAuth2 functionality. When you run the `client` command, Passport will prompt you for more information about your client and will provide you with a client ID and secret:
+创建客户端最简单的方式是使用 Artisan 命令 `passport:client`，你可以使用此命令创建自己的客户端，用于测试你的 OAuth2 的功能。在你执行 `client` 命令时，Passport 会提示你输入有关客户端的信息，最终会给你提供客户端的 ID 和 密钥：
 
     php artisan passport:client
 
 #### JSON API
 
-Since your users will not be able to utilize the `client` command, Passport provides a JSON API that you may use to create clients. This saves you the trouble of having to manually code controllers for creating, updating, and deleting clients.
+考虑到你的用户无法使用 `client` 命令，Passport 为此提供了可用于创建客户端的 JSON API。这样你就不用再花时间编写控制器来创建、更新和删除客户端。
 
-However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints.
+然而，你仍旧需要基于 Passport 的 JSON API 开发一套前端界面，为你的用户提供管理客户端的仪表板。下面我们会列出所有用于管理客户端的 API，为了方便起见，我们使用 [Axios](https://github.com/mzabriskie/axios) 来演示对端口发出 HTTP 请求。
 
-> {tip} If you don't want to implement the entire client management frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
+> {tip} 如果你不想自己实现整个客户端管理的前端界面，可以使用 [前端快速上手](#frontend-quickstart) 在几分钟内组建一套功能齐全的前端界面。
 
 #### `GET /oauth/clients`
 
-This route returns all of the clients for the authenticated user. This is primarily useful for listing all of the user's clients so that they may edit or delete them:
+此路由会返回认证用户的所有客户端。主要用途是列出所有用户的客户端，以便他们可以编辑或删除它们：
 
     axios.get('/oauth/clients')
         .then(response => {
@@ -223,9 +223,9 @@ This route returns all of the clients for the authenticated user. This is primar
 
 #### `POST /oauth/clients`
 
-This route is used to create new clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization.
+此路由用于创建新客户端。它需要两部分数据：客户端的 `name` 和 `redirect` 的链接。在批准或拒绝授权请求后，用户会被重定向 `redirect` 到这个链接。
 
-When a client is created, it will be issued a client ID and client secret. These values will be used when requesting access tokens from your application. The client creation route will return the new client instance:
+创建客户端时，会发出此客户端的 ID 和密钥。客户端可以使用这两个值从你的应用程序请求访问令牌。该路由会返回新的客户端实例：
 
     const data = {
         name: 'Client Name',
@@ -242,7 +242,7 @@ When a client is created, it will be issued a client ID and client secret. These
 
 #### `PUT /oauth/clients/{client-id}`
 
-This route is used to update clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization. The route will return the updated client instance:
+此路由用于更新客户端信息。它需要两部分数据：客户端的 `name` 和 `redirect` 的链接。在批准或拒绝授权请求后，用户会被重定向 `redirect` 到这个链接。此路由会返回更新的客户端实例：
 
     const data = {
         name: 'New Client Name',
@@ -259,7 +259,7 @@ This route is used to update clients. It requires two pieces of data: the client
 
 #### `DELETE /oauth/clients/{client-id}`
 
-This route is used to delete clients:
+此路由用于删除客户端：
 
     axios.delete('/oauth/clients/' + clientId)
         .then(response => {
@@ -267,11 +267,11 @@ This route is used to delete clients:
         });
 
 <a name="requesting-tokens"></a>
-### Requesting Tokens
+### 请求令牌
 
-#### Redirecting For Authorization
+#### 授权时的重定向
 
-Once a client has been created, developers may use their client ID and secret to request an authorization code and access token from your application. First, the consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
+客户端创建之后，开发者会使用此客户端的 ID 和密钥来请求授权代码，并从应用程序访问令牌。首先，接入应用的用户向你应用程序的 `/oauth/authorize` 路由发出重定向请求，示例如下：
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -284,19 +284,19 @@ Once a client has been created, developers may use their client ID and secret to
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
-> {tip} Remember, the `/oauth/authorize` route is already defined by the `Passport::routes` method. You do not need to manually define this route.
+> {tip} 注意，路由 `/oauth/authorize` 已经在 `Passport::routes` 方法中定义。你不需要手动定义此路由。
 
-#### Approving The Request
+#### 批准请求
 
-When receiving authorization requests, Passport will automatically display a template to the user allowing them to approve or deny the authorization request. If they approve the request, they will be redirected back to the `redirect_uri` that was specified by the consuming application. The `redirect_uri` must match the `redirect` URL that was specified when the client was created.
+接收到授权请求时，Passport 会自动向用户显示一个模版页面，允许用户批准或拒绝授权请求。如果用户批准请求，他们会被重定向回接入的应用程序指定的 `redirect_uri`。`redirect_uri` 必须和客户端创建时指定的 `redirect` 链接完全一致。
 
-If you would like to customize the authorization approval screen, you may publish Passport's views using the `vendor:publish` Artisan command. The published views will be placed in `resources/views/vendor/passport`:
+如果你想自定义授权确认页面，可以使用 Artisan 命令 `vendor:publish` 发布 Passport 的视图。发布后的视图文件存放在 `resources/views/vendor/passport`：
 
     php artisan vendor:publish --tag=passport-views
 
-#### Converting Authorization Codes To Access Tokens
+#### 将授权码转换为访问令牌
 
-If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should then issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
+用户批准授权请求后，会被重定向回接入的应用程序。然后接入应用应该将通过 `POST` 请求向你的应用程序申请访问令牌。请求应该包括当用户批准授权请求时由应用程序发出的授权码。在下面的例子中，我们使用 Guzzle HTTP 库来实现这次 `POST` 请求：
 
     Route::get('/callback', function (Request $request) {
         $http = new GuzzleHttp\Client;
@@ -314,14 +314,15 @@ If the user approves the authorization request, they will be redirected back to 
         return json_decode((string) $response->getBody(), true);
     });
 
-This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
 
-> {tip} Like the `/oauth/authorize` route, the `/oauth/token` route is defined for you by the `Passport::routes` method. There is no need to manually define this route.
+路由 `/oauth/token` 返回的 JSON 响应中会包含 `access_token` 、`refresh_token` 和 `expires_in` 属性。`expires_in` 属性包含访问令牌的有效期（单位：秒）。
+
+> {tip} 像 `/oauth/authorize` 路由一样，`/oauth/token` 路由在 `Passport::routes` 方法中定义了。
 
 <a name="refreshing-tokens"></a>
-### Refreshing Tokens
+### 刷新令牌
 
-If your application issues short-lived access tokens, users will need to refresh their access tokens via the refresh token that was provided to them when the access token was issued. In this example, we'll use the Guzzle HTTP library to refresh the token:
+如果你的应用程序发放了短期的访问令牌，用户将需要通过在发出访问令牌时提供给他们的刷新令牌来刷新其访问令牌。在下面的例子中，我们使用 Guzzle HTTP 库来刷新令牌：
 
     $http = new GuzzleHttp\Client;
 
@@ -337,24 +338,24 @@ If your application issues short-lived access tokens, users will need to refresh
 
     return json_decode((string) $response->getBody(), true);
 
-This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
+路由 `/oauth/token` 会返回一个 JSON 响应，其中包含 `access_token` 、`refresh_token` 和 `expires_in` 属性。`expires_in` 属性包含访问令牌的有效时间（单位：秒）。
 
 <a name="password-grant-tokens"></a>
-## Password Grant Tokens
+# 密码授权令牌
 
-The OAuth2 password grant allows your other first-party clients, such as a mobile application, to obtain an access token using an e-mail address / username and password. This allows you to issue access tokens securely to your first-party clients without requiring your users to go through the entire OAuth2 authorization code redirect flow.
+OAuth2 密码授权机制可以让你自己的客户端（如移动应用程序）邮箱地址或者用户名和密码获取访问令牌。如此一来你就可以安全地向自己的客户端发出访问令牌，而不需要遍历整个 OAuth2 授权代码重定向流程。
 
 <a name="creating-a-password-grant-client"></a>
-### Creating A Password Grant Client
+### 创建密码授权客户端
 
-Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` command with the `--password` option. If you have already run the `passport:install` command, you do not need to run this command:
+在应用程序通过密码授权机制来发布令牌之前，在 `passport:client` 命令后加上 `--password` 参数来创建密码授权的客户端。如果你已经运行了 `passport:install` 命令，则不需要再运行此命令：
 
     php artisan passport:client --password
 
 <a name="requesting-password-grant-tokens"></a>
-### Requesting Tokens
+### 请求令牌
 
-Once you have created a password grant client, you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's email address and password. Remember, this route is already registered by the `Passport::routes` method so there is no need to define it manually. If the request is successful, you will receive an `access_token` and `refresh_token` in the JSON response from the server:
+创建密码授权的客户端后，就可以通过向用户的电子邮件地址和密码向 `/oauth/token` 路由发出 `POST` 请求来获取访问令牌。而该路由已经由 `Passport::routes` 方法注册，因此不需要手动定义它。如果请求成功，会在服务端返回的 JSON 响应中收到一个 `access_token` 和 `refresh_token`：
 
     $http = new GuzzleHttp\Client;
 
@@ -371,12 +372,12 @@ Once you have created a password grant client, you may request an access token b
 
     return json_decode((string) $response->getBody(), true);
 
-> {tip} Remember, access tokens are long-lived by default. However, you are free to [configure your maximum access token lifetime](#configuration) if needed.
+> {tip} 默认情况下，访问令牌是永久有效的。你可以根据需要 [配置访问令牌的有效时间](#configuration)。
 
 <a name="requesting-all-scopes"></a>
-### Requesting All Scopes
+### 请求所有作用域
 
-When using the password grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` grant:
+使用密码授权机制时，可以通过请求 scope 参数 `*` 来授权应用程序支持的所有范围的令牌。如果你的请求中包含 scope 为 `*` 的参数，令牌实例上的 `can` 方法会始终返回 `true`。这种作用域的授权只能分配给使用 `password` 授权时发出的令牌：
 
     $response = $http->post('http://your-app.com/oauth/token', [
         'form_params' => [
@@ -390,12 +391,12 @@ When using the password grant, you may wish to authorize the token for all of th
     ]);
 
 <a name="implicit-grant-tokens"></a>
-## Implicit Grant Tokens
+## 隐式授权令牌
 
-The implicit grant is similar to the authorization code grant; however, the token is returned to the client without exchanging an authorization code. This grant is most commonly used for JavaScript or mobile applications where the client credentials can't be securely stored. To enable the grant, call the `enableImplicitGrant` method in your `AuthServiceProvider`:
+隐式授权类似于授权码授权，但是它只令牌将返回给客户端而不交换授权码。这种授权最常用于无法安全存储客户端凭据的 JavaScript 或移动应用程序。通过调用 `AuthServiceProvider` 中的 `enableImplicitGrant` 方法来启用这种授权：
 
     /**
-     * Register any authentication / authorization services.
+     * 注册任何身份验证/授权服务。
      *
      * @return void
      */
@@ -408,7 +409,8 @@ The implicit grant is similar to the authorization code grant; however, the toke
         Passport::enableImplicitGrant();
     }
 
-Once a grant has been enabled, developers may use their client ID to request an access token from your application. The consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
+调用上面方法开启授权后，开发者可以使用他们的客户端 ID 从应用程序请求访问令牌。接入的应用程序应该向你的应用程序的 `/oauth/authorize` 路由发出重定向请求，如下所示：
+
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -421,12 +423,16 @@ Once a grant has been enabled, developers may use their client ID to request an 
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
-> {tip} Remember, the `/oauth/authorize` route is already defined by the `Passport::routes` method. You do not need to manually define this route.
+
+> {tip} `/oauth/authorize` 路由在 `Passport::routes` 定义中，所以无需再次手动定义此路由。
 
 <a name="client-credentials-grant-tokens"></a>
-## Client Credentials Grant Tokens
 
-The client credentials grant is suitable for machine-to-machine authentication. For example, you might use this grant in a scheduled job which is performing maintenance tasks over an API. To use this method you first need to add new middleware to your `$routeMiddleware` in `app/Http/Kernel.php`:
+## 客户端凭据授权令牌
+
+
+客户端凭据授权适用于机器到机器的认证。例如，你可以在通过 API 执行维护任务中使用此授权。要使用这种授权，你首先需要在 `app/Http/Kernel.php` 的 `$routeMiddleware` 变量中添加新的中间件：
+
 
     use Laravel\Passport\Http\Middleware\CheckClientCredentials::class;
 
@@ -434,13 +440,16 @@ The client credentials grant is suitable for machine-to-machine authentication. 
         'client' => CheckClientCredentials::class,
     ];
 
-Then attach this middleware to a route:
+然后在路由上追加这个中间件：
+
 
     Route::get('/user', function(Request $request) {
         ...
     })->middleware('client');
 
-To retrieve a token, make a request to the `oauth/token` endpoint:
+
+接下来通过向 `oauth/token` 接口发出请求来获取令牌:
+
 
     $guzzle = new GuzzleHttp\Client;
 
@@ -456,23 +465,24 @@ To retrieve a token, make a request to the `oauth/token` endpoint:
     echo json_decode((string) $response->getBody(), true);
 
 <a name="personal-access-tokens"></a>
-## Personal Access Tokens
+## 个人访问令牌
 
-Sometimes, your users may want to issue access tokens to themselves without going through the typical authorization code redirect flow. Allowing users to issue tokens to themselves via your application's UI can be useful for allowing users to experiment with your API or may serve as a simpler approach to issuing access tokens in general.
+如果用户要在不经过典型的授权码重定向流的情况下向自己发出访问令牌，可以允许用户通过应用程序的用户界面对自己发出令牌，用户可以因此顺便测试你的 API，或者也可以将其作为一种更简单的发布访问令牌的方式。
 
-> {note} Personal access tokens are always long-lived. Their lifetime is not modified when using the `tokensExpireIn` or `refreshTokensExpireIn` methods.
+
+> {note} 个人访问令牌是永久有效的，就算使用了 `tokensExpireIn` 和 `refreshTokensExpireIn` 方法也不会修改它的生命周期。
 
 <a name="creating-a-personal-access-client"></a>
-### Creating A Personal Access Client
+### 创建个人访问客户端
 
-Before your application can issue personal access tokens, you will need to create a personal access client. You may do this using the `passport:client` command with the `--personal` option. If you have already run the `passport:install` command, you do not need to run this command:
+在你的应用程序发布个人访问令牌之前，你需要在 `passport:client` 命令后带上 `--personal` 参数来创建对应的客户端。如果你已经运行了 `passport:install` 命令，则无需再运行此命令：
 
     php artisan passport:client --personal
 
 <a name="managing-personal-access-tokens"></a>
-### Managing Personal Access Tokens
+### 管理个人访问令牌
 
-Once you have created a personal access client, you may issue tokens for a given user using the `createToken` method on the `User` model instance. The `createToken` method accepts the name of the token as its first argument and an optional array of [scopes](#token-scopes) as its second argument:
+创建个人访问客户端后，你可以使用 `User` 模型实例上的 `createToken` 方法来为给定用户发布令牌。`createToken` 方法接受令牌的名称作为其第一个参数和可选的  [作用域](#token-scopes) 数组作为其第二个参数：
 
     $user = App\User::find(1);
 
@@ -484,13 +494,13 @@ Once you have created a personal access client, you may issue tokens for a given
 
 #### JSON API
 
-Passport also includes a JSON API for managing personal access tokens. You may pair this with your own frontend to offer your users a dashboard for managing personal access tokens. Below, we'll review all of the API endpoints for managing personal access tokens. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints.
+Passport 中也有用来管理个人访问令牌的 JSON API，你可以将其与自己的前端配对，为用户提供管理个人访问令牌的仪表板。下面我们会介绍用于管理个人访问令牌的所有 API 接口。方便起见，我们使用 [Axios](https://github.com/mzabriskie/axios) 来演示对 API 的接口发出 HTTP 请求。
 
-> {tip} If you don't want to implement the personal access token frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
+> {tip} 如果你不想实现自己的个人访问令牌管理的前端界面，可以根据 [前端快速上手](#frontend-quickstart) 在几分钟内组建功能齐全的前端界面。
 
 #### `GET /oauth/scopes`
 
-This route returns all of the [scopes](#token-scopes) defined for your application. You may use this route to list the scopes a user may assign to a personal access token:
+此路由会返回应用程序中定义的所有 [作用域](#scopes)。你可以使用此路由列出用户可能分配给个人访问令牌的范围：
 
     axios.get('/oauth/scopes')
         .then(response => {
@@ -499,7 +509,8 @@ This route returns all of the [scopes](#token-scopes) defined for your applicati
 
 #### `GET /oauth/personal-access-tokens`
 
-This route returns all of the personal access tokens that the authenticated user has created. This is primarily useful for listing all of the user's tokens so that they may edit or delete them:
+此路由返回认证用户创建的所有个人访问令牌。这主要用于列出所有用户的令牌，以便他们可以编辑或删除它们：
+
 
     axios.get('/oauth/personal-access-tokens')
         .then(response => {
@@ -508,7 +519,7 @@ This route returns all of the personal access tokens that the authenticated user
 
 #### `POST /oauth/personal-access-tokens`
 
-This route creates new personal access tokens. It requires two pieces of data: the token's `name` and the `scopes` that should be assigned to the token:
+此路由创建新的个人访问令牌。它需要两个数据：令牌的名称和应该分配给令牌的作用范围：
 
     const data = {
         name: 'Token Name',
@@ -525,26 +536,26 @@ This route creates new personal access tokens. It requires two pieces of data: t
 
 #### `DELETE /oauth/personal-access-tokens/{token-id}`
 
-This route may be used to delete personal access tokens:
+此路由可用于删除个人访问令牌：
 
     axios.delete('/oauth/personal-access-tokens/' + tokenId);
 
 <a name="protecting-routes"></a>
-## Protecting Routes
+## 路由保护
 
 <a name="via-middleware"></a>
-### Via Middleware
+### 通过中间件
 
-Passport includes an [authentication guard](/docs/{{version}}/authentication#adding-custom-guards) that will validate access tokens on incoming requests. Once you have configured the `api` guard to use the `passport` driver, you only need to specify the `auth:api` middleware on any routes that require a valid access token:
+Passport 包含一个 [验证保护机制](/docs/{{version}}/authentication#adding-custom-guards) 可以验证请求中传入的访问令牌。配置 `api` 的看守器使用 `passport` 驱动程序后，只需要在需要有效访问令牌的任何路由上指定 `auth:api` 中间件：
 
     Route::get('/user', function () {
         //
     })->middleware('auth:api');
 
 <a name="passing-the-access-token"></a>
-### Passing The Access Token
+### 传递访问令牌
 
-When calling routes that are protected by Passport, your application's API consumers should specify their access token as a `Bearer` token in the `Authorization` header of their request. For example, when using the Guzzle HTTP library:
+当调用 Passport 保护下的路由时，接入的 API 应用需要将访问令牌作为 `Bearer` 令牌放在请求头 `Authorization` 中。例如，使用 Guzzle HTTP 库时：
 
     $response = $client->request('GET', '/api/user', [
         'headers' => [
@@ -554,15 +565,14 @@ When calling routes that are protected by Passport, your application's API consu
     ]);
 
 <a name="token-scopes"></a>
-## Token Scopes
-
+## 令牌作用域
 
 <a name="defining-scopes"></a>
-### Defining Scopes
+### 定义作用域
 
-Scopes allow your API clients to request a specific set of permissions when requesting authorization to access an account. For example, if you are building an e-commerce application, not all API consumers will need the ability to place orders. Instead, you may allow the consumers to only request authorization to access order shipment statuses. In other words, scopes allow your application's users to limit the actions a third-party application can perform on their behalf.
+作用域可以让 API 客户端在请求账户授权时请求特定的权限。例如，如果你正在构建电子商务应用程序，并不是所有接入的 API 应用都需要下订单的功能。你可以让接入的 API 应用只被允许授权访问订单发货状态。换句话说，作用域允许应用程序的用户限制第三方应用程序执行的操作。
 
-You may define your API's scopes using the `Passport::tokensCan` method in the `boot` method of your `AuthServiceProvider`. The `tokensCan` method accepts an array of scope names and scope descriptions. The scope description may be anything you wish and will be displayed to users on the authorization approval screen:
+你可以在 `AuthServiceProvider` 的 `boot` 方法中使用 `Passport::tokensCan` 方法来定义 API 的作用域。`tokensCan` 方法接受一个作用域名称、描述的数组作为参数。作用域描述将会在授权确认页中直接展示给用户，你可以将其定义为任何你需要的内容：
 
     use Laravel\Passport\Passport;
 
@@ -572,11 +582,11 @@ You may define your API's scopes using the `Passport::tokensCan` method in the `
     ]);
 
 <a name="assigning-scopes-to-tokens"></a>
-### Assigning Scopes To Tokens
+### 给令牌分配作用域
 
-#### When Requesting Authorization Codes
+#### 请求授权码时
 
-When requesting an access token using the authorization code grant, consumers should specify their desired scopes as the `scope` query string parameter. The `scope` parameter should be a space-delimited list of scopes:
+使用授权码授权请求访问令牌时，接入的应用应该将其所需的作用域指定为 `scope` 查询字符串参数。`scope` 包含多个作用域名称时，名称之间使用空格分隔：
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -589,39 +599,39 @@ When requesting an access token using the authorization code grant, consumers sh
         return redirect('http://your-app.com/oauth/authorize?'.$query);
     });
 
-#### When Issuing Personal Access Tokens
+#### 个人访问令牌
 
-If you are issuing personal access tokens using the `User` model's `createToken` method, you may pass the array of desired scopes as the second argument to the method:
+使用 `User` 模型的 `createToken` 方法发放个人访问令牌时，可以将所需作用域的数组作为第二个参数传给此方法：
 
     $token = $user->createToken('My Token', ['place-orders'])->accessToken;
 
 <a name="checking-scopes"></a>
-### Checking Scopes
+### 检查作用域
 
-Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+Passport 包含两个中间件，可用于验证传入的请求是否已被授予给定作用域的令牌进行身份验证。使用之前，需要将下面的中间件添加到 `app/Http/Kernel.php` 文件的 `$routeMiddleware` 属性中：
 
     'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
     'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 
-#### Check For All Scopes
+#### 检查所有作用域
 
-The `scopes` middleware may be assigned to a route to verify that the incoming request's access token has *all* of the listed scopes:
+路由可以使用 `scopes` 中间件来检查当前请求是否拥有指定的 *所有* 作用域：
 
     Route::get('/orders', function () {
-        // Access token has both "check-status" and "place-orders" scopes...
+        // 访问令牌具有 "check-status" and "place-orders" 的作用域...
     })->middleware('scopes:check-status,place-orders');
 
-#### Check For Any Scopes
+#### 检查任意作用域
 
-The `scope` middleware may be assigned to a route to verify that the incoming request's access token has *at least one* of the listed scopes:
+路由可以使用 `scope` 中间件来检查当前请求是否拥有指定的 *任意* 作用域：
 
     Route::get('/orders', function () {
         // Access token has either "check-status" or "place-orders" scope...
     })->middleware('scope:check-status,place-orders');
 
-#### Checking Scopes On A Token Instance
+#### 检查令牌实例上的作用域
 
-Once an access token authenticated request has entered your application, you may still check if the token has a given scope using the `tokenCan` method on the authenticated `User` instance:
+就算访问令牌验证的请求已经通过应用程序的验证，你仍然可以使用当前授权 `User` 实例上的 `tokenCan` 方法来验证令牌是否拥有指定的作用域：
 
     use Illuminate\Http\Request;
 
@@ -632,37 +642,38 @@ Once an access token authenticated request has entered your application, you may
     });
 
 <a name="consuming-your-api-with-javascript"></a>
-## Consuming Your API With JavaScript
+## 使用 JavaScript 接入 API
 
-When building an API, it can be extremely useful to be able to consume your own API from your JavaScript application. This approach to API development allows your own application to consume the same API that you are sharing with the world. The same API may be consumed by your web application, mobile applications, third-party applications, and any SDKs that you may publish on various package managers.
+在构建 API 时，如果能通过 JavaScript 应用接入自己的 API 将会给开发过程带来极大的便利。这种 API 开发方法允许你使用自己的应用程序的 API 和别人共享的 API。你的 Web 应用程序、移动应用程序、第三方应用程序以及可能在各种软件包管理器上发布的任何 SDK 都可能会使用相同的API。
 
-Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group:
+通常，如果要从 JavaScript 应用程序中使用 API，则需要手动向应用程序发送访问令牌，并将其传递给应用程序。但是，Passport 有一个可以处理这个问题的中间件。将 `CreateFreshApiToken` 中间件添加到 `web` 中间件组就可以了：
 
     'web' => [
         // Other middleware...
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. Now, you may make requests to your application's API without explicitly passing an access token:
 
-    axios.get('/api/user')
+Passport 的这个中间件将会在你所有的对外请求中添加一个 `laravel_token` cookie。该 cookie 将包含一个加密后的 [JWT](https://jwt.io/) ，Passport 将用来验证来自 JavaScript 应用程序的 API 请求。至此，你可以在不明确传递访问令牌的情况下向应用程序的 API 发出请求
+
+    axios.get('/user')
         .then(response => {
             console.log(response.data);
         });
 
-When using this method of authentication, Axios will automatically send the `X-CSRF-TOKEN` header. In addition, the default Laravel JavaScript scaffolding instructs Axios to send the `X-Requested-With` header:
+当使用上面的授权方法时，Axios 会自动带上 `X-CSRF-TOKEN` 请求头传递。另外，默认的 Laravel JavaScript 脚手架会让 Axios 发送 `X-Requested-With` 请求头:
 
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
     };
 
-> {note} If you are using a different JavaScript framework, you should make sure it is configured to send the `X-CSRF-TOKEN` and `X-Requested-With` headers with every outgoing request.
+> {note} 如果你用了其他的 JavaScript 框架，应确保配置了每次对外请求都会带有 `X-CSRF-TOKEN` 和 `X-Requested-With` 请求头。
 
 
 <a name="events"></a>
-## Events
+## 事件
 
-Passport raises events when issuing access tokens and refresh tokens. You may use these events to prune or revoke other access tokens in your database. You may attach listeners to these events in your application's `EventServiceProvider`:
+Passport 在发出访问令牌和刷新令牌时触发事件。 在应用程序的 `EventServiceProvider` 中为这些事件追加监听器，可以通过触发这些事件来修改或删除数据库中的其他访问令牌：
 
 ```php
 /**
@@ -682,9 +693,9 @@ protected $listen = [
 ```
 
 <a name="testing"></a>
-## Testing
+## 测试
 
-Passport's `actingAs` method may be used to specify the currently authenticated user as well as its scopes. The first argument given to the `actingAs` method is the user instance and the second is an array of scopes that should be granted to the user's token:
+Passport 的 `actingAs` 方法可以用于指定当前已认证的用户及其作用域。 `actingAs` 方法第一个参数是用户实例，第二个参数是应该授予用户令牌的作用范围的数组:
 
     public function testServerCreation()
     {
@@ -697,3 +708,18 @@ Passport's `actingAs` method may be used to specify the currently authenticated 
 
         $response->assertStatus(200);
     }
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@Kirisky](https://github.com/kirisky)   | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18491_1503379318.jpeg?imageView2/1/w/100/h/100"> | 翻译 | 部分关键字翻译参考 [@KevinDiamen](https://github.com/KevinDiamen) |
+| Cloes | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/6187_1477389867.jpg?imageView2/1/w/100/h/100"> | 翻译 | 我的[github](https://github.com/cloes) |
+| [@JokerLinly](https://laravel-china.org/users/5350) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg"> | Review | Stay Hungry. Stay Foolish. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

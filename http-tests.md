@@ -1,15 +1,15 @@
 # Laravel 测试之：HTTP 测试
 
-- [Introduction](#introduction)
-- [Session / Authentication](#session-and-authentication)
-- [Testing JSON APIs](#testing-json-apis)
-- [Testing File Uploads](#testing-file-uploads)
-- [Available Assertions](#available-assertions)
+- [简介](#introduction)
+- [Session / 认证](#session-and-authentication)
+- [测试 JSON APIs](#testing-json-apis)
+- [测试文件上传](#testing-file-uploads)
+- [可用的断言方法](#available-assertions)
 
 <a name="introduction"></a>
-## Introduction
+## 简介
 
-Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the test defined below:
+Laravel 为 HTTP 请求的生成和输出的检查都提供了非常流畅的 API。例如，你可以查看下面的这个测试用例:
 
     <?php
 
@@ -23,7 +23,7 @@ Laravel provides a very fluent API for making HTTP requests to your application 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic test example.
+         * 一个基础的测试用例。
          *
          * @return void
          */
@@ -35,12 +35,12 @@ Laravel provides a very fluent API for making HTTP requests to your application 
         }
     }
 
-The `get` method makes a `GET` request into the application, while the `assertStatus` method asserts that the returned response should have the given HTTP status code. In addition to this simple assertion, Laravel also contains a variety of assertions for inspecting the response headers, content, JSON structure, and more.
+`get` 方法会创建一个 `GET` 请求来请求你的应用，而 `assertStatus` 方法断言返回的响应是指定的 HTTP 状态码。除了这个简单的断言之外，Laravel 也包含检查响应标头、内容、JSON 结构等各种断言。
 
 <a name="session-and-authentication"></a>
-## Session / Authentication
+## Session / 认证
 
-Laravel provides several helpers for working with the session during HTTP testing. First, you may set the session data to a given array using the `withSession` method. This is useful for loading the session with data before issuing a request to your application:
+Laravel 提供了几个可在测试时使用 Session 的辅助函数。首先，你需要传递一个数组给 `withSession` 方法来设置 Seesion 数据。这让你在应用程序的测试请求发送之前，先给数据加载 Session 变得简单：
 
     <?php
 
@@ -53,7 +53,7 @@ Laravel provides several helpers for working with the session during HTTP testin
         }
     }
 
-Of course, one common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
+当然，一般使用 Session 时都是用于维持用户的状态，如认证用户。`actingAs` 辅助函数提供了简单的方式来让指定的用户认证为当前的用户。例如，我们可以使用 [模型工厂](/docs/{{version}}/database-testing#writing-factories) 来生成并认证用户：
 
     <?php
 
@@ -71,21 +71,21 @@ Of course, one common use of the session is for maintaining state for the authen
         }
     }
 
-You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the `actingAs` method:
+你也可以通过传递 guard 名称作为 `actingAs` 的第二参数以指定用户通过哪种 guard 来认证:
 
     $this->actingAs($user, 'api')
 
 <a name="testing-json-apis"></a>
 ## Testing JSON APIs
 
-Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, and `delete` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
+Laravel 也提供了几个辅助函数来测试 JSON APIs 及其响应。例如，`json`，`get`，`post`，`put`，`patch` 和 `delete` 方法可以用于发出各种 HTTP 动作的请求。你也可以轻松的传入数据或标头到这些方法上。首先，让我们来编写一个测试，将一个 `POST` 请求发送至 `/user` ，并断言其会返回预期数据：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基础的功能测试用例。
          *
          * @return void
          */
@@ -101,19 +101,19 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
         }
     }
 
-> {tip} The `assertJson` method converts the response to an array and utilizes `PHPUnit::assertArraySubset` to verify that the given array exists within the JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
+> {tip} `assertJson` 方法会将响应转换为数组并且利用 `PHPUnit::assertArraySubset` 方法来验证传入的数组是否在应用返回的 JSON 中。也就是说，即使有其它的属性存在于该 JSON 响应中，但是只要指定的片段存在，此测试仍然会通过。
 
 <a name="verifying-exact-match"></a>
-### Verifying Exact Match
+### 验证完全匹配
 
-If you would like to verify that the given array is an **exact** match for the JSON returned by the application, you should use the `assertExactJson` method:
+如果你想验证传入的数组是否与应用返回的 JSON **完全** 匹配，你可以使用 `assertExactJson` 方法：
 
     <?php
 
     class ExampleTest extends TestCase
     {
         /**
-         * A basic functional test example.
+         * 一个基础的功能测试用例。
          *
          * @return void
          */
@@ -130,9 +130,9 @@ If you would like to verify that the given array is an **exact** match for the J
     }
 
 <a name="testing-file-uploads"></a>
-## Testing File Uploads
+## 测试文件上传
 
-The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be used to generate dummy files or images for testing. This, combined with the `Storage` facade's `fake` method greatly simplifies the testing of file uploads. For example, you may combine these two features to easily test an avatar upload form:
+`Illuminate\Http\UploadedFile` 类提供了一个 `fake` 方法，可用其生成用于测试的模拟文件或图像。将其与 `Storage` facade 的 `fake` 方法结合使用，可极大地简化文件上传的测试。例如，你可以结合这两个功能轻松测试头像上传表单：
 
     <?php
 
@@ -155,44 +155,59 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
                 'avatar' => UploadedFile::fake()->image('avatar.jpg')
             ]);
 
-            // Assert the file was stored...
+            // 断言文件已存储...
             Storage::disk('avatars')->assertExists('avatar.jpg');
 
-            // Assert a file does not exist...
+            // 断言文件不存在...
             Storage::disk('avatars')->assertMissing('missing.jpg');
         }
     }
 
-#### Fake File Customization
+#### 自定义模拟文件
 
-When creating files using the `fake` method, you may specify the width, height, and size of the image in order to better test your validation rules:
+当使用 `fake` 方法创建文件时，你可以指定图片的宽度、高度和大小，以便更好地测试你的验证规则：
 
     UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100);
 
-In addition to creating images, you may create files of any other type using the `create` method:
+除了创建图片，你还可以使用 `create` 方法创建任何其他类型的文件：
 
     UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
 
 <a name="available-assertions"></a>
-## Available Assertions
+## 可用的断言方法
 
-Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
+Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了各种各样的自定义断言方法。`json`，`get`，`post`，`put` 和 `delete` 这些测试方法返回的响应都可以使用这些断言方法：
 
 Method  | Description
 ------------- | -------------
-`$response->assertSuccessful();`  |  Assert that the response has a successful status code.
-`$response->assertStatus($code);`  |  Assert that the response has a given code.
-`$response->assertRedirect($uri);`  |  Assert that the response is a redirect to a given URI.
-`$response->assertHeader($headerName, $value = null);`  |  Assert that the given header is present on the response.
-`$response->assertCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie.
-`$response->assertPlainCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie (unencrypted).
-`$response->assertSessionHas($key, $value = null);`  |  Assert that the session contains the given piece of data.
-`$response->assertSessionHasErrors(array $keys, $errorBag = 'default');`  |  Assert that the session contains an error for the given field.
-`$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
-`$response->assertJson(array $data);`  |  Assert that the response contains the given JSON data.
-`$response->assertJsonFragment(array $data);`  |  Assert that the response contains the given JSON fragment.
-`$response->assertJsonMissing(array $data);`  |  Assert that the response does not contain the given JSON fragment.
-`$response->assertExactJson(array $data);`  |  Assert that the response contains an exact match of the given JSON data.
-`$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
-`$response->assertViewIs($value);`  |  Assert that the given view was returned by the route.
-`$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
+`$response->assertSuccessful();`  |  断言该响应具有成功的状态码。
+`$response->assertStatus($code);`  |  断言该响应具有指定的状态码。
+`$response->assertRedirect($uri);`  |  断言该响应被重定向至指定的 URI。
+`$response->assertHeader($headerName, $value = null);`  |  断言该响应存在指定的标头。
+`$response->assertCookie($cookieName, $value = null);`  |  断言该响应包含了指定的 Cookie。
+`$response->assertPlainCookie($cookieName, $value = null);`  |  断言该响应包含了指定的 Cookie（未加密）。
+`$response->assertSessionHas($key, $value = null);`  |  断言该 Session 包含指定的数据。
+`$response->assertSessionHasErrors(array $keys, $errorBag = 'default');`  |  断言该 Session 包含指定的字段的错误信息。
+`$response->assertSessionMissing($key);`  |  断言该 Session 不包含指定的键。
+`$response->assertJson(array $data);`  |  断言该响应包含指定的 JSON 数据。
+`$response->assertJsonFragment(array $data);`  |  断言该响应包含指定的 JSON 片段。
+`$response->assertJsonMissing(array $data);`  |  断言该响应不包含指定的 JSON 片段。
+`$response->assertExactJson(array $data);`  |  断言该响应包含完全匹配指定的 JSON 数据。
+`$response->assertJsonStructure(array $structure);`  |  断言该响应存在指定的 JSON 结构。
+`$response->assertViewIs($value);`  |  断言该视图响应的视图名称为指定的值。
+`$response->assertViewHas($key, $value = null);`  |  断言该视图响应存在指定的数据。
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@springjk](https://laravel-china.org/users/4550)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/4550_1464580958.png?imageView2/1/w/100/h/100">  |  翻译  | 再怎么说我也是我西北一匹狼 |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

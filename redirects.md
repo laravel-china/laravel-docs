@@ -1,20 +1,20 @@
 # Laravel 的 HTTP 重定向 Redirect
 
-- [Creating Redirects](#creating-redirects)
-- [Redirecting To Named Routes](#redirecting-named-routes)
-- [Redirecting To Controller Actions](#redirecting-controller-actions)
-- [Redirecting With Flashed Session Data](#redirecting-with-flashed-session-data)
+- [创建重定向](#creating-redirects)
+- [重定向到命名路由](#redirecting-named-routes)
+- [重定向到控制器动作](#redirecting-controller-actions)
+- [闪存 Session 数据重定向](#redirecting-with-flashed-session-data)
 
 <a name="creating-redirects"></a>
-## Creating Redirects
+## 创建重定向
 
-Redirect responses are instances of the `Illuminate\Http\RedirectResponse` class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a `RedirectResponse` instance. The simplest method is to use the global `redirect` helper:
+重定向响应是类 `Illuminate\Http\RedirectResponse` 的实例, 包含了重定向用户到其他 URL 所需要的合适头信息。有很多方式生成 `RedirectResponse` 实例。最简单的方法是使用全局的 `redirect` 辅助函数：
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
     });
 
-Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/docs/{{version}}/session), make sure the route calling the `back` function is using the `web` middleware group or has all of the session middleware applied:
+有时候你希望将用户重定向到他们的上一个访问位置，例如当提交的表单不合法时，你就可以通过全局的 `back` 辅助函数来这样做。 因为该特性使用了 [session](/docs/{{version}}/session)，请确保路由调用 `back` 函数时使用了 `web` 中间件组或者应用了全部的 session 中间件：
 
     Route::post('user/profile', function () {
         // Validate the request...
@@ -23,27 +23,27 @@ Sometimes you may wish to redirect the user to their previous location, such as 
     });
 
 <a name="redirecting-named-routes"></a>
-## Redirecting To Named Routes
+## 重定向到命名路由
 
-When you call the `redirect` helper with no parameters, an instance of `Illuminate\Routing\Redirector` is returned, allowing you to call any method on the `Redirector` instance. For example, to generate a `RedirectResponse` to a named route, you may use the `route` method:
+当你不带参数调用 `redirect` 辅助函数时，会返回一个 `Illuminate\Routing\Redirector` 实例，它允许你调用 `Redirector` 实例上的任何方法。例如，你可以这样使用 `route` 方法为命名路由生成一个 `RedirectResponse` ：
 
     return redirect()->route('login');
 
-If your route has parameters, you may pass them as the second argument to the `route` method:
+如果你的路由包含参数，你可以把它们当做第二参数传给 `route` 方法：
 
     // For a route with the following URI: profile/{id}
 
     return redirect()->route('profile', ['id' => 1]);
 
-#### Populating Parameters Via Eloquent Models
+#### 通过 Eloquent 模型填充参数
 
-If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may simply pass the model itself. The ID will be extracted automatically:
+如果你要携带一个从 Eloquent 模型中填充过来的 "ID" 参数进行重定向，你可以简单的把该模型本身传进去。 ID 会被自动解析：
 
     // For a route with the following URI: profile/{id}
 
     return redirect()->route('profile', [$user]);
 
-If you would like to customize the value that is placed in the route parameter, you should override the `getRouteKey` method on your Eloquent model:
+如果你想自定义路由参数的值，你应该在 Eloquent 模型中重写 `getRouteKey` 方法：
 
     /**
      * Get the value of the model's route key.
@@ -56,22 +56,22 @@ If you would like to customize the value that is placed in the route parameter, 
     }
 
 <a name="redirecting-controller-actions"></a>
-## Redirecting To Controller Actions
+## 重定向到控制器动作
 
-You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method. Remember, you do not need to specify the full namespace to the controller since Laravel's `RouteServiceProvider` will automatically set the base controller namespace:
+你也可以生成重定向到 [控制器动作](/docs/{{version}}/controllers)。要达到这个目的，传递控制器名和动作名到 `action` 方法即可。记住，你不需要指定完整的控制器命名空间，因为 Laravel 的 `RouteServiceProvider` 会自动设置基础的控制器命名空间：
 
     return redirect()->action('HomeController@index');
 
-If your controller route requires parameters, you may pass them as the second argument to the `action` method:
+如果你的控制器路由需要参数，你可以把它们当做第二个参数传递给 `action` 方法：
 
     return redirect()->action(
         'UserController@profile', ['id' => 1]
     );
 
 <a name="redirecting-with-flashed-session-data"></a>
-## Redirecting With Flashed Session Data
+## 闪存 Session 数据重定向
 
-Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/session#flash-data) are usually done at the same time. Typically, this is done after successfully performing an action when you flash a success message to the session. For convenience, you may create a `RedirectResponse` instance and flash data to the session in a single, fluent method chain:
+重定向到新的 URL 并且 [闪存数据到 session](/docs/{{version}}/session#flash-data) 常常在同时完成。 通常的，这会在你成功的执行一个动作、闪存消息到 session 后完成。方便起见，你可以创建一个 `RedirectResponse` 实例并在单个的、流畅的方法链上闪存数据到 session ：
 
     Route::post('user/profile', function () {
         // Update the user's profile...
@@ -79,10 +79,25 @@ Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/se
         return redirect('dashboard')->with('status', 'Profile updated!');
     });
 
-After the user is redirected, you may display the flashed message from the [session](/docs/{{version}}/session). For example, using [Blade syntax](/docs/{{version}}/blade):
+用户被重定向后，你可以从 [session](/docs/{{version}}/session) 中显示闪存消息。例如，使用 [Blade 语法](/docs/{{version}}/blade):
 
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
         </div>
     @endif
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@limxx](https://github.com/limxx)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/16585030?v=4&s=400">  |  翻译  | Winter is coming. |
+
+
+--- 
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+> 
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+> 
+> 文档永久地址： https://d.laravel-china.org

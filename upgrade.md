@@ -1,56 +1,63 @@
 # Laravel 升级索引
 
-- [Upgrading To 5.5.0 From 5.4](#upgrade-5.5.0)
+- [从 5.4 升级至 5.5.0](#upgrade-5.5.0)
 
 <a name="upgrade-5.5.0"></a>
-## Upgrading To 5.5.0 From 5.4
 
-#### Estimated Upgrade Time: 1 Hour
+## 从 5.4 升级到 5.5.0
 
-> {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
+#### 预计升级耗时：1小时
 
-### Updating Dependencies
+> {note}我们尽量记录每一个可能的破坏性变化。但因为其中一些不兼容变更只存在于框架很不起眼的地方，事实上只有一小部分可能会影响到你的应用程序。
 
-Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~6.0`.
+### 更新依赖
+
+在 `composer.json` 文件中将 `laravel/framework` 更新为 `5.5.*` 。 此外，你还应该将 `phpunit/phpunit` 依赖关系更新到 `~6.0`。
+
+> {tip} 如果你是通过使用 `laravel new` 来安装 Laravel 程序，则应该使用命令 `composer global update` 来更新 Laravel 安装程序包。
 
 #### Laravel Dusk
 
-Laravel Dusk `2.0.0` has been released to provide compatibility with Laravel 5.5 and headless Chrome testing.
+Laravel Dusk `2.0.0` 已经发布，该版本同时兼容 Laravel 5.5 和 Chrome 的 headless 模式测试。
 
 #### Pusher
 
-The Pusher event broadcasting driver now requires version `~3.0` of the Pusher SDK.
+Pusher 事件广播驱动现在需要 `~3.0`  版本的 Pusher SDK。
 
 ### Artisan
 
-#### The `fire` Method
+#### `fire` 方法
 
-Any `fire` methods present on your Artisan commands should be renamed to `handle`.
+该方法已重命名为 `handle` 方法。
 
-### Authorization
+#### `optimize` 命令
 
-#### The `authorizeResource` Controller Method
+随着对 PHP 操作码缓存的最新改进，不再需要优化 Artisan 命令。你应该从部署脚本中删除对此命令的任何引用，因为它在未来的 Laravel 版本中会被删除。
 
-When passing a multi-word model name to the `authorizeResource` method, the resulting route segment will now be "snake" case, matching the behavior of resource controllers.
+### 用户授权
 
-#### The `before` Policy Method
+#### `authorizeResouce` 控制器方法
 
-The `before` method of a policy class will not be called if the class doesn't contain a method with name matching the name of the ability being checked.
+当将一个大驼峰命名的模型名称传递给 `authorizeResource` 方法时，为了和资源控制器的行为相匹配，生成的路由会用蛇形命名法来命名。
 
-### Cache
+#### `before` 策略方法
 
-#### Database Driver
+如果类中不包含与给定名称相匹配的方法，则不会调用策略类的 `before` 方法。
 
-If you are using the database cache driver, you should run `php artisan cache:clear` when deploying your upgraded Laravel 5.5 application for the first time.
+### 缓存
+
+#### 数据库驱动
+
+如果你正在使用数据库缓存驱动，那在你第一次部署升级至 Laravel 5.5时，应该先运行 `php artisan cache:clear` 命令。
 
 ### Eloquent
 
-#### The `belongsToMany` Method
+#### `belongsToMany` 方法
 
-If you are overriding the `belongsToMany` method on your Eloquent model, you should update your method signature to reflect the addition of new arguments:
+如果你在 Eloquent 模型中重写了 `belongsToMany` 方法，应该更新方法签名来映射新增的参数：
 
     /**
-     * Define a many-to-many relationship.
+     * 定义多对多关系。
      *
      * @param  string  $related
      * @param  string  $table
@@ -68,12 +75,12 @@ If you are overriding the `belongsToMany` method on your Eloquent model, you sho
         //
     }
 
-#### Model `is` Method
+#### 模型的 `is` 方法
 
-If you are overriding the `is` method of your Eloquent model, you should remove the `Model` type-hint from the method. This allows the `is` method to receive `null` as an argument:
+如果你重写了 Eloquent 模型的 `is` 方法 ，则应该从该方法中删除 `Model` 的类型提示。这将允许 `is` 方法接受 `null` 作为参数。
 
     /**
-     * Determine if two models have the same ID and belong to the same table.
+     * 确定两个模型是否具有相同的ID并且属于同一个表。
      *
      * @param  \Illuminate\Database\Eloquent\Model|null  $model
      * @return bool
@@ -83,40 +90,40 @@ If you are overriding the `is` method of your Eloquent model, you should remove 
         //
     }
 
-#### Model `$events` Property
+#### 模型 `$events` 属性
 
-The `$events` property on your models should be renamed to `$dispatchesEvents`. This change was made because of a high number of users needing to define an `events` relationship, which caused a conflict with the old property name.
+模型上的 `$events` 属性应该重命名为 `$dispatchesEvents`。由于大量用户需要定义事件关系，导致与旧属性名称的冲突，因此进行了更改。
 
-#### Pivot `$parent` Property
+#### 中间表 `$parent` 属性
 
-The protected `$parent` property on the `Illuminate\Database\Eloquent\Relations\Pivot` class has been renamed to `$pivotParent`.
+`Illuminate\Database\Eloquent\Relations\Pivot` 类中受保护的 `$parent` 属性已被重命名为 `$pivotParent` 。
 
-#### Relationship `create` Methods
+#### 关联 `create` 方法
 
-The `BelongsToMany`, `HasOneOrMany`, and `MorphOneOrMany` class' `create` methods have been modified to provide a default value for the `$attributes` argument. If you are overriding these methods, you should update your signatures to match the new definition:
+`BelongsToMany`、`HasOneOrMany` 以及 `MorphOneOrMany` 类中的 `create` 方法已被修改为 `$attributes` 参数提供默认值。如果你重写了这些方法，你应该更新你的签名来匹配新的定义。
 
     public function create(array $attributes = [])
     {
         //
     }
 
-#### Soft Deleted Models
+#### 软删除模型
 
-When deleting a "soft deleted" model, the `exists` property on the model will remain `true`.
+删除 「软删除」 模型时，模型上的 `exists` 属性将保持为 `true` 。
 
-#### `withCount` Column Formatting
+#### `withCount` 列格式化
 
-When using an alias, the `withCount` method will no longer automatically append `_count` onto the resulting column name. For example, in Laravel 5.4, the following query would result in a `bar_count` column being added to the query:
+当使用别名时，`withCount` 方法将不再自动将 `_count` 附加到生成的列名称上。例如，在 Laravel 5.4 中，以下查询会将 `bar_count` 列添加到查询中：
 
     $users = User::withCount('foo as bar')->get();
 
-However, in Laravel 5.5, the alias will be used exactly as it is given. If you would like to append `_count` to the resulting column, you must specify that suffix when defining the alias:
+但是在 Laravel 5.5 中，别名将严格按照给定的方式使用。如果要将 `_count` 追加到结果列，则必须在定义别名时指定该后缀：
 
     $users = User::withCount('foo as bar_count')->get();
 
-### Exception Format
+### 异常格式
 
-In Laravel 5.5, all exceptions, including validation exceptions, are converted into HTTP responses by the exception handler. In addition, the default format for JSON validation errors has changed. The new format conforms to the following convention:
+在 Laravel 5.5 中，所有的异常（包括验证异常）都被异常处理程序转换成 HTTP 响应。另外，验证错误默认返回的 JSON 格式已经更改。新格式遵循以下规则：
 
     {
         "message": "The given data was invalid.",
@@ -132,12 +139,12 @@ In Laravel 5.5, all exceptions, including validation exceptions, are converted i
         }
     }
 
-However, if you would like to maintain the Laravel 5.4 JSON error format, you may add the following method to your `App\Exceptions\Handler` class:
+但是，如果你想沿用 Laravel 5.4 错误提示的  JSON 格式，则可以将以下方法添加到 `App\Exceptions\Handler` 类中：
 
     use Illuminate\Validation\ValidationException;
 
     /**
-     * Convert a validation exception into a JSON response.
+     * 将验证异常转换成 JSON 响应
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Validation\ValidationException  $exception
@@ -148,18 +155,18 @@ However, if you would like to maintain the Laravel 5.4 JSON error format, you ma
         return response()->json($exception->errors(), $exception->status);
     }
 
-#### JSON Authentication Attempts
+#### JSON 身份验证尝试
 
-This change also affects the validation error formatting for authentication attempts made over JSON. In Laravel 5.5, JSON authentication failures will return the error messages following the new formatting convention described above.
+此更改也会影响通过 JSON 进行的身份验证尝试的验证错误返回的格式。在 Laravel 5.5 中，身份验证失败的 JSON 将按照上述新的格式约定返回错误消息。
 
-#### A Note On Form Requests
+#### 表单请求注意事项
 
-If you were customizing the response format of an individual form request, you should now override the `failedValidation` method of that form request, and throw an `HttpResponseException` instance containing your custom response:
+现在自定义了单个表单请求的响应格式，应重写该表单请求的 `failedValidation` 方法 ，并抛出一个包含自定义响应的 `HttpResponseException` 实例。
 
     use Illuminate\Http\Exceptions\HttpResponseException;
 
     /**
-     * Handle a failed validation attempt.
+     * 处理失败的验证尝试。
      *
      * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return void
@@ -171,20 +178,20 @@ If you were customizing the response format of an individual form request, you s
         throw new HttpResponseException(response()->json(..., 422));
     }
 
-### Filesystem
+### 文件系统
 
-#### The `files` Method
+#### `files` 方法
 
-The `files` method now returns an array of `SplFileInfo` objects, similar to the `allFiles` method. Previously, the `files` method returned an array of string path names.
+`files` 方法与 `allFiles` 方法类似，会返回一个 `SqlFileInfo` 对象的数组。之前的 `files` 方法会返回一个字符串路径名的数组。
 
-### Mail
+### 邮件
 
-#### Unused Parameters
+#### 未使用的参数
 
-The unused `$data` and `$callback` arguments were removed from the `Illuminate\Contracts\Mail\MailQueue` contract's `queue` and `later` methods:
+未使用的 `$data` 和 `$callback` 参数已从 `Illuminate\Contracts\Mail\MailQueue` 契约的 `queue` 和 `later` 方法中删除
 
     /**
-     * Queue a new e-mail message for sending.
+     * 在队列中发送新的电子邮件
      *
      * @param  string|array|MailableContract  $view
      * @param  string  $queue
@@ -193,7 +200,7 @@ The unused `$data` and `$callback` arguments were removed from the `Illuminate\C
     public function queue($view, $queue = null);
 
     /**
-     * Queue a new e-mail message for sending after (n) seconds.
+     * n 秒后在队列中发送新的电子邮件
      *
      * @param  \DateTimeInterface|\DateInterval|int  $delay
      * @param  string|array|MailableContract  $view
@@ -202,68 +209,86 @@ The unused `$data` and `$callback` arguments were removed from the `Illuminate\C
      */
     public function later($delay, $view, $queue = null);
 
-### Requests
+### 请求
 
-#### The `has` Method
+#### `has` 方法
 
-The `$request->has` method will now return `true` for empty strings and `null`. A new `$request->filled` method has been added that provides the previous behavior of the `has` method.
+`$request->has` 方法现在对于空字符串和 `null` 将返回 `true`。新添加的 `$request->filled` 方法提供了之前的 `has` 方法的行为。
 
-#### The `intersect` Method
+#### `intersect` 方法
 
-The `intersect` method has been removed. You may replicate this behavior using `array_filter` on a call to `$request->only`:
+`intersect` 方法已被移除。你只需在调用 `$request->only` 时使用 `array_filter` 来代替该方法：
 
     return array_filter($request->only('foo'));
 
-#### The `only` Method
+#### `only` 方法
 
-The `only` method will now only return attributes that are actually present in the request payload. If you would like to preserve the old behavior of the `only` method, you may use the `all` method instead.
+`only` 方法现在只会返回请求中实际存在的属性。如果你想保留该方法的旧功能，可以使用 `all` 方法来替代。
 
     return $request->all('foo');
 
-#### The `request()` Helper
+#### 辅助函数 `request()`
 
-The `request` helper will no longer retrieve nested keys. If needed, you may use the `input` method of the request to achieve this behavior:
+辅助函数 `request` 将不再检索嵌套的键。如果有需要，你可以使用 `request` 中的 `input` 方法来达成此目的：
 
     return request()->input('filters.date');
 
-### Testing
+### 测试
 
-#### Authentication Assertions
+#### 认证声明
 
-Some authentication assertions were renamed for better consistency with the rest of the framework's assertions:
+一些认证断言被重命名为与框架的其他断言更好的一致性：
 
-<div class="content-list" markdown="1">
-- `seeIsAuthenticated` was renamed to `assertAuthenticated`.
-- `dontSeeIsAuthenticated` was renamed to `assertGuest`.
-- `seeIsAuthenticatedAs` was renamed to `assertAuthenticatedAs`.
-- `seeCredentials` was renamed to `assertCredentials`.
-- `dontSeeCredentials` was renamed to `assertInvalidCredentials`.
-</div>
+<!-- <div class="content-list" markdown="1"> -->
+- `seeIsAuthenticated` 被重命名为 `assertAuthenticated` ；
+- `dontSeeIsAuthenticated` 被重命名为 `assertGuest` ；
+- `seeIsAuthenticatedAs` 被重命名为 `assertAuthenticatedAs` ；
+- `seeCredentials` 被重命名为 `assertCredentials` ；
+- `dontSeeCredentials` 被重命名为 `assertInvalidCredentials` 。
+  <!-- </div> -->
 
-#### Mail Fake
+#### 伪造邮件
 
-If you are using the `Mail` fake to determine if a mailable was **queued** during a request, you should now use `Mail::assertQueued` instead of `Mail::assertSent`. This distinction allows you to specifically assert that the mail was queued for background sending and not sent during the request itself.
+如果你使用伪造 Mail 来请求中是否有可用的**队列** ，则应该使用 `Mail::assertQueued` 来代替 `Mail::assertSent` 。 这种区别允许你明确声明邮件已在队列中等待发送，而不是在请求期间发送。
 
-### Translation
+### 翻译
 
-#### The `LoaderInterface`
+#### `LoaderInterface`
 
-The `Illuminate\Translation\LoaderInterface` interface has been moved to `Illuminate\Contracts\Translation\Loader`.
+`Illuminate\Translation\LoaderInterface` 该接口已被移动至 `Illuminate\Contracts\Translation\Loader`。
 
-### Validation
+### 验证
 
-#### Validator Methods
+#### 验证方法
 
-All of the validator's validation methods are now `public` instead of `protected`.
+所有的验证器的验证方法已由 `protected` 改为 `public` 。
 
-### Views
+### 视图
 
-#### Dynamic "With" Variable Names
+#### 动态的 「with」 变量
 
-When allowing the dynamic `__call` method to share variables with a view, these variables will automatically use "camel" case. For example, given the following:
+当允许动态的 `__call` 方法与视图共享变量时，该变量将会自动使用驼峰式命名。举例如下：
 
     return view('pool')->withMaximumVotes(100);
 
-The `maximumVotes` variable may be accessed in the template like so:
+`maximumVotes` 变量可以在模板中访问，如下所示：
 
     {{ $maximumVotes }}
+### 其他
+
+你还可以查看 `laravel/laravel` 在 GitHub 中的更改。虽然这些更改不是必需的，但你可能希望将这些文件与应用程序保持同步。本升级指南中将介绍其中一些更改，而其他的则不会被介绍，例如更改配置文件或注释。你可以使用 [GitHub 的比较工具](https://github.com/laravel/laravel/compare/5.4...master) 轻松查看你在意的变更的内容。
+
+## 译者署名
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@我做我的梦](https://laravel-china.org/users/18485)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/18485_1503368993.jpeg?imageView2/1/w/100/h/100">  |  翻译  | A new to Laravel，and hope Laravel is the last framework for me. |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  |  Review  | Stay Hungry. Stay Foolish. |
+
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org

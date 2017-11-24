@@ -1,18 +1,18 @@
-# Laravel 的视图功能
+# Laravel 的视图
 
-- [Creating Views](#creating-views)
-- [Passing Data To Views](#passing-data-to-views)
-    - [Sharing Data With All Views](#sharing-data-with-all-views)
-- [View Composers](#view-composers)
+- [创建视图](#creating-views)
+- [向视图传递数据](#passing-data-to-views)
+    - [与所有视图共享数据](#sharing-data-with-all-views)
+- [视图合成器](#view-composers)
 
 <a name="creating-views"></a>
-## Creating Views
+## 创建视图
 
-> {tip} Looking for more information on how to write Blade templates? Check out the full [Blade documentation](/docs/{{version}}/blade) to get started.
+> {tip} 想寻找有关如何编写 Blade 模板的更多信息？查看完整的 [Blade 文档](/docs/{{version}}/blade)。
 
-Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory. A simple view might look something like this:
+视图包含应用程序的 HTML，并且将控制器／应用程序逻辑与演示逻辑分开。视图文件存放于 `resources/views` 目录下。一个简单的视图如下所示：
 
-    <!-- View stored in resources/views/greeting.blade.php -->
+    <!-- 此视图文件位置：resources/views/greeting.blade.php -->
 
     <html>
         <body>
@@ -20,21 +20,21 @@ Views contain the HTML served by your application and separate your controller /
         </body>
     </html>
 
-Since this view is stored at `resources/views/greeting.blade.php`, we may return it using the global `view` helper like so:
+该视图文件位于 `resources/views/greeting.blade.php`，使用全局辅助函数 `view` 来返回：
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
 
-As you can see, the first argument passed to the `view` helper corresponds to the name of the view file in the `resources/views` directory. The second argument is an array of data that should be made available to the view. In this case, we are passing the `name` variable, which is displayed in the view using [Blade syntax](/docs/{{version}}/blade).
+如你所见，`view` 函数中，传入的第一个参数对应着 `resources/views` 目录中视图文件的名称，第二个参数是可在视图文件中使用的数据数组。在示例中，我们传递 `name` 变量，该变量可以使用 [Blade 模板语言](/docs/{{version}}/blade) 在视图中显示。
 
-Of course, views may also be nested within sub-directories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may reference it like so:
+当然，视图文件也可以嵌套在 `resources/views` 目录的子目录中。「点」符号可以用来引用嵌套视图。例如，如果你的视图存储在 `resources/views/admin/profile.blade.php`，则可以这样引用它：
 
     return view('admin.profile', $data);
 
-#### Determining If A View Exists
+#### 判断视图文件是否存在
 
-If you need to determine if a view exists, you may use the `View` facade. The `exists` method will return `true` if the view exists:
+如果需要判断视图文件是否存在，可以使用 `View` Facade 上的 `exists` 方法。如果视图文件存在，该方法会返回 `true` ：
 
     use Illuminate\Support\Facades\View;
 
@@ -43,20 +43,19 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
     }
 
 <a name="passing-data-to-views"></a>
-## Passing Data To Views
+## 向视图传递数据
 
-As you saw in the previous examples, you may pass an array of data to views:
+如上述例子所示，你可以使用数组将数据传递到视图：
 
     return view('greetings', ['name' => 'Victoria']);
-
-When passing information in this manner, the data should be an array with key / value pairs. Inside your view, you can then access each value using its corresponding key, such as `<?php echo $key; ?>`. As an alternative to passing a complete array of data to the `view` helper function, you may use the `with` method to add individual pieces of data to the view:
+当用这种方式传递数据时，作为第二个参数的数据必须是键值对数组。在视图文件中，你可以通过对应的键获取相应的值，例如 `<?php echo $key; ?>`。作为将完整数据传递给辅助函数 `view` 的替代方法，你可以使用 `with` 方法将单个数据片段添加到视图：
 
     return view('greeting')->with('name', 'Victoria');
 
 <a name="sharing-data-with-all-views"></a>
-#### Sharing Data With All Views
+#### 与所有视图共享数据
 
-Occasionally, you may need to share a piece of data with all views that are rendered by your application. You may do so using the view facade's `share` method. Typically, you should place calls to `share` within a service provider's `boot` method. You are free to add them to the `AppServiceProvider` or generate a separate service provider to house them:
+如果需要共享一段数据给应用程序的所有视图，你可以在服务提供器的 `boot` 方法中调用视图 Facade 的 `share` 方法。例如，可以将它们添加到 `AppServiceProvider` 或者为它们生成一个单独的服务提供器：
 
     <?php
 
@@ -67,7 +66,7 @@ Occasionally, you may need to share a piece of data with all views that are rend
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * 引导任何应用服务。
          *
          * @return void
          */
@@ -77,7 +76,7 @@ Occasionally, you may need to share a piece of data with all views that are rend
         }
 
         /**
-         * Register the service provider.
+         * 注册服务提供器
          *
          * @return void
          */
@@ -88,11 +87,11 @@ Occasionally, you may need to share a piece of data with all views that are rend
     }
 
 <a name="view-composers"></a>
-## View Composers
+## 视图合成器
 
-View composers are callbacks or class methods that are called when a view is rendered. If you have data that you want to be bound to a view each time that view is rendered, a view composer can help you organize that logic into a single location.
+视图合成器是在渲染视图时调用的回调或者类方法。如果你每次渲染视图时都要绑定视图的数据，视图合成器可以帮你将这些逻辑整理到特定的位置。
 
-For this example, let's register the view composers within a [service provider](/docs/{{version}}/providers). We'll use the `View` facade to access the underlying `Illuminate\Contracts\View\Factory` contract implementation. Remember, Laravel does not include a default directory for view composers. You are free to organize them however you wish. For example, you could create an `app/Http/ViewComposers` directory:
+在下面这个例子中，我们会在一个 [服务提供器](/docs/{{version}}/providers) 中注册视图合成器，使用 `View` Facade 来访问底层的 `Illuminate\Contracts\View\Factory` 契约实现。默认情况下，Laravel 没有存放视图合成器的目录，你需要根据喜好来重新建立目录，例如：`App\Http\ViewComposers`。
 
     <?php
 
@@ -104,25 +103,25 @@ For this example, let's register the view composers within a [service provider](
     class ComposerServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * 在容器中注册绑定
          *
          * @return void
          */
         public function boot()
         {
-            // Using class based composers...
+            // 使用基于类的 composer...
             View::composer(
                 'profile', 'App\Http\ViewComposers\ProfileComposer'
             );
 
-            // Using Closure based composers...
+            // 使用基于闭包的 composers...
             View::composer('dashboard', function ($view) {
                 //
             });
         }
 
         /**
-         * Register the service provider.
+         * 注册服务器提供者
          *
          * @return void
          */
@@ -132,9 +131,9 @@ For this example, let's register the view composers within a [service provider](
         }
     }
 
-> {note} Remember, if you create a new service provider to contain your view composer registrations, you will need to add the service provider to the `providers` array in the `config/app.php` configuration file.
+> {note} 注意，如果你创建了新的一个服务提供器来存放你注册视图合成器的代码，那么你需要将这个服务提供器添加到配置文件 `config/app.php` 的 `providers` 数组中。
 
-Now that we have registered the composer, the `ProfileComposer@compose` method will be executed each time the `profile` view is being rendered. So, let's define the composer class:
+到此我们已经注册了视图合成器，每次渲染 `profile` 视图时都会执行 `ProfileComposer@compose` 方法。那么下面我们来定义视图合成器的这个类吧：
 
     <?php
 
@@ -146,26 +145,26 @@ Now that we have registered the composer, the `ProfileComposer@compose` method w
     class ProfileComposer
     {
         /**
-         * The user repository implementation.
+         * 用户 repository 实现
          *
          * @var UserRepository
          */
         protected $users;
 
         /**
-         * Create a new profile composer.
+         * 创建一个新的 profile composer
          *
          * @param  UserRepository  $users
          * @return void
          */
         public function __construct(UserRepository $users)
         {
-            // Dependencies automatically resolved by service container...
+            // 依赖关系由服务容器自动解析...
             $this->users = $users;
         }
 
         /**
-         * Bind data to the view.
+         * 将数据绑定到视图。
          *
          * @param  View  $view
          * @return void
@@ -176,27 +175,42 @@ Now that we have registered the composer, the `ProfileComposer@compose` method w
         }
     }
 
-Just before the view is rendered, the composer's `compose` method is called with the `Illuminate\View\View` instance. You may use the `with` method to bind data to the view.
+视图合成器的 `compose` 方法会在视图渲染之前被调用，并传入一个 `Illuminate\View\View` 实例。你可以使用 `with` 方法将数据绑定到视图。
 
-> {tip} All view composers are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a composer's constructor.
+> {tip} 所有的视图合成器都会通过 [服务容器](/docs/{{version}}/container) 进行解析，所以你可以在视图合成器的构造函数中类型提示需要注入的依赖项。
 
-#### Attaching A Composer To Multiple Views
+#### 将视图构造器添加到多个视图
 
-You may attach a view composer to multiple views at once by passing an array of views as the first argument to the `composer` method:
+通过将一组视图作为第一个参数传入 `composer` 方法，将一个视图合成器添加到多个视图：
 
     View::composer(
         ['profile', 'dashboard'],
         'App\Http\ViewComposers\MyViewComposer'
     );
 
-The `composer` method also accepts the `*` character as a wildcard, allowing you to attach a composer to all views:
+`composer` 方法同时也接受通配符 `*`，表示将一个视图合成器添加到所有视图：
 
     View::composer('*', function ($view) {
         //
     });
 
-#### View Creators
+#### 视图构造器
 
-View **creators** are very similar to view composers; however, they are executed immediately after the view is instantiated instead of waiting until the view is about to render. To register a view creator, use the `creator` method:
+视图**构造器**和视图合成器非常相似。唯一不同之处在于：视图构造器在视图实例化之后立即执行，而视图合成器在视图即将渲染时执行。使用 `creator` 方法注册视图构造器：
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
+| [@shamiao](https://laravel-china.org/users/7034)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/7034_1480130781.jpeg">  | 修正 | Make developers great again. |
+
+---
+
+> {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
+>
+> 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
+>
+> 文档永久地址： https://d.laravel-china.org
