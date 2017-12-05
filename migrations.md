@@ -161,13 +161,14 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
         $table->increments('id');
     });
 
-你可以在数据库结构构造器上设置 `engine` 属性来设置数据表的存储引擎：
+你可以在数据库结构构造器上设置数据表的选项：
 
-    Schema::create('users', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
-
-        $table->increments('id');
-    });
+命令  | 描述
+------------- | -------------
+`$table->engine = 'InnoDB';`  |  指定数据表的`engine`(Mysql).
+`$table->charset = 'utf8';`  |  指定数据表的默认字符集(Mysql).
+`$table->collation = 'utf8_unicode_ci';`  |  指定数据表默认的`collation`.
+`$table->temporary();`  |  创建临时表(不支持SQL Server).
 
 <a name="renaming-and-dropping-tables"></a>
 ### 重命名与删除数据表
