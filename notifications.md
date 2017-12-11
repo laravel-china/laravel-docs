@@ -149,7 +149,7 @@ Laravel 中一条通知就是一个类（通常存在 `app/Notifications` 文件
 
     Notification::route('mail', 'taylor@laravel.com')
                 ->route('nexmo', '5555555555')
-                ->send(new InvoicePaid($invoice));
+                ->notify(new InvoicePaid($invoice));
 
 <a name="mail-notifications"></a>
 ## 邮件通知
