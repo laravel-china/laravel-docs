@@ -359,7 +359,7 @@ Laravel 内置的控制器 `LoginController` 已经包含了 `Illuminate\Foundat
 
     namespace App\Providers;
 
-    ／use App\Services\Auth\JwtGuard;
+    use App\Services\Auth\JwtGuard;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
