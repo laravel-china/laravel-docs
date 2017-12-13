@@ -307,7 +307,7 @@ Mix 提供了一个 `webpackConfig` 方法来合并任何 `Webpack` 配置以覆
 
     mix.js('resources/assets/js/app.js', 'public/js');
 
-    if (mix.inProduction) {
+    if (mix.inProduction()) {
         mix.version();
     }
 
