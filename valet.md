@@ -76,15 +76,15 @@ Valet 和 Homestead 都是配置 Laravel 开发环境的绝佳选择。选择哪
 
   </div>
 
-安装完 Valet，使用 `ping foobar.dev` 命令在终端上的 ping 任何一个 `*.dev` 的域名。如果 Valet 安装正确，可以在终端上看到来自 `127.0.0.1` 的响应。
+安装完 Valet，使用 `ping foobar.test` 命令在终端上的 ping 任何一个 `*.test` 的域名。如果 Valet 安装正确，可以在终端上看到来自 `127.0.0.1` 的响应。
 
 每次机器启动时，Valet 会自动启动其进程。所以只要完成了 Valet 的初始化，就无需再次运行 `valet start` 或 `valet install`。
 
 #### 使用其它域名
 
-默认情况下，Valet 使用 `.dev`  顶级域名为你的项目提供服务。如果你想使用其他域名，可以使用 `valet domain tld-name` 命令。
+默认情况下，Valet 使用 `.test`  顶级域名为你的项目提供服务。如果你想使用其他域名，可以使用 `valet domain tld-name` 命令。
 
-例如，如果你要使用 `.app` 而不是 `.dev`，就运行 `valet domain app`，Valet 会自动将站点域名改为 `*.app`。
+例如，如果你要使用 `.app` 而不是 `.test`，就运行 `valet domain app`，Valet 会自动将站点域名改为 `*.app`。
 
 #### 数据库
 
