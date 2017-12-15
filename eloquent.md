@@ -823,13 +823,34 @@ Eloquent 模型会触发许多事件，让你在模型的生命周期的多个�
             //
         }
     }
+在模型的`boot`方法中注册观察者，这或许是一个更好的选择
 
+    <?php
 
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+    use App\Observers\UserObserver;
+
+    class User extends Model
+    {
+        /**
+         * 数据模型的启动方法
+         *
+         * @return void
+         */
+        protected static function boot()
+        {
+            parent::boot();
+            static::observe(UserObserver::class);
+        }
+    }
+    
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
 | [@sml2h3](https://github.com/sml2h3)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/12218_1488347757.jpeg?imageView2/1/w/200/h/200">  |  翻译  | [欢迎访问个人博客→疯狂极客](https://www.fkgeek.com) |
-
+| [junliuxian](https://github.com/junliuxian) | <img class="avatar-66 rm-style" src="https://avatars2.githubusercontent.com/u/14865584?s=460&v=4"> | 增加观察者使用方法 | 努力不一定有结果，但不努力一定会没结果 |
 
 --- 
 
