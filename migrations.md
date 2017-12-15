@@ -242,7 +242,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 `$table->tinyInteger('numbers');`  |  相当于 TINYINT 型态。
 `$table->timestamp('added_on');`  |  相当于 TIMESTAMP 型态。
 `$table->timestampTz('added_on');`  |  相当于 TIMESTAMP (带时区) 形态。
-`$table->timestamps();`  |  加入 `created_at` 和 `updated_at` 字段。
+`$table->timestamps();`  |  加入 `created_at` 和 `updated_at` 字段，允许为NULL。
 `$table->timestampsTz();`  |  加入 `created_at` and `updated_at` (带时区) 字段，并允许为NULL。
 `$table->unsignedBigInteger('votes');`  |  相当于 Unsigned BIGINT 型态。
 `$table->unsignedInteger('votes');`  |  相当于 Unsigned INT 型态。
