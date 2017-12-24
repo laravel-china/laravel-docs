@@ -243,7 +243,7 @@ Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了一些数据库�
 
 方法名  | 描述
 ------------- | -------------
-`$this->assertDatabaseHas($table, array $data);`  |  断言数据库里含有指定表。
+`$this->assertDatabaseHas($table, array $data);`  |  断言数据库里含有指定数据。
 `$this->assertDatabaseMissing($table, array $data);`  |  断言表里没有指定数据。
 `$this->assertSoftDeleted($table, array $data);`  |  断言指定记录已经被软删除。
 
