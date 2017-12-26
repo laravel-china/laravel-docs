@@ -161,13 +161,14 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
         $table->increments('id');
     });
 
-你可以在数据库结构构造器上设置 `engine` 属性来设置数据表的存储引擎：
+你可以在数据库结构构造器上设置数据表的选项：
 
-    Schema::create('users', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
-
-        $table->increments('id');
-    });
+命令  | 描述
+------------- | -------------
+`$table->engine = 'InnoDB';`  |  指定数据表的`engine`(Mysql).
+`$table->charset = 'utf8';`  |  指定数据表的默认字符集(Mysql).
+`$table->collation = 'utf8_unicode_ci';`  |  指定数据表默认的`collation`.
+`$table->temporary();`  |  创建临时表(不支持SQL Server).
 
 <a name="renaming-and-dropping-tables"></a>
 ### 重命名与删除数据表
@@ -241,7 +242,7 @@ Laravel 的 `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支�
 `$table->tinyInteger('numbers');`  |  相当于 TINYINT 型态。
 `$table->timestamp('added_on');`  |  相当于 TIMESTAMP 型态。
 `$table->timestampTz('added_on');`  |  相当于 TIMESTAMP (带时区) 形态。
-`$table->timestamps();`  |  加入 `created_at` 和 `updated_at` 字段。
+`$table->timestamps();`  |  加入 `created_at` 和 `updated_at` 字段，允许为NULL。
 `$table->timestampsTz();`  |  加入 `created_at` and `updated_at` (带时区) 字段，并允许为NULL。
 `$table->unsignedBigInteger('votes');`  |  相当于 Unsigned BIGINT 型态。
 `$table->unsignedInteger('votes');`  |  相当于 Unsigned INT 型态。

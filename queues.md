@@ -372,7 +372,7 @@ Laravel 包含一个队列处理器，当新任务被推到队列中时它能处
 <a name="queue-priorities"></a>
 ### 队列优先级
 
-有时候你希望设置处理队列的优先级。比如在 `config/queue.php` 里你可能设置了 `redis` 连接队列的默认邮件及为 `low`，但是你可能偶尔希望把一个任务推到 `high` 优先级的队列中，像这样：
+有时候你希望设置处理队列的优先级。比如在 `config/queue.php` 里你可能设置了 `redis` 连接队列的默认优先级为 `low`，但是你可能偶尔希望把一个任务推到 `high` 优先级的队列中，像这样：
 
     dispatch((new Job)->onQueue('high'));
 

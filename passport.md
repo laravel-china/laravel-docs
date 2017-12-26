@@ -149,7 +149,7 @@ Passport 配备了一些可以让你的用户自行创建客户端和个人访�
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-这些组件注册后，运行 `npm run dev` 命令以确保重新编译你的资源。重新编译资源后，你可以将这些组件放入应用程序的模板中，然后开始创建客户端和个人访问令牌：
+这些组件注册后，运行 `npm install`安装vue所依赖的文件，运行`npm run dev` 命令以确保重新编译你的资源。重新编译资源后，你可以将这些组件放入应用程序的模板中，然后开始创建客户端和个人访问令牌：
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
