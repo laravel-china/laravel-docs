@@ -114,7 +114,7 @@ Laravel 使用 `public/.htaccess` 文件来为前端控制器提供隐藏了 `in
 如果你使用的是 Nginx，在你的站点配置中加入以下内容，它将会将所有请求都引导到 `index.php` 前端控制器：
 
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        try_files $uri  /index.php?$query_string;
     }
 
 当然，使用 [Homestead](/docs/{{version}}/homestead) 或者 [Valet](/docs/{{version}}/valet) 时，你无需配置这些。
