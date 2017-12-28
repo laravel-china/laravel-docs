@@ -18,7 +18,7 @@
 
 Valet 是 Mac 极简主义者的 Laravel 开发环境。没有 Vagrant，没有 `/etc/hosts` 文件。甚至可以使用本地隧道公开分享你的站点。 _Yeah, we like it too._
 
-Laravel Valet 为你的 Mac 设置了启动后始终在后台运行 Nginx。然后，Valet 使用 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq) 将所有指向安装在本地计算机的站点的请求代理到 `*.dev` 域上。
+Laravel Valet 为你的 Mac 设置了启动后始终在后台运行 Nginx。然后，Valet 使用 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq) 将所有指向安装在本地计算机的站点的请求代理到 `*.test` 域上。
 
 换句话说，一个速度极快的 Laravel 开发环境只占用 7MB 内存。Valet 并不是想要完全替换 Vagrant 或 Homestead，只是提供另外一种使用起来更加灵活、方便、以及内存的占用更小的选择。
 
@@ -126,11 +126,11 @@ Valet 2.0 将 Valet 底层的 Web 服务器从 Caddy 转移到 Nginx。升级到
 
 - 接下来，在这个目录中创建一个新的 Laravel 站点：`laravel new blog`。
 
-- 在浏览器中打开 `http://blog.dev`。
+- 在浏览器中打开 `http://blog.test`。
 
   </div>
 
-**就这么多。**现在，你在 「parked」的目录中创建的任何 Laravel 项目将自动使用 `http://folder-name.dev` 这种方式访问。
+**就这么多。**现在，你在 「parked」的目录中创建的任何 Laravel 项目将自动使用 `http://folder-name.test` 这种方式访问。
 
 <a name="the-link-command"></a>
 **`link` 命令**
@@ -139,7 +139,7 @@ Valet 2.0 将 Valet 底层的 Web 服务器从 Caddy 转移到 Nginx。升级到
 
 <div class="content-list" markdown="1">
 - 要使用该命令，先切换到你的某个项目并运行 `valet link app-name`。Valet 会在 `~/.valet/Sites` 中创建一个符号链接指向当前的目录。
-- 运行 `link` 命令后，你可以在浏览器通过 `http://app-name.dev` 访问站点。
+- 运行 `link` 命令后，你可以在浏览器通过 `http://app-name.test` 访问站点。
 - </div>
 
 运行 `valet links` 命令可以查看所有目录链接的列表。你还可以使用 `valet unlink app-name` 来删除符号链接。
@@ -149,7 +149,7 @@ Valet 2.0 将 Valet 底层的 Web 服务器从 Caddy 转移到 Nginx。升级到
 <a name="securing-sites"></a>
 **使用 TLS 构建安全站点**
 
-默认情况下，Valet 使用 HTTP 协议提供站点。但是，如果你想使用 HTTP/2 提供加密的 TLS 站点，使用 `secure` 命令。例如，如果你的站点域名是 `laravel.dev`，可以这样：
+默认情况下，Valet 使用 HTTP 协议提供站点。但是，如果你想使用 HTTP/2 提供加密的 TLS 站点，使用 `secure` 命令。例如，如果你的站点域名是 `laravel.test`，可以这样：
 
     valet secure laravel
 要还原为 HTTP，使用 `unsecure` 命令。像 `secure` 命令一样，此命令接受你要取消安全加密的站点名称：
