@@ -1,18 +1,18 @@
 # 数据库：入门
 
 - [简介](#introduction)
-    - [配置信息](#configuration)
-    - [数据库读写链接](#read-and-write-connections)
-    - [使用多数据库连接](#using-multiple-database-connections)
-- [运行原生 SQL 语句](#running-queries)
-    - [监听查询事件](#listening-for-query-events)
+    - [配置](#configuration)
+    - [读 & 写连接](#read-and-write-connections)
+    - [使用多个数据库连接](#using-multiple-database-connections)
+- [运行原生 SQL 查询](#running-queries)
+    - [查询事件监听](#listening-for-query-events)
 - [数据库事务](#database-transactions)
 
 <a name="introduction"></a>
 
 ## 简介
 
-Laravel 通过使用原始 SQL 与数据库的各种数据库进行交互, 非常简单。尤其流畅的使用 [查询语句构造器](/docs/{{version}}/queries)，和 [Eloquent ORM](/docs/{{version}}/eloquent)。当前，Laravel 支持四种类型的数据库:
+Laravel 能使用原生 SQL、[查询构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 在各种数据库后台与数据库进行非常简单的交互。当前 Laravel 支持四种数据库:
 
 <div class="content-list" markdown="1">
 
@@ -20,44 +20,30 @@ Laravel 通过使用原始 SQL 与数据库的各种数据库进行交互, 非�
 - Postgres
 - SQLite
 - SQL Server
-</div>
+  </div>
 
 <a name="configuration"></a>
 
-### 配置信息
+### 配置
 
-Laravel 应用程序的数据库配置文件放置在 `config/database.php` 文件中。在这个文件中，您可以定义所有的数据库连接，并指定默认使用哪个连接. 在此文件内提供了大多数支持的数据库系统示例。 
+数据库的配置文件放置在 `config/database.php` 文件中，你可以在此定义所有的数据库连接，并指定默认使用的连接。此文件内提供了大部分 Laravel 能支持的数据库配置示例。
 
-默认情况下，Laravel 的[环境配置](/docs/{{version}}/configuration#environment-configuration) 示例会使用 [Laravel Homestead](/docs/{{version}}/homestead)，这是一种方便的虚拟机，用于在本地机器上进行 Laravel 的开发。当然，您可以根据本地数据库的需要随意修改这个配置。
+默认情况下，Laravel  的示例 [环境配置](/docs/{{version}}/configuration#environment-configuration) 使用了 [Laravel Homestead](/docs/{{version}}/homestead)（这是一种小型虚拟机，能让你很方便地在本地进行 Laravel 的开发）。你可以根据本地数据库的需要修改这个配置。
 
 #### SQLite 配置
 
-使用 `touch database/database.sqlite` 命令创建一个新的 SQLite 文件, 您可以通过使用数据库的绝对路径，轻松地配置环境变量，并指向这个新创建的数据库:
+使用类似 `touch database/database.sqlite` 之类命令创建一个新的 SQLite 数据库之后，可以使用数据库的绝对路径配置环境变量来指向这个新创建的数据库:
 
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database.sqlite
 
-#### SQL Server 配置
-
-Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数据库的连接配置添加到您的 `config/database.php` 配置文件中:
-
-    'sqlsrv' => [
-        'driver' => 'sqlsrv',
-        'host' => env('DB_HOST', 'localhost'),
-        'database' => env('DB_DATABASE', 'forge'),
-        'username' => env('DB_USERNAME', 'forge'),
-        'password' => env('DB_PASSWORD', ''),
-        'charset' => 'utf8',
-        'prefix' => '',
-    ],
-
 <a name="read-and-write-connections"></a>
 
-### 读&写的分离
+### 读 & 写连接
 
-有时您可能希望使用数据库的一个连接，只用于 SELECT ，另一个用于 INSERT, UPDATE, 和 DELETE 。 在 Laravel 中无论你使用的是原始查询，查询语句构造器，还是 Eloquent ORM 你都能很轻松的实现.
+如果你想使一个数据库连接只用于 SELECT ，另一个连接用于 INSERT、UPDATE、和 DELETE。那么在 Laravel 中无论你使用的是原生查询、查询构造器，还是 Eloquent ORM，你都能很轻松地实现这个需求。
 
-如何配置读/写连接，让我们看一下这个示例:
+看看下面这个例子如何配置读/写连接：
 
     'mysql' => [
         'read' => [
@@ -76,36 +62,36 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
         'prefix'    => '',
     ],
 
-注意，在上面的示例中，配置数组中添加了两个键 : `read` 和 `write` 。这两个键都包含了一个数组，键的值为: `host` 。`read` 和 `write` 连接的其余配置都在 `mysql` 这个主数组里面。
+要注意的是，上面的示例中的配置数组中添加了三个键 : `read` 和 `write` 和 `sticky`。`read` 和 `write` 键都包含了一个键的值为 `host` 的数组。`read` 和 `write` 连接的其余数据库配置都在 `mysql` 这个主数组里面。
 
-你只需要把项目放在 `read` 和 `write` 数组中，除非你想要覆盖主数组的值。所以，在这种情况下，`192.168.1.1` 将用作「读」连接的主机，而 `192.168.1.2` 将用于「写」连接。这两个连接会共享在 `mysql` 主数组中的配置。如：数据库的凭证，前缀，字符集，以及其他的选项。
+如果你想要覆盖主数组中的值，则只需将配置的内容移入 `read` 和 `write` 数组中即可。因此，在这种情况下，`192.168.1.1` 将被用作「读取」连接的主机，而 `192.168.1.2` 将被用于「写入」连接。这两个连接会共享数据库的凭证、前缀、字符集，以及在主 `mysql` 数组中的选项。
 
 **`sticky` 选项**
 
-`sticky` 是一个可选的选项，它的具体作用是：若在当前的请求周期内，数据库曾经被写入过一些数据，`sticky` 选项会立即将这些数据读出来。如果 `sticky` 选项是 `true`,而且在当前的请求周期内对数据看执行过 ”写入“ 操作，那么任何 "读取" 的操作都会使用「写」连接。这使得任何在同一请求周期写入的数据都会被立刻读取。这个取决于这个选项的作用是否符合你的程序的期望。
+`sticky` 是一个 *可选的* 选项，它可用于立即读取在当前请求周期内已写入数据库的记录。
+
+如果 `sticky` 选项被启用，并且在当前的请求周期内在数据库执行过「写入」操作，那么任何「读取」的操作都将使用「写入」连接。这可以确保在请求周期内写入的任何数据可以在同一请求期间立即从数据库读回。这个选项的作用取决于应用程序的需求。
 
 <a name="using-multiple-database-connections"></a>
 
 ### 使用多个数据库连接
 
-当使用多个连接时，您可以使用 `DB` facade 的 `connection` 方法。
-通过 `config/database.php` 配置信息文件中定义好的数据库连接，
-将 `name` 做为 `connection` 这个方法的参数传递进去 ：
+使用多个连接时，可以通过 `DB` facade 上的 `connection` 方法访问每个连接。传递给 `connection` 方法的 `name` 应该对应于 `config/database.php` 配置信息文件中列出的连接之一：
 
     $users = DB::connection('foo')->select(...);
 
-您还可以使用 `getPdo` 方法访问原始的PDO实例 ：
+你也可以在连接实例上使用 `getPdo` 方法访问底层的原生 PDO 实例 ：
 
     $pdo = DB::connection()->getPdo();
 
 <a name="running-queries"></a>
 
-## 运行原生的 SQL 语句
+## 运行原生 SQL 查询
 
-配置好数据库连接后，可以使用 `DB` facade 运行查询。`DB` facade 为每种类型的查询提供了方法：`select`，`update`，`insert`，`delete` 和 `statement` 。
-#### 运行 Select
+配置好数据库连接后，可以使用 `DB` facade 运行查询。`DB` facade 为每种类型的查询提供了方法：`select`、`update`、`insert`、`delete` 和 `statement`。
+#### 运行 Select 查询
 
-运行一个基础的查询语句，你可以使用 `DB` facade 的 `select` 方法:
+运行基础的查询语句，你可以使用 `DB` facade 上使用 `select` 方法:
 
     <?php
 
@@ -117,7 +103,7 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
     class UserController extends Controller
     {
         /**
-         * 查询应用中被激活的所有用户列表
+         * 显示所有应用程序用户的列表
          *
          * @return Response
          */
@@ -129,9 +115,9 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
         }
     }
 
-传递到 `select` 方法的第一个参数是一个原生的 SQL 查询，而第二个参数则是传递的所有绑定到查询中的参数值。通常，这些是 `where` 子句约束的值。参数绑定提供了对 SQL 注入的保护。
+传递到 `select` 方法的第一个参数是一个原生的 SQL 查询，而第二个参数则是传递需要绑定到查询中的参数值。通常，这些是 `where` 子句约束的值。参数绑定提供了对防止 SQL 注入的保护。
 
-`select` 方法将始终返回一个数组结果集。数组中的每个结果将是一个PHP `StdClass` 对象，可以像下面这样访问结果值:
+`select` 方法将始终返回一个数组。数组中的每个结果都是一个PHP `StdClass` 对象，可以像下面这样访问结果的值:
 
     foreach ($users as $user) {
         echo $user->name;
@@ -139,39 +125,39 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
 
 #### 使用命名绑定
 
-除了使用 `?` 来表示参数绑定外，你也可以使用命名绑定运行查找：
+除了使用 `?` 来表示参数绑定外，你也可以使用命名绑定来执行一个查询：
 
     $results = DB::select('select * from users where id = :id', ['id' => 1]);
 
-#### 运行 Insert
+#### 运行插入语句
 
-要执行 `insert` 语句，您可以在 `DB` facade 上使用 `insert` 方法。与select一样，该方法将原始 SQL 查询作为其第一个参数和绑定作为第二个参数：
+可以在 `DB` facade 上使用 `insert` 方法来执行 `insert` 语句。与 `select` 一样，该方法将原生 SQL 查询作为其第一个参数，并将其绑定的数据作为第二个参数：
 
     DB::insert('insert into users (id, name) values (?, ?)', [1, 'Dayle']);
 
-#### 运行 Update
+#### 运行更新语句
 
- `update` 方法用于更新数据库中的已存在的记录。该方法会返回此语句执行所影响的行数：
+ `update` 方法用于更新数据库中的现有记录。该方法会返回受该语句影响的行数：
 
     $affected = DB::update('update users set votes = 100 where name = ?', ['John']);
 
-#### 运行 Delete
+#### 运行删除语句
 
-`delete`方法用于从数据库中删除记录。与 `update` 一样，受影响的行数将被返回：
+`delete` 方法用于删除数据库中记录。与 `update` 一样，会返回受该语句影响的行数：
 
     $deleted = DB::delete('delete from users');
 
-#### 运行一般声明
+#### 运行普通语句
 
-一些数据库语句不返回任何值。对于这些类型的操作，您可以在 `DB` facade 上使用 `statement` 方法：
+有些数据库语句不会返回任何值。对于这些语句，可以在 `DB` facade 上使用 `statement` 方法来操作：
 
     DB::statement('drop table users');
 
 <a name="listening-for-query-events"></a>
 
-### 查询事件的监听
+### 查询事件监听
 
-如果你希望能够监控到程序执行的每一条 SQL 语句，那么你可以使用 `listen` 方法。这个方法对于记录查询或调试非常有用。您可以将查询侦听器注册到一个 [服务提供者](/docs/{{version}}/providers):
+如果你想监控程序执行的每个 SQL 查询，你可以使用 `listen` 方法。这个方法对于记录查询或调试非常有用。你可以在 [服务提供器](/docs/{{version}}/providers) 中为你的查询注册监听器:
 
     <?php
 
@@ -183,7 +169,7 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * 启动应用服务。
+         * 启动应用服务
          *
          * @return void
          */
@@ -197,7 +183,7 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
         }
 
         /**
-         * 注册服务提供者。
+         * 注册服务提供器
          *
          * @return void
          */
@@ -211,7 +197,7 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
 
 ## 数据库事务
 
-您可以在 `DB` facade 上使用 `transaction` 方法，在数据库事务中运行一组操作。如果在事务 `Closure` 中抛出一个异常，那么事务将自动回滚。如果 `Closure` 成功执行，事务将自动被提交。您不需要担心在使用事务方法时手动回滚或提交。
+你可以在 `DB` facade 上使用 `transaction` 方法来运行数据库事务中的一组操作。如果在事务 `Closure` 中发生了异常，事务将自动回滚。而如果 `Closure` 成功执行，事务将自动被提交。也就是说，使用数据库事务，你就不需要在数据库语句执行发生异常时手动回滚或提交。
 
     DB::transaction(function () {
         DB::table('users')->update(['votes' => 1]);
@@ -221,7 +207,7 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
 
 #### 处理死锁
 
-`transaction` 方法接受一个可选的第二个参数，该参数定义在发生死锁时，应该重新尝试事务的次数。一旦这些尝试都用尽了，就会抛出一个异常：
+传递第二个可选参数给 `transaction` 方法，该参数定义在发生死锁时应该重新尝试事务的次数。一旦尝试次数都用尽了，就会抛出一个异常：
 
     DB::transaction(function () {
         DB::table('users')->update(['votes' => 1]);
@@ -231,29 +217,30 @@ Laravel 支持 SQL Server 数据库; 无论以何种方式, 您都需要将数�
 
 #### 手动操作事务
 
-如果您想要手工开始一个事务，并且对回滚和提交有完全的控制，那么您可以在 `DB` facade 上使用 `beginTransaction` 方法：
+如果你想要手动开始一个事务，并且能够完全控制回滚和提交，那么你可以在 `DB` facade 上使用 `beginTransaction` 方法：
 
     DB::beginTransaction();
 
-您可以通过 `rollBack` 方法回滚事务：
+可以通过 `rollBack` 方法回滚事务：
 
     DB::rollBack();
 
-最后, 您可以通过 `commit` 方法提交事务：
+最后记得要通过 `commit` 方法提交事务：
 
     DB::commit();
 
-> {tip}  使用 `DB` facade 的事务方法也适用于 [查询语句构造器](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent)。
+> {tip}  `DB` facade 的事务方法也适用于 [查询语句构造器](/docs/{{version}}/queries) 和 [Eloquent ORM](/docs/{{version}}/eloquent) 的事务。
 
 ## 译者署名
 | 用户名 | 头像 | 职能 | 签名 |
 |---|---|---|---|
-| [@孤雪飘寒](https://laravel-china.org/users/15752)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/15752_1493141445.jpeg">  |  翻译  | 全桟工程师，[Github](https://github.com/piaohan)，[CSDN](http://blog.csdn.net/msmile_my)|
+| [@孤雪飘寒](https://laravel-china.org/users/15752) | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/15752_1493141445.jpeg"> | 翻译   | 全桟工程师，[Github](https://github.com/piaohan)，[CSDN](http://blog.csdn.net/msmile_my) |
+| [@JokerLinly](https://laravel-china.org/users/5350)  | <img class="avatar-66 rm-style" src="https://dn-phphub.qbox.me/uploads/avatars/5350_1481857380.jpg">  | Review | Stay Hungry. Stay Foolish. |
 
---- 
+---
 
 > {note} 欢迎任何形式的转载，但请务必注明出处，尊重他人劳动共创开源社区。
-> 
+>
 > 转载请注明：本文档由 Laravel China 社区 [laravel-china.org](https://laravel-china.org) 组织翻译，详见 [翻译召集帖](https://laravel-china.org/topics/5756/laravel-55-document-translation-call-come-and-join-the-translation)。
-> 
+>
 > 文档永久地址： https://d.laravel-china.org
