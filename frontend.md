@@ -58,16 +58,16 @@ Laravel 自带的 `webpack.mix.js` 默认会编译 `resources/assets/sass/app.sc
 <a name="writing-vue-components"></a>
 ### 编写 Vue 组件
 
-新 Laravel 程序默认会在 `resources/assets/js/components` 中包含一个 `Example.vue` 的 Vue 组件。`Example.vue` 文件是在同一文件中定义其 JavaScript 和 HTML 模板的 [单文件 Vue 组件](https://vuejs.org/guide/application.html#Single-File-Components) 的示例。它为构建 JavaScript 驱动的应用程序提供了非常方便的方法。这个示例组件已经在 `app.js` 文件中注册：
+新 Laravel 程序默认会在 `resources/assets/js/components` 中包含一个 `ExampleComponent.vue` 的 Vue 组件。`ExampleComponent.vue` 文件是在同一文件中定义其 JavaScript 和 HTML 模板的 [单文件 Vue 组件](https://vuejs.org/guide/application.html#Single-File-Components) 的示例。它为构建 JavaScript 驱动的应用程序提供了非常方便的方法。这个示例组件已经在 `app.js` 文件中注册：
 
-    Vue.component('example', require('./components/Example.vue'));
+    Vue.component('example-component', require('./components/ExampleConponent.vue'));
 
 在应用程序中使用组件，你只需要简单的将其放到你的 HTML 模板之中。例如，运行 Artisan 命令 `make:auth` 去生成应用的用户认证和注册的框架页面后，可以把组件放到 `home.blade.php` Blade 模板中：
 
     @extends('layouts.app')
 
     @section('content')
-        <example></example>
+        <example-component></example-component>
     @endsection
 
 > {tip} 谨记，每次修改 Vue 组件后都应该运行 `npm run dev` 命令。或者，你可以使用 `npm run watch` 命令来监控并在每次文件被修改时自动重新编译组件。
