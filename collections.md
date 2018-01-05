@@ -801,7 +801,7 @@
 
     // ['product_id' => 1, 'name' => 'Desk']
 
-与 `only` 相反的方法请查看 [except](#method-only)。
+与 `only` 相反的方法请查看 [except](#method-except)。
 
 <a name="method-partition"></a>
 #### `partition()` {#collection-method}
