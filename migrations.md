@@ -21,7 +21,7 @@
 <a name="introduction"></a>
 ## 简介
 
-数据库迁移就像是数据库的版本控制，可以让你的团队轻松修改并共享应用程序的数据库结构。迁移通常与 Laravel 的数据库结构构造器配合使用，让你轻松地构建数据库结构。如果你曾经试过让同事手动在数据库结构中添加字段，那么数据库迁移可以让你不再需要做这样的事情。
+数据库迁移就像是数据库的版本控制，可以让你的团队轻松修改并共享应用程序的数据库结构。迁移通常与 Laravel 的数据库结构生成器配合使用，让你轻松地构建数据库结构。如果你曾经试过让同事手动在数据库结构中添加字段，那么数据库迁移可以让你不再需要做这样的事情。
 
 Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的数据库系统提供了创建和操作数据表的相应支持。
 
@@ -47,7 +47,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
 
 迁移类通常会包含两个方法：`up` 和 `down`。`up` 方法可为数据库添加新的数据表、字段或索引，而 `down` 方法则是 `up` 方法的逆操作。
 
-你可以在这两个方法中使用 Laravel 数据库结构构造器来创建以及修改数据表。若要了解  `Schema` 构造器中的所有可用方法，[可查阅它的文档](#creating-tables)。以下的迁移实例会创建一张 `flights` 数据表：
+你可以在这两个方法中使用 Laravel 数据库结构生成器来创建以及修改数据表。若要了解  `Schema` 生成器中的所有可用方法，[可查阅它的文档](#creating-tables)。以下的迁移实例会创建一张 `flights` 数据表：
 
     <?php
 
@@ -146,7 +146,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
         $table->increments('id');
     });
 
-当然，在创建数据表的时候，可以使用任何数据库结构构造器的 [字段方法](#creating-columns) 来定义数据表的字段。
+当然，在创建数据表的时候，可以使用任何数据库结构生成器的 [字段方法](#creating-columns) 来定义数据表的字段。
 
 #### 检查数据表或字段是否存在
 
@@ -168,7 +168,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
         $table->increments('id');
     });
 
-你可以在数据库结构构造器上使用以下命令来定义表的选项：
+你可以在数据库结构生成器上使用以下命令来定义表的选项：
 
 | 命令| 描述 |
 | ---------------------------------------- | --------------------- |
@@ -208,7 +208,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
 
 #### 可用的字段类型
 
-数据库结构构造器包含构建表时可以指定的各种字段类型：
+数据库结构生成器包含构建表时可以指定的各种字段类型：
 
 | 命令 | 描述 |
 | ---------------------------------------- | ---------------------------------------- |
@@ -321,7 +321,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
 <a name="renaming-columns"></a>
 #### 重命名字段
 
-可以使用结构构造器上的 `renameColumn` 方法来重命名字段。在重命名字段前，请确保你的 `composer.json` 文件内已经加入 `doctrine/dbal` 依赖：
+可以使用结构生成器上的 `renameColumn` 方法来重命名字段。在重命名字段前，请确保你的 `composer.json` 文件内已经加入 `doctrine/dbal` 依赖：
 
     Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
@@ -332,7 +332,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
 <a name="dropping-columns"></a>
 ### 删除字段
 
-可以使用结构构造器上的 `dropColumn` 方法来删除字段。在从 SQLite 数据库删除字段前，你需要在 `composer.json` 文件中加入 `doctrine/dbal` 依赖并在终端执行 `composer update` 来安装该依赖：
+可以使用结构生成器上的 `dropColumn` 方法来删除字段。在从 SQLite 数据库删除字段前，你需要在 `composer.json` 文件中加入 `doctrine/dbal` 依赖并在终端执行 `composer update` 来安装该依赖：
 
     Schema::table('users', function (Blueprint $table) {
         $table->dropColumn('votes');
@@ -363,7 +363,7 @@ Laravel `Schema` [facade](/docs/{{version}}/facades) 对所有 Laravel 支持的
 <a name="creating-indexes"></a>
 ### 创建索引
 
-结构构造器支持多种类型的索引。首先，先指定字段值唯一，即简单地在字段定义之后链式调用 `unique` 方法来创建索引，例如：
+结构生成器支持多种类型的索引。首先，先指定字段值唯一，即简单地在字段定义之后链式调用 `unique` 方法来创建索引，例如：
 
     $table->string('email')->unique();
 
