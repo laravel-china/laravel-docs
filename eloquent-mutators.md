@@ -50,6 +50,20 @@
 
     $firstName = $user->first_name;
 
+当然，你也可以通过已有的属性，使用访问器返回新的计算值：
+
+```
+/**
+ * 获取用户名全称
+ *
+ * @return string
+ */
+public function getFullNameAttribute()
+{
+  return "{$this->first_name} {$this->last_name}";
+}
+```
+
 <a name="defining-a-mutator"></a>
 ### 定义一个修改器
 
