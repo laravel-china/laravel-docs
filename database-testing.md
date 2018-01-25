@@ -2,8 +2,6 @@
 
 - [简介](#introduction)
 - [每次测试后重置数据库](#resetting-the-database-after-each-test)
-    - [使用迁移](#using-migrations)
-    - [使用事务](#using-transactions)
 - [创建模型工厂](#writing-factories)
     - [工厂状态](#factory-states)
 - [在测试中使用模型工厂](#using-factories)
@@ -33,28 +31,22 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
 <a name="resetting-the-database-after-each-test"></a>
 ## 每次测试后重置数据库
 
-在每次测试结束后都需要对数据进行重置，这样前面的测试数据就不会干扰到后面的测试。
-
-<a name="using-migrations"></a>
-### 使用迁移
-
-其中有一种方式就是在每次测试后都还原数据库，并在下次测试前运行迁移。Laravel 提供了简洁的 `DatabaseMigrations` trait，它会自动帮你处理好这些操作。你只需在测试类中使用此 trait 即可：
+在每次测试后重新设置数据库通常很有用，这样以前测试的数据不会干扰后续的测试。`RefreshDatabase` trait 会采用最优的方法来迁移你的测试数据库，这取决于你使用的是内存数据库还是传统数据库。在你的测试类中简单地引用这个 trait，一切都将为你处理：
 
     <?php
 
     namespace Tests\Feature;
 
     use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
-        use DatabaseMigrations;
+        use RefreshDatabase;
 
         /**
-         * 基本的功能测试示例。
+         * 一个基本的功能测试示例。
          *
          * @return void
          */
@@ -65,44 +57,11 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
             // ...
         }
     }
-
-<a name="using-transactions"></a>
-### 使用事务
-
-另一个方式，就是将每个测试案例都包含在数据库事务中。Laravel 提供了一个简洁的 `DatabaseTransactions` trait 来自动帮你处理好这些操作。
-
-    <?php
-
-    namespace Tests\Feature;
-
-    use Tests\TestCase;
-    use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-    class ExampleTest extends TestCase
-    {
-        use DatabaseTransactions;
-
-        /**
-         * 基本的功能测试示例。
-         *
-         * @return void
-         */
-        public function testBasicExample()
-        {
-            $response = $this->get('/');
-
-            // ...
-        }
-    }
-
-> {note} 此 trait 的事务只包含默认的数据库连接。 如果你的应用程序使用多个数据库连接，你需要在你的测试类中定义一个 `$connectionsToTransact` 属性，然后你就可以把你测试中需要用到的数据库连接名称以数组的形式放到这个属性中。
 
 <a name="writing-factories"></a>
 ## 创建模型工厂
 
-测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/UserFactory.php` 文件。此文件包含一个现成的模型工厂定义：
+测试时，常常需要在运行测试之前写入一些数据到数据库中。创建测试数据时，除了手动的来设置每个字段的值，还可以使用 [Eloquent 模型](/docs/{{version}}/eloquent) 的「工厂」来设置每个属性的默认值。在开始之前，你可以先查看下应用程序的 `database/factories/UserFactory.php` 文件。此文件包含了一个现成的模型工厂定义：
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         static $password;
@@ -115,9 +74,9 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
         ];
     });
 
-闭包内为模型工厂的定义，你可以返回模型中所有属性的默认测试值。在该闭包内会接收到 [Faker](https://github.com/fzaninotto/Faker) PHP 函数库的实例，它可以让你很方便的生成各种随机数据以进行测试。
+在作为工厂定义的闭包中，你可以返回模型上所有属性的默认测试值。 闭包将接收 PHP 函数库 [Faker](https://github.com/fzaninotto/Faker) 的一个实例，它允许你方便地生成各种随机数据进行测试。
 
-为了更好的组织代码，你也可以自己为每个数据模型创建对应的模型工厂类。比如说，你可以在 `database/factories` 文件夹下创建 `UserFactory.php` 和 `CommentFactory.php` 文件。在 `factories` 目录中的文件都会被 Laravel 自动加载。
+为了更好的组织代码，你也可以自己为每个数据模型创建对应的模型工厂类。例如，你可以在 `database/factories` 目录下创建 `UserFactory.php` 和 `CommentFactory.php` 文件。 Laravel 将会自动加载 `factories` 目录下的所有文件。
 
 <a name="factory-states"></a>
 ### 工厂状态
@@ -135,8 +94,6 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
             'address' => $faker->address,
         ];
     });
-    
-        
 
 <a name="using-factories"></a>
 ## 在测试中使用模型工厂
@@ -209,7 +166,7 @@ Laravel 提供了多种有用的工具来让你更容易的测试使用数据库
 
 #### 关联和属性闭包
 
-你可以使用闭包参数来创建模型关联。例如如果你想在创建一个 `Post` 的顺便创建一个 `User` 实例：
+你可以使用闭包参数来创建模型关联。例如你想在创建一个 `Post` 时顺便创建一个 `User` 实例，可以这样定义：
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -246,6 +203,12 @@ Laravel 为你的 [PHPUnit](https://phpunit.de/) 测试提供了一些数据库�
 `$this->assertDatabaseHas($table, array $data);`  |  断言数据库里含有指定数据。
 `$this->assertDatabaseMissing($table, array $data);`  |  断言表里没有指定数据。
 `$this->assertSoftDeleted($table, array $data);`  |  断言指定记录已经被软删除。
+
+## 译者署名
+
+| 用户名 | 头像 | 职能 | 签名 |
+|---|---|---|---|
+| [@limxx](https://github.com/limxx)  | <img class="avatar-66 rm-style" src="https://avatars0.githubusercontent.com/u/16585030?v=4&s=400">  |  翻译  | Winter is coming. |
 
 
 --- 
