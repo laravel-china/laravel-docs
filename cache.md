@@ -20,7 +20,7 @@
 <a name="configuration"></a>
 ## 配置信息
 
-Laravel 为各种后端缓存提供丰富而统一的 API，而其配置信息位于 `config/cache.php` 文件中，你可以指定默认的缓存驱动程序。Laravel 支持当前流行的后段缓存，例如 [Memcached](https://memcached.org) 和 [Redis](http://redis.io)。
+Laravel 为各种后端缓存提供丰富而统一的 API，而其配置信息位于 `config/cache.php` 文件中，你可以指定默认的缓存驱动程序。Laravel 支持当前流行的后端缓存，例如 [Memcached](https://memcached.org) 和 [Redis](http://redis.io)。
 
 `cache.php` 文件中包含了很多选项，这些选项都附有清晰说明注释，因此本文不会在此多加详解。Laravel 默认使用 `file` 缓存驱动，将序列化的缓存对象保存在文件系统中。对于大型应用程序而言，推荐你使用更强大的缓存驱动，如 Memcached 或者 Redis。你甚至可以为同一个驱动程序配置多个缓存。
 
