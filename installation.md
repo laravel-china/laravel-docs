@@ -48,7 +48,7 @@ Laravel 利用 [Composer](https://getcomposer.org) 来管理依赖。所以，�
 
 或者，你还可以通过在终端中运行 `create-project` 命令来安装 Laravel：
 
-    composer create-project --prefer-dist laravel/laravel blog
+    composer create-project --prefer-dist laravel/laravel blog "5.5.*"
 
 #### 本地开发服务器
 
