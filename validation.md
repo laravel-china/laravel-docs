@@ -134,7 +134,7 @@ Laravel 提供了几种不同的方法来验证传入应用程序的数据。默
 
 重申一次，我们不必在 `GET` 路由中将错误消息显式绑定到视图。因为 Lavarel 会检查在 Session 数据中的错误信息，并自动将其绑定到视图（如果存在）。而其中的变量 `$errors` 是 `Illuminate\Support\MessageBag` 的一个实例。要获取关于这个对象的更多信息，请 [查阅这个文档](#working-with-error-messages)。
 
-> {tip} `$errors` 变量被由Web中间件组提供的 `Illuminate\View\Middleware\ShareErrorsFromSession` 中间件绑定到视图。**当这个中间件被应用后，在你的视图中就可以获取到 `$error` 变量**，可以使一直假定 `$errors` 变量存在并且可以安全地使用。
+> {tip} `$errors` 变量被由Web中间件组提供的 `Illuminate\View\Middleware\ShareErrorsFromSession` 中间件绑定到视图。**当这个中间件被应用后，在你的视图中就可以获取到 `$errors` 变量**，可以使一直假定 `$errors` 变量存在并且可以安全地使用。
 
 所以，在我们的例子中，当验证失败的时候，用户将会被重定向到控制器的 `create` 方法，让我们在视图中显示错误信息：
 
