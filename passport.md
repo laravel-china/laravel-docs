@@ -393,7 +393,7 @@ OAuth2 密码授权机制可以让你自己的客户端（如移动应用程序�
 <a name="implicit-grant-tokens"></a>
 ## 隐式授权令牌
 
-隐式授权类似于授权码授权，但是它只令牌将返回给客户端而不交换授权码。这种授权最常用于无法安全存储客户端凭据的 JavaScript 或移动应用程序。通过调用 `AuthServiceProvider` 中的 `enableImplicitGrant` 方法来启用这种授权：
+隐式授权类似于授权码授权，但是它只将令牌返回给客户端而不交换授权码。这种授权最常用于无法安全存储客户端凭据的 JavaScript 或移动应用程序。通过调用 `AuthServiceProvider` 中的 `enableImplicitGrant` 方法来启用这种授权：
 
     /**
      * 注册任何身份验证/授权服务。
