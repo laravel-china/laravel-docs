@@ -62,7 +62,7 @@ Laravel 队列为不同的后台队列服务提供统一的 API，例如 Beansta
 
 #### Redis
 
-为了使用 `redis` 队列驱动，你需要在你的配置文件 `config/database.php` 中配置Redis的数据库连接。
+为了使用 `redis` 队列驱动，你需要在你的配置文件 `config/queue.php` 中配置Redis的数据库连接。
 
 如果你的 Redis 队列连接使用的是 Redis 集群，你的队列名称必须包含 [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags)。这是为了确保所有的 Redis 键对于一个给定的队列都置于同一哈希中：
 
